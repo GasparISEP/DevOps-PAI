@@ -22,11 +22,11 @@ AME "1" --> "uses 1" VOId
 
 
 interface IAccessMethodService{
-    registerAccessMethodInMemoryRepository(accessMethodNameVO)
+    registerAccessMethod(accessMethodNameVO)
 }
 
 class IAccessMethodServiceImpl{
-    + registerAccessMethodInMemoryRepository(accessMethodNameVO)
+    + registerAccessMethod(accessMethodNameVO)
 }
 
 interface IAccessMethodFactory {

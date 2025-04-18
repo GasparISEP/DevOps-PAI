@@ -34,4 +34,12 @@ public class CourseInStudyPlanID implements DomainId {
     public int hashCode() {
         return Objects.hash(_courseID, _studyPlanID);
     }
+
+    public CourseID getCourseID() {
+        return _courseID;
+    }
+
+    public StudyPlanID getStudyPlanID() {
+        return _studyPlanID;
+    }
 }

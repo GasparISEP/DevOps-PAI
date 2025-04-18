@@ -112,4 +112,25 @@ class TeacherIDTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    public void shouldReturnEqualWhenTwoObjectsHaveTheSameHashCode() {
+        //Arrange
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherID teacherId1 = new TeacherID(teacherAcronym);
+        TeacherID teacherId2 = new TeacherID(teacherAcronym);
+        //Act & Assert
+        assertEquals(teacherId1.hashCode(), teacherId2.hashCode());
+    }
+
+    @Test
+    public void shouldReturnNotEqualWhenTwoObjectsHaveDifferentHashCodes() {
+        //Arrange
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        TeacherAcronym teacherAcronym2 = mock(TeacherAcronym.class);
+        TeacherID teacherId1 = new TeacherID(teacherAcronym);
+        TeacherID teacherId2 = new TeacherID(teacherAcronym2);
+        //Act & Assert
+        assertNotEquals(teacherId1.hashCode(), teacherId2.hashCode());
+    }
 }

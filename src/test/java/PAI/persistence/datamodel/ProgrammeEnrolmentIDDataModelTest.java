@@ -105,17 +105,15 @@ class ProgrammeEnrolmentIDDataModelTest {
         StudentIDDataModel studentID1 = new StudentIDDataModel(1234567);
         StudentIDDataModel studentID2 = new StudentIDDataModel(1234567);
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Nuno");
-        Acronym acronym = new Acronym("NUN");
-        ProgrammeID progID1 = new ProgrammeID(name, acronym);
+        String nameDM = "Ola";
+        String acronymDM = "OLA";
 
-        ProgrammeIDDataModel programmeID1 = new ProgrammeIDDataModel(progID1);
+        ProgrammeIDDataModel programmeID1 = new ProgrammeIDDataModel(nameDM, acronymDM);
 
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Nuno");
-        Acronym acronym2 = new Acronym("NUN");
-        ProgrammeID progID2 = new ProgrammeID(name2, acronym2);
+        String nameDM2 = "Ola";
+        String acronymDM2 = "OLA";
 
-        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel(progID2);
+        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel(nameDM2, acronymDM2);
 
         //act
         ProgrammeEnrolmentIDDataModel id1 = new ProgrammeEnrolmentIDDataModel(studentID1, programmeID1);

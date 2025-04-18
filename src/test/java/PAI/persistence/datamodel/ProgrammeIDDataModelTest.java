@@ -21,41 +21,24 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void testConstructor() {
         //arrange
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Ola");
-        Acronym acronym = new Acronym("OLA");
-        ProgrammeID progID = new ProgrammeID(name, acronym);
+        String name = "Ola";
+        String acronym = "OLA";
 
         //act
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(progID);
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(name, acronym);
 
         //assert
-        assertNotNull(dataModel);
+        assertEquals(name, dataModel.getName());
+        assertEquals(acronym, dataModel.getAcronym());
     }
 
     @Test
-    public void testGetName() {
+    public void testGettersDefaultsNull() {
         //arrange
-
         ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();
-
-        //act
-        String res = dataModel.getName();
-
-        //assert
-        assertEquals(res,dataModel.getName());
-    }
-
-    @Test
-    public void testGetAcronym() {
-        //arrange
-
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();
-
-        //act
-        String res = dataModel.getAcronym();
-
-        //assert
-        assertEquals(res,dataModel.getAcronym());
+        //act + assert
+        assertNull(dataModel.getName());
+        assertNull(dataModel.getAcronym());
     }
 
     @Test
@@ -70,8 +53,9 @@ public class ProgrammeIDDataModelTest {
         when(progID.getName()).thenReturn(name);
         when(progID.getAcronym()).thenReturn(acronym);
 
-
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(progID);
+        String nameDM = "Ola";
+        String acronymDM = "OLA";
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(nameDM, acronymDM);
 
         //act
         int res = dataModel.hashCode();
@@ -81,15 +65,17 @@ public class ProgrammeIDDataModelTest {
     }
 
     @Test
+    public void testHashCodeNonZero() {
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel("Ola", "OLA");
+        int hash = dataModel.hashCode();
+        assertNotEquals(0, hash);
+    }
+
+    @Test
     public void shouldReturnTrueIfObjectsAreEquals() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        ProgrammeID progIDDouble = mock(ProgrammeID.class);
-        when(progIDDouble.getAcronym()).thenReturn(acronym);
-        when(progIDDouble.getName()).thenReturn(name);
 
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(progIDDouble);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Ola", "OLA");
         Object progIDDataModel2 = progIDDataModel;
 
         // Act
@@ -102,16 +88,11 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnTrueIfTwoProgIDDMAreEquals() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        ProgrammeID progIDDouble = mock(ProgrammeID.class);
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Ola");
-        when(acronym.getAcronym()).thenReturn("OLA");
-        when(progIDDouble.getAcronym()).thenReturn(acronym);
-        when(progIDDouble.getName()).thenReturn(name);
+        String name = "Ola";
+        String acronym = "OLA";
 
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(progIDDouble);
-        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel(progIDDouble);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(name, acronym);
+        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel(name, acronym);
 
         // Act
         boolean result = progIDDataModel.equals(progIDDataModel2);
@@ -120,32 +101,11 @@ public class ProgrammeIDDataModelTest {
         assertTrue(result);
     }
 
-
     @Test
     public void shouldReturnFalseIfTwoProgIDDMAreNotEquals() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-
-        Acronym acronym1 = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-
-        ProgrammeID progIDDouble = mock(ProgrammeID.class);
-        ProgrammeID progIDDouble2 = mock(ProgrammeID.class);
-
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Sim");
-        when(acronym.getAcronym()).thenReturn("SIM");
-        when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Ola");
-        when(acronym1.getAcronym()).thenReturn("OLA");
-
-        when(progIDDouble.getAcronym()).thenReturn(acronym);
-        when(progIDDouble.getName()).thenReturn(name);
-
-        when(progIDDouble2.getAcronym()).thenReturn(acronym1);
-        when(progIDDouble2.getName()).thenReturn(name1);
-
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(progIDDouble);
-        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel(progIDDouble2);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
+        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel("Ola", "OLA");
 
         // Act
         boolean result = progIDDataModel.equals(progIDDataModel2);
@@ -157,18 +117,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfProgIDDMAreNotEqualsWithNull() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-
-        ProgrammeID progIDDouble = mock(ProgrammeID.class);
-
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Sim");
-        when(acronym.getAcronym()).thenReturn("SIM");
-
-        when(progIDDouble.getAcronym()).thenReturn(acronym);
-        when(progIDDouble.getName()).thenReturn(name);
-
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(progIDDouble);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
         ProgrammeIDDataModel progIDDataModel2 = null;
 
         // Act
@@ -181,18 +130,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfTwoProgIDDMAreNotEqualsBecauseTheyAreOfDifferentClass() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-
-        ProgrammeID progIDDouble = mock(ProgrammeID.class);
-
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Sim");
-        when(acronym.getAcronym()).thenReturn("SIM");
-
-        when(progIDDouble.getAcronym()).thenReturn(acronym);
-        when(progIDDouble.getName()).thenReturn(name);
-
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(progIDDouble);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
         Object progIDDataModel2 = new Object();
 
         // Act
@@ -205,17 +143,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfProgIDDataModelNotEqualsWithDifferentObject() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
-
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Sim");
-        when(acronym.getAcronym()).thenReturn("SIM");
-
-        when(progID.getAcronym()).thenReturn(acronym);
-        when(progID.getName()).thenReturn(name);
-
-        ProgrammeIDDataModel progIDDM = new ProgrammeIDDataModel(progID);
+        ProgrammeIDDataModel progIDDM = new ProgrammeIDDataModel("Sim", "SIM");
         ProgrammeIDDataModel progIDDM2 = new ProgrammeIDDataModel();
 
         // Act
@@ -224,5 +152,4 @@ public class ProgrammeIDDataModelTest {
         // Assert
         assertFalse(result);
     }
-
 }

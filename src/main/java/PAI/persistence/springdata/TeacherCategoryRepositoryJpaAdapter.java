@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.TeacherCategory;
+import PAI.factory.ITeacherCategoryFactory;
 import PAI.mapper.ITeacherCategoryMapper;
 import PAI.repository.ITeacherCategoryRepository;
 import org.springframework.stereotype.Repository;
@@ -18,16 +19,13 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
 
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
+    private final ITeacherCategoryFactory factory;
 
     public TeacherCategoryRepositoryJpaAdapter(ITeacherCategoryRepositorySpringData jpaRepository,
-                                               ITeacherCategoryMapper mapper) {
+                                               ITeacherCategoryMapper mapper, ITeacherCategoryFactory factory) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;
-    }
-
-    @Override
-    public boolean existsByName(Name name) {
-        return jpaRepository.existsByName(name.getName());
+        this.factory = factory;
     }
 
     @Override
@@ -35,9 +33,16 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
         if (jpaRepository.existsByName(name.getName())) {
             return false;
         }
-        TeacherCategory category = new TeacherCategory(new TeacherCategoryID(), name);
+
+        TeacherCategory category = factory.createTeacherCategory(name);
         jpaRepository.save(mapper.toDataModel(category));
         return true;
+    }
+
+
+    @Override
+    public boolean existsByName(Name name) {
+        return jpaRepository.existsByName(name.getName());
     }
 
     @Override

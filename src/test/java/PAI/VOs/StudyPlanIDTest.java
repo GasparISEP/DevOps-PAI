@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -93,5 +95,33 @@ class StudyPlanIDTest {
 
         // Assert
         assertEquals("StudyPlanID{_programmeID=ProgrammeID{mock}, _implementationDate=Date{21-03-2000}}", result);
+    }
+
+    @Test
+    void shouldReturnLocalDate() {
+        //arrange
+        ProgrammeID mockProgrammeID = mock(ProgrammeID.class);
+        Date mockImplementationDate = mock(Date.class);
+        StudyPlanID studyPlanID = new StudyPlanID(mockProgrammeID, mockImplementationDate);
+
+        //act
+        LocalDate result = studyPlanID.getLocalDate();
+
+        //assert
+        assertEquals(result, mockImplementationDate.getLocalDate());
+    }
+
+    @Test
+    void shouldReturnProgrammeID() {
+        //arrange
+        ProgrammeID mockProgrammeID = mock(ProgrammeID.class);
+        Date mockImplementationDate = mock(Date.class);
+        StudyPlanID studyPlanID = new StudyPlanID(mockProgrammeID, mockImplementationDate);
+
+        //act
+        ProgrammeID result = studyPlanID.getProgrammeID();
+
+        //assert
+        assertEquals(result, mockProgrammeID);
     }
 }

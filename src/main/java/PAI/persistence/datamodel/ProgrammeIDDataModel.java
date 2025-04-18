@@ -1,10 +1,11 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.ProgrammeID;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
+
 @Embeddable
-public class ProgrammeIDDataModel {
+public class ProgrammeIDDataModel implements Serializable {
 
     private String _name;
     private String _acronym;
@@ -13,10 +14,9 @@ public class ProgrammeIDDataModel {
     public ProgrammeIDDataModel() {
     }
 
-
-    public ProgrammeIDDataModel(ProgrammeID programmeID) {
-        _name = programmeID.getName().getnameWithNumbersAndSpecialChars();
-        _acronym = programmeID.getAcronym().getAcronym();
+    public ProgrammeIDDataModel(String name, String acronym) {
+        _name = name;
+        _acronym = acronym;
     }
 
     @Override

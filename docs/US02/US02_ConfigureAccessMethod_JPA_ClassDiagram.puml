@@ -36,13 +36,11 @@ class AccessMethodFactoryImpl {
 }
 
 interface IAccessMethodService {
-  registerAccessMethodInMemoryRepository(accessMethodName: NameWithNumbersAndSpecialChars)
-  registerAccessMethodInJpaRepository((accessMethodName: NameWithNumbersAndSpecialChars)
+  registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodServiceImpl {
-    + registerAccessMethodInMemoryRepository(accessMethodName: NameWithNumbersAndSpecialChars)
-    + registerAccessMethodInJpaRepository((accessMethodName: NameWithNumbersAndSpecialChars)
+    + registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
