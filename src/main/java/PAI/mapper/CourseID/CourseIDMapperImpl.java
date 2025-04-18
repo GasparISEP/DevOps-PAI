@@ -20,6 +20,8 @@ public class CourseIDMapperImpl implements ICourseIDMapper {
         if (courseID == null) {
             throw new NullPointerException("courseID cannot be null");
         }
-        return new CourseIDDataModel(courseID);
+        String acronym = courseID.getAcronym().toString();
+        String name = courseID.getName().toString();
+        return new CourseIDDataModel(acronym, name);
     }
 }

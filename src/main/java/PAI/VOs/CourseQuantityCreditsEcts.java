@@ -41,4 +41,6 @@ public class CourseQuantityCreditsEcts implements ValueObject {
     public int hashCode() {
         return Objects.hash(_quantityCreditsEcts);
     }
+
+    public double getQuantity() { return _quantityCreditsEcts; }
 }

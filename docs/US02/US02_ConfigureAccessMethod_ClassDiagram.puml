@@ -1,8 +1,5 @@
 @startuml
 
-skinparam ranksep 180
-skinparam nodesep 180
-
 package "AccessMethod Aggregate" {
     entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
     + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
@@ -24,12 +21,20 @@ AME "1" --> "uses 1" VOName
 AME "1" --> "uses 1" VOId
 
 
+interface IAccessMethodService{
+    registerAccessMethodInMemoryRepository(accessMethodNameVO)
+}
+
+class IAccessMethodServiceImpl{
+    + registerAccessMethodInMemoryRepository(accessMethodNameVO)
+}
+
 interface IAccessMethodFactory {
-    createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+    createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodFactoryImpl {
-     +createAccessMethod(accessMethodID: AccessMethodID, accessMethodName: NameWithNumbersAndSpecialChars)
+     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 'implements
 AccessMethodFactoryImpl ..|> "implements"  IAccessMethodFactory
@@ -49,17 +54,14 @@ AccessMethodListFactoryImpl ..|> IAccessMethodListFactory : implements
 Interface IRepository{
 }
 Interface IAccessMethodRepository{
-  registerAccessMethod (accessMethod1: AccessMethod)
-  isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod)
+    registerAccessMethod(accessMethod: AccessMethod);
 }
 
 'extends
 IAccessMethodRepository --|> IRepository : extends
 
 class AccessMethodRepositoryImpl {
-    +AccessMethodRepository(IAccessMethodListFactory : IAccessMethodListFactory)
-    +registerAccessMethod(accessMethod1: AccessMethod) : boolean
-    -isAccessMethodAlreadyRegistered(accessMethod1: AccessMethod) : boolean
+    registerAccessMethod(accessMethod: AccessMethod)
 }
 
 'implements
@@ -73,11 +75,10 @@ class US02_ConfigureAccessMethod_Controller {
     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
-'creates
 IAccessMethodFactory "1" ..> "1..*" AME : creates
-'dependency
-IAccessMethodRepository "1"..> "*" AME
-US02_ConfigureAccessMethod_Controller "1"--> "1" IAccessMethodRepository : uses
-US02_ConfigureAccessMethod_Controller "1"--> "1" IAccessMethodFactory : uses
-US02_ConfigureAccessMethod_Controller ..> AME
+IAccessMethodRepository "1"..> "*" AME: persist
+US02_ConfigureAccessMethod_Controller "1"-down->"1" IAccessMethodService: uses
+IAccessMethodService "1"--> "1" IAccessMethodRepository : uses
+IAccessMethodService "1"--> "1" IAccessMethodFactory : uses
+IAccessMethodServiceImpl -right..|> IAccessMethodService: implements
 @enduml

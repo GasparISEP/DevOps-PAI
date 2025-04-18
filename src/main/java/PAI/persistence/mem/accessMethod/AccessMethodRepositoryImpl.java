@@ -9,31 +9,29 @@ import java.util.List;
 import java.util.Optional;
 
 public class AccessMethodRepositoryImpl implements IRepositoryAccessMethod {
-    private final IAccessMethodFactory _accessMethodFactory;
     private final List<AccessMethod> _accessMethods;
 
-    public AccessMethodRepositoryImpl(IAccessMethodFactory accessMethodFactory, IAccessMethodListFactory accessMethodListFactory){
-        _accessMethodFactory = accessMethodFactory;
+    public AccessMethodRepositoryImpl(IAccessMethodListFactory accessMethodListFactory){
         _accessMethods = accessMethodListFactory.createAccessMethodList();
     }
 
-    public boolean registerAccessMethod (NameWithNumbersAndSpecialChars accessMethodName){
-        try {
-            AccessMethod accessMethod = _accessMethodFactory.createAccessMethod(accessMethodName);
-
-            if (isAccessMethodRegistered(accessMethod)) return false;
-
-            save(accessMethod);
-            return true;
-
-        }catch (Exception e){
-            return false;
+    @Override
+    public Optional<AccessMethod> saveAccessMethod (AccessMethod accessMethod){
+        if(accessMethod == null){
+            return Optional.empty();
         }
+        if (isAccessMethodRegistered(accessMethod)) {
+            return Optional.empty();
+        }
+        save(accessMethod);
+        return Optional.of(accessMethod);
     }
 
-    private boolean isAccessMethodRegistered (AccessMethod accessMethod){
-        for(AccessMethod accessMethodDDD : _accessMethods){
-            return accessMethodDDD.equals(accessMethod) || accessMethodDDD.sameAs(accessMethodDDD);
+    private boolean isAccessMethodRegistered(AccessMethod accessMethod) {
+        for(AccessMethod accessMethodDDD : _accessMethods) {
+            if(accessMethodDDD.equals(accessMethod) || accessMethodDDD.sameAs(accessMethod)) {
+                return true;
+            }
         }
         return false;
     }

@@ -1,27 +1,24 @@
 package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.service.accessMethod.IAccessMethodService;
 
 public class US02_ConfigureAccessMethodController {
 
-    private final IRepositoryAccessMethod _accessMethodRepository;
+    private final IAccessMethodService accessMethodService;
 
-    public US02_ConfigureAccessMethodController(IRepositoryAccessMethod accessMethodRepository) {
-
-        _accessMethodRepository = accessMethodRepository;
-
+    public US02_ConfigureAccessMethodController(IAccessMethodService accessMethodService) {
+        if(accessMethodService == null) {
+            throw new IllegalArgumentException("Access method service cannot be null");
+        }
+        this.accessMethodService = accessMethodService;
     }
 
     //Configure Access Method
     public boolean configureAccessMethod (NameWithNumbersAndSpecialChars accessMethodName) {
-        if (this._accessMethodRepository == null) {
+        if (accessMethodName== null) {
             return false;
         }
-        return _accessMethodRepository.registerAccessMethod(accessMethodName);
+        return accessMethodService.registerAccessMethodInMemoryRepository(accessMethodName).isPresent();
     }
-
-
-
-
-
 }
