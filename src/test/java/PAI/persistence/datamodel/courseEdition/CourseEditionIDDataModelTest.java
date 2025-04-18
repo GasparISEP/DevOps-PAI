@@ -61,20 +61,36 @@ class CourseEditionIDDataModelTest {
         assertEquals("CourseInStudyPlanIDDataModel cannot be null", exception.getMessage());
     }
 
+    // getProgrammeEditionIDDataModel Tests
     @Test
-    void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModel() {
+    void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModelWhenCourseEditionIDDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
 
         // Act
-        ProgrammeEditionIdDataModel pEIDDataModel = courseEditionIDDataModel.getProgrammeEditionIdDataModel();
+        ProgrammeEditionIdDataModel pEIDDataModel = courseEditionIDDataModel.getProgrammeEditionIDDataModel();
 
         // Assert
         assertNull(pEIDDataModel);
     }
 
     @Test
-    void shouldReturnNullWhenTryToGetCourseInStudyPlanIDDataModel() {
+    void shouldReturnProgrammeEditionIDDataModelWhenProgrammeEditionIDDataModelIsCreatedWithArguments() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        ProgrammeEditionIdDataModel pEIDDM = courseEditionIDDataModel.getProgrammeEditionIDDataModel();
+
+        // Assert
+        assertNotNull(pEIDDM);
+        assertEquals(programmeEditionIDDataModel, pEIDDM);
+    }
+
+    @Test
+    void shouldReturnNullWhenTryToGetCourseInStudyPlanIDDataModelWhenCourseEditionIDDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
 

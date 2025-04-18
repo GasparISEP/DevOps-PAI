@@ -28,8 +28,8 @@ public class CourseEditionIDDataModel implements Serializable {
         this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
     }
 
-    public ProgrammeEditionIdDataModel getProgrammeEditionIdDataModel() {
-        return null;
+    public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
+        return _programmeEditionIdDataModel;
     }
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
