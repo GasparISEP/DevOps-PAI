@@ -172,23 +172,73 @@ class TeacherAcademicEmailDataModel {
 }
 
 '=== 7. VALUE OBJECTS ==='
-class TeacherID <<VO>> {}
-class TeacherAcronym <<VO>> {}
-class DepartmentID <<VO>> {}
-class Name <<VO>> {}
-class Email <<VO>> {}
-class NIF <<VO>> {}
-class PhoneNumber <<VO>> {}
-class Street <<VO>> {}
-class PostalCode <<VO>> {}
-class Location <<VO>> {}
-class Country <<VO>> {}
-class AcademicBackground <<VO>> {}
-class WorkingPercentage <<VO>> {}
-class Date <<VO>> {}
-class DepartmentID <<VO>> {}
-class TeacherCategoryID <<VO>> {}
+class TeacherID <<VO>> {
+
+}
+
+class TeacherAcronym <<VO>> {
+ -_acronym : String
+}
+
+class DepartmentID <<VO>> {
+
+}
+
+class Name <<VO>> {
+ -_name : String
+}
+
+class Email <<VO>> {
+ -_email : String
+}
+
+class NIF <<VO>> {
+ -_NIF : String
+}
+
+class PhoneNumber <<VO>> {
+ -_countryCode : String
+ -_phoneNumber : String
+}
+
+class Street <<VO>> {
+ -_street : String
+}
+
+class PostalCode <<VO>> {
+ -_postalCode : String
+}
+
+class Location <<VO>> {
+ -_location : String
+}
+
+class Country <<VO>> {
+ -_country : String
+}
+
+class AcademicBackground <<VO>> {
+ -_academicBackground : String
+}
+
+class WorkingPercentage <<VO>> {
+ -_workingPercentage : int
+}
+
+class Date <<VO>> {
+ -_date : LocalDate
+}
+
+class DepartmentID <<VO>> {
+
+}
+
+class TeacherCategoryID <<VO>> {
+
+}
+
 class Address <<VO>> {
+
 }
 
 '=== 8. MAPPERS ==='
@@ -201,7 +251,34 @@ class DepartmentMapper {
 }
 
 class TeacherMapper {
-  +toDataModel(Teacher): TeacherDataModel
+  -_teacherFactory : ITeacherFactory
+  +toDomain(teacherDataModel) : Teacher
+  +toDataModel(teacher): TeacherDataModel
+}
+
+class TeacherIDMapper {
+  +toDomain(teacherDataModel) : TeacherID
+  +toDataModel(teacher) : TeacherDataModel
+}
+
+class AddressMapper {
+  +toDomain(addressDataModel) : Address
+  +toDataModel(address) : AddressDataModel
+}
+
+class TeacherAcademicEmailMapper {
+  +toDomain(teacherAcademicEmailDataModel) : TeacherAcademicEmail
+  +toDataModel(teacherAcademicEmail) : TeacherAcademicEmailDataModel
+}
+
+class NIFMapper {
+  +toDomain(NIFDataModel) : NIF
+  +toDataModel(NIF) : NIFDataModel
+}
+
+class PhoneNumberMapper {
+  +toDomain(phoneNumberDataModel) : PhoneNumber
+  +toDataModel(phoneNumber : PhoneNumberDataModel
 }
 
 class TeacherDataModel {
@@ -252,7 +329,26 @@ TeacherRepositoryJPA .up.|> ITeacherRepository : <<implements>>
 ITeacherRepository "1" --> "*" Teacher
 ITeacherRepositoryJPA  ..|> "\n 1   " TeacherRepositoryJPA : <<extends>>
 TeacherRepositoryJPA "1" ..> "_teacherMapper" TeacherMapper
+
+'Mappers
 TeacherMapper "1" --> "1" TeacherDataModel
+TeacherMapper "1" --> "1" Teacher
+TeacherMapper "1" ..> "1" TeacherIDMapper
+TeacherIDMapper "1" --> "1" TeacherID
+TeacherIDMapper "1" --> "1" TeacherIDDataModel
+AddressMapper "1" --> "1" AddressDataModel
+AddressMapper "1" --> "1" Address
+NIFMapper "1" --> "1" NIFDataModel
+NIFMapper "1" --> "1" NIF
+PhoneNumberMapper "1" --> "1" PhoneNumberDataModel
+PhoneNumberMapper "1" --> "1" PhoneNumber
+AddressMapper "1" --> "1" AddressDataModel
+AddressMapper "1" --> "1" Address
+TeacherAcademicEmailMapper "1" --> "1" TeacherAcademicEmailDataModel
+TeacherAcademicEmailMapper "1" --> "1" TeacherAcademicEmail
+
+
+
 ITeacherRepository ..|> IRepository : <<extends>>
 jpaRepository "\n 1 " <|.. ITeacherRepositoryJPA : <<extends>>
 

@@ -39,7 +39,7 @@ class StudentAcademicEmailDataModelTest {
             StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
 
             //Arrange
-            assertEquals(studentEmail, dataModel.getStudentMail());
+            assertEquals(studentEmail, dataModel.getStudentEmail());
         }
 
         @Test
