@@ -20,7 +20,15 @@ public class ProgrammeEditionDataModel {
     protected ProgrammeEditionDataModel() {}
 
     public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionID, ProgrammeIDDataModel programmeID, UUID schoolYearID) {
-
+        if(programmeEditionID == null) {
+            throw new IllegalArgumentException("programmeEditionID cannot be null");
+        }
+        if(programmeID == null) {
+            throw new IllegalArgumentException("programmeID cannot be null");
+        }
+        if(schoolYearID == null) {
+            throw new IllegalArgumentException("schoolYearID cannot be null");
+        }
         this._programmeEditionID = programmeEditionID;
         this._programmeID = programmeID;
         this._schoolYearID = schoolYearID;
