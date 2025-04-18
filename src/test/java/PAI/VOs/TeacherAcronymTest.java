@@ -1,6 +1,12 @@
 package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -29,43 +35,30 @@ class TeacherAcronymTest {
         assertEquals(acronym1, acronym2String);
     }
 
-    @Test
-    void shouldNotReturnAcronymIfNull() {
-        //Act+Assert
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym(null));
+    static Stream<Arguments> testInvalidTeacherAcronym(){
+        return Stream.of(
+                Arguments.of("", "Acronym must be a 3 capital letter non-empty String."),
+                Arguments.of(" ", "Acronym must be a 3 capital letter non-empty String."),
+                Arguments.of(null, "Acronym must be a 3 capital letter non-empty String."),
+                Arguments.of("AB", "Acronym must contain only three capital letters."),
+                Arguments.of("ABCD", "Acronym must contain only three capital letters."),
+                Arguments.of("abc", "Acronym must contain only three capital letters."),
+                Arguments.of("A 99", "Acronym must contain only three capital letters."),
+                Arguments.of("9", "Acronym must contain only three capital letters."),
+                Arguments.of("Ç99", "Acronym must contain only three capital letters."),
+                Arguments.of("B-12", "Acronym must contain only three capital letters."),
+                Arguments.of("Z1SD2", "Acronym must contain only three capital letters.")
+        );
     }
-
-    @Test
-    void shouldNotReturnAcronymIfBlank()  {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym(""));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsNumbers()  {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("AB1"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsLowerCases() {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("ABc"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfContainsSpecialChars() {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("AB@"));
-    }
-
-    @Test
-    void shouldNotReturnAcronymIfMoreThan3Letters() {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherAcronym("ABCD"));
-    }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenTeacherAcronymIsNull() {
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherAcronym(null);
-        });
+    @ParameterizedTest
+    @MethodSource("testInvalidTeacherAcronym")
+    void shouldReturnExceptionWhenCreatingTeacherAcronymWithInvalidInputs(String teacherAcronym, String expectedMessage){
+        //Arrange (provided by @MethodSource)
+        //Act
+        Executable action = () -> new TeacherAcronym(teacherAcronym);
+        //Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, action);
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
@@ -130,5 +123,23 @@ class TeacherAcronymTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    public void shouldReturnEqualWhenTwoObjectsHaveTheSameHashCode() {
+        //Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("ABC");
+        //Act & Assert
+        assertEquals(teacherAcronym1.hashCode(), teacherAcronym2.hashCode());
+    }
+
+    @Test
+    public void shouldReturnNotEqualWhenTwoObjectsHaveDifferentHashCodes() {
+        //Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+        TeacherAcronym teacherAcronym2 = new TeacherAcronym("ZXC");
+        //Act & Assert
+        assertNotEquals(teacherAcronym1.hashCode(), teacherAcronym2.hashCode());
     }
 }
