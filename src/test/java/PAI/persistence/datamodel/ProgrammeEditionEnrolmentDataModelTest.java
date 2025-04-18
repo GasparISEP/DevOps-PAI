@@ -34,6 +34,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
     void setterShouldUpdateEmbeddedId() {
         // Arrange
         ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel();
+
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S002", "P002");
 
         // Act
@@ -47,6 +48,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
     void equalsShouldReturnTrueForSameId() {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S003", "P003");
+
         ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id);
         ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id);
 
@@ -58,24 +60,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
     }
 
     @Test
-    void equalsShouldReturnFalseForDifferentId() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("S004", "P004");
-        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("S005", "P005");
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2);
-
-        // Act
-        boolean isEqual = model1.equals(model2);
-
-        // Assert
-        assertFalse(isEqual);
-    }
-
-    @Test
     void hashCodeShouldBeSameForSameId() {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S006", "P006");
+
         ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id);
         ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id);
 
@@ -134,6 +122,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id1 =
                 new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
+
         ProgrammeEditionEnrolmentIDDataModel id2 =
                 new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
 
@@ -149,6 +138,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id =
                 new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
+
         ProgrammeEditionEnrolmentDataModel enrolment =
                 new ProgrammeEditionEnrolmentDataModel(id);
 
@@ -161,6 +151,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id =
                 new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
+
         ProgrammeEditionEnrolmentDataModel enrolment =
                 new ProgrammeEditionEnrolmentDataModel(id);
 
@@ -169,22 +160,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
     }
 
     @Test
-    void hashCodeShouldBeEqualForEqualIDs() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2);
-
-        // Act & Assert
-        assertEquals(e1.hashCode(), e2.hashCode());
-    }
-
-    @Test
     void hashCodeShouldMatchExpectedValue() {
         // arrange
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("student123", "edition456");
+
         ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id);
 
         // act
@@ -206,4 +185,22 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // act & assert
         assertNotEquals(obj1.hashCode(), obj2.hashCode());
     }
+
+    @Test
+    void hashCodeShouldBeDifferentForSimilarButNotEqualIds() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
+        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P2");
+
+        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1);
+        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2);
+
+        // Act
+        int hash1 = model1.hashCode();
+        int hash2 = model2.hashCode();
+
+        // Assert
+        assertNotEquals(hash1, hash2);
+    }
+
 }
