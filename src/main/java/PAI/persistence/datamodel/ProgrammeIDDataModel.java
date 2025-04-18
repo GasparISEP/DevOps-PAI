@@ -13,10 +13,9 @@ public class ProgrammeIDDataModel {
     public ProgrammeIDDataModel() {
     }
 
-
-    public ProgrammeIDDataModel(ProgrammeID programmeID) {
-        _name = programmeID.getName().getnameWithNumbersAndSpecialChars();
-        _acronym = programmeID.getAcronym().getAcronym();
+    public ProgrammeIDDataModel(String name, String acronym) {
+        _name = name;
+        _acronym = acronym;
     }
 
     @Override

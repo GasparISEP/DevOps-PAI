@@ -15,6 +15,9 @@ public class ProgrammeIDMapper {
     }
 
     public ProgrammeIDDataModel toData(ProgrammeID programmeID) {
-        return new ProgrammeIDDataModel(programmeID);
+
+        String name = programmeID.getName().getnameWithNumbersAndSpecialChars();
+        String acronym = programmeID.getAcronym().getAcronym();
+        return new ProgrammeIDDataModel(name, acronym);
     }
 }
