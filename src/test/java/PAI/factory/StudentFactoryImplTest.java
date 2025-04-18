@@ -40,6 +40,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenStudentIDIsNull () {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -66,6 +67,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenInputNameIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -92,6 +94,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenInputNIFIsNull () {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -118,6 +121,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenInputPhoneNumberIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -144,6 +148,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenInputEmailIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -170,6 +175,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenAcademicEmailIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -196,6 +202,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void studentCreationShouldThrowExceptionWhenStreetIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -209,7 +216,7 @@ class StudentFactoryImplTest {
         PhoneNumber phone = mock(PhoneNumber.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
+        try (MockedConstruction<Address> addressMock = mockConstruction(Address.class, (mock, context) -> {
             throw new IllegalArgumentException("Street is not valid!");
         })) {
             // Act & Assert
@@ -222,6 +229,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void shouldThrowExceptionWhenPostalCodeIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -235,7 +243,7 @@ class StudentFactoryImplTest {
         PhoneNumber phone = mock(PhoneNumber.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
+        try (MockedConstruction<Address> addressMock = mockConstruction(Address.class, (mock, context) -> {
             throw new IllegalArgumentException("Postal Code is not valid!");
         })) {
             // Act & Assert
@@ -248,6 +256,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void shouldThrowExceptionWhenLocationIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -261,7 +270,7 @@ class StudentFactoryImplTest {
         PhoneNumber phone = mock(PhoneNumber.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
+        try (MockedConstruction<Address> addressMock = mockConstruction(Address.class, (mock, context) -> {
             throw new IllegalArgumentException("Location is not valid!");
         })) {
             // Act & Assert
@@ -274,6 +283,7 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
     void shouldThrowExceptionWhenCountryIsNull() {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
@@ -287,7 +297,7 @@ class StudentFactoryImplTest {
         PhoneNumber phone = mock(PhoneNumber.class);
         StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
 
-        try (MockedConstruction<Student> studentMock = mockConstruction(Student.class, (mock, context) -> {
+        try (MockedConstruction<Address> addressMock = mockConstruction(Address.class, (mock, context) -> {
             throw new IllegalArgumentException("Country is not valid!");
         })) {
             // Act & Assert
