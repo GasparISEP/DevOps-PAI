@@ -1,15 +1,13 @@
 package PAI.VOs;
 
 import PAI.ddd.DomainId;
-
+import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 public class StudyPlanID implements DomainId {
 
     private final ProgrammeID _programmeID;
     private final Date _implementationDate;
-
 
     public StudyPlanID(ProgrammeID programmeID, Date implementationDate) {
 
@@ -30,5 +28,13 @@ public class StudyPlanID implements DomainId {
                 "_programmeID=" + _programmeID +
                 ", _implementationDate=" + _implementationDate +
                 '}';
+    }
+
+    public LocalDate getLocalDate() {
+        return _implementationDate.getLocalDate();
+    }
+
+    public ProgrammeID getProgrammeID() {
+        return _programmeID;
     }
 }
