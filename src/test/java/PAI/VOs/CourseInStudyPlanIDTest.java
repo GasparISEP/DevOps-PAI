@@ -100,4 +100,32 @@ class CourseInStudyPlanIDTest {
         // Assert
         assertEquals(expected, id.toString());
     }
+
+    @Test
+    void shouldReturnCourseID() {
+        //arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        //act
+        CourseID result = id.getCourseID();
+
+        //assert
+        assertEquals(result, courseID);
+    }
+
+    @Test
+    void shouldReturnStudyPlanID() {
+        //arrange
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        CourseInStudyPlanID id = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        //act
+        StudyPlanID result = id.getStudyPlanID();
+
+        //assert
+        assertEquals(result, studyPlanID);
+    }
 }

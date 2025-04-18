@@ -7,7 +7,6 @@ import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +22,6 @@ class ProgrammeIDMapperTest {
 
         when(dataModel.getName()).thenReturn("A");
         when(dataModel.getAcronym()).thenReturn("OLA");
-
 
         //act
         ProgrammeID res = mapper.toDomain(dataModel);
@@ -48,7 +46,6 @@ class ProgrammeIDMapperTest {
 
         when(progID.getAcronym()).thenReturn(acronym);
         when(progID.getName()).thenReturn(name);
-
 
         //act
         ProgrammeIDDataModel res = mapper.toData(progID);
