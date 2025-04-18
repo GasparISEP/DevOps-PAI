@@ -57,6 +57,19 @@ public class ProgrammeDataModelTest {
     }
 
     @Test
+    public void defaultConstructorInitializesFieldsToDefaults() {
+        ProgrammeDataModel dataModel = new ProgrammeDataModel();
+        assertNotNull(dataModel);
+        assertNull(dataModel.getName());
+        assertNull(dataModel.getAcronym());
+        assertEquals(0, dataModel.getQuantSemesters());
+        assertEquals(0, dataModel.getQuantEcts());
+        assertNull(dataModel.getDegreeTypeID());
+        assertNull(dataModel.getDepartmentID());
+        assertNull(dataModel.getProgrammeDirectorID());
+    }
+
+    @Test
     public void createProgrammeDataModel()  {
         // Act
         ProgrammeDataModel programmeDataModel = registerProgrammeDataModel();

@@ -1,10 +1,11 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.ProgrammeID;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
+
 @Embeddable
-public class ProgrammeIDDataModel {
+public class ProgrammeIDDataModel implements Serializable {
 
     private String _name;
     private String _acronym;
