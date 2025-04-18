@@ -89,6 +89,7 @@ class CourseEditionIDDataModelTest {
         assertEquals(programmeEditionIDDataModel, pEIDDM);
     }
 
+    // getCourseInStudyPlanIDDataModel Tests
     @Test
     void shouldReturnNullWhenTryToGetCourseInStudyPlanIDDataModelWhenCourseEditionIDDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
@@ -99,6 +100,21 @@ class CourseEditionIDDataModelTest {
 
         // Assert
         assertNull(cISPIDDataModel);
+    }
+
+    @Test
+    void shouldReturnCourseInStudyPlantIDDataModelWhenProgrammeEditionIDDataModelIsCreatedWithArguments() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        CourseInStudyPlanIDDataModel cISPIDDM = courseEditionIDDataModel.getCourseInStudyPlanIDDataModel();
+
+        // Assert
+        assertNotNull(cISPIDDM);
+        assertEquals(courseInStudyPlanIDDataModel, cISPIDDM);
     }
 
     @Test

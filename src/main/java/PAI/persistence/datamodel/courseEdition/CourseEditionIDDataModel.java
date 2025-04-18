@@ -33,7 +33,7 @@ public class CourseEditionIDDataModel implements Serializable {
     }
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
-        return null;
+        return _courseInStudyPlanIDDataModel;
     }
 
     @Override
