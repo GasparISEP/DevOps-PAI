@@ -36,6 +36,32 @@ class CourseEditionIDDataModelTest {
     }
 
     @Test
+    void shouldThrowIllegalArgumentExceptionIfProgrammeEditionIdDataModelIsNull() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = null;
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);});
+
+        // Assert
+        assertEquals("ProgrammeEditionIDDataModel cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfCourseInStudyPlantIDDataModeIdIsNull() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = null;
+
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);});
+
+        // Assert
+        assertEquals("CourseInStudyPlanIDDataModel cannot be null", exception.getMessage());
+    }
+
+    @Test
     void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModel() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
