@@ -12,22 +12,12 @@ class US16_EnrolAStudentInACourseEditionController {
     +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
 }
 
-interface ICourseEditionEnrolmentService {
-    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
-    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
-    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-}
-
 class CourseEditionEnrolmentServiceImpl {
     +CourseEditionEnrolmentServiceImpl (courseEditionEnrolmentFactory : ICourseEditionEnrolmentFactory, courseEditionEnrolmentRepositoryInterface : ICourseEditionEnrolmentRepository,
     programmeEditionEnrolmentRepositoryInterface : IProgrammeEditionEnrolmentRepository, courseEditionRepositoryInterface : ICourseEditionRepository)
     +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
     +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
     +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-}
-
-interface ICourseEditionEnrolmentRepository {
-    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
@@ -42,13 +32,6 @@ class CourseEditionEnrolmentRepositorySpringDataJPAImpl {
     +enrolStudentInACourseEdition (courseEditionEnrolment: CourseEditionEnrolment): boolean
 }
 
-interface ICourseEditionEnrolmentRepositorySpringDataJPA {
-}
-
-interface IProgrammeEditionEnrolmentRepository {
-     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
-}
-
 class ProgrammeEditionEnrolmentRepositoryImpl {
     +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory,
     programmeEditionEnrolmentListFactory: IProgrammeEditionEnrolmentListFactory)
@@ -58,14 +41,6 @@ class ProgrammeEditionEnrolmentRepositoryImpl {
 class ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl {
     +ProgrammeEditionEnrolmentRepository (programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory, programmeEditionEnrolmentSpringJPAInterface: IProgrammeEditionSpringDataJPA)
     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
-}
-
-interface IProgrammeEditionEnrolmentRepositorySpringDataJPA {
-}
-
-
-interface ICourseEditionRepository {
-     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
 }
 
 class CourseEditionRepositoryImpl {
@@ -78,14 +53,38 @@ class CourseEditionRepositorySpringDataJPAImpl {
     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEdition>
 }
 
-interface ICourseEditionRepositorySpringDataJPA {
-}
-
-interface ICourseEditionEnrolmentListFactory{
-    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+class CourseEditionEnrolmentFactoryImpl{
+    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
 }
 
 class CourseEditionEnrolmentListFactoryImpl {
+    +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
+}
+
+'Interfaces
+
+interface ICourseEditionEnrolmentService {
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
+    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
+    +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+interface ICourseEditionEnrolmentRepositorySpringDataJPA {
+}
+
+interface IProgrammeEditionEnrolmentRepository {
+     +findProgrammeEditionsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+}
+
+interface ICourseEditionRepository {
+     +findCourseEditionsByProgrammeEdition(programmeEditionId: ProgrammeEditionID) : List<CourseEditionID>
+}
+
+interface ICourseEditionEnrolmentListFactory{
     +getCourseEditionEnrolmentList(): Set<CourseEditionEnrolment>
 }
 
@@ -93,19 +92,30 @@ interface ICourseEditionEnrolmentFactory{
     +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
 }
 
-class CourseEditionEnrolmentFactoryImpl{
-    +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+interface Set {
+    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
 }
 
-package "CourseEditionEnrolment Aggregate" #LightBlue {
-    class CourseEditionEnrolment <<Root>> <<Entity>> {
-             +CourseEditionEnrolment(studentId:StudentID,
-              courseEditionId: CourseEditionID)
-             +equals (obj: Object): boolean
-             +hashCode(): int
-             +sameAs(obj: Object): boolean
-    }
+interface IProgrammeEditionEnrolmentRepositorySpringDataJPA {
 }
+
+interface ICourseEditionRepositorySpringDataJPA {
+}
+
+interface ICourseEditionEnrolmentRepositorySpringDataJPA{
+}
+
+interface ICourseEditionRepositorySpringDataJPA{
+}
+
+interface ICourseEditionFactory {
+}
+
+interface IProgrammeEditionEnrolmentFactory {
+    +newProgrammeEditionEnrolment\n(studentId: StudentID, programmeEditionId: ProgrammeEditionID):\n ProgrammeEditionEnrolment
+}
+
+'VO's
 
 class "<<Value Object>>\n EnrolmentStatus" {
      -_isActive: boolean
@@ -121,14 +131,6 @@ class "<<Value Object>>\n CourseEditionEnrolmentID" {
      +toString(): String
 }
 
-package "CourseEdition Aggregate" #LightBlue{
-    class CourseEdition <<Root>> <<Entity>> {
-    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
-    +getProgrammeEditionID() : ProgrammeEditionID
-    +identity(): CourseEditionID
-    }
-}
-
 class "<<Value Object>>\n CourseEditionID" {
      -_programmeEditionID: ProgrammeEditionID
      -_courseInStudyPlanID: CourseInStudyPlanID
@@ -136,13 +138,6 @@ class "<<Value Object>>\n CourseEditionID" {
      courseInStudyPlanId: CourseInStudyPlanID)
 }
 
-package "Student Aggregate" #LightBlue{
-    class Student <<Root>> <<Entity>> {
-    +Student(studentID: StudentID, name: Name,
-    NIF: NIF, phone: PhoneNumber, email: Email, address: Address,
-    academicEmail: StudentAcademicEmail)
-    }
-}
 
 class "<<Value Object>>\n StudentID" {
      -_uniqueNumber: int
@@ -203,14 +198,6 @@ class "<<Value Object>>\n Date" {
      +Date (localDate : LocalDate)
 }
 
-package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
-    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
-    +ProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
-    +findStudentInProgrammeEdition () : StudentID
-    +findProgrammeEditionInEnrolment () : ProgrammeEditionID
-    }
-}
-
 class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
      -_programmeEditionId: ProgrammeEditionID
      -_studentId: StudentID
@@ -221,14 +208,109 @@ class "<<Value Object>>\n ProgrammeEditionEnrolmentID" {
      +toString (): String
 }
 
-interface Set {
-    +add(courseEditionEnrolment: CourseEditionEnrolment): boolean
+'Aggregate
+
+package "CourseEdition Aggregate" #LightBlue{
+    class CourseEdition <<Root>> <<Entity>> {
+    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
+    +getProgrammeEditionID() : ProgrammeEditionID
+    +identity(): CourseEditionID
+    }
 }
 
+package "Student Aggregate" #LightBlue{
+    class Student <<Root>> <<Entity>> {
+    +Student(studentID: StudentID, name: Name,
+    NIF: NIF, phone: PhoneNumber, email: Email, address: Address,
+    academicEmail: StudentAcademicEmail)
+    }
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+    +ProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+    +findStudentInProgrammeEdition () : StudentID
+    +findProgrammeEditionInEnrolment () : ProgrammeEditionID
+    }
+}
+
+package "CourseEdition Aggregate" #LightBlue{
+    class CourseEdition <<Root>> <<Entity>> {
+    +CourseEdition(programmeEditionId: ProgrammeEditionID, courseInStudyPlanId: CourseInStudyPlanID, courseEditionId: CourseEditionID)
+    +getProgrammeEditionID() : ProgrammeEditionID
+    +identity(): CourseEditionID
+    }
+}
+
+package "CourseEditionEnrolment Aggregate" #LightBlue {
+    class CourseEditionEnrolment <<Root>> <<Entity>> {
+             +CourseEditionEnrolment(studentId:StudentID,
+              courseEditionId: CourseEditionID)
+             +equals (obj: Object): boolean
+             +hashCode(): int
+             +sameAs(obj: Object): boolean
+    }
+}
+
+'DataModel's
+
 class CourseEditionEnrolmentDataModel {
-    -id: CourseEditionEnrolmentID
-    +CourseEditionEnrolmentDataModel\n(courseEditionEnrolment: CourseEditionEnrolment))
-    +getId(): id
+    -id: CourseEditionEnrolmentIDDataModel
+    -enrolmentDate: String
+    -isActive: boolean
+    -version: Long
+    +CourseEditionEnrolmentDataModel()
+    +CourseEditionEnrolmentDataModel\n(id: CourseEditionEnrolmentIDDataModel,\n enrolmentDate: String, isActive: boolean))
+    +findID(): CourseEditionEnrolmentDataModel
+    +findEnrolmentDate(): String
+    +isActive(): boolean
+    +hashCode(): int
+    +equals(o: Object)): boolean
+}
+
+class CourseEditionDataModel {
+}
+
+class ProgrammeEditionEnrolmentDataModel {
+    -_programmeEditionEnrolmentIDDataModel: ProgrammeEditionEnrolmentIDDataModel
+    +ProgrammeEditionEnrolmentDataModel\n(programmeEditionEnrolmentIDDataModel: ProgrammeEditionEnrolmentIDDataModel)
+    +equals(o: Object): boolean
+    +hashCode(): int
+}
+
+'ID's
+
+class CourseEditionEnrolmentIDDataModel {
+    -studentID: int
+    -courseEditionID: CourseEditionIDDataModel
+    +CourseEditionEnrolmentIDDataModel\n(studentID: int, courseEditionID: CourseEditionIDDataModel)
+    +findStudentID(): int
+    +findCourseEditionID(): CourseEditionIDDataModel
+    +equals(o: Object): boolean
+    +hashCode(): int
+    +toString(): String
+}
+
+class ProgrammeEditionEnrolmentIDDataModel {
+    -_studentId: String
+    -_programmeEditionId: String
+    +ProgrammeEditionEnrolmentIDDataModel\n(studentId: String, programmeEditionId: String)
+    +getStudentId(): String
+    +getProgrammeEditionID(): String
+    +equals(o: Object): boolean
+    +hashCode(): int
+}
+
+'Mapper's
+
+class CourseEditionEnrolmentMapper{
+    +toData(courseEditionEnrolment:\n CourseEditionEnrolment):\n CourseEditionEnrolmentDataModel
+    +toDomain(courseEditionEnrolmentDataModel:\n CourseEditionEnrolmentDataModel):\n CourseEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentMapper{
+    +toData()
+    +toDomain()
 }
 
 'Controller
@@ -250,7 +332,6 @@ ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDat
 
 CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentRepositorySpringDataJPA
 CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentFactory
-CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolmentDataModel
 CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolment
 CourseEditionEnrolmentRepositorySpringDataJPAImpl --> CourseEditionEnrolmentMapper
 ICourseEditionEnrolmentRepositorySpringDataJPA ..> CourseEditionEnrolmentDataModel
@@ -266,7 +347,6 @@ CourseEditionEnrolmentRepositoryImpl "1  " -u-> "1  " ICourseEditionEnrolmentFac
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositoryImpl
 IProgrammeEditionEnrolmentRepository <|.l.  ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl
 
-IProgrammeEditionEnrolmentRepositorySpringDataJPA --|> JPARepository
 ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl --> ProgrammeEditionEnrolmentMapper
 ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentDataModel
@@ -284,7 +364,6 @@ ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ICourseEditionRepository <|.. CourseEditionRepositorySpringDataJPAImpl
 CourseEdition "_listOfCE *" <-- "1       " CourseEditionRepositoryImpl
-ICourseEditionRepositorySpringDataJPA --|> JPARepository
 ICourseEditionRepositorySpringDataJPA ..> CourseEditionDataModel
 ICourseEditionRepositorySpringDataJPA <-- CourseEditionRepositorySpringDataJPAImpl
 CourseEditionRepositorySpringDataJPAImpl --> CourseEditionMapper
@@ -335,5 +414,11 @@ CourseEditionEnrolment "1" -u-> "1 _studentID" "<<Value Object>>\n StudentID"
 CourseEditionEnrolment "1" --> "_ceID 1    " "<<Value Object>>\n CourseEditionID"
 
 CourseEdition "1" --> "_ceID  1" "<<Value Object>>\n CourseEditionID"
+
+'DataModel's
+
+CourseEditionEnrolmentIDDataModel <- CourseEditionEnrolmentDataModel
+
+ProgrammeEditionEnrolmentIDDataModel <- ProgrammeEditionEnrolmentDataModel
 
 @enduml
