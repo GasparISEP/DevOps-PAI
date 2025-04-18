@@ -1,7 +1,8 @@
 package PAI.persistence.datamodel;
 
-
-import PAI.domain.TeacherCareerProgression;
+import PAI.VOs.Acronym;
+import PAI.VOs.TeacherAcronym;
+import PAI.VOs.TeacherID;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -12,9 +13,8 @@ import static org.mockito.Mockito.mock;
 
 class TeacherCareerProgressionDataModelTest {
 
-    private TeacherCareerProgressionDataModel createTeacherCareerProgressionDataModel() {
-        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
-        UUID teacherCategoryId = UUID.randomUUID();
+    private TeacherCareerProgressionDataModel createTeacherCareerProgressionDataModel(TeacherCareerProgressionIDDataModel id) {
+        UUID teacherCategoryId = UUID.fromString("11111111-1111-1111-1111-111111111111");
         int workingPercentage = 100;
         LocalDate date = LocalDate.of(2024, 10, 5);
         String teacherId = "ABC";
@@ -50,28 +50,32 @@ class TeacherCareerProgressionDataModelTest {
     @Test
     void shouldReturnTeacherCareerProgressionIDWhenCallGetID(){
         // Arrange
-        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel();
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
         // Act
         TeacherCareerProgressionIDDataModel result = TCP1.getId();
         // Assert
-        assertNotNull(result);
+        assertEquals(result, id);
     }
 
     @Test
-    void shouldReturnUUIDWhenCallgetTeacherCategoryId(){
+    void shouldReturnUUIDWhenCallGetTeacherCategoryId(){
         // Arrange
-        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel();
+        UUID expectedUUID = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
         // Act
         UUID result = TCP1.getTeacherCategoryId();
         // Assert
-        assertNotNull(result);
+        assertEquals(result, expectedUUID);
     }
 
     @Test
-    void shouldReturnIntWhenCallgetWorkingPercentage(){
+    void shouldReturnIntWhenCallGetWorkingPercentage(){
         // Arrange
         int expectedWorkingPercentage = 100;
-        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel();
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
         // Act
         int result = TCP1.getWorkingPercentage();
         // Assert
@@ -79,10 +83,11 @@ class TeacherCareerProgressionDataModelTest {
     }
 
     @Test
-    void shouldReturnLocalDateWhenCallgetDate(){
+    void shouldReturnLocalDateWhenCallGetDate(){
         // Arrange
         LocalDate expectedDate = LocalDate.of(2024, 10, 5);
-        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel();
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
         // Act
         LocalDate result = TCP1.getDate();
         // Assert
@@ -90,13 +95,83 @@ class TeacherCareerProgressionDataModelTest {
     }
 
     @Test
-    void shouldReturnStringWhenCallgetTeacherId(){
+    void shouldReturnStringWhenCallGetTeacherId(){
         // Arrange
         String expectedTeacherId = "ABC";
-        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel();
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
         // Act
         String result = TCP1.getTeacherId();
         // Assert
         assertEquals(expectedTeacherId, result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenComparingWithItself() {
+        //Arrange
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
+        //Act
+        boolean result = TCP1.equals(TCP1);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingWithDifferentObjectType() {
+        //Arrange
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
+        Object diferentObject = new Object();
+        //Act
+        boolean result = TCP1.equals(diferentObject);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfTeacherCareerProgressionDataModelsAreEqual() {
+        //arrange
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
+        TeacherCareerProgressionDataModel TCP2 = createTeacherCareerProgressionDataModel(id);
+        //act
+        boolean result = TCP1.equals(TCP2);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCareerProgressionDataModelsAreNotEqual() {
+        //arrange
+        TeacherCareerProgressionIDDataModel id1 = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id1);
+        TeacherCareerProgressionIDDataModel id2 = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP2 = createTeacherCareerProgressionDataModel(id2);
+        //act
+        boolean result = TCP1.equals(TCP2);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    public void shouldReturnEqualWhenTwoObjectsHaveTheSameHashCode() {
+        //Arrange
+        TeacherCareerProgressionIDDataModel id = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id);
+        TeacherCareerProgressionDataModel TCP2 = createTeacherCareerProgressionDataModel(id);
+        //Act & Assert
+        assertEquals(TCP1.hashCode(), TCP2.hashCode());
+    }
+
+    @Test
+    public void shouldReturnNotEqualWhenTwoObjectsHaveDifferentHashCodes() {
+        //Arrange
+        TeacherCareerProgressionIDDataModel id1 = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP1 = createTeacherCareerProgressionDataModel(id1);
+        TeacherCareerProgressionIDDataModel id2 = mock(TeacherCareerProgressionIDDataModel.class);
+        TeacherCareerProgressionDataModel TCP2 = createTeacherCareerProgressionDataModel(id2);
+        //Act & Assert
+        assertNotEquals(TCP1.hashCode(), TCP2.hashCode());
     }
 }

@@ -33,6 +33,18 @@ public class TeacherCareerProgressionDataModel {
         this.teacherId = teacherId;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof TeacherCareerProgressionDataModel otherTCPDataModel)) return false;
+        return id.equals(otherTCPDataModel.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     public TeacherCareerProgressionIDDataModel getId() {
         return id;
     }
