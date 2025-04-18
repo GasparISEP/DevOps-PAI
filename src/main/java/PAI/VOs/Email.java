@@ -18,4 +18,8 @@ public class Email {
         else
             return false;
     }
+
+    public String getEmail() {
+        return _email;
+    }
 }

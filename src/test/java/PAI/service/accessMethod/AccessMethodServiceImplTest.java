@@ -55,11 +55,12 @@ class AccessMethodServiceImplTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethod accessMethod = mock(AccessMethod.class);
 
+        when(iRepositoryAccessMethod.getAccessMethodByName(nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
         when(iAccessMethodFactory.createAccessMethod(nameWithNumbersAndSpecialChars)).thenReturn(accessMethod);
         when(iRepositoryAccessMethod.saveAccessMethod(accessMethod)).thenReturn(Optional.of(accessMethod));
 
         // act
-        Optional<AccessMethod> result = accessMethodServiceImpl.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = accessMethodServiceImpl.registerAccessMethod(nameWithNumbersAndSpecialChars);
         // assert
         assertTrue(result.isPresent());
     }
@@ -77,7 +78,24 @@ class AccessMethodServiceImplTest {
         when(iRepositoryAccessMethod.saveAccessMethod(accessMethod)).thenReturn(Optional.empty());
 
         // act
-        Optional<AccessMethod> result = accessMethodServiceImpl.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars);
+        Optional<AccessMethod> result = accessMethodServiceImpl.registerAccessMethod(nameWithNumbersAndSpecialChars);
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalIfAccessMethodAlreadyInRepository(){
+        // arrange
+        IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
+        IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
+        AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory, iRepositoryAccessMethod);
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
+        AccessMethod accessMethod = mock(AccessMethod.class);
+
+        when(iRepositoryAccessMethod.getAccessMethodByName(nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(accessMethod));
+
+        // act
+        Optional<AccessMethod> result = accessMethodServiceImpl.registerAccessMethod(nameWithNumbersAndSpecialChars);
         // assert
         assertTrue(result.isEmpty());
     }
