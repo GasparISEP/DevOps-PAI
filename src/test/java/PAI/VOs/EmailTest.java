@@ -1,7 +1,7 @@
 package PAI.VOs;
 
 import org.apache.commons.lang3.stream.Streams;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,7 +18,7 @@ class EmailTest {
         //act
         Email personalEmail = new Email(email);
         //assert
-        Assertions.assertNotNull(personalEmail);
+        assertNotNull(personalEmail);
     }
 
     @Test
@@ -26,7 +26,7 @@ class EmailTest {
         //arrange
         String email = "";
         //act + assert
-        Assertions.assertThrows(Exception.class, () -> new Email(email));
+        assertThrows(Exception.class, () -> new Email(email));
     }
 
     @Test
@@ -34,7 +34,7 @@ class EmailTest {
         //arrange
         String email = null;
         //act + assert
-        Assertions.assertThrows(Exception.class, () -> new Email(email));
+        assertThrows(Exception.class, () -> new Email(email));
     }
 
     static Stream<Arguments> testEmailWithInvalidInputs() {
@@ -60,6 +60,18 @@ class EmailTest {
         //arrange
 
         //act + assert
-        Assertions.assertThrows(Exception.class, () -> new Email(email));
+        assertThrows(Exception.class, () -> new Email(email));
+    }
+
+    @Test
+    void getEmailShouldReturnEmail() {
+        //arrange
+        Email email = new Email("abc@email.pt");
+
+        //act
+        String result = email.getEmail();
+
+        //assert
+        assertEquals("abc@email.pt", result);
     }
 }

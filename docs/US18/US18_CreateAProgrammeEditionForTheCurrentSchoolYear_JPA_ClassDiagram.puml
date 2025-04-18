@@ -1,8 +1,8 @@
 @startuml
 
-skinparam ranksep 140
-skinparam nodesep 75
-skinparam packageBorderColor #F0B0B0
+skinparam ranksep 130
+skinparam nodesep 90
+'skinparam packageBorderColor #F0B0B0
 skinparam arrowThickness 1.2
 skinparam linetype ortho
 top to bottom direction
@@ -105,7 +105,7 @@ repository -[hidden]r- datamodel
 repository -[hidden]d-> domain
 datamodel -[hidden]d-> domain
 
-SchoolYearRepositorySpringDataImpl -[hidden]d-> SchoolYearServiceImpl
+SchoolYearRepositorySpringDataImpl -[hidden]l-> SchoolYearServiceImpl
 
 ' Controller uses Services Interfaces
 US18_CreateProgrammeEditionForCurrentSchoolYearController "1" ..> "*" ISchoolYearService : uses
@@ -151,14 +151,18 @@ ProgrammeEditionMapperImpl ..|> IProgrammeEditionMapper : implements
 IProgrammeEditionMapper ..> ProgrammeEditionDataModel : transforms to/from
 
 'Repository & Mapper
-ISchoolYearRepository ..> ISchoolYearMapper : uses
-IProgrammeRepository ..> IProgrammeMapper : uses
-IProgrammeEditionRepository ..> IProgrammeEditionMapper : uses
+ISchoolYearRepository --> "SchoolYear Aggregate" : persist
+IProgrammeRepository --> "Programme Aggregate" : persist
+IProgrammeEditionRepository --> "ProgrammeEdition Aggregate" : persist
+ISchoolYearRepositorySpringData ..> ISchoolYearMapper : uses
+IProgrammeRepositorySpringData ..> IProgrammeMapper : uses
+IProgrammeEditionRepositorySpringData ..> IProgrammeEditionMapper : uses
+
 
 'Repository & ID's
-SchoolYearRepositorySpringDataImpl --> "<<Value Object>>\nSchoolYearID"
-ProgrammeRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeID"
-ProgrammeEditionRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeEditionID"
+'SchoolYearRepositorySpringDataImpl --> "<<Value Object>>\nSchoolYearID"
+'ProgrammeRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeID"
+'ProgrammeEditionRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeEditionID"
 
 'Services Uses Factory
 IProgrammeEditionService -down-> IProgrammeEditionFactory: uses
@@ -168,10 +172,11 @@ IProgrammeEditionService -down-> IProgrammeEditionFactory: uses
 'ProgrammeEdition
 IProgrammeEditionFactory "1" ..> "1..*" "<<Root>>\n<<Entity>>\nProgrammeEdition" : creates
 ProgrammeEditionFactoryImpl ..|> IProgrammeEditionFactory: implements
-"<<Root>>\n<<Entity>>\nProgrammeEdition" "1" --> "uses 1" "<<Value Object>>\nProgrammeEditionID"
+"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- "<<Value Object>>\nProgrammeEditionID" : has
+IProgrammeEditionMapper ..> "ProgrammeEdition Aggregate"
 
-"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- "<<Value Object>>\nSchoolYearID": has
-"<<Root>>\n<<Entity>>\nProgrammeEdition" *-- "<<Value Object>>\nProgrammeID": has
+"<<Root>>\n<<Entity>>\nProgrammeEdition" ..> "<<Value Object>>\nSchoolYearID": has
+"<<Root>>\n<<Entity>>\nProgrammeEdition" ..> "<<Value Object>>\nProgrammeID": has
 
 
 

@@ -1,6 +1,5 @@
 package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
 import PAI.service.accessMethod.IAccessMethodService;
 
 public class US02_ConfigureAccessMethodController {
@@ -15,10 +14,11 @@ public class US02_ConfigureAccessMethodController {
     }
 
     //Configure Access Method
-    public boolean configureAccessMethod (NameWithNumbersAndSpecialChars accessMethodName) {
+    public boolean configureAccessMethod (String accessMethodName) {
         if (accessMethodName== null) {
             return false;
         }
-        return accessMethodService.registerAccessMethodInMemoryRepository(accessMethodName).isPresent();
+        NameWithNumbersAndSpecialChars accessMethodNameVO = new NameWithNumbersAndSpecialChars(accessMethodName);
+        return accessMethodService.registerAccessMethod(accessMethodNameVO).isPresent();
     }
 }

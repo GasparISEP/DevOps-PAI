@@ -4,6 +4,7 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.service.accessMethod.IAccessMethodService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.Optional;
 
@@ -34,29 +35,39 @@ class US02ConfigureAccessMethodControllerTest {
 
     @Test
     void shouldConfigureAnAccessMethod() {
-        //arrange
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
+        // arrange
+        String accessMethodName = "M23";
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
         AccessMethod accessMethod = mock(AccessMethod.class);
-        when(accessMethodService.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(accessMethod));
-        //act
-        boolean result = ctrl1.configureAccessMethod(nameWithNumbersAndSpecialChars);
-        //assert
+
+        ArgumentCaptor<NameWithNumbersAndSpecialChars> nameCaptor = ArgumentCaptor.forClass(NameWithNumbersAndSpecialChars.class);
+        when(accessMethodService.registerAccessMethod(nameCaptor.capture())).thenReturn(Optional.of(accessMethod));
+
+        // act
+        boolean result = ctrl1.configureAccessMethod(accessMethodName);
+
+        // assert
         assertTrue(result);
+        assertNotNull(nameCaptor.getValue());
     }
 
     @Test
     void shouldNotConfigureAnAccessMethodIfNameAlreadyExists() {
-        //arrange
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
+        // arrange
+        String accessMethodName = "M23";
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
-        when(accessMethodService.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
-        //act
-        boolean result = ctrl1.configureAccessMethod(nameWithNumbersAndSpecialChars);
-        //assert
+
+        ArgumentCaptor<NameWithNumbersAndSpecialChars> nameCaptor = ArgumentCaptor.forClass(NameWithNumbersAndSpecialChars.class);
+        when(accessMethodService.registerAccessMethod(nameCaptor.capture())).thenReturn(Optional.empty());
+
+        // act
+        boolean result = ctrl1.configureAccessMethod(accessMethodName);
+
+        // assert
         assertFalse(result);
+        assertNotNull(nameCaptor.getValue());
     }
 
     @Test

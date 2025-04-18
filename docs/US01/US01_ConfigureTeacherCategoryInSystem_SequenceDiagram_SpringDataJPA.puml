@@ -1,0 +1,62 @@
+@startuml
+actor admin
+autonumber
+
+title: US01 - Sequence Diagram - Configure TeacherCategory (Spring Data JPA)
+
+skinparam sequenceLifeLineBackgroundColor #application
+skinparam linetype ortho
+skinparam nodesep 120
+skinparam ranksep 100
+
+participant UI
+participant ":US01_ConfigureTeacherCategoryController" as Controller
+participant ":TeacherCategoryApplicationService" as AppService
+participant ":Name (VO)" as NameVO
+participant ":ITeacherCategoryRepository" as Repository
+participant ":ITeacherCategoryFactory" as Factory
+participant ":TeacherCategory" as DomainAggregate
+participant ":ITeacherCategoryMapper" as Mapper
+participant ":SpringDataRepository" as JpaRepo
+participant ":TeacherCategoryDataModel" as DataModel
+
+== START: Interaction with UI ==
+admin -> UI ++ : "I want to register a new TeacherCategory"
+UI --> admin -- : "Please provide category name"
+
+admin -> UI ++ : "Expert"
+UI -> Controller ++ : configureTeacherCategory("Expert")
+
+== CONTROLLER calls ApplicationService ==
+Controller -> AppService ++ : registerCategory("Expert")
+
+== SERVICE creates Value Object ==
+AppService -> NameVO ++ : new Name("Expert")
+NameVO --> AppService -- : validated Name object
+
+== SERVICE checks if category exists ==
+AppService -> Repository ++ : existsByName(name)
+Repository -> JpaRepo ++ : existsByName(name.getName())
+JpaRepo --> Repository -- : false
+Repository --> AppService -- : false
+
+== SERVICE creates Aggregate using Factory ==
+AppService -> Factory ++ : createTeacherCategory(name)
+Factory -> DomainAggregate ++ : new TeacherCategory(id, name)
+Factory --> AppService -- : TeacherCategory
+
+== SERVICE persists category ==
+AppService -> Repository ++ : save(TeacherCategory)
+Repository -> Mapper ++ : toDataModel(TeacherCategory)
+Mapper -> DataModel ++ : create(id, name)
+Mapper --> Repository -- : TeacherCategoryDataModel
+Repository -> JpaRepo ++ : save(TeacherCategoryDataModel)
+JpaRepo --> Repository -- : saved
+Repository --> AppService -- : saved aggregate
+
+== RESULT to controller and UI ==
+AppService --> Controller -- : success
+Controller --> UI -- : true
+UI --> admin -- : "TeacherCategory registered successfully"
+
+@enduml

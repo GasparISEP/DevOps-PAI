@@ -23,11 +23,11 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
         this.repositoryAccessMethod = repositoryAccessMethod;
     }
     @Override
-    public Optional<AccessMethod> registerAccessMethodInMemoryRepository(NameWithNumbersAndSpecialChars accessMethodName) {
-        AccessMethod accessMethod =  accessMethodFactory.createAccessMethod(accessMethodName);
-        if(repositoryAccessMethod.saveAccessMethod(accessMethod).isPresent()) {
-            return Optional.of(accessMethod);
+    public Optional<AccessMethod> registerAccessMethod(NameWithNumbersAndSpecialChars accessMethodName) {
+        if (repositoryAccessMethod.getAccessMethodByName(accessMethodName).isPresent()) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        AccessMethod accessMethod = accessMethodFactory.createAccessMethod(accessMethodName);
+        return repositoryAccessMethod.saveAccessMethod(accessMethod);
     }
 }

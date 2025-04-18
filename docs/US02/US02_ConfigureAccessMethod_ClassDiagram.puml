@@ -22,11 +22,11 @@ AME "1" --> "uses 1" VOId
 
 
 interface IAccessMethodService{
-    registerAccessMethodInMemoryRepository(accessMethodNameVO)
+    registerAccessMethod(accessMethodNameVO)
 }
 
 class IAccessMethodServiceImpl{
-    + registerAccessMethodInMemoryRepository(accessMethodNameVO)
+    + registerAccessMethod(accessMethodNameVO)
 }
 
 interface IAccessMethodFactory {
@@ -75,10 +75,14 @@ class US02_ConfigureAccessMethod_Controller {
     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
+class NameWithNumbersAndSpecialChars {
+}
+
+US02_ConfigureAccessMethod_Controller "1"->"1..*"NameWithNumbersAndSpecialChars: uses
 IAccessMethodFactory "1" ..> "1..*" AME : creates
 IAccessMethodRepository "1"..> "*" AME: persist
 US02_ConfigureAccessMethod_Controller "1"-down->"1" IAccessMethodService: uses
 IAccessMethodService "1"--> "1" IAccessMethodRepository : uses
 IAccessMethodService "1"--> "1" IAccessMethodFactory : uses
-IAccessMethodServiceImpl -right..|> IAccessMethodService: implements
+IAccessMethodServiceImpl "1"-right..|>"1" IAccessMethodService: implements
 @enduml

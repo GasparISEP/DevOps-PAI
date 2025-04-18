@@ -36,4 +36,17 @@ class StreetTest {
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> new Street(street));
     }
+
+    @Test
+    void getStreetShouldReturnStreetString () {
+
+        // Arrange
+        Street street = new Street("Rua da Tristeza");
+
+        // Act
+        String result = street.getStreet();
+
+        // Assert
+        assertEquals("Rua da Tristeza", result);
+    }
 }

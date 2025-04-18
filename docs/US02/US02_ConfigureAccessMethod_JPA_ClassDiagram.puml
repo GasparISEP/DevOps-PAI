@@ -36,13 +36,11 @@ class AccessMethodFactoryImpl {
 }
 
 interface IAccessMethodService {
-  registerAccessMethodInMemoryRepository(accessMethodName: NameWithNumbersAndSpecialChars)
-  registerAccessMethodInJpaRepository((accessMethodName: NameWithNumbersAndSpecialChars)
+  registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodServiceImpl {
-    + registerAccessMethodInMemoryRepository(accessMethodName: NameWithNumbersAndSpecialChars)
-    + registerAccessMethodInJpaRepository((accessMethodName: NameWithNumbersAndSpecialChars)
+    + registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 interface JpaRepository<AccessMethodDataModel, AccessMethodDataModelID>{
@@ -69,23 +67,26 @@ interface IAccessMethodRepositorySpringData{
 
 class US02_ConfigureAccessMethod_Controller {
     +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
-    +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    +createAccessMethod(accessMethodName: String)
 }
 
+class NameWithNumbersAndSpecialChars {
+}
 
-IAccessMethodRepositorySpringData -down-> IAccessMethodMapper: uses
-AccessMethodMapperImpl -right..|> IAccessMethodMapper: implements
-AccessMethodSpringDataImpl -down-> IAccessMethodRepositorySpringData: uses
-IAccessMethodRepositorySpringData -up-|> JpaRepository : extends
-AccessMethodSpringDataImpl ..|> IAccessMethodRepository: implements
-IAccessMethodRepository -up..|> IRepository: implements
+US02_ConfigureAccessMethod_Controller "1"->"1..*"NameWithNumbersAndSpecialChars: uses
+IAccessMethodRepositorySpringData "1"-down->"1..*" IAccessMethodMapper: uses
+AccessMethodMapperImpl "1"-right..|>"1" IAccessMethodMapper: implements
+AccessMethodSpringDataImpl "1"-down->"1..*" IAccessMethodRepositorySpringData: uses
+IAccessMethodRepositorySpringData "1"-up-|>"1" JpaRepository : extends
+AccessMethodSpringDataImpl "1"..|>"1" IAccessMethodRepository: implements
+IAccessMethodRepository "1"-up..|>"1" IRepository: implements
 IAccessMethodFactory "1" ..> "1..*" AME : creates
-US02_ConfigureAccessMethod_Controller -down-> IAccessMethodService: uses
-AccessMethodServiceImpl .left.|> IAccessMethodService: implements
-AccessMethodFactoryImpl .right.|> IAccessMethodFactory: implements
-IAccessMethodService -down-> IAccessMethodFactory: uses
-IAccessMethodRepository -down-> AccessMethodDataModel: persist
-IAccessMethodMapper ..> "AccessMethod Aggregate": transforms to/from
-IAccessMethodMapper ..> AccessMethodDataModel: transforms to/from
-IAccessMethodService --> IAccessMethodRepository: uses
+US02_ConfigureAccessMethod_Controller "1"-down->"1..*" IAccessMethodService: uses
+AccessMethodServiceImpl "1".left.|>"1" IAccessMethodService: implements
+AccessMethodFactoryImpl "1".right.|>"1" IAccessMethodFactory: implements
+IAccessMethodService "1"-down->"1..*" IAccessMethodFactory: uses
+IAccessMethodRepository "1"-down->"1..*" AccessMethodDataModel: persist
+IAccessMethodMapper "1"..>"1..*" "AccessMethod Aggregate": transforms to/from
+IAccessMethodMapper "1"..>"1..*" AccessMethodDataModel: transforms to/from
+IAccessMethodService "1"..>"1..*" IAccessMethodRepository: uses
 @enduml
