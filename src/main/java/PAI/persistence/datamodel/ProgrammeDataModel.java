@@ -2,6 +2,7 @@ package PAI.persistence.datamodel;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.mapper.ProgrammeIDMapper;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,7 +25,9 @@ public class ProgrammeDataModel {
     public ProgrammeDataModel(Programme programme) {
 
         ProgrammeID id = programme.getProgrammeID();
-        _programmeID = new ProgrammeIDDataModel(id);
+        ProgrammeIDMapper mapper = new ProgrammeIDMapper();
+
+        _programmeID = mapper.toData(id);
 
         _name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
         _acronym = programme.getAcronym().getAcronym();
@@ -61,9 +64,5 @@ public class ProgrammeDataModel {
 
     public String getProgrammeDirectorID(){
         return _programmeDirectorID;
-    }
-
-    public ProgrammeIDDataModel getprogrammeID() {
-        return _programmeID;
     }
 }

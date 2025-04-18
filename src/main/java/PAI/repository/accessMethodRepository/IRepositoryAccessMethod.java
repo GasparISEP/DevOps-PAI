@@ -8,6 +8,6 @@ import PAI.domain.accessMethod.AccessMethod;
 import java.util.Optional;
 
 public interface IRepositoryAccessMethod extends IRepository<AccessMethodID, AccessMethod> {
-    boolean registerAccessMethod(NameWithNumbersAndSpecialChars accessMethodName);
+    Optional<AccessMethod> saveAccessMethod(AccessMethod accessMethod);
     Optional<AccessMethod> getAccessMethodByName (NameWithNumbersAndSpecialChars accessMethodNameToSearch);
 }

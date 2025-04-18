@@ -10,11 +10,14 @@ participant "service1:StudentService" as service #lightblue
 participant "sf1:StudentFactory" as SF #technology
 participant "address1:Address" as A #physical
 participant "s1:Student" as s1 #strategy
+participant "sIDmapper1: StudentIDMapper" as SMapper
+participant "sIDDataModel1:StudentIDDataModel" as siddm
+participant "NIFmapper1: NIFMapper" as NIF
+participant "NIFDataModel1: NIFDataModel" as NIFDM
 participant "sr1:StudentRepositoryJPA" as SR #lightcyan
-participant "s1IDDataModel:StudentIDDataModel" as siddm
 participant "m1:StudentMapper" as mapper
 participant "s1:Student" as s2 #strategy
-participant "s1DataModel:StudentDataModel" as sdm #strategy
+participant "sDataModel1: StudentDataModel" as sDM
 
 ASC -> UI: I want to register a student in the system
 activate UI
@@ -36,42 +39,59 @@ activate service
 service -> SF: createStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO)
 activate SF
 
-SF --> A**: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
+SF -> A**: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
 activate A
 
 A --> SF: address1
 deactivate A
 
-SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1, academicEmailVO)
+SF -> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1, academicEmailVO)
 activate s1
 s1 --> SF: s1
 deactivate s1
+SF -> SMapper : domainToDataModel(studentIDVO)
+activate SMapper
+SMapper -> siddm**: new StudentIDDataModel(studentIDVO)
+activate siddm
+siddm --> SMapper : sIDDataModel1
+deactivate siddm
+SMapper --> SF: sIDDataModel1
+deactivate SMapper
+SF -> SR: existsByID(sIDDataModel1)
+activate SR
+SR ->: existsByID(sIDDataModel1)
+SR <-- : False
+SR --> SF: False
+deactivate SR
+SF -> NIF : domainToDataModel(NIFVO)
+activate NIF
+NIF -> NIFDM**: new NIFDataModel(NIFVO)
+activate NIFDM
+NIFDM --> NIF: NIFDataModel1
+deactivate NIFDM
+NIF --> SF: NIFDataModel1
+deactivate NIF
+SF -> SR: existsByNIF(NIFDataModel1)
+activate SR
+SR ->: existsByNIF(NIFDataModel1)
+SR <-- : False
+SR --> SF: False
+deactivate SR
 SF --> service: s1
 deactivate SF
-
-service -> SR: studentExists(s1)
-activate SR
-SR -> siddm**: new StudentIDDataModel
-activate siddm
-siddm --> SR: s1IDDataModel
-deactivate siddm
-SR -> : existsByID(s1IDDataModel)
-SR <-- : false
-SR --> service: False
-deactivate SR
 
 service -> SR: save(s1)
 activate SR
 SR -> mapper: domainToDataModel(s1)
 activate mapper
-mapper -> sdm**: new StudentDataModel(s1)
-activate sdm
-sdm --> mapper : s1DataModel
-deactivate sdm
-mapper --> SR: s1DataModel
+mapper -> sDM**: new StudentDataModel(s1)
+activate sDM
+sDM --> mapper : sDataModel1
+deactivate sDM
+mapper --> SR: sDataModel1
 deactivate mapper
 SR -> : save
-SR <-- :s1DataModel
+SR <-- :sDataModel1
 SR -> mapper: dataModelToDomain(s1DataModel)
 activate mapper
 mapper -> s2**: newStudent(s1DataModel)

@@ -18,7 +18,7 @@ class TeacherIDDataModelTest {
     @Test
     void shouldCreateTeacherIDDataModelWithValidParams() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
 
         // Act + Assert
         assertNotNull(teacherIDDataModel);
@@ -27,7 +27,7 @@ class TeacherIDDataModelTest {
     @Test
     void shouldGetTeacherAcronymThroughGetterWithValidParams() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
 
         // Act
         String result = teacherIDDataModel.getTeacherAcronym();
@@ -37,33 +37,9 @@ class TeacherIDDataModelTest {
     }
 
     @Test
-    void shouldReturnNIFThroughGetterWithValidParams() {
-        // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-
-        // Act
-        String result = teacherIDDataModel.getNIF();
-
-        // Assert
-        assertEquals("1234123", result);
-    }
-
-    @Test
-    void shouldReturnCountryThroughGetterWithValidParams() {
-        // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-
-        // Act
-        String result = teacherIDDataModel.getCountry();
-
-        // Assert
-        assertEquals("Portugal", result);
-    }
-
-    @Test
     void shouldReturnTrueForSameObject() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
 
         // Act
         boolean result = teacherIDDataModel.equals(teacherIDDataModel);
@@ -75,8 +51,8 @@ class TeacherIDDataModelTest {
     @Test
     void shouldReturnTrueForSameAttributesObject() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
+        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers");
 
         // Act
         boolean result = teacherIDDataModel.equals(teacherIDDataModel2);
@@ -88,7 +64,7 @@ class TeacherIDDataModelTest {
     @Test
     void shouldReturnFalseForDifferentObject() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
         String s = "123";
 
         // Act
@@ -101,47 +77,21 @@ class TeacherIDDataModelTest {
     @Test
     void shouldReturnFalseDifferentTeacherAcronymObject() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachersss", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
+        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachersss");
 
         // Act
         boolean result = teacherIDDataModel.equals(teacherIDDataModel2);
 
         //Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseDifferentNIFObject() {
-        // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers", "123412123443", "Portugal");
-
-        // Act
-        boolean result = teacherIDDataModel.equals(teacherIDDataModel2);
-
-        //Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseDifferentCountryObject() {
-        // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers", "1234123", "Spain");
-
-        // Act
-        boolean result = teacherIDDataModel.equals(teacherIDDataModel2);
-
-        // Assert
         assertFalse(result);
     }
 
     @Test
     void shouldBeEqualIfObjectsHaveSameHashCode() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
+        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers");
 
         // Act + Assert
         assertEquals(teacherIDDataModel.hashCode(), teacherIDDataModel2.hashCode());
@@ -150,8 +100,8 @@ class TeacherIDDataModelTest {
     @Test
     void shouldNotBeEqualIfObjectsHaveSameHashCode() {
         // Arrange
-        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers", "1234123", "Portugal");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers", "1234123", "Portugal");
+        TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
+        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers");
 
         // Act + Assert
         assertEquals(teacherIDDataModel.hashCode(), teacherIDDataModel2.hashCode());

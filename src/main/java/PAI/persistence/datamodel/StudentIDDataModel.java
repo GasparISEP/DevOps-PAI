@@ -8,27 +8,15 @@ import java.util.Objects;
 public class StudentIDDataModel {
 
     private int uniqueNumber;
-    private String NIF;
-    private String country;
 
     public StudentIDDataModel() {}
 
-    public StudentIDDataModel(int uniqueNumber, String NIF, String country) {
+    public StudentIDDataModel(int uniqueNumber) {
         this.uniqueNumber = uniqueNumber;
-        this.NIF = NIF;
-        this.country = country;
     }
 
     public int getUniqueNumber() {
         return uniqueNumber;
-    }
-
-    public String getNIF() {
-        return NIF;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     @Override
@@ -39,13 +27,11 @@ public class StudentIDDataModel {
 
         StudentIDDataModel other = (StudentIDDataModel) obj;
 
-        return this.uniqueNumber == other.uniqueNumber &&
-                this.NIF.equals(other.NIF) &&
-                this.country.equals(other.country);
+        return this.uniqueNumber == other.uniqueNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uniqueNumber, NIF, country);
+        return Objects.hash(uniqueNumber);
     }
 }

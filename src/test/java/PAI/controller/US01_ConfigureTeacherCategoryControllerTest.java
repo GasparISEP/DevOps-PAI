@@ -1,24 +1,22 @@
 package PAI.controller;
 
 import PAI.VOs.Name;
-import PAI.repository.ITeacherCategoryRepository;
+import PAI.service.TeacherCategoryApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class US01_ConfigureTeacherCategoryControllerTest {
 
-    private ITeacherCategoryRepository repository;
+    private TeacherCategoryApplicationService service;
     private US01_ConfigureTeacherCategoryController controller;
 
     @BeforeEach
     public void setUp() {
-        repository = mock(ITeacherCategoryRepository.class);
-        controller = new US01_ConfigureTeacherCategoryController(repository);
+        service = mock(TeacherCategoryApplicationService.class);
+        controller = new US01_ConfigureTeacherCategoryController(service);
     }
 
     @Test
@@ -28,40 +26,28 @@ public class US01_ConfigureTeacherCategoryControllerTest {
 
     @Test
     public void testConfigureTeacherCategorySuccess() throws Exception {
-        // Arrange
-        Name expectedName = new Name("Matemática");
-        when(repository.registerTeacherCategory(any(Name.class))).thenReturn(true);
+        when(service.registerCategory("Matemática")).thenReturn(true);
 
-        // Act
         boolean result = controller.configureTeacherCategory("Matemática");
 
-        // Assert
         assertTrue(result);
-        verify(repository).registerTeacherCategory(eq(expectedName));
+        verify(service).registerCategory("Matemática");
     }
 
     @Test
-    public void testConfigureTeacherCategoryDuplicateThrows() {
-        // Arrange: note the exact same casing/spelling as passed to controller
-        Name expectedName = new Name("Física fisica");
-        when(repository.registerTeacherCategory(any(Name.class))).thenReturn(false);
+    public void testConfigureTeacherCategoryDuplicateThrows() throws Exception {
+        when(service.registerCategory("Física fisica")).thenThrow(new Exception("Category already exists or could not be registered."));
 
-        // Act & Assert
         Exception ex = assertThrows(Exception.class,
                 () -> controller.configureTeacherCategory("Física fisica")
         );
         assertEquals("Category already exists or could not be registered.", ex.getMessage());
 
-        // Verify that the repository was called with the exact Name VO
-        verify(repository).registerTeacherCategory(eq(expectedName));
+        verify(service).registerCategory("Física fisica");
     }
 
     @Test
-    public void testInvalidLowercaseNameThrows() {
-        // Name VO rejects lowercase-first strings before hitting the repository
-        assertThrows(IllegalArgumentException.class,
-                () -> controller.configureTeacherCategory("história")
-        );
-        verify(repository, never()).registerTeacherCategory(any());
+    void shouldRejectInvalidLowercaseName() {
+        assertThrows(IllegalArgumentException.class, () -> new Name("história"));
     }
 }

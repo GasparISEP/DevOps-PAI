@@ -20,9 +20,9 @@ public class US08_IWantToRegisterAStudentInTheSystemController {
                                     String countryCode, String phoneNumber, String email, String street,
                                     String postalCode, String location, String country) throws Exception {
 
-        UniqueNumber uniqueNumberVO = new UniqueNumber(uniqueNumber);
+        int uniqueNumberVO = uniqueNumber;
         NIF nifVO = new NIF (nif, nifCountry);
-        StudentID studentID = new StudentID(uniqueNumberVO, nifVO);
+        StudentID studentID = new StudentID(uniqueNumberVO);
         Name nameVO = new Name(name);
         PhoneNumber phone = new PhoneNumber(countryCode, phoneNumber);
         Email emailVO = new Email(email);

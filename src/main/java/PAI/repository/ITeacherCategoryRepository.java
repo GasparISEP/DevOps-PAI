@@ -14,10 +14,12 @@ import java.util.Optional;
  */
 
 public interface ITeacherCategoryRepository extends IRepository<TeacherCategoryID, TeacherCategory> {
+
     boolean existsByName(Name name);
 
-    // New method: registers a new teacher category.
-    boolean registerTeacherCategory(Name teacherCategoryName);
+    boolean registerTeacherCategory(Name name);
+
+    TeacherCategory save(TeacherCategory entity);
 
     List<TeacherCategory> getTeacherCategoryList();
 

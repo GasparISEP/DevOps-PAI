@@ -23,7 +23,7 @@ class StudentIDDataModelTest {
         //arrange
 
         //act
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001);
 
         //assert
         assertNotNull(studentIDDataModel);
@@ -32,7 +32,7 @@ class StudentIDDataModelTest {
     @Test
     void getUniqueNumberShouldReturnUniqueNumber() {
         //arrange
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001);
 
         //act
         int result = studentIDDataModel.getUniqueNumber();
@@ -41,35 +41,11 @@ class StudentIDDataModelTest {
         assertEquals(1000001, result);
     }
 
-    @Test
-    void getNIFShouldReturnNIF() {
-        //arrange
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
-
-        //act
-        String result = studentIDDataModel.getNIF();
-
-        //assert
-        assertEquals("123456789", result);
-    }
-
-    @Test
-    void getCountryShouldReturnCountry() {
-        //arrange
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
-
-        //act
-        String result = studentIDDataModel.getCountry();
-
-        //assert
-        assertEquals("Portugal", result);
-    }
-
     //Equals
     @Test
     void shouldReturnTrueIfObjectsAreTheSame() {
         //arrange
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001);
 
         //act
         boolean result = studentIDDataModel.equals(studentIDDataModel);
@@ -81,7 +57,7 @@ class StudentIDDataModelTest {
     @Test
     void shouldReturnFalseIfObjectToCompareIsNotAStudentIDDataModel() {
         //arrange
-        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel studentIDDataModel = new StudentIDDataModel(1000001);
         Object object = mock(Object.class);
 
         //act
@@ -94,8 +70,8 @@ class StudentIDDataModelTest {
     @Test
     void shouldReturnTrueIfObjectsHaveTheSameParameters() {
         //arrange
-        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001);
+        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000001);
 
 
         //act
@@ -108,36 +84,8 @@ class StudentIDDataModelTest {
     @Test
     void shouldReturnFalseIfUniqueNumbersAreDifferent() {
         //arrange
-        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000002, "123456789", "Portugal");
-
-
-        //act
-        boolean result = studentIDDataModel1.equals(studentIDDataModel2);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfNIFsAreDifferent() {
-        //arrange
-        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000001, "123456788", "Portugal");
-
-
-        //act
-        boolean result = studentIDDataModel1.equals(studentIDDataModel2);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfCountriesAreDifferent() {
-        //arrange
-        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000001, "123456789", "Espanha");
+        StudentIDDataModel studentIDDataModel1 = new StudentIDDataModel(1000001);
+        StudentIDDataModel studentIDDataModel2 = new StudentIDDataModel(1000002);
 
 
         //act
@@ -149,16 +97,16 @@ class StudentIDDataModelTest {
 
     @Test
     void hashCodeShouldBeEqualForEqualObjects() {
-        StudentIDDataModel id1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel id2 = new StudentIDDataModel(1000001, "123456789", "Portugal");
+        StudentIDDataModel id1 = new StudentIDDataModel(1000001);
+        StudentIDDataModel id2 = new StudentIDDataModel(1000001);
 
         assertEquals(id1.hashCode(), id2.hashCode());
     }
 
     @Test
     void hashCodeShouldNotBeEqualForDifferentObjects() {
-        StudentIDDataModel id1 = new StudentIDDataModel(1000001, "123456789", "Portugal");
-        StudentIDDataModel id2 = new StudentIDDataModel(1000002, "123456788", "Espanha");
+        StudentIDDataModel id1 = new StudentIDDataModel(1000001);
+        StudentIDDataModel id2 = new StudentIDDataModel(1000002);
 
         assertNotEquals(id1.hashCode(), id2.hashCode());
     }
