@@ -227,15 +227,17 @@ class CourseEditionIDDataModelTest {
 
     // ----- hashCode Tests-----
     @Test
-    void shouldReturnMinus1WhenUseHashCodeMethodInCourseEditionIDDataModel() {
+    void shouldReturnValidHashCodeMethod() {
         // Arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel(programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
         // Act
         int result = courseEditionIDDataModel.hashCode();
 
         // Assert
-        assertEquals(-1, result);
+        assertEquals(result, courseInStudyPlanIDDataModel.hashCode()+programmeEditionIDDataModel.hashCode());
     }
 
 }

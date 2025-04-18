@@ -48,6 +48,6 @@ public class CourseEditionIDDataModel implements Serializable {
 
     @Override
     public int hashCode() {
-        return -1;
+        return _programmeEditionIdDataModel.hashCode() + _courseInStudyPlanIDDataModel.hashCode();
     }
 }
