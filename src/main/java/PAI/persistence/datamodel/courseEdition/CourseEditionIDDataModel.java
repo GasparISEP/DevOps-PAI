@@ -38,7 +38,12 @@ public class CourseEditionIDDataModel implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return false;
+        if (this == obj)
+            return true;
+        if (obj == null || !(obj instanceof CourseEditionIDDataModel))
+            return false;
+        CourseEditionIDDataModel other = (CourseEditionIDDataModel) obj;
+        return _programmeEditionIdDataModel.equals(other._programmeEditionIdDataModel) && _courseInStudyPlanIDDataModel.equals(other._courseInStudyPlanIDDataModel);
     }
 
     @Override
