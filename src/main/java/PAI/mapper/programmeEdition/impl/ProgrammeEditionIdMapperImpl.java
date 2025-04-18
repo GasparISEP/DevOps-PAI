@@ -1,6 +1,8 @@
 package PAI.mapper.programmeEdition.impl;
 
 import PAI.VOs.*;
+import PAI.domain.SchoolYear;
+import PAI.domain.programme.Programme;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,12 @@ public class ProgrammeEditionIdMapperImpl implements IProgrammeEditionIdMapper {
         SchoolYearID schoolYearId = new SchoolYearID(schoolYearUUID);
 
         return new ProgrammeEditionID(programmeId, schoolYearId);
+    }
+
+    @Override
+    public ProgrammeEditionIdDataModel domainToDataModel (Programme programme, SchoolYear schoolYear) throws Exception {
+
+        return new ProgrammeEditionIdDataModel(programme, schoolYear);
     }
 
 
