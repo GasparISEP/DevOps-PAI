@@ -142,4 +142,50 @@ class ProgrammeEditionIdDataModelTest {
         assertEquals(doubleSchoolYearID.toString(), result);
     }
 
+    @Test
+    void shouldThrowExceptionWhenProgrammeIsNull() {
+        //arrange
+        Programme doubleProgramme = null;
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        //act + assert
+        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeNameIsNull() {
+        //arrange
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+
+        when(doubleProgramme.getProgrammeName()).thenReturn(null);
+
+        Acronym doubleAcronym = mock(Acronym.class);
+        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
+        when(doubleAcronym.toString()).thenReturn("Acronym");
+
+        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
+        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
+        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
+        //act + assert
+        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeAcronymIsNull() {
+        //arrange
+        Programme doubleProgramme = mock(Programme.class);
+        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+
+        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
+        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
+        when(doubleName.toString()).thenReturn("Programme Name");
+
+        when(doubleProgramme.getAcronym()).thenReturn(null);
+
+        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
+        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
+        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
+        //act + assert
+        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+    }
 }
