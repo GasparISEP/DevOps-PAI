@@ -14,4 +14,8 @@ public class PostalCode implements ValueObject {
 
         this._postalCode = postalCode;
     }
+
+    public String getPostalCode () {
+        return _postalCode;
+    }
 }

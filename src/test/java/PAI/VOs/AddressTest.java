@@ -76,4 +76,80 @@ class AddressTest {
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new Address(streetDouble, postalCodeDouble, locationDouble, null));
     }
+
+    @Test
+    void getStreetShouldReturnStreet () {
+
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Street streetDouble = (Street) doubles[0];
+        PostalCode postalCodeDouble = (PostalCode) doubles[1];
+        Location locationDouble = (Location) doubles[2];
+        Country countryDouble = (Country) doubles[3];
+
+        Address address = new Address(streetDouble, postalCodeDouble, locationDouble, countryDouble);
+
+        // Act
+        Street result = address.getStreet();
+
+        // Assert
+        assertEquals(streetDouble, result);
+    }
+
+    @Test
+    void getPostalCodeShouldReturnPostalCode () {
+
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Street streetDouble = (Street) doubles[0];
+        PostalCode postalCodeDouble = (PostalCode) doubles[1];
+        Location locationDouble = (Location) doubles[2];
+        Country countryDouble = (Country) doubles[3];
+
+        Address address = new Address(streetDouble, postalCodeDouble, locationDouble, countryDouble);
+
+        // Act
+        PostalCode result = address.getPostalCode();
+
+        // Assert
+        assertEquals(postalCodeDouble, result);
+    }
+
+    @Test
+    void getLocationShouldReturnLocation () {
+
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Street streetDouble = (Street) doubles[0];
+        PostalCode postalCodeDouble = (PostalCode) doubles[1];
+        Location locationDouble = (Location) doubles[2];
+        Country countryDouble = (Country) doubles[3];
+
+        Address address = new Address(streetDouble, postalCodeDouble, locationDouble, countryDouble);
+
+        // Act
+        Location result = address.getLocation();
+
+        // Assert
+        assertEquals(locationDouble, result);
+    }
+
+    @Test
+    void getCountryShouldReturnCountry () {
+
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        Street streetDouble = (Street) doubles[0];
+        PostalCode postalCodeDouble = (PostalCode) doubles[1];
+        Location locationDouble = (Location) doubles[2];
+        Country countryDouble = (Country) doubles[3];
+
+        Address address = new Address(streetDouble, postalCodeDouble, locationDouble, countryDouble);
+
+        // Act
+        Country result = address.getCountry();
+
+        // Assert
+        assertEquals(countryDouble, result);
+    }
 }

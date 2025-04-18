@@ -13,4 +13,8 @@ public class Street implements ValueObject {
 
         this._street = street;
     }
+
+    public String getStreet () {
+        return _street;
+    }
 }
