@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseEdition;
 
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +17,18 @@ class CourseEditionIDDataModelTest {
 
         // Assert
         assertNotNull(courseEditionIDDataModel);
+    }
+
+    @Test
+    void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModel() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
+
+        // Act
+        ProgrammeEditionIdDataModel pEIDDataModel = courseEditionIDDataModel.getProgrammeEditionIdDataModel();
+
+        // Assert
+        assertNull(pEIDDataModel);
     }
 
 }

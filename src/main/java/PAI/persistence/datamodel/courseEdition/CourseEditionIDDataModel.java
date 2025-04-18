@@ -2,10 +2,12 @@ package PAI.persistence.datamodel.courseEdition;
 
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 
 import java.io.Serializable;
 
+@Embeddable
 public class CourseEditionIDDataModel implements Serializable {
 
     @Embedded
@@ -15,5 +17,9 @@ public class CourseEditionIDDataModel implements Serializable {
     private CourseInStudyPlanIDDataModel _courseInStudyPlanIDDataModel;
 
     public CourseEditionIDDataModel() {}
+
+    public ProgrammeEditionIdDataModel getProgrammeEditionIdDataModel() {
+        return null;
+    }
 
 }
