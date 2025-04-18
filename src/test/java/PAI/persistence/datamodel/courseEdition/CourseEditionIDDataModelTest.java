@@ -54,7 +54,18 @@ class CourseEditionIDDataModelTest {
 
         // Assert
         assertFalse(result);
+    }
 
+    @Test
+    void shouldReturnMinus1WhenUseHashCodeMethodInCourseEditionIDDataModel() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
+
+        // Act
+        int result = courseEditionIDDataModel.hashCode();
+
+        // Assert
+        assertEquals(-1, result);
     }
 
 }

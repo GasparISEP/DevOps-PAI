@@ -31,6 +31,11 @@ public class CourseEditionIDDataModel implements Serializable {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return -1;
+    }
+
 
 
 }
