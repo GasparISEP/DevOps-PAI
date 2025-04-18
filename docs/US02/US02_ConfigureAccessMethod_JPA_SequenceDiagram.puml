@@ -16,8 +16,8 @@ ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : conf
 ":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(NameWithNumbersAndSpecialChars)
 create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (NameWithNumbersAndSpecialChars)
-AccessMethodFactory --> ":AccessMethodService" -- : Optional<ac1>
-":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: save(ac1)
+AccessMethodFactory --> ":AccessMethodService" -- : ac1
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: saveAccessMethod(ac1)
 ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
 create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
 ":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>

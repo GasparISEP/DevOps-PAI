@@ -10,10 +10,12 @@ admin -> UI ++ #application :(accessMethodName)
 UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialCharsVO)
 ConfigureAccessMethodController -> ":AccessMethodService" ++ #application: registerAccessMethodInMemoryRepository(NameWithNumbersAndSpecialCharsVO)
 
+":AccessMethodService" -> AccessMethodRepository ++ #application:  getAccessMethodByName(NameWithNumbersAndSpecialChars)
+AccessMethodRepository -> ":AccessMethodService" --: Optional.empty()
 ":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod(NameWithNumbersAndSpecialCharsVO)
 create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  #application  : <create> (NameWithNumbersAndSpecialCharsVO)
-AccessMethodFactory --> ":AccessMethodService" -- : :ac1
+AccessMethodFactory --> ":AccessMethodService" -- : ac1
 
 ":AccessMethodService" -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : saveAccessMethod(ac1)
 

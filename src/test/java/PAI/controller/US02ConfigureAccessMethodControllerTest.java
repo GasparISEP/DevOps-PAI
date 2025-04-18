@@ -39,7 +39,7 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
         AccessMethod accessMethod = mock(AccessMethod.class);
-        when(accessMethodService.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(accessMethod));
+        when(accessMethodService.registerAccessMethod(nameWithNumbersAndSpecialChars)).thenReturn(Optional.of(accessMethod));
         //act
         boolean result = ctrl1.configureAccessMethod(nameWithNumbersAndSpecialChars);
         //assert
@@ -52,7 +52,7 @@ class US02ConfigureAccessMethodControllerTest {
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = mock(NameWithNumbersAndSpecialChars.class);
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
-        when(accessMethodService.registerAccessMethodInMemoryRepository(nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
+        when(accessMethodService.registerAccessMethod(nameWithNumbersAndSpecialChars)).thenReturn(Optional.empty());
         //act
         boolean result = ctrl1.configureAccessMethod(nameWithNumbersAndSpecialChars);
         //assert
