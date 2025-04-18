@@ -3,7 +3,7 @@ autonumber
 skinparam sequenceMessageAlign center
 title Diagram Referenced in US08_SequenceDiagram
 
-actor ASC
+participant "ctrl1:RegisterStudentInSystemController" as Controller #lightblue
 participant "sID:StudentID" as studentID #implementation
 participant "name1:Name" as name #motivation
 participant "nif1:NIF" as NIF #physical
@@ -15,49 +15,55 @@ participant "l1:Location" as location #implementation
 participant "c1:Country" as country #motivation
 participant "aE1:StudentAcademicEmail" as academicEmail #physical
 
-ASC --> studentID : create StudentID VO (uniqueNumber)
+activate Controller
+Controller -> studentID** : create StudentID VO (uniqueNumber)
 activate studentID
-studentID --> ASC : studentID VO
+studentID --> Controller : studentID VO
 deactivate studentID
 
-ASC --> name : create Name VO (name)
+Controller -> name** : create Name VO (name)
 activate name
-name --> ASC : name VO
+name --> Controller : name VO
 deactivate name
 
-ASC --> phone : create Phone VO (phone)
+Controller -> NIF**: create NIF VO (NIF)
+activate NIF
+NIF --> Controller: NIF VO
+deactivate NIF
+
+Controller -> phone** : create Phone VO (phone)
 activate phone
-phone --> ASC : phone VO
+phone --> Controller : phone VO
 deactivate phone
 
-ASC --> email : create Email VO (email)
+Controller -> email** : create Email VO (email)
 activate email
-email --> ASC : email VO
+email --> Controller : email VO
 deactivate email
 
-ASC --> street : create Street VO (street)
+Controller -> street** : create Street VO (street)
 activate street
-street --> ASC : Street VO
+street --> Controller : Street VO
 deactivate street
 
-ASC --> postalCode : create PostalCode VO (postalCode)
+Controller -> postalCode** : create PostalCode VO (postalCode)
 activate postalCode
-postalCode --> ASC : PostalCode VO
+postalCode --> Controller : PostalCode VO
 deactivate postalCode
 
-ASC --> location : create Location VO (location)
+Controller -> location** : create Location VO (location)
 activate location
-location --> ASC : Location VO
+location --> Controller : Location VO
 deactivate location
 
-ASC --> country : create Country VO (country)
+Controller -> country** : create Country VO (country)
 activate country
-country --> ASC : Country VO
+country --> Controller : Country VO
 deactivate country
 
-ASC --> academicEmail : create StudentAcademicEmail VO (uniqueNumber)
+Controller -> academicEmail** : create StudentAcademicEmail VO (uniqueNumber)
 activate academicEmail
-academicEmail --> ASC : StudentAcademicEmail VO
+academicEmail --> Controller : StudentAcademicEmail VO
 deactivate academicEmail
 
 @enduml
