@@ -22,4 +22,8 @@ public class CourseEditionIDDataModel implements Serializable {
         return null;
     }
 
+    public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
+        return null;
+    }
+
 }

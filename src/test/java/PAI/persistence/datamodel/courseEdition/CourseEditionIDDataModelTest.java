@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseEdition;
 
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +30,18 @@ class CourseEditionIDDataModelTest {
 
         // Assert
         assertNull(pEIDDataModel);
+    }
+
+    @Test
+    void shouldReturnNullWhenTryToGetCourseInStudyPlanIDDataModel() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = new CourseEditionIDDataModel();
+
+        // Act
+        CourseInStudyPlanIDDataModel cISPIDDataModel = courseEditionIDDataModel.getCourseInStudyPlanIDDataModel();
+
+        // Assert
+        assertNull(cISPIDDataModel);
     }
 
 }
