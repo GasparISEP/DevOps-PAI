@@ -66,4 +66,16 @@ class LocationTest {
         //Assert
         assertEquals("Vila Nova de Gaia", result);
     }
+
+    @Test
+    void getLocationShouldReturnLocationString () {
+        // Arrange
+        Location location = new Location("Coimbra");
+
+        // Act
+        String result = location.getLocation();
+
+        // Assert
+        assertEquals("Coimbra", result);
+    }
 }

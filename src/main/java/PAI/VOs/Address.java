@@ -36,4 +36,20 @@ public class Address implements ValueObject {
         }
         return true;
     }
+
+    public Street getStreet () {
+        return _street;
+    }
+
+    public PostalCode getPostalCode () {
+        return _postalCode;
+    }
+
+    public Location getLocation () {
+        return _location;
+    }
+
+    public Country getCountry () {
+        return _country;
+    }
 }

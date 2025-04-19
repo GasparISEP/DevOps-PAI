@@ -89,7 +89,7 @@ deactivate date
 
 ASC -> tcID** : new TeacherCategoryID VO (teacherCategoryID_UUID)
 activate tcID
-date --> ASC : TeacherCategoryID VO
+tcID --> ASC : TeacherCategoryID VO
 deactivate tcID
 
 ASC -> wp** : new WorkingPercentage VO (workingPercentage)

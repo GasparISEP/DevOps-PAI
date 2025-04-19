@@ -152,17 +152,14 @@ CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: enrolStudent
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
 ' convert domain to dataModel
-participant ":CourseEditionEnrolmentMapper" as ceeMapper
+participant ":ICourseEditionEnrolmentMapper" as ceeMapper
 ICourseEditionEnrolmentRepository -> ceeMapper: toDataModel (cee)
 activate ceeMapper #E1F5FE
 
 create "ceeDataModel: CourseEditionEnrolmentDataModel"
-ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel" :create (cee)
-activate "ceeDataModel: CourseEditionEnrolmentDataModel" #E1F5FE
+ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel" :create (ceeIDDataModel, enrolmentDate, isActive)
 deactivate ceeMapper
-create "ceeIDDataModel: CourseEditionEnrolmentIDDataModel"
-"ceeDataModel: CourseEditionEnrolmentDataModel" -> "ceeIDDataModel: CourseEditionEnrolmentIDDataModel": create \n (cee.knowStudent().getUniqueNumber(),\n cee.knowCourseEdition().toString())
-deactivate "ceeDataModel: CourseEditionEnrolmentDataModel"
+
 
 ' database persistence
 

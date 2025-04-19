@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.programmeEdition;
 
-import PAI.persistence.datamodel.AccessMethodDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -62,4 +61,16 @@ class ProgrammeEditionDataModelTest {
         );
     }
 
+    @Test
+    void shouldReturnProgrammeEditionDataSchoolYearId() {
+        // arrange
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeID = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionId, programmeID, schoolYearID );
+        // act
+        UUID result = programmeEditionDataModel.getSchoolYearID();
+        // assert
+        assertEquals(schoolYearID, result);
+    }
 }

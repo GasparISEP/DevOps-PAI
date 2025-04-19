@@ -1,0 +1,46 @@
+package PAI.persistence.datamodel;
+
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+@Embeddable
+public class StudentGradeIDDataModel implements Serializable {
+
+    @Embedded
+    private StudentIDDataModel _studentIDDataModel;
+    @Embedded
+    private CourseEditionIDDataModel _courseEditionIDDataModel;
+
+    protected StudentGradeIDDataModel() {}
+
+    public StudentGradeIDDataModel (StudentIDDataModel studentIDDataModel, CourseEditionIDDataModel courseEditionIDDataModel){
+        if (studentIDDataModel == null || courseEditionIDDataModel == null){
+            throw new IllegalArgumentException("Cannot be null");
+        }
+        _studentIDDataModel = studentIDDataModel;
+        _courseEditionIDDataModel = courseEditionIDDataModel;
+    }
+
+    public StudentIDDataModel get_studentIDDataModel() {
+        return _studentIDDataModel;
+    }
+
+    public CourseEditionIDDataModel get_courseEditionIDDataModel() {
+        return _courseEditionIDDataModel;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentGradeIDDataModel that)) return false;
+        return Objects.equals(_studentIDDataModel, that._studentIDDataModel) && Objects.equals(_courseEditionIDDataModel, that._courseEditionIDDataModel);
+    }
+    @Override
+    public int hashCode() {
+        return _studentIDDataModel.hashCode() + _courseEditionIDDataModel.hashCode();
+    }
+
+}

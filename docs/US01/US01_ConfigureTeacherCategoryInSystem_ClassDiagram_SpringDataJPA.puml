@@ -1,0 +1,132 @@
+@startuml
+
+skinparam linetype ortho
+skinparam nodesep 120
+skinparam ranksep 100
+skinparam classAttributeIconSize 0
+
+package "PAI" {
+
+  ' ======= DDD Base Interfaces =======
+  interface "<<DDD>>\nAggregateRoot<ID>" as IAggregateRoot
+  interface "<<DDD>>\nDomainEntity<ID>" as IDomainEntity
+  interface "<<DDD>>\nValueObject" as IValueObject
+  interface "<<DDD>>\nDomainId" as IDomainId
+  interface "<<DDD>>\nIRepository<ID, T>" as IRepository
+
+  ' ======= VALUE OBJECTS =======
+  package "VOs" {
+    class "<<Value Object>>\nName" as VOName {
+      - _name: String
+      + Name(String name)
+      + getName(): String
+      + equals(Object obj): boolean
+      + hashCode(): int
+    }
+
+    class "<<Value Object>>\nTeacherCategoryID" as VOId {
+      - value: UUID
+      + TeacherCategoryID(UUID value)
+      + getValue(): UUID
+      + equals(Object obj): boolean
+      + hashCode(): int
+    }
+
+    VOId ..|> IDomainId
+    VOId ..|> IValueObject
+    VOName ..|> IValueObject
+  }
+
+  ' ======= AGGREGATE =======
+  package "domain" {
+    entity "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
+      + TeacherCategory(id: TeacherCategoryID, name: Name)
+      + getId(): TeacherCategoryID
+      + getName(): Name
+      + getIdValue(): UUID
+      + getNameValue(): String
+      + identity(): TeacherCategoryID
+      + sameAs(Object obj): boolean
+      + equals(Object obj): boolean
+      + hashCode(): int
+    }
+  }
+
+  ' === Associações com cardinalidade ===
+  TCA "1" --> "1" VOName : has
+  TCA "1" --> "1" VOId : identified by
+  TCA ..|> IAggregateRoot
+  TCA ..|> IDomainEntity
+
+  ' ======= FACTORY =======
+  package "factory" {
+    interface "<<Factory>>\nITeacherCategoryFactory" as IFactory {
+      + createTeacherCategory(name: Name): TeacherCategory
+    }
+
+    class "TeacherCategoryFactorySpring" as FactoryImpl <<Component>> {
+      + createTeacherCategory(name: Name): TeacherCategory
+    }
+
+    IFactory <|.. FactoryImpl
+    FactoryImpl "1" --> "1" TCA : creates
+    FactoryImpl "1" --> "*" VOName : uses
+    FactoryImpl "1" --> "*" VOId : generates
+  }
+
+  ' ======= REPOSITORY =======
+  package "repository" {
+    interface "<<Repository>>\nITeacherCategoryRepository" as IRepo {
+      + save(category: TeacherCategory): TeacherCategory
+      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
+      + containsOfIdentity(id: TeacherCategoryID): boolean
+      + findAll(): Iterable<TeacherCategory>
+      + existsByName(name: Name): boolean
+      + registerTeacherCategory(name: Name): boolean
+      + getTeacherCategoryList(): List<TeacherCategory>
+      + findByName(name: Name): Optional<TeacherCategory>
+      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
+    }
+
+    class "TeacherCategoryRepositoryJpaAdapter" as RepoImpl <<Repository>> {
+      + save(category: TeacherCategory): TeacherCategory
+      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
+      + containsOfIdentity(id: TeacherCategoryID): boolean
+      + findAll(): Iterable<TeacherCategory>
+      + existsByName(name: Name): boolean
+      + registerTeacherCategory(name: Name): boolean
+      + getTeacherCategoryList(): List<TeacherCategory>
+      + findByName(name: Name): Optional<TeacherCategory>
+      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
+    }
+
+    IRepository <|.. IRepo
+    IRepo <|.. RepoImpl
+
+    RepoImpl "1" --> "*" TCA : persists
+    RepoImpl "1" --> "*" VOId : looks up
+    RepoImpl "1" --> "1" IFactory : uses
+  }
+
+  ' ======= SERVICE =======
+  package "service" {
+    class "TeacherCategoryApplicationService" as AppService <<Service>> {
+      + registerCategory(categoryName: String): boolean
+    }
+
+    AppService "1" --> "1" IRepo : uses
+    AppService "1" --> "1" IFactory : uses
+  }
+
+  ' ======= CONTROLLER =======
+  package "controller" {
+    class "US01_ConfigureTeacherCategoryController" as Controller {
+      + configureTeacherCategory(categoryName: String): boolean
+    }
+
+    Controller "1" --> "1" AppService : uses
+  }
+
+}
+
+@enduml

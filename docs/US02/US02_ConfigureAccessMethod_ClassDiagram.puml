@@ -1,5 +1,7 @@
 @startuml
 
+skinparam linetype ortho
+
 package "AccessMethod Aggregate" {
     entity "<<Root>>\n <<Entity>>\n AccessMethod" as AME{
     + AccessMethod(accessMethodId: AccessMethodId, accessMethodName: NameWithNumbersAndSpecialChars)
@@ -75,10 +77,14 @@ class US02_ConfigureAccessMethod_Controller {
     +createAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
+class NameWithNumbersAndSpecialChars {
+}
+
+US02_ConfigureAccessMethod_Controller "1"->"1..*"NameWithNumbersAndSpecialChars: uses
 IAccessMethodFactory "1" ..> "1..*" AME : creates
 IAccessMethodRepository "1"..> "*" AME: persist
 US02_ConfigureAccessMethod_Controller "1"-down->"1" IAccessMethodService: uses
 IAccessMethodService "1"--> "1" IAccessMethodRepository : uses
 IAccessMethodService "1"--> "1" IAccessMethodFactory : uses
-IAccessMethodServiceImpl -right..|> IAccessMethodService: implements
+IAccessMethodServiceImpl "1"-right..|>"1" IAccessMethodService: implements
 @enduml

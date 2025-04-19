@@ -6,16 +6,17 @@ title: US02_Sequence Diagram_Configure Access Method in System (Happy Path)
 
 admin -> UI ++ #application : I want to configure access method
 UI --> admin -- : access method name?
-admin -> UI ++ #application :(NameWithNumbersAndSpecialChars)
-    UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialChars)
+admin -> UI ++ #application :provides name (String)
+    UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (nameString)
 
+ConfigureAccessMethodController -> ConfigureAccessMethodController: new NameWithNumbersAndSpecialChars(nameString)
 
-ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (NameWithNumbersAndSpecialChars)
-":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  getAccessMethodByName(NameWithNumbersAndSpecialChars)
+ConfigureAccessMethodController -> ":AccessMethodService" ++ #application : configureAccessMethod (nameVO)
+":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application:  getAccessMethodByName(nameVO)
 ":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService" -- #application: Optional.empty()
-":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(NameWithNumbersAndSpecialChars)
+":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application: createAccessMethod(nameVO)
 create "ac1:AccessMethod" as AccessMethod
-AccessMethodFactory -> AccessMethod  ++ #application  : <create> (NameWithNumbersAndSpecialChars)
+AccessMethodFactory -> AccessMethod  ++ #application  : <create> (nameVO)
 AccessMethodFactory --> ":AccessMethodService" -- : ac1
 ":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: saveAccessMethod(ac1)
 ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)

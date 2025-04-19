@@ -4,7 +4,7 @@ import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
-import PAI.persistence.datamodel.AccessMethodDataModel;
+import PAI.persistence.datamodel.accessMethod.AccessMethodDataModel;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 

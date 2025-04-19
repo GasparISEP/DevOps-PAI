@@ -5,16 +5,17 @@ autonumber
 title: US02_Sequence Diagram_Configure Access Method in System (Happy Path)
 
 admin -> UI ++ #application : I want to configure access method
-UI --> admin -- : access method name?odName)
-admin -> UI ++ #application :(accessMethodName)
-UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (NameWithNumbersAndSpecialCharsVO)
-ConfigureAccessMethodController -> ":AccessMethodService" ++ #application: registerAccessMethodInMemoryRepository(NameWithNumbersAndSpecialCharsVO)
+UI --> admin -- : access method name?
+admin -> UI ++ #application :provides name (String)
+UI -> ":ConfigureAccessMethodController" as ConfigureAccessMethodController ++ #application : configureAccessMethod (nameString)
+ConfigureAccessMethodController -> ConfigureAccessMethodController: new NameWithNumbersAndSpecialChars(nameString)
+ConfigureAccessMethodController -> ":AccessMethodService" ++ #application: registerAccessMethodInMemoryRepository(nameVO)
 
-":AccessMethodService" -> AccessMethodRepository ++ #application:  getAccessMethodByName(NameWithNumbersAndSpecialChars)
+":AccessMethodService" -> AccessMethodRepository ++ #application:  getAccessMethodByName(nameVO)
 AccessMethodRepository -> ":AccessMethodService" --: Optional.empty()
-":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod(NameWithNumbersAndSpecialCharsVO)
+":AccessMethodService" -> ":AccessMethodFactory" as AccessMethodFactory ++ #application : createAccessMethod(nameVO)
 create "ac1:AccessMethod" as AccessMethod
-AccessMethodFactory -> AccessMethod  #application  : <create> (NameWithNumbersAndSpecialCharsVO)
+AccessMethodFactory -> AccessMethod  #application  : <create> (nameVO)
 AccessMethodFactory --> ":AccessMethodService" -- : ac1
 
 ":AccessMethodService" -> ":AccessMethodRepository" as AccessMethodRepository ++ #application : saveAccessMethod(ac1)
