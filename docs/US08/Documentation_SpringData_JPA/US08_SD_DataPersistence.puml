@@ -79,8 +79,10 @@ SR --> SF: False
 deactivate SR
 SF --> service: s1
 deactivate SF
+deactivate service
 
 service -> SR: save(s1)
+activate service
 activate SR
 SR -> mapper: domainToDataModel(s1)
 activate mapper

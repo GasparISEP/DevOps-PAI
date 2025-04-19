@@ -5,6 +5,8 @@ import PAI.VOs.TeacherCategoryID;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.mapper.ITeacherCategoryMapper;
+import PAI.mapper.TeacherCategoryIDMapper;
+import PAI.persistence.datamodel.TeacherCategoryIDDataModel;
 import PAI.repository.ITeacherCategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +22,18 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
     private final ITeacherCategoryFactory factory;
+    private final TeacherCategoryIDMapper idMapper;
 
-    public TeacherCategoryRepositoryJpaAdapter(ITeacherCategoryRepositorySpringData jpaRepository,
-                                               ITeacherCategoryMapper mapper, ITeacherCategoryFactory factory) {
+    public TeacherCategoryRepositoryJpaAdapter(
+            ITeacherCategoryRepositorySpringData jpaRepository,
+            ITeacherCategoryMapper mapper,
+            ITeacherCategoryFactory factory,
+            TeacherCategoryIDMapper idMapper
+    ) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;
         this.factory = factory;
+        this.idMapper = idMapper;
     }
 
     @Override
@@ -38,7 +46,6 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
         jpaRepository.save(mapper.toDataModel(category));
         return true;
     }
-
 
     @Override
     public boolean existsByName(Name name) {
@@ -53,13 +60,15 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
 
     @Override
     public Optional<TeacherCategory> ofIdentity(TeacherCategoryID id) {
-        return jpaRepository.findById(id.getValue())
+        TeacherCategoryIDDataModel idDataModel = idMapper.toDataModel(id);
+        return jpaRepository.findById(idDataModel)
                 .map(mapper::toDomainModel);
     }
 
     @Override
     public boolean containsOfIdentity(TeacherCategoryID id) {
-        return jpaRepository.existsById(id.getValue());
+        TeacherCategoryIDDataModel idDataModel = idMapper.toDataModel(id);
+        return jpaRepository.existsById(idDataModel);
     }
 
     @Override
@@ -83,6 +92,6 @@ public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepo
     @Override
     public Optional<TeacherCategoryID> getTeacherCategoryIDFromName(Name name) {
         return jpaRepository.findByName(name.getName())
-                .map(data -> new TeacherCategoryID(data.getId()));
+                .map(data -> idMapper.toDomainModel(data.getId()));
     }
 }

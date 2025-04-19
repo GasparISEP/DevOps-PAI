@@ -6,9 +6,9 @@ public class QuantSemesters implements ValueObject {
 
     private final int _quantSemesters;
 
-    public QuantSemesters(int quantityOfSemesters) throws Exception {
+    public QuantSemesters(int quantityOfSemesters) {
         if(!isQuantityOfSemestersValid(quantityOfSemesters)) {
-            throw new Exception("Insert a valid number of Semesters");
+            throw new IllegalArgumentException("Insert a valid number of Semesters");
         }
         _quantSemesters = quantityOfSemesters;
     }

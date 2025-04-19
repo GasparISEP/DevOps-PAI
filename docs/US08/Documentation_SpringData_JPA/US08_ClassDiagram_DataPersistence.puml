@@ -165,20 +165,24 @@ interface IStudentRepositorySpringData{
 interface IStudentService {
 }
 
+interface IStudentMapper {
+}
 
-IStudentRepositorySpringData --> StudentRepositoryJPA
+
+IStudentRepositorySpringData <|.. StudentRepositoryJPA
 US08_IWantToRegisterAStudentInTheSystemController "1" ..> "1" IStudentService
 IStudentService <|.. StudentService
 StudentService "1" ..> "1" IStudentFactory
 StudentService "1" ..> "1" IStudentRepository
-StudentRepositoryJPA "1" ..> "1" StudentMapper
+StudentRepositoryJPA "1" ..> "1" IStudentMapper
+IStudentMapper <|.. StudentMapper
 
 StudentMapper --> StudentDataModel
 
-StudentRepositoryJPA "1" ..> "1" IStudentFactory
+
 StudentRepositoryJPA "1" ---> "_students\n*" Student
 
-
+StudentFactoryImpl ..> StudentRepositoryJPA
 Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 IStudentFactory "1" ..> "1" Student: <<create>>

@@ -8,15 +8,15 @@ public class DepartmentAcronym implements ValueObject {
 
     private final String _acronym;
 
-    public DepartmentAcronym(String acronym) throws Exception {
+    public DepartmentAcronym(String acronym) {
         if (acronym == null || acronym.isBlank()) {
-            throw new Exception("Acronym must be a non-empty string.");
+            throw new IllegalArgumentException("Acronym must be a non-empty string.");
         }
         if (acronym.length() < 3) {
-            throw new Exception("Acronym must contain at least 3 characters.");
+            throw new IllegalArgumentException("Acronym must contain at least 3 characters.");
         }
         if (!acronym.matches("^[A-Z]+$")) {
-            throw new Exception("Acronym must contain only capital letters.");
+            throw new IllegalArgumentException("Acronym must contain only capital letters.");
         }
         this._acronym = acronym;
     }

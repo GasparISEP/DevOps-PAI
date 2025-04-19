@@ -1,15 +1,17 @@
 package PAI.persistence.datamodel;
 
-import jakarta.persistence.*;
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "teacher_category")
 public class TeacherCategoryDataModel {
 
-    @Id
-    @Column(name = "id", nullable = false, updatable = false)
-    private UUID id;
+    @EmbeddedId
+    private TeacherCategoryIDDataModel id;
 
     @Column(name = "name", length = 100, nullable = false, unique = true)
     private String name;
@@ -18,7 +20,7 @@ public class TeacherCategoryDataModel {
         // Construtor padrão protegido para JPA
     }
 
-    public TeacherCategoryDataModel(UUID id, String name) {
+    public TeacherCategoryDataModel(TeacherCategoryIDDataModel id, String name) {
         if (id == null) {
             throw new IllegalArgumentException("id não pode ser nulo");
         }
@@ -29,7 +31,7 @@ public class TeacherCategoryDataModel {
         this.name = name;
     }
 
-    public UUID getId() {
+    public TeacherCategoryIDDataModel getId() {
         return id;
     }
 
