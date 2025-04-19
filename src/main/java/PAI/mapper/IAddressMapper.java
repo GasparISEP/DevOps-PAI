@@ -6,4 +6,6 @@ import PAI.persistence.datamodel.AddressDataModel;
 public interface IAddressMapper {
 
     Address toDomain (AddressDataModel addressDataModel);
+
+    AddressDataModel toDataModel (Address address);
 }
