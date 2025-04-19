@@ -34,12 +34,35 @@ class StudentGradeIDDataModelTest {
     }
 
     @Test
-    void shouldNotCreateDataModelWhenCourseEditionIDDMIsNull(){
+    void shouldNotCreateDataModelWhenCourseEditionIDDIsNull(){
         //arrange
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         CourseEditionIDDataModel courseEditionIDDataModel = null;
         //assert
         assertThrows(IllegalArgumentException.class, ()-> new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel));
+    }
+    @Test
+    void shouldReturnStudentIDDataModel (){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        //act
+        StudentIDDataModel result = studentGradeIDDataModel.get_studentIDDataModel();
+        //assert
+        assertEquals(studentIDDataModel,result);
+    }
+
+    @Test
+    void shouldReturnCourseEditionIDDataModel (){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        //act
+        CourseEditionIDDataModel result = studentGradeIDDataModel.get_courseEditionIDDataModel();
+        //assert
+        assertEquals(courseEditionIDDataModel,result);
     }
 
 }

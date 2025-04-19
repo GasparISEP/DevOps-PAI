@@ -24,4 +24,12 @@ public class StudentGradeIDDataModel implements Serializable {
         _courseEditionIDDataModel = courseEditionIDDataModel;
     }
 
+    public StudentIDDataModel get_studentIDDataModel() {
+        return _studentIDDataModel;
+    }
+
+    public CourseEditionIDDataModel get_courseEditionIDDataModel() {
+        return _courseEditionIDDataModel;
+    }
+
 }
