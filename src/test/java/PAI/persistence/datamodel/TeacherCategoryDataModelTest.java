@@ -11,17 +11,19 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TeacherCategoryDataModelTest {
+
     @Test
     void testParameterizedConstructorAndGetters() {
         // Arrange
-        UUID expectedId = UUID.randomUUID();
+        UUID expectedUUID = UUID.randomUUID();
+        TeacherCategoryIDDataModel expectedId = new TeacherCategoryIDDataModel(expectedUUID);
         String expectedName = "Matemática";
 
         // Act
         TeacherCategoryDataModel model = new TeacherCategoryDataModel(expectedId, expectedName);
 
         // Assert
-        assertEquals(expectedId, model.getId(), "getId() deve retornar o valor passado no construtor");
+        assertEquals(expectedUUID, model.getId().getValue(), "getId().getValue() deve retornar o UUID original");
         assertEquals(expectedName, model.getName(), "getName() deve retornar o valor passado no construtor");
     }
 
@@ -40,7 +42,7 @@ public class TeacherCategoryDataModelTest {
     @Test
     void testConstructorNullNameThrows() {
         // Arrange
-        UUID id = UUID.randomUUID();
+        TeacherCategoryIDDataModel id = new TeacherCategoryIDDataModel(UUID.randomUUID());
 
         // Act & Assert
         Exception ex = assertThrows(IllegalArgumentException.class,
@@ -70,5 +72,4 @@ public class TeacherCategoryDataModelTest {
         int modifiers = ctor.getModifiers();
         assertTrue(Modifier.isProtected(modifiers), "Construtor sem-args deve ser protected");
     }
-
 }

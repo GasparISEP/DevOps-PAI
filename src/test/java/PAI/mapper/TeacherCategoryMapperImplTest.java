@@ -2,6 +2,7 @@ package PAI.mapper;
 
 import PAI.domain.TeacherCategory;
 import PAI.persistence.datamodel.TeacherCategoryDataModel;
+import PAI.persistence.datamodel.TeacherCategoryIDDataModel;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import org.junit.jupiter.api.Test;
@@ -17,29 +18,31 @@ class TeacherCategoryMapperImplTest {
     @Test
     void shouldMapDomainToDataModel() {
         // Arrange
-        UUID id = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         Name name = new Name("Matemática");
-        TeacherCategory domain = new TeacherCategory(new TeacherCategoryID(id), name);
+        TeacherCategoryID domainId = new TeacherCategoryID(uuid);
+        TeacherCategory domain = new TeacherCategory(domainId, name);
 
         // Act
         TeacherCategoryDataModel data = mapper.toDataModel(domain);
 
         // Assert
-        assertEquals(id, data.getId());
+        assertEquals(uuid, data.getId().getValue()); // now uses EmbeddedId
         assertEquals("Matemática", data.getName());
     }
 
     @Test
     void shouldMapDataModelToDomain() {
         // Arrange
-        UUID id = UUID.randomUUID();
-        TeacherCategoryDataModel data = new TeacherCategoryDataModel(id, "Física");
+        UUID uuid = UUID.randomUUID();
+        TeacherCategoryIDDataModel dataId = new TeacherCategoryIDDataModel(uuid);
+        TeacherCategoryDataModel data = new TeacherCategoryDataModel(dataId, "Física");
 
         // Act
         TeacherCategory domain = mapper.toDomainModel(data);
 
         // Assert
-        assertEquals(id, domain.identity().getValue());
+        assertEquals(uuid, domain.identity().getValue()); // now compare inner UUID
         assertEquals("Física", domain.getName().getName());
     }
 }
