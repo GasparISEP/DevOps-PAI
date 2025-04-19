@@ -16,4 +16,12 @@ public class StudentGradeIDDataModel implements Serializable {
 
     protected StudentGradeIDDataModel() {}
 
+    public StudentGradeIDDataModel (StudentIDDataModel studentIDDataModel, CourseEditionIDDataModel courseEditionIDDataModel){
+        if (studentIDDataModel == null || courseEditionIDDataModel == null){
+            throw new IllegalArgumentException("Cannot be null");
+        }
+        _studentIDDataModel = studentIDDataModel;
+        _courseEditionIDDataModel = courseEditionIDDataModel;
+    }
+
 }
