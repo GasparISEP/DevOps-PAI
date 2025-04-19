@@ -5,4 +5,5 @@ import PAI.persistence.datamodel.StudentGradeIDDataModel;
 
 public interface IStudentGradeIDMapper {
     StudentGradeIDDataModel toDataModel (StudentGradeID studentGradeID);
+    StudentGradeID toDomain (StudentGradeIDDataModel studentGradeIDDataModel) throws Exception;
 }
