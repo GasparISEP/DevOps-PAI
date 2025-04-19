@@ -120,5 +120,16 @@ class StudentGradeIDDataModelTest {
         //assert
         assertFalse(result);
     }
+    @Test
+    void returnValidHashCode(){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        //act
+        int result = studentGradeIDDataModel.hashCode();
+        //assert
+        assertEquals(studentIDDataModel.hashCode()+courseEditionIDDataModel.hashCode(),result);
+    }
 
 }

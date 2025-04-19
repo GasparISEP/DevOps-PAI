@@ -38,5 +38,9 @@ public class StudentGradeIDDataModel implements Serializable {
         if (!(o instanceof StudentGradeIDDataModel that)) return false;
         return Objects.equals(_studentIDDataModel, that._studentIDDataModel) && Objects.equals(_courseEditionIDDataModel, that._courseEditionIDDataModel);
     }
+    @Override
+    public int hashCode() {
+        return _studentIDDataModel.hashCode() + _courseEditionIDDataModel.hashCode();
+    }
 
 }
