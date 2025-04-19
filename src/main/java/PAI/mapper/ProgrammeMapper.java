@@ -6,7 +6,7 @@ import PAI.VOs.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProgrammeMapper {
+public class ProgrammeMapper implements IProgrammeMapper {
 
     public ProgrammeDataModel toData(Programme programme) {
         return new ProgrammeDataModel(programme);
