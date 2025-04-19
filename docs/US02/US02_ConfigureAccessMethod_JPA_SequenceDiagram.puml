@@ -19,7 +19,10 @@ create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (nameVO)
 AccessMethodFactory --> ":AccessMethodService" -- : ac1
 ":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: saveAccessMethod(ac1)
-":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
+":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodRepositorySpringDataImpl": getAccessMethodID()
+":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodIdMapper" ++ #application: toDataModel(ac1ID)
+":AccessMethodIdMapper" --> ":AccessMethodRepositorySpringDataImpl" --: Optional<ac1ID>
+":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1ID,ac1)
 create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
 ":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>
 ":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1DM>
