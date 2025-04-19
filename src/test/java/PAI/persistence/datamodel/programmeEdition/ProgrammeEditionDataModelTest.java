@@ -62,7 +62,31 @@ class ProgrammeEditionDataModelTest {
     }
 
     @Test
-    void shouldReturnProgrammeEditionDataSchoolYearId() {
+    void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModelWhenProgrammeEditionDataModelIsCreatedWithEmptyConstructor() {
+        // arrange
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel();
+        // act
+        ProgrammeEditionIdDataModel pEIDDataModel = programmeEditionDataModel.getProgrammeEditionIDDataModel();
+        // assert
+        assertNull(pEIDDataModel);
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionIDDataModelWhenProgrammeEditionDataModelIsCreatedWithArguments() {
+        // arrange
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeID = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionId, programmeID, schoolYearID );
+        // act
+        ProgrammeEditionIdDataModel pEIDDataModel = programmeEditionDataModel.getProgrammeEditionIDDataModel();
+        // assert
+        assertNotNull(pEIDDataModel);
+        assertEquals(programmeEditionId, pEIDDataModel);
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionDataModelSchoolYearId() {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeID = mock(ProgrammeIDDataModel.class);

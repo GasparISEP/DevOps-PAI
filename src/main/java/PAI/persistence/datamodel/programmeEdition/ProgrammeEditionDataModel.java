@@ -34,6 +34,10 @@ public class ProgrammeEditionDataModel {
         this._schoolYearID = schoolYearID;
     }
 
+    public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
+        return _programmeEditionID;
+    }
+
     public UUID getSchoolYearID() {
         return _schoolYearID;
     }
