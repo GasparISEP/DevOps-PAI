@@ -1,7 +1,7 @@
 package PAI.mapper.accessMethod;
 
 import PAI.domain.accessMethod.AccessMethod;
-import PAI.persistence.datamodel.AccessMethodDataModel;
+import PAI.persistence.datamodel.accessMethod.AccessMethodDataModel;
 
 import java.util.Optional;
 
