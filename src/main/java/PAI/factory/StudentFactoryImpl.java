@@ -15,6 +15,12 @@ public class StudentFactoryImpl implements IStudentFactory {
     }
 
     public Address createAddress (Street street, PostalCode postalCode, Location location, Country country) {
+
         return new Address(street, postalCode, location, country);
+    }
+
+    public Student newStudentFromDataModel(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) {
+
+        return new Student(studentID, name, NIF, phone, email, address, academicEmail);
     }
 }

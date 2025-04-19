@@ -162,6 +162,15 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
         assertFalse(result);
     }
 
+    @Test
+    void hashCodeShouldBeEqualForEqualObjects() {
+        // arrange
+        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("student123", "edition456");
+        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("student123", "edition456");
+
+        // act & assert
+        assertEquals(id1.hashCode(), id2.hashCode());
+    }
 
 
     @Test
