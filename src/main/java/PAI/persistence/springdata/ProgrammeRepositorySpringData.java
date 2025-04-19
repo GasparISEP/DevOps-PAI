@@ -1,6 +1,10 @@
 package PAI.persistence.springdata;
 
+import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeMapper;
+import PAI.persistence.datamodel.ProgrammeDataModel;
+
+import java.util.Optional;
 
 public class ProgrammeRepositorySpringData {
 
@@ -16,5 +20,14 @@ public class ProgrammeRepositorySpringData {
         }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
+    }
+
+    public Programme save(Programme prog) throws Exception {
+        ProgrammeDataModel programmeDataModel = _iProgMapper.toData(prog);
+        if (programmeDataModel != null) {
+            _iProgRepo.save(programmeDataModel);
+            return _iProgMapper.toDomain(programmeDataModel);
+        }
+        return null;
     }
 }
