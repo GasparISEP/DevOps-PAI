@@ -2,6 +2,7 @@ package PAI.persistence.datamodel;
 
 
 import PAI.VOs.CourseEditionID;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,12 +19,12 @@ public class StudentGradeDM {
  private LocalDate _date;
 
  @Embedded
- private CourseEditionID courseEditionID; // To change after it is done
+ private CourseEditionIDDataModel courseEditionID;
 
  @Embedded
  private StudentIDDataModel StudentId;
 
- public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionID courseEditionID, StudentIDDataModel studentId) {
+ public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
   this.id = id;
   this._grade = _grade;
   this._date = _date;
@@ -46,7 +47,7 @@ public class StudentGradeDM {
   return _date;
  }
 
- public CourseEditionID getCourseEditionID() {
+ public CourseEditionIDDataModel getCourseEditionID() {
   return courseEditionID;
  }
 
