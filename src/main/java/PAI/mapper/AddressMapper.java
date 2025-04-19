@@ -3,7 +3,7 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.persistence.datamodel.AddressDataModel;
 
-public class AddressMapper {
+public class AddressMapper implements IAddressMapper {
 
     public Address toDomain (AddressDataModel addressDataModel) {
 

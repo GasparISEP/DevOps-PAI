@@ -43,6 +43,8 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
 
     public boolean hasSameProgramme(ProgrammeID programmeID){return programmeID.equals(_programmeID);}
 
+    public ProgrammeEnrolmentID getProgrammeEnrolmentID() {return _peID;}
+
     public StudentID getStudentID() {return _studentID;}
 
     public AccessMethodID getAccessMethodID() {return _accessMethodID;}
@@ -68,5 +70,3 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
         return Objects.hash(_peID);
     }
 }
-
-
