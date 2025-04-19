@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentTest {
 
+    private ProgrammeEnrolmentID _peIDDouble;
     private StudentID _studentIDDouble;
     private StudentID _studentIDDouble2;
     private AccessMethodID _accessMethodIDDouble;
@@ -20,6 +21,7 @@ class ProgrammeEnrolmentTest {
     private Date _dateDouble;
 
     private void createDoubles() {
+        _peIDDouble = mock(ProgrammeEnrolmentID.class);
         _studentIDDouble = mock(StudentID.class);
         _studentIDDouble2 = mock(StudentID.class);
         _accessMethodIDDouble = mock(AccessMethodID.class);
@@ -260,7 +262,21 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnStudentIDfromGetterTest() {
+    void shouldReturnProgrammeEnrolmentIDFromGetterTest() {
+        //Arrange
+        createDoubles();
+        ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(_studentIDDouble, _programmeIDDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+
+        //Act
+        ProgrammeEnrolmentID result = pe1.getProgrammeEnrolmentID();
+
+        //Assert
+        assertEquals(peID, result);
+    }
+
+    @Test
+    void shouldReturnStudentIDFromGetterTest() {
         //Arrange
         createDoubles();
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
@@ -273,7 +289,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnAccessMethodIDfromGetterTest() {
+    void shouldReturnAccessMethodIDFromGetterTest() {
         //Arrange
         createDoubles();
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
@@ -286,7 +302,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnProgrammeIDfromGetterTest() {
+    void shouldReturnProgrammeIDFromGetterTest() {
         //Arrange
         createDoubles();
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
@@ -299,7 +315,7 @@ class ProgrammeEnrolmentTest {
     }
 
     @Test
-    void shouldReturnDatefromGetterTest() {
+    void shouldReturnDateFromGetterTest() {
         //Arrange
         createDoubles();
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
