@@ -2,6 +2,8 @@ package PAI.persistence.datamodel;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -21,7 +23,7 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnACourseEditionEnrolmentDataModelWithAttributes() {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = true;
 
         //act & assert
@@ -34,7 +36,7 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnTheIdOfCourseEditionEnrolmentDataModel() {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = true;
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
 
@@ -51,12 +53,12 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnTheEnrolmentDateOfCourseEditionEnrolmentDataModel() {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = true;
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
 
         //act
-        String result = courseEditionEnrolmentDataModel.findEnrolmentDate();
+        LocalDate result = courseEditionEnrolmentDataModel.findEnrolmentDate();
 
         //assert
         assertEquals(enrolmentDate, result);
@@ -68,7 +70,7 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnTheTrueWhenCourseEditionEnrolmentIsActive() {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = true;
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
 
@@ -83,7 +85,7 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnTheFalseWhenCourseEditionEnrolmentIsNotActive() {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = false;
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
 
@@ -100,7 +102,7 @@ class CourseEditionEnrolmentDataModelTest {
     void shouldReturnTrueWhenTwoObjectsHaveTheSameReferenceMemory (){
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        String enrolmentDate = "2025-04-18";
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
         boolean isActive = false;
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel1;
@@ -117,8 +119,8 @@ class CourseEditionEnrolmentDataModelTest {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel1,"2024-12-23", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel1,LocalDate.of(2024, 12, 18), true);
 
         //act
         boolean result = courseEditionEnrolmentDataModel1.equals(courseEditionEnrolmentDataModel2);
@@ -132,7 +134,7 @@ class CourseEditionEnrolmentDataModelTest {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
 
         //act
         boolean result = courseEditionEnrolmentDataModel1.equals(null);
@@ -146,7 +148,7 @@ class CourseEditionEnrolmentDataModelTest {
         //arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
         ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel = mock (ProgrammeEditionEnrolmentDataModel.class);
 
         //act
@@ -162,8 +164,8 @@ class CourseEditionEnrolmentDataModelTest {
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel2 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel2,"2024-12-24", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel2,LocalDate.of(2025, 4, 17), true);
 
         //act
         boolean result = courseEditionEnrolmentDataModel1.equals(courseEditionEnrolmentDataModel2);
@@ -179,7 +181,7 @@ class CourseEditionEnrolmentDataModelTest {
         //Arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
 
         //Act
         int result = courseEditionEnrolmentDataModel1.hashCode();
@@ -193,7 +195,7 @@ class CourseEditionEnrolmentDataModelTest {
         //Arrange
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
         int courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel1.hashCode();
 
         //Act
@@ -209,8 +211,8 @@ class CourseEditionEnrolmentDataModelTest {
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
         CourseEditionEnrolmentIDDataModel courseEditionEnrolmentIDDataModel2 = mock(CourseEditionEnrolmentIDDataModel.class);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, "2024-12-23", true);
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel2,"2024-12-24", true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 = new CourseEditionEnrolmentDataModel(courseEditionEnrolmentIDDataModel1, LocalDate.of(2025, 4, 18), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (courseEditionEnrolmentIDDataModel2,LocalDate.of(2025, 4, 17), true);
 
         //Act
         int result = courseEditionEnrolmentDataModel1.hashCode();
