@@ -2,6 +2,7 @@ package PAI.persistence.datamodel;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +13,7 @@ public class CourseEditionEnrolmentDataModel {
     private CourseEditionEnrolmentIDDataModel id;
 
     @Column(nullable = false)
-    private String enrolmentDate;
+    private LocalDate enrolmentDate;
 
     @Column (name= "status", nullable = false)
     private boolean isActive;
@@ -24,7 +25,7 @@ public class CourseEditionEnrolmentDataModel {
     public CourseEditionEnrolmentDataModel() {
     }
 
-    public CourseEditionEnrolmentDataModel(CourseEditionEnrolmentIDDataModel id, String enrolmentDate, boolean isActive) {
+    public CourseEditionEnrolmentDataModel(CourseEditionEnrolmentIDDataModel id, LocalDate enrolmentDate, boolean isActive) {
         this.id = id;
         this.enrolmentDate = enrolmentDate;
         this.isActive = isActive;
@@ -34,7 +35,7 @@ public class CourseEditionEnrolmentDataModel {
         return id;
     }
 
-    public String findEnrolmentDate() {
+    public LocalDate findEnrolmentDate() {
         return enrolmentDate;
     }
 
