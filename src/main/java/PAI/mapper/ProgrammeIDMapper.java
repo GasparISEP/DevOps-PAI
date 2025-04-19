@@ -1,6 +1,5 @@
 package PAI.mapper;
 
-import PAI.IProgrammeIDMapper;
 import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;

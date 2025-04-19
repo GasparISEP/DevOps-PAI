@@ -1,4 +1,4 @@
-package PAI;
+package PAI.mapper;
 
 import PAI.VOs.ProgrammeID;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
