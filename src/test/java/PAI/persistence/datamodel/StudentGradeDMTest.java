@@ -2,6 +2,7 @@ package PAI.persistence.datamodel;
 
 import PAI.VOs.CourseEditionID;
 import PAI.domain.course.Course;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ class StudentGradeDMTest {
     void shouldCreateValidStudentGradeConstructor() throws Exception {
         // Arrange
         LocalDate localDate = mock(LocalDate.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         // Act
@@ -38,7 +39,7 @@ class StudentGradeDMTest {
     void shouldCreateValidStudentGrade() throws Exception {
         // Arrange
         LocalDate localDate = mock(LocalDate.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
 
@@ -53,7 +54,7 @@ class StudentGradeDMTest {
     void shouldCreateValidStudentGradeID() throws Exception {
         // Arrange
         LocalDate localDate = mock(LocalDate.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         // Act
@@ -67,7 +68,7 @@ class StudentGradeDMTest {
     void shouldCreateValidStudentDate() throws Exception {
         // Arrange
         LocalDate localDate = mock(LocalDate.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         // Act
@@ -83,7 +84,7 @@ class StudentGradeDMTest {
     void shouldCreateValidStudentID() throws Exception {
         // Arrange
         LocalDate localDate = mock(LocalDate.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         // Act
