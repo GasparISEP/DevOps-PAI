@@ -21,6 +21,30 @@ class StudentGradeIDTest {
         assertNotNull(studentGradeId1);
     }
 
+    @Test
+    void shouldReturnStudentID () {
+        //arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble, courseEditionIDDouble);
+        //act
+        StudentID result = studentGradeId.get_studentID();
+        //act
+        assertEquals(studentIDDouble, result);
+    }
+
+    @Test
+    void shouldReturnCourseEditionID () {
+        //arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble, courseEditionIDDouble);
+        //act
+        CourseEditionID result = studentGradeId.get_courseEdition();
+        //act
+        assertEquals(courseEditionIDDouble, result);
+    }
+
     // equals
 
     @Test

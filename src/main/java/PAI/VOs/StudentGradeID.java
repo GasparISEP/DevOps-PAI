@@ -13,6 +13,14 @@ public class StudentGradeID implements DomainId {
         this._courseEdition = courseEditionID;
     }
 
+    public StudentID get_studentID() {
+        return _studentID;
+    }
+
+    public CourseEditionID get_courseEdition() {
+        return _courseEdition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
