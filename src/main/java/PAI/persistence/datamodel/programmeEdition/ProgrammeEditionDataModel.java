@@ -47,4 +47,14 @@ public class ProgrammeEditionDataModel {
         return _schoolYearID;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || !(obj instanceof ProgrammeEditionDataModel)) return false;
+        ProgrammeEditionDataModel other = (ProgrammeEditionDataModel) obj;
+        return _programmeEditionIdDataModel.equals(other._programmeEditionIdDataModel) &&
+                _programmeIDDataModel.equals(other._programmeIDDataModel) &&
+                _schoolYearID.equals(other._schoolYearID);
+    }
+
 }

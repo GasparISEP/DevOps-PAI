@@ -131,4 +131,135 @@ class ProgrammeEditionDataModelTest {
         // assert
         assertEquals(schoolYearID, result);
     }
+
+    @Test
+    void shouldReturnTrueWhenCompareProgrammeEditionDataModelToItSelf() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel.equals(programmeEditionDataModel);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToNull() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel.equals(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToDifferentClass() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel.equals(programmeEditionIdDataModel);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceButWithSameAttributes() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithDifferentProgrammeEditionIDDataModel() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel1 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel2 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel, schoolYearID );
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithDifferentProgrammeIDDataModel() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel1, schoolYearID );
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel2, schoolYearID );
+
+        // Act
+        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithDifferentSchoolYearID() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID1 = mock(UUID.class);
+        UUID schoolYearID2 = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID1);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID2);
+
+        // Act
+        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithAllDifferentAttributes() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel1 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel2 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID1 = mock(UUID.class);
+        UUID schoolYearID2 = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel1, schoolYearID1);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel2, schoolYearID2);
+
+        // Act
+        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
 }
