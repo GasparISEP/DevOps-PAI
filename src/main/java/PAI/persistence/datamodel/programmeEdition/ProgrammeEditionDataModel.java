@@ -57,4 +57,8 @@ public class ProgrammeEditionDataModel {
                 _schoolYearID.equals(other._schoolYearID);
     }
 
+    @Override
+    public int hashCode() {
+        return _programmeEditionIdDataModel.hashCode() + _programmeIDDataModel.hashCode() + _schoolYearID.hashCode();
+    }
 }

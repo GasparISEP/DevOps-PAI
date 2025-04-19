@@ -262,4 +262,19 @@ class ProgrammeEditionDataModelTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnValidHashCodeMethod() {
+        // Arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        UUID schoolYearID = mock(UUID.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+
+        // Act
+        int result = programmeEditionDataModel.hashCode();
+
+        // Assert
+        assertEquals(result, programmeEditionIdDataModel.hashCode()+programmeIDDataModel.hashCode()+schoolYearID.hashCode());
+    }
 }
