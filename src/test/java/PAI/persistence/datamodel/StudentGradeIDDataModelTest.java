@@ -65,4 +65,60 @@ class StudentGradeIDDataModelTest {
         assertEquals(courseEditionIDDataModel,result);
     }
 
+    //equals
+
+    @Test
+    void ShouldReturnTrueWhenInSameLoc(){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        StudentGradeIDDataModel studentGradeIDDataModel1 = studentGradeIDDataModel;
+        //act
+        boolean result = studentGradeIDDataModel.equals(studentGradeIDDataModel1);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void ShouldReturnFalseWhenFromDifferentInstances(){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        Object o = mock(Object.class);
+        //act
+        boolean result = studentGradeIDDataModel.equals(o);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void ShouldReturnTrueWhenSameContent(){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        StudentGradeIDDataModel studentGradeIDDataModel1 = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        //act
+        boolean result = studentGradeIDDataModel.equals(studentGradeIDDataModel1);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void ShouldReturnFalseWhenDifferentContent(){
+        //arrange
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        StudentIDDataModel studentIDDataModel1 = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
+        StudentGradeIDDataModel studentGradeIDDataModel1 = new StudentGradeIDDataModel(studentIDDataModel1,courseEditionIDDataModel1);
+        //act
+        boolean result = studentGradeIDDataModel.equals(studentGradeIDDataModel1);
+        //assert
+        assertFalse(result);
+    }
+
 }

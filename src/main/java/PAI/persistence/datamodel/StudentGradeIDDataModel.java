@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class StudentGradeIDDataModel implements Serializable {
@@ -30,6 +31,12 @@ public class StudentGradeIDDataModel implements Serializable {
 
     public CourseEditionIDDataModel get_courseEditionIDDataModel() {
         return _courseEditionIDDataModel;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentGradeIDDataModel that)) return false;
+        return Objects.equals(_studentIDDataModel, that._studentIDDataModel) && Objects.equals(_courseEditionIDDataModel, that._courseEditionIDDataModel);
     }
 
 }
