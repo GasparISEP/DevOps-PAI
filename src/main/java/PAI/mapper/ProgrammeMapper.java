@@ -12,7 +12,7 @@ public class ProgrammeMapper implements IProgrammeMapper {
         return new ProgrammeDataModel(programme);
     }
 
-    public Programme toDomain(ProgrammeDataModel programmeDataModel) throws Exception {
+    public Programme toDomain(ProgrammeDataModel programmeDataModel){
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeDataModel.getName());
         Acronym acronym = new Acronym(programmeDataModel.getAcronym());
 

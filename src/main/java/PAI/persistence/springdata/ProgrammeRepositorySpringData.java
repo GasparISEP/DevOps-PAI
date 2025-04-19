@@ -22,7 +22,7 @@ public class ProgrammeRepositorySpringData {
         _iProgRepo = iProgRepo;
     }
 
-    public Programme save(Programme prog) throws Exception {
+    public Programme save(Programme prog) {
         ProgrammeDataModel programmeDataModel = _iProgMapper.toData(prog);
         if (programmeDataModel != null) {
             _iProgRepo.save(programmeDataModel);

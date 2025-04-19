@@ -47,7 +47,7 @@ class ProgrammeRepositorySpringDataTest {
     }
 
     @Test
-    void shouldSaveProgramme() throws Exception {
+    void shouldSaveProgramme() {
         //arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
@@ -66,7 +66,7 @@ class ProgrammeRepositorySpringDataTest {
     }
 
     @Test
-    void shouldNotSaveProgrammeWhenProgIsNull() throws Exception {
+    void shouldNotSaveProgrammeWhenProgIsNull() {
         //arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);

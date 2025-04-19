@@ -6,9 +6,9 @@ public class QuantEcts implements ValueObject  {
 
     private final int _quantEcts;
 
-    public QuantEcts(int quantityOfEcts) throws Exception {
+    public QuantEcts(int quantityOfEcts) {
         if (!isQuantEctsValid(quantityOfEcts)) {
-            throw new Exception("Insert a valid number of ECTS");
+            throw new IllegalArgumentException("Insert a valid number of ECTS");
         }
         _quantEcts = quantityOfEcts;
     }
