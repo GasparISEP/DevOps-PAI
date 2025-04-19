@@ -40,6 +40,31 @@ class StudentFactoryImplTest {
         }
     }
 
+    @Test
+    void whenNewStudentFromDataModelConstructorInvokedThenMockedObjectShouldBeCreated() {
+        //arrange
+        IStudentFactory studentFactory = new StudentFactoryImpl();
+        Address addressDouble = mock(Address.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
+            when(mock.identity()).thenReturn(studentIDDouble);
+        })) {
+            // Act
+            Student student = studentFactory.newStudentFromDataModel(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, addressDouble, academicEmailDouble);
+
+            // Assert
+            assertEquals(1, studentDouble.constructed().size());
+            assertSame(studentDouble.constructed().get(0), student);
+            assertEquals(studentIDDouble, student.identity());
+        }
+    }
+
     void studentCreationShouldThrowExceptionWhenStudentIDIsNull () {
         //arrange
         IStudentFactory studentFactory = new StudentFactoryImpl();
