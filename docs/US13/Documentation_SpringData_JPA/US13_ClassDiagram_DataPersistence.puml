@@ -184,6 +184,10 @@ class DepartmentID <<VO>> {
 
 }
 
+class Acronym <<VO>> {
+ -_acronym : String
+}
+
 class Name <<VO>> {
  -_name : String
 }
@@ -362,17 +366,17 @@ ITeacherFactory "1" ..> "1" Address : <<create>>
 'Value Object Composition'
 Teacher "1" --> "_teacherID" TeacherID
 Teacher "1" --> "_name" Name
-Teacher "1" --> "_teacherAcronym" TeacherAcronym
 Teacher "1" --> "_email" Email
 Teacher "1" --> "_nif" NIF
 Teacher "1" --> "_phoneNumber" PhoneNumber
 Teacher "1" --> "_academicBackground" AcademicBackground
 Teacher "1" --> "_address" Address
 Teacher "1" --> "_departmentID" DepartmentID
-'TeacherAcronym "1" <-- TeacherID
+TeacherAcronym "_teacherAcronym" <-- "1" TeacherID
 Department "1" -> "_teacherID" TeacherID
 Department "1" ---> "_name" Name
 Department "1" ---> "_departmentID" DepartmentID
+DepartmentID "1" --> "_acronym" Acronym
 
 TeacherCategory "1" --> "_name" Name
 

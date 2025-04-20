@@ -19,7 +19,7 @@ participant ":ITeacherRepositoryJPA" as IteacherRepoJPA #skyblue
 participant ":Teacher" as teacher #palegreen
 participant ":TeacherMapper" as tMapper #wheat
 participant ":TeacherID" as teacherID #thistle
-participant ":TeacherDataModel" as teacherDM #lightgray
+participant "tDM1:TeacherDataModel" as teacherDM #lightgray
 
 
 HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
@@ -31,7 +31,7 @@ activate UI
 UI -> controller : getCategoriesList()
 
 activate controller
-ref over controller : Ref#1 \n\n  \t\t\t gets Teacher Category's List
+ref over controller : \t **Interaction Use #1** \n\n  \t\t\t __gets Teacher Category's List__
 controller --> UI : Which Category?
 deactivate controller
 deactivate UI
@@ -42,7 +42,7 @@ UI -> controller : getDepartmentList()
 activate UI
 activate controller
 
-ref over controller : \t Ref#2 \n\n  \t\t\t gets Department's list
+ref over controller : \t \t **Interaction Use #2** \n\n  \t\t\t __gets Department's list__
 
 controller --> UI : Which Department?
 deactivate controller
@@ -52,7 +52,7 @@ deactivate UI
 
 UI -> controller : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
 
-ref over controller : \t\t Ref#3 \n\n  \t\t\t convert DTO to VO
+ref over controller : \t \t \t **Interaction Use #3** \n\n  \t\t\t __convert DTO to VO__
 activate UI
 activate controller
 controller -> IteacherService : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
@@ -91,7 +91,7 @@ deactivate IteacherRepoJPA
 
 IteacherFactory --> IteacherService : t1
 
-ref over IteacherService : Ref#4 \n\n  \t\t\t create Teacher Career Progression (tcp1)
+ref over IteacherService : **Interaction Use #4** \n\n  \t\t\t __create Teacher Career Progression (tcp1)__
 
 
 deactivate IteacherFactory
@@ -112,7 +112,7 @@ tMapper --> IteacherRepoJPA : teacherDataModel
 deactivate tMapper
 IteacherRepoJPA ->  : insert(teacherDataModel)
 IteacherRepoJPA <-- : teacherDataModel
-ref over IteacherRepoJPA : \t \t Ref#5 \n \n \t \t \t \t convert back to domain entity
+ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t __convert back to domain entity__
 IteacherRepoJPA --> IteacherService : teacherDomain
 deactivate IteacherRepoJPA
 IteacherService --> controller : true

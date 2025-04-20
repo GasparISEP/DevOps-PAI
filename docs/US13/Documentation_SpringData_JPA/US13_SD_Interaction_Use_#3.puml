@@ -72,7 +72,7 @@ activate country
 country --> ASC : Country VO
 deactivate country
 
-ASC -> dptID** : new DepartmentID VO (acronym)
+ASC -> dptID** : new DepartmentID VO (dptAcronym)
 activate dptID
 dptID --> ASC : PostalCode VO
 deactivate dptID

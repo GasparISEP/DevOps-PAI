@@ -9,10 +9,7 @@ participant ":TeacherCareerProgressionMapper" as tcpMapper #strategy
 participant ":ITeacherCareerProgressionFactory" as tcpFactory #technology
 participant ":TeacherCareerProgression" as careerProgression
 participant "tcp1:TeacherCareerProgression" as TCP #application
-participant ":TeacherCategory1" as tc1 #business
-
-
-
+participant "tc1:TeacherCategory1" as tc1 #business
 
 
 IteacherService -> ItcpRepositoryJPA : createTeacherCareerProgression \n (tID1, tc, workingPercentage, date)
