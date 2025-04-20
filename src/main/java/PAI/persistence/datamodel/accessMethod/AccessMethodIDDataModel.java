@@ -2,11 +2,12 @@ package PAI.persistence.datamodel.accessMethod;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
-public class AccessMethodIDDataModel {
+public class AccessMethodIDDataModel implements Serializable {
 
     private UUID id;
 
