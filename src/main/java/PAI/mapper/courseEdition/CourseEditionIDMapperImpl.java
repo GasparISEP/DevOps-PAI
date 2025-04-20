@@ -2,7 +2,9 @@ package PAI.mapper.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
 
     @Override

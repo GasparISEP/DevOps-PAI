@@ -2,7 +2,9 @@ package PAI.mapper;
 
 import PAI.VOs.StudentID;
 import PAI.persistence.datamodel.StudentIDDataModel;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StudentIDMapper implements  IStudentIDMapper {
 
     public StudentIDDataModel domainToDataModel(StudentID studentID) {
