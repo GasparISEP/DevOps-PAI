@@ -13,7 +13,6 @@ public class ProgrammeEnrolmentIDMapper implements IProgrammeEnrolmentIDMapper {
     private final ProgrammeIDMapper programmeIDMapper = new ProgrammeIDMapper();
 
     public ProgrammeEnrolmentIDDataModel domainToDataModel(ProgrammeEnrolmentID programmeEnrolmentID) {
-        if (programmeEnrolmentID == null) return null;
 
         StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(programmeEnrolmentID.getStudentID());
         ProgrammeIDDataModel programmeIDDataModel = programmeIDMapper.toData(programmeEnrolmentID.getProgrammeID());
@@ -22,7 +21,6 @@ public class ProgrammeEnrolmentIDMapper implements IProgrammeEnrolmentIDMapper {
     }
 
     public ProgrammeEnrolmentID dataModelToDomain(ProgrammeEnrolmentIDDataModel programmeEnrolmentIDDataModel) {
-        if (programmeEnrolmentIDDataModel == null) return null;
 
         StudentID studentID = studentIDMapper.dataModelToDomain(programmeEnrolmentIDDataModel.getStudentID());
         ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEnrolmentIDDataModel.getProgrammeID());
