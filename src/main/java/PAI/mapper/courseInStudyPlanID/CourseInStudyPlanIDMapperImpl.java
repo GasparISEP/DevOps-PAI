@@ -4,7 +4,9 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.mapper.CourseID.CourseIDMapperImpl;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CourseInStudyPlanIDMapperImpl implements ICourseInStudyPlanIDMapper {
 
     public CourseInStudyPlanIDDataModel toDataModel(CourseInStudyPlanID courseInStudyPlanID) {

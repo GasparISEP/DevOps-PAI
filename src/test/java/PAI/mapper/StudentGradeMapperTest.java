@@ -3,6 +3,8 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
+import PAI.mapper.courseInStudyPlanID.ICourseInStudyPlanIDMapper;
+import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
@@ -24,7 +26,9 @@ public class StudentGradeMapperTest {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper);
+        ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper, courseInStudyPlanIDMapper, programmeEditionIdMapper);
 
         StudentID studentID = mock(StudentID.class);
         Grade grade = mock(Grade.class);
@@ -64,7 +68,9 @@ public class StudentGradeMapperTest {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper);
+        ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper, courseInStudyPlanIDMapper, programmeEditionIdMapper);
 
         StudentGradeDM dataModel = mock(StudentGradeDM.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
@@ -80,7 +86,7 @@ public class StudentGradeMapperTest {
         when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
         CourseEditionID fakeCourseEditionID = mock(CourseEditionID.class);
-        when(courseEditionIDMapper.toDomain(courseEditionIDDataModel)).thenReturn(fakeCourseEditionID);
+        when(courseEditionIDMapper.toDomain(courseEditionIDDataModel, programmeEditionIdMapper, courseInStudyPlanIDMapper)).thenReturn(fakeCourseEditionID);
 
         // Act
         StudentGrade result = mapper.toDomain(dataModel);

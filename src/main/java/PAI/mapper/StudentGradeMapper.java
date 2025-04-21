@@ -3,6 +3,8 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
+import PAI.mapper.courseInStudyPlanID.ICourseInStudyPlanIDMapper;
+import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
@@ -13,10 +15,15 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapper studentIDMapper;
+    private final ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;
+    private final IProgrammeEditionIdMapper programmeEditionIDMapper;
 
-    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper) {
+    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper,
+                              ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper) {
         this.courseEditionIDMapper = courseEditionIDMapper;
         this.studentIDMapper = studentIDMapper;
+        this.courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
+        this.programmeEditionIDMapper = programmeEditionIdMapper;
     }
 
     public StudentGradeDM toData(StudentGrade studentGrade) throws Exception {
@@ -33,7 +40,9 @@ public class StudentGradeMapper implements IStudentGradeMapper {
         Date date = new Date(studentGradeDM.get_date());
 
         StudentID studentID = studentIDMapper.dataModelToDomain(studentGradeDM.getStudentId());
-        CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID());
+
+
+        CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID(), programmeEditionIDMapper, courseInStudyPlanIDMapper);
 
         return new StudentGrade(grade,date,studentID,courseEditionID);
 
