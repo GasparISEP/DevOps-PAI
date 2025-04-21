@@ -9,24 +9,35 @@ import PAI.persistence.datamodel.ProgrammeIDDataModel;
 
 public class ProgrammeEnrolmentIDMapper implements IProgrammeEnrolmentIDMapper {
 
-    private final StudentIDMapper studentIDMapper = new StudentIDMapper();
-    private final ProgrammeIDMapper programmeIDMapper = new ProgrammeIDMapper();
+    private final IStudentIDMapper studentIDMapper;
+    private final IProgrammeIDMapper programmeIDMapper;
+
+    public ProgrammeEnrolmentIDMapper(IStudentIDMapper studentIDMapper, IProgrammeIDMapper programmeIDMapper) {
+        this.studentIDMapper = studentIDMapper;
+        this.programmeIDMapper = programmeIDMapper;
+    }
 
     public ProgrammeEnrolmentIDDataModel domainToDataModel(ProgrammeEnrolmentID programmeEnrolmentID) {
+        if (programmeEnrolmentID == null) return null;
 
-        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(programmeEnrolmentID.getStudentID());
-        ProgrammeIDDataModel programmeIDDataModel = programmeIDMapper.toData(programmeEnrolmentID.getProgrammeID());
+        StudentID studentID = programmeEnrolmentID.getStudentID();
+        ProgrammeID programmeID = programmeEnrolmentID.getProgrammeID();
+
+        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
+        ProgrammeIDDataModel programmeIDDataModel = programmeIDMapper.toData(programmeID);
 
         return new ProgrammeEnrolmentIDDataModel(studentIDDataModel, programmeIDDataModel);
     }
 
     public ProgrammeEnrolmentID dataModelToDomain(ProgrammeEnrolmentIDDataModel programmeEnrolmentIDDataModel) {
+        if (programmeEnrolmentIDDataModel == null) return null;
 
-        StudentID studentID = studentIDMapper.dataModelToDomain(programmeEnrolmentIDDataModel.getStudentID());
-        ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEnrolmentIDDataModel.getProgrammeID());
+        StudentIDDataModel studentIDDataModel = programmeEnrolmentIDDataModel.getStudentID();
+        ProgrammeIDDataModel programmeIDDataModel = programmeEnrolmentIDDataModel.getProgrammeID();
+
+        StudentID studentID = studentIDMapper.dataModelToDomain(studentIDDataModel);
+        ProgrammeID programmeID = programmeIDMapper.toDomain(programmeIDDataModel);
 
         return new ProgrammeEnrolmentID(studentID, programmeID);
     }
 }
-
-
