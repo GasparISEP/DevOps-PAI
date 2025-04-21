@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
@@ -100,7 +99,6 @@ class CourseEditionDataModelTest {
         CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
         CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
-
         // Act
         CourseEditionIDDataModel cEIDDM = courseEditionDataModel.getCourseEditionIDDataModel();
 
@@ -167,26 +165,96 @@ class CourseEditionDataModelTest {
 
     // -----equals Tests-----
     @Test
-    void shouldReturnFalseWhenUseEqualsMethod() {
+    void shouldReturnTrueWhenCompareCourseEditionDataModelToItSelf() {
         // Arrange
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel.equals(courseEditionDataModel);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCompareCourseEditionDataModelToANull() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        boolean result = courseEditionDataModel.equals(null);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
+    void shouldReturnFalseWhenCompareCourseEditionIDDataModelToADifferentClass () {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        boolean result = courseEditionDataModel.equals(courseEditionIDDataModel);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenCompareCourseEditionDataModelToADifferentCourseEditionDataModelInstanceButWithSameAttributes() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        boolean result = courseEditionDataModel1.equals(courseEditionDataModel2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparedTwoCourseEditionDataModelInstacesWithDifferentCourseEditionIDs() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel1, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel2, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        boolean result = courseEditionDataModel1.equals(courseEditionDataModel2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    // -----hashCode Tests-----
+    @Test
     void shouldReturnZeroWhenUseHashCodeMethod() {
         // Arrange
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
         // Act
         int result = courseEditionDataModel.hashCode();
 
         // Assert
-        assertEquals(0, result);
+        assertEquals(courseEditionDataModel.hashCode(), result);
     }
 }

@@ -7,9 +7,11 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "courseEdition")
-public class CourseEditionDataModel {
+public class CourseEditionDataModel implements Serializable {
 
     @EmbeddedId
     private CourseEditionIDDataModel _courseEditionIDDataModel;
@@ -51,11 +53,18 @@ public class CourseEditionDataModel {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || !(obj instanceof CourseEditionDataModel))
+            return false;
+        CourseEditionDataModel other = (CourseEditionDataModel) obj;
+        if (other._courseEditionIDDataModel.equals(this._courseEditionIDDataModel))
+            return true;
         return false;
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return _courseEditionIDDataModel.hashCode();
     }
 }
