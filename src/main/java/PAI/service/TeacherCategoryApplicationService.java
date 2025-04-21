@@ -7,7 +7,7 @@ import PAI.repository.ITeacherCategoryRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeacherCategoryApplicationService {
+public class TeacherCategoryApplicationService implements ITeacherCategoryApplicationService {
 
     private final ITeacherCategoryRepository repository;
     private final ITeacherCategoryFactory factory;
@@ -19,6 +19,7 @@ public class TeacherCategoryApplicationService {
         this.factory = factory;
     }
 
+    @Override
     public boolean registerCategory(String categoryName) throws Exception {
         Name name = new Name(categoryName);
 
