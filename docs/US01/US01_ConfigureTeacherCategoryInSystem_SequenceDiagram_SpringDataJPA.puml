@@ -4,10 +4,21 @@ autonumber
 
 title: US01 - Sequence Diagram - Configure TeacherCategory (Spring Data JPA)
 
-skinparam sequenceLifeLineBackgroundColor #application
+skinparam sequence {
+  ParticipantFontSize 16
+  ActorFontSize 16
+  FontSize 14
+  LifeLineBorderColor DarkSlateGray
+  LifeLineBackgroundColor #E6F2E6
+  ParticipantBorderColor Black
+  ParticipantBackgroundColor White
+  ArrowColor Black
+  ArrowThickness 1
+  FontName Helvetica
+}
+skinparam nodesep 100
+skinparam ranksep 120
 skinparam linetype ortho
-skinparam nodesep 120
-skinparam ranksep 100
 
 participant UI
 participant ":US01_ConfigureTeacherCategoryController" as Controller
@@ -18,36 +29,42 @@ participant ":ITeacherCategoryRepository" as Repository
 participant ":ITeacherCategoryFactory" as Factory
 participant ":TeacherCategory" as DomainAggregate
 participant ":ITeacherCategoryMapper" as Mapper
-participant ":SpringDataRepository" as JpaRepo
+participant ":ITeacherCategoryRepositorySpringData" as JpaRepo
 participant ":TeacherCategoryDataModel" as DataModel
 
-== START: Interaction with UI ==
+== UI Interaction ==
+
 admin -> UI ++ : "I want to register a new TeacherCategory"
 UI --> admin -- : "Please provide category name"
 
 admin -> UI ++ : "Expert"
 UI -> Controller ++ : configureTeacherCategory("Expert")
 
-== CONTROLLER calls ApplicationService via interface ==
+== Controller delegates to Service ==
+
 Controller -> AppServiceInterface ++ : registerCategory("Expert")
 AppServiceInterface -> AppServiceImpl ++ : registerCategory("Expert")
 
-== SERVICE creates Value Object ==
+== Value Object Creation ==
+
 AppServiceImpl -> NameVO ++ : new Name("Expert")
 NameVO --> AppServiceImpl -- : validated Name object
 
-== SERVICE checks if category exists ==
+== Check Existence in Repository ==
+
 AppServiceImpl -> Repository ++ : existsByName(name)
 Repository -> JpaRepo ++ : existsByName(name.getName())
 JpaRepo --> Repository -- : false
 Repository --> AppServiceImpl -- : false
 
-== SERVICE creates Aggregate using Factory ==
+== Aggregate Creation using Factory ==
+
 AppServiceImpl -> Factory ++ : createTeacherCategory(name)
 Factory -> DomainAggregate ++ : new TeacherCategory(id, name)
 Factory --> AppServiceImpl -- : TeacherCategory
 
-== SERVICE persists category ==
+== Persistence Layer ==
+
 AppServiceImpl -> Repository ++ : save(TeacherCategory)
 Repository -> Mapper ++ : toDataModel(TeacherCategory)
 Mapper -> DataModel ++ : create(id, name)
@@ -56,8 +73,9 @@ Repository -> JpaRepo ++ : save(TeacherCategoryDataModel)
 JpaRepo --> Repository -- : saved
 Repository --> AppServiceImpl -- : saved aggregate
 
-== RESULT to controller and UI ==
-AppServiceImpl --> AppServiceInterface -- : success
+== Response to UI ==
+
+AppServiceImpl --> AppServiceInterface -- : true
 AppServiceInterface --> Controller -- : true
 Controller --> UI -- : true
 UI --> admin -- : "TeacherCategory registered successfully"
