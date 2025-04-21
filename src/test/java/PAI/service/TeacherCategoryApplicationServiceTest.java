@@ -8,13 +8,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class TeacherCategoryApplicationServiceTest {
 
     private ITeacherCategoryRepository repository;
     private ITeacherCategoryFactory factory;
-    private TeacherCategoryApplicationService service;
+
+    // SUT
+    private ITeacherCategoryApplicationService service;
 
     @BeforeEach
     void setUp() {
@@ -24,30 +27,31 @@ class TeacherCategoryApplicationServiceTest {
     }
 
     @Test
-    void shouldRegisterCategorySuccessfully_whenNameIsValidAndUnique() throws Exception {
+    void testRegisterCategorySuccess() throws Exception {
         // Arrange
-        String inputName = "Catedrático";
         when(repository.existsByName(any(Name.class))).thenReturn(false);
-        when(factory.createTeacherCategory(any(Name.class))).thenReturn(mock(TeacherCategory.class));
+        TeacherCategory mockCategory = mock(TeacherCategory.class);
+        when(factory.createTeacherCategory(any(Name.class))).thenReturn(mockCategory);
+        when(repository.save(mockCategory)).thenReturn(mockCategory);
 
         // Act
-        boolean result = service.registerCategory(inputName);
+        boolean result = service.registerCategory("Engenharia");
 
         // Assert
         assertTrue(result);
         verify(repository).existsByName(any(Name.class));
         verify(factory).createTeacherCategory(any(Name.class));
-        verify(repository).save(any(TeacherCategory.class));
+        verify(repository).save(mockCategory);
     }
 
     @Test
-    void shouldThrowException_whenCategoryNameAlreadyExists() {
+    void testRegisterCategoryAlreadyExists() {
         // Arrange
-        String inputName = "Auxiliar";
         when(repository.existsByName(any(Name.class))).thenReturn(true);
 
-        // Act & Assert
-        Exception ex = assertThrows(Exception.class, () -> service.registerCategory(inputName));
+        // Act + Assert
+        Exception ex = assertThrows(Exception.class,
+                () -> service.registerCategory("Engenharia"));
         assertEquals("Category already exists or could not be registered.", ex.getMessage());
 
         verify(repository).existsByName(any(Name.class));
@@ -56,14 +60,19 @@ class TeacherCategoryApplicationServiceTest {
     }
 
     @Test
-    void shouldThrowException_whenNameIsInvalid() {
-        // Arrange
-        String invalidName = "a";
+    void testNullDependenciesThrow() {
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryApplicationService(null, factory));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryApplicationService(repository, null));
+    }
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> service.registerCategory(invalidName));
-        verify(repository, never()).existsByName(any());
-        verify(factory, never()).createTeacherCategory(any());
-        verify(repository, never()).save(any());
+    @Test
+    void shouldThrowWhenNameIsInvalid() {
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory(null)),
+                () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory("")),
+                () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory("a")),
+                () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory(" inválido")),
+                () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory("1nválido"))
+        );
     }
 }

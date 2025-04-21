@@ -41,10 +41,11 @@ public class StudentRepositorySpringDataTest {
 
         repository = new StudentRepositorySpringData(repoMock, studentMapper, studentIDMapper, nifMapper);
 
-        studentID = new StudentID(1234567);
-        studentIDDataModel = new StudentIDDataModel(1234567);
-        nif = new NIF("123456789", new Country("Portugal"));
-        nifDataModel = new NIFDataModel("123456789", "Portugal");
+        studentID = mock(StudentID.class);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
+        studentIDDataModel = mock(StudentIDDataModel.class);
+        nif = mock(NIF.class);
+        nifDataModel = mock(NIFDataModel.class);
 
         student = mock(Student.class);
         dataModel = mock(StudentDataModel.class);
@@ -167,6 +168,18 @@ public class StudentRepositorySpringDataTest {
         });
 
         assertTrue(exception.getMessage().contains("Failed to convert"));
+    }
+
+    @Test
+    public void testSaveThrowsRuntimeExceptionOnRepositoryFailure() {
+        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
+        doThrow(new RuntimeException("Could not save student")).when(repoMock).save(dataModel);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            repository.save(student);
+        });
+
+        assertTrue(exception.getMessage().contains("Could not save student"));
     }
 
 }
