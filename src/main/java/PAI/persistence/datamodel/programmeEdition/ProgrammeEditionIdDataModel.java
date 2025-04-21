@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
 import jakarta.persistence.Embeddable;
@@ -16,6 +17,12 @@ public class ProgrammeEditionIdDataModel {
         this._programmeName = programme.getProgrammeName().toString();
         this._programmeAcronym = programme.getAcronym().toString();
         this._schoolYearId = schoolYear.identity().toString();
+    }
+
+    public ProgrammeEditionIdDataModel(String programmeName, String programmeAcronym, String schoolYearId) {
+        this._programmeName = programmeName;
+        this._programmeAcronym = programmeAcronym;
+        this._schoolYearId = schoolYearId;
     }
 
 

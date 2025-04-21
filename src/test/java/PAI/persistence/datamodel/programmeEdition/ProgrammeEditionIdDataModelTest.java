@@ -23,6 +23,23 @@ class ProgrammeEditionIdDataModelTest {
     }
 
     @Test
+    void shouldCreateProgrammeEditionIdDataModelWithStringParameters() {
+        // arrange
+        String programmeName = "Programme Name";
+        String programmeAcronym = "Acronym";
+        String schoolYearId = UUID.randomUUID().toString();
+
+        // act
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeName, programmeAcronym, schoolYearId);
+
+        // assert
+        assertNotNull(programmeEditionIdDataModel);
+        assertEquals(programmeName, programmeEditionIdDataModel.getProgrammeName());
+        assertEquals(programmeAcronym, programmeEditionIdDataModel.getProgrammeAcronym());
+        assertEquals(schoolYearId, programmeEditionIdDataModel.getSchoolYearId());
+    }
+
+    @Test
     void shouldCreateProgrammeEditionIdDataModelWithParametersIsolationTest() {
         //arrange
         Programme doubleProgramme = mock(Programme.class);
