@@ -32,6 +32,9 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     @Override
     public CourseEdition toDomain(CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory) throws Exception {
 
+        if (courseEditionDataModel == null)
+            throw new IllegalArgumentException("courseEditionDataModel cannot be null");
+
         CourseEditionID cEID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
         ProgrammeEditionID pEID = _programmeEditionIdMapper.dataModelToDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
         CourseInStudyPlanID cISPID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
