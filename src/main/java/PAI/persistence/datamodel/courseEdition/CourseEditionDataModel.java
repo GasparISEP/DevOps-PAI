@@ -25,4 +25,8 @@ public class CourseEditionDataModel {
     public CourseEditionIDDataModel getCourseEditionIDDataModel() {
         return null;
     }
+
+    public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
+        return null;
+    }
 }
