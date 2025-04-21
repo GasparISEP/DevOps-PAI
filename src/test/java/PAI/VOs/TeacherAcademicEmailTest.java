@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TeacherAcademicEmailTest {
 
@@ -151,5 +153,19 @@ class TeacherAcademicEmailTest {
 
         // Act & Assert
         assertFalse(email.equals("ABC@isep.ipp.pt"));
+    }
+
+    @Test
+    void shouldReturnEmailDomainThroughGetter() {
+        //Arrange
+        TeacherAcronym teacherAcronymDouble = mock(TeacherAcronym.class);
+        TeacherAcademicEmail teacherAcademicEmail = new TeacherAcademicEmail(teacherAcronymDouble);
+        when(teacherAcronymDouble.toString()).thenReturn("isep.ipp.pt");
+
+        //Act
+        String result = teacherAcademicEmail.getEmailDomain();
+
+        //Assert
+        assertEquals(teacherAcronymDouble.toString(), result);
     }
 }

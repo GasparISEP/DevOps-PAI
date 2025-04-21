@@ -4,19 +4,21 @@ import java.util.Objects;
 
 public class TeacherAcademicEmail {
 
-        private static final String emailDomain = "isep.ipp.pt";
-        private final String _teacherAcademicEmail;
+    private static final String _emailDomain = "isep.ipp.pt";
+    private final String _teacherAcademicEmail;
 
-        public TeacherAcademicEmail (TeacherAcronym teacherAcronym) {
+    public TeacherAcademicEmail (TeacherAcronym teacherAcronym) {
 
-            if (teacherAcronym == null) {
-                throw new IllegalArgumentException("Teacher's acronym cannot be null!");
-            }
-
-            _teacherAcademicEmail = teacherAcronym.getAcronym() + "@" + emailDomain;
+        if (teacherAcronym == null) {
+            throw new IllegalArgumentException("Teacher's acronym cannot be null!");
         }
 
-        public String getTeacherAcademicEmail () {
+        _teacherAcademicEmail = teacherAcronym.getAcronym() + "@" + _emailDomain;
+    }
+
+    public String getEmailDomain() { return _emailDomain; }
+
+    public String getTeacherAcademicEmail() {
             return _teacherAcademicEmail;
         }
 
