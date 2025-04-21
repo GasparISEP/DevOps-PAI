@@ -8,6 +8,9 @@ import PAI.factory.ICourseEditionFactory;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 
 public class CourseEditionMapperImpl implements ICourseEditionMapper {
 
@@ -46,7 +49,13 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     }
 
     @Override
-    public CourseEditionDataModel toDataModel(CourseEdition courseEdition) {
-        return null;
+    public CourseEditionDataModel toDataModel(CourseEdition courseEdition) throws Exception{
+
+        CourseEditionIDDataModel cEIDDM = _courseEditionIDMapper.toDataModel(courseEdition.identity());
+        ProgrammeEditionIdDataModel pEIDDM = _programmeEditionIdMapper.domainToDataModel(courseEdition.getProgrammeEditionID());
+        CourseInStudyPlanIDDataModel cISPIDDM = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
+
+        CourseEditionDataModel result = new CourseEditionDataModel(cEIDDM, pEIDDM, cISPIDDM);
+        return result;
     }
 }

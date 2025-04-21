@@ -8,6 +8,9 @@ import PAI.factory.ICourseEditionFactory;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -141,21 +144,33 @@ class CourseEditionMapperImplTest {
         assertEquals("courseEditionFactory cannot be null", exception.getMessage());
     }
 
+    //--------toDomain Tests--------
     @Test
-    void shouldReturnNullWhenToDataModelIsCalled() {
+    void shouldReturnACourseEditionDataModelWhenToDataModelMethodIsCalledWithValidArguments() throws Exception {
         // Arrange
         ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
         IProgrammeEditionIdMapper pEIDMapper = mock(IProgrammeEditionIdMapper.class);
         ICourseInStudyPlanIDMapper cISPIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionMapper mapper = new CourseEditionMapperImpl(cEIDMapper, pEIDMapper, cISPIDMapper);
 
+        CourseEditionIDDataModel cEIDDM = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel pEIDDM = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel cISPIDDM = mock(CourseInStudyPlanIDDataModel.class);
+
         CourseEdition courseEdition = mock(CourseEdition.class);
 
+        when(cEIDMapper.toDataModel(courseEdition.identity())).thenReturn(cEIDDM);
+        when(pEIDMapper.domainToDataModel(courseEdition.getProgrammeEditionID())).thenReturn(pEIDDM);
+        when(cISPIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID())).thenReturn(cISPIDDM);
+
         // Act
-        CourseEditionDataModel courseEditionDataModel = mapper.toDataModel(courseEdition);
+        CourseEditionDataModel result = mapper.toDataModel(courseEdition);
 
         // Assert
-        assertNull(courseEditionDataModel);
+        assertNotNull(courseEdition);
+        assertEquals(cEIDDM, result.getCourseEditionIDDataModel());
+        assertEquals(pEIDDM, result.getProgrammeEditionIDDataModel());
+        assertEquals(cISPIDDM, result.getCourseInStudyPlanIDDataModel());
     }
 
 }

@@ -8,5 +8,5 @@ public interface ICourseEditionMapper {
 
     CourseEdition toDomain (CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory) throws Exception;
 
-    CourseEditionDataModel toDataModel (CourseEdition courseEdition);
+    CourseEditionDataModel toDataModel (CourseEdition courseEdition) throws Exception;
 }
