@@ -85,18 +85,46 @@ class CourseEditionIDMapperImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenConvertDomainToDataModel() throws Exception {
+    void shouldThrowExceptionIfToDataModelMethodReceivesANullCourseEditionID() throws Exception {
+        // Arrange
+        CourseEditionID courseEditionID = null;
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionIDMapper mapper = new CourseEditionIDMapperImpl(programmeEditionIdMapper, courseInStudyPlanIDMapper);
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {mapper.toDataModel(courseEditionID);});
+
+        // Assert
+        assertNotNull(mapper);
+        assertEquals(exception.getMessage(), "CourseEditionID cannot be null");
+    }
+
+    @Test
+    void shouldReturnACourseEditionIDWhenConvertDomainToDataModel() throws Exception {
         // Arrange
         CourseEditionID cEID = mock(CourseEditionID.class);
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionIDMapper mapper = new CourseEditionIDMapperImpl(programmeEditionIdMapper, courseInStudyPlanIDMapper);
 
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel pEIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(programmeEditionIdMapper.domainToDataModel(pEID)).thenReturn(pEIDDataModel);
+
+        CourseInStudyPlanID cISPID = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanIDDataModel cISPIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        when(courseInStudyPlanIDMapper.toDataModel(cISPID)).thenReturn(cISPIDDataModel);
+
+        when(cEID.getProgrammeEditionID()).thenReturn(pEID);
+        when(cEID.getCourseInStudyPlanID()).thenReturn(cISPID);
+
         // Act
         CourseEditionIDDataModel dataModel  = mapper.toDataModel(cEID);
 
         // Assert
-        assertNotNull(mapper);
-        assertNull(dataModel);
+        assertNotNull(dataModel);
+        assertEquals(dataModel.getProgrammeEditionIDDataModel(), pEIDDataModel);
+        assertEquals(dataModel.getCourseInStudyPlanIDDataModel(), cISPIDDataModel);
     }
 }

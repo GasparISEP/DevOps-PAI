@@ -34,7 +34,7 @@ interface ICourseEditionEnrolmentService <<Interface>> {
     +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentServiceImpl {
+class CourseEditionEnrolmentService {
     +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
@@ -64,7 +64,7 @@ class CourseEditionEnrolmentRepositoryImpl {
     +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentRepositorySpringDataImpl{
+class CourseEditionEnrolmentRepositorySpringData{
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
@@ -92,6 +92,11 @@ class CourseEditionEnrolmentFactoryImpl {
 
 ' ========== MAPPING LAYER ==========
 package Mapper {
+interface ICourseEditionEnrolmentMapper <<Interface>> {
+    +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
+    +toEntity(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
+}
+
 class CourseEditionEnrolmentMapper {
     +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
     +toEntity(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
@@ -108,16 +113,10 @@ class CourseEditionEnrolmentDataModel {
     -isActive: boolean
 }
 
-class CourseEditionEnrolmentIDDataModel {
+class CourseEditionEnrolmentIDDataModel <<Embedded Id>> {
     - studentID: int
     - courseEditionID: int
 }
-
-    note right of CourseEditionEnrolmentDataModel
-        This class contains
-        an embedded ID
-        ceeIDDataModel.
-    end note
 }
 
 
@@ -177,19 +176,20 @@ class CourseEditionID <<Value Object>> {
 
 ' ========== RELATIONSHIPS ==========
 US28_EnrolmentRemovalController ..> ICourseEditionEnrolmentService
-ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
-CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentService
+CourseEditionEnrolmentService ..> ICourseEditionEnrolmentRepository
+ICourseEditionEnrolmentService ..> ICourseEditionEnrolmentFactory
 
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
-ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
-CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
-CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
-CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentMapper : uses
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringData
+CourseEditionEnrolmentRepositorySpringData ..> CourseEditionEnrolmentDataModel
+CourseEditionEnrolmentRepositorySpringData "1" ..> "*" CourseEditionEnrolment
+CourseEditionEnrolmentRepositorySpringData ..> ICourseEditionEnrolmentMapper : uses
 CourseEditionEnrolmentMapper ..> CourseEditionEnrolment : maps to
 CourseEditionEnrolmentMapper ..> CourseEditionEnrolmentDataModel : maps to
+CourseEditionEnrolmentMapper ..|> ICourseEditionEnrolmentMapper
 CourseEditionEnrolmentDataModel --> CourseEditionEnrolmentIDDataModel
-CourseEditionEnrolmentRepositorySpringDataImpl ..|> ICourseEditionEnrolment\nRepositorySpringData
+CourseEditionEnrolmentRepositorySpringData ..|> ICourseEditionEnrolment\nRepositorySpringData
 
 CourseEditionEnrolment "*" --> "_studentID 1" StudentID
 CourseEditionEnrolment "*" --> "_courseEditionID 1" CourseEditionID
