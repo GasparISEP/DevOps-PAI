@@ -38,15 +38,15 @@ public class CourseEditionDataModel {
     }
 
     public CourseEditionIDDataModel getCourseEditionIDDataModel() {
-        return null;
+        return _courseEditionIDDataModel;
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
-        return null;
+        return _programmeEditionIDDataModel;
     }
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
-        return null;
+        return _courseInStudyPlanIDDataModel;
     }
 
     @Override

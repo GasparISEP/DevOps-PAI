@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseEdition;
 
+import PAI.VOs.CourseInStudyPlanID;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,7 @@ class CourseEditionDataModelTest {
 
     // -----getCourseEditionIDDataModel Tests-----
     @Test
-    void shouldReturnNullWhenUseGetCourseEditionIDDataModelMethod() {
+    void shouldReturnNullWhenTryToGetCourseEditionIDDataModelWhenCourseEditionDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
         CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
 
@@ -91,9 +92,25 @@ class CourseEditionDataModelTest {
         assertNull(courseEditionIDDataModel);
     }
 
+    @Test
+    void shouldReturnCourseEditionIDDataModelWhenCourseEditionDataModelIsCreatedWithArguments() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+
+        // Act
+        CourseEditionIDDataModel cEIDDM = courseEditionDataModel.getCourseEditionIDDataModel();
+
+        // Assert
+        assertEquals(courseEditionIDDataModel, cEIDDM);
+    }
+
     // -----getProgrammeEditionIDDataModel Tests-----
     @Test
-    void shouldReturnNullWhenUseGetProgrammeEditionIDDataModelMethod() {
+    void shouldReturnNullWhenTryToGetProgrammeEditionIDDataModelWhenCourseEditionDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
         CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
 
@@ -104,9 +121,25 @@ class CourseEditionDataModelTest {
         assertNull(courseEditionIDDataModel);
     }
 
+    @Test
+    void shouldReturnProgrammeEditionIDDataModelWhenCourseEditionDataModelIsCreatedWithArguments() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+
+        // Act
+        ProgrammeEditionIdDataModel pEIDDM = courseEditionDataModel.getProgrammeEditionIDDataModel();
+
+        // Assert
+        assertEquals(programmeEditionIDDataModel, pEIDDM);
+    }
+
     // -----getCourseInStudyPlanIDDataModel Tests-----
     @Test
-    void shouldReturnNullWhenUseGetCourseInStudyPlanIDDataModelMethod() {
+    void shouldReturnNullWhenTryToGetCourseInStudyPlanIDDataModelWhenCourseEditionDataModelIsCreatedWithEmptyConstructor() {
         // Arrange
         CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
 
@@ -115,6 +148,21 @@ class CourseEditionDataModelTest {
 
         // Assert
         assertNull(courseEditionIDDataModel);
+    }
+
+    @Test
+    void shouldReturnCourseInStudyPlanIDDataModelWhenCourseEditionDataModelIsCreatedWithArguments() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
+
+        // Act
+        CourseInStudyPlanIDDataModel cISPIDDM = courseEditionDataModel.getCourseInStudyPlanIDDataModel();
+
+        // Assert
+        assertEquals(courseInStudyPlanIDDataModel, cISPIDDM);
     }
 
     // -----equals Tests-----
