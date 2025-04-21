@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CourseEditionDataModelTest {
 
+    // -----Constructos Tests-----
     @Test
     void shouldCreateCourseEditionDataModelWithEmptyArguments() {
         // Arrange
@@ -20,6 +21,7 @@ class CourseEditionDataModelTest {
         assertNotNull(courseEditionDataModel);
     }
 
+    // -----getCourseEditionIDDataModel Tests-----
     @Test
     void shouldReturnNullWhenUseGetCourseEditionIDDataModelMethod() {
         // Arrange
@@ -32,6 +34,7 @@ class CourseEditionDataModelTest {
         assertNull(courseEditionIDDataModel);
     }
 
+    // -----getProgrammeEditionIDDataModel Tests-----
     @Test
     void shouldReturnNullWhenUseGetProgrammeEditionIDDataModelMethod() {
         // Arrange
@@ -44,6 +47,7 @@ class CourseEditionDataModelTest {
         assertNull(courseEditionIDDataModel);
     }
 
+    // -----getCourseInStudyPlanIDDataModel Tests-----
     @Test
     void shouldReturnNullWhenUseGetCourseInStudyPlanIDDataModelMethod() {
         // Arrange
@@ -54,5 +58,18 @@ class CourseEditionDataModelTest {
 
         // Assert
         assertNull(courseEditionIDDataModel);
+    }
+
+    // -----equals Tests-----
+    @Test
+    void shouldReturnFalseWhenUseEqualsMethod() {
+        // Arrange
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+
+        // Act
+        boolean result = courseEditionDataModel.equals(courseEditionDataModel);
+
+        // Assert
+        assertFalse(result);
     }
 }

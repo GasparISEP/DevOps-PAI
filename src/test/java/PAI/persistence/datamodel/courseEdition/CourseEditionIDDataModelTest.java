@@ -117,7 +117,7 @@ class CourseEditionIDDataModelTest {
         assertEquals(courseInStudyPlanIDDataModel, cISPIDDM);
     }
 
-    //
+    // -----equals Tests-----
     @Test
     void shouldReturnTrueWhenCompareCourseEditionIDDataModelToItSelf() {
         // Arrange
