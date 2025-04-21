@@ -25,6 +25,9 @@ public class CourseEditionDataModel {
     public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, ProgrammeEditionIdDataModel programmeEditionIDDataModel,
                                   CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel) {
 
+        if (courseEditionIDDataModel == null)
+            throw new IllegalArgumentException("courseEditionID cannot be null");
+
         this._courseEditionIDDataModel = courseEditionIDDataModel;
         this._programmeEditionIDDataModel = programmeEditionIDDataModel;
         this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
