@@ -10,11 +10,11 @@ participant "service1:StudentService" as service #lightblue
 participant "sf1:StudentFactory" as SF #technology
 participant "address1:Address" as A #physical
 participant "s1:Student" as s1 #strategy
+participant "sr1:StudentRepositoryJPA" as SR #lightcyan
 participant "sIDmapper1: StudentIDMapper" as SMapper
 participant "sIDDataModel1:StudentIDDataModel" as siddm
 participant "NIFmapper1: NIFMapper" as NIF
 participant "NIFDataModel1: NIFDataModel" as NIFDM
-participant "sr1:StudentRepositoryJPA" as SR #lightcyan
 participant "m1:StudentMapper" as mapper
 participant "s1:Student" as s2 #strategy
 participant "sDataModel1: StudentDataModel" as sDM
@@ -49,40 +49,33 @@ SF -> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, addres
 activate s1
 s1 --> SF: s1
 deactivate s1
-SF -> SMapper : domainToDataModel(studentIDVO)
+
+SF -> SR: existsByStudentIDAndNIF(studentIDVO, NIFVO)
+activate SR
+SR -> SMapper : domainToDataModel(studentIDVO)
 activate SMapper
 SMapper -> siddm**: new StudentIDDataModel(studentIDVO)
 activate siddm
 siddm --> SMapper : sIDDataModel1
 deactivate siddm
-SMapper --> SF: sIDDataModel1
+SMapper --> SR: sIDDataModel1
 deactivate SMapper
-SF -> SR: existsByID(sIDDataModel1)
-activate SR
-SR ->: existsByID(sIDDataModel1)
-SR <-- : False
-SR --> SF: False
-deactivate SR
-SF -> NIF : domainToDataModel(NIFVO)
+SR -> NIF : domainToDataModel(NIFVO)
 activate NIF
 NIF -> NIFDM**: new NIFDataModel(NIFVO)
 activate NIFDM
 NIFDM --> NIF: NIFDataModel1
 deactivate NIFDM
-NIF --> SF: NIFDataModel1
+NIF --> SR: NIFDataModel1
 deactivate NIF
-SF -> SR: existsByNIF(NIFDataModel1)
-activate SR
-SR ->: existsByNIF(NIFDataModel1)
+SR -> : existsByStudentIDAndNIF(sIDDataModel1, NIFDataModel1)
 SR <-- : False
 SR --> SF: False
 deactivate SR
 SF --> service: s1
 deactivate SF
-deactivate service
 
 service -> SR: save(s1)
-activate service
 activate SR
 SR -> mapper: domainToDataModel(s1)
 activate mapper
