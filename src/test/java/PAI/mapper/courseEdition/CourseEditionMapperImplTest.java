@@ -94,7 +94,7 @@ class CourseEditionMapperImplTest {
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
 
         when(cEIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel())).thenReturn(cEID);
-        when(pEIDMapper.dataModelToDomain(courseEditionDataModel.getProgrammeEditionIDDataModel())).thenReturn(pEID);
+        when(pEIDMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel())).thenReturn(pEID);
         when(cISPIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel())).thenReturn(cISPID);
 
         CourseEdition expectedResult = mock(CourseEdition.class);
@@ -160,7 +160,7 @@ class CourseEditionMapperImplTest {
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         when(cEIDMapper.toDataModel(courseEdition.identity())).thenReturn(cEIDDM);
-        when(pEIDMapper.domainToDataModel(courseEdition.getProgrammeEditionID())).thenReturn(pEIDDM);
+        when(pEIDMapper.toDataModel(courseEdition.getProgrammeEditionID())).thenReturn(pEIDDM);
         when(cISPIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID())).thenReturn(cISPIDDM);
 
         // Act
