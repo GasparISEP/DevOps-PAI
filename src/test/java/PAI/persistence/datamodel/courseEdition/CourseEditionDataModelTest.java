@@ -17,4 +17,16 @@ class CourseEditionDataModelTest {
         // Assert
         assertNotNull(courseEditionDataModel);
     }
+
+    @Test
+    void shouldReturnNullWhenUseGetCourseEditionIDDataModel() {
+        // Arrange
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+
+        // Act
+        CourseEditionIDDataModel courseEditionIDDataModel = courseEditionDataModel.getCourseEditionIDDataModel();
+
+        // Assert
+        assertNull(courseEditionIDDataModel);
+    }
 }

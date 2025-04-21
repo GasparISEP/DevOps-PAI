@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import jakarta.persistence.Embedded;
@@ -23,4 +22,7 @@ public class CourseEditionDataModel {
 
     protected CourseEditionDataModel() {}
 
+    public CourseEditionIDDataModel getCourseEditionIDDataModel() {
+        return null;
+    }
 }
