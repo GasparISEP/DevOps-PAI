@@ -42,7 +42,7 @@ public class StudentGradeMapper implements IStudentGradeMapper {
         StudentID studentID = studentIDMapper.dataModelToDomain(studentGradeDM.getStudentId());
 
 
-        CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID(), programmeEditionIDMapper, courseInStudyPlanIDMapper);
+        CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID());
 
         return new StudentGrade(grade,date,studentID,courseEditionID);
 

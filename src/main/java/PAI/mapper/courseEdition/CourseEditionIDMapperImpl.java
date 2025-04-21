@@ -12,17 +12,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
 
-    @Override
-    public CourseEditionID toDomain(CourseEditionIDDataModel courseEditionIDDataModel, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper) throws Exception {
-        if (courseEditionIDDataModel == null)
-            throw new IllegalArgumentException("CourseEditionIDDataModel cannot be null");
+    private final IProgrammeEditionIdMapper _programmeEditionIdMapper;
+    private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
+
+    public CourseEditionIDMapperImpl(IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper) {
         if (programmeEditionIdMapper == null)
             throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
         if (courseInStudyPlanIDMapper == null)
             throw new IllegalArgumentException("CourseInStudyPlanIDMapper cannot be null");
 
-        ProgrammeEditionID pEID = programmeEditionIdMapper.dataModelToDomain(courseEditionIDDataModel.getProgrammeEditionIDDataModel());
-        CourseInStudyPlanID cISPID = courseInStudyPlanIDMapper.toDomain(courseEditionIDDataModel.getCourseInStudyPlanIDDataModel());
+        this._programmeEditionIdMapper = programmeEditionIdMapper;
+        this._courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
+    }
+
+    @Override
+    public CourseEditionID toDomain(CourseEditionIDDataModel courseEditionIDDataModel) throws Exception {
+        if (courseEditionIDDataModel == null)
+            throw new IllegalArgumentException("CourseEditionIDDataModel cannot be null");
+
+
+        ProgrammeEditionID pEID = _programmeEditionIdMapper.dataModelToDomain(courseEditionIDDataModel.getProgrammeEditionIDDataModel());
+        CourseInStudyPlanID cISPID = _courseInStudyPlanIDMapper.toDomain(courseEditionIDDataModel.getCourseInStudyPlanIDDataModel());
         return new CourseEditionID(pEID, cISPID);
     }
 
