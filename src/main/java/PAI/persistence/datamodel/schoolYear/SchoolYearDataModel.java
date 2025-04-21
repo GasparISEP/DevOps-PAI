@@ -12,9 +12,15 @@ public class SchoolYearDataModel {
     @EmbeddedId
     private SchoolYearIDDataModel id;
 
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
+
 
     public SchoolYearDataModel() {}
 
