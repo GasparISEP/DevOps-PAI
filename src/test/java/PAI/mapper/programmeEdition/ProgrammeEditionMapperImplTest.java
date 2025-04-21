@@ -85,6 +85,19 @@ class ProgrammeEditionMapperImplTest {
     }
 
     @Test
+    void shouldNotMapProgrammeEditionToProgrammeEditionDataModelIfProgrammeEditionNull() {
+        // arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionMapper.toDataModel(null)
+        );
+    }
+
+    @Test
     void shouldMapProgrammeEditionDataModelToProgrammeEdition() {
         // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);

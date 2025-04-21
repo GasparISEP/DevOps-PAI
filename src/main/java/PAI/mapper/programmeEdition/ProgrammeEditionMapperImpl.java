@@ -37,6 +37,9 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
     @Override
     public Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) {
+        if(programmeEdition == null) {
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
         return Optional.empty();
     }
 
