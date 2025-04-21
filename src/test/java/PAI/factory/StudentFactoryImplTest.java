@@ -2,6 +2,8 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
+import PAI.persistence.springdata.StudentRepositorySpringData;
+import PAI.repository.IStudentRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -11,39 +13,102 @@ import static org.mockito.Mockito.*;
 class StudentFactoryImplTest {
 
     @Test
-    void shouldReturnStudentWhenInputIsValid() {
+    void shouldCreateFactoryWhenRepositoryIsProvided() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+
+        //act
+        StudentFactoryImpl studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
+        //assert
+        assertNotNull(studentFactory);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRepositoryIsNull() {
+        //arrange
+        IStudentRepository studentRepositoryDouble = null;
+
+        //act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new StudentFactoryImpl(studentRepositoryDouble));
+
+        //assert
+        assertEquals("Student Repository cannot be null!", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnStudentWhenInputIsValid() throws Exception {
+        //arrange
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
         Country countryDouble = mock(Country.class);
-        StudentID mockStudentID = mock(StudentID.class);
-        Name name = mock(Name.class);
-        NIF nif = mock(NIF.class);
-        PhoneNumber phone = mock(PhoneNumber.class);
-        Email email = mock(Email.class);
-        StudentAcademicEmail academicEmail = mock(StudentAcademicEmail.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(false);
 
         try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
 
-                StudentID studentID = (StudentID) context.arguments().get(0);
-                when(mock.identity()).thenReturn(mockStudentID);
+                when(mock.identity()).thenReturn(studentIDDouble);
         })) {
             // Act
-            Student student = studentFactory.newStudent(mockStudentID, name, nif, phone, email, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmail);
+            Student student = studentFactory.newStudent(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble);
 
             // Assert
             assertEquals(1, studentDouble.constructed().size());
             assertSame(studentDouble.constructed().get(0), student);
-            assertEquals(mockStudentID, student.identity());
+            assertEquals(studentIDDouble, student.identity());
         }
     }
 
     @Test
+    void shouldThrowExceptionWhenStudentWithSameIDOrNIFExists() {
+        //arrange
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
+        Street streetDouble = mock(Street.class);
+        PostalCode postalCodeDouble = mock(PostalCode.class);
+        Location locationDouble = mock(Location.class);
+        Country countryDouble = mock(Country.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(true);
+
+        try (MockedConstruction<Student> studentDouble = mockConstruction(Student.class, (mock, context) -> {
+            when(mock.identity()).thenReturn(studentIDDouble);
+        })) {
+            //act + assert
+            try {
+                studentFactory.newStudent(studentIDDouble, nameDouble, nifDouble, phoneDouble, emailDouble,
+                        streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble);
+                fail("Expected exception not thrown");
+            } catch (Exception e) {
+                assertTrue(e.getMessage().contains("Student with this information is already registered!"));
+            }
+        }
+    }
+
+
+    @Test
     void whenNewStudentFromDataModelConstructorInvokedThenMockedObjectShouldBeCreated() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Address addressDouble = mock(Address.class);
         StudentID studentIDDouble = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -68,7 +133,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenStudentIDIsNull () {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -95,7 +162,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputNameIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -122,7 +191,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputNIFIsNull () {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -149,7 +220,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputPhoneNumberIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -176,7 +249,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputEmailIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -203,7 +278,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenAcademicEmailIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
@@ -230,7 +307,9 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenStreetIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
         Country countryDouble = mock(Country.class);
@@ -257,7 +336,9 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenPostalCodeIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         Location locationDouble = mock(Location.class);
         Country countryDouble = mock(Country.class);
@@ -284,7 +365,9 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenLocationIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Country countryDouble = mock(Country.class);
@@ -311,7 +394,9 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenCountryIsNull() {
         //arrange
-        IStudentFactory studentFactory = new StudentFactoryImpl();
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
+
         Street streetDouble = mock(Street.class);
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);

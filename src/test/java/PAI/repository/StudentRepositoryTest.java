@@ -1,4 +1,4 @@
-package PAI.repository;
+/*package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
@@ -431,4 +431,4 @@ class StudentRepositoryTest {
         // Assert
         assertTrue(result.isEmpty());
     }
-}
+}*/

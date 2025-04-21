@@ -22,7 +22,7 @@ class CourseInStudyPlanFactoryImplTest {
 
         //act
         ICourseInStudyPlanFactory courseInStudyPlanFactory_2 = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan_2(semester, curricularYear, courseID, studyplanID);
+        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan(semester, curricularYear, courseID, studyplanID);
 
         //assert
         assertNotNull(courseInStudyPlan_DDD);

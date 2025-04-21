@@ -2,16 +2,32 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
+import PAI.repository.IStudentRepository;
 
 public class StudentFactoryImpl implements IStudentFactory {
 
-    public Student newStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email,
+    private IStudentRepository _studentRepository;
+
+    public StudentFactoryImpl(IStudentRepository studentRepository) {
+
+        if(studentRepository == null)
+            throw new IllegalArgumentException("Student Repository cannot be null!");
+
+        _studentRepository = studentRepository;
+    }
+
+    public Student newStudent(StudentID studentID, Name name, NIF nif, PhoneNumber phone, Email email,
                               Street street, PostalCode postalCode, Location location, Country country,
-                              StudentAcademicEmail academicEmail) {
+                              StudentAcademicEmail academicEmail) throws Exception {
 
         Address address = createAddress(street, postalCode, location, country);
 
-        return new Student(studentID, name, NIF, phone, email, address, academicEmail);
+        Student student = new Student(studentID, name, nif, phone, email, address, academicEmail);
+
+        if(_studentRepository.existsByStudentIDOrNIF(studentID, nif))
+            throw new Exception ("Student with this information is already registered!");
+
+        return student;
     }
 
     public Address createAddress (Street street, PostalCode postalCode, Location location, Country country) {

@@ -1,9 +1,16 @@
 @startuml
 
-skinparam linetype ortho
+skinparam defaultTextAlignment center
+skinparam classAttributeIconSize 0
+skinparam classFontSize 16
+skinparam attributeFontSize 14
+skinparam methodFontSize 14
+skinparam classFontColor black
+skinparam shadowing false
+skinparam dpi 150
 skinparam nodesep 120
 skinparam ranksep 100
-skinparam classAttributeIconSize 0
+skinparam linetype ortho
 
 package "PAI" {
 
@@ -39,7 +46,7 @@ package "PAI" {
 
   ' ======= AGGREGATE =======
   package "domain" {
-    entity "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
+    class "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
       + TeacherCategory(id: TeacherCategoryID, name: Name)
       + getId(): TeacherCategoryID
       + getName(): Name
@@ -88,37 +95,44 @@ package "PAI" {
     }
 
     class "TeacherCategoryRepositoryJpaAdapter" as RepoImpl <<Repository>> {
+      + save(category: TeacherCategory): TeacherCategory
+      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
+      + containsOfIdentity(id: TeacherCategoryID): boolean
+      + findAll(): Iterable<TeacherCategory>
+      + existsByName(name: Name): boolean
+      + registerTeacherCategory(name: Name): boolean
+      + getTeacherCategoryList(): List<TeacherCategory>
+      + findByName(name: Name): Optional<TeacherCategory>
+      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
     IRepository <|.. IRepo
     IRepo <|.. RepoImpl
-    RepoImpl --> IFactory : uses
-    RepoImpl --> TCA : persists
-    RepoImpl --> VOId : looks up
+
+    RepoImpl "1" --> "*" TCA : persists
+    RepoImpl "1" --> "*" VOId : looks up
+    RepoImpl "1" --> "1" IFactory : uses
   }
 
   ' ======= SERVICE =======
   package "service" {
-    interface "<<Application>>\nITeacherCategoryApplicationService" as IService {
-      + registerCategory(categoryName: String): boolean
-    }
-
+    interface "<<App Service>>\nITeacherCategoryApplicationService" as IAppService
     class "TeacherCategoryApplicationService" as AppService <<Service>> {
       + registerCategory(categoryName: String): boolean
     }
 
-    IService <|.. AppService
-    AppService --> IRepo : uses
-    AppService --> IFactory : uses
+    IAppService <|.. AppService
+    AppService "1" --> "1" IRepo : uses
+    AppService "1" --> "1" IFactory : uses
   }
 
   ' ======= CONTROLLER =======
   package "controller" {
-    class "US01_ConfigureTeacherCategoryController" as Controller {
+    class "US01_ConfigureTeacherCategoryController" as Controller <<Controller>> {
       + configureTeacherCategory(categoryName: String): boolean
     }
 
-    Controller --> IService : uses
+    Controller "1" --> "1" IAppService : uses
   }
 
 }

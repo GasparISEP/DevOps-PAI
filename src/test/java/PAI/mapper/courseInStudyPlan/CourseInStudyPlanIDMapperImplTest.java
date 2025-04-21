@@ -2,6 +2,7 @@ package PAI.mapper.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.mapper.CourseID.CourseIDMapperImpl;
+import PAI.mapper.ProgrammeIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.CourseIDDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
@@ -22,7 +23,7 @@ public class CourseInStudyPlanIDMapperImplTest {
     void setUp() {
         // Instancia os mappers necessários
         mapper = new CourseInStudyPlanIDMapperImpl(
-                new StudyPlanIDMapperImpl(),
+                new StudyPlanIDMapperImpl(new ProgrammeIDMapper()),
                 new CourseIDMapperImpl()
         );
     }
@@ -40,7 +41,7 @@ public class CourseInStudyPlanIDMapperImplTest {
     void constructorShouldThrowWhenCourseIDMapperIsNull() {
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
-                () -> new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(), null)
+                () -> new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapper()), null)
         );
         assertEquals("CourseIDMapper cannot be null", ex.getMessage());
     }

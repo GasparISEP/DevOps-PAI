@@ -1,9 +1,6 @@
-package PAI.mapper.programmeEdition.impl;
+package PAI.mapper.programmeEdition;
 
 import PAI.VOs.*;
-import PAI.domain.SchoolYear;
-import PAI.domain.programme.Programme;
-import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Component;
 
