@@ -50,13 +50,7 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         CourseIDDataModel courseDM = _courseIDMapper.toDataModel(courseInStudyPlan.getCourseID());
 
-        return new CourseInStudyPlanDataModel(
-                courseInStudyPlanIDDataModel,
-                studyPlanDM,
-                courseDM,
-                semester,
-                curricularYear
-        );
+        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, studyPlanDM, courseDM, semester, curricularYear);
     }
 
     public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) {
@@ -69,6 +63,6 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         StudyPlanID studyPlanId = _studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
 
-        return _courseInStudyPlanFactory.newCourseInStudyPlan_2(semester, year, courseId, studyPlanId);
+        return _courseInStudyPlanFactory.newCourseInStudyPlan(semester, year, courseId, studyPlanId);
     }
 }

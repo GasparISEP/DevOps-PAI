@@ -19,51 +19,22 @@ class StudentAcademicEmailDataModelTest {
         @Test
         void constructorWithArguments() {
             //Arrange
-            String studentEmail = "1234567";
-            String emailDomain = "isep.ipp.pt";
+            String expectedFullEmail = "1234567@isep.ipp.pt";
 
             //Arrange
-            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
+            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(expectedFullEmail);
 
             //Assert
             assertNotNull(dataModel);
         }
 
         @Test
-        void getStudentEmail() {
-            //Arrange
-            String studentEmail = "1234567";
-            String emailDomain = "isep.ipp.pt";
-
-            //Act
-            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
-
-            //Arrange
-            assertEquals(studentEmail, dataModel.getStudentEmail());
-        }
-
-        @Test
-        void getEmailDomain() {
-            //Arrange
-            String studentEmail = "1234567";
-            String emailDomain = "isep.ipp.pt";
-
-            //Act
-            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
-
-            //Arrange
-            assertEquals(emailDomain, dataModel.getEmailDomain());
-        }
-
-        @Test
         void getFullEmail() {
             //Arrange
-            String studentEmail = "1234567";
-            String emailDomain = "isep.ipp.pt";
             String expectedFullEmail = "1234567@isep.ipp.pt";
 
             //Act
-            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
+            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel("1234567@isep.ipp.pt");
 
             //Arrange
             assertEquals(expectedFullEmail, dataModel.getFullEmail());
@@ -72,12 +43,10 @@ class StudentAcademicEmailDataModelTest {
         @Test
         void getFullEmailError() {
             //Arrange
-            String studentEmail = "1234567";
-            String emailDomain = "isep.ipp.pt";
             String expectedFullEmail = "1234568@isep.ipp.pt";
 
             //Act
-            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel(studentEmail, emailDomain);
+            StudentAcademicEmailDataModel dataModel = new StudentAcademicEmailDataModel("1234567@isep.ipp.pt");
 
             //Arrange
             assertNotEquals(expectedFullEmail, dataModel.getFullEmail());

@@ -8,6 +8,9 @@ import PAI.repository.*;
 import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanListFactoryImpl;
 import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanRepositoryImpl;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanListFactory;
+import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
+import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -386,15 +389,16 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
-        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
 
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID2,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID2,studyPlanID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID2,programmeEditionID1);
@@ -443,14 +447,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
 
-        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
-        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
 
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1);
 
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
@@ -505,14 +510,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseID courseID2 = new CourseID(acronym2, name2);
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
-        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
 
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1);
 
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
@@ -570,14 +576,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID (courseID2,studyPlanID2);
 
-        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
-        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
 
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1);
 
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
@@ -626,14 +633,15 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID (courseID1,studyPlanID1);
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
-        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
-        CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
 
-        courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
+        iCourseInStudyPlanService.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
         ceeRepository.enrolStudentInACourseEdition(studentID,ceID1);

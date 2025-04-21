@@ -9,11 +9,7 @@ public class StudentAcademicEmailMapper implements IStudentAcademicEmailMapper {
     public StudentAcademicEmailDataModel domainToDataModel(StudentAcademicEmail studentAcademicEmail) {
         String fullEmail = studentAcademicEmail.getStudentEmail();
 
-        String[] parts = fullEmail.split("@");
-        String studentMail = parts[0];
-        String emailDomain = parts[1];
-
-        return new StudentAcademicEmailDataModel(studentMail, emailDomain);
+        return new StudentAcademicEmailDataModel(fullEmail);
     }
 
     public StudentAcademicEmail dataModelToDomain(StudentAcademicEmailDataModel studentAcademicEmailDataModel) {
