@@ -72,4 +72,16 @@ class CourseEditionDataModelTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnZeroWhenUseHashCodeMethod() {
+        // Arrange
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+
+        // Act
+        int result = courseEditionDataModel.hashCode();
+
+        // Assert
+        assertEquals(0, result);
+    }
 }

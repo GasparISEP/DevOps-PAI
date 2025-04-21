@@ -38,4 +38,9 @@ public class CourseEditionDataModel {
     public boolean equals(Object obj) {
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
