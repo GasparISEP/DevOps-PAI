@@ -11,7 +11,7 @@ class SemesterTest {
         //arrange + act
         Semester semester = new Semester(1);
         //assert
-        assertEquals(1, semester.getSemester());
+        assertEquals(1, semester.toInt());
     }
 
     @Test
@@ -19,7 +19,7 @@ class SemesterTest {
         //arrange + act
         Semester semester = new Semester(2);
         //assert
-        assertEquals(2, semester.getSemester());
+        assertEquals(2, semester.toInt());
     }
 
     @Test
@@ -54,4 +54,6 @@ class SemesterTest {
         //assert - Dois objetos iguais devem ter o mesmo hashCode
         assertEquals(s1.hashCode(), s2.hashCode());
     }
+
+
 }

@@ -15,7 +15,7 @@ public class TeacherCategoryApplicationServiceTest {
 
     private ITeacherCategoryRepository repository;
     private ITeacherCategoryFactory factory;
-    private TeacherCategoryApplicationService service;
+    private ITeacherCategoryApplicationService service;
 
     @BeforeEach
     void setUp() {
