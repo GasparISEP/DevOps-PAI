@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface IProgrammeEditionMapper {
 
     Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition);
-    Optional<ProgrammeEdition> toDomain(ProgrammeEdition programmeEdition);
+
+    Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel);
 }
