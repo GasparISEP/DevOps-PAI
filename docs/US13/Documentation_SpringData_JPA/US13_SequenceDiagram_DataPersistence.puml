@@ -23,15 +23,18 @@ participant "tDM1:TeacherDataModel" as teacherDM #lightgray
 
 
 HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
+|||
 activate UI
 UI --> HRC : What are the Teacher's attributes?
+|||
 deactivate UI
 HRC -> UI : acronym, name, email, NIF, phoneNumber, academicBackground, street, postalCode, location, country
 activate UI
 UI -> controller : getCategoriesList()
 
 activate controller
-ref over controller : \t **Interaction Use #1** \n\n  \t\t\t __gets Teacher Category's List__
+|||
+ref over controller : \t **Interaction Use #1**  \n\n \t\t\t[[./US13_SD_Interaction_Use_#1.puml "get Teacher Category's List"]]
 controller --> UI : Which Category?
 deactivate controller
 deactivate UI
@@ -42,7 +45,8 @@ UI -> controller : getDepartmentList()
 activate UI
 activate controller
 
-ref over controller : \t \t **Interaction Use #2** \n\n  \t\t\t __gets Department's list__
+|||
+ref over controller : \t \t **Interaction Use #2** \n\n  \t\t\t [[./US13_SD_Interaction_Use_#2.puml "get Department's List"]]
 
 controller --> UI : Which Department?
 deactivate controller
@@ -52,8 +56,10 @@ deactivate UI
 
 UI -> controller : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
 
-ref over controller : \t \t \t **Interaction Use #3** \n\n  \t\t\t __convert DTO to VO__
+|||
+ref over controller : \t \t \t **Interaction Use #3** \n\n  \t\t\t [[./US13_SD_Interaction_Use_#3.puml "convert DTO to VO"]]
 activate UI
+|||
 activate controller
 controller -> IteacherService : registerTeacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
 activate IteacherService
@@ -63,6 +69,7 @@ IteacherFactory -> addr** : createAddress(street, postalCode, location, country)
 activate addr
 addr --> IteacherFactory : addr
 deactivate addr
+
 IteacherFactory -> t** : new Teacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, addr, departmentID)
 activate t
 t -> tID** : new TeacherID (teacherAcronym, NIF)
@@ -74,7 +81,7 @@ deactivate t
 IteacherFactory -> IteacherFactory : t1ID = t1.identity()
 IteacherFactory -> IteacherRepoJPA : containsOfIdentity(t1ID)
 activate IteacherRepoJPA
-
+|||
 loop for each Teacher in TeacherRepositoryJPA
     IteacherRepoJPA -> teacher : identity()
     activate teacher
@@ -90,8 +97,8 @@ deactivate IteacherRepoJPA
 
 
 IteacherFactory --> IteacherService : t1
-
-ref over IteacherService : **Interaction Use #4** \n\n  \t\t\t __create Teacher Career Progression (tcp1)__
+|||
+ref over IteacherService : **Interaction Use #4** \n\n  \t\t\t\t [[./US13_SD_Interaction_Use_#4.puml "create Teacher Career Progression (tcp1)"]]
 
 
 deactivate IteacherFactory
@@ -112,6 +119,7 @@ tMapper --> IteacherRepoJPA : teacherDataModel
 deactivate tMapper
 IteacherRepoJPA ->  : insert(teacherDataModel)
 IteacherRepoJPA <-- : teacherDataModel
+|||
 ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t __convert back to domain entity__
 IteacherRepoJPA --> IteacherService : teacherDomain
 deactivate IteacherRepoJPA
