@@ -18,6 +18,8 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
             throw new IllegalArgumentException("courseEditionIDMapper cannot be null");
         if (programmeEditionIdMapper == null)
             throw new IllegalArgumentException("programmeEditionIdMapper cannot be null");
+        if (courseInStudyPlanIDMapper == null)
+            throw new IllegalArgumentException("courseInStudyPlanIDMapper cannot be null");
 
         _courseEditionIDMapper = courseEditionIDMapper;
         _programmeEditionIdMapper = programmeEditionIdMapper;
