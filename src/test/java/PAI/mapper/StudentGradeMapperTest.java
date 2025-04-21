@@ -86,7 +86,7 @@ public class StudentGradeMapperTest {
         when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
         CourseEditionID fakeCourseEditionID = mock(CourseEditionID.class);
-        when(courseEditionIDMapper.toDomain(courseEditionIDDataModel, programmeEditionIdMapper, courseInStudyPlanIDMapper)).thenReturn(fakeCourseEditionID);
+        when(courseEditionIDMapper.toDomain(courseEditionIDDataModel)).thenReturn(fakeCourseEditionID);
 
         // Act
         StudentGrade result = mapper.toDomain(dataModel);
