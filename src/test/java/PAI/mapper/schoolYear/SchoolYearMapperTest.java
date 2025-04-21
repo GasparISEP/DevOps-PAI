@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -166,7 +167,7 @@ class SchoolYearMapperTest {
 
         SchoolYear schoolYear = mapper.toDomain(schoolYearDataModel, schoolYearFactory);
 
-        assertEquals(schoolYear.identity().getSchoolYearID().toString(),schoolYearIDDataModel.getId());
+        assertEquals(schoolYear.identity().getSchoolYearID().toString(), schoolYearIDDataModel.getId());
         assertEquals(schoolYear.getDescription().getDescription(), description);
         assertEquals(schoolYear.getStartDate().getLocalDate(), startDate);
         assertEquals(schoolYear.getEndDate().getLocalDate(), endDate);
