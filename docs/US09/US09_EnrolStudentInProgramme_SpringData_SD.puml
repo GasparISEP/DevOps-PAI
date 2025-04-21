@@ -6,16 +6,21 @@ actor ASC
 participant ":UI" as UI
 participant "ctrl1 : EnrolAStudentInProgrammeController" as CTRL #lightgreen
 participant "peService : ProgrammeEnrolmentService" as PEService #silver
-participant "stdRepo" as StudentRepo #lightblue
+participant "StudentRepo" as StudentRepo #lightblue
 participant "<<Interface>>IStudentRepositorySpringData" as IStudentRepoSpringData #lightyellow
-participant "amRepo" as AccessMethodRepo #lightblue
+participant "AccessMethodRepo" as AccessMethodRepo #lightblue
 participant "<<Interface>>IAccessMethodRepositorySpringData" as IAMRepoSpringData #lightyellow
 participant "pRepo" as ProgrammeRepo #lightblue
 participant "<<Interface>>IProgrammeRepositorySpringData" as IProgrammeRepoSpringData #lightyellow
-participant "peRepo" as ProgrammeEnrolmentRepo #lightblue
-participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
+participant "ProgrammeRepo" as ProgrammeEnrolmentRepo #lightblue
 participant "ProgrammeEnrolmentMapper" as PEMapper
-participant "pe : ProgrammeEnrolment" as ProgrammeEnrolment
+participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
+participant "peIDDataModel : PEIDMapper" as PEIDMapper
+participant "programmeIDDataModel : ProgrammeIDMapper" as ProgrammeIDMapper
+participant "studentIDDataModel : StudentIDDataModel" as StudentIDMapper
+participant "amIDDataModel : AMIDMapper" as AMIDMapper
+participant "peDomain : ProgrammeEnrolment" as ProgrammeEnrolment
+participant Date
 participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
 participant "<<Interface>>IProgrammeEnrolmentRepositorySpringData" as IPERepoSpringData #lightyellow
 
@@ -91,22 +96,67 @@ PEFactory -> ProgrammeEnrolment**: createProgrammeEnrolment\n(studentIDVO, amIDV
 
 activate ProgrammeEnrolment
 ProgrammeEnrolment -> ProgrammeEnrolment : validateAndFormatDate(date)
-ProgrammeEnrolment --> PEFactory: pe
+ProgrammeEnrolment --> PEFactory: peDomain
 deactivate ProgrammeEnrolment
-PEFactory --> ProgrammeEnrolmentRepo: pe
+PEFactory --> ProgrammeEnrolmentRepo: peDomain
 deactivate PEFactory
 
 ProgrammeEnrolmentRepo -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
 activate ProgrammeEnrolment
-ProgrammeEnrolment -> ProgrammeEnrolmentRepo : peID
+ProgrammeEnrolment -> ProgrammeEnrolmentRepo : peIDDomain
 deactivate ProgrammeEnrolment
 
-ProgrammeEnrolmentRepo -> : existsByID(peID)
+ProgrammeEnrolmentRepo -> : existsByID(peIDDomain)
 ProgrammeEnrolmentRepo <-- : false
 
-ProgrammeEnrolmentRepo -> PEMapper : toDataModel(pe)
+ProgrammeEnrolmentRepo -> PEMapper : toDataModel(peDomain)
 activate PEMapper
-PEMapper -> PEDataModel : createPEDataModel(pe)
+PEMapper -> PEIDMapper : toDataModel(peIDDomain)
+activate PEIDMapper
+PEIDMapper -> ProgrammeEnrolment : getProgrammeEnrolmentID(peDomain)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> PEIDMapper : peIDDomain
+deactivate ProgrammeEnrolment
+PEIDMapper --> PEMapper : peIDDataModel
+deactivate PEIDMapper
+
+PEMapper -> ProgrammeIDMapper : toData(programmeIDDomain)
+activate ProgrammeIDMapper
+ProgrammeIDMapper -> ProgrammeEnrolment : getProgrammeID(peDomain)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> ProgrammeIDMapper : programmeIDDomain
+deactivate ProgrammeEnrolment
+ProgrammeIDMapper --> PEMapper : programmeIDDataModel
+deactivate ProgrammeIDMapper
+
+PEMapper -> StudentIDMapper : domainToDataModel(studentIDDomain)
+activate StudentIDMapper
+StudentIDMapper -> ProgrammeEnrolment : getStudentID(peDomain)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> StudentIDMapper : studentIDDomain
+deactivate ProgrammeEnrolment
+StudentIDMapper --> PEMapper : studentIDDataModel
+deactivate StudentIDMapper
+
+PEMapper -> AMIDMapper : toDataModel(amIDDomain)
+activate AMIDMapper
+AMIDMapper -> ProgrammeEnrolment : getAccessMethodID(peDomain)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> AMIDMapper : amIDDomain
+deactivate ProgrammeEnrolment
+AMIDMapper --> PEMapper : amIDDataModel
+deactivate AMIDMapper
+
+PEMapper -> ProgrammeEnrolment : getDate(peDomain)
+activate ProgrammeEnrolment
+ProgrammeEnrolment -> Date : getLocalDate(Date)
+activate Date
+Date --> ProgrammeEnrolment : localDate
+deactivate Date
+ProgrammeEnrolment --> PEMapper : localDate
+deactivate ProgrammeEnrolment
+
+PEMapper -> PEDataModel : createPEDataModel(peIDDataModel, programmeIDDataModel, studentIDDataModel, amIDDataModel, localDate)
 activate PEDataModel
 PEDataModel -> PEMapper : peDataModel
 deactivate PEDataModel
@@ -117,16 +167,16 @@ ProgrammeEnrolmentRepo -> IPERepoSpringData : save(peDataModel)
 activate IPERepoSpringData
 IPERepoSpringData ->
 IPERepoSpringData <--
-IPERepoSpringData --> ProgrammeEnrolmentRepo :
+IPERepoSpringData --> ProgrammeEnrolmentRepo : peDataModel
 deactivate IPERepoSpringData
 
 
-ProgrammeEnrolmentRepo --> PEService: True
+ProgrammeEnrolmentRepo --> PEService: true
 deactivate ProgrammeEnrolmentRepo
 
-PEService -> CTRL : True
+PEService -> CTRL : true
 
-CTRL --> UI : True
+CTRL --> UI : true
 deactivate CTRL
 UI --> ASC : Success
 deactivate UI

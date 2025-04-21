@@ -141,8 +141,18 @@ deactivate "cee:CourseEditionEnrolment"
 ' verify if already exists
 
 participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: checkIfAlreadyExists (cee)
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isEnrolmentAlreadyExists (cee)
 activate ICourseEditionEnrolmentRepository #E1F5FE
+
+ref over ICourseEditionEnrolmentRepository
+    SD Convert CourseEditionEnrolmentID to DataModel
+end ref
+
+participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
+ICourseEditionEnrolmentRepository -> ceeJPAInterface: existsByID (ceeIDDataModel)
+activate ceeJPAInterface #E1F5FE
+ceeJPAInterface --> ICourseEditionEnrolmentRepository: False
+deactivate ceeJPAInterface
 ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: False
 deactivate ICourseEditionEnrolmentRepository
 
@@ -151,20 +161,13 @@ deactivate ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: enrolStudentInACourseEdition (cee)
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
-' convert domain to dataModel
-participant ":ICourseEditionEnrolmentMapper" as ceeMapper
-ICourseEditionEnrolmentRepository -> ceeMapper: toDataModel (cee)
-activate ceeMapper #E1F5FE
-
-create "ceeDataModel: CourseEditionEnrolmentDataModel"
-ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel" :create (ceeIDDataModel, enrolmentDate, isActive)
-deactivate ceeMapper
-
+ref over ICourseEditionEnrolmentRepository
+    SD Convert CourseEditionEnrolment to DataModel
+end ref
 
 ' database persistence
 
-participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
-ICourseEditionEnrolmentRepository -> ceeJPAInterface: save (ceeDataModel)
+ICourseEditionEnrolmentRepository -> ceeJPAInterface: save (ceeDataModel : CourseEditionEnrolmentDataModel)
 activate ceeJPAInterface #E1F5FE
 
 ' persistence confirmation
