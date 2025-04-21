@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.schoolYear;
 
 import jakarta.persistence.*;
 
@@ -9,8 +9,8 @@ import java.util.Objects;
 @Table(name = "School_Year")
 public class SchoolYearDataModel {
 
-    @Id
-    private String id;
+    @EmbeddedId
+    private SchoolYearIDDataModel id;
 
     private String description;
     private LocalDate startDate;
@@ -18,7 +18,7 @@ public class SchoolYearDataModel {
 
     public SchoolYearDataModel() {}
 
-    public SchoolYearDataModel(String id, String description, LocalDate startDate, LocalDate endDate) {
+    public SchoolYearDataModel(SchoolYearIDDataModel id, String description, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.description = description;
         this.startDate = startDate;
@@ -26,7 +26,7 @@ public class SchoolYearDataModel {
     }
 
     // Getters
-    public String getId() {
+    public SchoolYearIDDataModel getId() {
         return id;
     }
 
