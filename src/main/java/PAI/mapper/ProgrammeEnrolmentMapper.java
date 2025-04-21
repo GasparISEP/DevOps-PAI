@@ -13,7 +13,7 @@ import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
 
 import java.time.LocalDate;
 
-public class ProgrammeEnrolmentMapper {
+public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper {
 
     private IProgrammeEnrolmentFactory _peFactory;
     private IProgrammeEnrolmentIDMapper _peIDMapper;
