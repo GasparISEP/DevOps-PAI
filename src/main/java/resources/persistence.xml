@@ -16,6 +16,8 @@
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel</class>
+    <class>PAI.persistence.datamodel.StudentDataModel</class>
+
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
 
