@@ -270,4 +270,141 @@ class TeacherTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnTeacherIDThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        TeacherID result = teacher.getTeacherID();
+
+        //Assert
+        assertEquals(_teacherAcronymDouble, result.getTeacherAcronym());
+    }
+
+    @Test
+    void shouldReturnNameThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        Name result = teacher.getName();
+
+        //Assert
+        assertEquals(_nameDouble, result);
+    }
+
+    @Test
+    void shouldReturnEmailThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        Email result = teacher.getEmail();
+
+        //Assert
+        assertEquals(_emailDouble, result);
+    }
+
+    @Test
+    void shouldReturnNIFThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        NIF result = teacher.getNIF();
+
+        //Assert
+        assertEquals(_nifDouble, result);
+    }
+
+    @Test
+    void shouldReturnPhoneNumberThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        PhoneNumber result = teacher.getPhoneNumber();
+
+        //Assert
+        assertEquals(_phoneNumberDouble, result);
+    }
+
+    @Test
+    void shouldReturnAcademicBackgroundThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        AcademicBackground result = teacher.getAcademicBackground();
+
+        //Assert
+        assertEquals(_academicBackgroundDouble, result);
+    }
+
+    @Test
+    void shouldReturnAddressThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        Address result = teacher.getAddress();
+
+        //Assert
+        assertEquals(_addressDouble, result);
+    }
+
+    @Test
+    void shouldReturnDepartmentIDThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+
+        //Act
+        DepartmentID result = teacher.getDepartmentID();
+
+        //Assert
+        assertEquals(_departmentIDDouble, result);
+    }
+
+    @Test
+    void shouldReturnTeacherAcademicEmailThroughGetter() {
+        //Arrange
+        createDoubles();
+        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+                _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
+        );
+        TeacherAcademicEmail teacherAcademicEmail = new TeacherAcademicEmail(_teacherAcronymDouble);
+
+        //Act
+        TeacherAcademicEmail result = teacher.getTeacherAcademicEmail();
+
+        //Assert
+        assertEquals(teacherAcademicEmail, result);
+    }
+
 }

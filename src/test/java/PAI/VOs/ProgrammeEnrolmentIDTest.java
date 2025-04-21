@@ -127,5 +127,24 @@ class ProgrammeEnrolmentIDTest {
         assertEquals(id1.hashCode(), id2.hashCode());
     }
 
+    @Test
+    public void testGetStudentID() {
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentID, programmeID);
+
+        assertEquals(studentID, programmeEnrolmentID.getStudentID());
+    }
+
+    @Test
+    public void testGetProgrammeID() {
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentID, programmeID);
+
+        assertEquals(programmeID, programmeEnrolmentID.getProgrammeID());
+    }
 
 }

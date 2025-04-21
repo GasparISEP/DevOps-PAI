@@ -67,4 +67,22 @@ public class Teacher implements AggregateRoot<TeacherID> {
     public boolean hasThisNIF(NIF nif) {
         return _nif.getNIF().equals(nif.getNIF());
     }
+
+    public TeacherID getTeacherID() { return _teacherID; }
+
+    public Name getName() { return _name; }
+
+    public Email getEmail() { return _email; }
+
+    public NIF getNIF() { return _nif; }
+
+    public PhoneNumber getPhoneNumber() { return _phoneNumber; }
+
+    public AcademicBackground getAcademicBackground() { return _academicBackground; }
+
+    public Address getAddress() { return _address; }
+
+    public DepartmentID getDepartmentID() { return _departmentID; }
+
+    public TeacherAcademicEmail getTeacherAcademicEmail() { return _teacherAcademicEmail; }
 }
