@@ -122,7 +122,7 @@ public class StudentRepositorySpringDataTest {
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(true);
 
-        boolean result = repository.containsByStudentIDOrNIF(studentID, nif);
+        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
         assertTrue(result);
     }
 
@@ -140,7 +140,7 @@ public class StudentRepositorySpringDataTest {
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(false);
 
-        boolean result = repository.containsByStudentIDOrNIF(studentID, nif);
+        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
         assertFalse(result);
     }
 
