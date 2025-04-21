@@ -25,12 +25,6 @@ public class ProgrammeEditionIdMapperImpl implements IProgrammeEditionIdMapper {
     }
 
     @Override
-    public ProgrammeEditionIdDataModel domainToDataModel (Programme programme, SchoolYear schoolYear) throws Exception {
-
-        return new ProgrammeEditionIdDataModel(programme, schoolYear);
-    }
-
-    @Override
     public ProgrammeEditionIdDataModel domainToDataModel (ProgrammeEditionID programmeEditionId) throws Exception {
         String programmeName = programmeEditionId.getProgrammeID().getName().toString();
         String programmeAcronym = programmeEditionId.getProgrammeID().getAcronym().toString();

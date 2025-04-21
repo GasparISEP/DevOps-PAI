@@ -32,30 +32,6 @@ class ProgrammeEditionIdMapperImplTest {
     }
 
     @Test
-    void shouldReturnDomainToDataModel() throws Exception {
-        //arrange
-        IProgrammeEditionIdMapper mapper = new ProgrammeEditionIdMapperImpl();
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-        //act
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mapper.domainToDataModel(doubleProgramme, doubleSchoolYear);
-        //assert
-        assertNotNull(programmeEditionIdDataModel);
-    }
-
-    @Test
     void shouldMapDomainToDataModelWithProgrammeEditionId() throws Exception {
         // arrange
         IProgrammeEditionIdMapper mapper = new ProgrammeEditionIdMapperImpl();
