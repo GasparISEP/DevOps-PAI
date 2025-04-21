@@ -9,4 +9,6 @@ public interface IProgrammeEditionIdMapper {
     ProgrammeEditionID dataModelToDomain (ProgrammeEditionIdDataModel programmeEditionIdDataModel) throws Exception;
 
     ProgrammeEditionIdDataModel domainToDataModel (Programme programme, SchoolYear schoolYear) throws Exception;
+
+    ProgrammeEditionIdDataModel domainToDataModel (ProgrammeEditionID programmeEditionId) throws Exception;
 }

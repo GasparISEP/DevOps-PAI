@@ -1,9 +1,6 @@
 package PAI.mapper.programmeEdition.impl;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.SchoolYearID;
+import PAI.VOs.*;
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
@@ -56,5 +53,37 @@ class ProgrammeEditionIdMapperImplTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mapper.domainToDataModel(doubleProgramme, doubleSchoolYear);
         //assert
         assertNotNull(programmeEditionIdDataModel);
+    }
+
+    @Test
+    void shouldMapDomainToDataModelWithProgrammeEditionId() throws Exception {
+        // arrange
+        IProgrammeEditionIdMapper mapper = new ProgrammeEditionIdMapperImpl();
+
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        when(programmeName.toString()).thenReturn("Programme Name");
+
+        Acronym programmeAcronym = mock(Acronym.class);
+        when(programmeAcronym.toString()).thenReturn("Acronym");
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programmeID.getName()).thenReturn(programmeName);
+        when(programmeID.getAcronym()).thenReturn(programmeAcronym);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(schoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
+
+        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        when(programmeEditionId.getProgrammeID()).thenReturn(programmeID);
+        when(programmeEditionId.getSchoolYearID()).thenReturn(schoolYearID);
+
+        // act
+        ProgrammeEditionIdDataModel result = mapper.domainToDataModel(programmeEditionId);
+
+        // assert
+        assertNotNull(result);
+        assertEquals("Programme Name", result.getProgrammeName());
+        assertEquals("Acronym", result.getProgrammeAcronym());
+        assertEquals(schoolYearID.toString(), result.getSchoolYearId());
     }
 }
