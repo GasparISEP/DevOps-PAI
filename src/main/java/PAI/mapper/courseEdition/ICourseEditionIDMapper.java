@@ -1,8 +1,6 @@
 package PAI.mapper.courseEdition;
 
 import PAI.VOs.CourseEditionID;
-import PAI.mapper.courseInStudyPlanID.ICourseInStudyPlanIDMapper;
-import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 
 public interface ICourseEditionIDMapper {
