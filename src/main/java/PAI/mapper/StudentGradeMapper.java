@@ -15,15 +15,10 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapper studentIDMapper;
-    private final ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;
-    private final IProgrammeEditionIdMapper programmeEditionIDMapper;
 
-    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper,
-                              ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper) {
+    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper) {
         this.courseEditionIDMapper = courseEditionIDMapper;
         this.studentIDMapper = studentIDMapper;
-        this.courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
-        this.programmeEditionIDMapper = programmeEditionIdMapper;
     }
 
     public StudentGradeDM toData(StudentGrade studentGrade) throws Exception {
@@ -41,14 +36,8 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
         StudentID studentID = studentIDMapper.dataModelToDomain(studentGradeDM.getStudentId());
 
-
         CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID());
 
         return new StudentGrade(grade,date,studentID,courseEditionID);
-
-
     }
-
-
-
 }
