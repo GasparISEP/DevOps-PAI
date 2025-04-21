@@ -124,6 +124,24 @@ class CourseEditionMapperImplTest {
     }
 
     @Test
+    void shouldThrowExceptionIfCourseEditionFactoryGivenAsArgumentInToDomainMethodIsNull() throws Exception{
+        // Arrange
+        ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper pEIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper cISPIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionMapper mapper = new CourseEditionMapperImpl(cEIDMapper, pEIDMapper, cISPIDMapper);
+
+        CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
+        ICourseEditionFactory courseEditionFactory = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {mapper.toDomain(courseEditionDataModel, courseEditionFactory);});
+
+        // Assert
+        assertEquals("courseEditionFactory cannot be null", exception.getMessage());
+    }
+
+    @Test
     void shouldReturnNullWhenToDataModelIsCalled() {
         // Arrange
         ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
