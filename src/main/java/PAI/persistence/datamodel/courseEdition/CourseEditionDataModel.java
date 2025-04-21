@@ -51,6 +51,13 @@ public class CourseEditionDataModel {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || !(obj instanceof CourseEditionDataModel))
+            return false;
+        CourseEditionDataModel other = (CourseEditionDataModel) obj;
+        if (other._courseEditionIDDataModel.equals(this._courseEditionIDDataModel))
+            return true;
         return false;
     }
 
