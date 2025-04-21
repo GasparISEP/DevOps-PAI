@@ -19,7 +19,7 @@ class TeacherCategoryMapperImplTest {
     void shouldMapDomainToDataModel() {
         // Arrange
         UUID uuid = UUID.randomUUID();
-        Name name = new Name("Matemática");
+        Name name = new Name("Catedrático");
         TeacherCategoryID domainId = new TeacherCategoryID(uuid);
         TeacherCategory domain = new TeacherCategory(domainId, name);
 
@@ -28,7 +28,7 @@ class TeacherCategoryMapperImplTest {
 
         // Assert
         assertEquals(uuid, data.getId().getValue()); // now uses EmbeddedId
-        assertEquals("Matemática", data.getName());
+        assertEquals("Catedrático", data.getName());
     }
 
     @Test
@@ -36,13 +36,13 @@ class TeacherCategoryMapperImplTest {
         // Arrange
         UUID uuid = UUID.randomUUID();
         TeacherCategoryIDDataModel dataId = new TeacherCategoryIDDataModel(uuid);
-        TeacherCategoryDataModel data = new TeacherCategoryDataModel(dataId, "Física");
+        TeacherCategoryDataModel data = new TeacherCategoryDataModel(dataId, "Auxiliar");
 
         // Act
         TeacherCategory domain = mapper.toDomainModel(data);
 
         // Assert
         assertEquals(uuid, domain.identity().getValue()); // now compare inner UUID
-        assertEquals("Física", domain.getName().getName());
+        assertEquals("Auxiliar", domain.getName().getName());
     }
 }
