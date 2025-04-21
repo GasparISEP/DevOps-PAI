@@ -1,9 +1,9 @@
 package PAI.persistence.datamodel.programmeEdition;
 
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -24,9 +24,9 @@ class ProgrammeEditionDataModelTest {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         // act
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
         // assert
         assertNotNull(programmeEditionDataModel);
     }
@@ -35,9 +35,9 @@ class ProgrammeEditionDataModelTest {
     void shouldNotCreateProgrammeEditionDataModelIfProgrammeEditionIdNull() {
         // arrange
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         // act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionDataModel(null, programmeIDDataModel, schoolYearID )
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionDataModel(null, programmeIDDataModel, schoolYearIDDataModel)
         );
     }
 
@@ -45,9 +45,9 @@ class ProgrammeEditionDataModelTest {
     void shouldNotCreateProgrammeEditionDataModelIfProgrammeIdNull() {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         // act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionDataModel(programmeEditionIdDataModel, null, schoolYearID )
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionDataModel(programmeEditionIdDataModel, null, schoolYearIDDataModel)
         );
     }
 
@@ -76,8 +76,8 @@ class ProgrammeEditionDataModelTest {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
         // act
         ProgrammeEditionIdDataModel pEIDDataModel = programmeEditionDataModel.getProgrammeEditionIDDataModel();
         // assert
@@ -100,8 +100,8 @@ class ProgrammeEditionDataModelTest {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
         // act
         ProgrammeIDDataModel pIDDataModel = programmeEditionDataModel.getProgrammeIDDataModel();
         // assert
@@ -110,26 +110,26 @@ class ProgrammeEditionDataModelTest {
     }
 
     @Test
-    void shouldReturnNullWhenTryToGetSchoolYearIDWhenProgrammeEditionDataModelIsCreatedWithEmptyConstructor() {
+    void shouldReturnNullWhenTryToGetSchoolYearIDDataModelWhenProgrammeEditionDataModelIsCreatedWithEmptyConstructor() {
         // arrange
         ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel();
         // act
-        UUID SchoolYearID = programmeEditionDataModel.getSchoolYearID();
+        SchoolYearIDDataModel SchoolYearIDDataModel = programmeEditionDataModel.getSchoolYearIDDataModel();
         // assert
-        assertNull(SchoolYearID);
+        assertNull(SchoolYearIDDataModel);
     }
 
     @Test
-    void shouldReturnSchoolYearIDWhenProgrammeEditionDataModelIsCreatedWithArguments() {
+    void shouldReturnSchoolYearIDDataModelWhenProgrammeEditionDataModelIsCreatedWithArguments() {
         // arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
         // act
-        UUID result = programmeEditionDataModel.getSchoolYearID();
+        SchoolYearIDDataModel result = programmeEditionDataModel.getSchoolYearIDDataModel();
         // assert
-        assertEquals(schoolYearID, result);
+        assertEquals(schoolYearIDDataModel, result);
     }
 
     @Test
@@ -137,8 +137,8 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel.equals(programmeEditionDataModel);
@@ -152,8 +152,8 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel.equals(null);
@@ -167,8 +167,8 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel.equals(programmeEditionIdDataModel);
@@ -182,9 +182,9 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
@@ -199,9 +199,9 @@ class ProgrammeEditionDataModelTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel1 = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionIdDataModel programmeEditionIdDataModel2 = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel, schoolYearID );
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel, schoolYearIDDataModel);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
@@ -216,9 +216,9 @@ class ProgrammeEditionDataModelTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel1, schoolYearID );
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel2, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel1, schoolYearIDDataModel);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel2, schoolYearIDDataModel);
 
         // Act
         boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
@@ -232,10 +232,10 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID1 = mock(UUID.class);
-        UUID schoolYearID2 = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID1);
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID2);
+        SchoolYearIDDataModel schoolYearIDDataModel1 = mock(SchoolYearIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel2 = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel1);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel2);
 
         // Act
         boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
@@ -251,10 +251,10 @@ class ProgrammeEditionDataModelTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel2 = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID1 = mock(UUID.class);
-        UUID schoolYearID2 = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel1, schoolYearID1);
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel2, schoolYearID2);
+        SchoolYearIDDataModel schoolYearIDDataModel1 = mock(SchoolYearIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel2 = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel1, programmeIDDataModel1, schoolYearIDDataModel1);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel2, programmeIDDataModel2, schoolYearIDDataModel2);
 
         // Act
         boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
@@ -268,13 +268,13 @@ class ProgrammeEditionDataModelTest {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        UUID schoolYearID = mock(UUID.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearID );
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
 
         // Act
         int result = programmeEditionDataModel.hashCode();
 
         // Assert
-        assertEquals(result, programmeEditionIdDataModel.hashCode()+programmeIDDataModel.hashCode()+schoolYearID.hashCode());
+        assertEquals(result, programmeEditionIdDataModel.hashCode()+programmeIDDataModel.hashCode()+schoolYearIDDataModel.hashCode());
     }
 }
