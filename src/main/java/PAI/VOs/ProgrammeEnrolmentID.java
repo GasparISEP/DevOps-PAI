@@ -18,6 +18,14 @@ public class ProgrammeEnrolmentID implements DomainId {
         return _studentId.toString() + "-" + _programmeId.toString();
     }
 
+    public StudentID getStudentID() {
+        return _studentId;
+    }
+
+    public ProgrammeID getProgrammeID() {
+        return _programmeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
