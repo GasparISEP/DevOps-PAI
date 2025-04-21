@@ -7,9 +7,11 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "courseEdition")
-public class CourseEditionDataModel {
+public class CourseEditionDataModel implements Serializable {
 
     @EmbeddedId
     private CourseEditionIDDataModel _courseEditionIDDataModel;
