@@ -6,7 +6,7 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 
 public interface ICourseEditionMapper {
 
-    CourseEdition toDomain (CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory);
+    CourseEdition toDomain (CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory) throws Exception;
 
     CourseEditionDataModel toDataModel (CourseEdition courseEdition);
 }

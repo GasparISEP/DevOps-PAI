@@ -1,5 +1,8 @@
 package PAI.mapper.courseEdition;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
@@ -27,8 +30,14 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     }
 
     @Override
-    public CourseEdition toDomain(CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory) {
-        return null;
+    public CourseEdition toDomain(CourseEditionDataModel courseEditionDataModel, ICourseEditionFactory courseEditionFactory) throws Exception {
+
+        CourseEditionID cEID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
+        ProgrammeEditionID pEID = _programmeEditionIdMapper.dataModelToDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
+        CourseInStudyPlanID cISPID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
+        CourseEdition result = courseEditionFactory.newCourseEdition_2(cEID, cISPID, pEID);
+
+        return result;
     }
 
     @Override

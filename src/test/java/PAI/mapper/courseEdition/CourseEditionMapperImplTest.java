@@ -1,5 +1,8 @@
 package PAI.mapper.courseEdition;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
@@ -9,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionMapperImplTest {
 
@@ -69,23 +73,36 @@ class CourseEditionMapperImplTest {
         assertEquals("courseInStudyPlanIDMapper cannot be null", exception.getMessage());
     }
 
-
+    //--------toDomain Tests--------
     @Test
-    void shouldReturnNullWhenToDomainIsCalled() {
+    void shouldReturnCourseEditionWhenToDomainMethodIsCalledWithValidArguments() throws Exception{
         // Arrange
         ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
         IProgrammeEditionIdMapper pEIDMapper = mock(IProgrammeEditionIdMapper.class);
         ICourseInStudyPlanIDMapper cISPIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionMapper mapper = new CourseEditionMapperImpl(cEIDMapper, pEIDMapper, cISPIDMapper);
 
+
+        CourseEditionID cEID = mock(CourseEditionID.class);
+        ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID cISPID = mock(CourseInStudyPlanID.class);
+
         CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+
+        when(cEIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel())).thenReturn(cEID);
+        when(pEIDMapper.dataModelToDomain(courseEditionDataModel.getProgrammeEditionIDDataModel())).thenReturn(pEID);
+        when(cISPIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel())).thenReturn(cISPID);
+
+        CourseEdition expectedResult = mock(CourseEdition.class);
+        when(courseEditionFactory.newCourseEdition_2(cEID, cISPID, pEID)).thenReturn(expectedResult);
 
         // Act
         CourseEdition courseEdition = mapper.toDomain(courseEditionDataModel, courseEditionFactory);
 
         // Assert
-        assertNull(courseEdition);
+        assertNotNull(courseEdition);
+        assertEquals(expectedResult, courseEdition);
     }
 
     @Test
