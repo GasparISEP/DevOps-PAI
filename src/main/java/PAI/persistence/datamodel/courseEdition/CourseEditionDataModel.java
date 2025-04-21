@@ -22,6 +22,14 @@ public class CourseEditionDataModel {
 
     protected CourseEditionDataModel() {}
 
+    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, ProgrammeEditionIdDataModel programmeEditionIDDataModel,
+                                  CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel) {
+
+        this._courseEditionIDDataModel = courseEditionIDDataModel;
+        this._programmeEditionIDDataModel = programmeEditionIDDataModel;
+        this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
+    }
+
     public CourseEditionIDDataModel getCourseEditionIDDataModel() {
         return null;
     }
