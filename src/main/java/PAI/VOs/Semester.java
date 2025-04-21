@@ -11,7 +11,7 @@ public class Semester {
         this._semester = semester;
     }
 
-    public int getSemester() {
+    public int toInt() {
         return _semester;
     }
 

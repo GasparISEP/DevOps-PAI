@@ -3,8 +3,6 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
-import PAI.mapper.courseInStudyPlanID.ICourseInStudyPlanIDMapper;
-import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;

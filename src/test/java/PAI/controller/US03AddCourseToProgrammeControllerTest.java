@@ -353,7 +353,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
 
         Semester semester = new Semester(2);
-        CurricularYear curricularYear = new CurricularYear(2, 3);
+        CurricularYear curricularYear = new CurricularYear(2);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
@@ -397,7 +397,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
 
         Semester semester = new Semester(2);
-        CurricularYear curricularYear = new CurricularYear(2, 3);
+        CurricularYear curricularYear = new CurricularYear(2);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
@@ -436,7 +436,7 @@ public class US03AddCourseToProgrammeControllerTest {
         IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
 
         Semester semester = new Semester(2);
-        CurricularYear curricularYear = new CurricularYear(2, 3);
+        CurricularYear curricularYear = new CurricularYear(2);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
@@ -480,7 +480,7 @@ public class US03AddCourseToProgrammeControllerTest {
         Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
 
         Semester semester = new Semester(2);
-        CurricularYear curricularYear = new CurricularYear(2, 3);
+        CurricularYear curricularYear = new CurricularYear(2);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
                 new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
@@ -558,7 +558,7 @@ public class US03AddCourseToProgrammeControllerTest {
         DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
         Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
 
-        CurricularYear curricularYear = new CurricularYear(2, 3);
+        CurricularYear curricularYear = new CurricularYear(2);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");

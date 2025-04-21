@@ -391,7 +391,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
-        CurricularYear curricularYear = new CurricularYear(1,2);
+        CurricularYear curricularYear = new CurricularYear(1);
 
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID2,studyPlanID1);
@@ -448,7 +448,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
-        CurricularYear curricularYear = new CurricularYear(1,2);
+        CurricularYear curricularYear = new CurricularYear(1);
 
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 
@@ -510,7 +510,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
-        CurricularYear curricularYear = new CurricularYear(1,2);
+        CurricularYear curricularYear = new CurricularYear(1);
 
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 
@@ -575,7 +575,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
-        CurricularYear curricularYear = new CurricularYear(1,2);
+        CurricularYear curricularYear = new CurricularYear(1);
 
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 
@@ -631,7 +631,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanRepositoryImpl courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(factory, listFactory);
 
         Semester semester = new Semester(1);
-        CurricularYear curricularYear = new CurricularYear(1,2);
+        CurricularYear curricularYear = new CurricularYear(1);
 
         courseInStudyPlanRepository.createCourseInStudyPlan_2(semester,curricularYear,courseID1,studyPlanID1);
 

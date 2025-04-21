@@ -52,7 +52,6 @@ package "PAI" {
     }
   }
 
-  ' === Associações com cardinalidade ===
   TCA "1" --> "1" VOName : has
   TCA "1" --> "1" VOId : identified by
   TCA ..|> IAggregateRoot
@@ -89,33 +88,28 @@ package "PAI" {
     }
 
     class "TeacherCategoryRepositoryJpaAdapter" as RepoImpl <<Repository>> {
-      + save(category: TeacherCategory): TeacherCategory
-      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
-      + containsOfIdentity(id: TeacherCategoryID): boolean
-      + findAll(): Iterable<TeacherCategory>
-      + existsByName(name: Name): boolean
-      + registerTeacherCategory(name: Name): boolean
-      + getTeacherCategoryList(): List<TeacherCategory>
-      + findByName(name: Name): Optional<TeacherCategory>
-      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
     IRepository <|.. IRepo
     IRepo <|.. RepoImpl
-
-    RepoImpl "1" --> "*" TCA : persists
-    RepoImpl "1" --> "*" VOId : looks up
-    RepoImpl "1" --> "1" IFactory : uses
+    RepoImpl --> IFactory : uses
+    RepoImpl --> TCA : persists
+    RepoImpl --> VOId : looks up
   }
 
   ' ======= SERVICE =======
   package "service" {
+    interface "<<Application>>\nITeacherCategoryApplicationService" as IService {
+      + registerCategory(categoryName: String): boolean
+    }
+
     class "TeacherCategoryApplicationService" as AppService <<Service>> {
       + registerCategory(categoryName: String): boolean
     }
 
-    AppService "1" --> "1" IRepo : uses
-    AppService "1" --> "1" IFactory : uses
+    IService <|.. AppService
+    AppService --> IRepo : uses
+    AppService --> IFactory : uses
   }
 
   ' ======= CONTROLLER =======
@@ -124,7 +118,7 @@ package "PAI" {
       + configureTeacherCategory(categoryName: String): boolean
     }
 
-    Controller "1" --> "1" AppService : uses
+    Controller --> IService : uses
   }
 
 }

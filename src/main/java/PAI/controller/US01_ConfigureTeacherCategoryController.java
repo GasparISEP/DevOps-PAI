@@ -1,12 +1,12 @@
 package PAI.controller;
 
-import PAI.service.TeacherCategoryApplicationService;
+import PAI.service.ITeacherCategoryApplicationService;
 
 public class US01_ConfigureTeacherCategoryController {
 
-    private final TeacherCategoryApplicationService service;
+    private final ITeacherCategoryApplicationService service;
 
-    public US01_ConfigureTeacherCategoryController(TeacherCategoryApplicationService service) {
+    public US01_ConfigureTeacherCategoryController(ITeacherCategoryApplicationService service) {
         if (service == null) throw new IllegalArgumentException("Service cannot be null.");
         this.service = service;
     }
