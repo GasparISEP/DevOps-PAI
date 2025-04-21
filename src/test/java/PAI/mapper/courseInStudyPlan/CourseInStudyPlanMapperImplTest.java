@@ -117,7 +117,7 @@ class CourseInStudyPlanMapperImplTest {
         CurricularYear yearVO = new CurricularYear(3);
 
         CourseInStudyPlan domain = courseInStudyPlanFactory
-                .newCourseInStudyPlan_2(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject);
+                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject);
 
         // Act
         CourseInStudyPlanDataModel dataModel = mapper.toDataModel(domain);
@@ -162,7 +162,7 @@ class CourseInStudyPlanMapperImplTest {
         CourseInStudyPlanIDDataModel compositeIDDataModel =
                 courseInStudyPlanIDMapper.toDataModel(
                         courseInStudyPlanFactory
-                                .newCourseInStudyPlan_2(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject)
+                                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject)
                                 .identity()
                 );
 
