@@ -93,8 +93,7 @@ class ProgrammeEditionMapperImplTest {
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
         // act + assert
-        assertThrows(IllegalArgumentException.class, () -> programmeEditionMapper.toDataModel(null)
-        );
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionMapper.toDataModel(null));
     }
 
     @Test
@@ -111,5 +110,17 @@ class ProgrammeEditionMapperImplTest {
         Optional<ProgrammeEdition> programmeEdition = programmeEditionMapper.toDomain(programmeEditionDataModel);
         // assert
         assertTrue(programmeEdition.isEmpty());
+    }
+
+    @Test
+    void shouldNotMapProgrammeEditionDataModelToProgrammeEditionIfProgrammeEditionDataModelNull() {
+        // arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionMapper.toDomain(null));
     }
 }

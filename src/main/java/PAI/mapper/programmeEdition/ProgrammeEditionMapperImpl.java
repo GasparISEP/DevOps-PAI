@@ -45,6 +45,9 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
     @Override
     public Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel) {
+        if(programmeEditionDataModel == null) {
+            throw new IllegalArgumentException("Programme Edition Data Model cannot be null");
+        }
         return Optional.empty();
     }
 }
