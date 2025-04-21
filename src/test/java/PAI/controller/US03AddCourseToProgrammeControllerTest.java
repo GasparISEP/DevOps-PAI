@@ -27,6 +27,8 @@ import PAI.repository.studyPlanRepository.IStudyPlanListFactory;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 import PAI.repository.studyPlanRepository.StudyPlanListFactoryImpl;
 import PAI.repository.studyPlanRepository.StudyPlanRepositoryImpl;
+import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,15 +46,15 @@ public class US03AddCourseToProgrammeControllerTest {
     private IProgrammeRepository iProgrammeRepository;
     private ICourseRepository iCourseRepository;
     private IStudyPlanRepository iStudyPlanRepository;
-    private ICourseInStudyPlanRepository iCourseInStudyPlanRepository;
+    private ICourseInStudyPlanService iCourseInStudyPlanService;
 
     @BeforeEach
     void setUp() throws Exception {
         iProgrammeRepository = mock(IProgrammeRepository.class);
         iCourseRepository = mock(ICourseRepository.class);
         iStudyPlanRepository = mock(IStudyPlanRepository.class);
-        iCourseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
-        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+        iCourseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        us03AddCourseToProgrammeController = new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
     }
 
     @Test
@@ -67,7 +69,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(course.identity()).thenReturn(courseID);
         when(studyPlan.identity()).thenReturn(studyPlanID);
-        when(iCourseInStudyPlanRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(false);
+        when(iCourseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID)).thenReturn(false);
 
         // act
         boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
@@ -87,7 +89,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         when(course.identity()).thenReturn(courseID);
         when(studyPlan.identity()).thenReturn(studyPlanID);
-        when(iCourseInStudyPlanRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID)).thenReturn(true);
+        when(iCourseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID)).thenReturn(true);
         //act
         boolean addCourseToProgramme = us03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         //assert
@@ -99,7 +101,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         });
     }
 
@@ -108,7 +110,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeRepository,null, iStudyPlanRepository, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository,null, iStudyPlanRepository, iCourseInStudyPlanService);
         });
     }
 
@@ -117,7 +119,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, iCourseInStudyPlanService);
         });
     }
 
@@ -228,18 +230,21 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
-
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
         IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
+
+        ICourseInStudyPlanListFactory cisplf = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository cispr = new CourseInStudyPlanRepositoryImpl(cisplf);
+        ICourseInStudyPlanFactory cisf = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanService cisService = new CourseInStudyPlanServiceImpl(cispr, cisf);
+
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeRepository, null, iStudyPlanRepository, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, null, iStudyPlanRepository, cisService);
         });
     }
+
 
     @Test
     void shouldThrowExceptionIfProgrammeRepositoryNull() throws Exception {
@@ -248,16 +253,18 @@ public class US03AddCourseToProgrammeControllerTest {
         ICourseFactory iCourseFactory = new CourseFactoryImpl();
         ICourseRepository iCourseRepository = new CourseRepositoryImpl(iCourseFactory, iCourseRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
-
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
         IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
+
+        ICourseInStudyPlanListFactory cisplf = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository cispr = new CourseInStudyPlanRepositoryImpl(cisplf);
+        ICourseInStudyPlanFactory cisf = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanService cisService = new CourseInStudyPlanServiceImpl(cispr, cisf);
+
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(null, iCourseRepository, iStudyPlanRepository, cisService);
         });
     }
 
@@ -272,12 +279,14 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanListFactory cisplf = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository cispr = new CourseInStudyPlanRepositoryImpl(cisplf);
+        ICourseInStudyPlanFactory cisf = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanService cisService = new CourseInStudyPlanServiceImpl(cispr, cisf);
+
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, iCourseInStudyPlanRepository);
+            new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, null, cisService);
         });
     }
 
@@ -312,16 +321,17 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanListFactory cisplf = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository cispr = new CourseInStudyPlanRepositoryImpl(cisplf);
+        ICourseInStudyPlanFactory cisf = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanService cisService = new CourseInStudyPlanServiceImpl(cispr, cisf);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
         IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
         //act
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, cisService);
         //assert
         assertNotNull(US03AddCourseToProgrammeController);
     }
@@ -338,9 +348,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -364,7 +375,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         //act
         boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         // assert
@@ -382,9 +393,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -408,7 +420,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
         //act
         boolean addCourseToProgramme = US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, studyPlan);
@@ -427,9 +439,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -447,7 +460,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, null, studyPlan);
@@ -465,9 +478,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -483,7 +497,7 @@ public class US03AddCourseToProgrammeControllerTest {
         CurricularYear curricularYear = new CurricularYear(2);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, curricularYear, course, null);
@@ -501,9 +515,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -526,7 +541,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(semester, null, course, studyPlan);
@@ -544,9 +559,10 @@ public class US03AddCourseToProgrammeControllerTest {
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(programmeDDDFactory, iProgrammeRepositoryListFactory);
 
-        ICourseInStudyPlanFactory iCourseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        ICourseInStudyPlanListFactory iCourseInStudyPlanListFactory = new CourseInStudyPlanListFactoryImpl();
-        ICourseInStudyPlanRepository iCourseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(iCourseInStudyPlanFactory, iCourseInStudyPlanListFactory);
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        ICourseInStudyPlanListFactory listFactory = new CourseInStudyPlanListFactoryImpl();
+        ICourseInStudyPlanRepository repo = new CourseInStudyPlanRepositoryImpl(listFactory);
+        ICourseInStudyPlanService iCourseInStudyPlanService = new CourseInStudyPlanServiceImpl(repo, factory);
 
         IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
         IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
@@ -569,7 +585,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = new StudyPlan(programmeID, date, durationInYears, quantEcts);
 
         US03_AddCourseToProgrammeController US03AddCourseToProgrammeController =
-                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanRepository);
+                new US03_AddCourseToProgrammeController(iProgrammeRepository, iCourseRepository, iStudyPlanRepository, iCourseInStudyPlanService);
         //act & assert
         assertThrows(IllegalArgumentException.class, () -> {
             US03AddCourseToProgrammeController.addCourseToProgramme(null, curricularYear, course, studyPlan);

@@ -10,6 +10,7 @@ import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 
 
 import java.util.List;
@@ -18,14 +19,14 @@ public class US19_CreateCourseEditionController {
     private final IDegreeTypeRepository _degreeTypeRepository;
     private final IProgrammeRepository _programmeRepository;
     private final IStudyPlanRepository _studyPlanRepository;
-    private final ICourseInStudyPlanRepository _courseInStudyPlanRepository;
+    private final ICourseInStudyPlanService _courseInStudyPlanService;
     private final IProgrammeEditionRepository _programmeEditionRepository;
     private final ICourseEditionRepository _courseEditionRepository;
 
     public US19_CreateCourseEditionController(IDegreeTypeRepository degreeTypeRepository,
                                               IProgrammeRepository programmeRepository,
                                               IStudyPlanRepository studyPlanRepository,
-                                              ICourseInStudyPlanRepository courseInStudyPlanRepository,
+                                              ICourseInStudyPlanService courseInStudyPlanService,
                                               IProgrammeEditionRepository programmeEditionRepository,
                                               ICourseEditionRepository courseEditionRepository){
         if (degreeTypeRepository == null) {
@@ -37,7 +38,7 @@ public class US19_CreateCourseEditionController {
         if (studyPlanRepository == null) {
             throw new IllegalArgumentException("studyPlanRepository cannot be null");
         }
-        if (courseInStudyPlanRepository == null) {
+        if (courseInStudyPlanService == null) {
             throw new IllegalArgumentException("courseInStudyPlanRepository be cannot null");
         }
         if (programmeEditionRepository == null) {
@@ -50,7 +51,7 @@ public class US19_CreateCourseEditionController {
         _degreeTypeRepository = degreeTypeRepository;
         _programmeRepository = programmeRepository;
         _studyPlanRepository = studyPlanRepository;
-        _courseInStudyPlanRepository = courseInStudyPlanRepository;
+        _courseInStudyPlanService = courseInStudyPlanService;
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
     }
@@ -65,7 +66,7 @@ public class US19_CreateCourseEditionController {
 
     public List<CourseInStudyPlan> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) {
         StudyPlanID studyPlanID = _studyPlanRepository.getLatestStudyPlanIDByProgrammeID(programmeID);
-        return _courseInStudyPlanRepository.getCoursesInStudyPlanByStudyPlanID(studyPlanID);
+        return _courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID);
     }
 
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {

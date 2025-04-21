@@ -8,6 +8,7 @@ import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.courseRepository.ICourseRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 
 
 public class US03_AddCourseToProgrammeController {
@@ -15,12 +16,12 @@ public class US03_AddCourseToProgrammeController {
     private final IProgrammeRepository iProgrammeRepository;
     private final ICourseRepository iCourseRepository;
     private final IStudyPlanRepository iStudyPlanRepository;
-    private final ICourseInStudyPlanRepository iCourseInStudyPlanRepository;
+    private final ICourseInStudyPlanService iCourseInStudyPlanService;
 
 
     public US03_AddCourseToProgrammeController(IProgrammeRepository iProgrammeRepository,
                                                ICourseRepository iCourseRepository, IStudyPlanRepository iStudyPlanRepository,
-                                               ICourseInStudyPlanRepository iCourseInStudyPlanRepository) throws Exception {
+                                               ICourseInStudyPlanService iCourseInStudyPlanService) throws Exception {
         if(iProgrammeRepository == null) {
             throw new IllegalArgumentException("ProgrammeList cannot be null.");
         }
@@ -30,13 +31,13 @@ public class US03_AddCourseToProgrammeController {
         if (iStudyPlanRepository == null) {
             throw new IllegalArgumentException("StudyPlanRepository cannot be null.");
         }
-        if(iCourseInStudyPlanRepository == null) {
+        if(iCourseInStudyPlanService == null) {
             throw new IllegalArgumentException("CourseInStudyPlanRepository cannot be null.");
         }
         this.iProgrammeRepository = iProgrammeRepository;
         this.iCourseRepository = iCourseRepository;
         this.iStudyPlanRepository = iStudyPlanRepository;
-        this.iCourseInStudyPlanRepository = iCourseInStudyPlanRepository;
+        this.iCourseInStudyPlanService = iCourseInStudyPlanService;
     }
 
     public Iterable<Programme> getAllProgrammes() {
@@ -69,6 +70,6 @@ public class US03_AddCourseToProgrammeController {
         }
         CourseID courseID = course.identity();
         StudyPlanID studyPlanID = studyPlan.identity();
-        return iCourseInStudyPlanRepository.createCourseInStudyPlan_2(semester, curricularYear, courseID, studyPlanID);
+        return iCourseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID);
     }
 }
