@@ -115,6 +115,16 @@ interface IProgrammeEditionEnrolmentFactory {
     +newProgrammeEditionEnrolment\n(studentId: StudentID, programmeEditionId: ProgrammeEditionID):\n ProgrammeEditionEnrolment
 }
 
+interface ICourseEditionIDMapper {
+    +toDomain(courseEditionIDDataModel: CourseEditionIDDataModel,\n programmeEditionIdMapper: IProgrammeEditionIdMapper,\n courseInStudyPlanIDMapper: ICourseInStudyPlanIDMapper): CourseEditionID
+    +toDataModel(courseEditionID: CourseEditionID)): CourseEditionIDDataModel
+}
+
+interface ICourseEditionEnrolmentMapper {
+    +toDomain(courseEditionEnrolmentIDDataModel: CourseEditionEnrolmentIDDataModel):\n CourseEditionEnrolmentID
+    +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID):\n CourseEditionEnrolmentDataModel
+}
+
 'VO's
 
 class "<<Value Object>>\n EnrolmentStatus" {
@@ -268,7 +278,8 @@ class CourseEditionEnrolmentDataModel {
     +equals(o: Object)): boolean
 }
 
-class CourseEditionDataModel {
+class CourseEditionIDDataModel {
+    +CourseEditionIDDataModel\n(programmeEditionIdDataModel: ProgrammeEditionIdDataModel,\n courseInStudyPlanIDDataModel: CourseInStudyPlanIDDataModel)
 }
 
 class ProgrammeEditionEnrolmentDataModel {
@@ -299,6 +310,11 @@ class ProgrammeEditionEnrolmentIDDataModel {
     +getProgrammeEditionID(): String
     +equals(o: Object): boolean
     +hashCode(): int
+}
+
+class CourseEditionIDMapperImpl {
+    +toDomain(courseEditionIDDataModel: CourseEditionIDDataModel,\n programmeEditionIdMapper: IProgrammeEditionIdMapper,\n courseInStudyPlanIDMapper: ICourseInStudyPlanIDMapper):\n CourseEditionID
+    +toDataModel(courseEditionID: CourseEditionID):\n CourseEditionIDDataModel
 }
 
 'Mapper's
@@ -364,14 +380,16 @@ ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ICourseEditionRepository <|.. CourseEditionRepositorySpringDataJPAImpl
 CourseEdition "_listOfCE *" <-- "1       " CourseEditionRepositoryImpl
-ICourseEditionRepositorySpringDataJPA ..> CourseEditionDataModel
+ICourseEditionRepositorySpringDataJPA ..> CourseEditionIDDataModel
 ICourseEditionRepositorySpringDataJPA <-- CourseEditionRepositorySpringDataJPAImpl
-CourseEditionRepositorySpringDataJPAImpl --> CourseEditionMapper
+CourseEditionRepositorySpringDataJPAImpl --> CourseEditionIDMapperImpl
 CourseEditionRepositorySpringDataJPAImpl ..> CourseEdition
-CourseEditionRepositorySpringDataJPAImpl ..> CourseEditionDataModel
-CourseEditionMapper ..> ICourseEditionFactory
-CourseEditionMapper ..> CourseEdition
-CourseEditionMapper ..> CourseEditionDataModel
+CourseEditionRepositorySpringDataJPAImpl ..> CourseEditionIDDataModel
+CourseEditionIDMapperImpl ..> ICourseEditionFactory
+CourseEditionIDMapperImpl ..> CourseEdition
+CourseEditionIDMapperImpl ..> CourseEditionIDDataModel
+
+CourseEditionIDMapperImpl --> ICourseEditionIDMapper
 
 'Factory
 
