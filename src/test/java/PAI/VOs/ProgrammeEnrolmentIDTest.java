@@ -41,13 +41,13 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testToString_Format() {
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        when(studentID.toString()).thenReturn("1234567");
-        when(programmeID.toString()).thenReturn("EM");
+        when(studentIDDouble.toString()).thenReturn("1234567");
+        when(programmeIDDouble.toString()).thenReturn("EM");
 
-        ProgrammeEnrolmentID enrolmentID = new ProgrammeEnrolmentID(studentID, programmeID);
+        ProgrammeEnrolmentID enrolmentID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
 
         String result = enrolmentID.toString();
 
@@ -57,14 +57,14 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testEquals_DifferentCompositeIDs() {
-        StudentID studentID1 = mock(StudentID.class);
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        StudentID studentIDDouble1 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble1 = mock(ProgrammeID.class);
 
-        StudentID studentID2 = mock(StudentID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        StudentID studentIDDouble2 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID1, programmeID1);
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID2, programmeID2);
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentIDDouble1, programmeIDDouble1);
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentIDDouble2, programmeIDDouble2);
 
         assertNotEquals(id1, id2);
     }
@@ -72,45 +72,45 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testEquals_SameObject() {
-        StudentID studentID1 = mock(StudentID.class);
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        StudentID studentIDDouble1 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble1 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID id = new ProgrammeEnrolmentID(studentID1, programmeID1);
+        ProgrammeEnrolmentID id = new ProgrammeEnrolmentID(studentIDDouble1, programmeIDDouble1);
         assertEquals(id, id);
     }
 
     @Test
     public void testEquals_DifferentClass() {
-        StudentID studentID1 = mock(StudentID.class);
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        StudentID studentIDDouble1 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble1 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID id = new ProgrammeEnrolmentID(studentID1, programmeID1);
+        ProgrammeEnrolmentID id = new ProgrammeEnrolmentID(studentIDDouble1, programmeIDDouble1);
         Object other = new Object();
         assertNotEquals(id, other);
     }
 
     @Test
     public void testHashCode_DifferentCompositeIDs() {
-        StudentID studentID1 = mock(StudentID.class);
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        StudentID studentIDDouble1 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble1 = mock(ProgrammeID.class);
 
-        StudentID studentID2 = mock(StudentID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        StudentID studentIDDouble2 = mock(StudentID.class);
+        ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID1, programmeID1);
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID2, programmeID2);
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentIDDouble1, programmeIDDouble1);
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentIDDouble2, programmeIDDouble2);
 
         assertNotEquals(id1.hashCode(), id2.hashCode());
     }
 
     @Test
     public void testEquals_SameValues() {
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeID programmeID1 = new ProgrammeID(new NameWithNumbersAndSpecialChars("name"), new Acronym("ACR"));
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = new ProgrammeID(new NameWithNumbersAndSpecialChars("name"), new Acronym("ACR"));
 
 
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID, programmeID1);
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID, programmeID1);
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
 
         assertEquals(id1, id2);
     }
@@ -118,33 +118,33 @@ class ProgrammeEnrolmentIDTest {
 
     @Test
     public void testHashCode_SameCompositeIDs() {
-        StudentID studentID1 = mock(StudentID.class);
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentID1, programmeID1);
-        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentID1, programmeID1);
+        ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
+        ProgrammeEnrolmentID id2 = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
 
         assertEquals(id1.hashCode(), id2.hashCode());
     }
 
     @Test
     public void testGetStudentID() {
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentID, programmeID);
+        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
 
-        assertEquals(studentID, programmeEnrolmentID.getStudentID());
+        assertEquals(studentIDDouble, programmeEnrolmentID.getStudentID());
     }
 
     @Test
     public void testGetProgrammeID() {
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentID, programmeID);
+        ProgrammeEnrolmentID programmeEnrolmentID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
 
-        assertEquals(programmeID, programmeEnrolmentID.getProgrammeID());
+        assertEquals(programmeIDDouble, programmeEnrolmentID.getProgrammeID());
     }
 
 }
