@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.accessMethod;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Embeddable
 public class AccessMethodIDDataModel implements Serializable {
 
+    @Column(name = "access_method_id")
     private UUID id;
 
     protected AccessMethodIDDataModel() {}
