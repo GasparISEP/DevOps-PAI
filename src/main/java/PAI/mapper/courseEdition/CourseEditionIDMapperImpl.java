@@ -6,7 +6,8 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.mapper.courseInStudyPlanID.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +39,12 @@ public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
 
     @Override
     public CourseEditionIDDataModel toDataModel(CourseEditionID courseEditionID) throws Exception {
-        return null;
+        if (courseEditionID == null)
+            throw new IllegalArgumentException("CourseEditionID cannot be null");
+
+        ProgrammeEditionIdDataModel pEIDDataModel = _programmeEditionIdMapper.domainToDataModel(courseEditionID.getProgrammeEditionID());
+        CourseInStudyPlanIDDataModel cISPIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseEditionID.getCourseInStudyPlanID());
+
+        return new CourseEditionIDDataModel(pEIDDataModel, cISPIDDataModel);
     }
 }
