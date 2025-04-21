@@ -41,6 +41,20 @@ class CourseEditionMapperImplTest {
         assertEquals("courseEditionIDMapper cannot be null", exception.getMessage());
     }
 
+    @Test
+    void shouldThrowExceptionIfProgrammeEditionIDMapperGivenInTheConstructorIsNull () {
+        // Arrange
+        ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper pEIDMapper = null;
+        ICourseInStudyPlanIDMapper cISPIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(cEIDMapper, pEIDMapper, cISPIDMapper);});
+
+        // Assert
+        assertEquals("programmeEditionIdMapper cannot be null", exception.getMessage());
+    }
+
 
     @Test
     void shouldReturnNullWhenToDomainIsCalled() {
