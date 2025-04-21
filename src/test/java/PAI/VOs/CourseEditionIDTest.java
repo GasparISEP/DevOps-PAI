@@ -136,4 +136,32 @@ class CourseEditionIDTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnProgrammeEditionID() {
+        // Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Act
+        ProgrammeEditionID result = courseEditionID.getProgrammeEditionID();
+
+        // Assert
+        assertEquals(result, programmeEditionIDDouble);
+    }
+
+    @Test
+    void shouldReturnCourseInStudyPlanID() {
+        // Arrange
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Act
+        CourseInStudyPlanID result = courseEditionID.getCourseInStudyPlanID();
+
+        // Assert
+        assertEquals(result, courseInStudyPlanIDDouble);
+    }
+
 }

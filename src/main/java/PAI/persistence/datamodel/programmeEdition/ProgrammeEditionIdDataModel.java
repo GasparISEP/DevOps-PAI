@@ -18,6 +18,12 @@ public class ProgrammeEditionIdDataModel {
         this._schoolYearId = schoolYear.identity().toString();
     }
 
+    public ProgrammeEditionIdDataModel(String programmeName, String programmeAcronym, String schoolYearId) {
+        this._programmeName = programmeName;
+        this._programmeAcronym = programmeAcronym;
+        this._schoolYearId = schoolYearId;
+    }
+
 
     public String getProgrammeName() {
         return this._programmeName;

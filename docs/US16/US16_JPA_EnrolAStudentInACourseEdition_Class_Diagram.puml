@@ -115,6 +115,21 @@ interface IProgrammeEditionEnrolmentFactory {
     +newProgrammeEditionEnrolment\n(studentId: StudentID, programmeEditionId: ProgrammeEditionID):\n ProgrammeEditionEnrolment
 }
 
+interface ICourseEditionIDMapper {
+    +toDomain(courseEditionIDDataModel: CourseEditionIDDataModel,\n programmeEditionIdMapper: IProgrammeEditionIdMapper,\n courseInStudyPlanIDMapper: ICourseInStudyPlanIDMapper): CourseEditionID
+    +toDataModel(courseEditionID: CourseEditionID)): CourseEditionIDDataModel
+}
+
+interface ICourseEditionEnrolmentMapper {
+    +toDomain(courseEditionEnrolmentIDDataModel: CourseEditionEnrolmentIDDataModel):\n CourseEditionEnrolmentID
+    +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID):\n CourseEditionEnrolmentDataModel
+}
+
+interface ICourseEditionEnrolmentIDMapper {
+    +toDomain(courseEditionEnrolmentIDDataModel: CourseEditionEnrolmentIDDataModel): Optional<CourseEditionEnrolmentID>
+    +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID): Optional<CourseEditionEnrolmentIDDataModel>
+}
+
 'VO's
 
 class "<<Value Object>>\n EnrolmentStatus" {
@@ -268,7 +283,8 @@ class CourseEditionEnrolmentDataModel {
     +equals(o: Object)): boolean
 }
 
-class CourseEditionDataModel {
+class CourseEditionIDDataModel {
+    +CourseEditionIDDataModel\n(programmeEditionIdDataModel: ProgrammeEditionIdDataModel,\n courseInStudyPlanIDDataModel: CourseInStudyPlanIDDataModel)
 }
 
 class ProgrammeEditionEnrolmentDataModel {
@@ -301,11 +317,24 @@ class ProgrammeEditionEnrolmentIDDataModel {
     +hashCode(): int
 }
 
+class CourseEditionIDMapperImpl {
+    +toDomain(courseEditionIDDataModel: CourseEditionIDDataModel,\n programmeEditionIdMapper: IProgrammeEditionIdMapper,\n courseInStudyPlanIDMapper: ICourseInStudyPlanIDMapper):\n CourseEditionID
+    +toDataModel(courseEditionID: CourseEditionID):\n CourseEditionIDDataModel
+}
+
 'Mapper's
 
 class CourseEditionEnrolmentMapper{
+    -ceeIDMapper ICourseEditionEnrolmentIDMapper
+    -ceIDMapper ICourseEditionIDMapper
+    -courseEditionEnrolmentFactory ICourseEditionEnrolmentFactory
     +toData(courseEditionEnrolment:\n CourseEditionEnrolment):\n CourseEditionEnrolmentDataModel
     +toDomain(courseEditionEnrolmentDataModel:\n CourseEditionEnrolmentDataModel):\n CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentIDMapperImpl {
+    +toDomain(courseEditionEnrolmentIDDataModel: CourseEditionEnrolmentIDDataModel): Optional<CourseEditionEnrolmentID>
+    +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID): Optional<CourseEditionEnrolmentIDDataModel>
 }
 
 class ProgrammeEditionEnrolmentMapper{
@@ -364,14 +393,16 @@ ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ICourseEditionRepository <|.. CourseEditionRepositorySpringDataJPAImpl
 CourseEdition "_listOfCE *" <-- "1       " CourseEditionRepositoryImpl
-ICourseEditionRepositorySpringDataJPA ..> CourseEditionDataModel
+ICourseEditionRepositorySpringDataJPA ..> CourseEditionIDDataModel
 ICourseEditionRepositorySpringDataJPA <-- CourseEditionRepositorySpringDataJPAImpl
-CourseEditionRepositorySpringDataJPAImpl --> CourseEditionMapper
+CourseEditionRepositorySpringDataJPAImpl --> CourseEditionIDMapperImpl
 CourseEditionRepositorySpringDataJPAImpl ..> CourseEdition
-CourseEditionRepositorySpringDataJPAImpl ..> CourseEditionDataModel
-CourseEditionMapper ..> ICourseEditionFactory
-CourseEditionMapper ..> CourseEdition
-CourseEditionMapper ..> CourseEditionDataModel
+CourseEditionRepositorySpringDataJPAImpl ..> CourseEditionIDDataModel
+CourseEditionIDMapperImpl ..> ICourseEditionFactory
+CourseEditionIDMapperImpl ..> CourseEdition
+CourseEditionIDMapperImpl ..> CourseEditionIDDataModel
+
+CourseEditionIDMapperImpl --> ICourseEditionIDMapper
 
 'Factory
 
@@ -421,4 +452,7 @@ CourseEditionEnrolmentIDDataModel <- CourseEditionEnrolmentDataModel
 
 ProgrammeEditionEnrolmentIDDataModel <- ProgrammeEditionEnrolmentDataModel
 
+CourseEditionEnrolmentIDMapperImpl --> ICourseEditionEnrolmentIDMapper
+
+CourseEditionEnrolmentIDMapperImpl ..> ICourseEditionEnrolmentFactory
 @enduml

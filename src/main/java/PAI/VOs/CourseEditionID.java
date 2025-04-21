@@ -21,6 +21,14 @@ public class CourseEditionID implements DomainId {
         _courseInStudyPlanID = courseInStudyPlanID;
     }
 
+    public ProgrammeEditionID getProgrammeEditionID() {
+        return _programmeEditionID;
+    }
+
+    public CourseInStudyPlanID getCourseInStudyPlanID() {
+        return _courseInStudyPlanID;
+    }
+
     @Override
     public String toString() {
         return _programmeEditionID.toString()+"-"+_courseInStudyPlanID.toString();
