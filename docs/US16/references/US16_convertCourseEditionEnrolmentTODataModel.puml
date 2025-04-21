@@ -1,0 +1,28 @@
+@startuml
+
+title Convert CourseEditionEnrolement to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
+participant ":ICourseEditionEnrolmentMapper" as ceeMapper
+
+ICourseEditionEnrolmentRepository -> ceeMapper: toDataModel (cee)
+activate ceeMapper #E1F5FE
+
+ref over ceeMapper
+    SD Convert CourseEditionEnrolmentID to DataModel
+end
+
+create "ceeDataModel: CourseEditionEnrolmentDataModel"
+ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel": create (new CourseEditionEnrolmentDataModel (id, \n cee.knowEnrolmentDate().getLocalDate(),\n cee.isEnrolmentActive())
+deactivate ceeMapper
+
+@enduml
