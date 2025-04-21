@@ -1,0 +1,93 @@
+@startuml DomainModel_US21_Full_Cleaned
+
+title Domain Model - US21: Get the Number of Students Enrolled in a Programme Edition
+
+package "Domain" {
+
+  ' === CONTROLLER ===
+  class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
+      - _programmeEditionEnrollmentService: IProgrammeEditionEnrolmentService
+      + US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrollmentService: IProgrammeEditionEnrolmentService)
+      + iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition: ProgrammeEditionID): int
+      + getAllProgrammeEditions(): List<ProgrammeEdition>
+  }
+
+  ' === VALUE OBJECTS ===
+
+
+  ' === AGGREGATE ===
+  package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+        + ProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+        + getStudentUniqueNumber(): String
+        + equals(obj: Object): boolean
+        + findProgrammeEditionInEnrollment(): ProgrammeEditionID
+    }
+
+    class ProgrammeEditionID <<Value Object>> {
+          - _id: long
+          + ProgrammeEditionID(id: long)
+          + getId(): long
+          + equals(object: Object): boolean
+          + hashcode(): int
+          + toString(): String
+      }
+
+      class StudentID <<Value Object>> {
+          - _uniqueNumber: int
+          + StudentID(uniqueNumber: int)
+          + isUniqueNumberValid(): boolean
+      }
+
+      class ProgrammeEditionEnrolmentID <<Value Object>> {
+          - _id: long
+          + ProgrammeEditionEnrolmentID(id: long)
+          + getId(): long
+          + equals(object: Object): boolean
+          + hashcode(): int
+          + toString(): String
+      }
+  }
+
+  ' === REPOSITORIES ===
+  interface IProgrammeEditionEnrolmentRepository {
+      + enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID): boolean
+      + isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID): boolean
+      + iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID: ProgrammeEditionID): int
+  }
+
+  ' === FACTORIES ===
+
+
+  ' === COLLECTION SUPPORT ===
+
+interface IProgrammeEditionEnrolmentService {
+}
+
+class ProgrammeEditionEnrolmentServiceImpl {
+}
+
+class ProgrammeEditionEnrolmentRepositoryImpl {
+}
+
+interface IProgrammeEditionEnrolmentSpringData {
+}
+
+interface JpaRepository {
+}
+  ' === RELATIONSHIPS ===
+  ProgrammeEditionEnrolment --> ProgrammeEditionID: contains
+  ProgrammeEditionEnrolment --> StudentID: contains
+  ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentID: contains
+
+  US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController -down-> IProgrammeEditionEnrolmentService: uses
+
+  IProgrammeEditionEnrolmentRepository <|..right- ProgrammeEditionEnrolmentRepositoryImpl: implements
+  ProgrammeEditionEnrolmentServiceImpl -left..|> IProgrammeEditionEnrolmentService: implements
+  IProgrammeEditionEnrolmentService -down-> IProgrammeEditionEnrolmentRepository: uses
+  IProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolment: uses
+  ProgrammeEditionEnrolmentRepositoryImpl --> IProgrammeEditionEnrolmentSpringData: uses
+  IProgrammeEditionEnrolmentSpringData --|> JpaRepository: extends
+ }
+
+@enduml
