@@ -173,4 +173,21 @@ class CourseEditionMapperImplTest {
         assertEquals(cISPIDDM, result.getCourseInStudyPlanIDDataModel());
     }
 
+    @Test
+    void shouldThrowExceptionIfCourseEditionGivenAsArgumentInToDataModelMethodIsNull() throws Exception {
+        // Arrange
+        ICourseEditionIDMapper cEIDMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper pEIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper cISPIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionMapper mapper = new CourseEditionMapperImpl(cEIDMapper, pEIDMapper, cISPIDMapper);
+
+        CourseEdition courseEdition = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {mapper.toDataModel(courseEdition);});
+
+        // Assert
+        assertEquals("courseEdition cannot be null", exception.getMessage());
+    }
+
 }

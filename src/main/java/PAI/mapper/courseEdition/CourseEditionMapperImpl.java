@@ -51,6 +51,9 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     @Override
     public CourseEditionDataModel toDataModel(CourseEdition courseEdition) throws Exception{
 
+        if (courseEdition == null)
+            throw new IllegalArgumentException("courseEdition cannot be null");
+
         CourseEditionIDDataModel cEIDDM = _courseEditionIDMapper.toDataModel(courseEdition.identity());
         ProgrammeEditionIdDataModel pEIDDM = _programmeEditionIdMapper.domainToDataModel(courseEdition.getProgrammeEditionID());
         CourseInStudyPlanIDDataModel cISPIDDM = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
