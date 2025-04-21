@@ -11,7 +11,8 @@ skinparam ranksep 100
 
 participant UI
 participant ":US01_ConfigureTeacherCategoryController" as Controller
-participant ":TeacherCategoryApplicationService" as AppService
+participant ":ITeacherCategoryApplicationService" as AppServiceInterface
+participant ":TeacherCategoryApplicationService" as AppServiceImpl
 participant ":Name (VO)" as NameVO
 participant ":ITeacherCategoryRepository" as Repository
 participant ":ITeacherCategoryFactory" as Factory
@@ -27,35 +28,37 @@ UI --> admin -- : "Please provide category name"
 admin -> UI ++ : "Expert"
 UI -> Controller ++ : configureTeacherCategory("Expert")
 
-== CONTROLLER calls ApplicationService ==
-Controller -> AppService ++ : registerCategory("Expert")
+== CONTROLLER calls ApplicationService via interface ==
+Controller -> AppServiceInterface ++ : registerCategory("Expert")
+AppServiceInterface -> AppServiceImpl ++ : registerCategory("Expert")
 
 == SERVICE creates Value Object ==
-AppService -> NameVO ++ : new Name("Expert")
-NameVO --> AppService -- : validated Name object
+AppServiceImpl -> NameVO ++ : new Name("Expert")
+NameVO --> AppServiceImpl -- : validated Name object
 
 == SERVICE checks if category exists ==
-AppService -> Repository ++ : existsByName(name)
+AppServiceImpl -> Repository ++ : existsByName(name)
 Repository -> JpaRepo ++ : existsByName(name.getName())
 JpaRepo --> Repository -- : false
-Repository --> AppService -- : false
+Repository --> AppServiceImpl -- : false
 
 == SERVICE creates Aggregate using Factory ==
-AppService -> Factory ++ : createTeacherCategory(name)
+AppServiceImpl -> Factory ++ : createTeacherCategory(name)
 Factory -> DomainAggregate ++ : new TeacherCategory(id, name)
-Factory --> AppService -- : TeacherCategory
+Factory --> AppServiceImpl -- : TeacherCategory
 
 == SERVICE persists category ==
-AppService -> Repository ++ : save(TeacherCategory)
+AppServiceImpl -> Repository ++ : save(TeacherCategory)
 Repository -> Mapper ++ : toDataModel(TeacherCategory)
 Mapper -> DataModel ++ : create(id, name)
 Mapper --> Repository -- : TeacherCategoryDataModel
 Repository -> JpaRepo ++ : save(TeacherCategoryDataModel)
 JpaRepo --> Repository -- : saved
-Repository --> AppService -- : saved aggregate
+Repository --> AppServiceImpl -- : saved aggregate
 
 == RESULT to controller and UI ==
-AppService --> Controller -- : success
+AppServiceImpl --> AppServiceInterface -- : success
+AppServiceInterface --> Controller -- : true
 Controller --> UI -- : true
 UI --> admin -- : "TeacherCategory registered successfully"
 
