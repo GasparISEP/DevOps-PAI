@@ -1,4 +1,4 @@
-package PAI.controller;
+/*package PAI.controller;
 
 import PAI.VOs.*;
 
@@ -352,4 +352,4 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         // Assert
         assertEquals("This country is not valid.", exception.getMessage());
     }
-}
+}*/

@@ -4,7 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.persistence.datamodel.*;
 import PAI.factory.IStudentFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Component
 public class StudentMapper implements IStudentMapper {
 
     private IStudentFactory _studentFactory;

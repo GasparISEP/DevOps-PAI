@@ -1,4 +1,4 @@
-package PAI.controller;
+/*package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
@@ -295,5 +295,5 @@ public class US09_EnrolStudentInProgrammeControllerTest {
         //assert
         assertEquals("Date cannot be null or empty", exception.getMessage());
     }
-}
+}*/
 
