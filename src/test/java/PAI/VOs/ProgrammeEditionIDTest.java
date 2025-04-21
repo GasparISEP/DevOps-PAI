@@ -280,4 +280,26 @@ class ProgrammeEditionIDTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnProgrammeId(){
+        //arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionID.getProgrammeID()).thenReturn(mock(ProgrammeID.class));
+        //act
+        ProgrammeID result = programmeEditionID.getProgrammeID();
+        //assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnSchoolYearID(){
+        //arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionID.getSchoolYearID()).thenReturn(mock(SchoolYearID.class));
+        //act
+        SchoolYearID result = programmeEditionID.getSchoolYearID();
+        //assert
+        assertNotNull(result);
+    }
 }

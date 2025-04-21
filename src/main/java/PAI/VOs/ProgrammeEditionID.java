@@ -42,4 +42,12 @@ public class ProgrammeEditionID implements DomainId {
     public boolean isSameProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID){
         return this._programmeID.equals(programmeID) && this._schoolYearID.equals(schoolYearID);
     }
+
+    public ProgrammeID getProgrammeID() {
+        return _programmeID;
+    }
+
+    public SchoolYearID getSchoolYearID() {
+        return _schoolYearID;
+    }
 }
