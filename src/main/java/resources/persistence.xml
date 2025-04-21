@@ -9,14 +9,15 @@
 
     <!--  LOCAL PARA POR DATAMODELS COM EXEMPLO ABAIXO -->
     <!--  <class>pt.isep.incenzzo.persistence.jpa.datamodel.TipoAlojamentoDataModel</class> -->
-    <class>PAI.persistence.datamodel.StudentGradeDM</class>
-    <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
-    <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodDataModel</class>
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel</class>
+    <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
+    <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
+    <class>PAI.persistence.datamodel.ProgrammeEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel</class>
     <class>PAI.persistence.datamodel.StudentDataModel</class>
+    <class>PAI.persistence.datamodel.StudentGradeDM</class>
 
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
