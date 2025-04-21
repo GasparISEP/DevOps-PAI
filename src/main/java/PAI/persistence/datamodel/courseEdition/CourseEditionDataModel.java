@@ -63,6 +63,6 @@ public class CourseEditionDataModel {
 
     @Override
     public int hashCode() {
-        return 0;
+        return _courseEditionIDDataModel.hashCode();
     }
 }

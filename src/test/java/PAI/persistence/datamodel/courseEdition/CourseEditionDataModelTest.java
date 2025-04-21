@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
@@ -241,21 +240,21 @@ class CourseEditionDataModelTest {
 
         // Assert
         assertFalse(result);
-
     }
-
-
 
     // -----hashCode Tests-----
     @Test
     void shouldReturnZeroWhenUseHashCodeMethod() {
         // Arrange
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel();
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIDDataModel, courseInStudyPlanIDDataModel);
 
         // Act
         int result = courseEditionDataModel.hashCode();
 
         // Assert
-        assertEquals(0, result);
+        assertEquals(courseEditionDataModel.hashCode(), result);
     }
 }
