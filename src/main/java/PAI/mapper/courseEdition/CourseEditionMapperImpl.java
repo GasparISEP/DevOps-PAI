@@ -13,6 +13,10 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
 
     public CourseEditionMapperImpl(ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper) {
+
+        if (courseEditionIDMapper == null)
+            throw new IllegalArgumentException("courseEditionIDMapper cannot be null");
+
         _courseEditionIDMapper = courseEditionIDMapper;
         _programmeEditionIdMapper = programmeEditionIdMapper;
         _courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
