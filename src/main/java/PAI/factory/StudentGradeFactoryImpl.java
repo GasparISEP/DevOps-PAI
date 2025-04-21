@@ -9,11 +9,13 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
     ICourseEditionRepository _courseEditionRepository ;

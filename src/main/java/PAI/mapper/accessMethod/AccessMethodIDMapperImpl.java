@@ -2,10 +2,12 @@ package PAI.mapper.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class AccessMethodIDMapperImpl implements IAccessMethodIDMapper{
 
     @Override

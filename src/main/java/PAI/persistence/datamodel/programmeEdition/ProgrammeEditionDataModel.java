@@ -1,38 +1,41 @@
 package PAI.persistence.datamodel.programmeEdition;
 
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
-import java.util.UUID;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "programmeEdition")
+@Table(name = "Programme Edition")
 public class ProgrammeEditionDataModel {
 
     @EmbeddedId
+    @Column(name = "ID")
     private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
+
     @Embedded
+    @Column(name = "Programme")
     private ProgrammeIDDataModel _programmeIDDataModel;
-    private UUID _schoolYearID;
+
+    @Embedded
+    @Column(name = "School Year")
+    private SchoolYearIDDataModel _schoolYearIDDataModel;
 
     protected ProgrammeEditionDataModel() {}
 
-    public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel, ProgrammeIDDataModel programmeIDDataModel, UUID schoolYearID) {
+    public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel, ProgrammeIDDataModel programmeIDDataModel,
+                                     SchoolYearIDDataModel schoolYearIDDatamodel) {
         if(programmeEditionIdDataModel == null) {
             throw new IllegalArgumentException("programmeEditionID cannot be null");
         }
         if(programmeIDDataModel == null) {
             throw new IllegalArgumentException("programmeID cannot be null");
         }
-        if(schoolYearID == null) {
+        if(schoolYearIDDatamodel == null) {
             throw new IllegalArgumentException("schoolYearID cannot be null");
         }
         this._programmeEditionIdDataModel = programmeEditionIdDataModel;
         this._programmeIDDataModel = programmeIDDataModel;
-        this._schoolYearID = schoolYearID;
+        this._schoolYearIDDataModel = schoolYearIDDatamodel;
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
@@ -43,8 +46,8 @@ public class ProgrammeEditionDataModel {
         return _programmeIDDataModel;
     }
 
-    public UUID getSchoolYearID() {
-        return _schoolYearID;
+    public SchoolYearIDDataModel getSchoolYearIDDataModel() {
+        return _schoolYearIDDataModel;
     }
 
     @Override
@@ -54,11 +57,11 @@ public class ProgrammeEditionDataModel {
         ProgrammeEditionDataModel other = (ProgrammeEditionDataModel) obj;
         return _programmeEditionIdDataModel.equals(other._programmeEditionIdDataModel) &&
                 _programmeIDDataModel.equals(other._programmeIDDataModel) &&
-                _schoolYearID.equals(other._schoolYearID);
+                _schoolYearIDDataModel.equals(other._schoolYearIDDataModel);
     }
 
     @Override
     public int hashCode() {
-        return _programmeEditionIdDataModel.hashCode() + _programmeIDDataModel.hashCode() + _schoolYearID.hashCode();
+        return _programmeEditionIdDataModel.hashCode() + _programmeIDDataModel.hashCode() + _schoolYearIDDataModel.hashCode();
     }
 }

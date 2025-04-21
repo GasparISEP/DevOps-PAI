@@ -1,6 +1,7 @@
 package PAI.mapper.studyPlan;
 
 import PAI.VOs.*;
+import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
@@ -22,7 +23,8 @@ class StudyPlanIDMapperImplTest {
         Acronym acronym = mock(Acronym.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        IStudyPlanIDMapper studyPlanIDMapperImpl = new StudyPlanIDMapperImpl();
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        IStudyPlanIDMapper studyPlanIDMapperImpl = new StudyPlanIDMapperImpl(programmeIDMapper);
         LocalDate localDate = mock(LocalDate.class);
 
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
@@ -44,7 +46,8 @@ class StudyPlanIDMapperImplTest {
         String acronym = "GAS";
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
         StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
-        IStudyPlanIDMapper studyPlanIDMapperImpl = new StudyPlanIDMapperImpl();
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        IStudyPlanIDMapper studyPlanIDMapperImpl = new StudyPlanIDMapperImpl(programmeIDMapper);
         LocalDate date = mock(LocalDate.class);
 
         when(studyPlanIDDataModel.getProgrammeID()).thenReturn(programmeIDDataModel);

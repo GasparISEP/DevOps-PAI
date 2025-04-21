@@ -1,7 +1,9 @@
 package PAI.controller;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.service.accessMethod.IAccessMethodService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class US02_ConfigureAccessMethodController {
 
     private final IAccessMethodService accessMethodService;

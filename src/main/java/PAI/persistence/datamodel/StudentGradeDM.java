@@ -15,13 +15,18 @@ public class StudentGradeDM {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private long id;
 
+ @Column(name = "Grade")
  private double _grade;
+
+ @Column(name = "Date")
  private LocalDate _date;
 
  @Embedded
+ @Column(name = "Course Edition")
  private CourseEditionIDDataModel courseEditionID;
 
  @Embedded
+ @Column(name = "Student")
  private StudentIDDataModel StudentId;
 
  public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
@@ -34,6 +39,7 @@ public class StudentGradeDM {
 
  public StudentGradeDM() {
  }
+
 
  public long getId() {
   return id;

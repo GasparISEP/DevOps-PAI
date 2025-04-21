@@ -5,10 +5,12 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.persistence.datamodel.accessMethod.AccessMethodDataModel;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class AccessMethodMapper implements  IAccessMethodMapper{
 
     private final IAccessMethodFactory _accessMethodFactory;

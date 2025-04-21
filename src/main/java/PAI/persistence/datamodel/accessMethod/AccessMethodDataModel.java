@@ -10,9 +10,13 @@ public class AccessMethodDataModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
+    @Column(name = "access_method_id")
     private UUID accessMethodID;
+
+    @Column(name = "name")
     private String name;
 
     public AccessMethodDataModel(UUID accessMethodID, String name) {

@@ -2,7 +2,9 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface IStudentFactory {
 
     Student newStudent(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail academicEmail);

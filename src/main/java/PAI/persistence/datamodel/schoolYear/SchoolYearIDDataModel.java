@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.schoolYear;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.Objects;
 @Embeddable
 public class SchoolYearIDDataModel implements Serializable {
 
+    @Column(name = "school_year_id")
     private String id;
 
     public SchoolYearIDDataModel() {}

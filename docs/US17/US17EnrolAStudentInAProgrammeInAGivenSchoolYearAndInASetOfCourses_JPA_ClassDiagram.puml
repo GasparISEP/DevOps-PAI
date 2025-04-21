@@ -57,7 +57,7 @@ interface IProgrammeEnrolmentRepository {
 }
 
 interface IProgrammeEditionEnrolmentFactory{
-    +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+    +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : ProgrammeEditionEnrolment
 }
 
 interface IProgrammeEditionEnrolmentListFactory{
@@ -83,6 +83,11 @@ interface ICourseEditionRepositorySpringDataJPA {
 }
 
 interface ISchoolYearRepositorySpringDataJPA {
+}
+
+interface IProgrammeEditionEnrolmentMapper {
+    +toDomain(dataModel: ProgrammeEditionEnrolmentDataModel) : ProgrammeEditionEnrolment
+    +toDataModel(domain: ProgrammeEditionEnrolment) : ProgrammeEditionEnrolmentDataModel
 }
 
 ' Services
@@ -257,8 +262,8 @@ class ProgrammeEditionEnrolmentDataModel{
 class ProgrammeEditionEnrolmentMapper{
       - programmeEditionEnrolmentFactory IProgrammeEditionEnrolmentFactory
       + ProgrammeEditionEnrolmentMapper(programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory)
-      + toDomain(peeDataModel ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
-      + toDataModel(peeDomain ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+      + toDomain(peeDataModel: ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+      + toDataModel(peeDomain: ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
 }
 
 'Value Objects
@@ -523,7 +528,7 @@ ProgrammeEditionEnrolmentArrayList "1" ..> "*" ProgrammeEditionEnrolment
 IProgrammeEditionEnrolmentListFactory ..> ProgrammeEditionEnrolmentArrayList
 IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
 IProgrammeEditionEnrolmentListFactory <|.. ProgrammeEditionEnrolmentListFactoryImpl
-ProgrammeEnrolmentRepositoryImpl "1" --> "*" ProgrammeEnrolment
+
 
 'ProgrammeRepositoryImpl "1" --> "1" ProgrammeArrayList
 ProgrammeArrayList "1" --> " _programme *" Programme
@@ -606,9 +611,12 @@ SchoolYearRepositorySpringDataJPAImpl ..> ISchoolYearRepositorySpringDataJPA
 SchoolYearRepositorySpringDataJPAImpl ..> SchoolYear
 
 ProgrammeEditionEnrolmentMapper ..> IProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolmentMapper ..|> IProgrammeEditionEnrolmentMapper
+IProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolment
+IProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
 ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentDataModel
-ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> IProgrammeEditionEnrolmentMapper
+
 ProgrammeEditionEnrolmentDataModel --> ProgrammeEditionEnrolmentIDDataModel
 
 @enduml

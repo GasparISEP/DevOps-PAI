@@ -2,7 +2,9 @@ package PAI.domain.accessMethod;
 
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccessMethodFactoryImpl implements IAccessMethodFactory {
 
     public AccessMethod createAccessMethod (NameWithNumbersAndSpecialChars accessMethodName){

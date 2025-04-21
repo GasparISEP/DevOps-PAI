@@ -4,58 +4,79 @@ autonumber
 
 title: US01 - Sequence Diagram - Configure TeacherCategory (Spring Data JPA)
 
-skinparam sequenceLifeLineBackgroundColor #application
+skinparam sequence {
+  ParticipantFontSize 16
+  ActorFontSize 16
+  FontSize 14
+  LifeLineBorderColor DarkSlateGray
+  LifeLineBackgroundColor #E6F2E6
+  ParticipantBorderColor Black
+  ParticipantBackgroundColor White
+  ArrowColor Black
+  ArrowThickness 1
+  FontName Helvetica
+}
+skinparam nodesep 100
+skinparam ranksep 120
 skinparam linetype ortho
-skinparam nodesep 120
-skinparam ranksep 100
 
 participant UI
 participant ":US01_ConfigureTeacherCategoryController" as Controller
-participant ":TeacherCategoryApplicationService" as AppService
+participant ":ITeacherCategoryApplicationService" as AppServiceInterface
+participant ":TeacherCategoryApplicationService" as AppServiceImpl
 participant ":Name (VO)" as NameVO
 participant ":ITeacherCategoryRepository" as Repository
 participant ":ITeacherCategoryFactory" as Factory
 participant ":TeacherCategory" as DomainAggregate
 participant ":ITeacherCategoryMapper" as Mapper
-participant ":SpringDataRepository" as JpaRepo
+participant ":ITeacherCategoryRepositorySpringData" as JpaRepo
 participant ":TeacherCategoryDataModel" as DataModel
 
-== START: Interaction with UI ==
+== UI Interaction ==
+
 admin -> UI ++ : "I want to register a new TeacherCategory"
 UI --> admin -- : "Please provide category name"
 
 admin -> UI ++ : "Expert"
 UI -> Controller ++ : configureTeacherCategory("Expert")
 
-== CONTROLLER calls ApplicationService ==
-Controller -> AppService ++ : registerCategory("Expert")
+== Controller delegates to Service ==
 
-== SERVICE creates Value Object ==
-AppService -> NameVO ++ : new Name("Expert")
-NameVO --> AppService -- : validated Name object
+Controller -> AppServiceInterface ++ : registerCategory("Expert")
+AppServiceInterface -> AppServiceImpl ++ : registerCategory("Expert")
 
-== SERVICE checks if category exists ==
-AppService -> Repository ++ : existsByName(name)
+== Value Object Creation ==
+
+AppServiceImpl -> NameVO ++ : new Name("Expert")
+NameVO --> AppServiceImpl -- : validated Name object
+
+== Check Existence in Repository ==
+
+AppServiceImpl -> Repository ++ : existsByName(name)
 Repository -> JpaRepo ++ : existsByName(name.getName())
 JpaRepo --> Repository -- : false
-Repository --> AppService -- : false
+Repository --> AppServiceImpl -- : false
 
-== SERVICE creates Aggregate using Factory ==
-AppService -> Factory ++ : createTeacherCategory(name)
+== Aggregate Creation using Factory ==
+
+AppServiceImpl -> Factory ++ : createTeacherCategory(name)
 Factory -> DomainAggregate ++ : new TeacherCategory(id, name)
-Factory --> AppService -- : TeacherCategory
+Factory --> AppServiceImpl -- : TeacherCategory
 
-== SERVICE persists category ==
-AppService -> Repository ++ : save(TeacherCategory)
+== Persistence Layer ==
+
+AppServiceImpl -> Repository ++ : save(TeacherCategory)
 Repository -> Mapper ++ : toDataModel(TeacherCategory)
 Mapper -> DataModel ++ : create(id, name)
 Mapper --> Repository -- : TeacherCategoryDataModel
 Repository -> JpaRepo ++ : save(TeacherCategoryDataModel)
 JpaRepo --> Repository -- : saved
-Repository --> AppService -- : saved aggregate
+Repository --> AppServiceImpl -- : saved aggregate
 
-== RESULT to controller and UI ==
-AppService --> Controller -- : success
+== Response to UI ==
+
+AppServiceImpl --> AppServiceInterface -- : true
+AppServiceInterface --> Controller -- : true
 Controller --> UI -- : true
 UI --> admin -- : "TeacherCategory registered successfully"
 
