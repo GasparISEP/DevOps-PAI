@@ -20,5 +20,5 @@ public interface IStudentRepository extends IRepository <StudentID, Student> {
 
     boolean containsOfIdentity(StudentID studentID);
 
-    boolean containsByStudentIDOrNIF(StudentID studentID, NIF nif);
+    boolean existsByStudentIDOrNIF(StudentID studentID, NIF nif);
 }

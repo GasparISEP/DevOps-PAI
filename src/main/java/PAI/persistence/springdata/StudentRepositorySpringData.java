@@ -25,13 +25,13 @@ public class StudentRepositorySpringData implements IStudentRepository {
     public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, StudentMapper studentMapper, StudentIDMapper studentIDMapper, NIFMapper nifMapper ) {
 
         if (studentRepositorySpringData == null)
-            throw new IllegalArgumentException("studentRepositorySpringData must not be null");
+            throw new IllegalArgumentException("Student Repository SpringData must not be null");
         if (studentMapper == null)
-            throw new IllegalArgumentException("studentMapper must not be null");
+            throw new IllegalArgumentException("Student Mapper must not be null");
         if (studentIDMapper == null)
-            throw new IllegalArgumentException("studentIDMapper must not be null");
+            throw new IllegalArgumentException("StudentID Mapper must not be null");
         if (nifMapper == null)
-            throw new IllegalArgumentException("nifMapper must not be null");
+            throw new IllegalArgumentException("NIF Mapper must not be null");
 
         this.studentRepositorySpringData = studentRepositorySpringData;
         this.studentMapper = studentMapper;
@@ -55,6 +55,7 @@ public class StudentRepositorySpringData implements IStudentRepository {
 
     @Override
     public Optional<StudentID> findIdByStudent(Student student) {
+
             StudentDataModel dataModel = studentMapper.domainToDataModel(student);
             StudentIDDataModel idDataModel = dataModel.getStudentID();
 
@@ -92,13 +93,12 @@ public class StudentRepositorySpringData implements IStudentRepository {
     }
 
     @Override
-    public boolean containsByStudentIDOrNIF(StudentID studentID, NIF nif) {
+    public boolean existsByStudentIDOrNIF(StudentID studentID, NIF nif) {
         StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
         NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
 
         return studentRepositorySpringData.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel);
         }
-
 
 }
 
