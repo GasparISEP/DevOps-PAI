@@ -50,7 +50,7 @@ activate s1
 s1 --> SF: s1
 deactivate s1
 
-SF -> SR: existsByStudentIDAndNIF(studentIDVO, NIFVO)
+SF -> SR: existsByStudentIDOrNIF(studentIDVO, NIFVO)
 activate SR
 SR -> SMapper : domainToDataModel(studentIDVO)
 activate SMapper
@@ -68,7 +68,7 @@ NIFDM --> NIF: NIFDataModel1
 deactivate NIFDM
 NIF --> SR: NIFDataModel1
 deactivate NIF
-SR -> : existsByStudentIDAndNIF(sIDDataModel1, NIFDataModel1)
+SR -> : existsByStudentIDOrNIF(sIDDataModel1, NIFDataModel1)
 SR <-- : False
 SR --> SF: False
 deactivate SR
