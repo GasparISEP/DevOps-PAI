@@ -10,6 +10,8 @@
     <!--  LOCAL PARA POR DATAMODELS COM EXEMPLO ABAIXO -->
     <!--  <class>pt.isep.incenzzo.persistence.jpa.datamodel.TipoAlojamentoDataModel</class> -->
     <class>PAI.persistence.datamodel.StudentGradeDM</class>
+    <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
+    <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
 
