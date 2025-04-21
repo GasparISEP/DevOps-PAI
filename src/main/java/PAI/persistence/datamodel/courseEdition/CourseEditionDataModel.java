@@ -29,4 +29,8 @@ public class CourseEditionDataModel {
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
         return null;
     }
+
+    public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
+        return null;
+    }
 }
