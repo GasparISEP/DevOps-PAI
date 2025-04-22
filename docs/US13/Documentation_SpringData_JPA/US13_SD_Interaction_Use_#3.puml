@@ -1,6 +1,6 @@
 @startuml
 
-title US13 : to VO conversion
+title US13 : Interaction Use #4 - conversion to Value Object
 skinparam sequenceMessageAlign center
 autonumber
 

@@ -1,0 +1,40 @@
+@startuml
+
+title US13 : Interaction Use #5 - toDataModel & save || back toDomain
+skinparam sequenceMessageAlign center
+
+participant "tr:ITeacherRepositorySpringData" as IteacherRepoJPA #business
+participant "tm:TeacherMapper" as tMapper #implementation
+participant "tf:ITeacherFactory" as teacherFactory #lightCyan
+participant "tDM1:TeacherDataModel" as teacherDM #motivation
+participant "t2:Teacher" as teacher #technology
+
+
+activate IteacherRepoJPA
+IteacherRepoJPA -> tMapper : toDataModel(t1)
+activate tMapper
+
+tMapper -> teacherDM** : new Teacher Data Model
+activate teacherDM
+teacherDM --> tMapper : teacherDataModel
+deactivate teacherDM
+
+tMapper --> IteacherRepoJPA : teacherDataModel
+deactivate tMapper
+IteacherRepoJPA ->  : save(teacherDataModel)
+IteacherRepoJPA <-- : teacherDataModel
+
+
+IteacherRepoJPA -> tMapper : toDomain(teacherDataModel)
+activate tMapper
+tMapper -> teacherFactory : createTeacher()
+activate teacherFactory
+teacherFactory -> teacher** : new Teacher
+activate teacher
+teacher --> teacherFactory : teacherDomain
+deactivate teacher
+teacherFactory --> tMapper : teacherDomain
+deactivate teacherFactory
+tMapper --> IteacherRepoJPA : teacherDomain
+
+@enduml

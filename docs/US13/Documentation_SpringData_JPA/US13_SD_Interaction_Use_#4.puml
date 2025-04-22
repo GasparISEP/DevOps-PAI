@@ -1,7 +1,6 @@
 @startuml
-title Ref#1 : Retrieve Teacher Category's list.
+title US13 : Interaction Use #4 - Create TeacherCareerProgression
 skinparam sequenceMessageAlign center
-autonumber
 
 participant ":ITeacherService" as IteacherService #technology
 participant ":ITeacherCareerProgressionRepositoryJPA" as ItcpRepositoryJPA #physical

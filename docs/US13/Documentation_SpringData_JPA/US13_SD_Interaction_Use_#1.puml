@@ -1,7 +1,6 @@
 @startuml
-title Ref#1 : Retrieve Teacher Category's list.
+title US13 : Interaction Use #1 - Retrieve all Teacher Categories.
 skinparam sequenceMessageAlign center
-autonumber
 
 participant ":US13_Controller" as controller #implementation
 participant ":ITeacherCategoryService" as ItcService #motivation
