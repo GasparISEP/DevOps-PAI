@@ -12,8 +12,8 @@ import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
 import PAI.factory.SchoolYearFactoryImpl;
 import PAI.factory.SchoolYearListFactoryImpl;
+import PAI.persistence.mem.SchoolYearRepositoryMem;
 import PAI.repository.ISchoolYearRepository;
-import PAI.repository.SchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
@@ -48,7 +48,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
@@ -68,7 +68,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(ProgrammeEditionRepository, schoolYearRepository, programmeRepository);});
@@ -108,7 +108,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);});
@@ -130,7 +130,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
@@ -176,7 +176,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
@@ -201,7 +201,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
@@ -252,7 +252,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
@@ -308,7 +308,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
@@ -391,7 +391,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryMem(schoolYearFactory, schoolYearRepositoryListFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionRepository, schoolYearRepository, programmeRepository);
 
