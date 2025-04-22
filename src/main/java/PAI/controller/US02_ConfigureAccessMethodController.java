@@ -20,7 +20,11 @@ public class US02_ConfigureAccessMethodController {
         if (accessMethodName== null) {
             return false;
         }
-        NameWithNumbersAndSpecialChars accessMethodNameVO = new NameWithNumbersAndSpecialChars(accessMethodName);
-        return accessMethodService.registerAccessMethod(accessMethodNameVO).isPresent();
+        try {
+            NameWithNumbersAndSpecialChars accessMethodNameVO = new NameWithNumbersAndSpecialChars(accessMethodName);
+            return accessMethodService.registerAccessMethod(accessMethodNameVO).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

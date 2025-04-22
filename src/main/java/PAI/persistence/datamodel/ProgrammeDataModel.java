@@ -12,30 +12,41 @@ public class ProgrammeDataModel {
     @EmbeddedId
     private ProgrammeIDDataModel _programmeID;
 
+    @Column(name = "Name")
     private String _name;
+
+    @Column(name = "Acronym")
     private String _acronym;
+
+    @Column(name = "QuantSemesters")
     private int _quantSemesters;
+
+    @Column(name = "QuantEcts")
     private int _quantEcts;
+
+    @Column(name = "DegreeTypeID")
     private String _degreeTypeID;
-    private String _departmentID;
-    private String _programmeDirectorID;
+
+    @Embedded
+    @Column(name = "DepartmentID")
+    private DepartmentIDDataModel _departmentID;
+
+    @Embedded
+    @Column(name = "ProgDirectorID")
+    private TeacherIDDataModel _programmeDirectorID;
 
     public ProgrammeDataModel() {}
 
-    public ProgrammeDataModel(Programme programme) {
+    public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, String degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
-        ProgrammeID id = programme.getProgrammeID();
-        ProgrammeIDMapper mapper = new ProgrammeIDMapper();
-
-        _programmeID = mapper.toData(id);
-
-        _name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
-        _acronym = programme.getAcronym().getAcronym();
-        _quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();
-        _quantEcts = programme.getQuantEcts().getQuantEcts();
-        _degreeTypeID = programme.getDegreeTypeID().getDTID();
-        _departmentID = programme.getDepartment().getAcronym().getAcronym();
-        _programmeDirectorID = programme.getProgrammeDirectorID().getTeacherAcronym().getAcronym();
+        _programmeID = progID;
+        _name = name;
+        _acronym = acronym;
+        _quantSemesters = quantSemesters;
+        _quantEcts = quantEcts;
+        _degreeTypeID = degreeTypeID;
+        _departmentID = departmentID;
+        _programmeDirectorID = progDirectorID;
     }
 
     public String getName(){
@@ -58,11 +69,15 @@ public class ProgrammeDataModel {
         return _degreeTypeID;
     }
 
-    public String getDepartmentID(){
+    public DepartmentIDDataModel getDepartmentID(){
         return _departmentID;
     }
 
-    public String getProgrammeDirectorID(){
+    public TeacherIDDataModel getProgrammeDirectorID(){
         return _programmeDirectorID;
+    }
+
+    public ProgrammeIDDataModel getProgID() {
+        return _programmeID;
     }
 }

@@ -2,9 +2,7 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.mapper.NIFMapper;
-import PAI.mapper.StudentIDMapper;
-import PAI.mapper.StudentMapper;
+import PAI.mapper.*;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.StudentDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
@@ -18,11 +16,11 @@ import java.util.stream.Collectors;
 public class StudentRepositorySpringData implements IStudentRepository {
 
     private IStudentRepositorySpringData studentRepositorySpringData;
-    private StudentMapper studentMapper;
-    private StudentIDMapper studentIDMapper;
-    private NIFMapper nifMapper;
+    private IStudentMapper studentMapper;
+    private IStudentIDMapper studentIDMapper;
+    private INIFMapper nifMapper;
 
-    public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, StudentMapper studentMapper, StudentIDMapper studentIDMapper, NIFMapper nifMapper ) {
+    public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, IStudentMapper studentMapper, IStudentIDMapper studentIDMapper, INIFMapper nifMapper ) {
 
         if (studentRepositorySpringData == null)
             throw new IllegalArgumentException("Student Repository SpringData must not be null");
@@ -41,32 +39,24 @@ public class StudentRepositorySpringData implements IStudentRepository {
     }
 
     @Override
-    public Optional<Student> getStudentByID(StudentID studentID) {
-        int id = studentID.getUniqueNumber();
-        return studentRepositorySpringData.findById(id)
-                .map(dataModel -> {
-                    try {
-                        return studentMapper.dataModelToDomain(dataModel);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Mapping error", e);
-                    }
-                });
-    }
-
-    @Override
     public Optional<StudentID> findIdByStudent(Student student) {
+        StudentID id = student.identity();
 
-            StudentDataModel dataModel = studentMapper.domainToDataModel(student);
-            StudentIDDataModel idDataModel = dataModel.getStudentID();
+        if (containsOfIdentity(id))
+            return Optional.of(id);
 
-            return Optional.of(studentIDMapper.dataModelToDomain(idDataModel));
+        return Optional.empty();
     }
 
     @Override
     public Student save(Student student) {
         StudentDataModel studentDataModel = studentMapper.domainToDataModel(student);
-        studentRepositorySpringData.save(studentDataModel);
-        return student;
+        StudentDataModel savedStudentDataModel = studentRepositorySpringData.save(studentDataModel);
+        try {
+            return studentMapper.dataModelToDomain(savedStudentDataModel);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -84,7 +74,15 @@ public class StudentRepositorySpringData implements IStudentRepository {
 
     @Override
     public Optional<Student> ofIdentity(StudentID studentID) {
-        return getStudentByID(studentID);
+        int id = studentID.getUniqueNumber();
+        return studentRepositorySpringData.findById(id)
+                .map(dataModel -> {
+                    try {
+                        return studentMapper.dataModelToDomain(dataModel);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Mapping error", e);
+                    }
+                });
     }
 
     @Override
@@ -99,7 +97,6 @@ public class StudentRepositorySpringData implements IStudentRepository {
 
         return studentRepositorySpringData.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel);
         }
-
 }
 
 

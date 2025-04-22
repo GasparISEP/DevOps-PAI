@@ -9,7 +9,6 @@ import java.util.Optional;
 
     public class StudentRepository implements IStudentRepository {
 
-
         private List<Student> _students;
 
         public StudentRepository(IStudentListFactory studentListFactory) {
@@ -18,15 +17,6 @@ import java.util.Optional;
             }
 
             _students = studentListFactory.newArrayList();
-        }
-
-        public Optional<Student> getStudentByID(StudentID studentID) {
-            for (Student existingStudent : _students) {
-                if (existingStudent.identity().equals(studentID)) {
-                    return Optional.of(existingStudent);
-                }
-            }
-            return Optional.empty();
         }
 
         public Optional<StudentID> findIdByStudent(Student student) {
