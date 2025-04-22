@@ -3,13 +3,16 @@ package PAI.persistence.springdata.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.domain.course.Course;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
+import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +59,19 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public Iterable<CourseEdition> findAll() {
-        return null;
+
+        Iterable<CourseEditionDataModel> courseEditionDataModels = courseEditionRepositorySpringData.findAll();
+        List<CourseEdition> courseEditions = new ArrayList<>();
+        for (CourseEditionDataModel courseEditionDataModel : courseEditionDataModels) {
+            try {
+                CourseEdition courseEdition = courseEditionMapper.toDomain(courseEditionDataModel);
+                if (courseEdition != null)
+                    courseEditions.add(courseEdition);
+            } catch (Exception e) {
+                return new ArrayList<>();
+            }
+        }
+        return courseEditions;
     }
 
     @Override

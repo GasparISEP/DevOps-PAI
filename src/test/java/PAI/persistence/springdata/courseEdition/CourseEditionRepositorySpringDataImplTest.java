@@ -1,7 +1,6 @@
 package PAI.persistence.springdata.courseEdition;
 
 import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
@@ -11,12 +10,13 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CourseEditionRepositorySpringDataImplTest {
 
@@ -148,18 +148,139 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----findAll Tests-----
     @Test
-    void shouldReturnNullWhenFindAllMethodIsCalled() {
+    void shouldReturnAListWithAllCourseEditionsExistentInTheRepository() throws Exception {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
         ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
 
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel2 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel3 = mock(CourseEditionDataModel.class);
+
+        List<CourseEditionDataModel> courseEditionDataModels = List.of(dataModel1, dataModel2, dataModel3);
+        when(courseEditionRepoSD.findAll()).thenReturn(courseEditionDataModels);
+
+        when(courseEditionMapper.toDomain(dataModel1)).thenReturn(courseEdition1);
+        when(courseEditionMapper.toDomain(dataModel2)).thenReturn(courseEdition2);
+        when(courseEditionMapper.toDomain(dataModel3)).thenReturn(courseEdition3);
+
         // Act
-        Iterable<CourseEdition> result = courseEditionRepositorySpringData.findAll();
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepositorySpringData.findAll();
 
         // Assert
-        assertNull(result);
+        assertNotNull(allCourseEditions);
+        List<CourseEdition> courseEditionList = new ArrayList<>();
+        allCourseEditions.forEach(courseEditionList::add);
+        assertEquals(3, courseEditionList.size());
+        assertTrue(courseEditionList.contains(courseEdition1));
+        assertTrue(courseEditionList.contains(courseEdition2));
+        assertTrue(courseEditionList.contains(courseEdition3));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfThereIsNoCourseEditionsInTheRepository() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel2 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel3 = mock(CourseEditionDataModel.class);
+
+        List<CourseEditionDataModel> courseEditionDataModels = List.of();
+        when(courseEditionRepoSD.findAll()).thenReturn(courseEditionDataModels);
+
+        // Act
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepositorySpringData.findAll();
+
+        // Assert
+        assertNotNull(allCourseEditions);
+        List<CourseEdition> courseEditionList = new ArrayList<>();
+        allCourseEditions.forEach(courseEditionList::add);
+        assertEquals(0, courseEditionList.size());
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfCourseEditionMapperThrowsException() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel2 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel3 = mock(CourseEditionDataModel.class);
+
+        List<CourseEditionDataModel> courseEditionDataModels = List.of(dataModel1, dataModel2, dataModel3);
+        when(courseEditionRepoSD.findAll()).thenReturn(courseEditionDataModels);
+
+        when(courseEditionMapper.toDomain(dataModel1)).thenReturn(courseEdition1);
+        when(courseEditionMapper.toDomain(dataModel2)).thenReturn(courseEdition2);
+        when(courseEditionMapper.toDomain(dataModel3)).thenThrow(IllegalArgumentException.class);
+
+        // Act
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepositorySpringData.findAll();
+
+        // Assert
+        assertNotNull(allCourseEditions);
+        List<CourseEdition> courseEditionList = new ArrayList<>();
+        allCourseEditions.forEach(courseEditionList::add);
+        assertEquals(0, courseEditionList.size());
+        assertFalse(courseEditionList.contains(courseEdition1));
+        assertFalse(courseEditionList.contains(courseEdition2));
+        assertFalse(courseEditionList.contains(courseEdition3));
+    }
+
+    @Test
+    void shouldReturnAListOfCourseEditionsInTheRepositoryExcludingTheNullOnes() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel2 = null;
+        CourseEditionDataModel dataModel3 = mock(CourseEditionDataModel.class);
+
+        List<CourseEditionDataModel> courseEditionDataModels = Arrays.asList(dataModel1, dataModel2, dataModel3);
+        when(courseEditionRepoSD.findAll()).thenReturn(courseEditionDataModels);
+
+        when(courseEditionMapper.toDomain(dataModel1)).thenReturn(courseEdition1);
+        when(courseEditionMapper.toDomain(dataModel2)).thenReturn(null);
+        when(courseEditionMapper.toDomain(dataModel3)).thenReturn(courseEdition3);
+
+        // Act
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepositorySpringData.findAll();
+
+        // Assert
+        assertNotNull(allCourseEditions);
+        List<CourseEdition> courseEditionList = new ArrayList<>();
+        allCourseEditions.forEach(courseEditionList::add);
+        assertEquals(2, courseEditionList.size());
+        assertTrue(courseEditionList.contains(courseEdition1));
+        assertFalse(courseEditionList.contains(null));
+        assertTrue(courseEditionList.contains(courseEdition3));
     }
 
     //-----ofIdentity Tests-----
@@ -248,8 +369,6 @@ class CourseEditionRepositorySpringDataImplTest {
         // Assert
         assertFalse(result.isPresent());
     }
-
-
 
     //-----containsOfIdentity Tests-----
     @Test
