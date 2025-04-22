@@ -50,7 +50,7 @@ public class StudentDataModel {
         return NIF;
     }
 
-    public PhoneNumberDataModel getPhoneNumber() {
+    public PhoneNumberDataModel getPhone() {
         return phone;
     }
 

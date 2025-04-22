@@ -124,7 +124,7 @@ class StudentMapperTest {
                 () -> assertEquals(expected.getStudentID(), result.getStudentID()),
                 () -> assertEquals(expected.getName(), result.getName()),
                 () -> assertEquals(expected.getNIF(), result.getNIF()),
-                () -> assertEquals(expected.getPhoneNumber(), result.getPhoneNumber()),
+                () -> assertEquals(expected.getPhone(), result.getPhone()),
                 () -> assertEquals(expected.getEmail(), result.getEmail()),
                 () -> assertEquals(expected.getAddress(), result.getAddress()),
                 () -> assertEquals(expected.getAcademicEmail(), result.getAcademicEmail())
@@ -168,7 +168,7 @@ class StudentMapperTest {
         when(studentDataModelDouble.getNIF()).thenReturn(nifDataModelDouble);
         when(nifMapperDouble.dataModelToDomain(nifDataModelDouble)).thenReturn(nifDouble);
 
-        when(studentDataModelDouble.getPhoneNumber()).thenReturn(phoneNumberDataModelDouble);
+        when(studentDataModelDouble.getPhone()).thenReturn(phoneNumberDataModelDouble);
         when(phoneNumberMapperDouble.dataModelToDomain(phoneNumberDataModelDouble)).thenReturn(phoneNumberDouble);
 
         when(studentDataModelDouble.getEmail()).thenReturn("harrypotter@gmail.com");
