@@ -21,6 +21,8 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
         if (CourseEditionReposSD == null)
             throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
+        if (CourseEditionMapper == null)
+            throw new IllegalArgumentException("CourseEditionMapper cannot be null");
 
         this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
         this.iCourseEditionMapper = CourseEditionMapper;

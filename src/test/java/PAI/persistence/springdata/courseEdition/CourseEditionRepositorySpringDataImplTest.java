@@ -44,6 +44,19 @@ class CourseEditionRepositorySpringDataImplTest {
         assertEquals("CourseEditionRepositorySpringData cannot be null", exception.getMessage());
     }
 
+    @Test
+    void shouldThrowExceptionWhenConstructorIsCalledWithNullCourseEditionMapper() {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);});
+
+        // Assert
+        assertEquals("CourseEditionMapper cannot be null", exception.getMessage());
+    }
+
 
     //-----createAndSaveCourseEdition Tests-----
     @Test
