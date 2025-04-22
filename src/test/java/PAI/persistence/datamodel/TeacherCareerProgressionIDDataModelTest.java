@@ -1,6 +1,8 @@
 package PAI.persistence.datamodel;
 
+import PAI.VOs.TeacherCareerProgressionID;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.UUID;
 
@@ -17,6 +19,17 @@ class TeacherCareerProgressionIDDataModelTest {
 
         //assert
         assertNotNull(tcpIDDataModel);
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenCreatingTeacherCareerProgressionIDDataModelWithInvalidUUID() {
+        // Arrange
+
+        // Act
+        Executable action = () -> new TeacherCareerProgressionIDDataModel(null);
+
+        // Assert
+        assertThrows(NullPointerException.class, action);
     }
 
     @Test
