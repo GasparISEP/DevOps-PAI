@@ -4,6 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,14 @@ import java.util.Optional;
 @Repository
 public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepository {
 
+    private final ICourseEditionRepositorySpringData iCourseEditionRepositorySpringData;
+    private final ICourseEditionMapper iCourseEditionMapper;
+
+    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData CourseEditionReposSD, ICourseEditionMapper CourseEditionMapper) {
+
+        this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
+        this.iCourseEditionMapper = CourseEditionMapper;
+    }
     @Override
     public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return false;

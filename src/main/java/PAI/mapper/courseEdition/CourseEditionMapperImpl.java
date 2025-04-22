@@ -11,7 +11,9 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseEditionMapperImpl implements ICourseEditionMapper {
 
     private final ICourseEditionIDMapper _courseEditionIDMapper;
