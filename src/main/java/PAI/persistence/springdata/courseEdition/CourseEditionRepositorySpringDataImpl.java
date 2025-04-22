@@ -19,9 +19,13 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData CourseEditionReposSD, ICourseEditionMapper CourseEditionMapper) {
 
+        if (CourseEditionReposSD == null)
+            throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
+
         this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
         this.iCourseEditionMapper = CourseEditionMapper;
     }
+
     @Override
     public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return false;
