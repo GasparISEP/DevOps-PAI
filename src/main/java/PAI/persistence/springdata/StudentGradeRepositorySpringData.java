@@ -1,30 +1,35 @@
-//package PAI.persistence.springdata;
-//
-//import PAI.VOs.*;
-//import PAI.domain.StudentGrade;
-//import PAI.factory.IStudentGradeFactory;
-//import PAI.factory.IStudentGradeRepository;
-//import PAI.mapper.StudentGradeMapper;
-//import PAI.persistence.datamodel.StudentGradeDM;
-//
-//import java.util.Optional;
-//
-//public class StudentGradeRepositorySpringData  {
-//
-//    IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
-//    IStudentGradeFactory iStudentGradeFactory;
-//    StudentGradeMapper studentGradeMapper;
-//
-//    public StudentGradeRepositorySpringData (IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, IStudentGradeFactory iStudentGradeFactory, StudentGradeMapper studentGradeMapper){
-//        this.iStudentGradeRepositorySpringData = iStudentGradeRepositorySpringData;
-//        this.iStudentGradeFactory = iStudentGradeFactory;
-//        this.studentGradeMapper = studentGradeMapper;
-//    }
-//    public boolean addGradeToStudent(Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
-//        StudentGrade sg1 = iStudentGradeFactory.newGradeStudent(grade,date,student,courseEditionID);
-//        StudentGradeDM studentGradeDM = studentGradeMapper.toData(sg1);
-//        if (iStudentGradeRepositorySpringData.existsById(studentGradeDM.getId())) return false;
-//        iStudentGradeRepositorySpringData.save(studentGradeDM);
-//        return true;
-//    }
-//}
+package PAI.persistence.springdata;
+
+import PAI.VOs.*;
+import PAI.domain.StudentGrade;
+import PAI.mapper.StudentGradeMapper;
+import PAI.persistence.datamodel.StudentGradeDM;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+
+public class StudentGradeRepositorySpringData {
+    private static final Logger log = LoggerFactory.getLogger(StudentGradeRepositorySpringData.class);
+
+
+    IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
+    StudentGradeMapper studentGradeMapper;
+
+    public StudentGradeRepositorySpringData(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, StudentGradeMapper studentGradeMapper) {
+        this.iStudentGradeRepositorySpringData = iStudentGradeRepositorySpringData;
+        this.studentGradeMapper = studentGradeMapper;
+    }
+
+    public boolean save(StudentGrade studentGrade) throws Exception {
+        try {
+            StudentGradeDM studentGradeDM = studentGradeMapper.toData(studentGrade);
+            iStudentGradeRepositorySpringData.save(studentGradeDM);
+            return true;
+        }
+        catch (Exception e){
+            log.error("Failed to save", e);
+        return false;
+    }
+}
+}

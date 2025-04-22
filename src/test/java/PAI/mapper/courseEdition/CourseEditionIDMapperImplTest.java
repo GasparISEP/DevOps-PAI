@@ -68,7 +68,7 @@ class CourseEditionIDMapperImplTest {
 
         ProgrammeEditionIdDataModel pEIDDataModel = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
-        when(programmeEditionIdMapper.dataModelToDomain(pEIDDataModel)).thenReturn(pEID);
+        when(programmeEditionIdMapper.toDomain(pEIDDataModel)).thenReturn(pEID);
 
         CourseInStudyPlanIDDataModel cISPIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
         CourseInStudyPlanID cISPID = mock(CourseInStudyPlanID.class);
@@ -110,7 +110,7 @@ class CourseEditionIDMapperImplTest {
 
         ProgrammeEditionID pEID = mock(ProgrammeEditionID.class);
         ProgrammeEditionIdDataModel pEIDDataModel = mock(ProgrammeEditionIdDataModel.class);
-        when(programmeEditionIdMapper.domainToDataModel(pEID)).thenReturn(pEIDDataModel);
+        when(programmeEditionIdMapper.toDataModel(pEID)).thenReturn(pEIDDataModel);
 
         CourseInStudyPlanID cISPID = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanIDDataModel cISPIDDataModel = mock(CourseInStudyPlanIDDataModel.class);

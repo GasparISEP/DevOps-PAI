@@ -28,27 +28,29 @@ public class TeacherCategoryRepositoryImpl implements ITeacherCategoryRepository
      * It creates the aggregate via the factory, checks for duplicates, and then saves it.
      *
      * @param teacherCategoryName the name for the new teacher category
-     * @return true if successfully registered, false if a duplicate exists or an error occurs.
+     * @return true if successfully registered, false if a duplicate exists
+     * @throws IllegalArgumentException if teacherCategoryName is null
      */
     @Override
     public boolean registerTeacherCategory(Name teacherCategoryName) {
-        try {
-            // Use factory to create a new TeacherCategory.
-            TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(teacherCategoryName);
+        if (teacherCategoryName == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
 
-            // Check for duplicate by name.
+        try {
             if (existsByName(teacherCategoryName)) {
                 return false;
             }
 
-            // Persist the new TeacherCategory.
+            TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(teacherCategoryName);
             save(teacherCategory);
             return true;
+
         } catch (Exception e) {
-            // In a full implementation, you might log the error here.
             return false;
         }
     }
+
 
     @Override
     public TeacherCategory save(TeacherCategory teacherCategory) {

@@ -3,6 +3,8 @@ package PAI.persistence.datamodel.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -14,7 +16,7 @@ import static org.mockito.Mockito.when;
 class ProgrammeEditionIdDataModelTest {
 
     @Test
-    void shouldCreateProgrammeEditionIdDataModelIsolationTest() {
+    void shouldCreateProgrammeEditionIdDataModelEmptyConstructor() {
         //arrange
         //act
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel();
@@ -23,186 +25,55 @@ class ProgrammeEditionIdDataModelTest {
     }
 
     @Test
-    void shouldCreateProgrammeEditionIdDataModelWithStringParameters() {
+    void shouldCreateProgrammeEditionIdDataModelWithParametersIsolationTest() {
         // arrange
-        String programmeName = "Programme Name";
-        String programmeAcronym = "Acronym";
-        String schoolYearId = UUID.randomUUID().toString();
-
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         // act
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeName, programmeAcronym, schoolYearId);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
 
         // assert
         assertNotNull(programmeEditionIdDataModel);
-        assertEquals(programmeName, programmeEditionIdDataModel.getProgrammeName());
-        assertEquals(programmeAcronym, programmeEditionIdDataModel.getProgrammeAcronym());
-        assertEquals(schoolYearId, programmeEditionIdDataModel.getSchoolYearId());
     }
 
     @Test
-    void shouldCreateProgrammeEditionIdDataModelWithParametersIsolationTest() {
+    void shouldThrowExceptionWhenProgrammeIDDataModelIsNull() {
         //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-        //act
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear);
-        //assert
-        assertNotNull(programmeEditionIdDataModel);
-    }
-
-    @Test
-    void shouldCreateProgrammeEditionIdDataModelWithParameters() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
-        QuantSemesters qtySemesters = mock(QuantSemesters.class);
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        DepartmentID department1 = mock(DepartmentID.class);
-        TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID);
-
-        Description description = new Description("School Year 23/24");
-        Date startDate = new Date("01-09-2023");
-        Date endDate = new Date("31-08-2024");
-        SchoolYear schoolYear = new SchoolYear(description, startDate, endDate);
-        //act
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programme, schoolYear);
-        //arrange
-        assertNotNull(programmeEditionIdDataModel);
-    }
-
-    @Test
-    void shouldReturnProgrammeNameFromProgrammeEditionIdDataModel() {
-        //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear);
-        //act
-        String result = programmeEditionIdDataModel.getProgrammeName();
-        //assert
-        assertEquals("Programme Name", result);
-    }
-
-    @Test
-    void shouldReturnProgrammeAcronymFromProgrammeEditionIdDataModel() {
-        //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear);
-        //act
-        String result = programmeEditionIdDataModel.getProgrammeAcronym();
-        //assert
-        assertEquals("Acronym", result);
-    }
-
-    @Test
-    void shouldReturnProgrammeYearFromProgrammeEditionIdDataModel() {
-        //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear);
-        //act
-        String result = programmeEditionIdDataModel.getSchoolYearId();
-        //assert
-        assertEquals(doubleSchoolYearID.toString(), result);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeIsNull() {
-        //arrange
-        Programme doubleProgramme = null;
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        ProgrammeIDDataModel programmeIDDataModel = null;
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         //act + assert
-        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+        assertThrows(IllegalArgumentException.class, () -> {new ProgrammeEditionIdDataModel(null, schoolYearIDDataModel);});
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeNameIsNull() {
+    void shouldThrowExceptionWhenSchoolYearIDDataModelIsNull() {
         //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
-
-        when(doubleProgramme.getProgrammeName()).thenReturn(null);
-
-        Acronym doubleAcronym = mock(Acronym.class);
-        when(doubleProgramme.getAcronym()).thenReturn(doubleAcronym);
-        when(doubleAcronym.toString()).thenReturn("Acronym");
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
         //act + assert
-        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+        assertThrows(IllegalArgumentException.class, () -> {new ProgrammeEditionIdDataModel(programmeIDDataModel, null);});
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeAcronymIsNull() {
+    void shouldReturnProgrammeIDDataModel() {
         //arrange
-        Programme doubleProgramme = mock(Programme.class);
-        SchoolYear doubleSchoolYear = mock(SchoolYear.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        //act
+        ProgrammeIDDataModel result = programmeEditionIdDataModel.getProgrammeIdDataModel();
+        //assert
+        assertEquals(programmeIDDataModel, result);
+    }
 
-        NameWithNumbersAndSpecialChars doubleName = mock(NameWithNumbersAndSpecialChars.class);
-        when(doubleProgramme.getProgrammeName()).thenReturn(doubleName);
-        when(doubleName.toString()).thenReturn("Programme Name");
-
-        when(doubleProgramme.getAcronym()).thenReturn(null);
-
-        SchoolYearID doubleSchoolYearID = mock(SchoolYearID.class);
-        when(doubleSchoolYear.identity()).thenReturn(doubleSchoolYearID);
-        when(doubleSchoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
-        //act + assert
-        assertThrows(NullPointerException.class, () -> new ProgrammeEditionIdDataModel(doubleProgramme, doubleSchoolYear));
+    @Test
+    void shouldReturnSchoolYearIDDataModel() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        //act
+        SchoolYearIDDataModel result = programmeEditionIdDataModel.get_schoolYearIDDataModel();
+        //assert
+        assertEquals(schoolYearIDDataModel, result);
     }
 }

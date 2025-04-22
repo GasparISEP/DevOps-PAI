@@ -22,7 +22,7 @@ ref over ceeMapper
 end
 
 create "ceeDataModel: CourseEditionEnrolmentDataModel"
-ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel": create (new CourseEditionEnrolmentDataModel (id, \n cee.knowEnrolmentDate().getLocalDate(),\n cee.isEnrolmentActive())
+ceeMapper -> "ceeDataModel: CourseEditionEnrolmentDataModel": create (id, cee.knowEnrolmentDate().getLocalDate(),\n cee.isEnrolmentActive())
 deactivate ceeMapper
 
 @enduml

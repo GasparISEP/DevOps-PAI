@@ -1,6 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.TeacherCategoryID;
+import PAI.domain.TeacherCategory;
 import PAI.persistence.datamodel.TeacherCategoryIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -44,4 +45,19 @@ class TeacherCategoryIDMapperTest {
     void shouldThrowExceptionIfDataModelIsNull() {
         assertThrows(IllegalArgumentException.class, () -> mapper.toDomainModel(null));
     }
+
+    @Test
+    void shouldThrowExceptionIfDataModelHasNullValue() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            TeacherCategoryIDDataModel dataModel = new TeacherCategoryIDDataModel(null);
+            mapper.toDomainModel(dataModel);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIdAndNameAreNull() {
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategory(null, null));
+    }
+
+
 }
