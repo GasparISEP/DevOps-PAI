@@ -64,22 +64,6 @@ class CourseRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnAllCoursesFindAllMethod() {
-        // Arrange
-        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
-        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
-        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
-
-        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
-
-        // Act
-        courseRepositorySpringData.findAll();
-
-        // Assert
-        verify(iCourseRepositoryDouble).findAll();
-    }
-
-    @Test
     void shouldReturnCoursesWhenRepositoryReturnsValidData() throws Exception {
         // Arrange
         ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
@@ -89,6 +73,7 @@ class CourseRepositorySpringDataImplTest {
         Course courseDouble = mock(Course.class);
         CourseDataModel courseDataModel = mock(CourseDataModel.class);
         CourseDataModel courseDataModel2 = mock(CourseDataModel.class);
+
 
         when(iCourseRepositoryDouble.findAll()).thenReturn(List.of(courseDataModel, courseDataModel2));
         when(iCourseMapperDouble.toDomain(courseDataModel)).thenReturn(courseDouble);
@@ -107,18 +92,64 @@ class CourseRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnSavedCourseForSaveMethod() throws Exception {
+    void shouldReturnNullIfEntityIsNull() throws Exception {
+        // Arrange
+        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
+        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
+        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+
+        Course courseDouble = null;
+
+        when(iCourseMapperDouble.toDataModel(courseDouble)).thenReturn(courseDataModel);
+        when(iCourseRepositoryDouble.save(courseDataModel)).thenReturn(courseDataModel);
+        when(iCourseMapperDouble.toDomain(courseDataModel)).thenReturn(courseDouble);
+
+        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
+        // Act
+        Course result = courseRepositorySpringData.save(courseDouble);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullIfCourseDataModelIsNull() throws Exception {
+        // Arrange
+        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
+        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
+        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
+        Course courseDouble = mock(Course.class);
+
+        when(iCourseMapperDouble.toDataModel(courseDouble)).thenThrow(new NullPointerException());
+
+        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
+
+        // Act
+        Course result = courseRepositorySpringData.save(courseDouble);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNotNullSavedCourseForSaveMethod() throws Exception {
         // Arrange
         ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
         ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
         ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
 
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseIDDataModel courseIDDataModelDouble = mock(CourseIDDataModel.class);
         Course courseDouble = mock(Course.class);
         CourseDataModel courseDataModel = mock(CourseDataModel.class);
 
         when(iCourseMapperDouble.toDataModel(courseDouble)).thenReturn(courseDataModel);
         when(iCourseRepositoryDouble.save(courseDataModel)).thenReturn(courseDataModel);
         when(iCourseMapperDouble.toDomain(courseDataModel)).thenReturn(courseDouble);
+        when(courseDouble.identity()).thenReturn(courseIDDouble);
+        when(iCourseIDMapperDouble.toDataModel(courseIDDouble)).thenReturn(courseIDDataModelDouble);
+        when(iCourseRepositoryDouble.existsById(courseIDDataModelDouble)).thenReturn(false);
 
         CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
 
@@ -128,6 +159,34 @@ class CourseRepositorySpringDataImplTest {
         // Assert
         assertNotNull(result);
         verify(iCourseRepositoryDouble).save(courseDataModel);
+    }
+
+    @Test
+    void shouldReturnNullNOTSavedCourseForSaveMethod() throws Exception {
+        // Arrange
+        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
+        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
+        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
+
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseIDDataModel courseIDDataModelDouble = mock(CourseIDDataModel.class);
+        Course courseDouble = mock(Course.class);
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+
+        when(iCourseMapperDouble.toDataModel(courseDouble)).thenReturn(courseDataModel);
+        when(iCourseRepositoryDouble.save(courseDataModel)).thenReturn(courseDataModel);
+        when(iCourseMapperDouble.toDomain(courseDataModel)).thenReturn(courseDouble);
+        when(courseDouble.identity()).thenReturn(courseIDDouble);
+        when(iCourseIDMapperDouble.toDataModel(courseIDDouble)).thenReturn(courseIDDataModelDouble);
+        when(iCourseRepositoryDouble.existsById(courseIDDataModelDouble)).thenReturn(true);
+
+        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
+
+        // Act
+        Course result = courseRepositorySpringData.save(courseDouble);
+
+        // Assert
+        assertNull(result);
     }
 
     @Test
@@ -156,6 +215,52 @@ class CourseRepositorySpringDataImplTest {
         assertEquals(courseDouble, result.get());
         assertNotNull(result);
         verify(iCourseIDMapperDouble).toDataModel(courseIDDouble);
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalIfIDNotFound() {
+        // Arrange
+        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
+        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
+        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
+
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+
+        when(iCourseIDMapperDouble.toDataModel(courseIDDouble)).thenReturn(courseIDDataModel);
+        when(iCourseRepositoryDouble.findById(courseIDDataModel)).thenReturn(Optional.empty());
+
+        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
+
+        // Act
+        Optional<Course> result = courseRepositorySpringData.ofIdentity(courseIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalOfIdentityIfException() throws Exception {
+        // Arrange
+        ICourseRepositorySpringData iCourseRepositoryDouble = mock(ICourseRepositorySpringData.class);
+        ICourseMapper iCourseMapperDouble = mock(ICourseMapper.class);
+        ICourseIDMapper iCourseIDMapperDouble = mock(ICourseIDMapper.class);
+
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+
+        when(iCourseIDMapperDouble.toDataModel(courseIDDouble)).thenReturn(courseIDDataModel);
+        when(iCourseRepositoryDouble.findById(courseIDDataModel)).thenReturn(Optional.of(courseDataModel));
+        when(iCourseMapperDouble.toDomain(courseDataModel)).thenThrow(new Exception());
+
+        CourseRepositorySpringDataImpl courseRepositorySpringData = new CourseRepositorySpringDataImpl(iCourseRepositoryDouble, iCourseMapperDouble, iCourseIDMapperDouble);
+
+        // Act
+        Optional<Course> result = courseRepositorySpringData.ofIdentity(courseIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 
     @Test

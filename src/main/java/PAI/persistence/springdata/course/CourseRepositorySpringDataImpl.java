@@ -38,11 +38,13 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
         }
         try {
         CourseDataModel courseDataModel = _iCourseMapper.toDataModel(entity);
-        if (courseDataModel == null) {
+        if (!containsOfIdentity(entity.identity())) {
+            _iCourseRepo.save(courseDataModel);
+        }
+        else {
             return null;
         }
-        _iCourseRepo.save(courseDataModel);
-        return _iCourseMapper.toDomain(courseDataModel);
+            return _iCourseMapper.toDomain(courseDataModel);
         } catch (Exception e) {
             return null;
         }
@@ -55,7 +57,6 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
 
         return courses;
     }
-
 
     @Override
     public Optional<Course> ofIdentity(CourseID id) {

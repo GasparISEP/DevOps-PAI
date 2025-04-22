@@ -1,36 +1,40 @@
 package PAI.persistence.springdata.courseEdition;
 
 import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.domain.course.Course;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
+import PAI.persistence.datamodel.course.CourseDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepository {
 
-    private final ICourseEditionRepositorySpringData iCourseEditionRepositorySpringData;
-    private final ICourseEditionMapper iCourseEditionMapper;
+    private final ICourseEditionRepositorySpringData courseEditionRepositorySpringData;
+    private final ICourseEditionMapper courseEditionMapper;
+    private final ICourseEditionIDMapper courseEditionIDMapper;
 
-    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData CourseEditionReposSD, ICourseEditionMapper CourseEditionMapper) {
+    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper) {
 
-        if (CourseEditionReposSD == null)
+        if (courseEditionReposSD == null)
             throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
-        if (CourseEditionMapper == null)
+        if (courseEditionMapper == null)
             throw new IllegalArgumentException("CourseEditionMapper cannot be null");
+        if (courseEditionIDMapper == null)
+            throw new IllegalArgumentException("CourseEditionIDMapper cannot be null");
 
-        this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
-        this.iCourseEditionMapper = CourseEditionMapper;
-    }
-
-    @Override
-    public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return false;
+        this.courseEditionRepositorySpringData = courseEditionReposSD;
+        this.courseEditionMapper = courseEditionMapper;
+        this.courseEditionIDMapper = courseEditionIDMapper;
     }
 
     @Override
@@ -55,16 +59,44 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public Iterable<CourseEdition> findAll() {
-        return null;
+
+        Iterable<CourseEditionDataModel> courseEditionDataModels = courseEditionRepositorySpringData.findAll();
+        List<CourseEdition> courseEditions = new ArrayList<>();
+        for (CourseEditionDataModel courseEditionDataModel : courseEditionDataModels) {
+            try {
+                CourseEdition courseEdition = courseEditionMapper.toDomain(courseEditionDataModel);
+                if (courseEdition != null)
+                    courseEditions.add(courseEdition);
+            } catch (Exception e) {
+                return new ArrayList<>();
+            }
+        }
+        return courseEditions;
     }
 
     @Override
     public Optional<CourseEdition> ofIdentity(CourseEditionID id) {
+        if (id == null)
+            return Optional.empty();
+        try {
+            CourseEditionIDDataModel courseEditionIDDataModel = courseEditionIDMapper.toDataModel(id);
+            Optional<CourseEditionDataModel> courseEditionDataModelOptional = courseEditionRepositorySpringData.findById(courseEditionIDDataModel);
+            if (courseEditionDataModelOptional.isPresent())
+                return Optional.of(courseEditionMapper.toDomain(courseEditionDataModelOptional.get()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 
     @Override
     public boolean containsOfIdentity(CourseEditionID id) {
-        return false;
+        if (id == null)
+            return false;
+        try {
+            return courseEditionRepositorySpringData.existsById(courseEditionIDMapper.toDataModel(id));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

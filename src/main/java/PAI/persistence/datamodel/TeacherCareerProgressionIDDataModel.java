@@ -15,7 +15,6 @@ public class TeacherCareerProgressionIDDataModel {
 
     public TeacherCareerProgressionIDDataModel(UUID ID) {
         this.ID = ID;
-
     }
 
     public UUID getIDValue() {

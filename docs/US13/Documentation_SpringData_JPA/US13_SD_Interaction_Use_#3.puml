@@ -5,8 +5,9 @@ skinparam sequenceMessageAlign center
 autonumber
 
 actor ASC
-participant "tID1:TeacherID" as teacherID #application
-participant "name1:Name" as name #business
+participant "tA1:TeacherAcronym" as teacherAcronym #wheat
+participant "tID1:TeacherID" as teacherID #skyblue
+participant "name1:Name" as name #palegreen
 participant "email1:Email" as email #implementation
 participant "nif1:NIF" as NIF #motivation
 participant "phone1:PhoneNumber" as phoneNumber #physical
@@ -14,36 +15,47 @@ participant "ab1:AcademicBackground" as academicBackground #strategy
 participant "street1:Street" as street #technology
 participant "pc1:PostalCode" as postalCode #application
 participant "l1:Location" as location #business
-participant "c1:Country" as country #implementation
-participant "dptID1:DepartmentID" as dptID #motivation
-participant "aE1:AcademicEmail" as academicEmail #strategy
-participant "d1:Date" as date #technology
-participant "tcID1:TeacherCategoryID" as tcID #application
-participant "wp1:WorkingPercentage" as wp #business
+participant "c1:Country" as country #lightcoral
+participant "dptA1:DepartmentAcronym" as dptAcronym #thistle
+participant "dptID1:DepartmentID" as dptID #lightsteelblue
+participant "aE1:AcademicEmail" as academicEmail #mistyrose
+participant "d1:Date" as date #lightgoldenrodyellow
+participant "tcID1:TeacherCategoryID" as tcID #khaki
+participant "wp1:WorkingPercentage" as wp #lightgray
 
 
-ASC -> teacherID** : new TeacherID (acronym)
+ASC -> teacherAcronym** : new TeacherAcronym (acronym)
+activate teacherAcronym
+teacherAcronym -> teacherAcronym : validate acronym
+teacherAcronym --> ASC : TeacherAcronymVO
+deactivate teacherAcronym
+
+ASC -> teacherID** : new TeacherID (teacherAcronymVO)
 activate teacherID
 teacherID --> ASC : TeacherID VO
 deactivate teacherID
 
 ASC -> name** : new Name VO (name)
 activate name
+name -> name : validate name
 name --> ASC : Name VO
 deactivate name
 
 ASC -> email** : new Email VO (email)
 activate email
+email -> email : validate email
 email --> ASC : Email VO
 deactivate email
 
 ASC -> NIF** : new NIF VO (NIF, country)
 activate NIF
+NIF -> NIF : validate NIF
 NIF --> ASC : NIF VO
 deactivate NIF
 
 ASC -> phoneNumber** : new PhoneNumber VO (countryCode, phoneNumber)
 activate phoneNumber
+phoneNumber -> phoneNumber : validate phoneNumber
 phoneNumber --> ASC : PhoneNumber VO
 deactivate phoneNumber
 
@@ -64,17 +76,25 @@ deactivate postalCode
 
 ASC -> location** : new Location VO (location)
 activate location
+location -> location : validate location
 location --> ASC : Location VO
 deactivate location
 
 ASC -> country** : new Country VO (country)
 activate country
+country -> country : validate country
 country --> ASC : Country VO
 deactivate country
 
-ASC -> dptID** : new DepartmentID VO (dptAcronym)
+ASC -> dptAcronym** : new Acronym (dptAcronym)
+activate dptAcronym
+dptAcronym -> dptAcronym : validate dptAcronym
+dptAcronym --> ASC : AcronymVO
+deactivate dptAcronym
+
+ASC -> dptID** : new DepartmentID VO (AcronymVO)
 activate dptID
-dptID --> ASC : PostalCode VO
+dptID --> ASC : DepartmentID VO
 deactivate dptID
 
 ASC -> academicEmail** : new AcademicEmail VO (academicEmail)
@@ -84,6 +104,7 @@ deactivate academicEmail
 
 ASC -> date** : new Date VO (date)
 activate date
+date -> date : validate date
 date --> ASC : Date VO
 deactivate date
 
@@ -94,6 +115,7 @@ deactivate tcID
 
 ASC -> wp** : new WorkingPercentage VO (workingPercentage)
 activate wp
+wp -> wp : validate workingPercentage
 wp --> ASC : WorkingPercentage VO
 deactivate wp
 

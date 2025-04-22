@@ -10,9 +10,11 @@ import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper {
 
     private IProgrammeEnrolmentFactory _peFactory;

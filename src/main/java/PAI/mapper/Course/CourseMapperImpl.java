@@ -2,7 +2,6 @@ package PAI.mapper.Course;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
-import PAI.domain.course.CourseFactoryImpl;
 import PAI.domain.course.ICourseFactory;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
@@ -27,7 +26,6 @@ public class CourseMapperImpl implements ICourseMapper {
         }
         Name name = new Name(courseDataModel.get_name());
         Acronym acronym = new Acronym(courseDataModel.get_acronym());
-        CourseID courseID = new CourseID(acronym, name);
         CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(courseDataModel.get_quantityCreditsEcts());
         DurationCourseInCurricularYear durationCourseInSemester = new DurationCourseInCurricularYear(courseDataModel.get_duration());
 

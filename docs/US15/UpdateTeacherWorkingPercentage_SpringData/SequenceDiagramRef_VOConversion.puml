@@ -4,11 +4,10 @@ skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title Diagram Referenced in US15_SequenceDiagram
 
-participant ":Controller" as Controller
-participant "teacherAcronym1:TeacherAcronym" as Acronym #lightpink
-participant "NIF1:NIF" as NIF #cyan
-participant "teacherID1:TeacherID" as TeacherID #lightgreen
-participant "date1:Date" as Date #lightyellow
+participant ":Controller" as Controller #lightblue
+participant "teacherAcronym1:TeacherAcronym" as Acronym #lightblue
+participant "teacherID1:TeacherID" as TeacherID #lightblue
+participant "date1:Date" as Date #lightblue
 participant "workingPercentage1:WorkingPercentage" as WorkingPercentage #lightblue
 
 Controller -> Acronym : create teacherAcronymVO (acronym)
@@ -16,12 +15,8 @@ activate Acronym
 Acronym --> Controller : acronym1
 deactivate Acronym
 
-Controller -> NIF : create NIFVO (NIF)
-activate NIF
-NIF --> Controller: NIF1
-deactivate NIF
 
-Controller -> TeacherID : create teacherID (acronym1, NIF1)
+Controller -> TeacherID : create teacherID (acronym1)
 activate TeacherID
 TeacherID --> Controller : teacherID1
 deactivate TeacherID

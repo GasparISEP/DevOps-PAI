@@ -14,6 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CourseMapperImplTest {
 
+    //SUT = ClassCourseMapper
+    @Test
+    void should_return_Exception_when_Factory_is_null() {
+        //Arrange
+        //Act and Assert
+        assertThrows(IllegalArgumentException.class,() -> new CourseMapperImpl(null));
+    }
+
     //SUT = ClassCourseMapper toDomain Method
 
     @Test
@@ -31,6 +39,16 @@ public class CourseMapperImplTest {
         Course course = courseMapperImpl.toDomain(courseDataModel);
         // Assert
         assertNotNull(course);
+    }
+    @Test
+    void should_throw_exception_if_courseDataModel_is_null(){
+        // Arrange
+        ICourseFactory courseFactory = new CourseFactoryImpl();
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+
+        //Act
+        assertThrows(NullPointerException.class, () -> courseMapperImpl.toDomain((CourseDataModel) null));
+
     }
 
     @Test
@@ -127,6 +145,17 @@ public class CourseMapperImplTest {
 
     }
     @Test
+    void should_throw_exception_if_course_is_null(){
+        // Arrange
+        ICourseFactory courseFactory = new CourseFactoryImpl();
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+
+        //Act
+        assertThrows(NullPointerException.class, () -> courseMapperImpl.toDataModel(null));
+
+    }
+
+    @Test
     void should_convert_Course_Name_to_CourseDataModel_Name() throws Exception {
         //Arrange
         ICourseFactory courseFactory = new CourseFactoryImpl();
@@ -215,6 +244,22 @@ public class CourseMapperImplTest {
 
         // Assert
         assertNotNull(courseList);
+
+    }
+    @Test
+    void should_return_null_if_CourseDataModel_is_invalid() {
+        // Arrange
+        ICourseFactory courseFactory = new CourseFactoryImpl();
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+        CourseIDDataModel courseIDDataModel = new CourseIDDataModel(null, null);
+        CourseDataModel invalidDataModel = new CourseDataModel(courseIDDataModel, null, null, 6.0, 1);
+        List<CourseDataModel> dataModelList = List.of(invalidDataModel);
+
+        // Act
+        Iterable<Course> result = courseMapperImpl.toDomain(dataModelList);
+
+        // Assert
+        assertNull(result);
 
     }
     @Test
