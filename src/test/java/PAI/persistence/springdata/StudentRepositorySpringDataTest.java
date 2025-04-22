@@ -64,29 +64,33 @@ public class StudentRepositorySpringDataTest {
         when(repoMock.findById(1234567)).thenReturn(Optional.of(dataModel));
         when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
 
-        Optional<Student> result = repository.getStudentByID(studentID);
+        Optional<Student> result = repository.ofIdentity(studentID);
         assertTrue(result.isPresent());
         assertEquals(student, result.get());
     }
 
-    @Test
-    public void testFindIdByStudent() {
-        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
-        when(dataModel.getStudentID()).thenReturn(studentIDDataModel);
-        when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
-        Optional<StudentID> result = repository.findIdByStudent(student);
-        assertTrue(result.isPresent());
-        assertEquals(studentID, result.get());
+    @Test
+    public void testSaveReturnsMappedStudent() throws Exception {
+        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
+        when(repoMock.save(dataModel)).thenReturn(dataModel);
+        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+
+        Student result = repository.save(student);
+
+        assertNotNull(result);
+        assertEquals(student, result);
     }
 
     @Test
-    public void testSave() {
+    public void testSaveThrowsRuntimeExceptionOnMappingFailure() throws Exception {
         when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
         when(repoMock.save(dataModel)).thenReturn(dataModel);
+        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Could not save student"));
 
-        Student result = repository.save(student);
-        assertEquals(student, result);
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> repository.save(student));
+
+        assertTrue(ex.getMessage().contains("Could not save student"));
     }
 
     @Test
@@ -103,7 +107,7 @@ public class StudentRepositorySpringDataTest {
     @Test
     public void testOfIdentityDelegatesToGetStudentByID() {
         StudentRepositorySpringData spyRepo = spy(repository);
-        doReturn(Optional.of(student)).when(spyRepo).getStudentByID(studentID);
+        doReturn(Optional.of(student)).when(spyRepo).ofIdentity(studentID);
 
         Optional<Student> result = spyRepo.ofIdentity(studentID);
         assertTrue(result.isPresent());
@@ -151,7 +155,7 @@ public class StudentRepositorySpringDataTest {
         when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping failed"));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            repository.getStudentByID(studentID);
+            repository.ofIdentity(studentID);
         });
 
         assertTrue(exception.getMessage().contains("Mapping error"));
@@ -180,6 +184,27 @@ public class StudentRepositorySpringDataTest {
         });
 
         assertTrue(exception.getMessage().contains("Could not save student"));
+    }
+
+    @Test
+    public void testFindIdByStudentReturnsIDWhenStudentExists() {
+        when(student.identity()).thenReturn(studentID);
+        when(repoMock.existsById(anyInt())).thenReturn(true);
+
+        Optional<StudentID> result = repository.findIdByStudent(student);
+
+        assertTrue(result.isPresent());
+        assertEquals(studentID, result.get());
+    }
+
+    @Test
+    public void testFindIdByStudentReturnsEmptyWhenStudentDoesNotExist() {
+        when(student.identity()).thenReturn(studentID);
+        when(repoMock.existsById(anyInt())).thenReturn(false);
+
+        Optional<StudentID> result = repository.findIdByStudent(student);
+
+        assertFalse(result.isPresent());
     }
 
 }
