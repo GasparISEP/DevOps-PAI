@@ -1,17 +1,13 @@
 package PAI.persistence.springdata;
-
-
 import PAI.domain.StudentGrade;
 import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
-import PAI.persistence.datamodel.StudentDataModel;
 import PAI.persistence.datamodel.StudentGradeDM;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 public class StudentGradeRepositorySpringData  {
 
@@ -49,5 +45,20 @@ public Iterable<StudentGrade> findAll(){
     }
     return allStudentGrades;
 }
+
+    public Optional<StudentGrade> ofIdentity(Long id) {
+        Optional<StudentGradeDM> studentGradeDMOpt = iStudentGradeRepositorySpringData.findById(id);
+
+        if (studentGradeDMOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            StudentGrade studentGrade = studentGradeMapper.toDomain(studentGradeDMOpt.get());
+            return Optional.of(studentGrade);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
 
 }
