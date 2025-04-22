@@ -6,7 +6,9 @@ import PAI.VOs.ProgrammeID;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeEnrolmentIDMapper implements IProgrammeEnrolmentIDMapper {
 
     private final IStudentIDMapper studentIDMapper;
