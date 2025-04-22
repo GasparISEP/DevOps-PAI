@@ -64,7 +64,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         when(doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(doubleProgrammeId, doubleSchoolYearId))
                 .thenReturn(Optional.of(doubleProgrammeEditionId));
 
-        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionId)).thenReturn(List.of(doubleCe1Id, doubleCe2Id));
+        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEditionID(doubleProgrammeEditionId)).thenReturn(List.of(doubleCe1Id, doubleCe2Id));
 
         when(programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(doubleStudentId, doubleProgrammeEditionId)).thenReturn(false);
 
@@ -223,7 +223,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                 .thenReturn(Optional.of(doubleProgrammeEditionId));
 
 
-        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionId))
+        when(doubleCourseEditionRepository.findCourseEditionsByProgrammeEditionID(doubleProgrammeEditionId))
                 .thenReturn(List.of(ce1Id, ce2Id));
 
 

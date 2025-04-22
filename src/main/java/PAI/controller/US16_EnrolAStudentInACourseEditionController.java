@@ -40,7 +40,7 @@ public class US16_EnrolAStudentInACourseEditionController {
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
     public List<CourseEditionID> findCourseEditionIDsByProgrammeEdition(ProgrammeEditionID programmeEditionID) {
-        return _courseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(programmeEditionID);
+        return _courseEditionRepositoryInterface.findCourseEditionsByProgrammeEditionID(programmeEditionID);
     }
 
     //enrol a student in a course edition

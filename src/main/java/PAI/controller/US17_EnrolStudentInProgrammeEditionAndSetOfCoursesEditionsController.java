@@ -71,7 +71,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         // Enroll student in programmeEdition
         _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
 
-        List<CourseEditionID> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEdition(programmeEditionId);
+        List<CourseEditionID> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionId);
 
         _courseEditionEnrolmentRepository.enrolStudentInProgrammeCourseEditions(studentId, courseEditions);
         return true;

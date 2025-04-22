@@ -8,6 +8,7 @@ import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +42,23 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     }
 
     @Override
-    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
-        return null;
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId) {
+        if (programmeEditionId == null)
+            return new ArrayList<>();
+
+        try {
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
+            List<CourseEditionIDDataModel> courseEditionIDsDataModel = courseEditionRepositorySpringData.findCourseEditionIDByProgrammeEditionIDDataModel(programmeEditionIdDataModel);
+            List<CourseEditionID> courseEditionIDs = new ArrayList<>();
+            for (CourseEditionIDDataModel courseEditionIDDataModel : courseEditionIDsDataModel) {
+                CourseEditionID toAdd = courseEditionIDMapper.toDomain(courseEditionIDDataModel);
+                if (toAdd != null)
+                    courseEditionIDs.add(toAdd);
+            }
+            return courseEditionIDs;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     @Override
