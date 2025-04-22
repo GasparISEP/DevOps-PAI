@@ -14,7 +14,7 @@ public class TeacherCareerProgressionIDDataModel {
     }
 
     public TeacherCareerProgressionIDDataModel(UUID ID) {
-        this.ID = Objects.requireNonNull(ID, "ID can not be null!");
+        this.ID = ID;
     }
 
     public UUID getIDValue() {

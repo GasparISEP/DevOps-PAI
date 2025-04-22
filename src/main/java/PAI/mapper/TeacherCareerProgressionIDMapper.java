@@ -10,6 +10,10 @@ public class TeacherCareerProgressionIDMapper implements ITeacherCareerProgressi
 
         UUID id = teacherCareerProgressionID.getIDValue();
 
+        if (id == null){
+            throw new NullPointerException("Id can not be null!");
+        }
+
         return new TeacherCareerProgressionIDDataModel(id);
     }
 

@@ -22,17 +22,6 @@ class TeacherCareerProgressionIDDataModelTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenCreatingTeacherCareerProgressionIDDataModelWithInvalidUUID() {
-        // Arrange
-
-        // Act
-        Executable action = () -> new TeacherCareerProgressionIDDataModel(null);
-
-        // Assert
-        assertThrows(NullPointerException.class, action);
-    }
-
-    @Test
     void getIDValueShouldReturnCorrectID() {
         //arrange
         UUID expected = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
