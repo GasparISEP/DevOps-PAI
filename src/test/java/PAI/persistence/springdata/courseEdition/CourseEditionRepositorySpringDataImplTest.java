@@ -4,6 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,11 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         ICourseEditionRepository courseEditionRepositorySpringData;
 
         // Act
-        courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
 
         // Assert
         assertNotNull(courseEditionRepositorySpringData);
@@ -36,9 +38,10 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = null;
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);});
 
         // Assert
         assertEquals("CourseEditionRepositorySpringData cannot be null", exception.getMessage());
@@ -49,31 +52,28 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = null;
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);});
 
         // Assert
         assertEquals("CourseEditionMapper cannot be null", exception.getMessage());
     }
 
+    @Test
+    void shouldThrowExceptionWhenConstructorIsCalledWithNullCourseEditionIDMapper() {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = null;
 
-    //-----createAndSaveCourseEdition Tests-----
-//    @Test
-//    void shouldReturnAlwaysFalseWhenCreateAndSaveCourseEditionMethodIsCalled() {
-//        // Arrange
-//        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
-//        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-//        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
-//        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-//        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-//
-//        // Act
-//        boolean result = courseEditionRepositorySpringData.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-//
-//        // Assert
-//        assertFalse(result);
-//    }
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);});
+
+        // Assert
+        assertEquals("CourseEditionIDMapper cannot be null", exception.getMessage());
+    }
 
     //-----findCourseEditionsByProgrammeEdition Tests-----
     @Test
@@ -81,7 +81,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
         // Act
@@ -97,7 +98,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         // Act
@@ -113,7 +115,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         // Act
@@ -129,7 +132,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         // Act
@@ -145,7 +149,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
 
         // Act
         Iterable<CourseEdition> result = courseEditionRepositorySpringData.findAll();
@@ -160,7 +165,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act
@@ -176,7 +182,8 @@ class CourseEditionRepositorySpringDataImplTest {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act

@@ -3,6 +3,7 @@ package PAI.persistence.springdata.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
@@ -13,18 +14,22 @@ import java.util.Optional;
 @Repository
 public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepository {
 
-    private final ICourseEditionRepositorySpringData iCourseEditionRepositorySpringData;
-    private final ICourseEditionMapper iCourseEditionMapper;
+    private final ICourseEditionRepositorySpringData courseEditionRepositorySpringData;
+    private final ICourseEditionMapper courseEditionMapper;
+    private final ICourseEditionIDMapper courseEditionIDMapper;
 
-    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData CourseEditionReposSD, ICourseEditionMapper CourseEditionMapper) {
+    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper) {
 
-        if (CourseEditionReposSD == null)
+        if (courseEditionReposSD == null)
             throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
-        if (CourseEditionMapper == null)
+        if (courseEditionMapper == null)
             throw new IllegalArgumentException("CourseEditionMapper cannot be null");
+        if (courseEditionIDMapper == null)
+            throw new IllegalArgumentException("CourseEditionIDMapper cannot be null");
 
-        this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
-        this.iCourseEditionMapper = CourseEditionMapper;
+        this.courseEditionRepositorySpringData = courseEditionReposSD;
+        this.courseEditionMapper = courseEditionMapper;
+        this.courseEditionIDMapper = courseEditionIDMapper;
     }
 
     @Override
@@ -59,6 +64,10 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public boolean containsOfIdentity(CourseEditionID id) {
+        if (id == null)
+            return false;
+
+
         return false;
     }
 }
