@@ -4,16 +4,20 @@ skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title Diagram Referenced in US15_SequenceDiagram
 
-participant ":TeacherCareerProgressionRepo" as TCPRepo
-participant ":TeacherCareerProgressionMapper" as TCPMapper
-participant "dateVO:Date" as DateVO
-participant "workingPercentageVO:WorkingPercentage" as WPVO
-participant "teacherCategoryVO:TeacherCategory" as TCVO
-participant "TeacherIDVO:TeacherID" as TID
-participant ":TeacherCareerProgressionFactory" as TCPFactory
-participant "lastTCP:TeacherCareerProgression" as TCP
+participant ":TeacherCareerProgressionRepo" as TCPRepo #lightblue
+participant ":TeacherCareerProgressionFactory" as TCPFactory #lightblue
+participant ":TeacherCareerProgressionMapper" as TCPMapper #lightblue
+participant "dateVO:Date" as DateVO #lightblue
+participant "workingPercentageVO:WorkingPercentage" as WPVO #lightblue
+participant "teacherCategoryVO:TeacherCategory" as TCVO #lightblue
+participant "TeacherIDVO:TeacherID" as TID #lightblue
+participant ":TeacherCareerProgressionFactory" as TCPFactory #lightblue
+participant "lastTCP:TeacherCareerProgression" as TCP #lightblue
 
-TCPRepo -> TCPMapper : TeacherCareerProgressionToDomain
+TCPRepo -> TCPFactory : TeacherCareerProgressionToDomain
+activate TCPFactory
+TCPFactory --> TCPMapper: TeacherCareerProgressionToDomain
+deactivate TCPFactory
 activate TCPMapper
 TCPMapper -> DateVO : createDateVO(date)
 activate DateVO

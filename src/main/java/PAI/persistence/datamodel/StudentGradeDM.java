@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="Student Grade")
+@Table(name="StudentGrade")
 public class StudentGradeDM {
 
  @Id
@@ -22,7 +22,7 @@ public class StudentGradeDM {
  private LocalDate _date;
 
  @Embedded
- @Column(name = "Course Edition")
+ @Column(name = "CourseEdition")
  private CourseEditionIDDataModel courseEditionID;
 
  @Embedded

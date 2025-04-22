@@ -11,13 +11,6 @@ participant "sf1:StudentFactory" as SF #technology
 participant "address1:Address" as A #physical
 participant "s1:Student" as s1 #strategy
 participant "sr1:StudentRepositoryJPA" as SR #lightcyan
-participant "sIDmapper1: StudentIDMapper" as SMapper
-participant "sIDDataModel1:StudentIDDataModel" as siddm
-participant "NIFmapper1: NIFMapper" as NIF
-participant "NIFDataModel1: NIFDataModel" as NIFDM
-participant "m1:StudentMapper" as mapper
-participant "s1:Student" as s2 #strategy
-participant "sDataModel1: StudentDataModel" as sDM
 
 ASC -> UI: I want to register a student in the system
 activate UI
@@ -33,43 +26,29 @@ ref over ctrl
     street, postalCode, location, country, academicEmail Value Objects
 end ref
 
-ctrl -> service: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO)
+ctrl -> service: registerStudent (studentIDVO, nameVO, NIFVO, \n phoneVO, emailVO, streetVO, postalCodeVO, \n locationVO, countryVO, academicEmailVO)
 activate service
 
-service -> SF: createStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO)
+service -> SF: createStudent (studentIDVO, nameVO, NIFVO, \n phoneVO, emailVO, streetVO, postalCodeVO, \n locationVO, countryVO, academicEmailVO)
 activate SF
 
-SF -> A**: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
+SF -> A**: createAddress (streetVO, postalCodeVO, \n locationVO, countryVO)
 activate A
 
 A --> SF: address1
 deactivate A
 
-SF -> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1, academicEmailVO)
+SF -> s1**: new Student (studentIDVO, nameVO, NIFVO, \n phoneVO, emailVO, address1, academicEmailVO)
 activate s1
 s1 --> SF: s1
 deactivate s1
 
 SF -> SR: existsByStudentIDOrNIF(studentIDVO, NIFVO)
 activate SR
-SR -> SMapper : domainToDataModel(studentIDVO)
-activate SMapper
-SMapper -> siddm**: new StudentIDDataModel(studentIDVO)
-activate siddm
-siddm --> SMapper : sIDDataModel1
-deactivate siddm
-SMapper --> SR: sIDDataModel1
-deactivate SMapper
-SR -> NIF : domainToDataModel(NIFVO)
-activate NIF
-NIF -> NIFDM**: new NIFDataModel(NIFVO)
-activate NIFDM
-NIFDM --> NIF: NIFDataModel1
-deactivate NIFDM
-NIF --> SR: NIFDataModel1
-deactivate NIF
-SR -> : existsByStudentIDOrNIF(sIDDataModel1, NIFDataModel1)
-SR <-- : False
+ref over SR
+    Verify duplicates
+    Check if any student already exists with same StudentID or NIF
+end ref
 SR --> SF: False
 deactivate SR
 SF --> service: s1
@@ -77,27 +56,10 @@ deactivate SF
 
 service -> SR: save(s1)
 activate SR
-SR -> mapper: domainToDataModel(s1)
-activate mapper
-mapper -> sDM**: new StudentDataModel(s1)
-activate sDM
-sDM --> mapper : sDataModel1
-deactivate sDM
-mapper --> SR: sDataModel1
-deactivate mapper
-SR -> : save
-SR <-- :sDataModel1
-SR -> mapper: dataModelToDomain(s1DataModel)
-activate mapper
-mapper -> s2**: newStudent(s1DataModel)
-activate s2
-s2 --> mapper: s1
-deactivate s2
-mapper --> SR: s1
-deactivate mapper
-
-
-
+ref over SR
+    Save in Database
+    Convert domain object to DataModel and persist using JPA
+end ref
 SR --> service: s1
 deactivate SR
 service --> ctrl: s1

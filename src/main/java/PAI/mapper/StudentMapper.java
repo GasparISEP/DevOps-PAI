@@ -77,7 +77,7 @@ public class StudentMapper implements IStudentMapper {
 
         NIF nif = _nifMapper.dataModelToDomain(studentDataModel.getNIF());
 
-        PhoneNumber phoneNumber = _phoneNumberMapper.dataModelToDomain(studentDataModel.getPhoneNumber());
+        PhoneNumber phoneNumber = _phoneNumberMapper.dataModelToDomain(studentDataModel.getPhone());
 
         Email email = new Email(studentDataModel.getEmail());
 
