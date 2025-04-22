@@ -1,6 +1,9 @@
 @startuml
 title US05: Register a Department in the System
 
+skinparam shadowing true
+skinparam linetype ortho
+
 class US05_RegisterADepartmentController #lightcyan {
     +US05_RegisterADepartmentController(departmentService: IDepartmentService)
     +registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
@@ -81,11 +84,13 @@ class DepartmentID <<Value Object>> #lightyellow {
     + hashCode(): int
 }
 
+
 US05_RegisterADepartmentController "*" ..> "_departmentService 1" IDepartmentService
 
 IDepartmentService <|.. DepartmentServiceImpl
 DepartmentServiceImpl "1" ..> "_departmentFactory 1" IDepartmentFactory
 DepartmentServiceImpl "1"..> "_departmentRepo 1" IDepartmentRepository
+IDepartmentService ..> Department
 
 DepartmentRepositoryMem "1" ..> "*" Department
 DepartmentRepositoryMem "1" -> "_departments   1" Set
@@ -110,7 +115,6 @@ package "JPA Department Aggregate" {
 class DepartmentDataModel #lightcyan {
     - acronym: String
     - name: String
-    - directorID: private
     - version: Long
     + DepartmentDataModel()
     + DepartmentDataModel(acronym: String, name: String, directorID: String, version: Long)
@@ -118,8 +122,6 @@ class DepartmentDataModel #lightcyan {
     + setAcronym(acronym: String): void
     + getName(): String
     + setName(name: String): void
-    + getDirectorId(): String
-    + setDirectorId(directorId: String): void
     + getVersion(): Long
     + setVersion(version: Long): void
 }
@@ -130,37 +132,68 @@ interface IDepartmentRepositorySpringData #ccffcc{
 }
 
 class DepartmentRepositorySpringData #lightcyan {
-   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapper) {
+   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapperImpl) {
    + save (entity: Department): Department
    + findAll(): Iterable<Department>
    + ofIdentity (id: DepartmentID): Optional<Department>
    + containsOfIdentity(id: DepartmentID): boolean
 }
 
-class DepartmentMapper #lightcyan {
+class DepartmentMapperImpl #lightcyan {
     + toDomain(dataModel: DepartmentDataModel): Department
     + toDataModel(domain: Department): DepartmentDataModel
+}
+
+interface IDepartmentMapper  #lightcyan {
+     + toDomain(dataModel: DepartmentDataModel): Department
+     + toDataModel(domain: Department): DepartmentDataModel
+
+}
+
+class DepartmentIDDataModel #lightcyan {
+    - departmentID: String
+    + DepartmentIDDataModel()
+    + DepartmentIDDataModel(departmentID: String)
+    + getDepartmentID(): String
+    + equals(obj: Object): boolean
+    + hashcode(): int
+}
+
+class DepartmentIDMapperImpl #lightcyan {
+      + toDataModel(departmentID: DepartmentID): DepartmentIDDataModel
+      + toDomainModel(departmentIDDataModel: DepartmentIDDataModel): DepartmentID
+}
+
+interface IDepartmentIDMapper #lightcyan {
+    + toDataModel(departmentID: DepartmentID): DepartmentIDDataModel
+    + toDomainModel(departmentIDDataModel: DepartmentIDDataModel): DepartmentID
 }
 
 DepartmentRepositorySpringData "1" ..> "1" DepartmentDataModel
 DepartmentRepositorySpringData "1" ..> "*" Department
 DepartmentRepositorySpringData "1" --> "_repositorySpringData 1" IDepartmentRepositorySpringData
 DepartmentRepositorySpringData ..|>  IDepartmentRepository
-DepartmentRepositorySpringData "1" --> "1 _mapper" DepartmentMapper
+DepartmentRepositorySpringData "1" --> "1 _mapper" DepartmentMapperImpl
 
-DepartmentMapper "1" ..> "1 _departmentFactory" IDepartmentFactory
-DepartmentMapper "1" ..> "*" Department
-DepartmentMapper "1" ..> "*" DepartmentDataModel
+DepartmentMapperImpl "1" ..> "1 _departmentFactory" IDepartmentFactory
+DepartmentMapperImpl "1" ..> "*" Department
+DepartmentMapperImpl "1" ..> "*" DepartmentDataModel
+DepartmentMapperImpl  ..|>  IDepartmentMapper
 
-note as n1 #lightgrey
-   This diagram illustrates the Clean Architecture structure, organized into four concentric layers, by colours:
+DepartmentIDMapperImpl ..|> IDepartmentIDMapper
+DepartmentIDMapperImpl "1" ..> "*" DepartmentIDDataModel
+DepartmentIDMapperImpl "1" ..> "*" Department
 
-   - Frameworks & Drivers (green): External interfaces.
-   - Interface Adapters (cyan): Components responsible for transforming data between the external world and the application's internal structure.
-   - Application Services (pink): Orchestrates the execution of use cases, containing application-specific business rules.
-   - Domain (yellow): Encapsulates the core business logic and entities, remaining independent of external concerns and frameworks.
 
+note as n1 #F5F5F5
+  This diagram illustrates the Clean Architecture structure, organized into four concentric layers, by colours:
+
+  - Frameworks & Drivers (green): External interfaces.
+  - Interface Adapters (cyan): Components responsible for transforming data between the external world and the application's internal structure.
+  - Application Services (pink): Orchestrates the execution of use cases, containing application-specific business rules.
+  - Domain (yellow): Encapsulates the core business logic and entities, remaining independent of external concerns and frameworks.
 end note
+
 
 
 

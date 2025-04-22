@@ -74,7 +74,6 @@ class ProgrammeEditionIdMapperImplTest {
 
     @Test
     void shouldThrowExceptionWhenProgrammeIDDataModelIsNull() {
-        //arrange
         // arrange
         IProgrammeIDMapper programmeIdMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper schoolYearIdMapper = mock(ISchoolYearIDMapper.class);
@@ -86,6 +85,29 @@ class ProgrammeEditionIdMapperImplTest {
 
         when(programmeEditionIdDataModel.getProgrammeIdDataModel()).thenReturn(null);
         when(programmeEditionIdDataModel.get_schoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        when(programmeIdMapper.toDomain(programmeIdDataModel)).thenReturn(programmeID);
+        when(schoolYearIdMapper.toDomain(schoolYearIDDataModel)).thenReturn(schoolYearID);
+        //act + assert
+        assertThrows(Exception.class, () -> {mapper.toDomain(programmeEditionIdDataModel);});
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearIDDataModelIsNull() {
+        //arrange
+        IProgrammeIDMapper programmeIdMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIdMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionIdMapperImpl mapper = new ProgrammeEditionIdMapperImpl(programmeIdMapper, schoolYearIdMapper);
+
+        ProgrammeIDDataModel programmeIdDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+
+        when(programmeEditionIdDataModel.getProgrammeIdDataModel()).thenReturn(programmeIdDataModel);
+        when(programmeEditionIdDataModel.get_schoolYearIDDataModel()).thenReturn(null);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
