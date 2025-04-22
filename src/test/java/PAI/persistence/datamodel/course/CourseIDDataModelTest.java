@@ -1,6 +1,5 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.course;
 
-import PAI.persistence.datamodel.course.CourseIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
