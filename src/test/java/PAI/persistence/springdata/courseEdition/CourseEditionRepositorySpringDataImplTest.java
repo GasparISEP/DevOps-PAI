@@ -6,6 +6,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
+import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
@@ -163,13 +164,13 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----ofIdentity Tests-----
     @Test
-    void shouldReturnOptionalEmptyWhenOfIdentityMethodIsCalled() {
+    void shouldReturnOptionalEmptyWhenOfIdentityMethodIsReceivesANullCourseEditionID() {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
         ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID = null;
 
         // Act
         Optional<CourseEdition> result = courseEditionRepositorySpringData.ofIdentity(courseEditionID);
@@ -177,6 +178,78 @@ class CourseEditionRepositorySpringDataImplTest {
         // Assert
         assertEquals(Optional.empty(), result);
     }
+
+    @Test
+    void shouldReturnOptionalWithCourseEditionIfTheRepositoryContainsIt() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        Optional<CourseEditionDataModel> opt = mock(Optional.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.findById(courseEditionIDDataModel)).thenReturn(opt);
+        when(opt.isPresent()).thenReturn(true);
+        when(courseEditionMapper.toDomain(opt.get())).thenReturn(courseEdition);
+
+        // Act
+        Optional<CourseEdition> result = courseEditionRepositorySpringData.ofIdentity(courseEditionID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertTrue(result.get().equals(courseEdition));
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenRepositoryDoesNotContainACourseEditionWithTheGivenCourseEditionID() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        Optional<CourseEditionDataModel> opt = mock(Optional.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.findById(courseEditionIDDataModel)).thenReturn(opt);
+        when(opt.isPresent()).thenReturn(false);
+
+        // Act
+        Optional<CourseEdition> result = courseEditionRepositorySpringData.ofIdentity(courseEditionID);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhencourseEditionIDMapperThrowsException() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        Optional<CourseEditionDataModel> opt = mock(Optional.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenThrow(IllegalArgumentException.class);
+
+        // Act
+        Optional<CourseEdition> result = courseEditionRepositorySpringData.ofIdentity(courseEditionID);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+
 
     //-----containsOfIdentity Tests-----
     @Test

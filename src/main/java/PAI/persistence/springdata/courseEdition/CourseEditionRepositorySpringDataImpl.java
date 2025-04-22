@@ -5,6 +5,8 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
+import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +61,16 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public Optional<CourseEdition> ofIdentity(CourseEditionID id) {
+        if (id == null)
+            return Optional.empty();
+        try {
+            CourseEditionIDDataModel courseEditionIDDataModel = courseEditionIDMapper.toDataModel(id);
+            Optional<CourseEditionDataModel> courseEditionDataModelOptional = courseEditionRepositorySpringData.findById(courseEditionIDDataModel);
+            if (courseEditionDataModelOptional.isPresent())
+                return Optional.of(courseEditionMapper.toDomain(courseEditionDataModelOptional.get()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 
