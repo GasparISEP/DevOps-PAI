@@ -1,43 +1,49 @@
 package PAI.persistence.datamodel;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ProgrammeEditionEnrolments")
+@Table(name = "Programme_edition_enrolments")
 public class ProgrammeEditionEnrolmentDataModel {
 
     @EmbeddedId
-    private ProgrammeEditionEnrolmentIDDataModel _programmeEditionEnrolmentIDDataModel;
+    private ProgrammeEditionEnrolmentIDDataModel _id;
+
+    @Column(name = "enrolment_date", nullable = false)
+    private LocalDate _enrolmentDate;
+
+    @Version
+    private Long version;
 
     public ProgrammeEditionEnrolmentDataModel() {
     }
 
-    public ProgrammeEditionEnrolmentDataModel(ProgrammeEditionEnrolmentIDDataModel programmeEditionEnrolmentIDDataModel) {
-        this._programmeEditionEnrolmentIDDataModel = programmeEditionEnrolmentIDDataModel;
+    public ProgrammeEditionEnrolmentDataModel(ProgrammeEditionEnrolmentIDDataModel id,
+                                              LocalDate enrolmentDate) {
+        this._id = id;
+        this._enrolmentDate = enrolmentDate;
     }
 
     public ProgrammeEditionEnrolmentIDDataModel getProgrammeEditionEnrolmentIDDataModel() {
-        return _programmeEditionEnrolmentIDDataModel;
+        return _id;
     }
 
-    public void setProgrammeEditionEnrolmentIDDataModel(ProgrammeEditionEnrolmentIDDataModel programmeEditionEnrolmentIDDataModel) {
-        this._programmeEditionEnrolmentIDDataModel = programmeEditionEnrolmentIDDataModel;
+    public LocalDate getEnrolmentDate() {
+        return _enrolmentDate;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProgrammeEditionEnrolmentDataModel)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ProgrammeEditionEnrolmentDataModel that = (ProgrammeEditionEnrolmentDataModel) o;
-        return Objects.equals(_programmeEditionEnrolmentIDDataModel, that._programmeEditionEnrolmentIDDataModel);
+        return Objects.equals(_id, that._id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_programmeEditionEnrolmentIDDataModel);
+        return Objects.hash(_id);
     }
 }
