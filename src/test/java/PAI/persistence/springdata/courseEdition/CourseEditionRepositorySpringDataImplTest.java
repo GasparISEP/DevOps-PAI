@@ -6,6 +6,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionRepositorySpringDataImplTest {
 
@@ -178,13 +180,75 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----containsOfIdentity Tests-----
     @Test
-    void shouldReturnFalseWhenContainsOfIdentityMethodIsCalled() {
+    void shouldReturnFalseWhenToContainsOfIdentityMethodReceivesANullCourseEditionID() {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
         ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = null;
+
+        // Act
+        boolean result = courseEditionRepositorySpringData.containsOfIdentity(courseEditionID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseEditionIDAlreadyExistsInTheRepository() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.existsById(courseEditionIDDataModel)).thenReturn(true);
+
+        // Act
+        boolean result = courseEditionRepositorySpringData.containsOfIdentity(courseEditionID);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIDDoesNotExistsInTheRepository() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.existsById(courseEditionIDDataModel)).thenReturn(false);
+
+        // Act
+        boolean result = courseEditionRepositorySpringData.containsOfIdentity(courseEditionID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIDMapperThrowsAnException() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionIDMapper.toDataModel(courseEditionID)).thenThrow(IllegalArgumentException.class);
 
         // Act
         boolean result = courseEditionRepositorySpringData.containsOfIdentity(courseEditionID);

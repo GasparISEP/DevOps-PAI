@@ -66,8 +66,10 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     public boolean containsOfIdentity(CourseEditionID id) {
         if (id == null)
             return false;
-
-
-        return false;
+        try {
+            return courseEditionRepositorySpringData.existsById(courseEditionIDMapper.toDataModel(id));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
