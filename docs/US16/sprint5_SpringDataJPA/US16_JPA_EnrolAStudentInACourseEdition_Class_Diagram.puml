@@ -130,6 +130,11 @@ interface ICourseEditionEnrolmentIDMapper {
     +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID): Optional<CourseEditionEnrolmentIDDataModel>
 }
 
+interface IProgrammeEditionEnrolmentMapper {
+    +toDataModel(ProgrammeEditionEnrolment programmeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    +toDomain(dataModel: ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+}
+
 'VO's
 
 class "<<Value Object>>\n EnrolmentStatus" {
@@ -338,8 +343,8 @@ class CourseEditionEnrolmentIDMapperImpl {
 }
 
 class ProgrammeEditionEnrolmentMapper{
-    +toData()
-    +toDomain()
+    +toDataModel(ProgrammeEditionEnrolment programmeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    +toDomain(dataModel: ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
 }
 
 'Controller
@@ -455,4 +460,6 @@ ProgrammeEditionEnrolmentIDDataModel <- ProgrammeEditionEnrolmentDataModel
 CourseEditionEnrolmentIDMapperImpl --> ICourseEditionEnrolmentIDMapper
 
 CourseEditionEnrolmentIDMapperImpl ..> ICourseEditionEnrolmentFactory
+
+ProgrammeEditionEnrolmentMapper ..> IProgrammeEditionEnrolmentMapper
 @enduml
