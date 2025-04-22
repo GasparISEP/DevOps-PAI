@@ -21,15 +21,9 @@ public class StudentGradeRepositorySpringData {
         this.studentGradeMapper = studentGradeMapper;
     }
 
-    public boolean save(StudentGrade studentGrade) throws Exception {
-        try {
-            StudentGradeDM studentGradeDM = studentGradeMapper.toData(studentGrade);
-            iStudentGradeRepositorySpringData.save(studentGradeDM);
-            return true;
-        }
-        catch (Exception e){
-            log.error("Failed to save", e);
-        return false;
+    public StudentGrade save(StudentGrade entity) throws Exception {
+        StudentGradeDM studentGradeDM = studentGradeMapper.toData(entity);
+        iStudentGradeRepositorySpringData.save(studentGradeDM);
+        return entity;
     }
-}
 }
