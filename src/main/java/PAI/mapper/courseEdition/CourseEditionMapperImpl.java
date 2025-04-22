@@ -11,7 +11,9 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseEditionMapperImpl implements ICourseEditionMapper {
 
     private final ICourseEditionIDMapper _courseEditionIDMapper;
@@ -22,8 +24,10 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
 
         if (courseEditionIDMapper == null)
             throw new IllegalArgumentException("courseEditionIDMapper cannot be null");
+
         if (programmeEditionIdMapper == null)
             throw new IllegalArgumentException("programmeEditionIdMapper cannot be null");
+
         if (courseInStudyPlanIDMapper == null)
             throw new IllegalArgumentException("courseInStudyPlanIDMapper cannot be null");
 
@@ -40,10 +44,10 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         if (courseEditionFactory == null)
             throw new IllegalArgumentException("courseEditionFactory cannot be null");
 
-        CourseEditionID cEID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
-        ProgrammeEditionID pEID = _programmeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
-        CourseInStudyPlanID cISPID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
-        CourseEdition result = courseEditionFactory.newCourseEdition_2(cEID, cISPID, pEID);
+        CourseEditionID courseEditionID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
+        ProgrammeEditionID programmeEditionID = _programmeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
+        CourseInStudyPlanID courseInStudyPlanID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
+        CourseEdition result = courseEditionFactory.newCourseEdition_2(courseEditionID, courseInStudyPlanID, programmeEditionID);
 
         return result;
     }
@@ -54,11 +58,12 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         if (courseEdition == null)
             throw new IllegalArgumentException("courseEdition cannot be null");
 
-        CourseEditionIDDataModel cEIDDM = _courseEditionIDMapper.toDataModel(courseEdition.identity());
-        ProgrammeEditionIdDataModel pEIDDM = _programmeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID());
-        CourseInStudyPlanIDDataModel cISPIDDM = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
+        CourseEditionIDDataModel courseEditionIDDataModel = _courseEditionIDMapper.toDataModel(courseEdition.identity());
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID());
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
 
-        CourseEditionDataModel result = new CourseEditionDataModel(cEIDDM, pEIDDM, cISPIDDM);
+        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIdDataModel, courseInStudyPlanIDDataModel);
         return result;
     }
+
 }

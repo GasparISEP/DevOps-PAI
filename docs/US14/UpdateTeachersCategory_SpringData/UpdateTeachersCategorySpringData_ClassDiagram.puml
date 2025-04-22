@@ -1,5 +1,5 @@
 @startuml
-left to right direction
+'left to right direction
 skinparam ranksep 60
 skinparam nodesep 60
 
@@ -22,6 +22,10 @@ interface ITeacherCategoryRepo {
     +findAll()
 }
 
+class TeacherCategoryRepository {
+    +findAll()
+}
+
 interface ITeacherCategoryService {
 }
 
@@ -35,9 +39,11 @@ package "Teacher Aggregate" {
 }
 
 class "<<Value Object>>\n TeacherIDVO" {
-        -teacherAcronym: TeacherAcronym
-        -nif: NIF
-    }
+}
+
+class "<<Value Object>>\n TeacherAcronymVO" {
+    -String: TeacherAcronym
+}
 
 package "TeacherCareerProgression Aggregate" {
     entity "<<Root>>\n <<Entity>>\nTeacherCareerProgression" {
@@ -63,7 +69,7 @@ package "TeacherCareerProgression Aggregate" {
    }
 
 class TeacherCareerProgressionRepository {
-    +TeacherCareerProgressionRepository\n(teacherCareerProgressionFactory : TeacherCareerProgressionFactory,\n teacherCareerProgressionMapper : TeacherCareerProgressionMapper)
+    +TeacherCareerProgressionRepository\n(teacherCareerProgressionMapper : TeacherCareerProgressionMapper)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
 }
 
@@ -91,25 +97,41 @@ class "<<Value Object>>\n TeacherCategoryIDVO" {
 }
 
 class TeacherCareerProgressionFactoryImpl {
-    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
-                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,\nteacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+
+    +createTeacherCareerProgressionFromDataModel(teacherCareerProgressionIDVO: TeacherCareerProgressionIDVO\n ,dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,\nteacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
 interface ITeacherCareerProgressionFactory {
-    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,
-                                        teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+    +createTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,\nteacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
+
+    +createTeacherCareerProgressionFromDataModel(teacherCareerProgressionIDVO: TeacherCareerProgressionIDVO\n ,dateVO: DateVO, workingPercentageVO: WorkingPercentageVO,\nteacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
 class TeacherCareerProgressionMapper {
-    +toDomain(teacherCareerProgressionFactory : ITeacherCareerProgressionFactory, teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
+    +toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
     +toDataModel(teacherCareerProgression :TeacherCareerProgression)
 }
 
 interface ITeacherCareerProgressionMapper {
-    +toDomain(teacherCareerProgressionFactory : ITeacherCareerProgressionFactory,\n teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
+    +toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
     +toDataModel(teacherCareerProgression :TeacherCareerProgression)
 }
 
+class TeacherCareerProgressionIDMapper {
+    +toDomain(teacherCareerProgressionIDDataModel :TeacherCareerProgressionIDDataModel)
+    +toDataModel(teacherCareerProgressionID :TeacherCareerProgressionID)
+}
+
+interface ITeacherCareerProgressionIDMapper {
+    +toDomain(teacherCareerProgressionIDDataModel :TeacherCareerProgressionIDDataModel)
+    +toDataModel(teacherCareerProgressionID :TeacherCareerProgressionID)
+}
+
+class TeacherCareerProgressionIDDataModel {
+    -UUID id
+    +getIdValue()
+}
 
 class TeacherCareerProgressionDataModel {
     -teacherCareerProgressionID : UUID
@@ -134,31 +156,36 @@ interface ITeacherCareerProgressionRepositorySpringData {
     +findTopByTeacherIDOrderByDateDesc()
 }
 
-US14_UpdateTeachersCategoryController "1" ---> "_teacherCategoryService \n 1" ITeacherCategoryService
+US14_UpdateTeachersCategoryController "1" --> "_teacherCategoryService \n 1" ITeacherCategoryService
 US14_UpdateTeachersCategoryController "1" --> "_teacherService \n 1" ITeacherService
 US14_UpdateTeachersCategoryController "1" --> "_teacherCareerProgressionService \n 1" ITeacherCareerProgressionService
 ITeacherService "1" <|.. "1" TeacherService
 ITeacherCareerProgressionService "1" <|.. "1" TeacherCareerProgressionService
-TeacherCategoryService "1" ..|> "1" ITeacherCategoryService
-ITeacherService "1" --> "_teacherRepository \n 1" ITeacherRepository
+TeacherCareerProgressionService "1" ..> "1" ITeacherCareerProgressionFactory
+TeacherCategoryService "1" .u.|> "1" ITeacherCategoryService
+TeacherService "1" --> "_teacherRepository \n 1" ITeacherRepository
 TeacherCategoryService "1" --> "_teacherCategoryService \n 1" ITeacherCategoryRepo
-ITeacherCareerProgressionService "1" --> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
-"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <---- "1" ITeacherRepository
-TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+TeacherCategoryRepository "1" ..|> "1" ITeacherCategoryRepo
+TeacherCareerProgressionService "1" ---> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
+"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <-- "1" ITeacherRepository
+TeacherCareerProgressionMapper "1" -u-> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
 TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
 ITeacherCareerProgressionMapper "1" <|.. "1" TeacherCareerProgressionMapper
-ITeacherCareerProgressionMapper "1" ..> "1" TeacherCareerProgressionDataModel
-ITeacherCareerProgressionMapper "1" ...> "1" ITeacherCareerProgressionFactory
+TeacherCareerProgressionMapper "1" ..> "1" TeacherCareerProgressionDataModel
+TeacherCareerProgressionMapper "1" --> "_teacherCareerProgressionIDMapper\n1" ITeacherCareerProgressionIDMapper
+ITeacherCareerProgressionIDMapper "1" <|.. "1" TeacherCareerProgressionIDMapper
+TeacherCareerProgressionIDDataModel "1" <.. "1" TeacherCareerProgressionIDMapper
 "<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
-ITeacherCareerProgressionFactory "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
+TeacherCareerProgressionFactoryImpl "1" ..> "   \n        1..*" "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
 TeacherCareerProgressionFactoryImpl .l.|> ITeacherCareerProgressionFactory
 "<<Root>>\n <<Entity>>\n Teacher" "1" --> "1" "<<Value Object>>\n TeacherIDVO"
+"<<Value Object>>\n TeacherAcronymVO" "1" <-- "1" "<<Value Object>>\n TeacherIDVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCareerProgressionIDVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n DateVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
 "<<Value Object>>\n TeacherCategoryIDVO" "1" <-u- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
-ITeacherCareerProgressionRepository "1" <|.. "1"  TeacherCareerProgressionRepository
+ITeacherCareerProgressionRepository "1" <|.r. "1"  TeacherCareerProgressionRepository
 ITeacherRepository "1"  <|.. "1" TeacherRepository
 ITeacherCareerProgressionRepositorySpringData "1" <.. "1" TeacherCareerProgressionRepository
 @enduml
