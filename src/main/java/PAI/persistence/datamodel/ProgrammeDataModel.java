@@ -76,4 +76,8 @@ public class ProgrammeDataModel {
     public TeacherIDDataModel getProgrammeDirectorID(){
         return _programmeDirectorID;
     }
+
+    public ProgrammeIDDataModel getProgID() {
+        return _programmeID;
+    }
 }
