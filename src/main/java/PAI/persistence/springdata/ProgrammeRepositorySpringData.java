@@ -2,17 +2,15 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.programme.Programme;
-import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+
 //Should Implement IProgrammeRepository
 public class ProgrammeRepositorySpringData {
 
@@ -90,8 +88,4 @@ public class ProgrammeRepositorySpringData {
 
         return programmeNamesListVO;
     }
-}
-
-
-
 }
