@@ -4,16 +4,18 @@ skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title Diagram Referenced in US15_SequenceDiagram
 
-participant ":TeacherCareerProgressionRepo" as TCPRepo
-participant ":TeacherCareerProgressionMapper" as TCPMapper
-participant "tcp1:TeacherCareerProgression" as TCP
-participant "dateVO:Date" as DateVO
-participant "workingPercentageVO:WorkingPercentage" as WPVO
-participant "teacherCategoryVO:TeacherCategory" as TCVO
-participant "TeacherIDVO:TeacherID" as TID
-participant "TeacherCareerProgressionToDataModel" as TCPDM
+participant ":TeacherCareerProgressionRepo" as TCPRepo #lightblue
+participant ":TeacherCareerProgressionMapper" as TCPMapper #lightblue
+participant "tcp1:TeacherCareerProgression" as TCP #lightblue
+participant "dateVO:Date" as DateVO #lightblue
+participant "workingPercentageVO:WorkingPercentage" as WPVO #lightblue
+participant "teacherCategoryVO:TeacherCategory" as TCVO #lightblue
+participant "TeacherIDVO:TeacherID" as TID #lightblue
+participant "TeacherCareerProgressionToDataModel" as TCPDM #lightblue
+
 
 TCPRepo -> TCPMapper : TeacherCareerProgressionToDataModel
+
 activate TCPMapper
 TCPMapper -> TCP : getDate(date)
 activate TCP
@@ -28,7 +30,7 @@ TCPMapper -> TCP : getWorkingPercentage(workingPercentage)
 activate TCP
 TCP --> TCPMapper : workingPercentage
 deactivate TCP
-TCPMapper -> WPVO : getWorkingPercentage(workingPercentage))
+TCPMapper -> WPVO : getWorkingPercentage(workingPercentage)
 activate WPVO
 WPVO -->TCPMapper : workingPercentageVO
 deactivate WPVO
@@ -37,7 +39,7 @@ TCPMapper -> TCP : getTeacherCategory(teacherCategory)
 activate TCP
 TCP --> TCPMapper : teacherCategory
 deactivate TCP
-TCPMapper -> TCVO : getTeacherCategory(teacherCategory))
+TCPMapper -> TCVO : getTeacherCategory(teacherCategory)
 activate TCVO
 TCVO -->TCPMapper : teacherCategoryVO
 deactivate TCVO
@@ -51,9 +53,11 @@ activate TID
 TID -->TCPMapper : teacherIDVO
 deactivate TID
 
+
 TCPMapper -> TCPDM : create TeacherCareerProgression(dateVO, workingPercentageVO, \n teacherCategoryVO, teacherIDVO)
 activate TCPDM
 TCPDM --> TCPMapper : tcpDataModel
-deactivate TCPDM
 TCPMapper --> TCPRepo : tcpDataModel
+deactivate TCPMapper
+
 @enduml
