@@ -3,7 +3,6 @@ package PAI.persistence.springdata.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
-import PAI.domain.course.Course;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
@@ -54,6 +53,18 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public CourseEdition save(CourseEdition entity) {
+
+        if (entity == null)
+            return null;
+        try {
+            CourseEditionDataModel courseEditionDataModel = courseEditionMapper.toDataModel(entity);
+            if (!courseEditionRepositorySpringData.existsById(courseEditionDataModel.getCourseEditionIDDataModel())) {
+                courseEditionRepositorySpringData.save(courseEditionDataModel);
+                return courseEditionMapper.toDomain(courseEditionDataModel);
+                }
+        } catch (Exception e) {
+            return null;
+        }
         return null;
     }
 

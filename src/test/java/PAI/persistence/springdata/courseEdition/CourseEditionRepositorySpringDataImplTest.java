@@ -131,16 +131,95 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----save Tests-----
     @Test
-    void shouldReturnNullWhenSaveMethodIsCalled() {
+    void shouldReturnNullWhenSaveMethodIsReceivesANullCourseEdition() {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
         ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
-        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEdition courseEdition = null;
 
         // Act
         CourseEdition result = courseEditionRepositorySpringData.save(courseEdition);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnCourseEditionSavedWhenSaveMethodIsReceivesANonExistentCourseEditionInTheRepository() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition entity = mock(CourseEdition.class);
+        CourseEditionID entityID = mock(CourseEditionID.class);
+        CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(courseEditionMapper.toDataModel(entity)).thenReturn(courseEditionDataModel);
+        when(courseEditionRepoSD.save(courseEditionDataModel)).thenReturn(courseEditionDataModel);
+        when(courseEditionMapper.toDomain(courseEditionDataModel)).thenReturn(entity);
+        when(entity.identity()).thenReturn(entityID);
+        when(courseEditionIDMapper.toDataModel(entityID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.existsById(courseEditionIDDataModel)).thenReturn(false);
+
+        // Act
+        CourseEdition result = courseEditionRepositorySpringData.save(entity);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(entity, result);
+        verify(courseEditionRepoSD).save(courseEditionDataModel);
+    }
+
+    @Test
+    void shouldReturnNullWhenSaveMethodIsReceivesAnExistentCourseEditionInTheRepository() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition entity = mock(CourseEdition.class);
+        CourseEditionID entityID = mock(CourseEditionID.class);
+        CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(courseEditionMapper.toDataModel(entity)).thenReturn(courseEditionDataModel);
+        when(courseEditionDataModel.getCourseEditionIDDataModel()).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.save(courseEditionDataModel)).thenReturn(courseEditionDataModel);
+        when(courseEditionMapper.toDomain(courseEditionDataModel)).thenReturn(entity);
+        when(entity.identity()).thenReturn(entityID);
+        when(courseEditionIDMapper.toDataModel(entityID)).thenReturn(courseEditionIDDataModel);
+        when(courseEditionRepoSD.existsById(courseEditionIDDataModel)).thenReturn(true);
+
+        // Act
+        CourseEdition result = courseEditionRepositorySpringData.save(entity);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCourseEditionMapperThrowsAnException() throws Exception {
+        // Arrange
+        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper);
+
+        CourseEdition entity = mock(CourseEdition.class);
+        CourseEditionID entityID = mock(CourseEditionID.class);
+        CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(courseEditionMapper.toDataModel(entity)).thenThrow(IllegalArgumentException.class);
+
+        // Act
+        CourseEdition result = courseEditionRepositorySpringData.save(entity);
 
         // Assert
         assertNull(result);
