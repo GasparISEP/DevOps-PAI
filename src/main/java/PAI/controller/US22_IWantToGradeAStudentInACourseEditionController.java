@@ -11,17 +11,18 @@ import PAI.factory.IStudentGradeRepository;
 import PAI.repository.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IStudentRepository;
+import PAI.repository.StudentGradeRepository;
 
 import java.util.Optional;
 
 
 public class US22_IWantToGradeAStudentInACourseEditionController {
-    IStudentGradeRepository _StudentGradeRepository;
+    StudentGradeRepository _StudentGradeRepository;
     ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
     IStudentRepository _studentRepository;
     ICourseEditionRepository _courseEditionRepository;
 
-    public US22_IWantToGradeAStudentInACourseEditionController(IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, IStudentRepository studentRepository, ICourseEditionRepository courseEditionRepository ){
+    public US22_IWantToGradeAStudentInACourseEditionController(StudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, IStudentRepository studentRepository, ICourseEditionRepository courseEditionRepository ){
         if (studentGradeRepository == null || courseEditionEnrolmentRepository == null){
             throw new IllegalArgumentException("Repository cannot be null");
         }

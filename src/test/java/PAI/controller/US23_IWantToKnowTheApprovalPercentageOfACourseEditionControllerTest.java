@@ -5,6 +5,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.repository.ICourseEditionRepository;
+import PAI.repository.StudentGradeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -18,7 +19,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionControllerTest {
     @Test
     void shouldCreateController() {
         //arrange
-        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         US23_IWantToKnowTheApprovalPercentageOfACourseEditionController controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(studentGradeRepository,courseEditionRepository);
         //act
@@ -28,7 +29,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionControllerTest {
     @Test
     void shouldReturnApprovalPercentageInCourseEdition(){
         //arrange
-        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         US23_IWantToKnowTheApprovalPercentageOfACourseEditionController controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(studentGradeRepository,courseEditionRepository);
         CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);

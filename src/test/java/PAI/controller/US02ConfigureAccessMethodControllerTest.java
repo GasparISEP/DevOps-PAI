@@ -71,7 +71,7 @@ class US02ConfigureAccessMethodControllerTest {
     }
 
     @Test
-    void shouldNotConfigureAnAccessMethofIfNameIsNull() {
+    void shouldNotConfigureAnAccessMethodIfNameIsNull() {
         //arrange
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
