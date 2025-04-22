@@ -253,6 +253,7 @@ class ProgrammeEditionEnrolmentIDDataModel {
 
 class ProgrammeEditionEnrolmentDataModel{
       - _id: ProgrammeEditionEnrolmentIDDataModel
+      - enrolmentDate: LocalDate
       - version: Long
       + ProgrammeEditionEnrolmentDataModel()
       + ProgrammeEditionEnrolmentDataModel(studentId: String, programmeEditionId: String)
