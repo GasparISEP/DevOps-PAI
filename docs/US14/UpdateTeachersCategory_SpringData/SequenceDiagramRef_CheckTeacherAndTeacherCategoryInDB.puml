@@ -1,0 +1,50 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant "ctrl:UpdateTeacherCareerProgressionController" as Controller #lightgreen
+participant "ts1:TeacherService" as TeacherService #lightpink
+participant "teacherRepo1:TeacherRepositorySpringDataImpl" as TeacherRepo #burlywood
+participant "ITeacherRepoSpringData" as ITeacherRepoSpringData #lightpink
+participant "tcs1:TeacherCategoryApplicationService" as TeacherCategoryService #orange
+participant "tcRepo: TeacherCategoryRepositorySpringDataImpl" as TCRepo #lightblue
+participant "ITeacherCategoryRepoSpringData" as ITeacherCategoryRepoSpringData #lightyellow
+
+activate Controller
+Controller -> TeacherService: containsOfIdentity(teacherIDVO)
+activate TeacherService
+
+TeacherService -> TeacherRepo: containsOfIdentity(teacherIDVO)
+activate TeacherRepo
+
+TeacherRepo -> ITeacherRepoSpringData: existsById(teacherIDVO);
+activate ITeacherRepoSpringData
+ITeacherRepoSpringData ->
+ITeacherRepoSpringData <--
+ITeacherRepoSpringData --> TeacherRepo: True
+deactivate ITeacherRepoSpringData
+
+TeacherRepo --> TeacherService: True
+deactivate TeacherRepo
+TeacherService --> Controller: True
+deactivate TeacherService
+|||
+Controller -> TeacherCategoryService: containsOfIdentity(teacherCategoryIDVO)
+activate TeacherCategoryService
+TeacherCategoryService -> TCRepo: containsOfIdentity(teacherCategoryIDVO)
+activate TCRepo
+
+TCRepo -> ITeacherCategoryRepoSpringData: existsById(teacherCategoryIDVO);
+activate ITeacherCategoryRepoSpringData
+ITeacherCategoryRepoSpringData ->
+ITeacherCategoryRepoSpringData <--
+ITeacherCategoryRepoSpringData --> TCRepo: True
+deactivate ITeacherCategoryRepoSpringData
+
+TCRepo --> TeacherCategoryService: True
+deactivate TCRepo
+TeacherCategoryService --> Controller: True
+deactivate TeacherCategoryService
+@enduml

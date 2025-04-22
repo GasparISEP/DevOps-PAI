@@ -9,55 +9,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProgrammeDataModelTest {
 
-    private ProgrammeDataModel registerProgrammeDataModel() {
-        // Arrange
-        Programme programme = mock(Programme.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        QuantSemesters semesters = mock(QuantSemesters.class);
-        QuantEcts ects = mock(QuantEcts.class);
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        TeacherID directorID = mock(TeacherID.class);
-        DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
-        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+    @Test
+    void shouldCreateProgrammeDataModelConstructor() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
 
-        // Mocks for ProgrammeID
-        when(programme.getProgrammeID()).thenReturn(programmeID);
-        when(programmeID.getAcronym()).thenReturn(acronym);
-        when(programmeID.getName()).thenReturn(name);
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id",departmentIDDataModel, teacherIDDataModel);
 
-        // Mocking the methods of Acronym and Name
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Engenharia Informática");
-        when(acronym.getAcronym()).thenReturn("EI");
-
-        // Mocks for Programme attributes
-        when(programme.getProgrammeName()).thenReturn(name);
-        when(programme.getAcronym()).thenReturn(acronym);
-        when(programme.getQuantSemesters()).thenReturn(semesters);
-        when(semesters.getQuantityOfSemesters()).thenReturn(6);
-
-        when(programme.getQuantEcts()).thenReturn(ects);
-        when(ects.getQuantEcts()).thenReturn(180);
-
-        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
-        when(degreeTypeID.getDTID()).thenReturn("MSC");
-
-        when(programme.getDepartment()).thenReturn(departmentID);
-
-        when(departmentID.getAcronym()).thenReturn(departmentAcronym);
-        when(departmentAcronym.getAcronym()).thenReturn("DEP");
-
-        when(programme.getProgrammeDirectorID()).thenReturn(directorID);
-        when(directorID.getTeacherAcronym()).thenReturn(teacherAcronym);
-        when(teacherAcronym.getAcronym()).thenReturn("DIR01");
-
-        return new ProgrammeDataModel(programme);
+        //assert
+        assertNotNull(programmeDataModel);
     }
 
     @Test
-    public void defaultConstructorInitializesFieldsToDefaults() {
+    void defaultConstructorInitializesFieldsToDefaults() {
         ProgrammeDataModel dataModel = new ProgrammeDataModel();
         assertNotNull(dataModel);
         assertNull(dataModel.getName());
@@ -70,74 +37,100 @@ public class ProgrammeDataModelTest {
     }
 
     @Test
-    public void createProgrammeDataModel()  {
-        // Act
-        ProgrammeDataModel programmeDataModel = registerProgrammeDataModel();
-
-        // Assert
-        assertNotNull(programmeDataModel);
-    }
-
-    @Test
     public void getProgrammeDataModelName() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("Engenharia Informática", dataModel.getName());  // Using mocked value
+        assertEquals("name", programmeDataModel.getName());
     }
 
     @Test
     public void getProgrammeDataModelAcronym() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("EI", dataModel.getAcronym());
+        assertEquals("ACR", programmeDataModel.getAcronym());
     }
 
     @Test
     public void getProgrammeDataModelQuantSemesters() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals(6, dataModel.getQuantSemesters());
+        assertEquals(6, programmeDataModel.getQuantSemesters());
     }
 
     @Test
     public void getProgrammeDataModelQuantEcts() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals(180, dataModel.getQuantEcts());
+        assertEquals(30, programmeDataModel.getQuantEcts());
     }
 
     @Test
     public void getProgrammeDataModelDegreeTypeID() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("MSC", dataModel.getDegreeTypeID());
+        assertEquals("id", programmeDataModel.getDegreeTypeID());
     }
 
     @Test
     public void getProgrammeDataModelDepartment() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("DEP", dataModel.getDepartmentID());
+        assertEquals(departmentIDDataModel, programmeDataModel.getDepartmentID());
     }
 
     @Test
     public void getProgrammeDataModelDirectorID() {
-        // Act
-        ProgrammeDataModel dataModel = registerProgrammeDataModel();
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("DIR01", dataModel.getProgrammeDirectorID());
+        assertEquals(teacherIDDataModel, programmeDataModel.getProgrammeDirectorID());
     }
 }

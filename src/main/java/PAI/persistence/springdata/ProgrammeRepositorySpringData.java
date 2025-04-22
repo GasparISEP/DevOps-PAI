@@ -1,6 +1,8 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
@@ -11,7 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+//Should Implement IProgrammeRepository
 public class ProgrammeRepositorySpringData {
 
     private final IProgrammeMapper _iProgMapper;
@@ -74,6 +76,22 @@ public class ProgrammeRepositorySpringData {
     public boolean containsOfIdentity(ProgrammeID id) {
         return _iProgRepo.existsById(id.toString());
     }
+
+    //US18
+    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames (){
+        Iterable<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
+
+        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = new ArrayList<>();
+
+        for(String programmeNameData : programmesNamesListData) {
+            NameWithNumbersAndSpecialChars programmeNameVO = new NameWithNumbersAndSpecialChars(programmeNameData);
+            programmeNamesListVO.add(programmeNameVO);
+        }
+
+        return programmeNamesListVO;
+    }
+}
+
 
 
 }
