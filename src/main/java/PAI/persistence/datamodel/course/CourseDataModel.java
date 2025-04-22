@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.course;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
