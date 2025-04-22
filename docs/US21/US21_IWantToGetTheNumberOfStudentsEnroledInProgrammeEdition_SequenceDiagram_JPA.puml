@@ -1,0 +1,47 @@
+@startuml US21
+
+skinparam ParticipantBackgroundColor #application
+skinparam SequenceLifeLineBackgroundColor #application
+skinparam RefBorderColor #application
+
+actor ASC
+participant UI
+participant ":IWantToKnowTheNumberOfStudents\nEnrolledInAProgrammeEditionController" as CTR
+participant ProgrammeEditionEnrolmentService
+participant ProgrammeEditionEnrolmentRepository
+participant IProgrammeEditionEnrolmentSpringData as SpringData
+participant ProgrammeEditionEnrolmentMapper
+
+autonumber
+skinparam titleFontSize 18
+
+title: SEQUENCE DIAGRAM\nUS21_GET THE NUMBER OF STUDENTS ENROLLED IN A PROGRAMME EDITION (HAPPY PATH)
+
+ASC -> UI ++ : I want to get the number of students enrolled in a programme edition!
+UI --> ASC -- : Which Programme Edition?
+ASC -> UI ++ : programmeEdition1
+UI -> CTR ++ : iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1ID)
+
+CTR -> ProgrammeEditionEnrolmentService ++: totalStudentsInProgrammeEdition(programmeEdition1ID)
+ProgrammeEditionEnrolmentService -> ProgrammeEditionEnrolmentRepository ++: getAllProgrammeEditionsEnrolmentByProgrammeEditionID(programmeEdition1ID)
+ProgrammeEditionEnrolmentRepository -> SpringData ++: findAllProgrammeEditionEnrollmentsByProgrammeEditionID(programmeEdition1ID)
+SpringData --> ProgrammeEditionEnrolmentRepository --: List<ProgrammeEditionEnrolmentDataModel>
+
+loop for each StudentDataModel
+    ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolmentMapper ++: toDomain(programmeEditionEnrolmentDataModel)
+    ProgrammeEditionEnrolmentMapper --> ProgrammeEditionEnrolmentRepository --: programmeEditionEnrolment
+end
+
+ProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolmentService --: List<ProgrammeEditionEnrolment>
+
+ref over ProgrammeEditionEnrolmentService
+    Count total programmeEditionEnrolments
+    1. Get list size
+    2. Return total
+end ref
+
+ProgrammeEditionEnrolmentService --> CTR --: int
+CTR --> UI --: int
+UI --> ASC --: Total of Students Enrolled in the specified ProgrammeEdition
+
+@enduml

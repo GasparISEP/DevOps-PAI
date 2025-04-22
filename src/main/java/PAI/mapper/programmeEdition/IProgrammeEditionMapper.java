@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IProgrammeEditionMapper {
 
-    Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition);
+    Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) throws Exception;
 
-    Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel);
+    Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel) throws Exception;
 }
