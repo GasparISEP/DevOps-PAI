@@ -6,15 +6,10 @@ actor ASC
 participant ":UI" as UI
 participant "ctrl1 : EnrolAStudentInProgrammeController" as CTRL #lightgreen
 participant "peService : ProgrammeEnrolmentService" as PEService #silver
-participant "StudentRepo" as StudentRepo #lightblue
-participant "<<Interface>>IStudentRepositorySpringData" as IStudentRepoSpringData #lightyellow
-participant "AccessMethodRepo" as AccessMethodRepo #lightblue
-participant "<<Interface>>IAccessMethodRepositorySpringData" as IAMRepoSpringData #lightyellow
-participant "pRepo" as ProgrammeRepo #lightblue
-participant "<<Interface>>IProgrammeRepositorySpringData" as IProgrammeRepoSpringData #lightyellow
-participant "ProgrammeRepo" as ProgrammeEnrolmentRepo #lightblue
-participant "ProgrammeEnrolmentMapper" as PEMapper
 participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
+participant "ProgrammeEnrolmentRepo" as ProgrammeEnrolmentRepo #lightblue
+participant "<<Interface>>IProgrammeEnrolmentRepositorySpringData" as IPERepoSpringData #lightyellow
+participant "ProgrammeEnrolmentMapper" as PEMapper
 participant "peIDDataModel : PEIDMapper" as PEIDMapper
 participant "programmeIDDataModel : ProgrammeIDMapper" as ProgrammeIDMapper
 participant "studentIDDataModel : StudentIDDataModel" as StudentIDMapper
@@ -22,7 +17,6 @@ participant "amIDDataModel : AMIDMapper" as AMIDMapper
 participant "peDomain : ProgrammeEnrolment" as ProgrammeEnrolment
 participant Date
 participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
-participant "<<Interface>>IProgrammeEnrolmentRepositorySpringData" as IPERepoSpringData #lightyellow
 
 
 ASC -> UI : I want to enrol a student in a programme.
@@ -43,9 +37,9 @@ UI --> ASC : Date?
 deactivate UI
 ASC -> UI : enrolmentDate
 activate UI
-UI -> CTRL : enrolStudentInProgramme \n (uniqueNumberDTO, accessMethodNameDTO,\n programmeAcronymDTO, enrolmentDateDTO)
+UI -> CTRL : enrolStudentInProgramme \n (studentIDDTO, accessMethodIDDTO,\n programmeIDDTO, dateDTO)
 activate CTRL
-CTRL -> PEService : enrolStudentInProgramme \n (uniqueNumberDTO, accessMethodNameDTO,\n programmeAcronymDTO, enrolmentDateDTO)
+CTRL -> PEService : enrolStudentInProgramme \n (studentIDDTO, accessMethodIDDTO,\n programmeIDDTO, dateDTO)
 activate PEService
 |||
 ref over PEService
@@ -53,44 +47,7 @@ ref over PEService
 end ref
 |||
 
-PEService -> StudentRepo : getStudentIDFromUniqueNumber(uniqueNumberVO)
-activate StudentRepo
-StudentRepo -> IStudentRepoSpringData : findByStudentIdUniqueNumber(uniqueNumber: String);
-activate IStudentRepoSpringData
-IStudentRepoSpringData -> :
-IStudentRepoSpringData <-- :
-StudentRepo <-- IStudentRepoSpringData : studentIDVO
-deactivate IStudentRepoSpringData
-StudentRepo --> PEService : studentIDVO
-deactivate StudentRepo
-
-PEService -> AccessMethodRepo : getAccessMethodIDFromName(accessMethodNameVO)
-activate AccessMethodRepo
-AccessMethodRepo -> IAMRepoSpringData : findByAccessMethodIDUuid(accessMethodNameID: UUID)
-activate IAMRepoSpringData
-IAMRepoSpringData -> :
-IAMRepoSpringData <-- :
-AccessMethodRepo <-- IAMRepoSpringData : amIDVO
-deactivate IAMRepoSpringData
-AccessMethodRepo --> PEService : amIDVO
-deactivate AccessMethodRepo
-
-
-
-PEService -> ProgrammeRepo : getProgrammeIDFromAcronym(programmeAcronymVO)
-activate ProgrammeRepo
-ProgrammeRepo -> IProgrammeRepoSpringData : findByProgrammeIDAcronym(programmeAcronym: String)
-activate IProgrammeRepoSpringData
-IProgrammeRepoSpringData -> :
-IProgrammeRepoSpringData <-- :
-ProgrammeRepo <-- IProgrammeRepoSpringData : pIDVO
-deactivate IProgrammeRepoSpringData
-ProgrammeRepo --> PEService : pIDVO
-deactivate ProgrammeRepo
-
-PEService -> ProgrammeEnrolmentRepo: enrolStudent(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
-activate ProgrammeEnrolmentRepo
-ProgrammeEnrolmentRepo -> PEFactory: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
+PEService -> PEFactory: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
 activate PEFactory
 PEFactory -> ProgrammeEnrolment**: createProgrammeEnrolment\n(studentIDVO, amIDVO, pIDVO, enrolmentDateVO)
 
@@ -98,16 +55,25 @@ activate ProgrammeEnrolment
 ProgrammeEnrolment -> ProgrammeEnrolment : validateAndFormatDate(date)
 ProgrammeEnrolment --> PEFactory: peDomain
 deactivate ProgrammeEnrolment
-PEFactory --> ProgrammeEnrolmentRepo: peDomain
+
+PEFactory -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> PEFactory : peIDDomain
+deactivate ProgrammeEnrolment
+PEFactory -> IPERepoSpringData : existsByID(peIDDomain)
+activate IPERepoSpringData
+IPERepoSpringData ->
+IPERepoSpringData <--
+PEFactory <-- IPERepoSpringData : false
+deactivate IPERepoSpringData
+PEFactory --> PEService: peDomain
 deactivate PEFactory
 
-ProgrammeEnrolmentRepo -> ProgrammeEnrolment : getProgrammeEnrolmentID(programmeEnrolment)
-activate ProgrammeEnrolment
-ProgrammeEnrolment -> ProgrammeEnrolmentRepo : peIDDomain
-deactivate ProgrammeEnrolment
+PEService -> ProgrammeEnrolmentRepo : save(peDomain)
+activate ProgrammeEnrolmentRepo
 
-ProgrammeEnrolmentRepo -> : existsByID(peIDDomain)
-ProgrammeEnrolmentRepo <-- : false
+
+
 
 ProgrammeEnrolmentRepo -> PEMapper : toDataModel(peDomain)
 activate PEMapper
@@ -158,7 +124,7 @@ deactivate ProgrammeEnrolment
 
 PEMapper -> PEDataModel : createPEDataModel(peIDDataModel, programmeIDDataModel, studentIDDataModel, amIDDataModel, localDate)
 activate PEDataModel
-PEDataModel -> PEMapper : peDataModel
+PEDataModel --> PEMapper : peDataModel
 deactivate PEDataModel
 PEMapper -> ProgrammeEnrolmentRepo : peDataModel
 deactivate PEMapper
