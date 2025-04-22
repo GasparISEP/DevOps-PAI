@@ -18,40 +18,42 @@ HRC -> UI : I want to update Teacher's\n Teacher Category percentage\t
 activate HRC
 activate UI
 |||
-ref over UI
-**GetLists:** \t \t
-  \t Get Teacher List and \t
-  \t Teacher Category List \t
+activate Controller
+ref over UI, Controller
+**GetLists:** \t \t\t\t\t\t\t\t\t
+  Get Teacher List and \t\t\t\t\t\t\t
+  Teacher Category List\t\t\t\t\t\t\t
 
 end ref
 UI --> HRC : Which Teacher and\n which Teacher Category?
 deactivate UI
-HRC -> UI: Teacher, NIF\n and Teacher Category
+deactivate Controller
+HRC -> UI: Teacher and Teacher Category
 activate UI
 UI --> HRC: What date?
 deactivate UI
 HRC -> UI: Date
 activate UI
-UI -> Controller : updateTeacherCategoryInTeacherCareerProgression \n (teacherAcronym, NIF, teacherCategoryID, date)
+UI -> Controller : updateTeacherCategoryInTeacherCareerProgression \n (teacherAcronym, teacherCategoryUUID, date)
 activate Controller
 |||
 ref over Controller
-\t\t\t\t    **CreateVOs:** \t\t\t
-    \t \t \t \t \t\t Create teacherAcronym, NIF, \t\t
-     \t \t \t \t \t\t teacherID and date Value Objects \t
+\t\t\t\t** CreateVOs:** \t\t\t\t\t
+    \t \t \t \t \tCreate teacherAcronym, teacherID \t\t
+     \t \t \t \t \t\t teacherCategoryID and date Value Objects \t
 
 end ref
 |||
-Controller -> service : updateTeacherWorkingPercentage(dateVO1,\n teacherCategoryIDVO1, teacherIdVO1)
+ref over Controller
+\t\t\t\t\t**      CheckTeacherAndTeacherCategoryInDataBase:**
+    \t\t\t\t\t   Check if Teacher and Teacher Category exist
+    \t\t\t\tin the database\t\t\t\t\t
+
+end ref
+deactivate service
+|||
+Controller -> service : updateTeachersCategory(dateVO1,\n teacherCategoryIDVO1, teacherIdVO1)
 activate service
-|||
-ref over service
-\t\t\t\t\t**CheckTeacherAndTeacherCategoryInDB:** \t
-    \t\t\t\t  Check if teacher and teacher Category exist
-    in the database\t\t
-
-end ref
-|||
 service -> TCPRepo : findLastTCPFromTeacherID(teacherIdVO1)
 activate TCPRepo
 |||
@@ -70,7 +72,7 @@ TCPRepoSpringData --> TCPRepo : TeacherCareerProgressionDataModel
 deactivate TCPRepoSpringData
 |||
 ref over TCPRepo
-\t\t\t\t\t\t\t**CreateTeacherCareerProgressionFromDataModel:** \t
+\t\t\t\t\t\t\t**TeacherCareerProgressionDataModelToDomain:** \t
     \t\t\t\t\t\t\tCreate Teacher Career Progression Domain Object\t
     \t\tfrom Data Model (lastTCP)
 
@@ -96,7 +98,7 @@ deactivate TCP
 |||
 service -> TCPf : createTeacherCareerProgression (dateVO1, workingPercentageVO1,\n teacherCategoryIDVO1, teacherIdVO1)
 activate TCPf
-TCPf -> TCP1** : createTeacherCareerProgression \n(dateVO1, workingPercentageVO1,\n teacherCategoryIdVO1, teacherIdVO1)
+TCPf -> TCP1** : createTeacherCareerProgression \n(teacherCareerProgressionIDVO,\n dateVO1, workingPercentageVO1,\n teacherCategoryIdVO1, teacherIdVO1)
 activate TCP1
 TCP1 --> TCPf : tcp1
 deactivate TCP1
@@ -119,9 +121,9 @@ TCPRepoSpringData --> TCPRepo: TCPDataModel
 deactivate TCPRepoSpringData
 |||
 ref over TCPRepo
-\t\t\t\t\t\t\t**CreateTeacherCareerProgressionFromDataModel:** \t
-    \t\t\t\t\t\t\tCreate Teacher Career Progression Domain Object\t
-    \t\tfrom Data Model (tcp1)
+\t\t\t\t\t\t\t**TeacherCareerProgressionDataModelToDomain:** \t
+    \t\t\t\t\t\t\tCreate Teacher Career Progression Domain Object\t\t
+    \t\tfrom Data Model (tcp1)\t\t
 
 end ref
 TCPRepo --> service: tcp1
@@ -133,5 +135,4 @@ deactivate Controller
 UI --> HRC : Success!
 deactivate UI
 deactivate HRC
-
 @enduml
