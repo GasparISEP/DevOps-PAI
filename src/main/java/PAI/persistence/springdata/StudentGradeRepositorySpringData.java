@@ -60,5 +60,8 @@ public Iterable<StudentGrade> findAll(){
         }
     }
 
-
+    public boolean containsOfIdentity(Long id){
+        Optional<StudentGradeDM> studentGradeDM = iStudentGradeRepositorySpringData.findById(id);
+        return studentGradeDM.isPresent();
+    }
 }
