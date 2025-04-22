@@ -4,7 +4,6 @@ package PAI.persistence.springdata;
 import PAI.domain.StudentGrade;
 import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
-import PAI.mapper.StudentGradeMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
 import org.junit.jupiter.api.Test;
 
@@ -100,6 +99,7 @@ class StudentGradeRepositorySpringDataTest {
     }
     @Test
     void shouldReturnGradeStudentWhenIDExists() throws Exception{
+        //arrange
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
@@ -119,6 +119,7 @@ class StudentGradeRepositorySpringDataTest {
 
     @Test
     void shouldReturnOptionalEmptyWhenIDNotExists() throws Exception {
+        //arrange
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
@@ -131,8 +132,10 @@ class StudentGradeRepositorySpringDataTest {
         //assert
         assertEquals(Optional.empty(),result);
     }
+
     @Test
     void shouldReturnOptionalEmptyWhenStudentWhenMappingFails() throws Exception{
+        //arrange
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
@@ -145,6 +148,37 @@ class StudentGradeRepositorySpringDataTest {
         Optional<StudentGrade> result = studentGradeRepositorySpringData.ofIdentity(id);
         //assert
         assertEquals(Optional.empty(),result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenIDExists(){
+        //arrange
+        IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
+        IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
+        IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
+        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        Long id = 1L;
+        StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
+        when(iStudentGradeRepositorySpringData.findById(id)).thenReturn(Optional.of(studentGradeDM));
+        //act
+        boolean result = studentGradeRepositorySpringData.containsOfIdentity(id);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenIDDoesNotExists(){
+        //arrange
+        IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
+        IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
+        IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
+        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        Long id = 1L;
+        when(iStudentGradeRepositorySpringData.findById(id)).thenReturn(Optional.empty());
+        //act
+        boolean result = studentGradeRepositorySpringData.containsOfIdentity(id);
+        //assert
+        assertFalse(result);
     }
 
 }
