@@ -4,7 +4,10 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 
 import java.util.Optional;
 
@@ -36,11 +39,16 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
     }
 
     @Override
-    public Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) {
+    public Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) throws Exception {
         if(programmeEdition == null) {
-            throw new IllegalArgumentException("Programme Edition cannot be null");
+            return Optional.empty();
         }
-        return Optional.empty();
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIDMapper.toDataModel(programmeEdition.identity());
+        ProgrammeIDDataModel programmeIDDataModel = _programmeIDMapper.toData(programmeEdition.findProgrammeIDInProgrammeEdition());
+        SchoolYearIDDataModel schoolYearIDDataModel = _schoolYearIDMapper.toDataModel(programmeEdition.findSchoolYearIDInProgrammeEdition());
+
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
+        return Optional.of(programmeEditionDataModel);
     }
 
     @Override
