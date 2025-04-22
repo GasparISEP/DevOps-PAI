@@ -1,16 +1,23 @@
 package PAI.mapper.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class ProgrammeEditionMapperImplTest {
@@ -69,7 +76,7 @@ class ProgrammeEditionMapperImplTest {
     }
 
     @Test
-    void shouldMapProgrammeEditionToProgrammeEditionDataModel() {
+    void shouldMapProgrammeEditionToProgrammeEditionDataModel() throws Exception {
         // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
@@ -78,22 +85,38 @@ class ProgrammeEditionMapperImplTest {
         ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
 
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(programmeEdition.identity()).thenReturn(programmeEditionID);
+        when(programmeEditionIDMapper.toDataModel(programmeEdition.identity())).thenReturn(programmeEditionIdDataModel);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        when(programmeEdition.findProgrammeIDInProgrammeEdition()).thenReturn(programmeID);
+        when(programmeIDMapper.toData(programmeEdition.findProgrammeIDInProgrammeEdition())).thenReturn(programmeIDDataModel);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
+        when(schoolYearIDMapper.toDataModel(programmeEdition.findSchoolYearIDInProgrammeEdition())).thenReturn(schoolYearIDDataModel);
         // act
         Optional<ProgrammeEditionDataModel> pEDM = programmeEditionMapper.toDataModel(programmeEdition);
         // assert
-        assertTrue(pEDM.isEmpty());
+        assertTrue(pEDM.isPresent());
     }
 
     @Test
-    void shouldNotMapProgrammeEditionToProgrammeEditionDataModelIfProgrammeEditionNull() {
+    void shouldNotMapProgrammeEditionToProgrammeEditionDataModelIfProgrammeEditionNull() throws Exception {
         // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () -> programmeEditionMapper.toDataModel(null));
+        // act
+        Optional<ProgrammeEditionDataModel> pEDM = programmeEditionMapper.toDataModel(null);
+        // assert
+        assertTrue(pEDM.isEmpty());
     }
 
     @Test

@@ -34,7 +34,7 @@ public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
             throw new IllegalArgumentException("CourseEditionIDDataModel cannot be null");
 
 
-        ProgrammeEditionID pEID = _programmeEditionIdMapper.dataModelToDomain(courseEditionIDDataModel.getProgrammeEditionIDDataModel());
+        ProgrammeEditionID pEID = _programmeEditionIdMapper.toDomain(courseEditionIDDataModel.getProgrammeEditionIDDataModel());
         CourseInStudyPlanID cISPID = _courseInStudyPlanIDMapper.toDomain(courseEditionIDDataModel.getCourseInStudyPlanIDDataModel());
         return new CourseEditionID(pEID, cISPID);
     }
@@ -44,7 +44,7 @@ public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
         if (courseEditionID == null)
             throw new IllegalArgumentException("CourseEditionID cannot be null");
 
-        ProgrammeEditionIdDataModel pEIDDataModel = _programmeEditionIdMapper.domainToDataModel(courseEditionID.getProgrammeEditionID());
+        ProgrammeEditionIdDataModel pEIDDataModel = _programmeEditionIdMapper.toDataModel(courseEditionID.getProgrammeEditionID());
         CourseInStudyPlanIDDataModel cISPIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseEditionID.getCourseInStudyPlanID());
 
         return new CourseEditionIDDataModel(pEIDDataModel, cISPIDDataModel);

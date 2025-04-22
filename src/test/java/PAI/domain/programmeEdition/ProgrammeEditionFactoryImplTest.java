@@ -3,16 +3,18 @@ package PAI.domain.programmeEdition;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
+import PAI.mapper.programmeEdition.ProgrammeEditionMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ProgrammeEditionFactoryImplTest {
 
     @Test
-    void shouldCreateProgrammeEdition() throws Exception {
+    void shouldCreateProgrammeEditionWithoutProgrammeEditionID() throws Exception {
         // Arrange
         ProgrammeID pID = mock(ProgrammeID.class);
         SchoolYearID sYID = mock(SchoolYearID.class);
@@ -48,7 +50,7 @@ class ProgrammeEditionFactoryImplTest {
         Exception exception = assertThrows(Exception.class, () -> {factory.createProgrammeEdition(pID, null);});
 
         // Assert
-        assertEquals("schoolYearID cannot be null", exception.getMessage());
+        assertEquals("School Year ID cannot be null", exception.getMessage());
     }
 
     @Test
@@ -63,7 +65,7 @@ class ProgrammeEditionFactoryImplTest {
             Exception exception = assertThrows(Exception.class, () -> factory.createProgrammeEdition(pID, null));
 
             // Assert
-            assertEquals("SchoolYearID cannot be null", exception.getMessage());
+            assertEquals("School Year ID cannot be null", exception.getMessage());
         }
     }
 
@@ -77,7 +79,7 @@ class ProgrammeEditionFactoryImplTest {
         Exception exception = assertThrows(Exception.class, () -> {factory.createProgrammeEdition(null, sYID);});
 
         // Assert
-        assertEquals("programmeID cannot be null", exception.getMessage());
+        assertEquals("Programme ID cannot be null", exception.getMessage());
     }
 
     @Test
@@ -92,7 +94,68 @@ class ProgrammeEditionFactoryImplTest {
             Exception exception = assertThrows(Exception.class, () -> factory.createProgrammeEdition(null, sYID));
 
             // Assert
-            assertEquals("programmeID cannot be null", exception.getMessage());
+            assertEquals("Programme ID cannot be null", exception.getMessage());
         }
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionWithProgrammeIDNull2() throws Exception {
+        // Arrange
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(null, schoolYearID));
+    }
+
+    @Test
+    void shouldCreateProgrammeEditionWithProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act
+        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        // Assert
+        assertNotNull(programmeEdition);
+        assertEquals(programmeEditionID, programmeEdition.identity());
+        assertEquals(programmeID, programmeEdition.findProgrammeIDInProgrammeEdition());
+        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition());
+
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionWithProgrammeEditionIDNull() throws Exception {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(null, programmeID, schoolYearID));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionWithProgrammeIDNull() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, null, schoolYearID));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionWithSchoolYearIDNull() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, null));
     }
 }

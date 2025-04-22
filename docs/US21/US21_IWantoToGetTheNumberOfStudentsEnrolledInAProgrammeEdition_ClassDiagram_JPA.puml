@@ -49,28 +49,43 @@ package "Domain" {
       }
   }
 
-  ' === REPOSITORIES ===
-  interface IProgrammeEditionEnrolmentRepository {
-      + enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID): boolean
-      + isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID): boolean
-      + iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID: ProgrammeEditionID): int
+interface IProgrammeEditionEnrolmentFactory {
+ + newProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId)
+}
+
+class ProgrammeEditionEnrolmentFactoryImpl {
+ + newProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId)
+}
+
+
+interface IProgrammeEditionEnrolmentRepository {
+    + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
   }
 
-  ' === FACTORIES ===
-
-
-  ' === COLLECTION SUPPORT ===
-
 interface IProgrammeEditionEnrolmentService {
+    + totalStudentsInProgrammeEdition(programmeEditionID: ProgrammeEditionID): int
 }
 
 class ProgrammeEditionEnrolmentServiceImpl {
+    + totalStudentsInProgrammeEdition(programmeEditionID: ProgrammeEditionID): int
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl {
+    + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
 }
 
 interface IProgrammeEditionEnrolmentSpringData {
+   + findAllProgrammeEditionsEnrolmentByProgrammeEdition(programmeEditionID: ProgrammeEditionID): List<Student>
+}
+
+interface IProgrammeEditionEnrolmentMapper {
+    + toDomain(programmeEditionEnrollment: ProgrammeEditionEnrollment)
+    + toDataModel(programmeEditionEnrollmentDataModel: ProgrammeEditionEnrollmentDataModel)
+}
+
+class ProgrammeEditionEnrolmentMapper {
+    + toDomain(programmeEditionEnrollment: ProgrammeEditionEnrollment)
+    + toDataModel(programmeEditionEnrollmentDataModel: ProgrammeEditionEnrollmentDataModel)
 }
 
 interface JpaRepository {
@@ -88,6 +103,12 @@ interface JpaRepository {
   IProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolment: uses
   ProgrammeEditionEnrolmentRepositoryImpl --> IProgrammeEditionEnrolmentSpringData: uses
   IProgrammeEditionEnrolmentSpringData --|> JpaRepository: extends
- }
+
+  ProgrammeEditionEnrolmentMapper -right..|> IProgrammeEditionEnrolmentMapper: implements
+  IProgrammeEditionEnrolmentRepository -left-> IProgrammeEditionEnrolmentMapper: uses
+
+  ProgrammeEditionEnrolmentFactoryImpl -left..|> IProgrammeEditionEnrolmentFactory: implements
+  IProgrammeEditionEnrolmentMapper -down-> IProgrammeEditionEnrolmentFactory: uses
+}
 
 @enduml

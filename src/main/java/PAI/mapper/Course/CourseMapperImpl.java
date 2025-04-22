@@ -3,8 +3,8 @@ package PAI.mapper.Course;
 import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.course.CourseFactoryImpl;
-import PAI.persistence.datamodel.CourseDataModel;
-import PAI.persistence.datamodel.CourseIDDataModel;
+import PAI.persistence.datamodel.course.CourseDataModel;
+import PAI.persistence.datamodel.course.CourseIDDataModel;
 
 
 public class CourseMapperImpl implements ICourseMapper {

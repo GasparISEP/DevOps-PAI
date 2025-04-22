@@ -4,7 +4,9 @@ import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeIDMapper implements IProgrammeIDMapper {
 
     public ProgrammeID toDomain(ProgrammeIDDataModel programmeIDDataModel) {

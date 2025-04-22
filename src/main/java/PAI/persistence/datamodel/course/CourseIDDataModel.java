@@ -1,6 +1,5 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.course;
 
-import PAI.VOs.CourseID;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 

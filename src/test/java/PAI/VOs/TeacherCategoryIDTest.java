@@ -48,4 +48,32 @@ class TeacherCategoryIDTest {
 
         assertEquals(uuid.toString(), id.toString());
     }
+
+    @Test
+    void shouldNotBeEqualToDifferentType() {
+        TeacherCategoryID id = new TeacherCategoryID(UUID.randomUUID());
+        assertNotEquals(id, "notAnId");
+    }
+
+    @Test
+    void shouldNotBeEqualIfUUIDsAreDifferent() {
+        TeacherCategoryID id1 = new TeacherCategoryID(UUID.randomUUID());
+        TeacherCategoryID id2 = new TeacherCategoryID(UUID.randomUUID());
+        assertNotEquals(id1, id2);
+    }
+
+    @Test
+    void shouldNotBeEqualToNull() {
+        TeacherCategoryID id = new TeacherCategoryID(UUID.randomUUID());
+        assertNotEquals(id, null);
+    }
+
+    @Test
+    void shouldBeEqualToItself() {
+        TeacherCategoryID id = new TeacherCategoryID(UUID.randomUUID());
+
+        // Act & Assert
+        assertEquals(id, id); // this == o
+    }
+
 }

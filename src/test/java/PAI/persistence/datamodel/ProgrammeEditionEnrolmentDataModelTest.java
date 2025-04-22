@@ -1,24 +1,33 @@
 package PAI.persistence.datamodel;
 
+import PAI.VOs.ProgrammeEditionID;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionEnrolmentDataModelTest {
 
-    @Test
-    void constructorShouldSetEmbeddedId() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S001", "P001");
+    // Test constructor
 
+    @Test
+    void shouldCreateEnrolmentDataModelWithCorrectIdAndEnrolmentDate() {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S001", programmeEditionID);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
         // Act
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
 
         // Assert
-        assertEquals(id, model.getProgrammeEditionEnrolmentIDDataModel());
+        assertNotNull(model);
     }
+
+    //test empty constructor
 
     @Test
     void defaultConstructorShouldCreateObject() {
@@ -30,42 +39,106 @@ class ProgrammeEditionEnrolmentDataModelTest {
         assertNotNull(model);
     }
 
-    @Test
-    void setterShouldUpdateEmbeddedId() {
-        // Arrange
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel();
+    // test getters
 
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S002", "P002");
+    @Test
+    void getProgrammeEditionEnrolmentIDDataModel_ShouldReturnCorrectId() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel expectedId =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(expectedId, enrolmentDate);
 
         // Act
-        model.setProgrammeEditionEnrolmentIDDataModel(id);
+        ProgrammeEditionEnrolmentIDDataModel actualId = model.getProgrammeEditionEnrolmentIDDataModel();
 
         // Assert
-        assertEquals(id, model.getProgrammeEditionEnrolmentIDDataModel());
+        assertEquals(expectedId, actualId);
     }
 
     @Test
-    void equalsShouldReturnTrueForSameId() {
+    void getEnrolmentDate_ShouldReturnCorrectDate() {
         // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S003", "P003");
-
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id);
+        ProgrammeEditionEnrolmentIDDataModel id =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate expectedDate = LocalDate.of(2025, 5, 1);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id, expectedDate);
 
         // Act
-        boolean isEqual = model1.equals(model2);
+        LocalDate actualDate = model.getEnrolmentDate();
 
         // Assert
-        assertTrue(isEqual);
+        assertEquals(expectedDate, actualDate);
     }
+
+    // test equals
+
+    @Test
+    void equalsShouldReturnTrueForSameObject() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel id =
+                mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        ProgrammeEditionEnrolmentDataModel enrolment =
+                new ProgrammeEditionEnrolmentDataModel(id, enrolmentDate);
+
+        // Act & Assert
+        assertEquals(enrolment, enrolment); // mesmo objeto
+    }
+
+    @Test
+    void equalsShouldReturnFalseForDifferentObjects() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel id1 =
+                mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        ProgrammeEditionEnrolmentIDDataModel id2 =
+                mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+
+        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1, enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2, enrolmentDate);
+
+        // Act & Assert
+        assertNotEquals(e1, e2);
+    }
+
+
+    @Test
+    void equalsShouldReturnFalseForNull() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel id =
+                mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+
+        ProgrammeEditionEnrolmentDataModel enrolment =
+                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+
+        // Act & Assert
+        assertNotEquals(enrolment, null);
+    }
+
+    @Test
+    void equalsShouldReturnFalseForDifferentClass() {
+        // Arrange
+        ProgrammeEditionEnrolmentIDDataModel id =
+                mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+
+        ProgrammeEditionEnrolmentDataModel enrolment =
+                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+
+        // Act & Assert
+        assertNotEquals(enrolment, "string");
+    }
+
+    //test hashcode
 
     @Test
     void hashCodeShouldBeSameForSameId() {
         // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S006", "P006");
+        ProgrammeEditionEnrolmentIDDataModel id =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
 
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id);
+        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
 
         // Act
         int hash1 = model1.hashCode();
@@ -76,95 +149,12 @@ class ProgrammeEditionEnrolmentDataModelTest {
     }
 
     @Test
-    void equalsShouldReturnTrueForSameObject() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-        ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id);
-
-        // Act & Assert
-        assertEquals(enrolment, enrolment); // mesmo objeto
-    }
-
-    @Test
-    void equalsShouldReturnTrueForEqualObjects() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-        ProgrammeEditionEnrolmentIDDataModel id2 =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2);
-
-        // Act & Assert
-        assertEquals(e1, e2);
-    }
-
-    @Test
-    void equalsShouldReturnFalseForDifferentObjects() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-        ProgrammeEditionEnrolmentIDDataModel id2 =
-                new ProgrammeEditionEnrolmentIDDataModel("S2", "P2");
-
-        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2);
-
-        // Act & Assert
-        assertNotEquals(e1, e2);
-    }
-
-    @Test
-    void hashCodeShouldBeEqualForEqualObjects() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentIDDataModel id2 =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2);
-
-        // Act & Assert
-        assertEquals(e1.hashCode(), e2.hashCode());
-    }
-
-    @Test
-    void equalsShouldReturnFalseForNull() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id);
-
-        // Act & Assert
-        assertNotEquals(enrolment, null);
-    }
-
-    @Test
-    void equalsShouldReturnFalseForDifferentClass() {
-        // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id =
-                new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-
-        ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id);
-
-        // Act & Assert
-        assertNotEquals(enrolment, "string");
-    }
-
-    @Test
     void hashCodeShouldMatchExpectedValue() {
         // arrange
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("student123", "edition456");
+        ProgrammeEditionEnrolmentIDDataModel id = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
 
         // act
         int hash = model.hashCode();
@@ -176,11 +166,12 @@ class ProgrammeEditionEnrolmentDataModelTest {
     @Test
     void hashCodesShouldDifferForDifferentObjects() {
         // arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("stu1", "prog1");
-        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("stu2", "prog2");
+        ProgrammeEditionEnrolmentIDDataModel id1 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        ProgrammeEditionEnrolmentIDDataModel id2 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
-        ProgrammeEditionEnrolmentDataModel obj1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel obj2 = new ProgrammeEditionEnrolmentDataModel(id2);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        ProgrammeEditionEnrolmentDataModel obj1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel obj2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate);
 
         // act & assert
         assertNotEquals(obj1.hashCode(), obj2.hashCode());
@@ -189,11 +180,12 @@ class ProgrammeEditionEnrolmentDataModelTest {
     @Test
     void hashCodeShouldBeDifferentForSimilarButNotEqualIds() {
         // Arrange
-        ProgrammeEditionEnrolmentIDDataModel id1 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P1");
-        ProgrammeEditionEnrolmentIDDataModel id2 = new ProgrammeEditionEnrolmentIDDataModel("S1", "P2");
+        ProgrammeEditionEnrolmentIDDataModel id1 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
+        ProgrammeEditionEnrolmentIDDataModel id2 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2);
+        LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate);
 
         // Act
         int hash1 = model1.hashCode();

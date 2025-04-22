@@ -3,7 +3,7 @@ package PAI.mapper.CourseID;
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
-import PAI.persistence.datamodel.CourseIDDataModel;
+import PAI.persistence.datamodel.course.CourseIDDataModel;
 
 public class CourseIDMapperImpl implements ICourseIDMapper {
 

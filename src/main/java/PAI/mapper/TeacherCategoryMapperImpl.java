@@ -3,24 +3,39 @@ package PAI.mapper;
 import PAI.VOs.Name;
 import PAI.domain.TeacherCategory;
 import PAI.persistence.datamodel.TeacherCategoryDataModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TeacherCategoryMapperImpl implements ITeacherCategoryMapper {
 
-    // This class is responsible for mapping between the domain model and the data model
+    private final ITeacherCategoryIDMapper idMapper;
+
+    @Autowired
+    public TeacherCategoryMapperImpl(ITeacherCategoryIDMapper idMapper) {
+        this.idMapper = idMapper;
+    }
+
     @Override
     public TeacherCategoryDataModel toDataModel(TeacherCategory domain) {
+        if (domain == null) {
+            throw new IllegalArgumentException("Domain object cannot be null");
+        }
+
         return new TeacherCategoryDataModel(
-                TeacherCategoryIDMapper.toDataModel(domain.identity()),
+                idMapper.toDataModel(domain.identity()),
                 domain.getName().getName()
         );
     }
-    // This method is responsible for mapping from the data model to the domain model
+
     @Override
     public TeacherCategory toDomainModel(TeacherCategoryDataModel data) {
+        if (data == null || data.getId() == null || data.getName() == null) {
+            throw new IllegalArgumentException("DataModel fields cannot be null");
+        }
+
         return new TeacherCategory(
-                TeacherCategoryIDMapper.toDomainModel(data.getId()),
+                idMapper.toDomainModel(data.getId()),
                 new Name(data.getName())
         );
     }

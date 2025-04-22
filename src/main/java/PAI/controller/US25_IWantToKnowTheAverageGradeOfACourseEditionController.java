@@ -4,15 +4,16 @@ import PAI.VOs.CourseEditionID;
 import PAI.domain.CourseEdition;
 import PAI.factory.IStudentGradeRepository;
 import PAI.repository.ICourseEditionRepository;
+import PAI.repository.StudentGradeRepository;
 
 import java.util.Optional;
 
 public class US25_IWantToKnowTheAverageGradeOfACourseEditionController {
 
-    IStudentGradeRepository _studentGradeRepository;
+    StudentGradeRepository _studentGradeRepository;
     ICourseEditionRepository _courseEditionRepository;
 
-    public US25_IWantToKnowTheAverageGradeOfACourseEditionController(IStudentGradeRepository studentGradeRepo, ICourseEditionRepository courseEditionRepo) throws Exception {
+    public US25_IWantToKnowTheAverageGradeOfACourseEditionController(StudentGradeRepository studentGradeRepo, ICourseEditionRepository courseEditionRepo) throws Exception {
 
         if (studentGradeRepo == null || courseEditionRepo == null) {
             throw new Exception("GradeStudent Repository cannot be null");

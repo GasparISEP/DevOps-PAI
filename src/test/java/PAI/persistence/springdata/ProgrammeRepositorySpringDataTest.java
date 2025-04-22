@@ -1,9 +1,12 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -75,5 +78,33 @@ class ProgrammeRepositorySpringDataTest {
 
         //act + assert
         assertNull(progRepo.save(null));
+    }
+
+    @Test
+    void shouldGetAllProgrammesNames(){
+        //arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        List<String> mockProgrammeNames = List.of("Programme1", "Programme2", "Programme3");
+        when(iProgRepo.findAllProgrammeNames()).thenReturn(mockProgrammeNames);
+        //act
+        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = progRepo.getAllProgrammeNames();
+        //assert
+        assertNotNull(programmeNamesListVO);
+        assertEquals(3, programmeNamesListVO.size());
+    }
+    @Test
+    void shouldReturnAnEmptyListWhenRepositoryIsEmpty() {
+        //arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+        //act
+        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = progRepo.getAllProgrammeNames();
+
+        //assert
+        assertNotNull(programmeNamesListVO);
     }
 }

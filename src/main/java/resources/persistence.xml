@@ -18,6 +18,10 @@
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel</class>
     <class>PAI.persistence.datamodel.StudentDataModel</class>
     <class>PAI.persistence.datamodel.StudentGradeDM</class>
+    <class>PAI.persistence.datamodel.TeacherCategoryDataModel</class>
+    <class>PAI.persistence.datamodel.TeacherCategoryIDDataModel</class>
+    <class>PAI.persistence.datamodel.course.CourseDataModel</class>
+    <class>PAI.persistence.datamodel.course.CourseIDDataModel</class>
 
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
