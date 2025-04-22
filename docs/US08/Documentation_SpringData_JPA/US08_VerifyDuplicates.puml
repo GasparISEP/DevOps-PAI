@@ -1,0 +1,28 @@
+@startuml
+
+participant "SR1:StudentRepository" as SR #lightblue
+participant "SIDM1:StudentIDMapper" as SMapper #lightgreen
+participant "sIDDataModel1:StudentIDDataModel" as siddm #lightyellow
+participant "NIFM1:NIFMapper" as NIF #lightgreen
+participant "NIFDM1:NIFDataModel" as NIFDM #lightyellow
+
+activate SR
+SR -> SMapper : domainToDataModel(studentIDVO)
+activate SMapper
+SMapper -> siddm**: new StudentIDDataModel(studentIDVO)
+activate siddm
+siddm --> SMapper : sIDDataModel1
+deactivate siddm
+SMapper --> SR: sIDDataModel1
+deactivate SMapper
+SR -> NIF : domainToDataModel(NIFVO)
+activate NIF
+NIF -> NIFDM**: new NIFDataModel(NIFVO)
+activate NIFDM
+NIFDM --> NIF: NIFDataModel1
+deactivate NIFDM
+NIF --> SR: NIFDataModel1
+deactivate NIF
+SR -> : existsByStudentIDOrNIF(sIDDataModel1, NIFDataModel1)
+SR <-- : False
+@enduml
