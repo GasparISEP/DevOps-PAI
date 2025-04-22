@@ -33,26 +33,8 @@ class StudentGradeRepositorySpringDataTest {
         when(studentGradeMapper.toData(studentGrade)).thenReturn(studentGradeDM);
         when(iStudentGradeRepositorySpringData.save(studentGradeDM)).thenReturn(studentGradeDM);
         //act
-        boolean result = studentGradeRepositorySpringData.save(studentGrade);
+        StudentGrade result = studentGradeRepositorySpringData.save(studentGrade);
         //assert
-        assertTrue(result);
+        assertNotNull(result);
     }
-
-    @Test
-    void shouldReturnFalseWhenSaveFails() throws Exception {
-        // arrange
-        IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
-        StudentGradeMapper studentGradeMapper = mock(StudentGradeMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, studentGradeMapper);
-        StudentGrade studentGrade = mock(StudentGrade.class);
-
-        when(studentGradeMapper.toData(studentGrade)).thenThrow(new RuntimeException("Mapping failed"));
-
-        // act
-        boolean result = studentGradeRepositorySpringData.save(studentGrade);
-
-        // assert
-        assertFalse(result);
-    }
-
 }
