@@ -31,4 +31,8 @@ public class WorkingPercentage implements ValueObject {
         return _workingPercentage == other._workingPercentage;
     }
 
+    public int getValue() {
+        return _workingPercentage;
+    }
+
 }

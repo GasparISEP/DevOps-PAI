@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
-
 public class TeacherCareerProgressionIDDataModel {
 
     private UUID ID;

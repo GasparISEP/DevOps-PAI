@@ -94,4 +94,28 @@ class WorkingPercentageTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnTrueIfWorkingPercentageIsRetrieved() {
+        //arrange
+        WorkingPercentage workingPercentage = new WorkingPercentage(50);
+
+        //act
+        int result = workingPercentage.getValue();
+
+        //assert
+        assertEquals(50, result);
+
+    }
+
+    @Test
+    void shouldReturnFalseIfWorkingPercentageIsNotRetrieved() {
+        //arrange
+        WorkingPercentage workingPercentage = new WorkingPercentage(50);
+
+        //act
+        int result = workingPercentage.getValue();
+
+        //assert
+        assertNotEquals(25, result);
+    }
 }
