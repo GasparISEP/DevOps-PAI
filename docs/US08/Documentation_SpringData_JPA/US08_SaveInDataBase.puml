@@ -1,0 +1,27 @@
+@startuml
+participant "sr1:StudentRepositoryJPA" as SR #lightcyan
+participant "m1:StudentMapper" as mapper #lightgreen
+participant "sDataModel1: StudentDataModel" as sDM #lightblue
+participant "s1:Student" as s1 #strategy
+
+activate SR
+SR -> mapper: domainToDataModel(s1)
+activate mapper
+mapper -> sDM**: new StudentDataModel(s1)
+activate sDM
+sDM --> mapper : sDataModel1
+deactivate sDM
+mapper --> SR: sDataModel1
+deactivate mapper
+SR -> : save
+SR <-- :sDataModel1
+SR -> mapper: dataModelToDomain(s1DataModel)
+activate mapper
+mapper -> s1**: newStudent(s1DataModel)
+activate s1
+s1 --> mapper: s1
+deactivate s1
+mapper --> SR: s1
+deactivate mapper
+deactivate SR
+@enduml
