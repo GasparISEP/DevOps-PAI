@@ -1,0 +1,34 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant "ctrl:UpdateTeacherCareerProgressionController" as Controller #lightblue
+participant "teacherAcronym1:TeacherAcronym" as Acronym #lightblue
+participant "teacherID1:TeacherID" as TeacherID #lightblue
+participant "date1:Date" as Date #lightblue
+participant "teacherCategoryID1:TeacherCategoryID" as teacherCategoryID #lightblue
+
+activate Controller
+Controller -> Acronym : createTeacherAcronymVO(acronym)
+activate Acronym
+Acronym --> Controller : teacherAcronym1
+deactivate Acronym
+
+Controller -> TeacherID : createTeacherIDVO(teacherAcronym1)
+activate TeacherID
+TeacherID --> Controller : teacherID1
+deactivate TeacherID
+
+Controller -> Date : createDateVO(date)
+activate Date
+Date --> Controller : date1
+deactivate Date
+
+Controller -> teacherCategoryID : createTeacherCategoryIDVO(teacherCategoryID)
+activate teacherCategoryID
+teacherCategoryID --> Controller : teacherCategoryID1
+deactivate teacherCategoryID
+
+@enduml

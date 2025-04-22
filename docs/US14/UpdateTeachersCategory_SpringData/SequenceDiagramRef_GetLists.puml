@@ -1,0 +1,51 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
+
+participant ":UI" as UI
+participant "ctrl:UpdateTeacherCareerProgressionController" as Controller #lightgreen
+participant "ts1:TeacherService" as TeacherService #lightpink
+participant "teacherRepo1:TeacherRepositorySpringDataImpl" as TeacherRepo #burlywood
+participant "ITeacherRepoSpringData" as ITeacherRepoSpringData #lightpink
+participant "tcs1:TeacherCategoryApplicationService" as TeacherCategoryService #orange
+participant "tcRepo: TeacherCategoryRepositorySpringDataImpl" as TCRepo #lightblue
+participant "ITeacherCategoryRepoSpringData" as ITeacherCategoryRepoSpringData #lightyellow
+
+UI -> Controller : findAll()
+activate Controller
+Controller -> TeacherService : findAll()
+activate TeacherService
+TeacherService -> TeacherRepo : findAll()
+activate TeacherRepo
+TeacherRepo -> ITeacherRepoSpringData: findAll()
+activate ITeacherRepoSpringData
+ITeacherRepoSpringData ->
+ITeacherRepoSpringData <--
+ITeacherRepoSpringData --> TeacherRepo: teacherList
+deactivate ITeacherRepoSpringData
+TeacherRepo --> TeacherService : teachersList
+deactivate TeacherRepo
+TeacherService --> Controller :teachersList
+deactivate TeacherService
+Controller --> UI : teachersList
+deactivate Controller
+UI -> Controller : findAll()
+activate Controller
+Controller -> TeacherCategoryService : findAll()
+activate TeacherCategoryService
+TeacherCategoryService -> TCRepo : findAll()
+activate TCRepo
+TCRepo -> ITeacherCategoryRepoSpringData: findAll()
+activate ITeacherCategoryRepoSpringData
+ITeacherCategoryRepoSpringData ->
+ITeacherCategoryRepoSpringData <--
+ITeacherCategoryRepoSpringData --> TCRepo: teacherCategoryList
+deactivate ITeacherCategoryRepoSpringData
+TCRepo --> TeacherCategoryService: teacherCategoryList
+deactivate TCRepo
+TeacherCategoryService --> Controller: teacherCategoryList
+deactivate TeacherCategoryService
+Controller --> UI : teachersCategoryList
+deactivate Controller
+@enduml

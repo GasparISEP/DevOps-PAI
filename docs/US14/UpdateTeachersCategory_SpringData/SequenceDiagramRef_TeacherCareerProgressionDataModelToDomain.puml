@@ -1,0 +1,88 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant ":TeacherCareerProgressionRepo" as TCPRepo #lightblue
+participant ":TeacherCareerProgressionMapper" as TCPMapper #lightblue
+participant ":TeacherCareerProgressionDataModel" as TCPDataModel #lightblue
+participant ":TeacherCareerProgressionIDMapper" as TCPIDMapper #lightblue
+participant ":TeacherCareerProgressionIDDataModel" as TCPIDDataModel #lightblue
+participant ":TeacherCareerProgressionID" as TCPID #lightblue
+participant "dateVO:Date" as DateVO #lightblue
+participant "workingPercentageVO:WorkingPercentage" as WPVO #lightblue
+participant "teacherCategoryVO:TeacherCategory" as TCVO #lightblue
+participant ":TeacherAcronym" as TA #lightblue
+participant "TeacherIDVO:TeacherID" as TID #lightblue
+participant ":TeacherCareerProgressionFactory" as TCPFactory #lightblue
+participant ":TeacherCareerProgressionFactory" as TCPFactory #lightblue
+participant "tcp:TeacherCareerProgression" as TCP #lightblue
+
+
+activate TCPRepo
+TCPRepo -> TCPMapper : TeacherCareerProgressionToDomain(TCPDataModel)
+activate TCPMapper
+TCPMapper -> TCPDataModel: getID()
+activate TCPDataModel
+TCPDataModel --> TCPMapper: teacherCareerProgressionID
+deactivate TCPDataModel
+TCPMapper -> TCPIDMapper: ToDomain(teacherCareerProgressionID)
+activate TCPIDMapper
+TCPIDMapper -> TCPIDDataModel: getIDValue()
+activate TCPIDDataModel
+TCPIDDataModel --> TCPIDMapper: id
+deactivate TCPIDDataModel
+TCPIDMapper -> TCPID: createTeacherCareerProgressionID(id)
+activate TCPID
+TCPID --> TCPIDMapper: teacherCareerProgressionIDVO
+deactivate TCPID
+TCPIDMapper --> TCPMapper: teacherCareerProgressionIDVO
+deactivate TCPIDMapper
+TCPMapper -> TCPDataModel: getDate()
+activate TCPDataModel
+TCPDataModel --> TCPMapper: date
+deactivate TCPDataModel
+TCPMapper -> DateVO : createDateVO(date)
+activate DateVO
+DateVO --> TCPMapper : dateVO
+deactivate DateVO
+TCPMapper -> TCPDataModel: getWorkingPercentage()
+activate TCPDataModel
+TCPDataModel --> TCPMapper: workinPercentage
+deactivate TCPDataModel
+TCPMapper --> WPVO : createWorkingPercentageVO(workingPercentage)
+activate WPVO
+WPVO --> TCPMapper : workingPercentageVO
+deactivate WPVO
+TCPMapper -> TCPDataModel: getTeacherCategoryId()
+activate TCPDataModel
+TCPDataModel --> TCPMapper: teacherCategoryId
+deactivate TCPDataModel
+TCPMapper -> TCVO : createTeacherCategoryIDVO(teacherCategoryId)
+activate TCVO
+TCVO --> TCPMapper : teacherCategoryIdVO
+deactivate TCVO
+TCPMapper -> TCPDataModel: getTeacherId()
+activate TCPDataModel
+TCPDataModel --> TCPMapper: teacherIDString
+deactivate TCPDataModel
+TCPMapper -> TA: createTeacherAcronym(teacherIDString)
+activate TA
+TA --> TCPMapper: teacherAcronymVO
+deactivate TA
+TCPMapper -> TID : createTeacherIDVO(teacherAcronymVO)
+activate TID
+TID --> TCPMapper : teacherIDVO
+deactivate TID
+TCPMapper -> TCPFactory : TeacherCareerProgressionFromDataModel(teacherCareerProgressionIDVO, dateVO, workingPercentageVO, teacherCategoryIDVO, teacherIDVO)
+activate TCPFactory
+TCPFactory -> TCP : createTeacherCareerProgression(teacherCareerProgressionIDVO, dateVO, workingPercentageVO, teacherCategoryIDVO, teacherIDVO)
+activate TCP
+TCP --> TCPFactory: savedTCP
+deactivate TCP
+TCPFactory --> TCPMapper : savedTCP
+deactivate TCPFactory
+TCPMapper --> TCPRepo: savedTCP
+deactivate TCPMapper
+@enduml
