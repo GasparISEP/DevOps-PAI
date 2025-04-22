@@ -6,8 +6,9 @@ import PAI.persistence.datamodel.course.CourseDataModel;
 
 public interface ICourseMapper {
 
-     Course toDomain (CourseDataModel courseDataModel) throws Exception;
+    Course toDomain (CourseDataModel courseDataModel) throws Exception;
 
+    Iterable<Course> toDomain (Iterable<CourseDataModel> listCourseDataModel);
 
     CourseDataModel toDataModel(Course course);
 

@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface IStudentRepository extends IRepository <StudentID, Student> {
 
-    Optional<Student> getStudentByID(StudentID studentID);
-
     Optional<StudentID> findIdByStudent (Student student);
 
     Student save(Student student);
