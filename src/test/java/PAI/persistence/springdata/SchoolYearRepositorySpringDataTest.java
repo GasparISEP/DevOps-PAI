@@ -72,7 +72,7 @@ class SchoolYearRepositorySpringDataTest {
         //arrange
         ISchoolYearRepositorySpringData schoolYearRepositorySpringData =  mock(ISchoolYearRepositorySpringData.class);
         ISchoolYearMapper schoolYearMapper =mock(ISchoolYearMapper.class);
-        ISchoolYearIDMapper schoolYearIDMapper =mock(ISchoolYearIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = null;
 
         // act + assert
         Exception exception=assertThrows(Exception.class, () -> {

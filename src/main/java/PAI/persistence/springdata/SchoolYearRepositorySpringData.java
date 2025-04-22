@@ -12,6 +12,10 @@ import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 //TODO "implements ISchoolYearRepository"
 
@@ -41,4 +45,17 @@ public class SchoolYearRepositorySpringData {
         schoolYearRepositorySpringData.save(schoolYearDataModel);
         return schoolYear;
     }
+/*
+    public Iterable<SchoolYear> findAll(){
+        List<SchoolYear> allSchoolYears = new ArrayList<>();
+        List<SchoolYearDataModel> allSchoolYearDataModels = schoolYearRepositorySpringData.findAll();
+        for(SchoolYearDataModel existingSchoolYears : allSchoolYearDataModels){
+            try {
+
+            } catch (Exception e) {
+                return Collections.emptyList();
+            }
+        }
+        return allSchoolYears;
+    } */
 }
