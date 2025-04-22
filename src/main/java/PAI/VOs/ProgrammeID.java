@@ -42,4 +42,9 @@ public class ProgrammeID implements DomainId {
     public Acronym getAcronym() {
         return _acronym;
     }
+
+    @Override
+    public String toString() {
+        return _acronym.toString() + " - " + _name.toString();
+    }
 }

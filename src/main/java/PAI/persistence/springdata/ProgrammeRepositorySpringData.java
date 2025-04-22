@@ -1,9 +1,15 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
+import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import jakarta.persistence.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ProgrammeRepositorySpringData {
@@ -18,6 +24,7 @@ public class ProgrammeRepositorySpringData {
         if(iProgMapper == null) {
             throw new IllegalArgumentException("iProgrammedMapper must not be null");
         }
+
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
     }
@@ -30,4 +37,43 @@ public class ProgrammeRepositorySpringData {
         }
         return null;
     }
+
+    public Programme update(ProgrammeID id,Programme prog) {
+        if(!_iProgRepo.existsById(id.toString()))
+            throw new EntityNotFoundException("Programme not found!");
+
+        ProgrammeDataModel programmeDataModel = _iProgMapper.toData(prog);
+        if (programmeDataModel != null) {
+           ProgrammeDataModel updated = _iProgRepo.save(programmeDataModel);
+           return _iProgMapper.toDomain(updated);
+        }
+        return null;
+    }
+
+    public List<Programme> findAll(){
+        List <ProgrammeDataModel> programmeDataModelList = _iProgRepo.findAll();
+        List<Programme> domainList = new ArrayList<>();
+        for (ProgrammeDataModel programmeDataModel : programmeDataModelList) {
+            Programme programme = _iProgMapper.toDomain(programmeDataModel);
+            domainList.add(programme);
+        }
+        return domainList;
+    }
+
+    public Optional<Programme> ofIdentity(ProgrammeID id) {
+        Optional<ProgrammeDataModel> dataModelOptional = _iProgRepo.findById(id.toString());
+
+        if (dataModelOptional.isPresent()) {
+            Programme programme = _iProgMapper.toDomain(dataModelOptional.get());
+            return Optional.of(programme);
+        }
+
+        return Optional.empty();
+    }
+
+    public boolean containsOfIdentity(ProgrammeID id) {
+        return _iProgRepo.existsById(id.toString());
+    }
+
+
 }
