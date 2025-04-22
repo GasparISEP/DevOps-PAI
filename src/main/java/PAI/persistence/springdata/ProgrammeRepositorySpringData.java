@@ -1,11 +1,14 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
+//Should Implement IProgrammeRepository
 public class ProgrammeRepositorySpringData {
 
     private final IProgrammeMapper _iProgMapper;
@@ -29,5 +32,19 @@ public class ProgrammeRepositorySpringData {
             return _iProgMapper.toDomain(programmeDataModel);
         }
         return null;
+    }
+
+    //US18
+    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames (){
+        Iterable<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
+
+        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = new ArrayList<>();
+
+        for(String programmeNameData : programmesNamesListData) {
+            NameWithNumbersAndSpecialChars programmeNameVO = new NameWithNumbersAndSpecialChars(programmeNameData);
+            programmeNamesListVO.add(programmeNameVO);
+        }
+
+        return programmeNamesListVO;
     }
 }
