@@ -5,7 +5,7 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.StudyPlanID;
 import PAI.mapper.CourseID.ICourseIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
-import PAI.persistence.datamodel.CourseIDDataModel;
+import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 
