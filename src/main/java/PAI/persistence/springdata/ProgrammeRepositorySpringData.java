@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
+import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,17 +17,21 @@ public class ProgrammeRepositorySpringData {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
+    private final IProgrammeIDMapper _iProgIdMapper;
 
-    public ProgrammeRepositorySpringData (IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo) {
+    public ProgrammeRepositorySpringData (IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIdMapper) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }
         if(iProgMapper == null) {
             throw new IllegalArgumentException("iProgrammedMapper must not be null");
         }
-
+        if (iProgIdMapper == null) {
+            throw new IllegalArgumentException("iProgrammeIDMapper must not be null");
+        }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
+        _iProgIdMapper = iProgIdMapper;
     }
 
     public Programme save(Programme prog) {
@@ -77,7 +82,7 @@ public class ProgrammeRepositorySpringData {
 
     //US18
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames (){
-        Iterable<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
+        List<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
 
         List<NameWithNumbersAndSpecialChars> programmeNamesListVO = new ArrayList<>();
 

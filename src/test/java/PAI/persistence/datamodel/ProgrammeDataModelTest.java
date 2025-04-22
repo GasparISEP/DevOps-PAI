@@ -133,4 +133,19 @@ public class ProgrammeDataModelTest {
         // Assert
         assertEquals(teacherIDDataModel, programmeDataModel.getProgrammeDirectorID());
     }
+
+    @Test
+    public void shouldGetProgIDDM() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+
+        //act
+        ProgrammeIDDataModel res = programmeDataModel.getProgID();
+
+        //assert
+        assertEquals(res, programmeDataModel.getProgID());
+    }
 }
