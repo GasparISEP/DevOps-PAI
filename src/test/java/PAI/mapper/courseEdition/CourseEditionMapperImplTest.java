@@ -203,4 +203,5 @@ class CourseEditionMapperImplTest {
         // Assert
         assertEquals("courseEdition cannot be null", exception.getMessage());
     }
+
 }

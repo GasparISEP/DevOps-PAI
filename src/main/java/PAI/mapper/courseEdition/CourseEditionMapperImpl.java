@@ -63,4 +63,5 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIdDataModel, courseInStudyPlanIDDataModel);
         return result;
     }
+
 }
