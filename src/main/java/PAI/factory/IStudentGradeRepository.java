@@ -10,5 +10,7 @@ public interface IStudentGradeRepository extends IRepository<StudentGradeID, Stu
     boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception;
     Double getAverageGrade(CourseEditionID courseEditionID);
     double knowApprovalRate(CourseEditionID courseEditionID);
+
+
 }
 

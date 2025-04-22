@@ -6,20 +6,21 @@ autonumber
 skinparam sequence {
    LifelineBorderColor black
    LifelineBackgroundColor LightBlue
+   skinparam shadowing true
  }
 
 actor "Administrator" as Administrator #LightBlue/White
 participant ":UI" as UI #LightBlue/white
-participant ":US05_RegisterADepartmentInTheSystemController" as Controller #LightBlue/white
-participant ":IDepartmentService" as Service #LightBlue/white
-participant ":IDepartmentRepository" as DepartmentRepository #LightBlue/white
-participant ":IDepartmentFactory" as DepartmentFactory #LightBlue/white
+participant ":US05_RegisterADepartmentInTheSystem\nController" as Controller #LightBlue/white
+participant ":IDepartment\nService" as Service #LightBlue/white
+participant ":IDepartment\nRepository" as DepartmentRepository #LightBlue/white
+participant ":IDepartment\nFactory" as DepartmentFactory #LightBlue/white
 participant "d1:Department" as Department #LightYellow/white
-participant ":DepartmentMapper" as Mapper #LightBlue/White
+participant ":IDepartment\nMapper" as Mapper #LightBlue/White
 participant "ddm1: DepartmentDataModel" as departmentDataModel #LightYellow/White
-participant ":IDepartmentRepositorySpringData" as departmentRepoSpringData #LightBlue/White
+participant ":IDepartment\nRepositorySpringData" as departmentRepoSpringData #LightBlue/White
 
-Administrator -> UI: I want to register a department in the system.
+Administrator -> UI: I want to register a department.
 activate UI
 UI --> Administrator: Please provide the acronym.
 Administrator -> UI: Enter acronym.
@@ -28,20 +29,20 @@ Administrator -> UI: Enter name.
 UI --> Administrator: Sure?
 Administrator -> UI: Yes!
 
-UI -> Controller: registerDepartment(acronym, name)
+UI -> Controller: registerDepartment\n(acronym, name)
 activate Controller
 
 ref over Controller
     Convert acronym and name to VO
 end ref
 
-Controller -> Service: registerDepartment(acronymVO, nameVO)
+Controller -> Service: registerDepartment\n(acronymVO, nameVO)
 activate Service
 
 
-Service -> DepartmentFactory: createDepartment(acronymVO, nameVO)
+Service -> DepartmentFactory: createDepartment\n(acronymVO, nameVO)
 activate DepartmentFactory
-DepartmentFactory -> Department **: createDepartment (acronymVO, nameVO)
+DepartmentFactory -> Department **: createDepartment\n(acronymVO, nameVO)
 deactivate DepartmentFactory
 
 Service -> DepartmentRepository: isDepartmentRegistered(d1)

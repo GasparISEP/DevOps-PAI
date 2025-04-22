@@ -1,7 +1,7 @@
 package PAI.mapper.CourseID;
 
 import PAI.VOs.CourseID;
-import PAI.persistence.datamodel.CourseIDDataModel;
+import PAI.persistence.datamodel.course.CourseIDDataModel;
 
 public interface ICourseIDMapper {
 
