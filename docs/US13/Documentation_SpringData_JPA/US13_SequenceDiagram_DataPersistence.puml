@@ -109,18 +109,7 @@ deactivate IteacherService
 IteacherService -> IteacherRepoJPA : save(t1)
 activate IteacherService
 activate IteacherRepoJPA
-IteacherRepoJPA -> tMapper : toDataModel(t1)
-activate tMapper
-tMapper -> teacherDM** : new Teacher Data Model
-activate teacherDM
-teacherDM --> tMapper : teacherDataModel
-deactivate teacherDM
-tMapper --> IteacherRepoJPA : teacherDataModel
-deactivate tMapper
-IteacherRepoJPA ->  : insert(teacherDataModel)
-IteacherRepoJPA <-- : teacherDataModel
-|||
-ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t __convert back to domain entity__
+ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t __toDataModel & save || back toDomain__
 IteacherRepoJPA --> IteacherService : teacherDomain
 deactivate IteacherRepoJPA
 IteacherService --> controller : true

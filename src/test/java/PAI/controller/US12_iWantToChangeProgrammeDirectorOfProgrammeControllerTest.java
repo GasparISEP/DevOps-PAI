@@ -2,9 +2,9 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.domain.programme.IProgrammeFactory;
+import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.factory.ITeacherFactory;
 import PAI.factory.ITeacherListFactory;
 import PAI.factory.TeacherFactoryImpl;

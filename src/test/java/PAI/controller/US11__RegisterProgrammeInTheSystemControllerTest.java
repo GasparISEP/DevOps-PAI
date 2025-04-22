@@ -1,8 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.programme.IProgrammeFactory;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.IProgrammeFactory;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.ProgrammeRepositoryImpl;

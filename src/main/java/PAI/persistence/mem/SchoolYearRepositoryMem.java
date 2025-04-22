@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.persistence.mem;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
@@ -6,19 +6,20 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.factory.ISchoolYearListFactory;
+import PAI.repository.ISchoolYearRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
-public class SchoolYearRepository implements ISchoolYearRepository {
+public class SchoolYearRepositoryMem implements ISchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
     private ISchoolYearFactory _schoolYearFactory;
     private ISchoolYearListFactory _schoolYearListFactory;
 
-    public SchoolYearRepository(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory) {
+    public SchoolYearRepositoryMem(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory) {
 
         if (schoolYearFactory == null) {
             throw new IllegalArgumentException("SchoolYearFactory cannot be null");

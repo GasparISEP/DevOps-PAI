@@ -7,7 +7,7 @@ import PAI.domain.course.ICourseFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.programme.Programme;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;

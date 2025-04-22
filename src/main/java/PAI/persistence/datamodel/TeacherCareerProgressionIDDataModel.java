@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
-
 public class TeacherCareerProgressionIDDataModel {
 
     private UUID ID;
@@ -15,7 +14,6 @@ public class TeacherCareerProgressionIDDataModel {
 
     public TeacherCareerProgressionIDDataModel(UUID ID) {
         this.ID = ID;
-
     }
 
     public UUID getIDValue() {

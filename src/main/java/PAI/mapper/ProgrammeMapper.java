@@ -1,5 +1,6 @@
 package PAI.mapper;
 
+import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.persistence.datamodel.*;
@@ -10,11 +11,13 @@ public class ProgrammeMapper implements IProgrammeMapper {
     private final ProgrammeIDMapper _progIDMapper;
     private final TeacherIDMapper _teacherIDMapper;
     private final DepartmentIDMapperImpl _departmentIDMapper;
+    private final IProgrammeFactory _factory;
 
-    public ProgrammeMapper (ProgrammeIDMapper progIDMapper, TeacherIDMapper teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper) {
+    public ProgrammeMapper (ProgrammeIDMapper progIDMapper, TeacherIDMapper teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper, IProgrammeFactory factory) {
         _progIDMapper = progIDMapper;
         _teacherIDMapper = teacherIDMapper;
         _departmentIDMapper = departmentIDMapper;
+        _factory = factory;
     }
 
     public ProgrammeDataModel toData(Programme programme) {
@@ -30,18 +33,17 @@ public class ProgrammeMapper implements IProgrammeMapper {
     public Programme toDomain(ProgrammeDataModel programmeDataModel){
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeDataModel.getName());
         Acronym acronym = new Acronym(programmeDataModel.getAcronym());
-
         QuantSemesters quantSemesters = new QuantSemesters(programmeDataModel.getQuantSemesters());
         QuantEcts quantEcts = new QuantEcts(programmeDataModel.getQuantEcts());
+
+        //Para alterar quando tivermos o Mapper
         DegreeTypeID degreeTypeID = new DegreeTypeID(programmeDataModel.getDegreeTypeID());
 
-        DepartmentAcronym departmentAcronym = new DepartmentAcronym(programmeDataModel.getDepartmentID().getDepartmentID());
-        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        DepartmentID departID = _departmentIDMapper.toDomainModel(programmeDataModel.getDepartmentID());
 
-        TeacherAcronym directorAcronym = new TeacherAcronym(programmeDataModel.getProgrammeDirectorID().getTeacherAcronym());
-        TeacherID programmeDirectorID = new TeacherID(directorAcronym);
+        TeacherID teacherID = _teacherIDMapper.toDomain(programmeDataModel.getProgrammeDirectorID());
 
-        return new Programme(name, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        return _factory.registerProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID);
     }
 
 }

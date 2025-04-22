@@ -1,4 +1,8 @@
 @startuml
+
+title US13 : Interaction Use #2 - Retrieve all Departments
+skinparam sequenceMessageAlign center
+
 participant ":US13_Controller" as controller #implementation
 participant ":IDepartmentService" as IdptService #business
 participant ":IDepartmentRepositoryJPA" as IdptRepoJPA #implementation

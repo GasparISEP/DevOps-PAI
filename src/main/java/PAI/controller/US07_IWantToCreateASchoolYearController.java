@@ -2,14 +2,14 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.repository.SchoolYearRepository;
+import PAI.persistence.mem.SchoolYearRepositoryMem;
 
 public class US07_IWantToCreateASchoolYearController {
 
-    private SchoolYearRepository _schoolYearRepo;
+    private SchoolYearRepositoryMem _schoolYearRepo;
 
     // Constructor
-    public US07_IWantToCreateASchoolYearController (SchoolYearRepository schoolYearRepo) {
+    public US07_IWantToCreateASchoolYearController (SchoolYearRepositoryMem schoolYearRepo) {
 
         if (schoolYearRepo == null) {
             throw new IllegalArgumentException("School Year Repository must not be null.");

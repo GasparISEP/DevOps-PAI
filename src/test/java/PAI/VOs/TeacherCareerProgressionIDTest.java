@@ -1,6 +1,9 @@
 package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -16,6 +19,28 @@ class TeacherCareerProgressionIDTest {
 
         //assert
         assertNotNull(tcpID);
+    }
+
+    @Test
+    void shouldCreateTeacherCareerProgressionIDWhenPassingAValidUUIDAsInput() {
+        // Arrange
+        UUID id = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        // Act
+        TeacherCareerProgressionID tcpID = new TeacherCareerProgressionID(id);
+
+        // Assert
+        assertNotNull(tcpID);
+    }
+
+    @Test
+    void shouldNullPointerExceptionWhenCreatingTeacherCareerProgressionIDWithInvalidUUID() {
+        // Arrange
+
+        // Act
+        Executable action = () -> new TeacherCareerProgressionID(null);
+
+        // Assert
+        assertThrows(NullPointerException.class, action);
     }
 
     @Test
@@ -35,7 +60,7 @@ class TeacherCareerProgressionIDTest {
     void shouldReturnTrueIfTeacherCareerProgressionObjectsHaveTheSameID() {
         //arrange
         TeacherCareerProgressionID teacherCareerProgressionID1 = new TeacherCareerProgressionID();
-        String id = teacherCareerProgressionID1.getIDValue();
+        UUID id = teacherCareerProgressionID1.getIDValue();
         TeacherCareerProgressionID teacherCareerProgressionID2;
 
         try {
@@ -87,11 +112,34 @@ class TeacherCareerProgressionIDTest {
         TeacherCareerProgressionID tcpID = new TeacherCareerProgressionID();
 
         //act
-        String id = tcpID.getIDValue();
+        UUID id = tcpID.getIDValue();
 
         //assert
         assertNotNull(id);
 
+    }
+
+    @Test
+    public void shouldReturnEqualWhenTwoObjectsHaveTheSameHashCode() {
+        //Arrange
+        UUID id = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        TeacherCareerProgressionID tcpID1 = new TeacherCareerProgressionID(id);
+        TeacherCareerProgressionID tcpID2 = new TeacherCareerProgressionID(id);
+
+        //Act & Assert
+        assertEquals(tcpID1.hashCode(), tcpID2.hashCode());
+    }
+
+    @Test
+    public void shouldReturnNotEqualWhenTwoObjectsHaveDifferentHashCodes() {
+        //Arrange
+        UUID id1 = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        UUID id2 = UUID.fromString("22222222-2222-2222-2222-222222222222");
+        TeacherCareerProgressionID tcpID1 = new TeacherCareerProgressionID(id1);
+        TeacherCareerProgressionID tcpID2 = new TeacherCareerProgressionID(id2);
+
+        //Act & Assert
+        assertEquals(tcpID1.hashCode(), tcpID2.hashCode());
     }
 
 }
