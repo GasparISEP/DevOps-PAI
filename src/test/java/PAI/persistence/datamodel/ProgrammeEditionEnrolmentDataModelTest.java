@@ -1,6 +1,7 @@
 package PAI.persistence.datamodel;
 
 import PAI.VOs.ProgrammeEditionID;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ class ProgrammeEditionEnrolmentDataModelTest {
     @Test
     void shouldCreateEnrolmentDataModelWithCorrectIdAndEnrolmentDate() {
         // Arrange
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionID = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S001", programmeEditionID);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
         // Act

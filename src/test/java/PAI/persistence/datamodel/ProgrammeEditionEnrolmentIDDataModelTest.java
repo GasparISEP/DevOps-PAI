@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.ProgrammeEditionID;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     void shouldThrowException_WhenStudentIdIsNull() {
         // arrange
         String studentId = null;
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
 
         // act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -34,7 +34,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     void shouldThrowException_WhenStudentIdIsBlank() {
         // arrange
         String studentId = "  ";
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
 
         // act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -59,15 +59,15 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     void shouldCreateAValidProgrammeEditionEnrolmentIDDataModel_WhenParametersAreValid() {
         // arrange
         String studentId = "1999999";
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
 
         // act
         ProgrammeEditionEnrolmentIDDataModel model = new ProgrammeEditionEnrolmentIDDataModel(studentId, programmeEditionId);
 
         // assert
         assertNotNull(model);
-        assertEquals(studentId, model.getStudentId());
-        assertEquals(programmeEditionId, model.getProgrammeEditionId());
+        assertEquals(studentId, model.getStudentIdDataModel());
+        assertEquals(programmeEditionId, model.getProgrammeEditionIdDataModel());
     }
 
     // Testing equals method
@@ -75,7 +75,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnTrue_WhenTwoObjectsHaveSameReference() {
         // arrange
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel model1 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
         ProgrammeEditionEnrolmentIDDataModel model2 = model1;
 
@@ -89,7 +89,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnTrue_WhenTwoObjectsHaveSameValues() {
         // arrange
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel model1 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
         ProgrammeEditionEnrolmentIDDataModel model2 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
 
@@ -103,7 +103,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalse_WhenComparedWithNull() {
         // arrange
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel model = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
 
         // act
@@ -116,7 +116,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalse_WhenObjectsAreOfDifferentClasses() {
         // arrange
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel model = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
         Object differentObject = new Object();
 
@@ -130,8 +130,8 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalse_WhenTwoObjectsHaveDifferentValues() {
         // arrange
-        ProgrammeEditionID programmeEditionId1 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID programmeEditionId2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId1 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionId2 = mock(ProgrammeEditionIdDataModel.class);
 
         ProgrammeEditionEnrolmentIDDataModel model1 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId1);
         ProgrammeEditionEnrolmentIDDataModel model2 = new ProgrammeEditionEnrolmentIDDataModel("7654321", programmeEditionId2);
@@ -148,7 +148,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnSameHashCode_WhenTwoObjectsHaveSameValues() {
         // arrange
-        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId = mock(ProgrammeEditionIdDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel model1 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
         ProgrammeEditionEnrolmentIDDataModel model2 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId);
 
@@ -159,8 +159,8 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnDifferentHashCodes_WhenObjectsHaveDifferentValues() {
         // arrange
-        ProgrammeEditionID programmeEditionId1 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID programmeEditionId2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionId1 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionId2 = mock(ProgrammeEditionIdDataModel.class);
 
         ProgrammeEditionEnrolmentIDDataModel model1 = new ProgrammeEditionEnrolmentIDDataModel("1234567", programmeEditionId1);
         ProgrammeEditionEnrolmentIDDataModel model2 = new ProgrammeEditionEnrolmentIDDataModel("7654321", programmeEditionId2);
