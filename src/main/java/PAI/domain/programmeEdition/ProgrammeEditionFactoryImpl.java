@@ -11,4 +11,9 @@ public class ProgrammeEditionFactoryImpl implements IProgrammeEditionFactory {
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
     }
+
+    @Override
+    public ProgrammeEdition createProgrammeEdition(ProgrammeEditionID programmeEditionID, ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+    }
 }

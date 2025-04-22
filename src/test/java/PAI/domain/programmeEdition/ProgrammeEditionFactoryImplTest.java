@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 class ProgrammeEditionFactoryImplTest {
 
     @Test
-    void shouldCreateProgrammeEdition() throws Exception {
+    void shouldCreateProgrammeEditionWithoutProgrammeEditionID() throws Exception {
         // Arrange
         ProgrammeID pID = mock(ProgrammeID.class);
         SchoolYearID sYID = mock(SchoolYearID.class);
@@ -94,5 +94,23 @@ class ProgrammeEditionFactoryImplTest {
             // Assert
             assertEquals("programmeID cannot be null", exception.getMessage());
         }
+    }
+
+    @Test
+    void shouldCreateProgrammeEditionWithProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act
+        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        // Assert
+        assertNotNull(programmeEdition);
+        assertEquals(programmeEditionID, programmeEdition.identity());
+        assertEquals(programmeID, programmeEdition.findProgrammeIDInProgrammeEdition());
+        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition());
+
     }
 }
