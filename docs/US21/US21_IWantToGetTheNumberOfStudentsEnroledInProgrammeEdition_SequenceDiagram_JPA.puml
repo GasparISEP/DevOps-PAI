@@ -11,7 +11,7 @@ participant ":ProgrammeEditionEnrolmentService"
 participant ":ProgrammeEditionEnrolmentRepository"
 participant ":ProgrammeEditionEnrolmentSpringData" as SpringData
 participant ":ProgrammeEditionEnrolmentMapper"
-
+participant ":ProgrammeEditionEnrolmentFactory"
 autonumber
 skinparam titleFontSize 18
 
@@ -29,11 +29,16 @@ SpringData --> ":ProgrammeEditionEnrolmentRepository" --: List<ProgrammeEditionE
 
 loop for each ProgrammeEditionEnrolmentDataModel
     ":ProgrammeEditionEnrolmentRepository" -> ":ProgrammeEditionEnrolmentMapper" ++: toDomain(programmeEditionEnrolmentDataModel)
+    ":ProgrammeEditionEnrolmentMapper" -> ":ProgrammeEditionEnrolmentFactory"++: newProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId)
+    create "pEE1:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment1
+    ":ProgrammeEditionEnrolmentFactory" -> ProgrammeEditionEnrolment1: <create>
+    ":ProgrammeEditionEnrolmentFactory" --> ":ProgrammeEditionEnrolmentMapper": Optional<pEE1>
+    ":ProgrammeEditionEnrolmentMapper" -> ":ProgrammeEditionEnrolmentMapper": unwrap Optional
     ":ProgrammeEditionEnrolmentMapper" --> ":ProgrammeEditionEnrolmentRepository" --: programmeEditionEnrolment
+    ":ProgrammeEditionEnrolmentRepository" -> ":ProgrammeEditionEnrolmentRepository": add to List<ProgrammeEditionEnrolment>
 end
 
 ":ProgrammeEditionEnrolmentRepository" --> ":ProgrammeEditionEnrolmentService" --: List<ProgrammeEditionEnrolment>
-
 ref over ":ProgrammeEditionEnrolmentService"
     Count total programmeEditionEnrolments
     1. Get list size
