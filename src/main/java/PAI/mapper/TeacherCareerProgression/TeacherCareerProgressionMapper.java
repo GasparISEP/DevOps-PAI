@@ -4,19 +4,18 @@ import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.mapper.ITeacherCareerProgressionIDMapper;
-import PAI.mapper.TeacherCareerProgressionIDMapper;
 import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class TeacherCareerProgressionMapperImpl implements ITeacherCareerProgressionMapper {
+public class TeacherCareerProgressionMapper implements ITeacherCareerProgressionMapper {
 
     private final ITeacherCareerProgressionFactory tcpFactory;
     private final ITeacherCareerProgressionIDMapper tcpIDMapper;
 
-    public TeacherCareerProgressionMapperImpl(ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionIDMapper tcpIDMapper) {
+    public TeacherCareerProgressionMapper(ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionIDMapper tcpIDMapper) {
         this.tcpFactory = tcpFactory;
         this.tcpIDMapper = tcpIDMapper;
     }
