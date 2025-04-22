@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.courseInStudyPlan;
 
-import PAI.persistence.datamodel.CourseIDDataModel;
+import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
