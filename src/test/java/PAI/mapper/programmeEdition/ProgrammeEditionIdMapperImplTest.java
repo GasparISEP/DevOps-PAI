@@ -167,4 +167,27 @@ class ProgrammeEditionIdMapperImplTest {
         //act + assert
         assertThrows(Exception.class, () -> {mapper.toDataModel(programmeEditionId);});
     }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearIDIsNull() {
+        //arrange
+        IProgrammeIDMapper programmeIdMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIdMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionIdMapperImpl mapper = new ProgrammeEditionIdMapperImpl(programmeIdMapper, schoolYearIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+
+        when(programmeEditionId.getProgrammeID()).thenReturn(programmeID);
+        when(programmeEditionId.getSchoolYearID()).thenReturn(null);
+
+        when(programmeIdMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+        when(schoolYearIdMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        //act + assert
+        assertThrows(Exception.class, () -> {mapper.toDataModel(programmeEditionId);});
+    }
 }
