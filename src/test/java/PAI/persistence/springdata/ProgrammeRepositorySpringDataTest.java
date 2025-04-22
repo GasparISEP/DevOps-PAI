@@ -95,4 +95,16 @@ class ProgrammeRepositorySpringDataTest {
         assertNotNull(programmeNamesListVO);
         assertEquals(3, programmeNamesListVO.size());
     }
+    @Test
+    void shouldReturnAnEmptyListWhenRepositoryIsEmpty() {
+        //arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+        //act
+        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = progRepo.getAllProgrammeNames();
+
+        //assert
+        assertNotNull(programmeNamesListVO);
+    }
 }
