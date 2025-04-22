@@ -77,7 +77,7 @@ public class ProgrammeRepositorySpringData {
 
     //US18
     public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames (){
-        Iterable<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
+        List<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
 
         List<NameWithNumbersAndSpecialChars> programmeNamesListVO = new ArrayList<>();
 
