@@ -1,6 +1,8 @@
 package PAI.persistence.springdata;
 
 
+import PAI.VOs.NIF;
+import PAI.VOs.StudentID;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.StudentDataModel;
 

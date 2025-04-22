@@ -40,7 +40,7 @@ public class US09_EnrolStudentInProgrammeController {
     }
 
     public Optional<Student> getStudentByUniqueNumber(StudentID studentID) {
-        return _studentRepository.getStudentByID(studentID);
+        return _studentRepository.ofIdentity(studentID);
     }
 
     public Optional<AccessMethod> getAccessMethodByName(NameWithNumbersAndSpecialChars accessMethod) {

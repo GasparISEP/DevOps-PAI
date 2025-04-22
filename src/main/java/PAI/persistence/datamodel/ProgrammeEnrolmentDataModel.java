@@ -1,10 +1,8 @@
 package PAI.persistence.datamodel;
 
-import PAI.domain.ProgrammeEnrolment;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
 @Table(name = "programme_enrolment")

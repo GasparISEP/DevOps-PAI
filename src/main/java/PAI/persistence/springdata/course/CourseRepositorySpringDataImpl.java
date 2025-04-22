@@ -6,9 +6,6 @@ import PAI.mapper.Course.ICourseMapper;
 import PAI.mapper.CourseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.repository.courseRepository.ICourseRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class CourseRepositorySpringDataImpl implements ICourseRepository {
@@ -54,18 +51,8 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
     @Override
     public Iterable<Course> findAll() {
         Iterable<CourseDataModel> courseDataModels = _iCourseRepo.findAll();
-        List<Course> courses = new ArrayList<>();
+        Iterable<Course> courses = _iCourseMapper.toDomain(courseDataModels);
 
-        for (CourseDataModel courseDataModel : courseDataModels) {
-            try {
-                Course course = _iCourseMapper.toDomain(courseDataModel);
-                if (course != null) {
-                    courses.add(course);
-                }
-            } catch (Exception e) {
-                return null;
-            }
-        }
         return courses;
     }
 
