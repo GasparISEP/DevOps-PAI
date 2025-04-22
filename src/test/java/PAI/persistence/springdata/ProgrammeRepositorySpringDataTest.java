@@ -1,12 +1,17 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.ProgrammeID;
+import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -81,6 +86,179 @@ class ProgrammeRepositorySpringDataTest {
     }
 
     @Test
+    void shouldUpdateIfIdExists() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
+        Programme prog = mock(Programme.class);
+
+
+        when(iProgRepo.existsById(id.toString())).thenReturn(true);
+        ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
+        when(iProgMapper.toData(prog)).thenReturn(dataModel);
+        when(iProgRepo.save(dataModel)).thenReturn(dataModel);
+        when(iProgMapper.toDomain(dataModel)).thenReturn(prog);
+
+        // Act
+        Programme result = progRepo.update(id, prog);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldNotUpdateProgrammeWhenProgIsNull() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
+
+        when(iProgRepo.existsById(id.toString())).thenReturn(true);
+        when(iProgMapper.toData(null)).thenReturn(null);
+
+        // Act + Assert
+        Programme result = progRepo.update(id, null);
+        assertNull(result);
+    }
+
+    @Test
+    void shouldThrowWhenProgrammeIDDoesNotExist() {
+        // Arrange
+        IProgrammeFactory iProgFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
+        Programme prog = mock(Programme.class);
+
+
+        when(iProgRepo.existsById(id.toString())).thenReturn(false);
+
+        // Act + Assert
+        assertThrows(EntityNotFoundException.class, () -> progRepo.update(id, prog));
+    }
+
+    @Test
+    void findAllShouldReturnMappedResults() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeDataModel dataModel1 = mock(ProgrammeDataModel.class);
+        ProgrammeDataModel dataModel2 = mock(ProgrammeDataModel.class);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(iProgRepo.findAll()).thenReturn(List.of(dataModel1, dataModel2));
+        when(iProgMapper.toDomain(dataModel1)).thenReturn(programme1);
+        when(iProgMapper.toDomain(dataModel2)).thenReturn(programme2);
+
+        // Act
+        List<Programme> result = progRepo.findAll();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(programme1));
+        assertTrue(result.contains(programme2));
+    }
+
+    @Test
+    void shouldReturnProgrammeWhenIdExists() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"),
+                new Acronym("MIEIC")
+        );
+        ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
+        Programme programme = mock(Programme.class);
+
+        when(iProgRepo.findById(id.toString())).thenReturn(Optional.of(dataModel));
+        when(iProgMapper.toDomain(dataModel)).thenReturn(programme);
+
+        // Act
+        Optional<Programme> result = progRepo.ofIdentity(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(programme, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenIdDoesNotExist() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Non-existing Programme"),
+                new Acronym("NEP")
+        );
+
+        when(iProgRepo.findById(id.toString())).thenReturn(Optional.empty());
+
+        // Act
+        Optional<Programme> result = progRepo.ofIdentity(id);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnTrueWhenIdExists() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Existing Programme"),
+                new Acronym("EP")
+        );
+
+        when(iProgRepo.existsById(id.toString())).thenReturn(true);
+
+        // Act
+        boolean result = progRepo.containsOfIdentity(id);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenIdDoesNotExist() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo);
+
+        ProgrammeID id = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Non-existing Programme"),
+                new Acronym("NEP")
+        );
+
+        when(iProgRepo.existsById(id.toString())).thenReturn(false);
+
+        // Act
+        boolean result = progRepo.containsOfIdentity(id);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldGetAllProgrammesNames(){
         //arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
@@ -107,4 +285,5 @@ class ProgrammeRepositorySpringDataTest {
         //assert
         assertNotNull(programmeNamesListVO);
     }
+
 }
