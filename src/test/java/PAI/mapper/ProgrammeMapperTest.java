@@ -86,45 +86,49 @@ public class ProgrammeMapperTest {
 
     }
 
-//    @Test
-//    void testToDomain() {
-//        // Arrange
-//        ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
-//
-//        ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-//        TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
-//        DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
-//
-//        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper);
-//
-//        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
-//
-//        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-//
-//        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-//
-//        when(dataModel.getName()).thenReturn("name");
-//
-//        when(dataModel.getAcronym()).thenReturn("OLA");
-//
-//        when(dataModel.getQuantEcts()).thenReturn(30);
-//
-//        when(dataModel.getQuantSemesters()).thenReturn(6);
-//
-//        when(dataModel.getProgID()).thenReturn(programmeIDDataModel);
-//
-//        when(dataModel.getDegreeTypeID()).thenReturn("id");
-//
-//        when(dataModel.getDepartmentID()).thenReturn(departmentIDDataModel);
-//
-//        when(dataModel.getProgrammeDirectorID()).thenReturn(teacherIDDataModel);
-//
-//
-//        // Act
-//        Programme res = programmeMapper.toDomain(dataModel);
-//
-//        // Assert
-//        assertNotNull(res);
-//    }
+    @Test
+    void testToDomain() {
+        // Arrange
+        ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
+
+        ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
+        TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
+        DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
+
+        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper);
+
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+
+        when(dataModel.getName()).thenReturn("name");
+
+        when(dataModel.getAcronym()).thenReturn("OLA");
+
+        when(dataModel.getQuantEcts()).thenReturn(30);
+
+        when(dataModel.getQuantSemesters()).thenReturn(6);
+
+        when(dataModel.getProgID()).thenReturn(programmeIDDataModel);
+        when(programmeIDDataModel.getAcronym()).thenReturn("OLA");
+        when(programmeIDDataModel.getName()).thenReturn("name");
+
+        when(dataModel.getDegreeTypeID()).thenReturn("id");
+
+        when(dataModel.getDepartmentID()).thenReturn(departmentIDDataModel);
+        when(departmentIDDataModel.getDepartmentID()).thenReturn("DEI");
+
+        when(dataModel.getProgrammeDirectorID()).thenReturn(teacherIDDataModel);
+        when(teacherIDDataModel.getTeacherAcronym()).thenReturn("PTP");
+
+
+        // Act
+        Programme res = programmeMapper.toDomain(dataModel);
+
+        // Assert
+        assertNotNull(res);
+    }
 
 }
