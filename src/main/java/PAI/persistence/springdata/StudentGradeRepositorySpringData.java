@@ -1,26 +1,22 @@
 package PAI.persistence.springdata;
 
-import PAI.VOs.*;
+
 import PAI.domain.StudentGrade;
-import PAI.factory.IStudentGradeRepository;
-import PAI.mapper.StudentGradeMapper;
+import PAI.mapper.IStudentGradeIDMapper;
+import PAI.mapper.IStudentGradeMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
-
 
 public class StudentGradeRepositorySpringData  {
-    private static final Logger log = LoggerFactory.getLogger(StudentGradeRepositorySpringData.class);
+
+    private IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
+    private IStudentGradeMapper studentGradeMapper;
+    private IStudentGradeIDMapper studentGradeIDMapper;
 
 
-    IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
-    StudentGradeMapper studentGradeMapper;
-
-    public StudentGradeRepositorySpringData(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, StudentGradeMapper studentGradeMapper) {
+    public StudentGradeRepositorySpringData(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, IStudentGradeMapper studentGradeMapper, IStudentGradeIDMapper iStudentGradeIDMapper) {
         this.iStudentGradeRepositorySpringData = iStudentGradeRepositorySpringData;
         this.studentGradeMapper = studentGradeMapper;
+        this.studentGradeIDMapper = iStudentGradeIDMapper;
     }
 
     public StudentGrade save(StudentGrade entity)  {
