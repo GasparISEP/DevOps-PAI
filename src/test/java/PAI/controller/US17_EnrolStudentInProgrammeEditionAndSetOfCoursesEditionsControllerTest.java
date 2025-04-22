@@ -4,8 +4,8 @@ package PAI.controller;
 import PAI.VOs.*;
 
 import PAI.domain.*;
-import PAI.domain.programme.IProgrammeFactory;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.IProgrammeFactory;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;

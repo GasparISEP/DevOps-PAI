@@ -2,9 +2,9 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.SchoolYear;
-import PAI.domain.programme.IProgrammeFactory;
+import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;

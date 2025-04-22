@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.domain.programme.IProgrammeFactory;
+import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.persistence.datamodel.DepartmentIDDataModel;

@@ -2,9 +2,9 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.degreeType.DegreeType;
-import PAI.domain.programme.IProgrammeFactory;
+import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
-import PAI.domain.programme.ProgrammeFactoryImpl;
+import PAI.factory.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
 import PAI.factory.DegreeTypeFactory.DegreeTypeFactoryImpl;
