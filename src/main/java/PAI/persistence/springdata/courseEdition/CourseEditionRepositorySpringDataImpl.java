@@ -5,7 +5,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
-import PAI.persistence.datamodel.course.CourseDataModel;
+import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.repository.ICourseEditionRepository;
@@ -21,8 +21,9 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     private final ICourseEditionRepositorySpringData courseEditionRepositorySpringData;
     private final ICourseEditionMapper courseEditionMapper;
     private final ICourseEditionIDMapper courseEditionIDMapper;
+    private final IProgrammeEditionIdMapper programmeEditionIdMapper;
 
-    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper) {
+    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper) {
 
         if (courseEditionReposSD == null)
             throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
@@ -30,10 +31,13 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
             throw new IllegalArgumentException("CourseEditionMapper cannot be null");
         if (courseEditionIDMapper == null)
             throw new IllegalArgumentException("CourseEditionIDMapper cannot be null");
+        if (programmeEditionIdMapper == null)
+            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
 
         this.courseEditionRepositorySpringData = courseEditionReposSD;
         this.courseEditionMapper = courseEditionMapper;
         this.courseEditionIDMapper = courseEditionIDMapper;
+        this.programmeEditionIdMapper = programmeEditionIdMapper;
     }
 
     @Override
