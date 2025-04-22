@@ -3,6 +3,8 @@ package PAI.persistence.springdata;
 
 import PAI.domain.SchoolYear;
 import PAI.domain.StudentGrade;
+import PAI.factory.ISchoolYearFactory;
+import PAI.factory.SchoolYearFactoryImpl;
 import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
@@ -45,17 +47,18 @@ public class SchoolYearRepositorySpringData {
         schoolYearRepositorySpringData.save(schoolYearDataModel);
         return schoolYear;
     }
-/*
-    public Iterable<SchoolYear> findAll(){
+
+    public Iterable<SchoolYear> findAll(ISchoolYearFactory factory){
         List<SchoolYear> allSchoolYears = new ArrayList<>();
         List<SchoolYearDataModel> allSchoolYearDataModels = schoolYearRepositorySpringData.findAll();
         for(SchoolYearDataModel existingSchoolYears : allSchoolYearDataModels){
             try {
-
+                SchoolYear schoolYear = schoolYearMapper.toDomain(existingSchoolYears, factory);
+                allSchoolYears.add(schoolYear);
             } catch (Exception e) {
                 return Collections.emptyList();
             }
         }
         return allSchoolYears;
-    } */
+    }
 }
