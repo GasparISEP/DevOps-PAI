@@ -105,7 +105,7 @@ class StudentDataModelTest {
                 phoneNumberDataModelDouble, "harrypotter@gmail.com", addressDataModelDouble, studentAcademicEmailDataModelDouble);
 
         //act
-        PhoneNumberDataModel result = studentDataModel.getPhoneNumber();
+        PhoneNumberDataModel result = studentDataModel.getPhone();
 
         //assert
         assertEquals(phoneNumberDataModelDouble, result);

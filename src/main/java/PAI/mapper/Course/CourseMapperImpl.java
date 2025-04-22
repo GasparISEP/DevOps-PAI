@@ -2,16 +2,19 @@ package PAI.mapper.Course;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
-import PAI.domain.course.CourseFactoryImpl;
+import PAI.domain.course.ICourseFactory;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CourseMapperImpl implements ICourseMapper {
 
-    private final CourseFactoryImpl courseFactory;
+    private final ICourseFactory courseFactory;
 
-    public CourseMapperImpl(CourseFactoryImpl courseFactory) {
+    public CourseMapperImpl(ICourseFactory courseFactory) {
         if (courseFactory == null) throw new IllegalArgumentException("Factory cannot be null");
         this.courseFactory = courseFactory;
     }
@@ -23,7 +26,6 @@ public class CourseMapperImpl implements ICourseMapper {
         }
         Name name = new Name(courseDataModel.get_name());
         Acronym acronym = new Acronym(courseDataModel.get_acronym());
-        CourseID courseID = new CourseID(acronym, name);
         CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(courseDataModel.get_quantityCreditsEcts());
         DurationCourseInCurricularYear durationCourseInSemester = new DurationCourseInCurricularYear(courseDataModel.get_duration());
 
@@ -50,5 +52,20 @@ public class CourseMapperImpl implements ICourseMapper {
                 course.getDurationCourseInCurricularYear().getDuration()
         );
     }
+
+    public Iterable<Course> toDomain (Iterable<CourseDataModel>listDataModel) {
+        List<Course> listDomain = new ArrayList<>();
+        for (CourseDataModel courseDataModel : listDataModel) {
+            try {
+                Course course = toDomain(courseDataModel);
+                if (course != null)
+                    listDomain.add(course);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return listDomain;
+    }
+
 
 }

@@ -8,6 +8,7 @@ import PAI.VOs.StudentID;
 import PAI.domain.*;
 import PAI.factory.IStudentGradeRepository;
 import PAI.repository.ICourseEditionRepository;
+import PAI.repository.StudentGradeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -20,7 +21,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionControllerTest {
     @Test
     void nullStudentGradeRepository() {
         //arrange
-        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
 
         //act & assert
         Exception exception = assertThrows(Exception.class, () ->
@@ -45,7 +46,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionControllerTest {
     void averageGradeInACourseEdition () throws Exception {
 
         //arrange
-        IStudentGradeRepository studentGradeRepositoryListDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryListDouble = mock(StudentGradeRepository.class);
         ICourseEditionRepository courseEditionRepositoryListDouble = mock(ICourseEditionRepository.class);
 
         US25_IWantToKnowTheAverageGradeOfACourseEditionController controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEditionController(studentGradeRepositoryListDouble,courseEditionRepositoryListDouble);
@@ -83,7 +84,7 @@ class US25_IWantToKnowTheAverageGradeOfACourseEditionControllerTest {
     void cantGetAverageGradeInACourseEdition () throws Exception {
 
         //arrange
-        IStudentGradeRepository studentGradeRepositoryListDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryListDouble = mock(StudentGradeRepository.class);
         ICourseEditionRepository courseEditionRepositoryListDouble = mock(ICourseEditionRepository.class);
 
         US25_IWantToKnowTheAverageGradeOfACourseEditionController controlador1 = new US25_IWantToKnowTheAverageGradeOfACourseEditionController(studentGradeRepositoryListDouble,courseEditionRepositoryListDouble);

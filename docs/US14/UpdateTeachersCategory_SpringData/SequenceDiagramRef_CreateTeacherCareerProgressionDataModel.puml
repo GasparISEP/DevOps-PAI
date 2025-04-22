@@ -1,0 +1,67 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Diagram Referenced in US15_SequenceDiagram
+
+participant ":TeacherCareerProgressionRepo" as TCPRepo #lightblue
+participant ":TeacherCareerProgressionMapper" as TCPMapper #lightblue
+participant "tcp1:TeacherCareerProgression" as TCP #lightblue
+participant "date:Date" as DateVO #lightblue
+participant "workingPercentage:WorkingPercentage" as WPVO #lightblue
+participant "teacherCategoryString:TeacherCategory" as TCVO #lightblue
+participant "TeacherAcronym:TeacherID" as TID #lightblue
+participant "TeacherAcronymString:TeacherAcronym" as TAcronym #lightblue
+participant "TeacherCareerProgressionToDataModel" as TCPDM #lightblue
+
+activate TCPRepo
+TCPRepo -> TCPMapper : TeacherCareerProgressionToDataModel(tcp1)
+
+activate TCPMapper
+TCPMapper -> TCP : getDate()
+activate TCP
+TCP --> TCPMapper : dateVO
+deactivate TCP
+TCPMapper -> DateVO : getLocalDate()
+activate DateVO
+DateVO -->TCPMapper : date
+deactivate DateVO
+
+TCPMapper -> TCP : getWorkingPercentage()
+activate TCP
+TCP --> TCPMapper : workingPercentageVO
+deactivate TCP
+TCPMapper -> WPVO : getWorkingPercentage()
+activate WPVO
+WPVO -->TCPMapper : workingPercentage
+deactivate WPVO
+
+TCPMapper -> TCP : getTeacherCategory()
+activate TCP
+TCP --> TCPMapper : teacherCategoryVO
+deactivate TCP
+TCPMapper -> TCVO : getTeacherCategory()
+activate TCVO
+TCVO -->TCPMapper : teacherCategoryString
+deactivate TCVO
+
+TCPMapper -> TCP : getTeacherID()
+activate TCP
+TCP --> TCPMapper : teacherIDVO
+deactivate TCP
+TCPMapper -> TID : getTeacherAcronym()
+activate TID
+TID -->TCPMapper : teacherAcronymVO
+deactivate TID
+TCPMapper -> TAcronym: getTeacherAcronym()
+activate TAcronym
+TAcronym --> TCPMapper: teacherAcronymString
+deactivate TAcronym
+|||
+TCPMapper -> TCPDM : create TeacherCareerProgression(date, workingPercentage,  teacherCategoryString, teacherAcronymString)
+activate TCPDM
+TCPDM --> TCPMapper : TCPDataModel
+deactivate TCPDM
+TCPMapper --> TCPRepo : TCPDataModel
+deactivate TCPMapper
+@enduml

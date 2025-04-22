@@ -19,44 +19,44 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldCreateController() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository StudentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(StudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
         //assert
         assertNotNull(controller);
     }
     @Test
     void shouldNotCreateControllerWhenStudentGradeRepoIsNull() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = null;
+        StudentGradeRepository studentGradeRepositorytudentGradeRepositoryDouble = null;
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
 
         //assert
-        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble,courseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
+        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositorytudentGradeRepositoryDouble,courseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
     }
     @Test
     void shouldNotCreateControllerWhenCourseEditionEnrollmentIsNull() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);;
+        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);;
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = null;
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
 
         //assert
-        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble,iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
+        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepository,iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
     }
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInCourseEdition() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
@@ -77,11 +77,11 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfStudentIDIsNotFoundAndEnrollInCourseEdition() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
@@ -102,11 +102,11 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseEditionIDNotFoundAndEnrollInCourseEdition() {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         StudentID studentID = mock(StudentID.class);
@@ -128,12 +128,12 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldAddGradeToAStudentInACourseEdition() throws Exception {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
 
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
@@ -146,7 +146,7 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
         when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(true);
-        when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
+        when(studentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
         boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
@@ -157,11 +157,11 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldNotAddGradeToAStudentWhenStudentIsNotEnrolledInACourseEdition() throws Exception {
         //arrange
-        IStudentGradeRepository iStudentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
+        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
         ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
         IStudentRepository studentRepository = mock(StudentRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(iStudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
 
         Student student = mock(Student.class);
         CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
@@ -175,7 +175,7 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
 
 
         when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(false);
-        when(iStudentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
+        when(studentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
 
         //act
         boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);

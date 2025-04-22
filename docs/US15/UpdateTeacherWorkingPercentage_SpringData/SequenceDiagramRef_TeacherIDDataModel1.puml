@@ -5,10 +5,10 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 title Diagram Referenced in US15_SequenceDiagram
 
 participant ":TeacherRepo" as TRepo
-participant ":TeacherMapper" as TMapper
-participant ":TeacherID" as TID
-participant ":TeacherAcronym" as TAVO
-participant ":TeacherDataModel" as TDM
+participant ":TeacherMapper" as TMapper #lightblue
+participant ":TeacherID" as TID #lightblue
+participant ":TeacherAcronym" as TAVO #lightblue
+participant ":TeacherDataModel" as TDM #lightblue
 
 TRepo -> TMapper : teacherIDtoDataModel(teacherID)
 activate TRepo
