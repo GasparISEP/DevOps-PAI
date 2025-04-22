@@ -21,33 +21,15 @@ UI -> Controller : getAllProgrammesIDs()
 activate Controller
 participant ":IProgrammeService" as IProgrammeService
 Controller -> IProgrammeService : getAllProgrammesIDs()
-participant ":IProgrammeRepository" as ProgrammeRepository
+participant ":IProgrammeRepository" as IProgrammeRepository
 activate IProgrammeService
-IProgrammeService -> ProgrammeRepository : getAllProgrammesIDs()
-activate ProgrammeRepository
-participant ":ProgrammeDDDRepositoryImpl" as ProgrammeDDDRepositoryImpl
-ProgrammeRepository -> ProgrammeDDDRepositoryImpl : getAllProgrammesIDs()
-activate ProgrammeDDDRepositoryImpl
-
-create ":ProgrammeArrayList"
-ProgrammeDDDRepositoryImpl -> ":ProgrammeArrayList": create()
-participant ":ProgrammeDDD" as ProgrammeDDD
-loop for each "prog[i]:ProgrammeDDDRepositoryImpl" as ProgrammeDDDRepositoryImpl
-ProgrammeDDDRepositoryImpl -> ProgrammeDDD :  getProgrammesID()
-participant ":ProgrammeDDD" as ProgrammeDDD
-activate ProgrammeDDD
-ProgrammeDDD --> ProgrammeDDDRepositoryImpl : progID
-deactivate ProgrammeDDD
-ProgrammeDDDRepositoryImpl -> ":ProgrammeArrayList" :  add()
-activate ":ProgrammeArrayList"
-":ProgrammeArrayList" --> ProgrammeDDDRepositoryImpl: True
-deactivate ":ProgrammeArrayList"
-end
-
-ProgrammeDDDRepositoryImpl --> ProgrammeRepository : listOfProgrammesIDs
-deactivate ProgrammeDDDRepositoryImpl
-ProgrammeRepository --> IProgrammeService : listOfProgrammesIDs
-deactivate ProgrammeRepository
+IProgrammeService -> IProgrammeRepository : getAllProgrammesIDs()
+activate IProgrammeRepository
+ref over IProgrammeRepository
+    SD getAllProgrammesIDs
+end ref
+IProgrammeRepository --> IProgrammeService : listOfProgrammesIDs
+deactivate IProgrammeRepository
 IProgrammeService --> Controller : listOfProgrammesIDs
 deactivate IProgrammeService
 Controller --> UI : listOfProgrammesIDs
@@ -64,35 +46,17 @@ activate Controller
 participant ":ISchoolYearService" as ISchoolYearService
 Controller -> ISchoolYearService : getAllSchoolYearsIDs()
 participant ":ISchoolYearRepository" as ISchoolYearRepository
-participant ":SchoolYearRepository" as SchoolYearRepository
 activate ISchoolYearService
 ISchoolYearService -> ISchoolYearRepository : getAllSchoolYearsIDs()
 activate ISchoolYearRepository
-ISchoolYearRepository -> SchoolYearRepository : getAllSchoolYearsIDs()
-activate SchoolYearRepository
-
-create ":SchoolYearArrayList"
-SchoolYearRepository -> ":SchoolYearArrayList": create()
-participant ":SchoolYear" as SchoolYear
-loop for each "sy[i]:SchoolYearRepository" as SchoolYearRepository
-SchoolYearRepository -> SchoolYear :  getAllSchoolYearsIDs()
-participant ":SchoolYear" as SchoolYear
-activate SchoolYear
-SchoolYear --> SchoolYearRepository : syID
-deactivate SchoolYear
-SchoolYearRepository -> ":SchoolYearArrayList" :  add()
-activate ":SchoolYearArrayList"
-":SchoolYearArrayList" --> SchoolYearRepository: True
-deactivate ":SchoolYearArrayList"
-end
-SchoolYearRepository --> ISchoolYearRepository : listOfSchoolYearsIDs
-deactivate SchoolYearRepository
-ISchoolYearRepository --> ISchoolYearService : listOfSchoolYearsIDs
-
+ref over ISchoolYearRepository
+    SD getAllSchoolYearsIDs
+end ref
+ISchoolYearRepository --> ISchoolYearService: listOfSchoolYearsIDs
 deactivate ISchoolYearRepository
-Controller --> UI : listOfSchoolYearsIDs
 ISchoolYearService --> Controller : listOfSchoolYearsIDs
 deactivate ISchoolYearService
+Controller --> UI : listOfSchoolYearsIDs
 deactivate Controller
 UI --> ASC : Here is the list SchoolYears!\nWhat schoolYear do you want?
 deactivate UI
@@ -104,6 +68,9 @@ ASC -> UI : Yes!
 
 activate UI
 UI -> Controller : enrolStudentInProgrammeEditionAndSetOfCourses\nEditions(studentID, programmeID, schoolYearID)
+ref over Controller
+    SD Convert studentID, programmeID and schoolYearID to VO
+end ref
 activate Controller
 participant ":IProgrammeEditionEnrolmentService" as IProgrammeEditionEnrolmentService
 Controller -> IProgrammeEditionEnrolmentService : enrolStudentInProgrammeEditionAndSetOfCourses\nEditions(studentID, programmeID, schoolYearID)
@@ -112,116 +79,104 @@ activate IProgrammeEditionEnrolmentService
 participant ":IProgrammeEnrolmentRepository" as IProgrammeEnrolmentRepository
 IProgrammeEditionEnrolmentService -> IProgrammeEnrolmentRepository : isStudentEnrolled(studentID, programmeID)
 activate IProgrammeEnrolmentRepository
-participant "e[i]:ProgrammeEnrolment" as Enrolment
-loop for each "e[i]:ProgrammeEnrolment" as Enrolment
-IProgrammeEnrolmentRepository -> Enrolment : StudentID: hasSameStudent()
-IProgrammeEnrolmentRepository -> Enrolment : ProgrammeID: hasSameProgramme()
-end
-deactivate Enrolment
+ref over IProgrammeEnrolmentRepository
+    SD isStudentEnrolled (studentID, programmeID)
+end ref
 IProgrammeEnrolmentRepository --> IProgrammeEditionEnrolmentService : True
 deactivate IProgrammeEnrolmentRepository
 IProgrammeEditionEnrolmentService --> Controller : True
 deactivate IProgrammeEditionEnrolmentService
 
 '' Find Programme Edition by SchoolYear and Programme
-participant ":IProgrammeEditionRepository" as ProgrammeEditionRepository
+participant ":IProgrammeEditionRepository" as IProgrammeEditionRepository
 Controller -> IProgrammeEditionEnrolmentService
 activate IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService -> ProgrammeEditionRepository : findProgrammeEditionIDProgrammeIDAnd\nSchoolYearID(programmeID, schoolYearID)
-activate ProgrammeEditionRepository
-participant ":ProgrammeEdition" as ProgrammeEdition
-loop for each "pe[i]:ProgrammeEditionRepository" as ProgrammeEditionRepository
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findProgrammeIDInProgrammeEdition(programmeID)
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findSchoolYearIDInProgrammeEdition(schoolYearID)
-ProgrammeEdition --> ProgrammeEditionRepository : peID
-end
-ProgrammeEditionRepository --> IProgrammeEditionEnrolmentService :  peID
-deactivate ProgrammeEditionRepository
+IProgrammeEditionEnrolmentService -> IProgrammeEditionRepository : findProgrammeEditionIDProgrammeIDAnd\nSchoolYearID(programmeID, schoolYearID)
+activate IProgrammeEditionRepository
+ref over IProgrammeEditionRepository
+    SD findProgrammeEditionBySchoolYearAndProgramme (programmeID, schoolYearID)
+end ref
+IProgrammeEditionRepository --> IProgrammeEditionEnrolmentService :  peID
+deactivate IProgrammeEditionRepository
 IProgrammeEditionEnrolmentService --> Controller : peID
 deactivate IProgrammeEditionEnrolmentService
 
 '' Is Student Enrolled in This Programme Edition
 
-participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+participant ":IProgrammeEditionEnrolmentRepository" as IProgrammeEditionEnrolmentRepository
 Controller -> IProgrammeEditionEnrolmentService : isStudentEnrolledInThis\nProgrammeEdition(studentID, peID)
 activate IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService ->  ProgrammeEditionEnrolmentRepository
-activate ProgrammeEditionEnrolmentRepository
-participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
-loop for each "pee[i]:ProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
-participant ":Student" as Student
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameProgrammeEdition(programmeEditionID)
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameStudent(studentID)
-participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
-end
-ProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService : False
-deactivate "ProgrammeEditionEnrolmentRepository"
+IProgrammeEditionEnrolmentService ->  IProgrammeEditionEnrolmentRepository
+activate IProgrammeEditionEnrolmentRepository
+ref over IProgrammeEditionEnrolmentRepository
+    SD isStudentEnrolledInThisProgrammeEdition (studentID, peID)
+end ref
+IProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService : False
+deactivate IProgrammeEditionEnrolmentRepository
 IProgrammeEditionEnrolmentService --> Controller : False
 deactivate IProgrammeEditionEnrolmentService
 
 '' Enroll Student in Programme Edition
 Controller -> IProgrammeEditionEnrolmentService : enrollStudentInProgramme\nEdition(studentID, peID)
 activate IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService -> ProgrammeEditionEnrolmentRepository : enrollStudentInProgrammeEdition(studentID, peID)
-activate "ProgrammeEditionEnrolmentRepository"
-participant ":IProgrammeEditionEnrolmentFactory" as IProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrolmentRepository -> IProgrammeEditionEnrolmentFactory: newProgrammeEditionEnrolment(studentID, peID)
-activate IProgrammeEditionEnrolmentFactory
-create "peeID:ProgrammeEditionEnrolment"
-IProgrammeEditionEnrolmentFactory -> "peeID:ProgrammeEditionEnrolment" : newProgrammeEditionEnrolment(studentID, peID)
-deactivate IProgrammeEditionEnrolmentFactory
-create "pe[i]:ProgrammeEditionIDArrayList"
-ProgrammeEditionEnrolmentRepository -> "pe[i]:ProgrammeEditionIDArrayList":  add(peeID)
-activate "pe[i]:ProgrammeEditionIDArrayList"
-ProgrammeEditionEnrolmentRepository <-- "pe[i]:ProgrammeEditionIDArrayList":  True
-deactivate "pe[i]:ProgrammeEditionIDArrayList"
-ProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService : True
-deactivate ProgrammeEditionEnrolmentRepository
-IProgrammeEditionEnrolmentService --> Controller : True
+IProgrammeEditionEnrolmentService -> IProgrammeEditionEnrolmentRepository : enrollStudentInProgrammeEdition(studentID, peID)
+activate IProgrammeEditionEnrolmentRepository
+ref over IProgrammeEditionEnrolmentRepository
+    SD Convert ProgrammeEditionEnrolment to DataModel
+end ref
+
+participant ":IProgrammeEditionEnrolmentSpringDataJPA" as peeJPAInterface
+
+' database save
+
+IProgrammeEditionEnrolmentRepository -> peeJPAInterface: save (peeDataModel : ProgrammeEditionEnrolmentDataModel)
+activate peeJPAInterface
+
+' persistence ok
+
+peeJPAInterface --> IProgrammeEditionEnrolmentRepository: True
+deactivate peeJPAInterface
+
+IProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService: True
+deactivate IProgrammeEditionEnrolmentRepository
+
+IProgrammeEditionEnrolmentService --> Controller: True
 deactivate IProgrammeEditionEnrolmentService
+
 
 '' Find Course Edition by Programme Edition
 
-participant ":ICourseEditionRepository" as CourseEditionRepository
+participant ":ICourseEditionRepository" as ICourseEditionRepository
 Controller -> IProgrammeEditionEnrolmentService : findCourseEditionsByProgrammeEdition(peeID)
 activate IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService -> CourseEditionRepository : findCourseEditionsByProgrammeEdition(peeID)
-participant ":CourseEdition" as CourseEdition
-activate CourseEditionRepository
-participant ":CourseEditionListFactory" as CourseEditionListFactory
-CourseEditionRepository -> CourseEditionListFactory: newArrayList()
-activate CourseEditionListFactory
-create "ce[i]:CourseEditionIDArrayList"
-CourseEditionListFactory -> "ce[i]:CourseEditionIDArrayList": newArrayList ()
-deactivate CourseEditionListFactory
-loop for each "ce[i]:CourseEditionRepository" as CourseEditionRepository
-CourseEditionRepository -> CourseEdition :  getProgrammeEditionID()
-activate CourseEdition
-CourseEdition --> CourseEditionRepository : ceID
-deactivate CourseEdition
-participant ":CourseEditionArrayList" as CourseEditionArrayList
-CourseEditionRepository -> "ce[i]:CourseEditionIDArrayList" :  add(ceID)
-activate "ce[i]:CourseEditionIDArrayList"
-"ce[i]:CourseEditionIDArrayList" --> CourseEditionRepository: True
-deactivate "ce[i]:CourseEditionIDArrayList"
-end
-participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
-CourseEditionRepository -> CourseEditionEnrolmentRepository : enrolStudentInProgrammeCourseEditions(studentID, CourseEditionIDArrayList)
-deactivate CourseEditionRepository
-participant ":CourseEditionEnrolment" as CourseEditionEnrolment
-activate CourseEditionEnrolmentRepository
-loop for each "cee[i]:CourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
-CourseEditionEnrolmentRepository -> CourseEditionEnrolment : findByStudentAndEdition(studentID, ceID)
-CourseEditionEnrolmentRepository -> CourseEditionEnrolment : isPresent()
-create CourseEditionEnrolmentHashSet
-CourseEditionEnrolmentRepository -> CourseEditionEnrolmentHashSet : enrolStudentInACourseEdition(studentID, ceID)
-activate CourseEditionEnrolmentHashSet
-CourseEditionEnrolmentHashSet --> CourseEditionEnrolmentRepository : True
-deactivate CourseEditionEnrolmentHashSet
-end
-CourseEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService : True
-deactivate CourseEditionEnrolmentRepository
-IProgrammeEditionEnrolmentService --> Controller : True
+IProgrammeEditionEnrolmentService -> ICourseEditionRepository : findCourseEditionsByProgrammeEdition(peeID)
+activate ICourseEditionRepository
+ref over ICourseEditionRepository
+    SD toFind CourseEdition by PE
+end ref
+ICourseEditionRepository -> ICourseEditionEnrolmentRepository: enrolStudentInACourse\nEdition(studentId, cee)
+activate ICourseEditionEnrolmentRepository
+
+ref over ICourseEditionEnrolmentRepository
+    SD Convert CourseEditionEnrolment to DataModel
+end ref
+
+participant ":ICourseEditionEnrolmentSpringDataJPA" as ICourseEditionEnrolmentSpringDataJPA
+
+' database save
+
+ICourseEditionEnrolmentRepository -> ICourseEditionEnrolmentSpringDataJPA: save (ceeDataModel : CourseEditionEnrolmentDataModel)
+activate ICourseEditionEnrolmentSpringDataJPA
+
+' persistence ok
+
+ICourseEditionEnrolmentSpringDataJPA --> ICourseEditionEnrolmentRepository: True
+deactivate ICourseEditionEnrolmentSpringDataJPA
+ICourseEditionEnrolmentRepository --> ICourseEditionRepository: True
+deactivate ICourseEditionEnrolmentRepository
+ICourseEditionRepository --> IProgrammeEditionEnrolmentService: True
+deactivate ICourseEditionRepository
+IProgrammeEditionEnrolmentService --> Controller: True
 deactivate IProgrammeEditionEnrolmentService
 Controller --> UI : True
 deactivate Controller
