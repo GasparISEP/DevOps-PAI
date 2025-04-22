@@ -107,6 +107,11 @@ class ProgrammeEnrolmentMapper {
 }
 
 class ProgrammeEnrolmentDataModel {
+-peIDDataModel: ProgrammeEnrolmentIDDataModel
+-studentIDDataModel: StudentIDDataModel
+-programmeIDDataModel: ProgrammeIDDataModel
+-amIDDataModel: AccessMethodIDDataModel
+-date: LocalDate
 +ProgrammeEnrolmentDataModel(pe: ProgrammeEnrolment)
 +createProgrammeEnrolmentDomain(peDataModel: ProgrammeEnrolmentDataModel)
 }
@@ -181,7 +186,7 @@ StudentRepository -l.> IStudentSpringDataRepository
 ProgrammeEnrolmentService "1" --> "1..*" IAccessMethodRepository
 AccessMethodRepository -u.|> IAccessMethodRepository
 AccessMethodRepository -d.> IAccessMethodSpringDataRepository
-ProgrammeRepository -d> ProgrammeEnrolmentMapper
+ProgrammeEnrolmentSpringDataRepository -d> ProgrammeEnrolmentMapper
 ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeRepository
 ProgrammeRepository -u.|> IProgrammeRepository
 ProgrammeRepository -u.> IProgrammeSpringDataRepository
@@ -190,18 +195,16 @@ ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeEnrolmentRepository
 IProgrammeEnrolmentRepository <|.r. ProgrammeEnrolmentSpringDataRepository
 ProgrammeEnrolmentSpringDataRepository -u.> IProgrammeEnrolmentSpringDataRepository
 
-
 "<<root>>\nStudent" "1" --> "1" "<<VO>>\nStudentID"
 "<<root>>\nAccessMethod" "1" --> "1" "<<VO>>\nAccessMethodID"
 "<<root>>\nProgramme" "1" --> "1" "<<VO>>\nProgrammeID"
 
 IStudentRepository "1" -d.> "*" "<<root>>\nStudent"
 IAccessMethodRepository "1" -.> "*" "<<root>>\nAccessMethod"
-IProgrammeRepository "1" -r.> "*" "<<root>>\nProgramme"
+IProgrammeRepository "1" -d.> "*" "<<root>>\nProgramme"
 IProgrammeEnrolmentFactory "1..*" .l.> "*\ncreates" "<<root>>\nProgrammeEnrolment"
 ProgrammeEnrolmentSpringDataRepository "1" -.> "1" IProgrammeEnrolmentFactory
 IProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
-
 
 "<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nStudentID"
 "<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nProgrammeID"
