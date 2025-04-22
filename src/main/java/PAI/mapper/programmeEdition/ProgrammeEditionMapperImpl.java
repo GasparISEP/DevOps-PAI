@@ -1,5 +1,8 @@
 package PAI.mapper.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.IProgrammeIDMapper;
@@ -52,10 +55,15 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
     }
 
     @Override
-    public Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel) {
+    public Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel) throws Exception {
         if(programmeEditionDataModel == null) {
-            throw new IllegalArgumentException("Programme Edition Data Model cannot be null");
+            return Optional.empty();
         }
-        return Optional.empty();
+        ProgrammeEditionID programmeEditionID = _programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
+        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeIDDataModel());
+        SchoolYearID schoolYearID = _schoolYearIDMapper.toDomain(programmeEditionDataModel.getSchoolYearIDDataModel());
+
+        ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        return Optional.of(programmeEdition);
     }
 }
