@@ -262,70 +262,70 @@ class US19_CreateCourseEditionControllerTest {
         verify(programmeEditionRepositoryDouble).getProgrammeEditionsByProgrammeID(programmeIDDouble);
     }
 
-    @Test
-    void shouldReturnTrueIfCourseEditionIsCreatedSuccessfully() {
-        // Arrange
-        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
-        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
-        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
-        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
-        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
+//    @Test
+//    void shouldReturnTrueIfCourseEditionIsCreatedSuccessfully() {
+//        // Arrange
+//        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
+//        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
+//        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
+//        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
+//        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
+//
+//        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+//        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+//
+//        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+//                .thenReturn(true);
+//
+//        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+//                degreeTypeRepositoryDouble,
+//                programmeRepositoryDouble,
+//                studyPlanRepositoryDouble,
+//                courseInStudyPlanServiceDouble,
+//                programmeEditionRepositoryDouble,
+//                courseEditionRepositoryDouble
+//        );
+//
+//        // Act
+//        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+//
+//        // Assert
+//        assertTrue(result);
+//        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+//    }
 
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-
-        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
-                .thenReturn(true);
-
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
-                degreeTypeRepositoryDouble,
-                programmeRepositoryDouble,
-                studyPlanRepositoryDouble,
-                courseInStudyPlanServiceDouble,
-                programmeEditionRepositoryDouble,
-                courseEditionRepositoryDouble
-        );
-
-        // Act
-        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-
-        // Assert
-        assertTrue(result);
-        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-    }
-
-    @Test
-    void shouldReturnFalseIfCourseEditionIsNotCreated() {
-        // Arrange
-        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
-        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
-        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
-        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
-        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
-
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-
-        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
-                .thenReturn(false);
-
-        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
-                degreeTypeRepositoryDouble,
-                programmeRepositoryDouble,
-                studyPlanRepositoryDouble,
-                courseInStudyPlanServiceDouble,
-                programmeEditionRepositoryDouble,
-                courseEditionRepositoryDouble
-        );
-
-        // Act
-        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-
-        // Assert
-        assertFalse(result);
-        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
-    }
+//    @Test
+//    void shouldReturnFalseIfCourseEditionIsNotCreated() {
+//        // Arrange
+//        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
+//        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
+//        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
+//        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
+//        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
+//
+//        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+//        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+//
+//        when(courseEditionRepositoryDouble.createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+//                .thenReturn(false);
+//
+//        US19_CreateCourseEditionController controller = new US19_CreateCourseEditionController(
+//                degreeTypeRepositoryDouble,
+//                programmeRepositoryDouble,
+//                studyPlanRepositoryDouble,
+//                courseInStudyPlanServiceDouble,
+//                programmeEditionRepositoryDouble,
+//                courseEditionRepositoryDouble
+//        );
+//
+//        // Act
+//        boolean result = controller.createCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+//
+//        // Assert
+//        assertFalse(result);
+//        verify(courseEditionRepositoryDouble, times(1)).createAndSaveCourseEdition(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+//    }
 
 }

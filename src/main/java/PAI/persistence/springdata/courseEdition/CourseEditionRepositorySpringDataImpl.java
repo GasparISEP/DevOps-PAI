@@ -1,7 +1,6 @@
 package PAI.persistence.springdata.courseEdition;
 
 import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
@@ -26,11 +25,6 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
         this.iCourseEditionRepositorySpringData = CourseEditionReposSD;
         this.iCourseEditionMapper = CourseEditionMapper;
-    }
-
-    @Override
-    public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return false;
     }
 
     @Override

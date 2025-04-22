@@ -582,92 +582,92 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     //----------------------INTEGRATION TESTS------------------------------
 
-    @Test
-    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
-
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepositoryImpl,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
-        Date date = new Date("20-12-2010");
-
-        Description description = new Description("School Year 24/25");
-        Date startDate = new Date("23-11-2024");
-        Date endDate = new Date("09-12-2025");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
-
-        SchoolYearID schoolYearId = new SchoolYearID();
-
-        AccessMethodID amId = new AccessMethodID();
-        StudentID studentID = mock(StudentID.class);
-
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
-        }
-        Date date1 = new Date("01-04-2023");
-        Date date2 = new Date("01-04-2024");
-        StudyPlanID studyPlanID1 = new StudyPlanID(programmeId, date1);
-        StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
-        doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
-        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
-        ProgrammeEditionID pe1 = pe1Opt.get();
-
-        Acronym acronym2 = new Acronym("DSOFT");
-        Name name2 = new Name("Software Development");
-        CourseID courseId2 = new CourseID(acronym2, name2);
-        Acronym acronym3 = new Acronym("LABPROJ");
-        Name name3 = new Name("Project Lab");
-        CourseID courseId1 = new CourseID(acronym3, name3);
-        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
-        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
-        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
-        CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
-        CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
-
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
-
-        // Act
-        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
-        boolean result2 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId1);
-        boolean result3 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId2);
-
-        // Assert
-        assertTrue(result, "The student is enrolled in the ProgrammeEdition.");
-        assertTrue(result2, "The Student is enrolled in the CourseEdition.");
-        assertTrue(result3, "The Student is enrolled in the CourseEdition.");
-    }
+//    @Test
+//    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
+//        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
+//        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepositoryImpl,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository);
+//        Date date = new Date("20-12-2010");
+//
+//        Description description = new Description("School Year 24/25");
+//        Date startDate = new Date("23-11-2024");
+//        Date endDate = new Date("09-12-2025");
+//        schoolYearRepository.addSchoolYear(description, startDate, endDate);
+//
+//        SchoolYearID schoolYearId = new SchoolYearID();
+//
+//        AccessMethodID amId = new AccessMethodID();
+//        StudentID studentID = mock(StudentID.class);
+//
+//        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        Acronym pAcronym = new Acronym("CEN");
+//        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+//
+//        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+//            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
+//        }
+//        Date date1 = new Date("01-04-2023");
+//        Date date2 = new Date("01-04-2024");
+//        StudyPlanID studyPlanID1 = new StudyPlanID(programmeId, date1);
+//        StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
+//        doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
+//        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
+//        ProgrammeEditionID pe1 = pe1Opt.get();
+//
+//        Acronym acronym2 = new Acronym("DSOFT");
+//        Name name2 = new Name("Software Development");
+//        CourseID courseId2 = new CourseID(acronym2, name2);
+//        Acronym acronym3 = new Acronym("LABPROJ");
+//        Name name3 = new Name("Project Lab");
+//        CourseID courseId1 = new CourseID(acronym3, name3);
+//        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
+//        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
+//        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
+//        CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
+//        CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
+//
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
+//
+//        // Act
+//        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
+//        boolean result2 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId1);
+//        boolean result3 = courseEditionEnrolmentRepositoryImpl.isStudentEnrolledInCourseEdition(studentID, courseEditionId2);
+//
+//        // Assert
+//        assertTrue(result, "The student is enrolled in the ProgrammeEdition.");
+//        assertTrue(result2, "The Student is enrolled in the CourseEdition.");
+//        assertTrue(result3, "The Student is enrolled in the CourseEdition.");
+//    }
 
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme_IntegrationTest() throws Exception {
@@ -840,87 +840,87 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
 
-    @Test
-    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
-        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
-
-
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepositoryImpl,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
-
-        Date date = new Date("20-12-2010");
-        SchoolYearID schoolYearId = new SchoolYearID();
-        AccessMethodID amId = new AccessMethodID();
-        StudentID studentID = mock(StudentID.class);
-
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
-
-        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
-            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
-        }
-        Date date1 = new Date("01-04-2023");
-        Date date2 = new Date("01-04-2024");
-        StudyPlanID studyPlanID1 = new StudyPlanID(programmeId, date1);
-        StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
-        doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
-        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
-        ProgrammeEditionID pe1 = pe1Opt.get();
-
-        Acronym acronym2 = new Acronym("DSOFT");
-        Name name2 = new Name("Software Development");
-        CourseID courseId2 = new CourseID(acronym2, name2);
-        Acronym acronym3 = new Acronym("LABPROJ");
-        Name name3 = new Name("Project Lab");
-        CourseID courseId1 = new CourseID(acronym3, name3);
-        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
-        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
-        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
-        CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
-        CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
-
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
-
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
-        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
-
-        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId1);
-        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId2);
-        // Act + Assert
-        assertThrows(IllegalStateException.class, () -> {
-            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
-        });
-    }
+//    @Test
+//    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
+//        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepository(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepositoryImpl,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository);
+//
+//        Date date = new Date("20-12-2010");
+//        SchoolYearID schoolYearId = new SchoolYearID();
+//        AccessMethodID amId = new AccessMethodID();
+//        StudentID studentID = mock(StudentID.class);
+//
+//        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        Acronym pAcronym = new Acronym("CEN");
+//        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+//
+//        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
+//            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
+//        }
+//        Date date1 = new Date("01-04-2023");
+//        Date date2 = new Date("01-04-2024");
+//        StudyPlanID studyPlanID1 = new StudyPlanID(programmeId, date1);
+//        StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
+//        doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
+//        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
+//        ProgrammeEditionID pe1 = pe1Opt.get();
+//
+//        Acronym acronym2 = new Acronym("DSOFT");
+//        Name name2 = new Name("Software Development");
+//        CourseID courseId2 = new CourseID(acronym2, name2);
+//        Acronym acronym3 = new Acronym("LABPROJ");
+//        Name name3 = new Name("Project Lab");
+//        CourseID courseId1 = new CourseID(acronym3, name3);
+//        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
+//        CourseInStudyPlanID courseInStudyPlanID1 = new CourseInStudyPlanID(courseId1, studyPlanID1);
+//        CourseInStudyPlanID courseInStudyPlanID2 = new CourseInStudyPlanID(courseId2, studyPlanID2);
+//        CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
+//        CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
+//
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
+//
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
+//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
+//
+//        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId1);
+//        courseEditionEnrolmentRepositoryImpl.enrolStudentInACourseEdition(studentID, courseEditionId2);
+//        // Act + Assert
+//        assertThrows(IllegalStateException.class, () -> {
+//            controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);
+//        });
+//    }
 
     @Test
     void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {

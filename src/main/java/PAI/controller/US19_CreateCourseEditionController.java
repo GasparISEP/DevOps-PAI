@@ -74,7 +74,7 @@ public class US19_CreateCourseEditionController {
 
     }
 
-    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-    }
+//    public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+//        return _courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+//    }
 }

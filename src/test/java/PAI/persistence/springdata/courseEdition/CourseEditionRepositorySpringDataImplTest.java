@@ -59,21 +59,21 @@ class CourseEditionRepositorySpringDataImplTest {
 
 
     //-----createAndSaveCourseEdition Tests-----
-    @Test
-    void shouldReturnAlwaysFalseWhenCreateAndSaveCourseEditionMethodIsCalled() {
-        // Arrange
-        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
-        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-
-        // Act
-        boolean result = courseEditionRepositorySpringData.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-
-        // Assert
-        assertFalse(result);
-    }
+//    @Test
+//    void shouldReturnAlwaysFalseWhenCreateAndSaveCourseEditionMethodIsCalled() {
+//        // Arrange
+//        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
+//        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
+//        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper);
+//        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+//        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+//
+//        // Act
+//        boolean result = courseEditionRepositorySpringData.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+//
+//        // Assert
+//        assertFalse(result);
+//    }
 
     //-----findCourseEditionsByProgrammeEdition Tests-----
     @Test
