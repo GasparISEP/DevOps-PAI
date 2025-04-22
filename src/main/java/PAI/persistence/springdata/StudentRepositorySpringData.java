@@ -2,9 +2,7 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.mapper.NIFMapper;
-import PAI.mapper.StudentIDMapper;
-import PAI.mapper.StudentMapper;
+import PAI.mapper.*;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.StudentDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
@@ -18,11 +16,11 @@ import java.util.stream.Collectors;
 public class StudentRepositorySpringData implements IStudentRepository {
 
     private IStudentRepositorySpringData studentRepositorySpringData;
-    private StudentMapper studentMapper;
-    private StudentIDMapper studentIDMapper;
-    private NIFMapper nifMapper;
+    private IStudentMapper studentMapper;
+    private IStudentIDMapper studentIDMapper;
+    private INIFMapper nifMapper;
 
-    public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, StudentMapper studentMapper, StudentIDMapper studentIDMapper, NIFMapper nifMapper ) {
+    public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, IStudentMapper studentMapper, IStudentIDMapper studentIDMapper, INIFMapper nifMapper ) {
 
         if (studentRepositorySpringData == null)
             throw new IllegalArgumentException("Student Repository SpringData must not be null");
