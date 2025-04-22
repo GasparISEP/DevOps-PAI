@@ -41,32 +41,24 @@ public class StudentRepositorySpringData implements IStudentRepository {
     }
 
     @Override
-    public Optional<Student> getStudentByID(StudentID studentID) {
-        int id = studentID.getUniqueNumber();
-        return studentRepositorySpringData.findById(id)
-                .map(dataModel -> {
-                    try {
-                        return studentMapper.dataModelToDomain(dataModel);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Mapping error", e);
-                    }
-                });
-    }
-
-    @Override
     public Optional<StudentID> findIdByStudent(Student student) {
+        StudentID id = student.identity();
 
-            StudentDataModel dataModel = studentMapper.domainToDataModel(student);
-            StudentIDDataModel idDataModel = dataModel.getStudentID();
+        if (containsOfIdentity(id))
+            return Optional.of(id);
 
-            return Optional.of(studentIDMapper.dataModelToDomain(idDataModel));
+        return Optional.empty();
     }
 
     @Override
     public Student save(Student student) {
         StudentDataModel studentDataModel = studentMapper.domainToDataModel(student);
-        studentRepositorySpringData.save(studentDataModel);
-        return student;
+        StudentDataModel savedStudentDataModel = studentRepositorySpringData.save(studentDataModel);
+        try {
+            return studentMapper.dataModelToDomain(savedStudentDataModel);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -84,7 +76,15 @@ public class StudentRepositorySpringData implements IStudentRepository {
 
     @Override
     public Optional<Student> ofIdentity(StudentID studentID) {
-        return getStudentByID(studentID);
+        int id = studentID.getUniqueNumber();
+        return studentRepositorySpringData.findById(id)
+                .map(dataModel -> {
+                    try {
+                        return studentMapper.dataModelToDomain(dataModel);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Mapping error", e);
+                    }
+                });
     }
 
     @Override
@@ -99,7 +99,6 @@ public class StudentRepositorySpringData implements IStudentRepository {
 
         return studentRepositorySpringData.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel);
         }
-
 }
 
 
