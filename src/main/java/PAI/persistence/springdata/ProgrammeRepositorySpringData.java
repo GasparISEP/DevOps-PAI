@@ -6,6 +6,7 @@ import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,5 +93,14 @@ public class ProgrammeRepositorySpringData {
         }
 
         return programmeNamesListVO;
+    }
+
+    public Optional<ProgrammeID> getProgrammeIDByName (NameWithNumbersAndSpecialChars programmeName){
+        String programmeNameToSearch = programmeName.toString();
+
+        Optional<ProgrammeIDDataModel> programmeIDDataModel = _iProgRepo.findProgrammeIDByName(programmeNameToSearch);
+
+        //If present return Optional com ProgrammeID, else return Empty
+        return programmeIDDataModel.map(_iProgIdMapper::toDomain);
     }
 }

@@ -8,6 +8,7 @@ import PAI.domain.programme.Programme;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.IProgrammeMapper;
 import PAI.persistence.datamodel.ProgrammeDataModel;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
@@ -308,6 +309,28 @@ class ProgrammeRepositorySpringDataTest {
 
         //assert
         assertNotNull(programmeNamesListVO);
+    }
+
+    @Test
+    void shouldGetProgrammeIDByName() {
+        //arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringData progRepo = new ProgrammeRepositorySpringData(iProgMapper, iProgRepo, iProgIdMapper);
+
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Programme1");
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        // Mock repository and mapper behavior
+        when(iProgRepo.findProgrammeIDByName(programmeName.toString())).thenReturn(Optional.of(programmeIDDataModel));
+        when(iProgIdMapper.toDomain(programmeIDDataModel)).thenReturn(programmeID);
+        //act
+        Optional<ProgrammeID> programmeIDDomain = progRepo.getProgrammeIDByName(programmeName);
+        //assert
+        assertTrue(programmeIDDomain.isPresent());
+        assertEquals(programmeID, programmeIDDomain.get());
     }
 
 }
