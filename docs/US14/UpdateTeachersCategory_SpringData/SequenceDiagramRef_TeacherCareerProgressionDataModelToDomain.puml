@@ -35,9 +35,9 @@ TCPIDDataModel --> TCPIDMapper: id
 deactivate TCPIDDataModel
 TCPIDMapper -> TCPID: createTeacherCareerProgressionID(id)
 activate TCPID
-TCPID --> TCPIDMapper: tcpID1
+TCPID --> TCPIDMapper: teacherCareerProgressionIDVO
 deactivate TCPID
-TCPIDMapper --> TCPMapper: tcpID1
+TCPIDMapper --> TCPMapper: teacherCareerProgressionIDVO
 deactivate TCPIDMapper
 TCPMapper -> TCPDataModel: getDate()
 activate TCPDataModel
