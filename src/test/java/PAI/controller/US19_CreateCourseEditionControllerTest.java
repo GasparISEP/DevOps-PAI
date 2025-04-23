@@ -197,7 +197,7 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnListOfCoursesInStudyPLanByProgrammeID() {
+    void shouldReturnListOfCoursesInStudyPLanByProgrammeID() throws Exception {
         //Arrange
         IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
         IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);

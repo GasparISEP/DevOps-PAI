@@ -33,7 +33,7 @@ public class StudentGradeService {
         return studentGradeRepository.save(studentGrade);
     }
 
-    public Double getAverageGrade(CourseEditionID courseEditionID) {
+    public Double getAverageGrade(CourseEditionID courseEditionID) throws Exception {
         int numOfStudent = 0;
         double sumGrade = 0;
 
@@ -52,7 +52,7 @@ public class StudentGradeService {
     }
 
 
-    public double knowApprovalRate(CourseEditionID courseEditionID) {
+    public double knowApprovalRate(CourseEditionID courseEditionID) throws Exception {
         int totalApprovalStudents = 0;
         int totalOfStudents = 0;
 

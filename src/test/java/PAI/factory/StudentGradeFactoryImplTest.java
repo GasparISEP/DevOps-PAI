@@ -325,7 +325,7 @@ class StudentGradeFactoryImplTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenStudentHasExistingGradeForCourseEdition() {
+    public void shouldReturnTrueWhenStudentHasExistingGradeForCourseEdition() throws Exception {
         // Arrange
         ICourseEditionRepository      courseEditionRepo     = mock(ICourseEditionRepository.class);
         IProgrammeEditionRepository   programmeEditionRepo  = mock(IProgrammeEditionRepository.class);

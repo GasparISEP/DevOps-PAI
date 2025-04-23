@@ -42,12 +42,12 @@ public class US13_RegisterTeacherAndRelevantDataController {
     }
 
     // Method to get all Teacher Categories
-    public Iterable<TeacherCategory> getTeacherCategoryList() throws IllegalStateException{
+    public Iterable<TeacherCategory> getTeacherCategoryList() throws Exception {
         return _teacherCategoryRepository.findAll();
     }
 
     // Method to get all Departments
-    public Iterable<Department> getDepartmentList() {
+    public Iterable<Department> getDepartmentList() throws Exception {
         return _departmentRepository.findAll();
     }
 

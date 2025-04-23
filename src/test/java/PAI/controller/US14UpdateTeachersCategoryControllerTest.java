@@ -71,7 +71,7 @@ class US14UpdateTeachersCategoryControllerTest {
     }
 
     @Test
-    void shouldReturnListOfTeachers() {
+    void shouldReturnListOfTeachers() throws Exception {
         //Arrange
         ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);
@@ -90,7 +90,7 @@ class US14UpdateTeachersCategoryControllerTest {
     }
 
     @Test
-    void shouldReturnListOfTeacherCategories() {
+    void shouldReturnListOfTeacherCategories() throws Exception {
         //Arrange
         ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepositoryDouble = mock(TeacherCategoryRepositoryImpl.class);

@@ -12,9 +12,9 @@ public interface ICourseInStudyPlanService {
     boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
                                     DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) throws Exception;
 
-    List<CourseInStudyPlan> getAllCoursesInStudyPlan();
+    List<CourseInStudyPlan> getAllCoursesInStudyPlan() throws Exception;
 
-    List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID);
+    List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) throws Exception;
 
     Optional<CourseInStudyPlan> findById(CourseInStudyPlanID courseInStudyPlanID);
 }

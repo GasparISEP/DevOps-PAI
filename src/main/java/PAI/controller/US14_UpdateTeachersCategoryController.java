@@ -36,12 +36,12 @@ public class US14_UpdateTeachersCategoryController {
         _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
-    public Iterable<Teacher> findAllTeachers() {
+    public Iterable<Teacher> findAllTeachers() throws Exception {
 
         return _teacherRepository.findAll();
     }
 
-    public Iterable<TeacherCategory> findAllTeacherCategories() {
+    public Iterable<TeacherCategory> findAllTeacherCategories() throws Exception {
 
         return _teacherCategoryRepository.findAll();
     }

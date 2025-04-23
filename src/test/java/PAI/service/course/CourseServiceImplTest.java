@@ -74,7 +74,7 @@ class CourseServiceImplTest {
     }
 
     @Test
-    void should_return_all_courses_from_repositories() {
+    void should_return_all_courses_from_repositories() throws Exception {
 
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);

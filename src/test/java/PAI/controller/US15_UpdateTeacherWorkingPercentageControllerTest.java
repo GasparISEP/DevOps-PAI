@@ -63,7 +63,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     }
 
     @Test
-    void shouldReturnListOfTeachers() {
+    void shouldReturnListOfTeachers() throws Exception {
         //arrange
         ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
         ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);

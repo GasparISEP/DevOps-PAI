@@ -85,7 +85,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCategoriesListIsEmpty() throws IllegalStateException {
+    void shouldReturnExceptionIfCategoriesListIsEmpty() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
@@ -97,7 +97,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnCategoryListWithRegisteredCategories() {
+    void shouldReturnCategoryListWithRegisteredCategories() throws Exception {
         // Arrange
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         List<TeacherCategory> tcListDouble = List.of(tcDouble);
@@ -114,7 +114,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfDepartmentsListIsEmpty() throws IllegalStateException {
+    void shouldReturnExceptionIfDepartmentsListIsEmpty() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);
@@ -126,7 +126,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     }
 
     @Test
-    void shouldReturnDepartmentListWithRegisteredDepartments() {
+    void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
                 _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherRepoDouble, _teacherCareerProgressionRepoDouble);

@@ -32,7 +32,7 @@ public class CourseServiceImpl {
         return this.courseRepository.save(course);
     }
 
-    public Iterable <Course> findAll() {
+    public Iterable <Course> findAll() throws Exception {
         return courseRepository.findAll();
     }
 

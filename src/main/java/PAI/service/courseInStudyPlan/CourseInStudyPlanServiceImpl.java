@@ -35,7 +35,7 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         }
 
 
-        public List<CourseInStudyPlan> getAllCoursesInStudyPlan() {
+        public List<CourseInStudyPlan> getAllCoursesInStudyPlan() throws Exception {
         List<CourseInStudyPlan> resultado = new ArrayList<>();
         for (CourseInStudyPlan c : _repository.findAll()) {
             resultado.add(c);
@@ -44,7 +44,7 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         }
 
 
-        public List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) {
+        public List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) throws Exception {
         List<CourseInStudyPlan> resultado = new ArrayList<>();
         for (CourseInStudyPlan c : _repository.findAll()) {
             if (c.identity().getStudyPlanID().equals(studyPlanID)) {

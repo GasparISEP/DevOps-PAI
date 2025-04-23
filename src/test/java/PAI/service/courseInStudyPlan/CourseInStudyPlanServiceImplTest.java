@@ -79,7 +79,7 @@ class CourseInStudyPlanServiceImplTest {
     }
 
     @Test
-    void getAllCoursesInStudyPlan_ReturnsListFromRepository() {
+    void getAllCoursesInStudyPlan_ReturnsListFromRepository() throws Exception {
         CourseInStudyPlan c1 = mock(CourseInStudyPlan.class);
         CourseInStudyPlan c2 = mock(CourseInStudyPlan.class);
         when(repository.findAll()).thenReturn(Arrays.asList(c1, c2));
@@ -92,7 +92,7 @@ class CourseInStudyPlanServiceImplTest {
     }
 
     @Test
-    void getCoursesByStudyPlanId_FiltersCorrectly() {
+    void getCoursesByStudyPlanId_FiltersCorrectly() throws Exception {
         CourseInStudyPlan c1 = mock(CourseInStudyPlan.class);
         CourseInStudyPlan c2 = mock(CourseInStudyPlan.class);
         StudyPlanID otherId = mock(StudyPlanID.class);

@@ -14,6 +14,7 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +94,17 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public Iterable<ProgrammeEdition> findAll() {
-        return null;
+        List<ProgrammeEdition> programmeEditions = new ArrayList<>();
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = _iProgrammeEditionRepositorySpringData.findAll();
+        for(ProgrammeEditionDataModel programmeEditionDataModel : programmeEditionDataModels) {
+            try {
+                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
+                programmeEdition.ifPresent(programmeEditions::add);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return programmeEditions;
     }
 
     @Override

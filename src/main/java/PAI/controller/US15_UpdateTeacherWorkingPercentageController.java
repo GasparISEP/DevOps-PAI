@@ -22,7 +22,7 @@ public class US15_UpdateTeacherWorkingPercentageController {
         _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
-    public Iterable<Teacher> findAll() {
+    public Iterable<Teacher> findAll() throws Exception {
 
         return _teacherRepository.findAll();
     }

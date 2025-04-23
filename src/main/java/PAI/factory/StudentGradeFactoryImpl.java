@@ -43,7 +43,7 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         return true;
     }
 
-    public boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
+    public boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID) throws Exception {
         for ( StudentGrade existingGradeStudent : _studentGradeRepository.findAll()){
             if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
         }
