@@ -19,7 +19,8 @@ class ProgrammeEditionEnrolmentDataModelTest {
     void shouldCreateEnrolmentDataModelWithCorrectIdAndEnrolmentDate() {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionID = mock(ProgrammeEditionIdDataModel.class);
-        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel("S001", programmeEditionID);
+        StudentIDDataModel studentIdDataModel = mock(StudentIDDataModel.class);
+        ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel(studentIdDataModel, programmeEditionID);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
         // Act
         ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
