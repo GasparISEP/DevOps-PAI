@@ -58,6 +58,12 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception {
+        if(programmeid == null) {
+            return Optional.empty();
+        }
+        if(schoolYearid == null) {
+            return Optional.empty();
+        }
         ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
         SchoolYearIDDataModel schoolYearIDDataModel = _iSchoolYearIDMapper.toDataModel(schoolYearid);
         Optional<ProgrammeEditionIdDataModel> programmeEditionIDDataModelOptional =
