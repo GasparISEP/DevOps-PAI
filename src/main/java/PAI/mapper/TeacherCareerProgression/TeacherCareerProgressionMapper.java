@@ -3,7 +3,6 @@ package PAI.mapper.TeacherCareerProgression;
 import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
-import PAI.mapper.ITeacherCareerProgressionIDMapper;
 import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
 

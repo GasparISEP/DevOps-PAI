@@ -1,5 +1,5 @@
 package PAI.service;
 
-public interface ITeacherCategoryApplicationService {
+public interface ITeacherCategoryService {
     boolean registerCategory(String categoryName) throws Exception;
 }

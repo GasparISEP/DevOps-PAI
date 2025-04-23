@@ -1,14 +1,17 @@
 package PAI.persistence.springdata;
 
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -227,5 +230,24 @@ class SchoolYearRepositorySpringDataImplTest {
             it.next();
         }
         assertEquals(0, count);
+    }
+
+    @Test
+    void shouldReturnOptionalSchoolYearIdForCurrentSchoolYear() {
+        //arrange
+        ISchoolYearRepositorySpringData ischoolYearRepositorySpringData = mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringDataImpl = new SchoolYearRepositorySpringDataImpl(ischoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        when(ischoolYearRepositorySpringData.findCurrentSchoolYear()).thenReturn(Optional.of(schoolYearIDDataModel));
+        when(schoolYearIDMapper.toDomain(schoolYearIDDataModel)).thenReturn(schoolYearID);
+        //act
+        Optional<SchoolYearID> result = schoolYearRepositorySpringDataImpl.getCurrentSchoolYear();
+        //assert
+        assertEquals(Optional.of(schoolYearID), result);
     }
 }
