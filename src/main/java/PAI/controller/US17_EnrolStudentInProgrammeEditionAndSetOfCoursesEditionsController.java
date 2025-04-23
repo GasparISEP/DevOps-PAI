@@ -47,7 +47,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
 
    // Enroll a student in a ProgrammeEdition.
     public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(
-            StudentID studentId, ProgrammeID programmeId, SchoolYearID schoolYearId ) {
+            StudentID studentId, ProgrammeID programmeId, SchoolYearID schoolYearId ) throws Exception{
 
         if (!_programmeEnrolmentRepository.isStudentEnrolled(studentId, programmeId)) {
             return false;
