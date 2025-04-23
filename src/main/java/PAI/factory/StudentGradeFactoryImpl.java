@@ -28,18 +28,18 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         this._schoolYearRepository = _schoolYearRepository;
     }
 
-//    private boolean isDateGradeInRangeWithSchoolYear (CourseEditionID courseEditionID, Date dates) throws Exception{
-//        Optional<CourseEdition> courseEdition = _courseEditionRepository.ofIdentity(courseEditionID);
-//        ProgrammeEditionID programmeEditionID = _courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition.get());
-//        Optional<ProgrammeEdition> programmeEdition = _programmeEditionRepository.ofIdentity(programmeEditionID);
-//        SchoolYearID schoolYearID = _programmeEditionRepository.getSchoolYearIDByProgrammeEdition(programmeEdition.get());
-//        Optional<SchoolYear> schoolYear = _schoolYearRepository.ofIdentity(schoolYearID);
-//        LocalDate start = schoolYear.get().getStartDate().getLocalDate();
-//        LocalDate finalD = schoolYear.get().getEndDate().getLocalDate();
-//        LocalDate gradeDate = dates.getLocalDate();
-//        if (gradeDate.isBefore(start) || gradeDate.isAfter(finalD)) return false;
-//        return true;
-//    }
+    private boolean isDateGradeInRangeWithSchoolYear (CourseEditionID courseEditionID, Date dates) throws Exception{
+        Optional<CourseEdition> courseEdition = _courseEditionRepository.ofIdentity(courseEditionID);
+        ProgrammeEditionID programmeEditionID = courseEdition.get().getProgrammeEditionID();
+        Optional<ProgrammeEdition> programmeEdition = _programmeEditionRepository.ofIdentity(programmeEditionID);
+        SchoolYearID schoolYearID = programmeEdition.get().findSchoolYearIDInProgrammeEdition();
+        Optional<SchoolYear> schoolYear = _schoolYearRepository.ofIdentity(schoolYearID);
+        LocalDate start = schoolYear.get().getStartDate().getLocalDate();
+        LocalDate finalD = schoolYear.get().getEndDate().getLocalDate();
+        LocalDate gradeDate = dates.getLocalDate();
+        if (gradeDate.isBefore(start) || gradeDate.isAfter(finalD)) return false;
+        return true;
+    }
 
     public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
         if (grade == null){
@@ -55,9 +55,9 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
             throw  new IllegalArgumentException("Course Edition cannot be null");
         }
 
-        //if (isDateGradeInRangeWithSchoolYear(courseEditionID,date)){
+        if (isDateGradeInRangeWithSchoolYear(courseEditionID,date)){
         return new StudentGrade(grade, date, student, courseEditionID);
-    //}
-        //throw new IllegalArgumentException("Date is out of Range");
+    }
+        throw new IllegalArgumentException("Date is out of Range");
         }
 }
