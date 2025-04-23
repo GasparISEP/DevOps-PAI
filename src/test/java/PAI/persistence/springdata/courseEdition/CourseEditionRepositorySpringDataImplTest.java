@@ -201,7 +201,7 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----save Tests-----
     @Test
-    void shouldReturnNullWhenSaveMethodIsReceivesANullCourseEdition() {
+    void shouldReturnNullWhenSaveMethodIsReceivesANullCourseEdition() throws Exception {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);

@@ -27,7 +27,7 @@ public class CourseServiceImpl {
             throw new IllegalArgumentException("Course Repository cannot be null.");
     }
 
-    public Course newCourse (Name name, Acronym acronym) {
+    public Course newCourse (Name name, Acronym acronym) throws Exception {
         Course course = this.courseFactory.createCourse(name, acronym);
         return this.courseRepository.save(course);
     }

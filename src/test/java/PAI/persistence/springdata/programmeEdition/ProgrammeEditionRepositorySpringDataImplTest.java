@@ -223,8 +223,9 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         assertTrue(programmeEditionID.isEmpty());
     }
 
+    // save TESTS
     @Test
-    void save() {
+    void shouldReturnOptionalProgrammeEditionWhenSave() throws Exception {
         //arrange
         IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
         IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
@@ -234,12 +235,89 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
-        ProgrammeEdition entity = mock(ProgrammeEdition.class);
-        //act
-        ProgrammeEdition programmeEdition = programmeEditionRepositorySpringDataImpl.save(entity);
-        //assert
-        assertNull(programmeEdition);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
 
+        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
+
+        when(iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel)).thenReturn(programmeEditionDataModel);
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel)).thenReturn(Optional.of(programmeEdition));
+        //act
+        ProgrammeEdition result = programmeEditionRepositorySpringDataImpl.save(programmeEdition);
+        //assert
+        assertNotNull(result);
+        assertEquals(programmeEdition, result);
+    }
+
+    @Test
+    void shouldReturnNullWhenProgrammeEditionNull() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeEdition programmeEdition = null;
+
+        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+
+        when(iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel)).thenReturn(programmeEditionDataModel);
+        //act
+        ProgrammeEdition result = programmeEditionRepositorySpringDataImpl.save(null);
+        //assert
+        assertNull(result);
+        assertEquals(programmeEdition, result);
+    }
+
+    @Test
+    void shouldReturnNullWhenProgrammeEditionDataModelEmpty() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.empty());
+
+        //act
+        ProgrammeEdition result = programmeEditionRepositorySpringDataImpl.save(programmeEdition);
+        //assert
+        assertNull(result);
+        assertNotEquals(programmeEdition, result);
+    }
+
+    @Test
+    void shouldReturnNullWhenProgrammeEditionEmpty() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+
+        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
+
+        when(iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel)).thenReturn(programmeEditionDataModel);
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel)).thenReturn(Optional.empty());
+        //act
+        ProgrammeEdition result = programmeEditionRepositorySpringDataImpl.save(programmeEdition);
+        //assert
+        assertNull(result);
+        assertNotEquals(programmeEdition, result);
     }
 
     @Test

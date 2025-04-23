@@ -59,7 +59,7 @@ class CourseInStudyPlanServiceImplTest {
     }
 
     @Test
-    void createCourseInStudyPlan_SuccessWhenNotExists() {
+    void createCourseInStudyPlan_SuccessWhenNotExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(false);
 
         boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
@@ -69,7 +69,7 @@ class CourseInStudyPlanServiceImplTest {
     }
 
     @Test
-    void createCourseInStudyPlan_FailsWhenAlreadyExists() {
+    void createCourseInStudyPlan_FailsWhenAlreadyExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(true);
 
         boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);

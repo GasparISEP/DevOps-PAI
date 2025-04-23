@@ -13,5 +13,11 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
         }
         _iStudentGradeService = iStudentGradeService;
     }
+    public double CalculateApprovalPercentageOfACourseEdition (CourseEditionID courseEditionID){
+        if (courseEditionID == null){
+            throw new IllegalArgumentException("CourseEditionID cannot be null");
+        }
+        return _iStudentGradeService.knowApprovalRate(courseEditionID);
     }
+}
 
