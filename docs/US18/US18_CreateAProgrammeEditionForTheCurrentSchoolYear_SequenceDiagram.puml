@@ -44,7 +44,7 @@ PS --> CPEC -- : programmeID
 
 'get current School Year
 CPEC -> SYS ++ #application : getCurrentSchoolYear()
-SYS -> SYR ++ #application : getCurrentSchoolYear()
+SYS -> SYR ++ #application : findCurrentSchoolYear()
 ref over SYR
     convert DataModel to Domain
 end ref
