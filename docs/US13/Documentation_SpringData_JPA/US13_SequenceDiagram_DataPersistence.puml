@@ -109,7 +109,7 @@ deactivate IteacherService
 IteacherService -> IteacherRepoJPA : save(t1)
 activate IteacherService
 activate IteacherRepoJPA
-ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t __toDataModel & save || back toDomain__
+ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t [[./US13_SD_Interaction_Use_#5.puml "toDataModel & save || back toDomain"]]
 IteacherRepoJPA --> IteacherService : teacherDomain
 deactivate IteacherRepoJPA
 IteacherService --> controller : true
