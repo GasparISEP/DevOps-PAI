@@ -6,14 +6,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table (name = "courseEditionEnrolments")
+@Table (name = "course_Edition_Enrolments")
 public class CourseEditionEnrolmentDataModel {
 
     @EmbeddedId
     private CourseEditionEnrolmentIDDataModel id;
 
-    @Column(nullable = false)
-    private LocalDate enrolmentDate;
+    @Column(name = "enrolment_date", nullable = false)
+    private LocalDate _enrolmentDate;
 
     @Column (name= "status", nullable = false)
     private boolean isActive;
@@ -27,7 +27,7 @@ public class CourseEditionEnrolmentDataModel {
 
     public CourseEditionEnrolmentDataModel(CourseEditionEnrolmentIDDataModel id, LocalDate enrolmentDate, boolean isActive) {
         this.id = id;
-        this.enrolmentDate = enrolmentDate;
+        this._enrolmentDate = enrolmentDate;
         this.isActive = isActive;
     }
 
@@ -36,7 +36,7 @@ public class CourseEditionEnrolmentDataModel {
     }
 
     public LocalDate findEnrolmentDate() {
-        return enrolmentDate;
+        return _enrolmentDate;
     }
 
     public boolean isActive() {
@@ -48,7 +48,7 @@ public class CourseEditionEnrolmentDataModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourseEditionEnrolmentDataModel that = (CourseEditionEnrolmentDataModel) o;
-        return isActive == that.isActive && Objects.equals(id, that.id);
+        return Objects.equals(id, that.id);
     }
 
     @Override
