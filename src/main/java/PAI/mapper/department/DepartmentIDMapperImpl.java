@@ -1,7 +1,7 @@
 package PAI.mapper.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
-import PAI.persistence.datamodel.DepartmentIDDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component

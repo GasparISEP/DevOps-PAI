@@ -5,6 +5,7 @@ import PAI.domain.programme.Programme;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.persistence.datamodel.*;
 import PAI.VOs.*;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 
 public class ProgrammeMapper implements IProgrammeMapper {
 
