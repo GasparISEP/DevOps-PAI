@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.TeacherCategoryIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherCategoryIDMapper implements ITeacherCategoryIDMapper {
+public class TeacherCategoryIDMapperImpl implements ITeacherCategoryIDMapper {
 
     @Override
     public TeacherCategoryIDDataModel toDataModel(TeacherCategoryID domainId) {
