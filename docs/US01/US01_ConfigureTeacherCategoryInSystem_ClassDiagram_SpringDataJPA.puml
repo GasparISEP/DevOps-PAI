@@ -76,8 +76,8 @@ package "PAI" {
 
     IFactory <|.. FactoryImpl
     FactoryImpl "1" --> "1" TCA : creates
-    FactoryImpl "1" --> "*" VOName : uses
-    FactoryImpl "1" --> "*" VOId : generates
+    FactoryImpl "1" --> "1" VOName : uses
+    FactoryImpl "1" --> "1" VOId : generates
   }
 
   ' ======= REPOSITORY =======
@@ -106,11 +106,11 @@ package "PAI" {
       + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
-    IRepository <|.. IRepo
-    IRepo <|.. RepoImpl
+    IRepository <|-- IRepo
+    IRepo <|-- RepoImpl
 
-    RepoImpl "1" --> "*" TCA : persists
-    RepoImpl "1" --> "*" VOId : looks up
+    RepoImpl "1" --> "1" TCA : persists
+    RepoImpl "1" --> "1" VOId : looks up
     RepoImpl "1" --> "1" IFactory : uses
   }
 
