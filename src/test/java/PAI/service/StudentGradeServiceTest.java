@@ -134,4 +134,38 @@ public class StudentGradeServiceTest {
         assertEquals(null, averageGrade);
     }
 
+    @Test
+    public void shouldGetApprovalRateOf100() throws Exception {
+
+        // Arrange
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        Grade grade = mock(Grade.class);
+        Grade grade1 = mock(Grade.class);
+        when(grade.knowGrade()).thenReturn(10.0);
+        when(grade1.knowGrade()).thenReturn(20.0);
+
+        when(studentGrade1.get_grade()).thenReturn(grade);
+        when(studentGrade2.get_grade()).thenReturn(grade1);
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
+
+        when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2));
+
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+
+
+        // Act
+        double averageGrade = studentGradeService.knowApprovalRate(courseEditionID1Double);
+
+        // Assert
+        assertEquals(100, averageGrade, 0.01);
+    }
+
 }

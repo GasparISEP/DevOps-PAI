@@ -9,7 +9,6 @@ import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class StudentGradeService {
@@ -53,5 +52,26 @@ public class StudentGradeService {
     }
 
 
+    public double knowApprovalRate(CourseEditionID courseEditionID) {
+        int totalApprovalStudents = 0;
+        int totalOfStudents = 0;
+
+        for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                totalOfStudents++;
+                Grade grade1 = studentGrade.get_grade();
+                if (grade1.knowGrade() >= 10) {
+                    totalApprovalStudents++;
+                }
+            }
+        }
+
+        if (totalOfStudents == 0) {
+            return 0.0;
+        }
+
+        double approvalRate = ((double) totalApprovalStudents / totalOfStudents) * 100;
+        return approvalRate;
+    }
 
 }
