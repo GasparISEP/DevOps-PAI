@@ -17,13 +17,11 @@ class CourseFactoryImplTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         try (MockedConstruction<Course> mockCourseDDD = mockConstruction(Course.class, (mock, context) ->{
         })) {
             //act
-            Course course = courseFactoryImpl.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+            Course course = courseFactoryImpl.createCourse(name, acronym);
             //assert
             assertNotNull(course);
         }
@@ -35,8 +33,6 @@ class CourseFactoryImplTest {
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
         //Use try-with-resources to mock construction and throw an exception
         try (MockedConstruction<Course> mockCourseDDD = mockConstruction(Course.class, (mock, context) ->{
             //Define behavior: throwing an exception when a new instance of Location is created
@@ -44,7 +40,7 @@ class CourseFactoryImplTest {
         })) {
             //Act: trying to create accessMethod will throw the exception
             try {
-                courseFactoryImpl.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+                courseFactoryImpl.createCourse(name, acronym);
                 fail("Expect exception not thrown");
             } catch (Exception e) {
                 //Assertion to check if the exception is thrown
@@ -60,13 +56,11 @@ class CourseFactoryImplTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         try (MockedConstruction<Course> mockCourseDDD = mockConstruction(Course.class, (mock, context) ->{
         })) {
             //act
-            Course course = courseFactoryImpl.createCourse(courseID, name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+            Course course = courseFactoryImpl.createCourse(courseID, name, acronym);
             //assert
             assertNotNull(course);
         }

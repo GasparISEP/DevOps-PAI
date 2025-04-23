@@ -9,15 +9,15 @@ import java.util.Objects;
 @Embeddable
 public class ProgrammeEditionEnrolmentIDDataModel {
 
-    private String _studentIdDataModel;
+    private StudentIDDataModel _studentIdDataModel;
     @Embedded
     private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
 
     public ProgrammeEditionEnrolmentIDDataModel() {
     }
 
-    public ProgrammeEditionEnrolmentIDDataModel(String studentIdDataModel, ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
-        if (studentIdDataModel == null || studentIdDataModel.isBlank()) {
+    public ProgrammeEditionEnrolmentIDDataModel(StudentIDDataModel studentIdDataModel, ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
+        if (studentIdDataModel == null) {
             throw new IllegalArgumentException("studentId cannot be null or blank");
         }
         if (programmeEditionIdDataModel == null) {
@@ -27,7 +27,7 @@ public class ProgrammeEditionEnrolmentIDDataModel {
         this._programmeEditionIdDataModel = programmeEditionIdDataModel;
     }
 
-    public String getStudentIdDataModel() {
+    public StudentIDDataModel getStudentIdDataModel() {
         return _studentIdDataModel;
     }
 

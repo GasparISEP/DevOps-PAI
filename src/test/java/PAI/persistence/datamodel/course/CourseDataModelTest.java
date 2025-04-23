@@ -25,10 +25,9 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
-        double courseQuantityCreditsEcts = 10;
-        int durationCourseInCurricularYear = 1;
+
         //Act
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym,courseQuantityCreditsEcts,durationCourseInCurricularYear);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
         //Assert
         assertNotNull(courseDataModel);
 
@@ -40,9 +39,8 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
-        double courseQuantityCreditsEcts = 10;
-        int durationCourseInCurricularYear = 1;
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym,courseQuantityCreditsEcts,durationCourseInCurricularYear);
+
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
         //Act
         String expected = courseDataModel.get_name();
         //Assert
@@ -56,45 +54,14 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
-        double courseQuantityCreditsEcts = 10;
-        int durationCourseInCurricularYear = 1;
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym,courseQuantityCreditsEcts,durationCourseInCurricularYear);
+
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+
         //Act
         String expected = courseDataModel.get_acronym();
+
         //Assert
         assertEquals(acronym, expected);
-
-    }
-
-    @Test
-    void should_return_courseQuantityCreditsEcts_from_CourseDataModel() {
-        // Arrange
-        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
-        String name = ("Alchemy");
-        String acronym = ("ALC");
-        double courseQuantityCreditsEcts = 10;
-        int durationCourseInCurricularYear = 1;
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym,courseQuantityCreditsEcts,durationCourseInCurricularYear);
-        //Act
-        double expected = courseDataModel.get_quantityCreditsEcts();
-        //Assert
-        assertEquals(courseQuantityCreditsEcts, expected);
-
-    }
-
-    @Test
-    void should_return_durationCourseInCurricularYear_from_CourseDataModel() {
-        // Arrange
-        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
-        String name = ("Alchemy");
-        String acronym = ("ALC");
-        double courseQuantityCreditsEcts = 10;
-        int durationCourseInCurricularYear = 1;
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym,courseQuantityCreditsEcts,durationCourseInCurricularYear);
-        //Act
-        double expected = courseDataModel.get_duration();
-        //Assert
-        assertEquals(durationCourseInCurricularYear, expected);
 
     }
 }

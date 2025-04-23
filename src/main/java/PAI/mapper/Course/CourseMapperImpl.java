@@ -27,10 +27,8 @@ public class CourseMapperImpl implements ICourseMapper {
         }
         Name name = new Name(courseDataModel.get_name());
         Acronym acronym = new Acronym(courseDataModel.get_acronym());
-        CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(courseDataModel.get_quantityCreditsEcts());
-        DurationCourseInCurricularYear durationCourseInSemester = new DurationCourseInCurricularYear(courseDataModel.get_duration());
 
-        return courseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInSemester);
+        return courseFactory.createCourse(name, acronym);
     }
 
     @Override
@@ -48,9 +46,7 @@ public class CourseMapperImpl implements ICourseMapper {
         return new CourseDataModel(
                 courseIDDataModel,
                 name,
-                acronym,
-                course.getCourseQuantityCreditsEcts().getQuantity(),
-                course.getDurationCourseInCurricularYear().getDuration()
+                acronym
         );
     }
 

@@ -9,6 +9,7 @@ import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
 import org.springframework.stereotype.Service;
 
+@Service
 public class StudentGradeService {
 
     private final IStudentGradeFactory studentGradeFactory;
@@ -27,7 +28,8 @@ public class StudentGradeService {
     }
 
     public StudentGrade newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
-        return studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
+        StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
+        return studentGradeRepository.save(studentGrade);
     }
 
 

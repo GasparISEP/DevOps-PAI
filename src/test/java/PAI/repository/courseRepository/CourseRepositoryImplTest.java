@@ -103,14 +103,12 @@ class CourseRepositoryImplTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
-        CourseQuantityCreditsEcts quantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
 
         Course course = mock(Course.class);
-        when(iCourseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear)).thenReturn(course);
+        when(iCourseFactory.createCourse(name, acronym)).thenReturn(course);
 
         //act
-        boolean result = repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        boolean result = repository.registerCourse(name, acronym);
         //assert
         assertTrue(result);
     }
@@ -125,18 +123,17 @@ class CourseRepositoryImplTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
-        CourseQuantityCreditsEcts quantityCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = mock(DurationCourseInCurricularYear.class);
+
 
         Course course = mock(Course.class);
         when(course.identity()).thenReturn(courseID);
-        when(iCourseFactory.createCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear))
+        when(iCourseFactory.createCourse(name, acronym))
                 .thenReturn(course);
 
-        repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        repository.registerCourse(name, acronym);
 
         //act
-        boolean result = repository.registerCourse(name, acronym, quantityCreditsEcts, durationCourseInCurricularYear);
+        boolean result = repository.registerCourse(name, acronym);
         //assert
         assertFalse(result);
     }
