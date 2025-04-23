@@ -63,29 +63,6 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         return sumGrade/numOfStudent;
     }
 
-
-    public double knowApprovalRate(CourseEditionID courseEditionID) {
-        int totalApprovalStudents = 0;
-        int totalOfStudents = 0;
-
-        for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                totalOfStudents++;
-                Grade grade1 = studentGrade.get_grade();
-                if (grade1.knowGrade() >= 10) {
-                    totalApprovalStudents++;
-                }
-            }
-        }
-
-        if (totalOfStudents == 0) {
-            return 0.0;
-        }
-
-        double approvalRate = ((double) totalApprovalStudents / totalOfStudents) * 100;
-        return approvalRate;
-    }
-
     public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
         for(StudentGrade existingStudentGrade : _StudentGradeList){
             if(existingStudentGrade.equals(studentGrade)){
