@@ -39,6 +39,11 @@ interface ISchoolYearService <<interface>> {
 interface ISchoolYearRepositorySpringDataJPA <<interface>> {
 }
 
+interface ISchoolYearMapper <<interface>>{
+    +toDomain(dataModel: SchoolYearDataModel): SchoolYear
+    +toEntity(domain: SchoolYear): SchoolYearDataModel
+}
+
 ' service
 class SchoolYearServiceImpl {
     +SchoolYearServiceImpl(schoolYearRepositorySpringData:\n ISchoolYearRepositorySpringDataImpl)
@@ -71,7 +76,7 @@ class SchoolYearFactoryImpl {
 }
 
 ' Mapper
-class SchoolYearMapper {
+class SchoolYearMapperImpl {
     +toDomain(dataModel: SchoolYearDataModel): SchoolYear
     +toEntity(domain: SchoolYear): SchoolYearDataModel
 }
@@ -82,6 +87,13 @@ class SchoolYearDataModel <<DataModel>> {
    - description: String
    - startDate: LocalDate
    - endDate: LocalDate
+}
+
+class SchoolYearIDDataModel <<DataModel>> {
+    - schoolYearID: String
+    +SchoolYearIDDataModel()
+    +SchoolYearIDDataModel(schoolYearID: String)
+    +getSchoolYearID
 }
 
 ' Value Objects
@@ -99,7 +111,7 @@ class SchoolYearID <<Value Object>> {
 }
 
 
-US07_IWantToCreateASchoolYearController  ..>  ISchoolYearService
+US07_IWantToCreateASchoolYearController  ...>  ISchoolYearService
 
 SchoolYearServiceImpl  ...|> ISchoolYearService
 SchoolYearServiceImpl --> ISchoolYearRepository
@@ -109,11 +121,11 @@ SchoolYearServiceImpl --> ISchoolYearListFactory
 SchoolYearRepositoryMemoImpl --> SchoolYear
 SchoolYearRepositoryMemoImpl ...|> ISchoolYearRepository
 
-SchoolYearRepositorySpringDataJPAImpl ...|> ISchoolYearRepository
-SchoolYearRepositorySpringDataJPAImpl --> ISchoolYearRepositorySpringDataJPA
-SchoolYearRepositorySpringDataJPAImpl --> SchoolYearMapper
-SchoolYearRepositorySpringDataJPAImpl --> SchoolYear
-SchoolYearRepositorySpringDataJPAImpl --> SchoolYearDataModel
+SchoolYearRepositorySpringDataJPAImpl ..|> ISchoolYearRepository
+SchoolYearRepositorySpringDataJPAImpl ..> ISchoolYearRepositorySpringDataJPA
+SchoolYearRepositorySpringDataJPAImpl ...> SchoolYearMapper
+SchoolYearRepositorySpringDataJPAImpl ..> SchoolYear
+SchoolYearRepositorySpringDataJPAImpl .u.> SchoolYearDataModel
 
 
 SchoolYearFactoryImpl ...|> ISchoolYearFactory
@@ -126,7 +138,14 @@ SchoolYear "1"--> "1" SchoolYearID
 SchoolYear "1"--> "1" DescriptionVO
 SchoolYear "1"--> "1" DateVO
 
-SchoolYearMapper ..> SchoolYear
-SchoolYearMapper ..> SchoolYearDataModel
+SchoolYearMapperImpl ..> SchoolYear
+SchoolYearMapperImpl ..> SchoolYearDataModel
+SchoolYearMapperImpl ..> ISchoolYearFactory
+SchoolYearMapperImpl ..|> ISchoolYearMapper
+
+ISchoolYearMapper ..> SchoolYear
+ISchoolYearMapper ..> SchoolYearDataModel
+
+SchoolYearDataModel -->SchoolYearIDDataModel
 
 @enduml
