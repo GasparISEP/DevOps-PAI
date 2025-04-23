@@ -1,6 +1,7 @@
 package PAI.service.course;
 
 import PAI.VOs.Acronym;
+import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.domain.course.Course;
 
@@ -47,7 +48,7 @@ class CourseServiceImplTest {
     }
 
     @Test
-    void should_create_and_save_new_course() {
+    void should_create_and_save_new_course() throws Exception {
 
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
