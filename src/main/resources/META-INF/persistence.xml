@@ -24,6 +24,10 @@
     <class>PAI.persistence.datamodel.TeacherCategoryIDDataModel</class>
     <class>PAI.persistence.datamodel.course.CourseDataModel</class>
     <class>PAI.persistence.datamodel.course.CourseIDDataModel</class>
+    <class>PAI.persistence.datamodel.TeacherDataModel</class>
+    <class>PAI.persistence.datamodel.TeacherIDDataModel</class>
+    <class>PAI.persistence.datamodel.AddressDataModel</class>
+    <class>PAI.persistence.datamodel.TeacherAcademicEmailDataModel</class>
 
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
