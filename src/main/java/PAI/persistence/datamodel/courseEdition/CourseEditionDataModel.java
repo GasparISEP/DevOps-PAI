@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseEdition;
 
+import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import jakarta.persistence.Embedded;
@@ -22,10 +23,13 @@ public class CourseEditionDataModel implements Serializable {
     @Embedded
     private CourseInStudyPlanIDDataModel _courseInStudyPlanIDDataModel;
 
+    @Embedded
+    private TeacherIDDataModel _teacherIDDataModel;
+
     protected CourseEditionDataModel() {}
 
     public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, ProgrammeEditionIdDataModel programmeEditionIDDataModel,
-                                  CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel) {
+                                  CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, TeacherIDDataModel teacherIDDataModel) {
 
         if (courseEditionIDDataModel == null)
             throw new IllegalArgumentException("courseEditionIDDataModel cannot be null");
@@ -33,10 +37,13 @@ public class CourseEditionDataModel implements Serializable {
             throw new IllegalArgumentException("programmeEditionIDDataModel cannot be null");
         if (courseInStudyPlanIDDataModel == null)
             throw new IllegalArgumentException("courseInStudyPlanIDDataModel cannot be null");
+        if (teacherIDDataModel == null)
+            throw new IllegalArgumentException("teacherIDDataModel cannot be null");
 
         this._courseEditionIDDataModel = courseEditionIDDataModel;
         this._programmeEditionIDDataModel = programmeEditionIDDataModel;
         this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
+        this._teacherIDDataModel = teacherIDDataModel;
     }
 
     public CourseEditionIDDataModel getCourseEditionIDDataModel() {
@@ -49,6 +56,10 @@ public class CourseEditionDataModel implements Serializable {
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
         return _courseInStudyPlanIDDataModel;
+    }
+
+    public TeacherIDDataModel getTeacherIDDataModel() {
+        return _teacherIDDataModel;
     }
 
     @Override
