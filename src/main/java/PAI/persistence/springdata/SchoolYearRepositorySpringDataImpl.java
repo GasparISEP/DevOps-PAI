@@ -1,16 +1,19 @@
 package PAI.persistence.springdata;
 
 
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 //TODO "implements ISchoolYearRepository"
@@ -54,5 +57,13 @@ public class SchoolYearRepositorySpringDataImpl {
             }
         }
         return allSchoolYears;
+    }
+
+    //US18
+    public Optional<SchoolYearID> getCurrentSchoolYear() {
+        Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
+
+        //If present return Optional com ProgrammeID, else return Empty
+        return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
     }
 }
