@@ -101,7 +101,7 @@ class CourseInStudyPlanMapperImplTest {
     }
 
     @Test
-    void toDataModelShouldMapDomainToDataModel() {
+    void toDataModelShouldMapDomainToDataModel() throws Exception {
         // Arrange
         ProgrammeID programmeID = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("ProgrammeName"),
@@ -115,9 +115,12 @@ class CourseInStudyPlanMapperImplTest {
         StudyPlanID studyPlanIDValueObject = new StudyPlanID(programmeID, date);
         Semester semesterVO = new Semester(2);
         CurricularYear yearVO = new CurricularYear(3);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
+
 
         CourseInStudyPlan domain = courseInStudyPlanFactory
-                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject);
+                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts);
 
         // Act
         CourseInStudyPlanDataModel dataModel = mapper.toDataModel(domain);
@@ -142,7 +145,7 @@ class CourseInStudyPlanMapperImplTest {
     }
 
     @Test
-    void toDomainShouldMapDataModelToDomain() {
+    void toDomainShouldMapDataModelToDomain() throws Exception {
         // Arrange: criar VOs e DataModels
         ProgrammeID programmeID = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("ProgrammeName"),
@@ -156,13 +159,16 @@ class CourseInStudyPlanMapperImplTest {
         StudyPlanID studyPlanIDValueObject = new StudyPlanID(programmeID, date);
         Semester semesterVO = new Semester(2);
         CurricularYear yearVO = new CurricularYear(3);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
+
 
         CourseIDDataModel courseIDDataModel = courseIDMapper.toDataModel(courseIDValueObject);
         StudyPlanIDDataModel studyPlanIDDataModel = studyPlanIDMapper.toDataModel(studyPlanIDValueObject);
         CourseInStudyPlanIDDataModel compositeIDDataModel =
                 courseInStudyPlanIDMapper.toDataModel(
                         courseInStudyPlanFactory
-                                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject)
+                                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts)
                                 .identity()
                 );
 
@@ -171,7 +177,9 @@ class CourseInStudyPlanMapperImplTest {
                 studyPlanIDDataModel,
                 courseIDDataModel,
                 semesterVO.toInt(),
-                yearVO.toInt()
+                yearVO.toInt(),
+                durationOfCourse.getDuration(),
+                quantityOfCreditsEcts.getQuantity()
         );
 
         // Act

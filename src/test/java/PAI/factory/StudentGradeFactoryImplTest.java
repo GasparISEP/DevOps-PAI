@@ -324,5 +324,32 @@ class StudentGradeFactoryImplTest {
         assertEquals("Course Edition cannot be null", exception.getMessage());
     }
 
+    @Test
+    public void shouldReturnTrueWhenStudentHasExistingGradeForCourseEdition() {
+        // Arrange
+        ICourseEditionRepository      courseEditionRepo     = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository   programmeEditionRepo  = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository         schoolYearRepo        = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository       studentGradeRepo      = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepo, programmeEditionRepo, schoolYearRepo, studentGradeRepo);
+
+        StudentID       aluno       = mock(StudentID.class);
+        CourseEditionID edicao      = mock(CourseEditionID.class);
+
+        StudentGrade notaExistente = mock(StudentGrade.class);
+        when(notaExistente.hasThisStudentID(aluno)).thenReturn(true);
+        when(notaExistente.hasThisCourseEditionID(edicao)).thenReturn(true);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(notaExistente));
+
+        // Act
+        boolean resultado = factory.hasStudentAlreadyGradeAtThisCourseEdition(aluno, edicao);
+
+        // Assert
+        assertTrue(resultado);
+
+    }
+
 }
 

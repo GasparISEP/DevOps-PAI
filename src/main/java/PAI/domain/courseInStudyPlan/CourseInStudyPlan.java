@@ -9,15 +9,47 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
     private Semester _semester;
     private CurricularYear _curricularYear;
     private StudyPlanID _studyPlanID;
+    private DurationCourseInCurricularYear _durationOfCourse;
+    private CourseQuantityCreditsEcts _quantityOfCreditsEcts;
     private CourseInStudyPlanID _courseInStudyPlanID;
 
-    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID) {
+    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID, CourseInStudyPlanID courseInStudyPlanID,
+                             DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
 
+        if (courseID == null) {
+            throw new IllegalArgumentException("Course ID cannot be null");
+        }
         this._courseID = courseID;
+
+        if (semester == null) {
+            throw new IllegalArgumentException("Semester cannot be null");
+        }
         this._semester = semester;
+
+        if(curricularYear == null) {
+            throw new IllegalArgumentException("Curricular Year cannot be null");
+        }
         this._curricularYear = curricularYear;
+
+        if (studyplanID == null) {
+            throw new IllegalArgumentException("Study Plan ID cannot be null");
+        }
         this._studyPlanID = studyplanID;
-        this._courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyplanID);
+
+        if (durationOfCourse == null) {
+            throw new IllegalArgumentException("Duration of Course cannot be null");
+        }
+        this._durationOfCourse = durationOfCourse;
+
+        if (quantityOfCreditsEcts == null) {
+            throw new IllegalArgumentException("Quantity of Credits Ects cannot be null");
+        }
+        this._quantityOfCreditsEcts = quantityOfCreditsEcts;
+
+        if (courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("Course In Study Plan ID cannot be null");
+        }
+        this._courseInStudyPlanID = courseInStudyPlanID;
     }
 
     @Override
@@ -51,6 +83,14 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
 
     public StudyPlanID getStudyplanID() {
         return this._studyPlanID;
+    }
+
+    public DurationCourseInCurricularYear getDurationOfCourse() {
+        return this._durationOfCourse;
+    }
+
+    public CourseQuantityCreditsEcts getQuantityOfCreditsEcts() {
+        return this._quantityOfCreditsEcts;
     }
 
     @Override
