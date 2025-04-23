@@ -3,46 +3,44 @@
 skinparam ranksep 100
 skinparam nodesep 100
 
-package "Student Aggregate" as S {
-entity "<<root>>\nStudent" {
-equals(studentIDVO: StudentID)
-}
+class "<<VO>>\nProgrammeEnrolmentID" {
+-studentID: StudentID
+-programmeID: ProgrammeID
++getStudentID(studentID: StudentID)
++getProgrammeID(programmeID: ProgrammeID)
 }
 
 class "<<VO>>\nStudentID" {
 -uniqueNumber: Integer
 -NIF: Integer
-}
-
-package "AccessMethod Aggregate" as AM {
-class "<<root>>\nAccessMethod" {
-+equals(amIDVO: AccessMethodID)
-}
++getStudentID(uniqueNumber: Integer)
 }
 
 class "<<VO>>\nAccessMethodID" {
 -amIDVO: UUID
-}
-
-package "Programme Aggregate" as P {
-entity "<<root>>\nProgramme" {
-equals(ProgrammeIDVO: ProgrammeID)
-}
++getAccessMethodID(uuid: UUID)
 }
 
 class "<<VO>>\nProgrammeID" {
 -nameVO: NameWithNumbersAndSpecialCharacters
 -acronymVO: Acronym
++getName(programmeName: NameWithNumbersAndSpecialChars)
++getAcronym(programmeAcronym: Acronym)
+}
+
+class "<<VO>>\nDate" {
+-date: LocalDate
++getLocalDate(localDate: LocalDate)
 }
 
 package "ProgrammeEnrolment Aggregate" as PE {
 entity "<<root>>\nProgrammeEnrolment" {
--enrolmentDate: Date
 +ProgrammeEnrolment(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, dateVO: Date)
 +getProgrammeEnrolmentID(programmeEnrolment: ProgrammeEnrolment)
 +getStudentID(studentIDVO: StudentID)
 +getProgrammeID(programmeIDVO: ProgrammeID)
 +getAccessMethodID(programmeIDVO: ProgrammeID)
++getDate (date: Date)
 }
 }
 
@@ -51,35 +49,8 @@ class US09_EnrolStudentInProgrammeController {
 }
 
 class ProgrammeEnrolmentService {
-+ProgrammeEnrolmentService(studentRepository: IStudentRepository, accessMethodRepository: IAccessMethodRepository, programmeList: IProgrammeRepository, programmeEnrolmentRepository: IProgrammeEnrolmentRepository)
-+getStudentIDFromUniqueNumber(uniqueNumber: Int)
-+getAccessMethodIDFromName(accessMethodName: String)
-+getProgrammeIDFromName(programmeName: String)
++enrolStudentInProgramme(peFactory: IProgrammeEnrolmentFactory, peRepository: IProgrammeEnrolmentRepository)
 +enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
-}
-
-interface IStudentRepository {
-+getStudentIDFromUniqueNumber(uniqueNumber: String)
-}
-
-class StudentRepository {
-+getStudentIDFromUniqueNumber(uniqueNumber: String)
-}
-
-interface IAccessMethodRepository {
-+getAccessMethodIDFromName(nameVO: NameWithNumbersAndSpecialCharacters)
-}
-
-class AccessMethodRepository {
-+getAccessMethodIDFromName(nameVO: NameWithNumbersAndSpecialCharacters)
-}
-
-interface IProgrammeRepository {
-+getProgrammeIDFromAcronym(acronymVO: Acronym)
-}
-
-class ProgrammeRepository {
-getProgrammeIDFromAcronym(acronymVO: Acronym)
 }
 
 class ProgrammeEnrolmentSpringDataRepository {
@@ -103,7 +74,7 @@ interface IProgrammeEnrolmentFactory {
 
 class ProgrammeEnrolmentMapper {
 +toDomain(peDataModel: ProgrammeEnrolmentDataModel, peFactory: ProgrammeEnrolmentFactory)
-+toDataModel(pe: ProgrammeEnrolment)
++toDataModel(peDomain: ProgrammeEnrolment)
 }
 
 class ProgrammeEnrolmentDataModel {
@@ -116,31 +87,17 @@ class ProgrammeEnrolmentDataModel {
 +createProgrammeEnrolmentDomain(peDataModel: ProgrammeEnrolmentDataModel)
 }
 
-interface IStudentSpringDataRepository {
-+findByStudentIdUniqueNumber(uniqueNumber: String);
-}
-
-interface IAccessMethodSpringDataRepository {
-+findByAccessMethodIDUuid(uuid: UUID)
-}
-
-interface IProgrammeSpringDataRepository {
-+findByProgrammeIDAcronym(acronym: String)
-}
-
 interface IProgrammeEnrolmentSpringDataRepository {
 +save(peDataModel: ProgrammeEnrolmentDataModel)
 }
 
 interface IProgrammeEnrolmentMapper {
-+toDataModel(pe: ProgrammeEnrolment)
++toDataModel(peDomain: ProgrammeEnrolment)
 +toDomain(peDataModel: ProgrammeEnrolmentDataModel)
 }
 
 interface IProgrammeEnrolmentService {
-+getStudentIDFromUniqueNumber(uniqueNumber: Int)
-+getAccessMethodIDFromName(accessMethodName: String)
-+getProgrammeIDFromName(programmeName: String)
++enrolStudentInProgramme(peFactory: IProgrammeEnrolmentFactory, peRepository: IProgrammeEnrolmentRepository)
 +enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
 }
 
@@ -177,57 +134,46 @@ class AccessMethodIDMapper {
 }
 
 US09_EnrolStudentInProgrammeController "1" -l> "1..*" IProgrammeEnrolmentService
-ProgrammeEnrolmentService -u.|> IProgrammeEnrolmentService
 
-ProgrammeEnrolmentService "1" -r-> "1..*" IStudentRepository
-StudentRepository -.|> IStudentRepository
-StudentRepository -l.> IStudentSpringDataRepository
+ProgrammeEnrolmentService -d.|> IProgrammeEnrolmentService
+ProgrammeEnrolmentService "1" -u-> "1..*" IProgrammeEnrolmentRepository
+ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeEnrolmentFactory
 
-ProgrammeEnrolmentService "1" --> "1..*" IAccessMethodRepository
-AccessMethodRepository -u.|> IAccessMethodRepository
-AccessMethodRepository -d.> IAccessMethodSpringDataRepository
-ProgrammeEnrolmentSpringDataRepository -d> ProgrammeEnrolmentMapper
-ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeRepository
-ProgrammeRepository -u.|> IProgrammeRepository
-ProgrammeRepository -u.> IProgrammeSpringDataRepository
+IProgrammeEnrolmentRepository <|.u. ProgrammeEnrolmentSpringDataRepository
 
-ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeEnrolmentRepository
-IProgrammeEnrolmentRepository <|.r. ProgrammeEnrolmentSpringDataRepository
-ProgrammeEnrolmentSpringDataRepository -u.> IProgrammeEnrolmentSpringDataRepository
+ProgrammeEnrolmentSpringDataRepository "1" -u.> "1" IProgrammeEnrolmentMapper
+ProgrammeEnrolmentSpringDataRepository "1" -r.> "1" IProgrammeEnrolmentFactory
+ProgrammeEnrolmentSpringDataRepository "1..*" -u-> "1" IProgrammeEnrolmentSpringDataRepository
 
-"<<root>>\nStudent" "1" --> "1" "<<VO>>\nStudentID"
-"<<root>>\nAccessMethod" "1" --> "1" "<<VO>>\nAccessMethodID"
-"<<root>>\nProgramme" "1" --> "1" "<<VO>>\nProgrammeID"
-
-IStudentRepository "1" -d.> "*" "<<root>>\nStudent"
-IAccessMethodRepository "1" -.> "*" "<<root>>\nAccessMethod"
-IProgrammeRepository "1" -d.> "*" "<<root>>\nProgramme"
 IProgrammeEnrolmentFactory "1..*" .l.> "*\ncreates" "<<root>>\nProgrammeEnrolment"
-ProgrammeEnrolmentSpringDataRepository "1" -.> "1" IProgrammeEnrolmentFactory
-IProgrammeEnrolmentFactory <|.. ProgrammeEnrolmentFactoryImpl
 
-"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nStudentID"
-"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nProgrammeID"
-"<<root>>\nProgrammeEnrolment" "1..*" -u-> "1" "<<VO>>\nAccessMethodID"
+IProgrammeEnrolmentFactory <|.d. ProgrammeEnrolmentFactoryImpl
 
-ProgrammeEnrolmentSpringDataRepository "1" -d.> "1" IProgrammeEnrolmentMapper
-ProgrammeEnrolmentMapper -.|> IProgrammeEnrolmentMapper
-IProgrammeEnrolmentMapper "1" -d.> "1" ProgrammeEnrolmentDataModel
+"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_programmeEnrolmentID\n1" "<<VO>>\nProgrammeEnrolmentID"
+"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_studentID\n1" "<<VO>>\nStudentID"
+"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_programmeID\n1" "<<VO>>\nProgrammeID"
+"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_accessMethodID\n1" "<<VO>>\nAccessMethodID"
+"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_localDate\n1" "<<VO>>\nDate"
+
+ProgrammeEnrolmentMapper -u.|> IProgrammeEnrolmentMapper
+IProgrammeEnrolmentMapper "1" -l.> "1" ProgrammeEnrolmentDataModel
 IProgrammeEnrolmentMapper "*" -r.> "1" IProgrammeEnrolmentFactory
 
-ProgrammeEnrolmentMapper "1..*" -d-> "1" IProgrammeEnrolmentIDMapper
-ProgrammeEnrolmentMapper "1..*" -d-> "1" IStudentIDMapper
-ProgrammeEnrolmentMapper "1..*" -d-> "1" IProgrammeIDMapper
-ProgrammeEnrolmentMapper "1..*" -d-> "1" IAccessMethodIDMapper
+ProgrammeEnrolmentMapper "1..*" --l-> "1" IProgrammeEnrolmentIDMapper
+ProgrammeEnrolmentMapper "1..*" --d-> "1" IStudentIDMapper
+ProgrammeEnrolmentMapper "1..*" --d-> "1" IProgrammeIDMapper
+ProgrammeEnrolmentMapper "1..*" --r-> "1" IAccessMethodIDMapper
+ProgrammeEnrolmentMapper "1..*" --r-> "_date\n1" "<<root>>\nProgrammeEnrolment"
 
-ProgrammeEnrolmentIDMapper -u.|> IProgrammeEnrolmentIDMapper
-StudentIDMapper -u.|> IStudentIDMapper
-ProgrammeIDMapper -u.|> IProgrammeIDMapper
-AccessMethodIDMapper -u.|> IAccessMethodIDMapper
 
-ProgrammeEnrolmentIDMapper "1" --> "peID\n1..*" "<<root>>\nProgrammeEnrolment"
-StudentIDMapper "1" --> "studentID\n1..*" "<<root>>\nProgrammeEnrolment"
-ProgrammeIDMapper "1" --> "programmeID\n1..*" "<<root>>\nProgrammeEnrolment"
-AccessMethodIDMapper "1" --> "amID\n1..*" "<<root>>\nProgrammeEnrolment"
+ProgrammeEnrolmentIDMapper -d.|> IProgrammeEnrolmentIDMapper
+StudentIDMapper -d.|> IStudentIDMapper
+ProgrammeIDMapper -d.|> IProgrammeIDMapper
+AccessMethodIDMapper -d.|> IAccessMethodIDMapper
+
+IProgrammeEnrolmentIDMapper "1" -d-> "peID\n1..*" "<<root>>\nProgrammeEnrolment"
+IStudentIDMapper "1" -d-> "studentID\n1..*" "<<root>>\nProgrammeEnrolment"
+IProgrammeIDMapper "1" -d-> "programmeID\n1..*" "<<root>>\nProgrammeEnrolment"
+IAccessMethodIDMapper "1" -d-> "amID\n1..*" "<<root>>\nProgrammeEnrolment"
 
 @enduml
