@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.DepartmentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DepartmentIDMapperImpl {
+public class DepartmentIDMapperImpl implements IDepartmentIDMapper {
 
     public DepartmentIDDataModel toDataModel(DepartmentID departmentID) {
         if(departmentID==null){
