@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseInStudyPlan;
 
+import PAI.VOs.DurationCourseInCurricularYear;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,14 @@ class CourseInStudyPlanDataModelTest {
         CourseIDDataModel course = mock(CourseIDDataModel.class);
         int semester = 1;
         int year = 2;
+        int durationOfCourse = 1;
+        double quantityOfCreditsEcts = 1;
+
         // act
         CourseInStudyPlanDataModel model = new CourseInStudyPlanDataModel(
-                embeddedId, studyPlan, course, semester, year
+                embeddedId, studyPlan, course, semester, year, durationOfCourse, quantityOfCreditsEcts
         );
+
         // assert
         assertNotNull(model);
         assertEquals(embeddedId, model.getCourseInStudyPlanIDDataModel());
@@ -36,6 +41,8 @@ class CourseInStudyPlanDataModelTest {
         assertEquals(course, model.getCourseIDDataModel());
         assertEquals(semester, model.getSemester());
         assertEquals(year, model.getCurricularYear());
+        assertEquals(durationOfCourse, model.getDurationOfCourse());
+        assertEquals(quantityOfCreditsEcts, model.getQuantityOfCreditsEcts());
     }
 
     @Test
@@ -60,10 +67,10 @@ class CourseInStudyPlanDataModelTest {
     void equalsShouldReturnTrueForSameEmbeddedId() {
         CourseInStudyPlanIDDataModel id = mock(CourseInStudyPlanIDDataModel.class);
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1
+                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 2, 2
+                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 2, 2, 2, 2.0
         );
         assertTrue(m1.equals(m2));
     }
@@ -73,10 +80,10 @@ class CourseInStudyPlanDataModelTest {
         CourseInStudyPlanIDDataModel id1 = mock(CourseInStudyPlanIDDataModel.class);
         CourseInStudyPlanIDDataModel id2 = mock(CourseInStudyPlanIDDataModel.class);
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id1, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1
+                id1, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id2, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1
+                id2, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
         );
         assertFalse(m1.equals(m2));
     }
@@ -86,10 +93,10 @@ class CourseInStudyPlanDataModelTest {
         CourseInStudyPlanIDDataModel id = mock(CourseInStudyPlanIDDataModel.class);
 
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1
+                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 2, 2
+                id, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 2, 2, 2, 2.0
         );
 
         assertEquals(m1.hashCode(), m2.hashCode());

@@ -35,6 +35,8 @@ class CourseInStudyPlanServiceImplTest {
     private StudyPlanID studyPlanId;
     private CourseInStudyPlan candidate;
     private CourseInStudyPlanID candidateId;
+    private DurationCourseInCurricularYear durationOfCourse;
+    private CourseQuantityCreditsEcts quantityOfCreditsEcts;
 
     @BeforeEach
     void setUp() {
@@ -47,8 +49,12 @@ class CourseInStudyPlanServiceImplTest {
         candidate = mock(CourseInStudyPlan.class);
         candidateId = mock(CourseInStudyPlanID.class);
 
+        durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+
+
         when(candidate.identity()).thenReturn(candidateId);
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts))
                 .thenReturn(candidate);
     }
 
@@ -56,7 +62,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_SuccessWhenNotExists() {
         when(repository.containsOfIdentity(candidateId)).thenReturn(false);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
 
         assertTrue(result);
         verify(repository).save(candidate);
@@ -66,7 +72,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_FailsWhenAlreadyExists() {
         when(repository.containsOfIdentity(candidateId)).thenReturn(true);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
 
         assertFalse(result);
         verify(repository, never()).save(any());
