@@ -59,14 +59,6 @@ public class SchoolYearRepositorySpringDataImpl {
         }
         return allSchoolYears;
     }
-
-    //US18
-    public Optional<SchoolYearID> getCurrentSchoolYear() {
-        Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
-
-        //If present return Optional com ProgrammeID, else return Empty
-        return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
-    }
     public Optional<SchoolYear> ofIdentity(SchoolYearID id, SchoolYearFactoryImpl schoolYearFactory) {
         Optional<SchoolYearDataModel> schoolYearDMOpt = schoolYearRepositorySpringData.findById(id.toString());
 
@@ -80,5 +72,21 @@ public class SchoolYearRepositorySpringDataImpl {
             return Optional.empty();
         }
     }
+
+    public boolean containsOfIdentity(SchoolYearID id) {
+        if(id ==null){
+            return false;
+        }
+        return schoolYearRepositorySpringData.existsById(id.toString());
+    }
+
+    //US18
+    public Optional<SchoolYearID> getCurrentSchoolYear() {
+        Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
+
+        //If present return Optional com ProgrammeID, else return Empty
+        return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
+    }
+
 
 }
