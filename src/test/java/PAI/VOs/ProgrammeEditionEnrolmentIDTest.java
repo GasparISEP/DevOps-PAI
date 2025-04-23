@@ -103,5 +103,18 @@ class ProgrammeEditionEnrolmentIDTest {
         assertNotEquals(enrolmentID1.hashCode(), enrolmentID2.hashCode());
     }
 
+    @Test
+    void shouldReturnCorrectProgrammeEditionID() {
+        ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(programmeId, studentId);
+        assertSame(programmeId, enrolmentID.getProgrammeEditionId());
+    }
+
+    @Test
+    void shouldReturnCorrectStudentID() {
+        ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(programmeId, studentId);
+        assertSame(studentId, enrolmentID.getStudentiD());
+    }
+
+
 }
 

@@ -21,11 +21,13 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
     ICourseEditionRepository _courseEditionRepository ;
     IProgrammeEditionRepository _programmeEditionRepository;
     ISchoolYearRepository _schoolYearRepository;
+    IStudentGradeRepository _studentGradeRepository;
 
-    public StudentGradeFactoryImpl(ICourseEditionRepository _courseEditionRepository, IProgrammeEditionRepository _programmeEditionRepository, ISchoolYearRepository _schoolYearRepository) {
+    public StudentGradeFactoryImpl(ICourseEditionRepository _courseEditionRepository, IProgrammeEditionRepository _programmeEditionRepository, ISchoolYearRepository _schoolYearRepository,IStudentGradeRepository _studentGradeRepository) {
         this._courseEditionRepository = _courseEditionRepository;
         this._programmeEditionRepository = _programmeEditionRepository;
         this._schoolYearRepository = _schoolYearRepository;
+        this._studentGradeRepository = _studentGradeRepository;
     }
 
     private boolean isDateGradeInRangeWithSchoolYear (CourseEditionID courseEditionID, Date dates) throws Exception{
@@ -39,6 +41,13 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         LocalDate gradeDate = dates.getLocalDate();
         if (gradeDate.isBefore(start) || gradeDate.isAfter(finalD)) return false;
         return true;
+    }
+
+    public boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
+        for ( StudentGrade existingGradeStudent : _studentGradeRepository.findAll()){
+            if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
+        }
+        return false;
     }
 
     public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
@@ -55,7 +64,7 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
             throw  new IllegalArgumentException("Course Edition cannot be null");
         }
 
-        if (isDateGradeInRangeWithSchoolYear(courseEditionID,date)){
+        if (isDateGradeInRangeWithSchoolYear(courseEditionID,date) && !hasStudentAlreadyGradeAtThisCourseEdition(student,courseEditionID)){
         return new StudentGrade(grade, date, student, courseEditionID);
     }
         throw new IllegalArgumentException("Date is out of Range");

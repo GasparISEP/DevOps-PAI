@@ -13,11 +13,13 @@ import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.service.StudentGradeService;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +34,7 @@ class StudentGradeFactoryImplTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(ProgrammeEditionRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepository = mock(SchoolYearRepositoryImpl.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
 
 
         CourseEdition courseEdition = mock(CourseEdition.class);
@@ -95,7 +98,7 @@ class StudentGradeFactoryImplTest {
         })) {
 
             // act
-            StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+            StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
             StudentGrade studentGrade = factory.newGradeStudent(grade, gradeDate, student, courseEditionID);
 
             // Assert
@@ -119,6 +122,8 @@ class StudentGradeFactoryImplTest {
         ICourseEditionRepository courseEditionRepository    = mock(CourseEditionRepositoryImpl.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ISchoolYearRepository      schoolYearRepository     = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
 
 
         CourseEditionID    courseEditionID    = mock(CourseEditionID.class);
@@ -164,7 +169,7 @@ class StudentGradeFactoryImplTest {
         Grade     grade   = mock(Grade.class);
         when(grade.knowGrade()).thenReturn(10.0);
 
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> factory.newGradeStudent(grade, gradeDate, student, courseEditionID));
@@ -177,6 +182,8 @@ class StudentGradeFactoryImplTest {
         ICourseEditionRepository     courseEditionRepository    = mock(CourseEditionRepositoryImpl.class);
         IProgrammeEditionRepository  programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ISchoolYearRepository        schoolYearRepository       = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
 
 
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
@@ -222,7 +229,8 @@ class StudentGradeFactoryImplTest {
                 new StudentGradeFactoryImpl(
                         courseEditionRepository,
                         programmeEditionRepository,
-                        schoolYearRepository
+                        schoolYearRepository,
+                        studentGradeRepository
                 );
 
         // Act & Assert
@@ -237,7 +245,9 @@ class StudentGradeFactoryImplTest {
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(CourseEditionRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
         StudentID student = mock(StudentID.class);
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
@@ -257,7 +267,9 @@ class StudentGradeFactoryImplTest {
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(CourseEditionRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
         StudentID student = mock(StudentID.class);
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
@@ -276,7 +288,9 @@ class StudentGradeFactoryImplTest {
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(CourseEditionRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
         Grade grade = mock(Grade.class);
         Date dateDouble = mock(Date.class);
@@ -295,7 +309,9 @@ class StudentGradeFactoryImplTest {
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionRepository courseEditionRepository = mock(CourseEditionRepositoryImpl.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository,studentGradeRepository);
         StudentID student = mock(StudentID.class);
         Date dateDouble = mock(Date.class);
         Grade grade = mock(Grade.class);

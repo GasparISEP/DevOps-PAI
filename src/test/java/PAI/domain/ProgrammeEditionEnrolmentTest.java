@@ -1,12 +1,12 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +30,94 @@ class ProgrammeEditionEnrolmentTest {
     }
 
     @Test
+    void should_return_a_valid_programme_edition_enrollment_with_new_constructor() throws Exception {
+        //arrange
+        StudentID studentDoubleId = mock(StudentID.class);
+        ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        LocalDate localDate = LocalDate.now();
+
+        //act + assert
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, localDate);
+
+    }
+
+    @Test
+    void should_return_valid_programme_edition_enrolment_with_given_date() {
+        // Arrange
+        StudentID studentDoubleId = mock(StudentID.class);
+        ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        LocalDate givenDate = LocalDate.of(2022, 12, 1);
+
+        // Act
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, givenDate);
+
+        // Assert
+        assertEquals(givenDate, pee1.getEnrolmentDate());
+    }
+
+    @Test
     void everythingNullGenerateException() throws Exception {
         //arrange
 
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null));
+    }
+
+    @Test
+    void everythingNullGenerateException_new_constructor() throws Exception {
+        //arrange
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null,null));
+    }
+
+    @Test
+    void programmeEditionIdAndDateNullGenerateException() throws Exception {
+
+        StudentID studentDoubleId = mock(StudentID.class);
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStudentIdIsNull_new_constructor() {
+        ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
+        LocalDate validDate = LocalDate.now();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolment(null, doubleProgrammeEditionId, validDate);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionIdIsNull_new_constructor() {
+        StudentID doubleStudentID = mock(StudentID.class);
+        LocalDate validDate = LocalDate.now();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolment(doubleStudentID, null, validDate);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionIdAndStudentIDIsNull_new_constructor() {
+        LocalDate validDate = LocalDate.now();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolment(null, null, validDate);
+        });
+    }
+
+    @Test
+    void should_use_LocalDate_now_if_null_is_passed_for_date() throws Exception {
+        // Arrange
+        StudentID studentDoubleId = mock(StudentID.class);
+        ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+
+        // Act
+        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null);
+
+        // Assert
+        assertEquals(LocalDate.now(), enrolment.getEnrolmentDate());
     }
 
     @Test
@@ -42,7 +125,7 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         //act + assert
-        assertThrows(Exception.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null));
     }
 
     @Test
@@ -57,6 +140,7 @@ class ProgrammeEditionEnrolmentTest {
         //assert
         assertFalse(enrollment1.equals(null));
     }
+
 
     @Test
     void shouldReturnTrueIfProgrammeEditionIsEqualThis_EqualsMethod() throws Exception {
@@ -203,6 +287,20 @@ class ProgrammeEditionEnrolmentTest {
 
         // Assert
         assertEquals(doubleSt1Id, studentId);
+    }
+
+    @Test
+    void getEnrolmentDate_shouldReturnCorrectDate() throws Exception {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        LocalDate expectedDate = LocalDate.of(2024, 4, 23);
+
+        // Act
+        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentID, programmeEditionID, expectedDate);
+
+        // Assert
+        assertEquals(expectedDate, enrolment.getEnrolmentDate());
     }
 
     @Test
