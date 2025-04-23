@@ -2,16 +2,14 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
-import PAI.factory.ProgrammeEnrolmentFactoryImpl;
-import PAI.mapper.ProgrammeEnrolmentIDMapper;
-import PAI.mapper.ProgrammeEnrolmentMapper;
+import PAI.mapper.IProgrammeEnrolmentIDMapper;
+import PAI.mapper.IProgrammeEnrolmentMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +18,13 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     @Test
     public void testConstructor_JpaRepoNull_ThrowsException() {
         // Arrange
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper iProgrammeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringData(
-                    null, idMapperDouble, null, null
+                    null, idMapperDouble, iProgrammeEnrolmentMapperDouble
             );
         });
         assertEquals("jpaRepo must not be null", thrown.getMessage());
@@ -36,11 +35,12 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testConstructor_IdMapperNull_ThrowsException() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringData(
-                    jpaRepoDouble, null, null, null
+                    jpaRepoDouble, null, programmeEnrolmentMapperDouble
             );
         });
         assertEquals("idMapper must not be null", thrown.getMessage());
@@ -50,83 +50,53 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testConstructor_ProgrammeEnrolmentMapperNull_ThrowsException() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentFactoryImpl programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringData(
-                    jpaRepoDouble, idMapperDouble, null, programmeEnrolmentFactoryDouble
+                    jpaRepoDouble, idMapperDouble, null
             );
         });
         assertEquals("programmeEnrolmentMapper must not be null", thrown.getMessage());
     }
 
     @Test
-    public void testConstructor_ProgrammeEnrolmentFactoryNull_ThrowsException() {
+    public void testSave_SuccessfulSave_ReturnsMappedDomainObject() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(ProgrammeEnrolmentMapper.class);
-
-        // Act + Assert
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEnrolmentRepositorySpringData(
-                    jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, null
-            );
-        });
-        assertEquals("programmeEnrolmentFactory must not be null", thrown.getMessage());
-    }
-
-
-    @Test
-    public void testEnrolStudents_EnrolmentRepeated_ThrowsException() throws Exception {
-        // Arrange
-        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble
         );
 
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date enrolmentDateDouble = mock(Date.class);
+        ProgrammeEnrolment domainDouble = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentDataModel dataModelDouble = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolmentDataModel savedDataModelDouble = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolment mappedDomain = mock(ProgrammeEnrolment.class);
 
-        ProgrammeEnrolment newEnrolmentDouble = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolmentDataModel existingEnrolmentDataModelDouble = mock(ProgrammeEnrolmentDataModel.class);
-        ProgrammeEnrolment existingEnrolmentDouble = mock(ProgrammeEnrolment.class);
+        when(mapperDouble.toDataModel(domainDouble)).thenReturn(dataModelDouble);
+        when(jpaRepoDouble.save(dataModelDouble)).thenReturn(savedDataModelDouble);
+        when(mapperDouble.toDomain(savedDataModelDouble)).thenReturn(mappedDomain);
 
-        // Mocking the factory to create a new enrolment
-        when(factoryDouble.createProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble))
-                .thenReturn(newEnrolmentDouble);
+        // Act
+        ProgrammeEnrolment result = repository.save(domainDouble);
 
-        // Mocking the repository's findAll() to return an existing enrolment in data model
-        when(jpaRepoDouble.findAll()).thenReturn(List.of(existingEnrolmentDataModelDouble));
-
-        // Mocking the mapper to convert the data model to domain model
-        when(mapperDouble.toDomain(existingEnrolmentDataModelDouble)).thenReturn(existingEnrolmentDouble);
-
-        // Mocking the existing enrolment to indicate that it's already enrolled
-        when(existingEnrolmentDouble.hasSameEnrolment(newEnrolmentDouble)).thenReturn(true);
-
-        // Act + Assert
-        assertThrows(Exception.class, () -> repository.enrolStudents(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble));
+        // Assert
+        assertEquals(mappedDomain, result);
     }
 
     @Test
     public void testContainsOfIdentity_ExistingEnrolment() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, programmeEnrolmentFactoryDouble
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
@@ -151,12 +121,11 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testContainsOfIdentity_NotFound() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl programmeEnrolmentFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, programmeEnrolmentFactoryDouble
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
@@ -181,12 +150,11 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testSave_MapperReturnsNull_ThrowsException() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble
         );
 
         ProgrammeEnrolment domainDouble = mock(ProgrammeEnrolment.class);
@@ -205,12 +173,11 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testFindById_Found() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
@@ -235,13 +202,11 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testFindById_NotFound() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
-        );
+                jpaRepoDouble, idMapperDouble, mapperDouble);
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
         ProgrammeEnrolmentIDDataModel dataIDDouble = mock(ProgrammeEnrolmentIDDataModel.class);
@@ -258,56 +223,14 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
 
 
     @Test
-    public void testEnrolStudents_Successful() throws Exception {
-        // Arrange
-        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
-
-        ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
-        );
-
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date enrolmentDateDouble = mock(Date.class);
-
-        ProgrammeEnrolment newEnrolmentDouble = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolmentDataModel dataModelDouble = mock(ProgrammeEnrolmentDataModel.class);
-
-        // Mocking the factory to create a new enrolment
-        when(factoryDouble.createProgrammeEnrolment(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble))
-                .thenReturn(newEnrolmentDouble);
-
-        // Mocking the mapper to return a valid DataModel
-        when(mapperDouble.toDataModel(newEnrolmentDouble)).thenReturn(dataModelDouble);
-
-        // Mocking the repository's findAll() to return an empty list (simulating no existing enrolment)
-        when(jpaRepoDouble.findAll()).thenReturn(Collections.emptyList());
-
-        // Mocking the repository's save() to return the saved DataModel
-        when(jpaRepoDouble.save(any(ProgrammeEnrolmentDataModel.class))).thenReturn(dataModelDouble);
-
-        // Act
-        boolean result = repository.enrolStudents(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble);
-
-        // Assert
-        assertTrue(result);
-    }
-
-
-    @Test
     public void testIsStudentEnrolledShouldReturnTrue() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble
         );
 
         StudentID studentIDDouble = mock(StudentID.class);
@@ -337,12 +260,11 @@ class ProgrammeEnrolmentRepositorySpringDataTest {
     public void testIsStudentEnrolled_NotEnrolled() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        ProgrammeEnrolmentIDMapper idMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        ProgrammeEnrolmentMapper mapperDouble = mock(ProgrammeEnrolmentMapper.class);
-        ProgrammeEnrolmentFactoryImpl factoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringData repository = new ProgrammeEnrolmentRepositorySpringData(
-                jpaRepoDouble, idMapperDouble, mapperDouble, factoryDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble
         );
 
         StudentID studentIDDouble = mock(StudentID.class);
