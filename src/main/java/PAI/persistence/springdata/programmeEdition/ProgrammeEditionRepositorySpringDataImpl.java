@@ -29,6 +29,21 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData, IProgrammeEditionMapper iProgrammeEditionMapper,
             IProgrammeEditionIdMapper iProgrammeEditionIdMapper, IProgrammeIDMapper iProgrammeIDMapper, ISchoolYearIDMapper iSchoolYearIDMapper) {
 
+        if(iProgrammeEditionRepositorySpringData == null) {
+            throw new IllegalArgumentException("ProgrammeEditionRepositorySpringData cannot be null");
+        }
+        if(iProgrammeEditionMapper == null) {
+            throw new IllegalArgumentException("ProgrammeEditionMapper cannot be null");
+        }
+        if(iProgrammeEditionIdMapper == null) {
+            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
+        }
+        if(iProgrammeIDMapper == null) {
+            throw new IllegalArgumentException("ProgrammeIDMapper cannot be null");
+        }
+        if(iSchoolYearIDMapper == null) {
+            throw new IllegalArgumentException("SchoolYearIDMapper cannot be null");
+        }
         this._iProgrammeEditionRepositorySpringData = iProgrammeEditionRepositorySpringData;
         this._iProgrammeEditionMapper = iProgrammeEditionMapper;
         this._iProgrammeEditionIdMapper = iProgrammeEditionIdMapper;
