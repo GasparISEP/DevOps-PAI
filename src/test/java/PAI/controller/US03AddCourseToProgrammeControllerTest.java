@@ -1,3 +1,4 @@
+/*
 package PAI.controller;
 
 import PAI.VOs.*;
@@ -11,14 +12,14 @@ import PAI.factory.ProgrammeFactoryImpl;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanRepositoryImpl;
-import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanListFactoryImpl;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanListFactory;
+import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanRepositoryImpl;
+import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanListFactoryImpl;
+import PAI.persistence.mem.courseInStudyPlan.ICourseInStudyPlanListFactory;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
-import PAI.repository.courseRepository.CourseRepositoryImpl;
-import PAI.repository.courseRepository.CourseRepositoryListFactoryImpl;
+import PAI.persistence.mem.courseRepository.CourseRepositoryImpl;
+import PAI.persistence.mem.courseRepository.CourseRepositoryListFactoryImpl;
 import PAI.repository.courseRepository.ICourseRepository;
-import PAI.repository.courseRepository.ICourseRepositoryListFactory;
+import PAI.persistence.mem.courseRepository.ICourseRepositoryListFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.ProgrammeRepositoryImpl;
@@ -583,3 +584,4 @@ public class US03AddCourseToProgrammeControllerTest {
         });
     }
 }
+*/

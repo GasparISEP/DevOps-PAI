@@ -1,10 +1,8 @@
 package PAI.domain.courseInStudyPlan;
 
-import PAI.VOs.CourseID;
-import PAI.VOs.CurricularYear;
-import PAI.VOs.Semester;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 
 public interface ICourseInStudyPlanFactory {
-        CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID);
+        CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
+                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts);
 }

@@ -1,6 +1,9 @@
 package PAI.service.programmeEdition;
 
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 
 //TODO @Service and Implements IProgrammeEditionService
@@ -18,6 +21,10 @@ public class ProgrammeEditionService {
             throw new IllegalArgumentException("ProgrammeEditionRepository cannot be null!");
         }
         this._programmeEditionRepository = programmeEditionRepository;
+    }
+
+    public ProgrammeEdition createProgrammeEdition (ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+        return this._programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
     }
 
 }

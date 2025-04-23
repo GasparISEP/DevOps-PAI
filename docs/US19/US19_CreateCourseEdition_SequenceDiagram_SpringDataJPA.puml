@@ -1,0 +1,57 @@
+@startuml
+title: US19_CREATE COURSE EDITION_SEQUENCE DIAGRAM
+autonumber
+
+actor ASC
+participant ":UI" as UI
+participant ":CreateCourseEditionController" as Controller
+participant ":CourseEditionService" as CourseEditionService
+participant ":CourseEditionFactory" as CourseEditionFactory
+participant ":CourseEditionRepositorySpringData" as CourseEditionRepositorySpringData
+participant ":CourseEditionMapper" as CourseEditionMapper
+participant ":CourseEditionIDMapper" as CourseEditionIDMapper
+participant ":ProgrammeEditionIdMapper" as ProgrammeEditionIdMapper
+participant ":CourseInStudyPlanIDMapper" as CourseInStudyPlanIDMapper
+
+ASC -> UI ++ #application :  I want to create a Course Edition
+UI --> ASC -- : Which CourseInStudyPlanID?
+ASC -> UI ++ #application : courseInStudyPlanID1!
+UI --> ASC -- : Which ProgrammeEditionID?
+ASC -> UI ++ #application : programmeEditionID1!
+
+UI -> Controller ++ #application : createCourseEdition(cSpID1,pEID1)
+
+Controller -> CourseEditionService ++ #application: create(cSpID1,pEID1)
+
+CourseEditionService -> CourseEditionFactory ++ #application : newCourseEdition_2(cSpID1,pEID1)
+CourseEditionFactory --> CourseEditionService -- : CourseEdition
+
+CourseEditionService -> CourseEditionRepositorySpringData ++ #application : save(courseEdition)
+
+CourseEditionRepositorySpringData -> CourseEditionMapper ++ #application : toDataModel(courseEdition)
+
+CourseEditionMapper -> CourseEditionIDMapper ++ #application : toDataModel(courseEditionID)
+CourseEditionIDMapper -> ProgrammeEditionIdMapper ++ #application : toDataModel(programmeEditionID)
+ProgrammeEditionIdMapper --> CourseEditionIDMapper -- : ProgrammeEditionIdDataModel
+CourseEditionIDMapper -> CourseInStudyPlanIDMapper ++ #application : toDataModel(courseInStudyPlanID)
+CourseInStudyPlanIDMapper --> CourseEditionIDMapper -- : CourseInStudyPlanIDDataModel
+CourseEditionIDMapper --> CourseEditionMapper --: CourseEditionIDDataModel
+
+
+CourseEditionMapper --> CourseEditionRepositorySpringData -- : CourseEditionDataModel
+
+CourseEditionRepositorySpringData -> CourseEditionRepositorySpringData : save(courseEditionDataModel)
+CourseEditionRepositorySpringData --> CourseEditionRepositorySpringData : CourseEditionDataModel
+
+
+CourseEditionRepositorySpringData --> CourseEditionService -- : CourseEdition
+
+CourseEditionService --> Controller -- : CourseEdition
+
+Controller --> UI -- : True
+UI --> ASC -- : True
+
+participant "cSP1_ID\n:CourseInStudyPlanID" as CSP_ID
+participant "pE1_ID\n:ProgrammeEditionID" as PE_ID
+
+@enduml

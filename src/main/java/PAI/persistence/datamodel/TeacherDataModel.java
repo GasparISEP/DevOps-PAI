@@ -10,76 +10,76 @@ import jakarta.persistence.Table;
 public class TeacherDataModel {
 
     @Id
-    private TeacherIDDataModel _teacherIDDataModel;
+    private TeacherIDDataModel teacherIDDataModel;
 
-    private String _name;
-    private String _email;
-
-    @Embedded
-    private NIFDataModel _nif;
+    private String name;
+    private String email;
 
     @Embedded
-    private PhoneNumberDataModel _phoneNumber;
-
-    private String _academicBackground;
+    private NIFDataModel nif;
 
     @Embedded
-    private AddressDataModel _address;
+    private PhoneNumberDataModel phoneNumber;
 
-    private String _dptAcronym;
+    private String academicBackground;
 
     @Embedded
-    private TeacherAcademicEmailDataModel _teacherAcademicEmail;
+    private AddressDataModel address;
+
+    private String dptAcronym;
+
+    @Embedded
+    private TeacherAcademicEmailDataModel teacherAcademicEmail;
 
 
     public TeacherDataModel () {}
 
     public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
 
-        _teacherIDDataModel = teacherIDDataModel;
-        _name = name;
-        _email = email;
-        _nif = nif;
-        _phoneNumber = phoneNumber;
-        _academicBackground = academicBackground;
-        _address = address;
-        _teacherAcademicEmail = teacherAcademicEmail;
-        _dptAcronym = dptAcronym;
+        this.teacherIDDataModel = teacherIDDataModel;
+        this.name = name;
+        this.email = email;
+        this.nif = nif;
+        this.phoneNumber = phoneNumber;
+        this.academicBackground = academicBackground;
+        this.address = address;
+        this.teacherAcademicEmail = teacherAcademicEmail;
+        this.dptAcronym = dptAcronym;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
-        return _teacherIDDataModel;
+        return teacherIDDataModel;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public String getEmail() {
-        return _email;
+        return email;
     }
 
     public NIFDataModel getNif() {
-        return _nif;
+        return nif;
     }
 
     public PhoneNumberDataModel getPhoneNumber() {
-        return _phoneNumber;
+        return phoneNumber;
     }
 
     public String getAcademicBackground() {
-        return _academicBackground;
+        return academicBackground;
     }
 
     public AddressDataModel getAddress() {
-        return _address;
+        return address;
     }
 
     public String getDptAcronym() {
-        return _dptAcronym;
+        return dptAcronym;
     }
 
     public TeacherAcademicEmailDataModel getTeacherAcademicEmail() {
-        return _teacherAcademicEmail;
+        return teacherAcademicEmail;
     }
 }
