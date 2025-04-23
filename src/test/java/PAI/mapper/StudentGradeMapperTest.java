@@ -2,6 +2,7 @@ package PAI.mapper;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
+import PAI.factory.IStudentGradeFactory;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentGradeIDDataModel;
@@ -15,8 +16,8 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 public class StudentGradeMapperTest {
 
@@ -25,7 +26,9 @@ public class StudentGradeMapperTest {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+
+        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper,studentGradeFactory);
 
         StudentID studentID = mock(StudentID.class);
         Grade grade = mock(Grade.class);
@@ -69,32 +72,43 @@ public class StudentGradeMapperTest {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper, studentGradeFactory);
 
         StudentGradeDM dataModel = mock(StudentGradeDM.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
+        LocalDate dateLM = LocalDate.of(2025, 4, 14);
         when(dataModel.get_grade()).thenReturn(18.0);
-        when(dataModel.get_date()).thenReturn(LocalDate.of(2025, 4, 14));
+        when(dataModel.get_date()).thenReturn(dateLM);
         when(dataModel.getStudentId()).thenReturn(studentIDDataModel);
         when(dataModel.getCourseEditionID()).thenReturn(courseEditionIDDataModel);
 
         StudentID studentID = mock(StudentID.class);
-        when(studentID.getUniqueNumber()).thenReturn(1000001);
         when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
         CourseEditionID fakeCourseEditionID = mock(CourseEditionID.class);
         when(courseEditionIDMapper.toDomain(courseEditionIDDataModel)).thenReturn(fakeCourseEditionID);
 
+        // Stub do factory para retornar o StudentGrade mockado
+        Grade expectedGrade = new Grade(18.0);
+        Date expectedDate = new Date(dateLM);
+        StudentGrade expectedStudentGrade = mock(StudentGrade.class);
+        when(studentGradeFactory.newGradeStudent(
+                eq(expectedGrade),
+                eq(expectedDate),
+                eq(studentID),
+                eq(fakeCourseEditionID))
+        ).thenReturn(expectedStudentGrade);
+
         // Act
         StudentGrade result = mapper.toDomain(dataModel);
 
         // Assert
-        assertEquals(18.0, result.get_grade().knowGrade(), 0.01);
-        assertEquals(LocalDate.of(2025, 4, 14), result.get_date().getLocalDate());
-        assertEquals(1000001, result.get_studentID().getUniqueNumber());
-        assertEquals(fakeCourseEditionID, result.get_courseEditionID());
+        assertSame(expectedStudentGrade, result);
+        verify(studentGradeFactory).newGradeStudent(expectedGrade, expectedDate, studentID, fakeCourseEditionID);
+
     }
 
 }

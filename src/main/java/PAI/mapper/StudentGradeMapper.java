@@ -2,6 +2,7 @@ package PAI.mapper;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
+import PAI.factory.IStudentGradeFactory;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentGradeIDDataModel;
@@ -14,10 +15,13 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapper studentIDMapper;
+    private final IStudentGradeFactory iStudentGradeFactory;
 
-    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper) {
+
+    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper, IStudentGradeFactory iStudentGradeFactory) {
         this.courseEditionIDMapper = courseEditionIDMapper;
         this.studentIDMapper = studentIDMapper;
+        this.iStudentGradeFactory = iStudentGradeFactory;
     }
 
     public StudentGradeDM toData(StudentGrade studentGrade) throws Exception {
@@ -43,6 +47,6 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
         CourseEditionID courseEditionID = courseEditionIDMapper.toDomain(studentGradeDM.getCourseEditionID());
 
-        return new StudentGrade(grade,date,studentID,courseEditionID);
+        return iStudentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
     }
 }
