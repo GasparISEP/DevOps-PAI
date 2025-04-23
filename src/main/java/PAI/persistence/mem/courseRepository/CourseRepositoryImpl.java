@@ -1,8 +1,9 @@
-package PAI.repository.courseRepository;
+package PAI.persistence.mem.courseRepository;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
+import PAI.repository.courseRepository.ICourseRepository;
 
 import java.util.List;
 import java.util.Optional;

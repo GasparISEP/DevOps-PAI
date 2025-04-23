@@ -4,6 +4,9 @@ import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
 
+import PAI.persistence.mem.courseRepository.CourseRepositoryImpl;
+import PAI.persistence.mem.courseRepository.CourseRepositoryListFactoryImpl;
+import PAI.persistence.mem.courseRepository.ICourseRepositoryListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

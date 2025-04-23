@@ -55,7 +55,6 @@ public class CourseMapperImpl implements ICourseMapper {
         for (CourseDataModel courseDataModel : listDataModel) {
             try {
                 Course course = toDomain(courseDataModel);
-                if (course != null)
                     listDomain.add(course);
             } catch (Exception e) {
                 return null;
