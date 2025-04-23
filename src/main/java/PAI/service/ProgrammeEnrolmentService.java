@@ -8,7 +8,7 @@ import PAI.domain.ProgrammeEnrolment;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.repository.IProgrammeEnrolmentRepository;
 
-public class ProgrammeEnrolmentService {
+public class ProgrammeEnrolmentService implements IProgrammeEnrolmentService {
 
     private IProgrammeEnrolmentFactory _peFactory;
     private IProgrammeEnrolmentRepository _peRepository;
