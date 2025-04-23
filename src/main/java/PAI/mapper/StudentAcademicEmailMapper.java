@@ -3,7 +3,9 @@ package PAI.mapper;
 import PAI.VOs.StudentAcademicEmail;
 import PAI.VOs.StudentID;
 import PAI.persistence.datamodel.StudentAcademicEmailDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StudentAcademicEmailMapper implements IStudentAcademicEmailMapper {
 
     public StudentAcademicEmailDataModel domainToDataModel(StudentAcademicEmail studentAcademicEmail) {

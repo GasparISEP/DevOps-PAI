@@ -2,7 +2,9 @@ package PAI.mapper;
 
 import PAI.VOs.*;
 import PAI.persistence.datamodel.AddressDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddressMapper implements IAddressMapper {
 
     public Address toDomain (AddressDataModel addressDataModel) {
