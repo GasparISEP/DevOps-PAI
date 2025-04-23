@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
     @Test
-    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception{
         // Arrange
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
@@ -80,7 +80,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentNotEnrolledInProgramme() throws Exception {
         // arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
@@ -113,7 +113,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound() throws Exception {
         // arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
@@ -148,7 +148,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() {
+    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition() throws Exception{
         // arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
@@ -183,7 +183,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() {
+    void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition() throws Exception{
         // Arrange
         ProgrammeEditionEnrolmentRepositoryImpl doubleProgrammeEditionEnrolmentRepository = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
