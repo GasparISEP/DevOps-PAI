@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.StudentGradeDM;
+import PAI.persistence.datamodel.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 
@@ -51,12 +52,16 @@ public class StudentGradeMapperTest {
 
         // Act
         StudentGradeDM dataModel = mapper.toData(studentGrade);
+        StudentGradeIDDataModel idDM = dataModel.getId();
 
         // Assert
         assertEquals(1000001, dataModel.getStudentId().getUniqueNumber());
+        assertEquals(studentIDDM,       idDM.get_studentIDDataModel());
         assertEquals(17.5, dataModel.get_grade(), 0.01);
         assertEquals(LocalDate.of(2024, 6, 1), dataModel.get_date());
         assertEquals(courseEditionIDDataModel, dataModel.getCourseEditionID());
+        assertNotNull(idDM);
+
     }
 
     @Test

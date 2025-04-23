@@ -22,16 +22,16 @@ public class US25_IWantToKnowTheAverageGradeOfACourseEditionController {
         _courseEditionRepository = courseEditionRepo;
     }
 
-    public Optional<CourseEditionID> findCourseEditionIDByCourseEdition(CourseEdition courseEdition) {
-        return _courseEditionRepository.findIdByCourseEdition(courseEdition);
-    }
+//    public Optional<CourseEditionID> findCourseEditionIDByCourseEdition(CourseEdition courseEdition) {
+//        return _courseEditionRepository.findIdByCourseEdition(courseEdition);
+//    }
 
-    public Double IWantToKnowTheAvgGrade (CourseEdition courseEdition) {
-        Optional<CourseEditionID> courseEditionID = findCourseEditionIDByCourseEdition(courseEdition);
-        if (courseEditionID.isPresent()) {
-            return _studentGradeRepository.getAverageGrade(courseEditionID.get());
-        }
-        return null;
-    }
+//    public Double IWantToKnowTheAvgGrade (CourseEdition courseEdition) {
+//        Optional<CourseEditionID> courseEditionID = findCourseEditionIDByCourseEdition(courseEdition);
+//        if (courseEditionID.isPresent()) {
+//            return _studentGradeRepository.getAverageGrade(courseEditionID.get());
+//        }
+//        return null;
+//    }
 }
 

@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.StudentGradeDM;
+import PAI.persistence.datamodel.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,16 @@ public class StudentGradeMapper implements IStudentGradeMapper {
 
     public StudentGradeDM toData(StudentGrade studentGrade) throws Exception {
 
+        StudentIDDataModel      studentIdDM       = studentIDMapper.domainToDataModel(studentGrade.get_studentID());
         StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentGrade.get_studentID());
         CourseEditionIDDataModel courseEditionDM = courseEditionIDMapper.toDataModel(studentGrade.get_courseEditionID());
 
-        return new StudentGradeDM( studentGrade.identity().toString().hashCode(),studentGrade.get_grade().knowGrade(),studentGrade.get_date().getLocalDate(), courseEditionDM,studentIDDataModel);
+        StudentGradeIDDataModel idDM = new StudentGradeIDDataModel(
+                studentIdDM,
+                courseEditionDM
+        );
+
+        return new StudentGradeDM( idDM,studentGrade.get_grade().knowGrade(),studentGrade.get_date().getLocalDate(), courseEditionDM,studentIDDataModel);
     }
 
     public StudentGrade toDomain( StudentGradeDM studentGradeDM ) throws Exception {

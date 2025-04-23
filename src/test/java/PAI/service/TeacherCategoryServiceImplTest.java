@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class TeacherCategoryServiceTest {
+class TeacherCategoryServiceImplTest {
 
     private ITeacherCategoryRepository repository;
     private ITeacherCategoryFactory factory;
@@ -23,7 +23,7 @@ class TeacherCategoryServiceTest {
     void setUp() {
         repository = mock(ITeacherCategoryRepository.class);
         factory = mock(ITeacherCategoryFactory.class);
-        service = new TeacherCategoryService(repository, factory);
+        service = new TeacherCategoryServiceImpl(repository, factory);
     }
 
     @Test
@@ -61,8 +61,8 @@ class TeacherCategoryServiceTest {
 
     @Test
     void testNullDependenciesThrow() {
-        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryService(null, factory));
-        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryService(repository, null));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(null, factory));
+        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(repository, null));
     }
 
     @Test
