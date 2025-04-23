@@ -112,50 +112,68 @@ class StudentGradeFactoryImplTest {
 
     }
 
-//
-//    @Test
-//    public void shouldNotCreateConstructorWhenDateBeforeBeginningOfSchoolYear() throws Exception {
-//        //Arrange
-//        ICourseEditionRepository courseEditionRepository = mock(CourseEditionRepositoryImpl.class);
-//        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-//        CourseEdition courseEdition = mock(CourseEdition.class);
-//        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-//        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-//        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-//        SchoolYear schoolYear = mock(SchoolYear.class);
-//        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
-//        when(courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition)).thenReturn(programmeEditionID);
-//        Date Start = mock(Date.class);
-//        Date End = mock(Date.class);
-//        LocalDate SD = mock(LocalDate.class);
-//        LocalDate ED = mock(LocalDate.class);
-//        Date gradeDate = mock(Date.class);
-//        LocalDate GD = mock(LocalDate.class);
-//
-//        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-//        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-//        when(programmeEditionRepository.ofIdentity(programmeEditionID)).thenReturn(Optional.of(programmeEdition));
-//        when(programmeEditionRepository.getSchoolYearIDByProgrammeEdition(programmeEdition)).thenReturn(schoolYearID);
-//        when(schoolYearRepository.ofIdentity(schoolYearID)).thenReturn(Optional.of(schoolYear));
-//        when(schoolYear.getStartDate()).thenReturn(Start);
-//        when(schoolYear.getEndDate()).thenReturn(End);
-//        when(Start.getLocalDate()).thenReturn(SD);
-//        when(End.getLocalDate()).thenReturn(ED);
-//        when(gradeDate.getLocalDate()).thenReturn(GD);
-//        when(GD.isBefore(SD)).thenReturn(true);
-//        when(GD.isAfter(ED)).thenReturn(false);
-//
-//        StudentID student = mock(StudentID.class);
-//        Grade grade = mock(Grade.class);
-//        when(grade.knowGrade()).thenReturn(10.0);
-//        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
-//
-//        // Act & Assert
-//        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-//                factory.newGradeStudent(grade, gradeDate, student, courseEditionID));
-//        assertEquals("Date is out of Range", exception.getMessage());
-//    }
-//
+
+    @Test
+    public void shouldNotCreateConstructorWhenDateBeforeBeginningOfSchoolYear() throws Exception {
+        // Arrange
+        ICourseEditionRepository courseEditionRepository    = mock(CourseEditionRepositoryImpl.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository      schoolYearRepository     = mock(ISchoolYearRepository.class);
+
+
+        CourseEditionID    courseEditionID    = mock(CourseEditionID.class);
+        CourseEdition      courseEdition      = mock(CourseEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition   programmeEdition   = mock(ProgrammeEdition.class);
+        SchoolYearID       schoolYearID       = mock(SchoolYearID.class);
+        SchoolYear         schoolYear         = mock(SchoolYear.class);
+
+
+        when(courseEditionRepository.ofIdentity(courseEditionID))
+                .thenReturn(Optional.of(courseEdition));
+
+        when(courseEdition.getProgrammeEditionID())
+                .thenReturn(programmeEditionID);
+
+        when(programmeEditionRepository.ofIdentity(programmeEditionID))
+                .thenReturn(Optional.of(programmeEdition));
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition())
+                .thenReturn(schoolYearID);
+
+        when(schoolYearRepository.ofIdentity(schoolYearID))
+                .thenReturn(Optional.of(schoolYear));
+
+        Date start     = mock(Date.class);
+        Date end       = mock(Date.class);
+        LocalDate sd   = mock(LocalDate.class);
+        LocalDate ed   = mock(LocalDate.class);
+
+        when(schoolYear.getStartDate()).thenReturn(start);
+        when(schoolYear.getEndDate()).thenReturn(end);
+        when(start.getLocalDate()).thenReturn(sd);
+        when(end.getLocalDate()).thenReturn(ed);
+
+        Date   gradeDate = mock(Date.class);
+        LocalDate gd     = mock(LocalDate.class);
+        when(gradeDate.getLocalDate()).thenReturn(gd);
+        when(gd.isBefore(sd)).thenReturn(true);
+        when(gd.isAfter(ed)).thenReturn(false);
+
+
+        StudentID student = mock(StudentID.class);
+        Grade     grade   = mock(Grade.class);
+        when(grade.knowGrade()).thenReturn(10.0);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository,programmeEditionRepository,schoolYearRepository);
+
+        // Act & Assert
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> factory.newGradeStudent(grade, gradeDate, student, courseEditionID)
+        );
+        assertEquals("Date is out of Range", ex.getMessage());
+    }
+
 //    @Test
 //    public void shouldNotCreateConstructorWhenDateAfterEndOfSchoolYear() throws Exception {
 //        //Arrange
