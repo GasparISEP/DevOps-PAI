@@ -1,31 +1,17 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.domain.CourseEdition;
-import PAI.factory.IStudentGradeRepository;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.StudentGradeRepository;
-
-import java.util.Optional;
+import PAI.service.IStudentGradeService;
 
 public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
 
-    StudentGradeRepository _StudentGradeRepository;
-    ICourseEditionRepository _CourseEditionRepository;
+    IStudentGradeService _iStudentGradeService;
 
-
-    public US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(StudentGradeRepository studentGradeRepository, ICourseEditionRepository iCourseEditionRepository){
-        _StudentGradeRepository = studentGradeRepository;
-        _CourseEditionRepository = iCourseEditionRepository;
+    public US23_IWantToKnowTheApprovalPercentageOfACourseEditionController (IStudentGradeService iStudentGradeService){
+        if (iStudentGradeService == null){
+            throw new IllegalArgumentException("Service cannot be null");
+        }
+        _iStudentGradeService = iStudentGradeService;
+    }
     }
 
-//    private Optional<CourseEditionID> findCourseEditionIdByCourseEdition(CourseEdition courseEdition_DDD){
-//        return _CourseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
-//    }
-
-
-
-//    public double CalculateApprovalPercentageOfACourseEdition(CourseEdition courseEdition){
-//        return _StudentGradeRepository.knowApprovalRate(findCourseEditionIdByCourseEdition(courseEdition).get());
-//    }
-}
