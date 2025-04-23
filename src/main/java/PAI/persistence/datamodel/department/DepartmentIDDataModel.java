@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.department;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 

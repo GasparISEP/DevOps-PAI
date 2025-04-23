@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.department.DepartmentIDMapperImpl;
-import PAI.persistence.datamodel.DepartmentIDDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.ProgrammeDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
