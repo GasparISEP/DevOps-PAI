@@ -5,22 +5,22 @@ import PAI.domain.CourseEdition;
 import PAI.factory.IStudentGradeRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.StudentGradeRepository;
+import PAI.service.IStudentGradeService;
 
 import java.util.Optional;
 
 public class US25_IWantToKnowTheAverageGradeOfACourseEditionController {
 
-    StudentGradeRepository _studentGradeRepository;
-    ICourseEditionRepository _courseEditionRepository;
+    IStudentGradeService studentGradeService;
 
-    public US25_IWantToKnowTheAverageGradeOfACourseEditionController(StudentGradeRepository studentGradeRepo, ICourseEditionRepository courseEditionRepo) throws Exception {
+    public US25_IWantToKnowTheAverageGradeOfACourseEditionController(IStudentGradeService studentGradeService) throws Exception {
 
-        if (studentGradeRepo == null || courseEditionRepo == null) {
-            throw new Exception("GradeStudent Repository cannot be null");
+        if (studentGradeService == null) {
+            throw new Exception("GradeStudent Service cannot be null");
         }
-        _studentGradeRepository = studentGradeRepo;
-        _courseEditionRepository = courseEditionRepo;
+        this.studentGradeService=studentGradeService;
     }
+
 
 //    public Optional<CourseEditionID> findCourseEditionIDByCourseEdition(CourseEdition courseEdition) {
 //        return _courseEditionRepository.findIdByCourseEdition(courseEdition);

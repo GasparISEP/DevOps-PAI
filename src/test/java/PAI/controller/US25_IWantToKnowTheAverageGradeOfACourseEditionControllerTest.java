@@ -9,6 +9,7 @@ import PAI.domain.*;
 import PAI.factory.IStudentGradeRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.StudentGradeRepository;
+import PAI.service.IStudentGradeService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -19,28 +20,30 @@ import static org.mockito.Mockito.*;
 class US25_IWantToKnowTheAverageGradeOfACourseEditionControllerTest {
 
     @Test
-    void nullStudentGradeRepository() {
+    public void validConstructor() throws Exception {
         //arrange
-        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
+        IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
 
-        //act & assert
-        Exception exception = assertThrows(Exception.class, () ->
-            new US25_IWantToKnowTheAverageGradeOfACourseEditionController(studentGradeRepository, null)
-        );
-        assertEquals("GradeStudent Repository cannot be null", exception.getMessage());
+        // act
+        US25_IWantToKnowTheAverageGradeOfACourseEditionController us25 = new US25_IWantToKnowTheAverageGradeOfACourseEditionController(studentGradeService);
+
+        //assert
+        assertNotNull(us25);
     }
 
     @Test
-    void nullCourseEditionRepository() {
+    void nullStudentGradeService() {
         //arrange
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IStudentGradeService studentGradeService = null;
 
         //act & assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US25_IWantToKnowTheAverageGradeOfACourseEditionController(null, courseEditionRepository)
+            new US25_IWantToKnowTheAverageGradeOfACourseEditionController(studentGradeService)
         );
-        assertEquals("GradeStudent Repository cannot be null", exception.getMessage());
+        assertEquals("GradeStudent Service cannot be null", exception.getMessage());
     }
+
+
 
 //    @Test
 //    void averageGradeInACourseEdition () throws Exception {
