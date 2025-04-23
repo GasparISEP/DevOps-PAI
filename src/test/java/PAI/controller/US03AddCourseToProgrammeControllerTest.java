@@ -359,9 +359,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = iCourseFactory.createCourse(name, acronym);
 
         Semester semester = new Semester(2);
         CurricularYear curricularYear = new CurricularYear(2);
@@ -404,9 +402,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = iCourseFactory.createCourse(name, acronym);
 
         Semester semester = new Semester(2);
         CurricularYear curricularYear = new CurricularYear(2);
@@ -489,9 +485,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = iCourseFactory.createCourse(name, acronym);
 
         Semester semester = new Semester(2);
         CurricularYear curricularYear = new CurricularYear(2);
@@ -526,9 +520,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = iCourseFactory.createCourse(name, acronym);
 
         Semester semester = new Semester(2);
 
@@ -570,9 +562,8 @@ public class US03AddCourseToProgrammeControllerTest {
 
         Name name = new Name("Licenciatura Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(5);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = iCourseFactory.createCourse(name, acronym, courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Course course = iCourseFactory.createCourse(name, acronym);
 
         CurricularYear curricularYear = new CurricularYear(2);
 
