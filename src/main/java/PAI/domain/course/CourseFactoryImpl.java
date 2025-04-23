@@ -1,7 +1,9 @@
 package PAI.domain.course;
 
 import PAI.VOs.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseFactoryImpl implements ICourseFactory {
 
     public Course createCourse(Name name, Acronym acronym, CourseQuantityCreditsEcts quantityCreditsEcts, DurationCourseInCurricularYear durationCourseInSemester) {
