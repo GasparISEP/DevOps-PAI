@@ -20,23 +20,25 @@ CPEC -> PS ++ #application : getAllProgrammeNames()
 PS -> PR ++ #application : findAllProgrammeNames()
 ref over PR
     convert DataModel to Domain
+    List<NameWithNumbersAndSpecialChars>
 end ref
-PR --> PS -- : programmeNamesList
-PS --> CPEC -- : programmeNamesList
-CPEC --> UI -- : programmeNamesList
+PR --> PS -- : programmeNamesListVO
+PS --> CPEC -- : programmeNamesListVO
+CPEC --> UI -- : programmeNamesListVO
 UI -> ASC --  : Which Programme?
 '''''''''''''''''''''''''''''''''''''''''
 
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
-UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeName)
+UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeNameVO)
 
 'get programmeID by name
-CPEC -> PS ++ #application : getProgrammeIdByName(programmeName)
-PS -> PR ++ #application : getProgrammeIdByName(programmeName)
+CPEC -> PS ++ #application : getProgrammeIdByName(programmeNameVO)
+PS -> PR ++ #application : getProgrammeIdByName(programmeNameVO)
 ref over PR
     convert DataModel to Domain
+    toDomain(programmeIDDataModel)
 end ref
-PR --> PS -- : programmeID
+PR --> PS -- : Optional.of(programmeID)
 PS --> CPEC -- : programmeID
 '''''''''''''''''''''''''''''
 
@@ -72,6 +74,7 @@ PER --> PES -- : programmeEditionSaved
 PES --> CPEC -- : programmeEditionSaved
 CPEC --> UI : programmeEditionSaved
 UI --> ASC -- : Programme Edition created for the current school year!
+participant "programmeIDMapper:IProgrammeIDMapper"
 participant "programmeNameList:List<NameWithNumbersAndSpecialChars>"
 participant "programmeName:NameWithNumbersAndSpecialChars"
 participant "programmeID:ProgrammeID"
