@@ -10,15 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class StudentGradeRepository implements IStudentGradeRepository {
-    private final IStudentGradeFactory _IStudentGradeFactory;
     private List<StudentGrade> _StudentGradeList;
 
-    public StudentGradeRepository(IStudentGradeFactory studentGradeFactory, IStudentGradeListFactory studentGradeListFactory){
-        if (studentGradeFactory == null){
-            throw new IllegalArgumentException("Factory cannot be null!");
-        }
-        this._IStudentGradeFactory = studentGradeFactory;
-
+    public StudentGradeRepository(IStudentGradeListFactory studentGradeListFactory){
         if (studentGradeListFactory == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
 
