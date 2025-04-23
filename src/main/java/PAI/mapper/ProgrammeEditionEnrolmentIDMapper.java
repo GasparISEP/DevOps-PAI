@@ -8,7 +8,7 @@ import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 
-public class ProgrammeEditionEnrolmentIDMapper {
+public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrolmentIDMapper {
 
     private final IProgrammeEditionIdMapper _programmeEditionIdMapper;
     private final IStudentIDMapper _studentIdMapper;
@@ -27,6 +27,7 @@ public class ProgrammeEditionEnrolmentIDMapper {
         this._studentIdMapper = studentIdMapper;
     }
 
+    @Override
     public ProgrammeEditionEnrolmentID toDomain(ProgrammeEditionEnrolmentIDDataModel programmeEditionEnrolmentIDDataModel) throws Exception {
 
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionEnrolmentIDDataModel.getProgrammeEditionIdDataModel();
@@ -39,6 +40,7 @@ public class ProgrammeEditionEnrolmentIDMapper {
 
     }
 
+    @Override
     public ProgrammeEditionEnrolmentIDDataModel toDataModel(ProgrammeEditionEnrolmentID programmeEditionEnrolmentId) throws Exception {
 
         ProgrammeEditionID programmeEditionID = programmeEditionEnrolmentId.getProgrammeEditionId();

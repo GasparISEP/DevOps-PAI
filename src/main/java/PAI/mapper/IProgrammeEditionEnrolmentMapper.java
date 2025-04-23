@@ -3,9 +3,11 @@ package PAI.mapper;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 
+import java.util.Optional;
+
 public interface IProgrammeEditionEnrolmentMapper {
 
-    ProgrammeEditionEnrolment toDomain(ProgrammeEditionEnrolmentDataModel dataModel);
+   Optional<ProgrammeEditionEnrolment> toDomain(ProgrammeEditionEnrolmentDataModel dataModel);
 
-    ProgrammeEditionEnrolmentDataModel toDataModel(ProgrammeEditionEnrolment programmeEditionEnrolment);
+    Optional<ProgrammeEditionEnrolmentDataModel> toDataModel(ProgrammeEditionEnrolment programmeEditionEnrolment);
 }
