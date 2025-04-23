@@ -7,12 +7,12 @@ import PAI.repository.ITeacherCategoryRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeacherCategoryApplicationService implements ITeacherCategoryApplicationService {
+public class TeacherCategoryService implements ITeacherCategoryService {
 
     private final ITeacherCategoryRepository repository;
     private final ITeacherCategoryFactory factory;
 
-    public TeacherCategoryApplicationService(ITeacherCategoryRepository repository, ITeacherCategoryFactory factory) {
+    public TeacherCategoryService(ITeacherCategoryRepository repository, ITeacherCategoryFactory factory) {
         if (repository == null || factory == null)
             throw new IllegalArgumentException("Dependencies cannot be null.");
         this.repository = repository;
