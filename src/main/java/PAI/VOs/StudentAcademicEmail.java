@@ -10,13 +10,12 @@ public class StudentAcademicEmail implements ValueObject {
     private static final String emailDomain = "isep.ipp.pt";
     private final String _studentEmail;
 
-    public StudentAcademicEmail(StudentID studentID) {
+    public StudentAcademicEmail(int uniqueNumber) {
 
-        if (studentID == null) {
-            throw new IllegalArgumentException("Student's unique number cannot be null!");
-        }
+        if (uniqueNumber <= 1000000 || uniqueNumber >= 2000000)
+            throw new IllegalArgumentException("Invalid uniqueNumber!");
 
-        _studentEmail = studentID.getUniqueNumber() + "@" + emailDomain;
+        _studentEmail = uniqueNumber + "@" + emailDomain;
     }
 
     public String getStudentEmail () {
