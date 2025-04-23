@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
+import PAI.factory.SchoolYearFactoryImpl;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
@@ -264,4 +265,70 @@ class SchoolYearRepositorySpringDataImplTest {
         Optional<SchoolYearID> result = schoolYearRepositorySpringDataImpl.getCurrentSchoolYear();
         assertEquals(Optional.empty(), result);
     }
+
+    @Test
+    void shouldReturnOptionalOfSchoolYear() {
+
+        //Arrange
+        Optional<SchoolYearDataModel> schoolYearDMOpt = Optional.of(mock(SchoolYearDataModel.class));
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData=mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYearClass=mock(SchoolYear.class);
+        SchoolYearFactoryImpl schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenReturn(schoolYearClass);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(schoolYearDMOpt);
+        //Act
+        Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
+
+        //Assert
+        assertFalse(schoolYear.isEmpty());
+    }
+
+
+    @Test
+    void shouldReturnEmptyOptionalOfSchoolYearIfNoSchoolYearIsFound() {
+
+        //Arrange
+        Optional<SchoolYearDataModel> schoolYearDMOpt = Optional.of(mock(SchoolYearDataModel.class));
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData=mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYearClass=mock(SchoolYear.class);
+        SchoolYearFactoryImpl schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenReturn(schoolYearClass);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(Optional.empty());
+        //Act
+        Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
+
+        //Assert
+        assertTrue(schoolYear.isEmpty());
+    }
+    @Test
+    void shouldReturnEmptyOptionalOfSchoolYearIfFactoryIsNull() {
+
+        //Arrange
+        Optional<SchoolYearDataModel> schoolYearDMOpt = Optional.of(mock(SchoolYearDataModel.class));
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData=mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearFactoryImpl schoolYearFactory = null;
+        SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenThrow(new IllegalArgumentException("School Year DataModel and/or Factory cannot be null"));
+        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(schoolYearDMOpt);
+        //Act
+        Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
+
+        //Assert
+        assertTrue(schoolYear.isEmpty());
+    }
+
 }

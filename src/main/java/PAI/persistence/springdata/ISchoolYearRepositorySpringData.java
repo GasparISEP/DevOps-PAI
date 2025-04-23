@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface ISchoolYearRepositorySpringData extends JpaRepository<SchoolYearDataModel, Long>{
+public interface ISchoolYearRepositorySpringData extends JpaRepository<SchoolYearDataModel, String>{
     @Query("SELECT schoolYear.id FROM SchoolYearDataModel schoolYear WHERE schoolYear.startDate < CURRENT_DATE AND schoolYear.endDate > CURRENT_DATE")
     Optional<SchoolYearIDDataModel> findCurrentSchoolYear();
 }
