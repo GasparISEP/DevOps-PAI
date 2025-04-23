@@ -62,16 +62,6 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     }
 
     @Override
-    public Optional<CourseEditionID> findIdByCourseEdition(CourseEdition courseEdition2) {
-        return Optional.empty();
-    }
-
-    @Override
-    public ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception {
-        return null;
-    }
-
-    @Override
     public CourseEdition save(CourseEdition entity) {
 
         if (entity == null)
