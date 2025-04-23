@@ -44,25 +44,6 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         return false;
     }
 
-
-    public Double getAverageGrade(CourseEditionID courseEditionID) {
-        int numOfStudent = 0;
-        double sumGrade = 0;
-
-        for (StudentGrade studentGrade : _StudentGradeList) {
-            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                Grade grade1 = studentGrade.get_grade();
-                double grade = grade1.knowGrade();
-                sumGrade += grade;
-                numOfStudent++;
-            }
-        }
-        if (numOfStudent == 0) {
-            return null;
-        }
-        return sumGrade/numOfStudent;
-    }
-
     public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
         for(StudentGrade existingStudentGrade : _StudentGradeList){
             if(existingStudentGrade.equals(studentGrade)){
