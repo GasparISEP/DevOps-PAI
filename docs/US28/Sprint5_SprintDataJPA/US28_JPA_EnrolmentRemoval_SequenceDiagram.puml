@@ -16,9 +16,9 @@ participant ":US28_EnrolmentRemoval\nController" as Controller #E1F5FE
 participant ":ICourseEditionEnrolment\nService" as Service #E1F5FE
 participant ":ICourseEditionEnrolment\nRepository" as Repository #E1F5FE
 participant ":ICourseEditionEnrolment\nRepositorySpringData" as SpringDataRepo #E1F5FE
-participant ":CourseEditionEnrolment" as Enrolment #E1F5FE
-participant ":EnrolmentStatus" as Status #E1F5FE
-participant ":CourseEditionEnrolment\nMapper" as Mapper #E1F5FE
+participant "cee:CourseEditionEnrolment" as Enrolment #E1F5FE
+participant "status:EnrolmentStatus" as Status #E1F5FE
+participant "ceeMapper:CourseEditionEnrolment\nMapperImpl" as Mapper #E1F5FE
 
 ' Step 1: ASC triggers removal
 ASC -> UI : I want to remove the enrolment\n of a student in a course edition

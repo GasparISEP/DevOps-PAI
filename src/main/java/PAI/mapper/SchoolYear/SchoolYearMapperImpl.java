@@ -4,13 +4,14 @@ import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
-import PAI.persistence.datamodel.schoolYear.*;
+import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class SchoolYearMapper implements ISchoolYearMapper {
+public class SchoolYearMapperImpl implements ISchoolYearMapper {
 
     public SchoolYearDataModel toDataModel(SchoolYear schoolYear) {
 

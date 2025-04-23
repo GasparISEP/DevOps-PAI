@@ -4,7 +4,9 @@ import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseIDMapperImpl implements ICourseIDMapper {
 
     public CourseID toDomain(CourseIDDataModel courseIDDataModel) {

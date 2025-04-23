@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class SchoolYearRepositoryMem implements ISchoolYearRepository {
+public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
     private ISchoolYearFactory _schoolYearFactory;
     private ISchoolYearListFactory _schoolYearListFactory;
 
-    public SchoolYearRepositoryMem(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory) {
+    public SchoolYearRepositoryImpl(ISchoolYearFactory schoolYearFactory, ISchoolYearListFactory schoolYearListFactory) {
 
         if (schoolYearFactory == null) {
             throw new IllegalArgumentException("SchoolYearFactory cannot be null");

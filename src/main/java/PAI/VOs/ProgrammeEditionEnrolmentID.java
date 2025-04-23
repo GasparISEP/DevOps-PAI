@@ -28,6 +28,14 @@ public class ProgrammeEditionEnrolmentID implements DomainId {
             throw new IllegalArgumentException ("Student must be valid");
     }
 
+    public ProgrammeEditionID getProgrammeEditionId() {
+        return _programmeEditionId;
+    }
+
+    public StudentID getStudentiD() {
+        return _studentiD;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
