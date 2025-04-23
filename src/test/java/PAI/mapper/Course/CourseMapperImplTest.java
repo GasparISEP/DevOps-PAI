@@ -231,10 +231,9 @@ public class CourseMapperImplTest {
 
     when(courseDataModelDouble.get_name()).thenReturn("Programacao");
     when(courseDataModelDouble.get_acronym()).thenReturn("LEI");
-
-    // Act
     when (courseMapperImpl.toDomain(courseDataModelDouble)).thenReturn(null);
 
+    // Act
     Course result = courseMapperImpl.toDomain(courseDataModelDouble);
 
     // Assert
