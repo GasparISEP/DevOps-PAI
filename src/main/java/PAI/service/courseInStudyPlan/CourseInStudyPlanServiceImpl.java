@@ -8,8 +8,6 @@ import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 
 public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
@@ -22,9 +20,10 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
             this._factory = factory;
         }
 
-        public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) {
+        public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
+                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
             CourseInStudyPlan candidate = _factory.newCourseInStudyPlan(
-                    semester, curricularYear, courseID, studyPlanID);
+                    semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
             CourseInStudyPlanID id = candidate.identity();
 
             if (_repository.containsOfIdentity(id)) {
