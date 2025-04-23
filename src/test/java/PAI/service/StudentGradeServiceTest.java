@@ -53,6 +53,8 @@ public class StudentGradeServiceTest {
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
         StudentID studentID = mock(StudentID.class);
@@ -61,15 +63,14 @@ public class StudentGradeServiceTest {
         StudentGrade expected = new StudentGrade(grade, date, studentID, courseEditionID);
         when(studentGradeFactory.newGradeStudent(grade, date, studentID, courseEditionID))
                 .thenReturn(expected);
+        when(studentGradeRepository.save(expected)).thenReturn(expected);
 
         //act
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
-
         StudentGrade actual = studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
-        assertSame(expected, actual);
-        assertEquals(grade, actual.get_grade());
+
+        assertEquals(expected, actual);
 
     }
 

@@ -6,13 +6,14 @@ import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentGradeIDDataModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-
+@Repository
 public class StudentGradeRepositorySpringData implements IStudentGradeRepository {
 
     private IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
