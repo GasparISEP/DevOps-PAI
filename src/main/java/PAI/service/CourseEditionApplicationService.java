@@ -28,7 +28,7 @@ public class CourseEditionApplicationService implements ICourseEditionApplicatio
         return courseEditionRepository.findAll();
     }
 
-    public boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID) {
+    public boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID) throws Exception {
         if (teacherID == null || courseEditionID == null) return false;
 
         Optional<CourseEdition> courseOpt = courseEditionRepository.ofIdentity(courseEditionID);

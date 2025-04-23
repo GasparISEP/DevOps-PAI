@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public abstract interface IRepository<ID extends DomainId, T extends AggregateRoot<ID> > {
   
-  public T save(T entity);
+  public T save(T entity) throws Exception;
   
   public Iterable<T> findAll();
   

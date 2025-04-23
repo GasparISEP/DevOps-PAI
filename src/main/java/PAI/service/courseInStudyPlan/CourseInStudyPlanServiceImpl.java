@@ -21,7 +21,7 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         }
 
         public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
-                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) throws Exception {
             CourseInStudyPlan candidate = _factory.newCourseInStudyPlan(
                     semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
             CourseInStudyPlanID id = candidate.identity();

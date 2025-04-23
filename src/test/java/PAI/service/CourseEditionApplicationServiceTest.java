@@ -55,7 +55,7 @@ class CourseEditionApplicationServiceTest {
     }
 
     @Test
-    void assignRuc_shouldAssignTeacherWhenCourseAndTeacherExist() {
+    void assignRuc_shouldAssignTeacherWhenCourseAndTeacherExist() throws Exception {
         // Arrange
         when(courseRepo.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(teacherRepo.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
@@ -72,7 +72,7 @@ class CourseEditionApplicationServiceTest {
     }
 
     @Test
-    void assignRuc_shouldFailIfCourseEditionNotFound() {
+    void assignRuc_shouldFailIfCourseEditionNotFound() throws Exception {
         // Arrange
         when(courseRepo.ofIdentity(courseEditionID)).thenReturn(Optional.empty());
 
@@ -85,7 +85,7 @@ class CourseEditionApplicationServiceTest {
     }
 
     @Test
-    void assignRuc_shouldFailIfTeacherNotFound() {
+    void assignRuc_shouldFailIfTeacherNotFound() throws Exception {
         // Arrange
         when(courseRepo.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(teacherRepo.ofIdentity(teacherID)).thenReturn(Optional.empty());
@@ -99,7 +99,7 @@ class CourseEditionApplicationServiceTest {
     }
 
     @Test
-    void assignRuc_shouldNotSaveIfSetRucReturnsFalse() {
+    void assignRuc_shouldNotSaveIfSetRucReturnsFalse() throws Exception {
         // Arrange
         when(courseRepo.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(teacherRepo.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
@@ -115,7 +115,7 @@ class CourseEditionApplicationServiceTest {
     }
 
     @Test
-    void assignRuc_shouldReturnFalseIfInputIsNull() {
+    void assignRuc_shouldReturnFalseIfInputIsNull() throws Exception {
         // Act & Assert
         assertFalse(service.assignRucToCourseEdition(null, courseEditionID));
         assertFalse(service.assignRucToCourseEdition(teacherID, null));

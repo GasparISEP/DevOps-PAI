@@ -22,7 +22,7 @@ public class US20_DefineRucForCourseEditionController {
         return service.getAllCourseEditions();
     }
 
-    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID, TeacherID teacherID) {
+    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID, TeacherID teacherID) throws Exception {
         return service.assignRucToCourseEdition(teacherID, courseEditionID);
     }
 }

@@ -53,7 +53,7 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldDefineRucForCourseEdition() {
+    void shouldDefineRucForCourseEdition() throws Exception {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
@@ -68,7 +68,7 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseIfServiceFailsToDefineRuc() {
+    void shouldReturnFalseIfServiceFailsToDefineRuc() throws Exception {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);

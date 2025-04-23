@@ -14,7 +14,7 @@ public interface ICourseEditionApplicationService {
      * @param courseEditionID  ID of the course edition to update.
      * @return true if the RUC was successfully assigned, false otherwise.
      */
-    boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID);
+    boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID) throws Exception;
 
     /**
      * Retrieves all registered teachers.
