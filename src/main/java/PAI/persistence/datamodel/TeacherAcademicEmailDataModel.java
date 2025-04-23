@@ -5,22 +5,22 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class TeacherAcademicEmailDataModel {
 
-    private String _emailDomain;
-    private String _teacherAcademicEmail;
+    private String emailDomain;
+    private String teacherAcademicEmail;
 
     public TeacherAcademicEmailDataModel () {}
 
     public TeacherAcademicEmailDataModel (String emailDomain, String teacherAcademicEmail) {
 
-        _emailDomain = emailDomain;
-        _teacherAcademicEmail = teacherAcademicEmail;
+        this.emailDomain = emailDomain;
+        this.teacherAcademicEmail = teacherAcademicEmail;
     }
 
     public String getEmailDomain () {
-        return _emailDomain;
+        return emailDomain;
     }
 
     public String getTeacherAcademicEmail () {
-        return _teacherAcademicEmail;
+        return teacherAcademicEmail;
     }
 }
