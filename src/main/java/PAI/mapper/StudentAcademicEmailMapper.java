@@ -19,7 +19,6 @@ public class StudentAcademicEmailMapper implements IStudentAcademicEmailMapper {
         String uniqueNumberStr = fullEmail.split("@")[0];
         int uniqueNumber = Integer.parseInt(uniqueNumberStr);
 
-        StudentID studentID = new StudentID(uniqueNumber);
-        return new StudentAcademicEmail(studentID);
+        return new StudentAcademicEmail(uniqueNumber);
     }
 }

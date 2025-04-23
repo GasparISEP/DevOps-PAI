@@ -3,7 +3,9 @@ package PAI.mapper;
 import PAI.VOs.TeacherAcademicEmail;
 import PAI.VOs.TeacherAcronym;
 import PAI.persistence.datamodel.TeacherAcademicEmailDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TeacherAcademicEmailMapper implements ITeacherAcademicEmailMapper {
 
     public TeacherAcademicEmailDataModel toDataModel(TeacherAcademicEmail teacherAcademicEmail) {

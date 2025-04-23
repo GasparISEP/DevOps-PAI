@@ -3,7 +3,9 @@ package PAI.mapper;
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
 import PAI.persistence.datamodel.TeacherIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TeacherIDMapper implements ITeacherIDMapper {
 
     public TeacherID toDomain (TeacherIDDataModel teacherIDDataModel) {

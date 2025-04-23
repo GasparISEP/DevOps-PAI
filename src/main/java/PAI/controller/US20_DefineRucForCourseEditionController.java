@@ -14,15 +14,15 @@ public class US20_DefineRucForCourseEditionController {
         this.service = service;
     }
 
-    public Iterable<Teacher> getAllTeachers() {
-        return service.getAllTeachers();
-    }
-
-    public Iterable<CourseEdition> getAllCourseEditions() {
-        return service.getAllCourseEditions();
-    }
-
-    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID, TeacherID teacherID) throws Exception {
-        return service.assignRucToCourseEdition(teacherID, courseEditionID);
-    }
+//    public Iterable<Teacher> getAllTeachers() {
+//        return service.getAllTeachers();
+//    }
+//
+//    public Iterable<CourseEdition> getAllCourseEditions() {
+//        return service.getAllCourseEditions();
+//    }
+//
+//    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID, TeacherID teacherID) {
+//        return service.assignRucToCourseEdition(teacherID, courseEditionID);
+//    }
 }

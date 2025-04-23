@@ -5,34 +5,34 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class AddressDataModel {
 
-    private String _street;
-    private String _postalCode;
-    private String _location;
-    private String _country;
+    private String street;
+    private String postalCode;
+    private String location;
+    private String country;
 
     public AddressDataModel () {}
 
     public AddressDataModel (String street, String postalCode, String location, String country) {
 
-        _street = street;
-        _postalCode = postalCode;
-        _location = location;
-        _country = country;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.location = location;
+        this.country = country;
     }
 
     public String getStreet () {
-        return _street;
+        return street;
     }
 
     public String getPostalCode () {
-        return _postalCode;
+        return postalCode;
     }
 
     public String getLocation () {
-        return _location;
+        return location;
     }
 
     public String getCountry () {
-        return _country;
+        return country;
     }
 }
