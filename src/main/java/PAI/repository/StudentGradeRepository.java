@@ -44,16 +44,6 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         return false;
     }
 
-    public Optional<StudentGradeID> findIdByStudent (StudentGrade studentGrade){
-        for(StudentGrade existingStudentGrade : _StudentGradeList){
-            if(existingStudentGrade.equals(studentGrade)){
-                return Optional.of(studentGrade.identity()) ;
-            }
-        }
-        return Optional.empty();
-    }
-
-
     @Override
     public StudentGrade save(StudentGrade entity) {
         _StudentGradeList.add(entity);
