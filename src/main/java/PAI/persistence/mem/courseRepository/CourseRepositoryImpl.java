@@ -10,17 +10,17 @@ import java.util.Optional;
 
 public class CourseRepositoryImpl implements ICourseRepository {
 
-    //private final ICourseFactory _courseFactory;
+//  private final ICourseFactory _courseFactory;
     private List<Course> courseList;
 
-    public CourseRepositoryImpl(ICourseFactory iCourseFactory, ICourseRepositoryListFactory iCourseRepositoryListFactory) {
-        if(iCourseFactory == null){
-            throw new IllegalArgumentException("iCourseFactoryDDD cannot be null");
-        }
+    public CourseRepositoryImpl(ICourseRepositoryListFactory iCourseRepositoryListFactory) {
+//        if(iCourseFactory == null){
+//            throw new IllegalArgumentException("iCourseFactoryDDD cannot be null");
+//        }
         if(iCourseRepositoryListFactory == null){
             throw new IllegalArgumentException("iCourseRepositoryListFactoryDDD cannot be null");
         }
-        //_courseFactory = iCourseFactory;
+//        _courseFactory = iCourseFactory;
         courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
 

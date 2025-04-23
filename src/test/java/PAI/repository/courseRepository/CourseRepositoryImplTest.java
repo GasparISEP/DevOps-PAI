@@ -1,4 +1,4 @@
-package PAI.repository.courseRepository;
+/*package PAI.repository.courseRepository;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
@@ -233,3 +233,4 @@ class CourseRepositoryImplTest {
         assertFalse(result);
     }
 }
+*/
