@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 
 @Repository
 @Transactional
-public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepository {
+public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategoryRepository {
 
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
     private final ITeacherCategoryFactory factory;
     private final TeacherCategoryIDMapperImpl idMapper;
 
-    public TeacherCategoryRepositoryJpaAdapter(
+    public TeacherCategoryRepositorySpringDataImpl(
             ITeacherCategoryRepositorySpringData jpaRepository,
             ITeacherCategoryMapper mapper,
             ITeacherCategoryFactory factory,
