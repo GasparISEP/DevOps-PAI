@@ -402,7 +402,7 @@ class CourseEditionRepositoryImplTest {
         courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEditionID(programmeEditionIDDouble1);
 
         // Assert
         assertEquals(2, result.size());
@@ -437,7 +437,7 @@ class CourseEditionRepositoryImplTest {
         courseEditionRepositoryImplDDD.createAndSaveCourseEdition(courseInStudyPlanIDDouble2, programmeEditionIDDouble1);
 
         // Act
-        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEdition(programmeEditionIDDouble1);
+        List<CourseEditionID> result = courseEditionRepositoryImplDDD.findCourseEditionsByProgrammeEditionID(programmeEditionIDDouble1);
 
         // Assert
         assertTrue(result.contains(doubleCourseEditionId1));

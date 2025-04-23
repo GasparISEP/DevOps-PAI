@@ -35,7 +35,7 @@ class TeacherCategoryApplicationServiceTest {
         when(repository.save(mockCategory)).thenReturn(mockCategory);
 
         // Act
-        boolean result = service.registerCategory("Engenharia");
+        boolean result = service.registerCategory("Catedrático");
 
         // Assert
         assertTrue(result);
@@ -51,7 +51,7 @@ class TeacherCategoryApplicationServiceTest {
 
         // Act + Assert
         Exception ex = assertThrows(Exception.class,
-                () -> service.registerCategory("Engenharia"));
+                () -> service.registerCategory("Assistente"));
         assertEquals("Category already exists or could not be registered.", ex.getMessage());
 
         verify(repository).existsByName(any(Name.class));

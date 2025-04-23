@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class SchoolYearIDMapperTest {
+class SchoolYearIDMapperImplTest {
 
     // Tests with isolation
     @Test
     void shouldMapSchoolYearIDToDataModelWithDoubleVariables() {
 
         //arrange
-        ISchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        ISchoolYearIDMapper mapper = new SchoolYearIDMapperImpl();
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         when(schoolYearID.toString()).thenReturn(UUID.randomUUID().toString());
 
@@ -33,7 +33,7 @@ class SchoolYearIDMapperTest {
     void shouldThrowExceptionIfInputSchoolYearIDIsNullWithDoubles() {
 
         //arrange
-        ISchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        ISchoolYearIDMapper mapper = new SchoolYearIDMapperImpl();
         SchoolYearID schoolYearID = null;
 
         //act +assert
@@ -50,7 +50,7 @@ class SchoolYearIDMapperTest {
         SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         when(schoolYearIDDataModel.getId()).thenReturn(UUID.randomUUID().toString());
 
-        ISchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        ISchoolYearIDMapper mapper = new SchoolYearIDMapperImpl();
 
         //act
         SchoolYearID schoolYearIDResult = mapper.toDomain(schoolYearIDDataModel);
@@ -64,7 +64,7 @@ class SchoolYearIDMapperTest {
     void shouldThrowExceptionWhenDataModelIsNullWithDoubles() {
 
         //arrange
-        ISchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        ISchoolYearIDMapper mapper = new SchoolYearIDMapperImpl();
 
         //act + assert
         assertThrows(Exception.class, () -> {
@@ -75,7 +75,7 @@ class SchoolYearIDMapperTest {
     // Integration tests
     @Test
     void shouldMapSchoolYearIDToDataModelCorrectly() {
-        SchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        SchoolYearIDMapperImpl mapper = new SchoolYearIDMapperImpl();
         SchoolYearID schoolYearID = new SchoolYearID();
 
         SchoolYearIDDataModel model = mapper.toDataModel(schoolYearID);
@@ -85,7 +85,7 @@ class SchoolYearIDMapperTest {
 
     @Test
     void shouldMapSchoolYearIDToDataModelWithUUIDCorrectly() {
-        SchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        SchoolYearIDMapperImpl mapper = new SchoolYearIDMapperImpl();
         String uuid = "9fbd7db8-2ab5-456b-98ac-e372589d57bb";
         SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(uuid));
 
@@ -96,7 +96,7 @@ class SchoolYearIDMapperTest {
 
     @Test
     void shouldThrowExceptionWhenSchoolYearIDIsNull() {
-        SchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        SchoolYearIDMapperImpl mapper = new SchoolYearIDMapperImpl();
         assertThrows(Exception.class, () -> {
             SchoolYearIDDataModel model = mapper.toDataModel(null);
         });
@@ -104,7 +104,7 @@ class SchoolYearIDMapperTest {
 
     @Test
     void shouldCorrectlyReturnSchoolYearIDWhenAccurateDataIsProvided() {
-        SchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        SchoolYearIDMapperImpl mapper = new SchoolYearIDMapperImpl();
 
         String uuid = "9fbd7db8-2ab5-456b-98ac-e372589d57bb";
         SchoolYearIDDataModel schoolYearIDDataModel = new SchoolYearIDDataModel(uuid);
@@ -117,7 +117,7 @@ class SchoolYearIDMapperTest {
 
     @Test
     void shouldThrowExceptionWhenDataModelIsNull() {
-        SchoolYearIDMapper mapper = new SchoolYearIDMapper();
+        SchoolYearIDMapperImpl mapper = new SchoolYearIDMapperImpl();
 
         assertThrows(Exception.class, () -> {
             SchoolYearID schoolYearID = mapper.toDomain(null);

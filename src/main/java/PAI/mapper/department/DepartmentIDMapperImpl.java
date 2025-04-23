@@ -1,11 +1,11 @@
 package PAI.mapper.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
-import PAI.persistence.datamodel.DepartmentIDDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DepartmentIDMapperImpl {
+public class DepartmentIDMapperImpl implements IDepartmentIDMapper {
 
     public DepartmentIDDataModel toDataModel(DepartmentID departmentID) {
         if(departmentID==null){

@@ -34,7 +34,7 @@ interface ICourseEditionEnrolmentService <<Interface>> {
     +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentService {
+class CourseEditionEnrolmentServiceImpl {
     +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
@@ -64,7 +64,7 @@ class CourseEditionEnrolmentRepositoryImpl {
     +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentRepositorySpringData{
+class CourseEditionEnrolmentRepositorySpringDataImpl {
     +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
     +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
@@ -97,7 +97,7 @@ interface ICourseEditionEnrolmentMapper <<Interface>> {
     +toDomain(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
 }
 
-class CourseEditionEnrolmentMapper {
+class CourseEditionEnrolmentMapperImpl {
     +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
     +toDomain(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
 }
@@ -107,7 +107,7 @@ interface ICourseEditionEnrolmentIDMapper <<Interface>> {
     + toDomain(idDataModel: CourseEditionEnrolmentIDDataModel): \nCourseEditionEnrolmentID
 }
 
-class CourseEditionEnrolmentIDMapper {
+class CourseEditionEnrolmentIDMapperImpl {
     + toDataModel(id: CourseEditionEnrolmentID): \nCourseEditionEnrolmentIDDataModel
     + toDomain(idDataModel: CourseEditionEnrolmentIDDataModel): \nCourseEditionEnrolmentID
 }
@@ -186,25 +186,25 @@ class CourseEditionID <<Value Object>> {
 
 ' ========== RELATIONSHIPS ==========
 US28_EnrolmentRemovalController ..> ICourseEditionEnrolmentService
-ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentService
-CourseEditionEnrolmentService ..> ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentService ..> ICourseEditionEnrolmentFactory
+ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
 
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
-ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringData
-CourseEditionEnrolmentRepositorySpringData ..> CourseEditionEnrolmentDataModel
-CourseEditionEnrolmentRepositorySpringData "1" ..> "*" CourseEditionEnrolment
-CourseEditionEnrolmentRepositorySpringData ..> ICourseEditionEnrolmentMapper
-CourseEditionEnrolmentMapper ..> CourseEditionEnrolment : maps to
-CourseEditionEnrolmentMapper ..> CourseEditionEnrolmentDataModel : maps to
-CourseEditionEnrolmentMapper ..|> ICourseEditionEnrolmentMapper
-CourseEditionEnrolmentMapper ..> ICourseEditionEnrolmentFactory
-CourseEditionEnrolmentIDMapper ..|> ICourseEditionEnrolmentIDMapper
-CourseEditionEnrolmentMapper ..> ICourseEditionEnrolmentIDMapper
-CourseEditionEnrolmentIDMapper ..> CourseEditionEnrolmentID : maps to
-CourseEditionEnrolmentIDMapper ..> CourseEditionEnrolmentIDDataModel : maps to
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
+CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
+CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
+CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentMapper
+CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolment : maps to
+CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolmentDataModel : maps to
+CourseEditionEnrolmentMapperImpl ..|> ICourseEditionEnrolmentMapper
+CourseEditionEnrolmentMapperImpl ..> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentIDMapperImpl ..|> ICourseEditionEnrolmentIDMapper
+CourseEditionEnrolmentMapperImpl ..> ICourseEditionEnrolmentIDMapper
+CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentID : maps to
+CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentIDDataModel : maps to
 CourseEditionEnrolmentDataModel "1" --> "1" CourseEditionEnrolmentIDDataModel
-CourseEditionEnrolmentRepositorySpringData ..|> ICourseEditionEnrolment\nRepositorySpringData
+CourseEditionEnrolmentRepositorySpringDataImpl ..|> ICourseEditionEnrolment\nRepositorySpringData
 
 CourseEditionEnrolment "*" --> "_studentID 1" StudentID
 CourseEditionEnrolment "*" --> "_courseEditionID 1" CourseEditionID

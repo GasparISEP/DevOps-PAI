@@ -42,6 +42,37 @@ class CourseEditionEnrolmentIDTest {
         assertEquals("StudentID and CourseEditionID cannot be null.", exception.getMessage());
     }
 
+    //testing find StudentID method
+    @Test
+    void shouldReturnStudentIDOfCourseEditionEnrolmentID (){
+        //arrange
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID ceeID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+
+        //act
+        StudentID result = ceeID.findStudentID();
+
+        //assert
+        assertEquals(doubleStudentID, result);
+    }
+
+    //testing find CourseEditionID method
+    @Test
+    void shouldReturnCourseEditionIDOfCourseEditionEnrolmentID (){
+        //arrange
+        StudentID doubleStudentID = mock (StudentID.class);
+        CourseEditionID doubleCourseEditionID = mock (CourseEditionID.class);
+
+        CourseEditionEnrolmentID ceeID = new CourseEditionEnrolmentID(doubleStudentID, doubleCourseEditionID);
+
+        //act
+        CourseEditionID result = ceeID.findCourseEditionID();
+
+        //assert
+        assertEquals(doubleCourseEditionID, result);
+    }
 
     //testing equals method
     @Test

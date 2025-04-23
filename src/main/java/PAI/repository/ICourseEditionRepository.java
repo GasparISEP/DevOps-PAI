@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ICourseEditionRepository extends IRepository <CourseEditionID, CourseEdition> {
 
-     List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId);
+     List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId);
 
      Optional<CourseEditionID> findIdByCourseEdition (CourseEdition courseEdition2);
 

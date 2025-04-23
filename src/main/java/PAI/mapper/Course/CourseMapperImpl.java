@@ -5,11 +5,12 @@ import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class CourseMapperImpl implements ICourseMapper {
 
     private final ICourseFactory courseFactory;

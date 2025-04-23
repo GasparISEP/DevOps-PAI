@@ -78,7 +78,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
         return false;
     }
 
-    public List<CourseEditionID> findCourseEditionsByProgrammeEdition(ProgrammeEditionID programmeEditionId) {
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId) {
         List<CourseEditionID> result = new ArrayList<>();
         for (CourseEdition courseEdition : _courseEditions) {
             if (courseEdition.getProgrammeEditionID().equals(programmeEditionId)) {

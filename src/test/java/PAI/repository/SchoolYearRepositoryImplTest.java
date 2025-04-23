@@ -1,11 +1,16 @@
 package PAI.repository;
 
-import PAI.VOs.*;
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
-
-import PAI.factory.*;
-import PAI.persistence.mem.SchoolYearRepositoryMem;
+import PAI.factory.ISchoolYearFactory;
+import PAI.factory.ISchoolYearListFactory;
+import PAI.factory.SchoolYearFactoryImpl;
+import PAI.factory.SchoolYearListFactoryImpl;
+import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
-class SchoolYearRepositoryMemTest {
+class SchoolYearRepositoryImplTest {
 
     // Valid addition
 
@@ -28,7 +33,7 @@ class SchoolYearRepositoryMemTest {
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
 
         //act
-        new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
     }
     @Test
     void shouldThrowIllegalArgumentExceptionWhenSchoolYearFactoryIsNull() {
@@ -37,7 +42,7 @@ class SchoolYearRepositoryMemTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class,
-                () -> new SchoolYearRepositoryMem(null, schoolYearListFactoryImplDouble));
+                () -> new SchoolYearRepositoryImpl(null, schoolYearListFactoryImplDouble));
     }
 
     @Test
@@ -47,7 +52,7 @@ class SchoolYearRepositoryMemTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class,
-                () -> new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, null));
+                () -> new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, null));
     }
 
     @Test
@@ -56,7 +61,7 @@ class SchoolYearRepositoryMemTest {
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
         Description description = mock(Description.class);
@@ -80,7 +85,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
@@ -114,7 +119,7 @@ class SchoolYearRepositoryMemTest {
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
@@ -141,7 +146,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description1 = mock(Description.class);
@@ -183,7 +188,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         List<SchoolYear> mockSchoolYearList = mock(List.class);
         when(mockSchoolYearList.isEmpty()).thenReturn(false);
 
@@ -209,7 +214,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
         Iterator<SchoolYear> iterator = mock(Iterator.class);
@@ -232,7 +237,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
@@ -268,7 +273,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
         Description description = mock(Description.class);
@@ -303,7 +308,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
@@ -327,7 +332,7 @@ class SchoolYearRepositoryMemTest {
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYear schoolYear = null;
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
         Iterator<SchoolYear> iterator = mock(Iterator.class);
@@ -347,7 +352,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
 
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
@@ -384,7 +389,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearFactoryImpl schoolYearFactoryImpl = mock(SchoolYearFactoryImpl.class);
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearRepositoryMem schoolYearRepo = new SchoolYearRepositoryMem(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+        SchoolYearRepositoryImpl schoolYearRepo = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
 
         List<SchoolYear> schoolYearListMock = List.of(mock(SchoolYear.class), mock(SchoolYear.class));
         when(schoolYearListFactoryImpl.copySchoolYearArrayList(any())).thenReturn(schoolYearListMock);
@@ -405,7 +410,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem list = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl list = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         Description description1 = mock(Description.class);
         Date startDate1 = mock(Date.class);
@@ -441,7 +446,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         Description description1 = mock(Description.class);
         Date startDate1 = mock(Date.class);
@@ -470,7 +475,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         // Act & Assert
         assertThrows(IllegalStateException.class, repository::findAll);
@@ -485,7 +490,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         Description description1 = mock(Description.class);
         Date startDate1 = mock(Date.class);
@@ -518,7 +523,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         Description description1 = mock(Description.class);
         Date startDate1 = mock(Date.class);
@@ -549,7 +554,7 @@ class SchoolYearRepositoryMemTest {
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
         when(ISchoolYearListFactory.newArrayList()).thenReturn(mockSchoolYearList);
 
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(ISchoolYearFactory, ISchoolYearListFactory);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(ISchoolYearFactory, ISchoolYearListFactory);
 
         SchoolYear schoolYear1 = mock(SchoolYear.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -571,7 +576,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         Description description1 = mock(Description.class);
@@ -598,7 +603,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         Description description1 = mock(Description.class);
@@ -622,7 +627,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
 
@@ -639,7 +644,7 @@ class SchoolYearRepositoryMemTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryMem repository = new SchoolYearRepositoryMem(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearFactoryImplDouble, schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
         Description description1 = mock(Description.class);
         Date startDate1 = mock(Date.class);

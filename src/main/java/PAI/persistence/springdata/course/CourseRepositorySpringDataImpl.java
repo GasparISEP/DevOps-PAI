@@ -6,8 +6,11 @@ import PAI.mapper.Course.ICourseMapper;
 import PAI.mapper.CourseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.repository.courseRepository.ICourseRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
+@Repository
 public class CourseRepositorySpringDataImpl implements ICourseRepository {
 
     private final ICourseRepositorySpringData _iCourseRepo;

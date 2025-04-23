@@ -1,7 +1,6 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.*;
-import PAI.domain.programme.Programme;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;

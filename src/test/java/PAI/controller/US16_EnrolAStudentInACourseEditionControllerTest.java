@@ -149,7 +149,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
         CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
 
-        when(doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEdition(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
+        when(doubleCourseEditionRepositoryInterface.findCourseEditionsByProgrammeEditionID(doubleProgrammeEditionID)).thenReturn(List.of(doubleCourseEdition1, doubleCourseEdition2));
 
         //act
         List<CourseEditionID> result = controller.findCourseEditionIDsByProgrammeEdition(doubleProgrammeEditionID);

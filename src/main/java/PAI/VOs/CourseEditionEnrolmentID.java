@@ -19,6 +19,14 @@ public class CourseEditionEnrolmentID implements DomainId {
         _courseEditionID = courseEditionID;
     }
 
+    public StudentID findStudentID() {
+        return _studentID;
+    }
+
+    public CourseEditionID findCourseEditionID() {
+        return _courseEditionID;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

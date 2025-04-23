@@ -2,14 +2,10 @@ package PAI.persistence.springdata;
 
 
 import PAI.domain.SchoolYear;
-import PAI.domain.StudentGrade;
-import PAI.mapper.IStudentGradeIDMapper;
-import PAI.mapper.IStudentGradeMapper;
+import PAI.factory.ISchoolYearFactory;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
-import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
-import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -20,14 +16,14 @@ import java.util.List;
 //TODO "implements ISchoolYearRepository"
 
 @Repository
-public class SchoolYearRepositorySpringData {
+public class SchoolYearRepositorySpringDataImpl {
 
     private ISchoolYearRepositorySpringData schoolYearRepositorySpringData;
     private ISchoolYearMapper schoolYearMapper;
     private ISchoolYearIDMapper schoolYearIDMapper;
 
 
-    public SchoolYearRepositorySpringData(ISchoolYearRepositorySpringData schoolYearRepositorySpringData, ISchoolYearMapper schoolYearMapper, ISchoolYearIDMapper schoolYearIDMapper) {
+    public SchoolYearRepositorySpringDataImpl(ISchoolYearRepositorySpringData schoolYearRepositorySpringData, ISchoolYearMapper schoolYearMapper, ISchoolYearIDMapper schoolYearIDMapper) {
         if (schoolYearRepositorySpringData == null || schoolYearMapper == null || schoolYearIDMapper == null) {
         throw new IllegalArgumentException("Spring Data Repository or SchoolYear/SchoolYearID mappers cannot be null");
         }
@@ -45,17 +41,18 @@ public class SchoolYearRepositorySpringData {
         schoolYearRepositorySpringData.save(schoolYearDataModel);
         return schoolYear;
     }
-/*
-    public Iterable<SchoolYear> findAll(){
+
+    public Iterable<SchoolYear> findAll(ISchoolYearFactory factory){
         List<SchoolYear> allSchoolYears = new ArrayList<>();
         List<SchoolYearDataModel> allSchoolYearDataModels = schoolYearRepositorySpringData.findAll();
         for(SchoolYearDataModel existingSchoolYears : allSchoolYearDataModels){
             try {
-
+                SchoolYear schoolYear = schoolYearMapper.toDomain(existingSchoolYears, factory);
+                allSchoolYears.add(schoolYear);
             } catch (Exception e) {
                 return Collections.emptyList();
             }
         }
         return allSchoolYears;
-    } */
+    }
 }
