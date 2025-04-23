@@ -13,7 +13,7 @@ import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeEditionRepositorySpringData implements IProgrammeEditionRepository {
+public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditionRepository {
 
     private final IProgrammeEditionRepositorySpringData _iProgrammeEditionRepositorySpringData;
     private final IProgrammeEditionMapper _iProgrammeEditionMapper;
@@ -21,7 +21,7 @@ public class ProgrammeEditionRepositorySpringData implements IProgrammeEditionRe
     private final IProgrammeIDMapper _iProgrammeIDMapper;
     private final ISchoolYearIDMapper _iSchoolYearIDMapper;
 
-    public ProgrammeEditionRepositorySpringData(
+    public ProgrammeEditionRepositorySpringDataImpl(
             IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData, IProgrammeEditionMapper iProgrammeEditionMapper,
             IProgrammeEditionIdMapper iProgrammeEditionIdMapper, IProgrammeIDMapper iProgrammeIDMapper, ISchoolYearIDMapper iSchoolYearIDMapper) {
 

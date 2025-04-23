@@ -8,7 +8,6 @@ import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ProgrammeEditionRepositorySpringDataTest {
+class ProgrammeEditionRepositorySpringDataImplTest {
 
     @Test
     void shouldCreateProgrammeEditionRepositorySpringData() {
@@ -28,10 +27,10 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         // act
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
         // assert
-        assertNotNull(programmeEditionRepositorySpringData);
+        assertNotNull(programmeEditionRepositorySpringDataImpl);
     }
 
     @Test
@@ -45,10 +44,10 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
         // act
-        boolean result = programmeEditionRepositorySpringData.createProgrammeEdition(programmeID, schoolYearID);
+        boolean result = programmeEditionRepositorySpringDataImpl.createProgrammeEdition(programmeID, schoolYearID);
         // assert
         assertFalse(result);
     }
@@ -64,10 +63,10 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
         // act
-        Optional<ProgrammeEditionID> programmeEditionID = programmeEditionRepositorySpringData.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
+        Optional<ProgrammeEditionID> programmeEditionID = programmeEditionRepositorySpringDataImpl.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
         // assert
         assertTrue(programmeEditionID.isEmpty());
     }
@@ -80,12 +79,12 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeEdition entity = mock(ProgrammeEdition.class);
         //act
-        ProgrammeEdition programmeEdition = programmeEditionRepositorySpringData.save(entity);
+        ProgrammeEdition programmeEdition = programmeEditionRepositorySpringDataImpl.save(entity);
         //assert
         assertNull(programmeEdition);
 
@@ -99,10 +98,10 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
         //act
-        Iterable<ProgrammeEdition> result = programmeEditionRepositorySpringData.findAll();
+        Iterable<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.findAll();
         //assert
         assertNull(result);
     }
@@ -115,12 +114,12 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         //act
-        Optional<ProgrammeEdition> result = programmeEditionRepositorySpringData.ofIdentity(programmeEditionID);
+        Optional<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.ofIdentity(programmeEditionID);
         //assert
         assertTrue(result.isEmpty());
     }
@@ -133,12 +132,12 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         //act
-        boolean result = programmeEditionRepositorySpringData.containsOfIdentity(programmeEditionID);
+        boolean result = programmeEditionRepositorySpringDataImpl.containsOfIdentity(programmeEditionID);
         //assert
         assertFalse(result);
     }
@@ -151,12 +150,12 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
-        List<ProgrammeEdition> result = programmeEditionRepositorySpringData.getProgrammeEditionsByProgrammeID(programmeID);
+        List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
         //assert
         assertTrue(result.isEmpty());
     }
@@ -169,12 +168,12 @@ class ProgrammeEditionRepositorySpringDataTest {
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringData programmeEditionRepositorySpringData = new ProgrammeEditionRepositorySpringData(
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         //act
-        SchoolYearID schoolYearID = programmeEditionRepositorySpringData.getSchoolYearIDByProgrammeEdition(programmeEdition);
+        SchoolYearID schoolYearID = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
         //assert
         assertNull(schoolYearID);
     }
