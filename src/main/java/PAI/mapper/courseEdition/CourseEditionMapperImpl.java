@@ -5,8 +5,10 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
+import PAI.mapper.ITeacherIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
+import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
@@ -20,8 +22,9 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     private final IProgrammeEditionIdMapper _programmeEditionIdMapper;
     private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
     private final ICourseEditionFactory _courseEditionFactory;
+    private final ITeacherIDMapper _teacherIDMapper;
 
-    public CourseEditionMapperImpl(ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseEditionFactory courseEditionFactory) {
+    public CourseEditionMapperImpl(ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseEditionFactory courseEditionFactory, ITeacherIDMapper teacherIDMapper) {
 
         if (courseEditionIDMapper == null)
             throw new IllegalArgumentException("courseEditionIDMapper cannot be null");
@@ -31,11 +34,14 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
             throw new IllegalArgumentException("courseInStudyPlanIDMapper cannot be null");
         if (courseEditionFactory == null)
             throw new IllegalArgumentException("courseEditionFactory cannot be null");
+        if (teacherIDMapper == null)
+            throw new IllegalArgumentException("teacherIDMapper cannot be null");
 
         _courseEditionIDMapper = courseEditionIDMapper;
         _programmeEditionIdMapper = programmeEditionIdMapper;
         _courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
         _courseEditionFactory = courseEditionFactory;
+        _teacherIDMapper = teacherIDMapper;
     }
 
     @Override
@@ -61,8 +67,9 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         CourseEditionIDDataModel courseEditionIDDataModel = _courseEditionIDMapper.toDataModel(courseEdition.identity());
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID());
         CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
+        TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(courseEdition.getRuc());
 
-        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIdDataModel, courseInStudyPlanIDDataModel);
+        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIdDataModel, courseInStudyPlanIDDataModel, teacherIDDataModel);
         return result;
     }
 }
