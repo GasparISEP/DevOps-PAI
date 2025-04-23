@@ -46,15 +46,10 @@ interface ITeacherRepository {
   +containsOfIdentity(TeacherID): boolean
 }
 
-class TeacherRepository {
-    +registerTeacher(...): boolean
-    +containsOfIdentity(TeacherID): boolean
+interface ITeacherRepositorySpringData {
 }
 
-interface ITeacherRepositoryJPA {
-}
-
-interface jpaRepository {
+interface JpaRepository {
 }
 
 
@@ -71,7 +66,7 @@ class DepartmentRepositoryImpl {
   +findAll(): Set<Department>
 }
 
-class TeacherRepositoryJPA {
+class TeacherRepositorySpringData {
   +save(Teacher)
   +containsOfIdentity(TeacherID)
 }
@@ -328,11 +323,12 @@ IDepartmentRepository ..|> IRepository : <<extends>>
 TeacherService "1" -->  ITeacherRepository
 TeacherService "1" -->  ITeacherFactory
 TeacherService "1" -->  ITeacherCareerProgressionFactory
-TeacherRepository "1" ..|> ITeacherRepository : <<implements>>
-TeacherRepositoryJPA .up.|> ITeacherRepository : <<implements>>
+TeacherRepositorySpringData .up.|> ITeacherRepository : <<implements>>
 ITeacherRepository "1" --> "*" Teacher
-ITeacherRepositoryJPA  ..|> "\n 1   " TeacherRepositoryJPA : <<extends>>
-TeacherRepositoryJPA "1" ..> "_teacherMapper" TeacherMapper
+ITeacherRepositorySpringData <|.. "\n 1   " TeacherRepositorySpringData
+TeacherRepositorySpringData "1" ..> "_teacherMapper" TeacherMapper
+TeacherRepositorySpringData "1" ..> "1" TeacherIDMapper
+TeacherRepositorySpringData "1" ..> "1" NIFMapper
 
 'Mappers
 TeacherMapper "1" --> "1" TeacherDataModel
@@ -346,15 +342,13 @@ NIFMapper "1" --> "1" NIFDataModel
 NIFMapper "1" --> "1" NIF
 PhoneNumberMapper "1" --> "1" PhoneNumberDataModel
 PhoneNumberMapper "1" --> "1" PhoneNumber
-AddressMapper "1" --> "1" AddressDataModel
-AddressMapper "1" --> "1" Address
 TeacherAcademicEmailMapper "1" --> "1" TeacherAcademicEmailDataModel
 TeacherAcademicEmailMapper "1" --> "1" TeacherAcademicEmail
 
 
 
 ITeacherRepository ..|> IRepository : <<extends>>
-jpaRepository "\n 1 " <|.. ITeacherRepositoryJPA : <<extends>>
+JpaRepository "\n 1 " <|.. ITeacherRepositorySpringData : <<extends>>
 
 
 

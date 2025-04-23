@@ -3,7 +3,9 @@ package PAI.factory;
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TeacherFactoryImpl implements ITeacherFactory {
 
     public Teacher createTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
