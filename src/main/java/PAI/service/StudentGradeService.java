@@ -9,6 +9,8 @@ import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentGradeService {
 
@@ -31,6 +33,25 @@ public class StudentGradeService {
         StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
         return studentGradeRepository.save(studentGrade);
     }
+
+    public Double getAverageGrade(CourseEditionID courseEditionID) {
+        int numOfStudent = 0;
+        double sumGrade = 0;
+
+        for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                Grade grade1 = studentGrade.get_grade();
+                double grade = grade1.knowGrade();
+                sumGrade += grade;
+                numOfStudent++;
+            }
+        }
+        if (numOfStudent == 0) {
+            return null;
+        }
+        return sumGrade/numOfStudent;
+    }
+
 
 
 }
