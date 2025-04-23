@@ -109,6 +109,18 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id) {
+        if(id == null)  {
+            return Optional.empty();
+        }
+        try {
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = _iProgrammeEditionIdMapper.toDataModel(id);
+            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionRepositorySpringData.findById(programmeEditionIdDataModel);
+            if(programmeEditionDataModel.isPresent()) {
+                return _iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
+            }
+        } catch (Exception e) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 
