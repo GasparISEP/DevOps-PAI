@@ -1,4 +1,4 @@
-package PAI.mapper;
+package PAI.mapper.TeacherCareerProgression;
 
 import PAI.VOs.*;
 import PAI.persistence.datamodel.*;
