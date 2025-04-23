@@ -2,6 +2,7 @@ package PAI.service.programmeEdition;
 
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.service.ProgrammeEnrolmentService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,15 @@ class ProgrammeEditionServiceTest {
         ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
         //assert
         assertNotNull(programmeEditionService);
+    }
+
+    @Test
+    void nullProgrammeEditionFactoryThrowsException() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = null;
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository));
     }
 
 }
