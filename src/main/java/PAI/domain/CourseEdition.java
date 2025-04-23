@@ -73,9 +73,12 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
         if (teacherID == null) {
             return false;
         }
-
         this._ruc = teacherID;
         return true;
+    }
+
+    public TeacherID getRuc() {
+        return _ruc;
     }
 }
 

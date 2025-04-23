@@ -30,9 +30,9 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
     private boolean isDateGradeInRangeWithSchoolYear (CourseEditionID courseEditionID, Date dates) throws Exception{
         Optional<CourseEdition> courseEdition = _courseEditionRepository.ofIdentity(courseEditionID);
-        ProgrammeEditionID programmeEditionID = _courseEditionRepository.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition.get());
+        ProgrammeEditionID programmeEditionID = courseEdition.get().getProgrammeEditionID();
         Optional<ProgrammeEdition> programmeEdition = _programmeEditionRepository.ofIdentity(programmeEditionID);
-        SchoolYearID schoolYearID = _programmeEditionRepository.getSchoolYearIDByProgrammeEdition(programmeEdition.get());
+        SchoolYearID schoolYearID = programmeEdition.get().findSchoolYearIDInProgrammeEdition();
         Optional<SchoolYear> schoolYear = _schoolYearRepository.ofIdentity(schoolYearID);
         LocalDate start = schoolYear.get().getStartDate().getLocalDate();
         LocalDate finalD = schoolYear.get().getEndDate().getLocalDate();

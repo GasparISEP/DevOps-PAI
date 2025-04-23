@@ -17,7 +17,7 @@ participant ":ProgrammeEditionRepository" as PER
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammeNames()
 CPEC -> PS ++ #application : getAllProgrammeNames()
-PS -> PR ++ #application : findAllProgrammeNames()
+PS -> PR ++ #application : getAllProgrammeNames()
 ref over PR
     convert DataModel to Domain
     List<NameWithNumbersAndSpecialChars>
@@ -47,8 +47,9 @@ CPEC -> SYS ++ #application : getCurrentSchoolYear()
 SYS -> SYR ++ #application : getCurrentSchoolYear()
 ref over SYR
     convert DataModel to Domain
+    toDomain(schoolYearIDDataModel)
 end ref
-SYR --> SYS -- : schoolYearID
+SYR --> SYS -- : Optional.of(schoolYearID)
 SYS --> CPEC -- : schoolYearID
 '''''''''''''''''''''''''''
 

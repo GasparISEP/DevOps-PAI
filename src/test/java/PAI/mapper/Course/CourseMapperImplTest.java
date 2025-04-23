@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class CourseMapperImplTest {
 
@@ -34,7 +35,7 @@ public class CourseMapperImplTest {
                 courseID.getAcronym().getAcronym(),
                 courseID.getName().getName()
         );
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         //Act
         Course course = courseMapperImpl.toDomain(courseDataModel);
         // Assert
@@ -61,7 +62,7 @@ public class CourseMapperImplTest {
                 courseID.getAcronym().getAcronym(),
                 courseID.getName().getName()
         );
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         Course course = courseMapperImpl.toDomain(courseDataModel);
         //Act
         String name = course.getName().getName();
@@ -79,48 +80,12 @@ public class CourseMapperImplTest {
                 courseID.getAcronym().getAcronym(),
                 courseID.getName().getName()
         );
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         Course course = courseMapperImpl.toDomain(courseDataModel);
         //Act
         String acronym = course.getAcronym().getAcronym();
         // Assert
         assertEquals("LEI", acronym);
-    }
-
-    @Test
-    void should_convert_DataModelQECTS_to_DomainQECTS() throws Exception {
-        // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
-        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
-        CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
-        CourseIDDataModel courseIDDataModel = new CourseIDDataModel(
-                courseID.getAcronym().getAcronym(),
-                courseID.getName().getName()
-        );
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
-        Course course = courseMapperImpl.toDomain(courseDataModel);
-        //Act
-        double courseQuantityCreditsEcts = course.getCourseQuantityCreditsEcts().getQuantity();
-        // Assert
-        assertEquals(6.0, courseQuantityCreditsEcts);
-    }
-
-    @Test
-    void should_convert_DataModelDurationCourseInCurricularYear_to_DomainDurationCourseInCurricularYear() throws Exception {
-        // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
-        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
-        CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
-        CourseIDDataModel courseIDDataModel = new CourseIDDataModel(
-                courseID.getAcronym().getAcronym(),
-                courseID.getName().getName()
-        );
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
-        Course course = courseMapperImpl.toDomain(courseDataModel);
-        //Act
-        int durationCourseInCurricularYear = course.getDurationCourseInCurricularYear().getDuration();
-        // Assert
-        assertEquals(1, durationCourseInCurricularYear);
     }
 
     //SUT = ClassCourseMapper toDataModel Method
@@ -133,9 +98,8 @@ public class CourseMapperImplTest {
 
         Name name = new Name ("Programação");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(6.0);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = courseFactory.createCourse(name,acronym,courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Course course = courseFactory.createCourse(name,acronym);
 
         //Act
         CourseDataModel courseDataModel = courseMapperImpl.toDataModel(course);
@@ -163,9 +127,7 @@ public class CourseMapperImplTest {
 
         Name name = new Name ("Programação");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(6.0);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = courseFactory.createCourse(name,acronym,courseQuantityCreditsEcts, durationCourseInCurricularYear);
+        Course course = courseFactory.createCourse(name,acronym);
         CourseDataModel courseDataModel = courseMapperImpl.toDataModel(course);
         //Act
         String courseDataModel_name = courseDataModel.get_name();
@@ -182,9 +144,8 @@ public class CourseMapperImplTest {
 
         Name name = new Name ("Programação");
         Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(6.0);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = courseFactory.createCourse(name,acronym,courseQuantityCreditsEcts, durationCourseInCurricularYear);
+
+        Course course = courseFactory.createCourse(name,acronym);
         CourseDataModel courseDataModel = courseMapperImpl.toDataModel(course);
         //Act
         String courseDataModel_acronym = courseDataModel.get_acronym();
@@ -193,41 +154,7 @@ public class CourseMapperImplTest {
         assertEquals("LEI", courseDataModel_acronym );
 
     }
-    @Test
-    void should_convert_Course_CourseQuantityCreditsEcts_to_CourseDataModel_CourseQuantityCreditsEcts() throws Exception {
-        //Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
-        ICourseMapper courseMapperImpl = new CourseMapperImpl(courseFactory);
 
-        Name name = new Name ("Programação");
-        Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(6.0);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = courseFactory.createCourse(name,acronym,courseQuantityCreditsEcts, durationCourseInCurricularYear);
-        CourseDataModel courseDataModel = courseMapperImpl.toDataModel(course);
-        //Act
-        double courseDataModel_courseQuantityCreditsEcts = courseDataModel.get_quantityCreditsEcts();
-        //Assert
-        assertEquals(6.0, courseDataModel_courseQuantityCreditsEcts );
-
-    }
-    @Test
-    void should_convert_Course_DurationCourseInCurricularYear_to_CourseDataModel_DurationCourseInCurricularYear() throws Exception {
-        //Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
-        ICourseMapper courseMapperImpl = new CourseMapperImpl(courseFactory);
-
-        Name name = new Name ("Programação");
-        Acronym acronym = new Acronym("LEI");
-        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(6.0);
-        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
-        Course course = courseFactory.createCourse(name,acronym,courseQuantityCreditsEcts, durationCourseInCurricularYear);
-        CourseDataModel courseDataModel = courseMapperImpl.toDataModel(course);
-        //Act
-        int courseDataModel_durationCourseInCurricularYear = courseDataModel.get_duration();
-        //Assert
-        assertEquals(1, courseDataModel_durationCourseInCurricularYear );
-    }
     //SUT = ClassCourseMapper ListOfCourse_toDataModel Method
 
     @Test
@@ -236,7 +163,7 @@ public class CourseMapperImplTest {
         ICourseFactory courseFactory = new CourseFactoryImpl();
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         List<CourseDataModel> dataModelList = List.of(courseDataModel);
 
         // Act
@@ -252,7 +179,7 @@ public class CourseMapperImplTest {
         ICourseFactory courseFactory = new CourseFactoryImpl();
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel(null, null);
-        CourseDataModel invalidDataModel = new CourseDataModel(courseIDDataModel, null, null, 6.0, 1);
+        CourseDataModel invalidDataModel = new CourseDataModel(courseIDDataModel, null, null);
         List<CourseDataModel> dataModelList = List.of(invalidDataModel);
 
         // Act
@@ -268,7 +195,7 @@ public class CourseMapperImplTest {
         ICourseFactory courseFactory = new CourseFactoryImpl();
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         List<CourseDataModel> dataModelList = List.of(courseDataModel);
 
         // Act
@@ -284,7 +211,7 @@ public class CourseMapperImplTest {
         ICourseFactory courseFactory = new CourseFactoryImpl();
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI", 6.0, 1);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
         List<CourseDataModel> dataModelList = List.of(courseDataModel);
 
         // Act
@@ -293,4 +220,25 @@ public class CourseMapperImplTest {
         // Assert
         assertEquals("Programacao", courseList.iterator().next().getName().getName());
     }
+
+
+    @Test
+    void shouldReturnNullIfCourseIsNull() throws Exception{
+    // Arrange
+    ICourseFactory courseFactoryDouble = mock (ICourseFactory.class);
+    CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactoryDouble);
+    CourseDataModel courseDataModelDouble = mock(CourseDataModel.class);
+
+    when(courseDataModelDouble.get_name()).thenReturn("Programacao");
+    when(courseDataModelDouble.get_acronym()).thenReturn("LEI");
+
+    // Act
+    when (courseMapperImpl.toDomain(courseDataModelDouble)).thenReturn(null);
+
+    Course result = courseMapperImpl.toDomain(courseDataModelDouble);
+
+    // Assert
+    assertNull(result);
+}
+
 }

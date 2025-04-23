@@ -9,10 +9,10 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherCategoryIDMapperTest {
+class TeacherCategoryIDMapperImplTest {
 
     // Como estamos fora do Spring, instanciamos diretamente
-    private final TeacherCategoryIDMapper mapper = new TeacherCategoryIDMapper();
+    private final TeacherCategoryIDMapperImpl mapper = new TeacherCategoryIDMapperImpl();
 
     @Test
     void shouldMapDomainToDataModel() {

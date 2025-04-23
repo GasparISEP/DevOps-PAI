@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class SchoolYearIDMapper implements ISchoolYearIDMapper {
+public class SchoolYearIDMapperImpl implements ISchoolYearIDMapper {
 
     public SchoolYearIDDataModel toDataModel(SchoolYearID schoolYearID) {
         if (schoolYearID == null) {

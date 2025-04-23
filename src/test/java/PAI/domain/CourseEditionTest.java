@@ -113,6 +113,41 @@ class CourseEditionTest {
     }
 
     @Test
+    void shouldReturnNullWhenGetRucMethodIsCalled() {
+        //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+
+        //Act
+        TeacherID teacherID = courseEdition.getRuc();
+
+        //Assert
+        assertNull(teacherID);
+    }
+
+    @Test
+    void shouldReturnATeacherIDWhenGetRucMethodIsCalledFromACourseEditionThatHasAValidRuc() {
+        //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        TeacherID teacherID = mock (TeacherID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        courseEdition.setRuc(teacherID);
+
+        //Act
+        TeacherID teacherIDResult = courseEdition.getRuc();
+
+        //Assert
+        assertNotNull(teacherIDResult);
+        assertEquals(teacherID, teacherIDResult);
+    }
+
+    @Test
     void shouldReturnTrueIfCourseEditionSameAsObject() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange

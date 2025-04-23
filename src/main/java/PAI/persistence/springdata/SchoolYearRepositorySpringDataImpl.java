@@ -1,35 +1,32 @@
 package PAI.persistence.springdata;
 
 
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
-import PAI.domain.StudentGrade;
 import PAI.factory.ISchoolYearFactory;
-import PAI.factory.SchoolYearFactoryImpl;
-import PAI.mapper.IStudentGradeIDMapper;
-import PAI.mapper.IStudentGradeMapper;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
-import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
-import PAI.repository.ISchoolYearRepository;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 //TODO "implements ISchoolYearRepository"
 
 @Repository
-public class SchoolYearRepositorySpringData {
+public class SchoolYearRepositorySpringDataImpl {
 
     private ISchoolYearRepositorySpringData schoolYearRepositorySpringData;
     private ISchoolYearMapper schoolYearMapper;
     private ISchoolYearIDMapper schoolYearIDMapper;
 
 
-    public SchoolYearRepositorySpringData(ISchoolYearRepositorySpringData schoolYearRepositorySpringData, ISchoolYearMapper schoolYearMapper, ISchoolYearIDMapper schoolYearIDMapper) {
+    public SchoolYearRepositorySpringDataImpl(ISchoolYearRepositorySpringData schoolYearRepositorySpringData, ISchoolYearMapper schoolYearMapper, ISchoolYearIDMapper schoolYearIDMapper) {
         if (schoolYearRepositorySpringData == null || schoolYearMapper == null || schoolYearIDMapper == null) {
         throw new IllegalArgumentException("Spring Data Repository or SchoolYear/SchoolYearID mappers cannot be null");
         }
@@ -60,5 +57,13 @@ public class SchoolYearRepositorySpringData {
             }
         }
         return allSchoolYears;
+    }
+
+    //US18
+    public Optional<SchoolYearID> getCurrentSchoolYear() {
+        Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
+
+        //If present return Optional com ProgrammeID, else return Empty
+        return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
     }
 }

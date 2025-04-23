@@ -1,6 +1,8 @@
 package PAI.mapper.programmeEdition;
 
-import PAI.VOs.*;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
 import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
@@ -21,7 +23,7 @@ public class ProgrammeEditionIdMapperImpl implements IProgrammeEditionIdMapper {
         this._programmeIdMapper = programmeIdMapper;
 
         if(schoolYearIDMapper == null) {
-            throw new IllegalArgumentException("SchoolYearIDMapper cannot be null");
+            throw new IllegalArgumentException("SchoolYearIDMapperImpl cannot be null");
         }
         this._schoolYearIDMapper = schoolYearIDMapper;
     }

@@ -9,6 +9,8 @@ import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
 import org.springframework.stereotype.Service;
 
+
+@Service
 public class StudentGradeService {
 
     private final IStudentGradeFactory studentGradeFactory;
@@ -27,8 +29,49 @@ public class StudentGradeService {
     }
 
     public StudentGrade newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
-        return studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
+        StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
+        return studentGradeRepository.save(studentGrade);
     }
 
+    public Double getAverageGrade(CourseEditionID courseEditionID) {
+        int numOfStudent = 0;
+        double sumGrade = 0;
+
+        for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                Grade grade1 = studentGrade.get_grade();
+                double grade = grade1.knowGrade();
+                sumGrade += grade;
+                numOfStudent++;
+            }
+        }
+        if (numOfStudent == 0) {
+            return null;
+        }
+        return sumGrade / numOfStudent;
+    }
+
+
+    public double knowApprovalRate(CourseEditionID courseEditionID) {
+        int totalApprovalStudents = 0;
+        int totalOfStudents = 0;
+
+        for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                totalOfStudents++;
+                Grade grade1 = studentGrade.get_grade();
+                if (grade1.knowGrade() >= 10) {
+                    totalApprovalStudents++;
+                }
+            }
+        }
+
+        if (totalOfStudents == 0) {
+            return 0.0;
+        }
+
+        double approvalRate = ((double) totalApprovalStudents / totalOfStudents) * 100;
+        return approvalRate;
+    }
 
 }

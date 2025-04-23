@@ -4,20 +4,22 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProgrammeEditionEnrolmentIDDataModel {
+public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
 
-    private String _studentIdDataModel;
+    @Embedded
+    private StudentIDDataModel _studentIdDataModel;
     @Embedded
     private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
 
     public ProgrammeEditionEnrolmentIDDataModel() {
     }
 
-    public ProgrammeEditionEnrolmentIDDataModel(String studentIdDataModel, ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
-        if (studentIdDataModel == null || studentIdDataModel.isBlank()) {
+    public ProgrammeEditionEnrolmentIDDataModel(StudentIDDataModel studentIdDataModel, ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
+        if (studentIdDataModel == null) {
             throw new IllegalArgumentException("studentId cannot be null or blank");
         }
         if (programmeEditionIdDataModel == null) {
@@ -27,7 +29,7 @@ public class ProgrammeEditionEnrolmentIDDataModel {
         this._programmeEditionIdDataModel = programmeEditionIdDataModel;
     }
 
-    public String getStudentIdDataModel() {
+    public StudentIDDataModel getStudentIdDataModel() {
         return _studentIdDataModel;
     }
 

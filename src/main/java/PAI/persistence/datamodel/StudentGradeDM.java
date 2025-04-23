@@ -11,9 +11,8 @@ import java.time.LocalDate;
 @Table(name="StudentGrade")
 public class StudentGradeDM {
 
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private long id;
+ @EmbeddedId
+ private StudentGradeIDDataModel _studentGradeIDDataModel;
 
  @Column(name = "Grade")
  private double _grade;
@@ -29,8 +28,8 @@ public class StudentGradeDM {
  @Column(name = "Student")
  private StudentIDDataModel StudentId;
 
- public StudentGradeDM(long id, double _grade, LocalDate _date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
-  this.id = id;
+ public StudentGradeDM(StudentGradeIDDataModel studentGradeIDDataModel, double _grade, LocalDate _date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
+  this._studentGradeIDDataModel = studentGradeIDDataModel;
   this._grade = _grade;
   this._date = _date;
   this.courseEditionID = courseEditionID;
@@ -41,8 +40,8 @@ public class StudentGradeDM {
  }
 
 
- public long getId() {
-  return id;
+ public StudentGradeIDDataModel getId() {
+  return _studentGradeIDDataModel;
  }
 
  public double get_grade() {

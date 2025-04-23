@@ -19,15 +19,15 @@ create "ac1:AccessMethod" as AccessMethod
 AccessMethodFactory -> AccessMethod  ++ #application  : <create> (nameVO)
 AccessMethodFactory --> ":AccessMethodService" -- : ac1
 ":AccessMethodService" -> ":AccessMethodRepositorySpringDataImpl" ++ #application: saveAccessMethod(ac1)
-":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodRepositorySpringDataImpl": save(ac1)
-":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
-create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
-":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>
-":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1DM>
-":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodRepositorySpringDataImpl": save(ac1DM)
-":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper": toDomain(ac1DM)
-
-":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1>
+group save(ac1)
+    ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper" ++ #application: toDataModel(ac1)
+    create "ac1DM: AccessMethodDataModel" as AccessMethodDataModel
+    ":AccessMethodMapper" -> AccessMethodDataModel ++ #application: <create>
+    ":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1DM>
+    ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodRepositorySpringDataImpl": save(ac1DM)
+    ":AccessMethodRepositorySpringDataImpl" -> ":AccessMethodMapper": toDomain(ac1DM)
+    ":AccessMethodMapper" --> ":AccessMethodRepositorySpringDataImpl": Optional<ac1>
+end
 ":AccessMethodRepositorySpringDataImpl" --> ":AccessMethodService": Optional<ac1>
 ":AccessMethodService" --> ConfigureAccessMethodController: Optional<ac1>
 ConfigureAccessMethodController --> UI: true

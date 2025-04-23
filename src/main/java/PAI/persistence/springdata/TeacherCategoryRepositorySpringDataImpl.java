@@ -5,7 +5,7 @@ import PAI.VOs.TeacherCategoryID;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.mapper.ITeacherCategoryMapper;
-import PAI.mapper.TeacherCategoryIDMapper;
+import PAI.mapper.TeacherCategoryIDMapperImpl;
 import PAI.persistence.datamodel.TeacherCategoryIDDataModel;
 import PAI.repository.ITeacherCategoryRepository;
 import org.springframework.stereotype.Repository;
@@ -17,18 +17,18 @@ import java.util.stream.Collectors;
 
 @Repository
 @Transactional
-public class TeacherCategoryRepositoryJpaAdapter implements ITeacherCategoryRepository {
+public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategoryRepository {
 
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
     private final ITeacherCategoryFactory factory;
-    private final TeacherCategoryIDMapper idMapper;
+    private final TeacherCategoryIDMapperImpl idMapper;
 
-    public TeacherCategoryRepositoryJpaAdapter(
+    public TeacherCategoryRepositorySpringDataImpl(
             ITeacherCategoryRepositorySpringData jpaRepository,
             ITeacherCategoryMapper mapper,
             ITeacherCategoryFactory factory,
-            TeacherCategoryIDMapper idMapper
+            TeacherCategoryIDMapperImpl idMapper
     ) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;

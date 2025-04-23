@@ -199,42 +199,6 @@ class CourseEditionRepositorySpringDataImplTest {
         assertEquals(0, result.size());
     }
 
-    //-----findIdByCourseEdition Tests-----
-    @Test
-    void shouldReturnOptionalEmptyWhenFindIdByCourseEditionMethodIsCalled() {
-        // Arrange
-        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
-        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
-        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper, programmeEditionIdMapper);
-        CourseEdition courseEdition = mock(CourseEdition.class);
-
-        // Act
-        Optional result = courseEditionRepositorySpringData.findIdByCourseEdition(courseEdition);
-
-        // Assert
-        assertEquals(Optional.empty(), result);
-    }
-
-    //-----findWhichProgrammeEditionBelongsToACourseEdition-----
-    @Test
-    void shouldReturnNullWhenFindWhichProgrammeEditionBelongsToACourseEditionMethodIsCalled() throws Exception {
-        // Arrange
-        ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
-        ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
-        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
-        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper, programmeEditionIdMapper);
-        CourseEdition courseEdition = mock(CourseEdition.class);
-
-        // Act
-        ProgrammeEditionID result = courseEditionRepositorySpringData.findWhichProgrammeEditionBelongsToACourseEdition(courseEdition);
-
-        // Assert
-        assertNull(result);
-    }
-
     //-----save Tests-----
     @Test
     void shouldReturnNullWhenSaveMethodIsReceivesANullCourseEdition() {

@@ -19,13 +19,13 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
         _CourseEditionRepository = iCourseEditionRepository;
     }
 
-    private Optional<CourseEditionID> findCourseEditionIdByCourseEdition(CourseEdition courseEdition_DDD){
-        return _CourseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
-    }
+//    private Optional<CourseEditionID> findCourseEditionIdByCourseEdition(CourseEdition courseEdition_DDD){
+//        return _CourseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
+//    }
 
 
 
-    public double CalculateApprovalPercentageOfACourseEdition(CourseEdition courseEdition){
-        return _StudentGradeRepository.knowApprovalRate(findCourseEditionIdByCourseEdition(courseEdition).get());
-    }
+//    public double CalculateApprovalPercentageOfACourseEdition(CourseEdition courseEdition){
+//        return _StudentGradeRepository.knowApprovalRate(findCourseEditionIdByCourseEdition(courseEdition).get());
+//    }
 }
