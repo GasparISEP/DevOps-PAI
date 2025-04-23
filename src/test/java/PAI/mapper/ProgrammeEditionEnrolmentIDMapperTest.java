@@ -30,7 +30,11 @@ class ProgrammeEditionEnrolmentIDMapperTest {
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapper(null, studentIDMapper));
     }
 
-
+    @Test
+    void nullStudentIdMapperThrowsException() {
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, null));
+    }
 
     @Test
     void shouldMapToDomain() throws Exception {
