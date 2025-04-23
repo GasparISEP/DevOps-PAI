@@ -126,7 +126,14 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionID id) {
-        return false;
+        if (id == null) {
+            return false;
+        }
+        try {
+            return _iProgrammeEditionRepositorySpringData.existsById(_iProgrammeEditionIdMapper.toDataModel(id));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
