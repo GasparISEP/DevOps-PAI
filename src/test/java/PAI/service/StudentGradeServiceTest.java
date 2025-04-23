@@ -66,6 +66,7 @@ public class StudentGradeServiceTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         StudentGrade expected = new StudentGrade(grade, date, studentID, courseEditionID);
+        studentGradeRepository.save(expected);
         when(studentGradeFactory.newGradeStudent(grade, date, studentID, courseEditionID))
                 .thenReturn(expected);
         when(studentGradeRepository.save(expected)).thenReturn(expected);
@@ -111,6 +112,26 @@ public class StudentGradeServiceTest {
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
+    }
+
+    @Test
+    public void shouldNotGetAverageGradeOfCourseEditionBecauseHave0Students() throws Exception {
+
+        // Arrange
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
+
+
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+
+
+        // Act
+        Double averageGrade = studentGradeService.getAverageGrade(courseEditionID1Double);
+
+        // Assert
+        assertEquals(null, averageGrade);
     }
 
 }

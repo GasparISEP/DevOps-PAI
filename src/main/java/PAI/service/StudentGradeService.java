@@ -49,7 +49,7 @@ public class StudentGradeService {
         if (numOfStudent == 0) {
             return null;
         }
-        return sumGrade/numOfStudent;
+        return sumGrade / numOfStudent;
     }
 
 
