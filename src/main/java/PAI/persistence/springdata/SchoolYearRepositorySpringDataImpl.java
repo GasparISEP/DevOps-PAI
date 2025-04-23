@@ -4,6 +4,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
+import PAI.factory.SchoolYearFactoryImpl;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
@@ -66,4 +67,18 @@ public class SchoolYearRepositorySpringDataImpl {
         //If present return Optional com ProgrammeID, else return Empty
         return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
     }
+    public Optional<SchoolYear> ofIdentity(SchoolYearID id, SchoolYearFactoryImpl schoolYearFactory) {
+        Optional<SchoolYearDataModel> schoolYearDMOpt = schoolYearRepositorySpringData.findById(id.toString());
+
+        if (schoolYearDMOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            SchoolYear schoolYear = schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory);
+            return Optional.of(schoolYear);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
 }
