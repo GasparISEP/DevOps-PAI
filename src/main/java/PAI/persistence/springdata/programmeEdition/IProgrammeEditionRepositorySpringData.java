@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface IProgrammeEditionRepositorySpringData extends JpaRepository<ProgrammeEditionDataModel, ProgrammeEditionIdDataModel> {
 
 
-    Optional<ProgrammeEditionDataModel> findProgrammeEditionDataModelByProgrammeIDDataModelAndSchoolYearIDDataModel(
+    Optional<ProgrammeEditionIdDataModel> findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDatasModels (
             ProgrammeIDDataModel programmeIDDataModel, SchoolYearIDDataModel schoolYearIDDataModel);
 }

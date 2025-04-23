@@ -8,6 +8,10 @@ import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
+import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 
 import java.util.List;
@@ -25,6 +29,21 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData, IProgrammeEditionMapper iProgrammeEditionMapper,
             IProgrammeEditionIdMapper iProgrammeEditionIdMapper, IProgrammeIDMapper iProgrammeIDMapper, ISchoolYearIDMapper iSchoolYearIDMapper) {
 
+        if(iProgrammeEditionRepositorySpringData == null) {
+            throw new IllegalArgumentException("ProgrammeEditionRepositorySpringData cannot be null");
+        }
+        if(iProgrammeEditionMapper == null) {
+            throw new IllegalArgumentException("ProgrammeEditionMapper cannot be null");
+        }
+        if(iProgrammeEditionIdMapper == null) {
+            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
+        }
+        if(iProgrammeIDMapper == null) {
+            throw new IllegalArgumentException("ProgrammeIDMapper cannot be null");
+        }
+        if(iSchoolYearIDMapper == null) {
+            throw new IllegalArgumentException("SchoolYearIDMapper cannot be null");
+        }
         this._iProgrammeEditionRepositorySpringData = iProgrammeEditionRepositorySpringData;
         this._iProgrammeEditionMapper = iProgrammeEditionMapper;
         this._iProgrammeEditionIdMapper = iProgrammeEditionIdMapper;
@@ -38,7 +57,15 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     }
 
     @Override
-    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception {
+        ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
+        SchoolYearIDDataModel schoolYearIDDataModel = _iSchoolYearIDMapper.toDataModel(schoolYearid);
+        Optional<ProgrammeEditionIdDataModel> programmeEditionIDDataModelOptional =
+                _iProgrammeEditionRepositorySpringData.findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDatasModels(programmeIDDataModel, schoolYearIDDataModel);
+        if(programmeEditionIDDataModelOptional.isPresent()) {
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDDataModelOptional.get();
+            return Optional.of(_iProgrammeEditionIdMapper.toDomain(programmeEditionIdDataModel));
+        }
         return Optional.empty();
     }
 

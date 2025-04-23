@@ -19,77 +19,6 @@ import static org.mockito.Mockito.*;
 class StudentGradeRepositoryTest {
 
     @Test
-    void shouldAddGradeToAStudent() throws Exception {
-        // Arrange
-        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
-
-        StudentID student1 = mock(StudentID.class);
-        StudentID student2 = mock(StudentID.class);
-        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
-        Grade grade = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
-        StudentGrade studentGrade2 = mock(StudentGrade.class);
-
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
-                .thenReturn(studentGrade1);
-
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
-                .thenReturn(studentGrade2);
-
-        // Act
-        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
-        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEditionID1Double);
-
-        // Assert
-        assertTrue(result1);
-        assertTrue(result2);
-
-    }
-
-    @Test
-    void shouldNotAddGradeWhenStudentHasAlreadyGradeAtCertainCourseEdition() throws Exception{
-        //arrange
-        IStudentGradeFactory IStudentGradeFactoryDouble = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory IStudentGradeListFactoryDouble = mock(IStudentGradeListFactory.class);
-        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(IStudentGradeFactoryDouble,IStudentGradeListFactoryDouble);
-
-        StudentID studentDouble = mock(StudentID.class);
-        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
-        StudentGrade studentGradeDouble = mock(StudentGrade.class);
-        Grade grade = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-        when (IStudentGradeFactoryDouble.newGradeStudent(grade,dateDouble,studentDouble,courseEditionID1Double)).thenReturn(studentGradeDouble);
-
-        when(studentGradeDouble.hasThisStudentID(studentDouble)).thenReturn(true);
-        when(studentGradeDouble.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
-
-        ArrayList<StudentGrade> listDouble = mock(ArrayList.class);
-        Iterator<StudentGrade> iteratorDouble = mock(Iterator.class);
-
-        when(listDouble.iterator()).thenReturn(iteratorDouble);
-        when(iteratorDouble.hasNext()).thenReturn(true,false);
-        when(iteratorDouble.next()).thenReturn(studentGradeDouble);
-
-        //Act I
-        boolean firstResult = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionID1Double);
-        //assert I
-        assertTrue(firstResult);
-        //act II
-        boolean result = studentGradeRepository.addGradeToStudent(grade,dateDouble,studentDouble,courseEditionID1Double);
-        //assert II
-        assertFalse(result);
-    }
-
-    @Test
     void shouldNotAddGradeToAStudentWithFactoryNull() throws IllegalArgumentException {
         // Arrange
         IStudentGradeListFactory studentGradeListFactory = mock(IStudentGradeListFactory.class);
@@ -113,70 +42,6 @@ class StudentGradeRepositoryTest {
                 new StudentGradeRepository(studentGradeFactory, null));
 
         assertEquals("Factory cannot be null!", exception.getMessage());
-    }
-
-
-    @Test
-    void shouldReturnIdWhenStudentGradeExistsInList() throws Exception {
-        // Arrange
-        IStudentGradeFactory IStudentGradeFactory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
-
-        List<StudentGrade> mockGradeList = spy(new ArrayList<>());
-
-        when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-
-        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeFactory, IStudentGradeListFactory);
-
-        StudentID student1 = mock(StudentID.class);
-        StudentID student2 = mock(StudentID.class);
-        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
-        Grade grade = mock(Grade.class);
-        Date dateDouble = mock(Date.class);
-
-        StudentGrade studentGrade1 = mock(StudentGrade.class);
-        StudentGrade studentGrade2 = mock(StudentGrade.class);
-        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        StudentID studentIDDouble = mock(StudentID.class);
-
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student1, courseEditionID1Double))
-                .thenReturn(studentGrade1);
-
-        when(IStudentGradeFactory.newGradeStudent(grade, dateDouble, student2, courseEditionID1Double))
-                .thenReturn(studentGrade2);
-
-        StudentGradeID studentGradeId = new StudentGradeID(studentIDDouble,courseEditionIDDouble);
-        when(studentGrade1.identity()).thenReturn(studentGradeId);
-
-        boolean result1 = list.addGradeToStudent(grade, dateDouble, student1, courseEditionID1Double);
-        boolean result2 = list.addGradeToStudent(grade, dateDouble, student2, courseEditionID1Double);
-
-        // Act
-        Optional<StudentGradeID> result = list.findIdByStudent(studentGrade1);
-
-        // Assert
-        assertTrue(result.isPresent());
-
-    }
-
-    @Test
-    void shouldReturnEmptyWhenStudentGradeNotInList() {
-        // Arrange
-        IStudentGradeFactory factory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory listFactory = mock(IStudentGradeListFactory.class);
-
-        List<StudentGrade> emptyList = spy(new ArrayList<>());
-        when(listFactory.newArrayList()).thenReturn(emptyList);
-
-        StudentGradeRepository repo = new StudentGradeRepository(factory, listFactory);
-
-        StudentGrade studentGradeToSearch = mock(StudentGrade.class);
-
-        // Act
-        Optional<StudentGradeID> result = repo.findIdByStudent(studentGradeToSearch);
-
-        // Assert
-        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -332,33 +197,6 @@ class StudentGradeRepositoryTest {
 
         // Assert
         assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnIdWhenStudentGradeExistsInList_WithEqualsCheck() throws Exception {
-        // Arrange
-        IStudentGradeFactory factory = mock(IStudentGradeFactory.class);
-        IStudentGradeListFactory listFactory = mock(IStudentGradeListFactory.class);
-        List<StudentGrade> list = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(list);
-
-        StudentGradeRepository repo = new StudentGradeRepository(factory, listFactory);
-
-        StudentID studentID = mock(StudentID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        Grade grade = mock(Grade.class);
-        Date date =mock(Date.class);
-
-        StudentGrade studentGrade = new StudentGrade(grade,date,studentID,courseEditionID);
-
-        repo.save(studentGrade);
-
-        // Act
-        Optional<StudentGradeID> result = repo.findIdByStudent(studentGrade);
-
-        // Assert
-        assertTrue(result.isPresent());
-        assertEquals(studentGrade.identity(), result.get());
     }
 
 

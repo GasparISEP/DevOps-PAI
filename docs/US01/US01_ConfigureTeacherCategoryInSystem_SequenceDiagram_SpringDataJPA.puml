@@ -21,63 +21,56 @@ skinparam ranksep 120
 skinparam linetype ortho
 
 participant UI
-participant ":US01_ConfigureTeacherCategoryController" as Controller
-participant ":ITeacherCategoryApplicationService" as AppServiceInterface
-participant ":TeacherCategoryApplicationService" as AppServiceImpl
-participant ":Name (VO)" as NameVO
-participant ":ITeacherCategoryRepository" as Repository
-participant ":ITeacherCategoryFactory" as Factory
-participant ":TeacherCategory" as DomainAggregate
-participant ":ITeacherCategoryMapper" as Mapper
-participant ":ITeacherCategoryRepositorySpringData" as JpaRepo
-participant ":TeacherCategoryDataModel" as DataModel
+participant "US01_ConfigureTeacherCategoryController" as Controller
+participant "TeacherCategoryApplicationService" as AppService
+participant "Name" as NameVO
+participant "TeacherCategoryFactorySpring" as Factory
+participant "TeacherCategory" as DomainAggregate
+participant "TeacherCategoryMapperImpl" as Mapper
+participant "TeacherCategoryRepositorySpringDataImpl" as Repo
+participant "TeacherCategoryDataModel" as DataModel
 
 == UI Interaction ==
 
 admin -> UI ++ : "I want to register a new TeacherCategory"
 UI --> admin -- : "Please provide category name"
 
-admin -> UI ++ : "Expert"
-UI -> Controller ++ : configureTeacherCategory("Expert")
+admin -> UI ++ : "Assistente"
+UI -> Controller ++ : configureTeacherCategory("Assistente")
 
 == Controller delegates to Service ==
 
-Controller -> AppServiceInterface ++ : registerCategory("Expert")
-AppServiceInterface -> AppServiceImpl ++ : registerCategory("Expert")
+Controller -> AppService ++ : registerCategory("Assistente")
 
 == Value Object Creation ==
 
-AppServiceImpl -> NameVO ++ : new Name("Expert")
-NameVO --> AppServiceImpl -- : validated Name object
+AppService -> NameVO ++ : new Name("Assistente")
+NameVO --> AppService -- : validated Name
 
 == Check Existence in Repository ==
 
-AppServiceImpl -> Repository ++ : existsByName(name)
-Repository -> JpaRepo ++ : existsByName(name.getName())
-JpaRepo --> Repository -- : false
-Repository --> AppServiceImpl -- : false
+AppService -> Repo ++ : existsByName(name)
+Repo --> AppService -- : false
 
 == Aggregate Creation using Factory ==
 
-AppServiceImpl -> Factory ++ : createTeacherCategory(name)
+AppService -> Factory ++ : createTeacherCategory(name)
 Factory -> DomainAggregate ++ : new TeacherCategory(id, name)
-Factory --> AppServiceImpl -- : TeacherCategory
+Factory --> AppService -- : TeacherCategory
 
 == Persistence Layer ==
 
-AppServiceImpl -> Repository ++ : save(TeacherCategory)
-Repository -> Mapper ++ : toDataModel(TeacherCategory)
+AppService -> Repo ++ : save(TeacherCategory)
+Repo -> Mapper ++ : toDataModel(TeacherCategory)
 Mapper -> DataModel ++ : create(id, name)
-Mapper --> Repository -- : TeacherCategoryDataModel
-Repository -> JpaRepo ++ : save(TeacherCategoryDataModel)
-JpaRepo --> Repository -- : saved
-Repository --> AppServiceImpl -- : saved aggregate
+Mapper --> Repo -- : TeacherCategoryDataModel
+Repo -> Repo ++ : save(TeacherCategoryDataModel)
+Repo --> AppService -- : TeacherCategory
 
 == Response to UI ==
 
-AppServiceImpl --> AppServiceInterface -- : true
-AppServiceInterface --> Controller -- : true
+AppService --> Controller -- : true
 Controller --> UI -- : true
-UI --> admin -- : "TeacherCategory registered successfully"
+UI --> admin -- : "TeacherCategory 'Assistente' registered successfully"
 
 @enduml
