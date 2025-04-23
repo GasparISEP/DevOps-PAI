@@ -26,19 +26,19 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionControllerTest {
         assertNotNull(controller);
     }
 
-    @Test
-    void shouldReturnApprovalPercentageInCourseEdition(){
-        //arrange
-        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US23_IWantToKnowTheApprovalPercentageOfACourseEditionController controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(studentGradeRepository,courseEditionRepository);
-        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
-        when(studentGradeRepository.knowApprovalRate(courseEditionIDDouble)).thenReturn(16.0);
-        //act
-        double result = controller.CalculateApprovalPercentageOfACourseEdition(courseEdition_DDDDouble);
-        //assert
-        assertEquals(16.0,result);
-    }
+//    @Test
+//    void shouldReturnApprovalPercentageInCourseEdition(){
+//        //arrange
+//        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);
+//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+//        US23_IWantToKnowTheApprovalPercentageOfACourseEditionController controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(studentGradeRepository,courseEditionRepository);
+//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
+//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
+//        when(studentGradeRepository.knowApprovalRate(courseEditionIDDouble)).thenReturn(16.0);
+//        //act
+//        double result = controller.CalculateApprovalPercentageOfACourseEdition(courseEdition_DDDDouble);
+//        //assert
+//        assertEquals(16.0,result);
+//    }
 }

@@ -250,4 +250,18 @@ class SchoolYearRepositorySpringDataImplTest {
         //assert
         assertEquals(Optional.of(schoolYearID), result);
     }
+
+    @Test
+    void shouldReturnEmptyOptionalIfRepositoryIsEmptyOrThereISNotCurrentSchoolYear() {
+        //arrange
+        ISchoolYearRepositorySpringData ischoolYearRepositorySpringData = mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringDataImpl = new SchoolYearRepositorySpringDataImpl(ischoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        when(ischoolYearRepositorySpringData.findCurrentSchoolYear()).thenReturn(Optional.empty());
+        //act
+        Optional<SchoolYearID> result = schoolYearRepositorySpringDataImpl.getCurrentSchoolYear();
+        assertEquals(Optional.empty(), result);
+    }
 }
