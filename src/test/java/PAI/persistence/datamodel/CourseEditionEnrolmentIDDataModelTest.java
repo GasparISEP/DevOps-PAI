@@ -22,49 +22,36 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnAnExceptionWhenCourseEditionIdIsNull() {
         //arrange
-        String studentID = "1000000";
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
 
         //act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new CourseEditionEnrolmentIDDataModel(studentID, null);
+            new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, null);
         });
         assertEquals("Course Edition ID cannot be null!", exception.getMessage());
     }
 
     @Test
-    void shouldReturnAnExceptionWhenStudentIdIsEmpty() {
-        //arrange
-        String studentID = "";
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
-
-        //act & assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new CourseEditionEnrolmentIDDataModel(studentID, courseEditionIDDataModel);
-        });
-        assertEquals("Student ID cannot be null or empty!", exception.getMessage());
-    }
-
-    @Test
     void shouldReturnAnExceptionWhenStudentIdIsNull() {
         //arrange
-        String studentID = null;
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
         //act & assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new CourseEditionEnrolmentIDDataModel(studentID, courseEditionIDDataModel);
+            new CourseEditionEnrolmentIDDataModel(null, doubleCourseEditionIDDataModel);
         });
-        assertEquals("Student ID cannot be null or empty!", exception.getMessage());
+        assertEquals("Student ID cannot be null!", exception.getMessage());
     }
 
     @Test
     void shouldReturnAValidCourseEditionEnrolmentIDDataModel_constructorWithParameters() {
         //arrange
-        String studentID = "1999999";
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
         //act & assert
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel = new CourseEditionEnrolmentIDDataModel(studentID, courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
     }
 
     //testing find course edition method
@@ -72,16 +59,17 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnACourseEditionIDDataModelWithTheCourseEditionID (){
         //arrange
-        String studentID = "1234567";
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel = new CourseEditionEnrolmentIDDataModel(studentID, courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
 
         //act
         CourseEditionIDDataModel result = ceeIDDataModel.findCourseEditionID();
 
         //assert
-        assertEquals(result, courseEditionIDDataModel);
+        assertEquals(result, doubleCourseEditionIDDataModel);
     }
 
     // testing find student id test
@@ -89,16 +77,17 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnIntWithTheCourseEditionID (){
         //arrange
-        String studentID = "1999999";
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel = new CourseEditionEnrolmentIDDataModel(studentID, courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
 
         //act
-        String result = ceeIDDataModel.findStudentID();
+        StudentIDDataModel result = ceeIDDataModel.findStudentID();
 
         //assert
-        assertEquals("1999999", result);
+        assertEquals(doubleStudentIDDataModel, result);
     }
 
     // testing equals method
@@ -106,9 +95,12 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnTrueWhenTwoObjectsHaveTheSameReferenceMemory (){
         //arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
+
         CourseEditionEnrolmentIDDataModel ceeIDDataModel2 = ceeIDDataModel1;
 
         //act
@@ -121,10 +113,13 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnTrueWhenTwoObjectsAreEquals (){
         //arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
 
         //act
         boolean result = ceeIDDataModel1.equals(ceeIDDataModel2);
@@ -136,9 +131,11 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalseWhenTheObjectIsNull (){
         //arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
 
         //act
         boolean result = ceeIDDataModel.equals(null);
@@ -150,9 +147,12 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalseWhenTwoObjectsAreNotInstanceOfTheSameClass (){
         //arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
+
         CourseEditionEnrolment courseEditionEnrolment = mock (CourseEditionEnrolment.class);
 
         //act
@@ -165,11 +165,15 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnFalseWhenTwoObjectsAreNotEquals (){
         //arrange
-        CourseEditionIDDataModel courseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
-        CourseEditionIDDataModel courseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel1 = mock(StudentIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel2 = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel1);
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 = new CourseEditionEnrolmentIDDataModel("1234568", courseEditionIDDataModel2);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel1, doubleCourseEditionIDDataModel1);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel2, doubleCourseEditionIDDataModel2);
 
         //act
         boolean result = ceeIDDataModel1.equals(ceeIDDataModel2);
@@ -183,9 +187,11 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnAHashCodeForOneId() {
         //Arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
 
         //Act
         int result = ceeIDDataModel.hashCode();
@@ -197,9 +203,11 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnTheSameHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel, doubleCourseEditionIDDataModel);
         int ceeIDDataModel2 = ceeIDDataModel1.hashCode();
 
         //Act
@@ -212,11 +220,15 @@ class CourseEditionEnrolmentIDDataModelTest {
     @Test
     void shouldReturnADifferentHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionIDDataModel courseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
-        CourseEditionIDDataModel courseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel1 = mock(StudentIDDataModel.class);
+        StudentIDDataModel doubleStudentIDDataModel2 = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
+        CourseEditionIDDataModel doubleCourseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
 
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 = new CourseEditionEnrolmentIDDataModel("1234567", courseEditionIDDataModel1);
-        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 = new CourseEditionEnrolmentIDDataModel("1234568", courseEditionIDDataModel2);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel1 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel1, doubleCourseEditionIDDataModel1);
+        CourseEditionEnrolmentIDDataModel ceeIDDataModel2 =
+                new CourseEditionEnrolmentIDDataModel(doubleStudentIDDataModel2, doubleCourseEditionIDDataModel2);
 
         //Act
         int result = ceeIDDataModel1.hashCode();

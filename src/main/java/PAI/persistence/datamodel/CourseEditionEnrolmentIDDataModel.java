@@ -11,8 +11,8 @@ import java.util.Objects;
 @Embeddable
 public class CourseEditionEnrolmentIDDataModel implements Serializable {
 
-    @Column(nullable = false)
-    private String studentID;
+    @Embedded
+    private StudentIDDataModel studentID;
 
     @Embedded
     private CourseEditionIDDataModel courseEditionID;
@@ -20,7 +20,7 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
 
     public CourseEditionEnrolmentIDDataModel() {}
 
-    public CourseEditionEnrolmentIDDataModel (String studentID, CourseEditionIDDataModel courseEditionID) {
+    public CourseEditionEnrolmentIDDataModel (StudentIDDataModel studentID, CourseEditionIDDataModel courseEditionID) {
 
         validateStudentID (studentID);
         validateCourseEditionID (courseEditionID);
@@ -28,9 +28,9 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
         this.courseEditionID = courseEditionID;
     }
 
-    private void validateStudentID (String studentID) {
-        if (studentID == null || studentID.isBlank()) {
-            throw new IllegalArgumentException("Student ID cannot be null or empty!");
+    private void validateStudentID (StudentIDDataModel studentID) {
+        if (studentID == null) {
+            throw new IllegalArgumentException("Student ID cannot be null!");
         }
         this.studentID = studentID;
     }
@@ -41,7 +41,7 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
         }
     }
 
-    public String findStudentID() {
+    public StudentIDDataModel findStudentID() {
         return studentID;
     }
 
