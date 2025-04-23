@@ -13,6 +13,8 @@ public interface ICourseService {
 
     public Iterable <Course> findAll();
 
-    public Optional<Course> findById(CourseID courseID);
+    public Optional<Course> ofIdentity(CourseID courseID);
+
+    public boolean containsOfIdentity(CourseID courseID);
 
 }
