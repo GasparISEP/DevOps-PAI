@@ -24,6 +24,13 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
     }
 
+    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, LocalDate enrolmentDate) {
+        validateStudent(studentId);
+        validateProgrammeEdition(programmeEditionId);
+        this._enrolmentDate = (enrolmentDate != null) ? enrolmentDate : LocalDate.now();
+        this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
+    }
+
     private void validateStudent(StudentID studentId) {
         if (studentId == null) {
             throw new IllegalArgumentException("Student cannot be null");
@@ -62,6 +69,10 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
 
     public StudentID findStudentInProgrammeEdition() {
         return _studentId;
+    }
+
+    public LocalDate getEnrolmentDate() {
+        return _enrolmentDate;
     }
 
     @Override
