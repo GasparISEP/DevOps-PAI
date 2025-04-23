@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class CourseMapperImplTest {
 
@@ -219,4 +220,24 @@ public class CourseMapperImplTest {
         // Assert
         assertEquals("Programacao", courseList.iterator().next().getName().getName());
     }
+
+
+    @Test
+    void shouldReturnNullIfCourseIsNull() throws Exception{
+    // Arrange
+    ICourseFactory courseFactoryDouble = mock (ICourseFactory.class);
+    CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactoryDouble);
+    CourseDataModel courseDataModelDouble = mock(CourseDataModel.class);
+
+    when(courseDataModelDouble.get_name()).thenReturn("Programacao");
+    when(courseDataModelDouble.get_acronym()).thenReturn("LEI");
+    when (courseMapperImpl.toDomain(courseDataModelDouble)).thenReturn(null);
+
+    // Act
+    Course result = courseMapperImpl.toDomain(courseDataModelDouble);
+
+    // Assert
+    assertNull(result);
+}
+
 }

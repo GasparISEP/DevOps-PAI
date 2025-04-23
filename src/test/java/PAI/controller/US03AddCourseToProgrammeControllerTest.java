@@ -15,10 +15,10 @@ import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanRepositoryImp
 import PAI.repository.courseInStudyPlanRepository.CourseInStudyPlanListFactoryImpl;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanListFactory;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
-import PAI.repository.courseRepository.CourseRepositoryImpl;
-import PAI.repository.courseRepository.CourseRepositoryListFactoryImpl;
+import PAI.persistence.mem.courseRepository.CourseRepositoryImpl;
+import PAI.persistence.mem.courseRepository.CourseRepositoryListFactoryImpl;
 import PAI.repository.courseRepository.ICourseRepository;
-import PAI.repository.courseRepository.ICourseRepositoryListFactory;
+import PAI.persistence.mem.courseRepository.ICourseRepositoryListFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.ProgrammeRepositoryImpl;

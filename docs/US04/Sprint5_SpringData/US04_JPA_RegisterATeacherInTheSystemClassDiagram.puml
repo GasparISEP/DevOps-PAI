@@ -43,7 +43,7 @@ class TeacherDataModel{
         -_departmentID:DepartmentID
 }
 class TeacherRepositorySpringDataImpl{
-+addTeacher(acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
++addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
 
 }
 
@@ -64,6 +64,8 @@ interface ITeacherService{
    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
 }
 interface ITeacherRepositorySpringData{
++addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
+
 }
 interface JPARepository{}
 package "Teacher Aggregates" #CornflowerBlue {
@@ -79,14 +81,13 @@ package "Teacher Aggregates" #CornflowerBlue {
         -_phoneNumber:PhoneNumber
         -_academicBackground:AcademicBackground
         -_departmentID:DepartmentID
-        +Teacher(acronym:TeacherAcronym,\n teacherID:TeacherId, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
-    }
+     }
 }
 
 
 
 US04_IWantToRegisterATeacherInTheSystemController ..> ITeacherService
-ITeacherService ..|>"Implements" TeacherServiceImpl
+ITeacherService <|.."Implements" TeacherServiceImpl
 TeacherServiceImpl ..> ITeacherRepository
 TeacherServiceImpl ..> IDepartmentRepository
 
@@ -99,6 +100,7 @@ ITeacherRepositorySpringData <|.. ITeacherRepository
 
 TeacherRepositorySpringDataImpl"1" ->"*" TeacherDataModel
 TeacherMapper "1"..> "1"TeacherRepositorySpringDataImpl
+TeacherMapper ..> ITeacherFactory
 
 
 
