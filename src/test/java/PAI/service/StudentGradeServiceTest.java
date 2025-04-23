@@ -168,4 +168,23 @@ public class StudentGradeServiceTest {
         assertEquals(100, averageGrade, 0.01);
     }
 
+    @Test
+    public void shouldNotGetApprovalRateWith0Student() throws Exception {
+
+        // Arrange
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+
+        CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
+
+
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+
+
+        // Act
+        Double averageGrade = studentGradeService.knowApprovalRate(courseEditionID1Double);
+
+        // Assert
+        assertEquals(0, averageGrade);
+    }
 }
