@@ -11,8 +11,4 @@ import java.util.Optional;
 public interface ICourseEditionRepository extends IRepository <CourseEditionID, CourseEdition> {
 
      List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId);
-
-     Optional<CourseEditionID> findIdByCourseEdition (CourseEdition courseEdition2);
-
-     ProgrammeEditionID findWhichProgrammeEditionBelongsToACourseEdition(CourseEdition courseEdition) throws Exception;
 }

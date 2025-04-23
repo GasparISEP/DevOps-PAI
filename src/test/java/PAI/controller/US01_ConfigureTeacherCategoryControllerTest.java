@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.Name;
-import PAI.service.TeacherCategoryService;
+import PAI.service.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,12 +10,12 @@ import static org.mockito.Mockito.*;
 
 public class US01_ConfigureTeacherCategoryControllerTest {
 
-    private TeacherCategoryService service;
+    private TeacherCategoryServiceImpl service;
     private US01_ConfigureTeacherCategoryController controller;
 
     @BeforeEach
     public void setUp() {
-        service = mock(TeacherCategoryService.class);
+        service = mock(TeacherCategoryServiceImpl.class);
         controller = new US01_ConfigureTeacherCategoryController(service);
     }
 
