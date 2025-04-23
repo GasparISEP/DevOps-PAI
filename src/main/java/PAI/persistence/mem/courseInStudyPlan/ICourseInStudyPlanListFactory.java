@@ -1,4 +1,4 @@
-package PAI.repository.courseInStudyPlanRepository;
+package PAI.persistence.mem.courseInStudyPlan;
 
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 

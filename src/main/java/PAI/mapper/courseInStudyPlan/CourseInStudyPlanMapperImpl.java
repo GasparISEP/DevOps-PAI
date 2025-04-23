@@ -1,5 +1,6 @@
 package PAI.mapper.courseInStudyPlan;
 
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.mapper.CourseID.ICourseIDMapper;
@@ -8,10 +9,6 @@ import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
-import PAI.VOs.CourseID;
-import PAI.VOs.Semester;
-import PAI.VOs.CurricularYear;
-import PAI.VOs.StudyPlanID;
 
 public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
@@ -46,14 +43,18 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         int curricularYear = courseInStudyPlan.getCurricularYear().toInt();
 
+        int durationOfCourse = courseInStudyPlan.getDurationOfCourse().getDuration();
+
+        double quantityOfCreditsEcts = courseInStudyPlan.getQuantityOfCreditsEcts().getQuantity();
+
         StudyPlanIDDataModel studyPlanDM = _studyPlanIDMapper.toDataModel(courseInStudyPlan.getStudyplanID());
 
         CourseIDDataModel courseDM = _courseIDMapper.toDataModel(courseInStudyPlan.getCourseID());
 
-        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, studyPlanDM, courseDM, semester, curricularYear);
+        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, studyPlanDM, courseDM, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
     }
 
-    public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) {
+    public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) throws Exception {
 
         Semester semester = new Semester(courseInStudyPlanDataModel.getSemester());
 
@@ -63,6 +64,10 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         StudyPlanID studyPlanId = _studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
 
-        return _courseInStudyPlanFactory.newCourseInStudyPlan(semester, year, courseId, studyPlanId);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(courseInStudyPlanDataModel.getDurationOfCourse());
+
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
+
+        return _courseInStudyPlanFactory.newCourseInStudyPlan(semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
     }
 }

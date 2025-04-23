@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class CourseRepositoryImpl implements ICourseRepository {
 
-    private final ICourseFactory _courseFactory;
+    //private final ICourseFactory _courseFactory;
     private List<Course> courseList;
 
     public CourseRepositoryImpl(ICourseFactory iCourseFactory, ICourseRepositoryListFactory iCourseRepositoryListFactory) {
@@ -20,19 +20,19 @@ public class CourseRepositoryImpl implements ICourseRepository {
         if(iCourseRepositoryListFactory == null){
             throw new IllegalArgumentException("iCourseRepositoryListFactoryDDD cannot be null");
         }
-        _courseFactory = iCourseFactory;
+        //_courseFactory = iCourseFactory;
         courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
 
-    public boolean registerCourse (Name name, Acronym acronym) throws Exception {
-
-        Course course = _courseFactory.createCourse(name, acronym);
-
-        course = save(course);
-        if(course == null)
-            return false;
-        return true;
-    }
+//    public boolean registerCourse (Name name, Acronym acronym) throws Exception {
+//
+//        Course course = _courseFactory.createCourse(name, acronym);
+//
+//        course = save(course);
+//        if(course == null)
+//            return false;
+//        return true;
+//    }
 
     @Override
     public Course save(Course entity) {

@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface ICourseInStudyPlanService {
 
-    boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID);
+    boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
+                                    DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts);
 
     List<CourseInStudyPlan> getAllCoursesInStudyPlan();
 

@@ -1,3 +1,4 @@
+/*
 package PAI.controller;
 
 import PAI.VOs.*;
@@ -73,3 +74,4 @@ public class US03_AddCourseToProgrammeController {
         return iCourseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID);
     }
 }
+*/

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table (name = "Course_In_Study_Plan")
+@Table (name = "CourseInStudyPlan")
 public class CourseInStudyPlanDataModel {
 
     @EmbeddedId
@@ -15,33 +15,52 @@ public class CourseInStudyPlanDataModel {
 
     @Embedded
     @AttributeOverride(
-            name = "id",
-            column = @Column(name = "study_plan_id", nullable = false)
+            name = "ID",
+            column = @Column(name = "studyPlanID", nullable = false)
     )
     private StudyPlanIDDataModel _studyPlanIDDataModel;
 
     @Embedded
     @AttributeOverride(
-            name = "id",
-            column = @Column(name = "course_id", nullable = false)
+            name = "ID",
+            column = @Column(name = "courseID", nullable = false)
     )
     private CourseIDDataModel _courseID;
 
     @Column(name = "semester", nullable = false)
     private int _semester;
 
-    @Column(name = "curricular_year", nullable = false)
+    @Column(name = "curricularYear", nullable = false)
     private int _curricularYear;
+
+    @Column (name = "courseDuration" , nullable = false)
+    private int _durationOfCourse;
+
+    @Column (name = "ECTSQuantity", nullable = false)
+    private double _quantityOfCreditsEcts;
 
     protected CourseInStudyPlanDataModel() {
     }
 
-    public CourseInStudyPlanDataModel (CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, StudyPlanIDDataModel studyPlanIDDataModel, CourseIDDataModel courseIDDataModel, int semester, int curricularYear) {
+    public CourseInStudyPlanDataModel (CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, StudyPlanIDDataModel studyPlanIDDataModel,
+                                       CourseIDDataModel courseIDDataModel, int semester, int curricularYear, int durationOfCourse, double quantityOfCreditsEcts) {
+
+        if (courseInStudyPlanIDDataModel == null || studyPlanIDDataModel == null || courseIDDataModel == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanIDDataModel, StudyPlanIDDataModel and CourseIDDataModel cannot be null");
+        }
+
         this._courseInStudyPlanID = courseInStudyPlanIDDataModel;
         this._studyPlanIDDataModel = studyPlanIDDataModel;
         this._courseID = courseIDDataModel;
+
+        if (semester < 1 || curricularYear < 1 || durationOfCourse < 1 || quantityOfCreditsEcts < 1) {
+            throw new IllegalArgumentException("Semester, CurricularYear, DurationOfCourse or QuantityOfCreditsEcts must be greater than 0");
+        }
+
         this._semester = semester;
         this._curricularYear = curricularYear;
+        this._durationOfCourse = durationOfCourse;
+        this._quantityOfCreditsEcts = quantityOfCreditsEcts;
     }
 
     @Override
@@ -75,5 +94,13 @@ public class CourseInStudyPlanDataModel {
 
     public int getCurricularYear() {
         return _curricularYear;
+    }
+
+    public int getDurationOfCourse() {
+        return _durationOfCourse;
+    }
+
+    public double getQuantityOfCreditsEcts() {
+        return _quantityOfCreditsEcts;
     }
 }

@@ -13,7 +13,7 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
 
     public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
 
-    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid);
+    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
 
     Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id);
 

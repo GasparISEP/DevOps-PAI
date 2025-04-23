@@ -1,9 +1,6 @@
 package PAI.domain.courseInStudyPlan;
 
-import PAI.VOs.CourseID;
-import PAI.VOs.CurricularYear;
-import PAI.VOs.Semester;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -19,10 +16,12 @@ class CourseInStudyPlanFactoryImplTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyplanID = mock(StudyPlanID.class);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
 
         //act
         ICourseInStudyPlanFactory courseInStudyPlanFactory_2 = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan(semester, curricularYear, courseID, studyplanID);
+        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan(semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts);
 
         //assert
         assertNotNull(courseInStudyPlan_DDD);

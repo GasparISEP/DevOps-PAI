@@ -1,12 +1,14 @@
 package PAI.domain.courseInStudyPlan;
 
-import PAI.VOs.CourseID;
-import PAI.VOs.CurricularYear;
-import PAI.VOs.Semester;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 
 public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
-        public CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) {
-            return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID);
-        }
+
+    public CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
+                                                  DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+    }
 }
