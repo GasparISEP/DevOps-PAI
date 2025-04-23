@@ -26,24 +26,6 @@ public class StudentGradeRepository implements IStudentGradeRepository {
         _StudentGradeList = studentGradeListFactory.newArrayList();
     }
 
-
-    public boolean addGradeToStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception{
-        if (!hasStudentAlreadyGradeAtThisCourseEdition(student,courseEditionID)){
-            StudentGrade studentGrade = _IStudentGradeFactory.newGradeStudent(grade,date,student,courseEditionID);
-            _StudentGradeList.add(studentGrade);
-            return true;
-        }
-        return false;
-    }
-
-
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID){
-        for ( StudentGrade existingGradeStudent : _StudentGradeList){
-            if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
-        }
-        return false;
-    }
-
     @Override
     public StudentGrade save(StudentGrade entity) {
         _StudentGradeList.add(entity);
