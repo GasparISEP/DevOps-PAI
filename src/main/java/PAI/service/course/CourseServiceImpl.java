@@ -36,4 +36,15 @@ public class CourseServiceImpl {
         return courseRepository.findAll();
     }
 
+    public Optional<Course> ofIdentity(CourseID courseID) {
+        if(courseID == null) {
+            return Optional.empty();
+        }
+        return courseRepository.ofIdentity(courseID);
+    }
+
+    public boolean containsOfIdentity(CourseID courseID) {
+       return ofIdentity(courseID).isPresent();
+   }
+
 }
