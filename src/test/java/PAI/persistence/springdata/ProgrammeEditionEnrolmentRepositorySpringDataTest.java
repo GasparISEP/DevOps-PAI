@@ -30,6 +30,16 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
     }
 
     @Test
+    void testConstructorThrowsIfAnyDependencyIsNull() {
+        // Arrange & Act
+        // Testing for constructor with null dependencies
+        // Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(null, mapper, idMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, null, idMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, null));
+    }
+
+    @Test
     void testSaveCoversSuccessAndFailure() {
         ProgrammeEditionEnrolment domain = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolmentDataModel model = mock(ProgrammeEditionEnrolmentDataModel.class);

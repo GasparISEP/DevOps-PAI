@@ -48,14 +48,6 @@ public class ProgrammeEditionEnrolmentRepositorySpringData {
                 .orElseThrow(() -> new IllegalStateException("Failed to map saved entity back to domain"));
     }
 
-//    public Optional<ProgrammeEditionEnrolment> ofIdentity(ProgrammeEditionEnrolmentID peeID) {
-//        if (peeID == null) return Optional.empty();
-//
-//        return this._peeIDMapper.toDataModel(peeID)
-//                .flatMap(this._peeRepositorySpringData::findById) // it avoids Optional<Optional<T>>
-//                .flatMap(this._peeMapper::toDomain); // it avoids Optional<Optional<T>>
-//    }
-
     public Optional<ProgrammeEditionEnrolment> ofIdentity(ProgrammeEditionEnrolmentID peeID) {
         if (peeID == null) return Optional.empty();
 
