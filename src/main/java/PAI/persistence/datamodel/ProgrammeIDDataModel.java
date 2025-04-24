@@ -7,16 +7,16 @@ import java.io.Serializable;
 @Embeddable
 public class ProgrammeIDDataModel implements Serializable {
 
-    private String _name;
-    private String _acronym;
+    private String _programmeName;
+    private String _programmeAcronym;
 
 
     public ProgrammeIDDataModel() {
     }
 
     public ProgrammeIDDataModel(String name, String acronym) {
-        _name = name;
-        _acronym = acronym;
+        _programmeName = name;
+        _programmeAcronym = acronym;
     }
 
     @Override
@@ -24,21 +24,21 @@ public class ProgrammeIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof ProgrammeIDDataModel)) return false;
         ProgrammeIDDataModel programmeIDDataModel = (ProgrammeIDDataModel) objectToCompare;
-        return _acronym.equals(programmeIDDataModel._acronym) &&
-                _name.equals(programmeIDDataModel._name);
+        return _programmeAcronym.equals(programmeIDDataModel._programmeAcronym) &&
+                _programmeName.equals(programmeIDDataModel._programmeName);
     }
 
     @Override
     public int hashCode() {
-        return _acronym.hashCode() + _name.hashCode();
+        return _programmeAcronym.hashCode() + _programmeName.hashCode();
     }
 
     public String getName() {
-        return _name;
+        return _programmeName;
     }
 
     public String getAcronym() {
-        return _acronym;
+        return _programmeAcronym;
     }
 
 }
