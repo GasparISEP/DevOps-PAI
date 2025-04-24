@@ -63,5 +63,4 @@ public class CourseMapperImpl implements ICourseMapper {
         return listDomain;
     }
 
-
 }

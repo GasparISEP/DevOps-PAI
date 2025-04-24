@@ -26,6 +26,100 @@ public class CourseMapperImplTest {
     //SUT = ClassCourseMapper toDomain Method
 
     @Test
+    void should_convert_CourseDataModel_to_DomainCourse_with_MOCK() throws Exception {
+
+        // Arrange
+        ICourseFactory courseFactory = mock(ICourseFactory.class);
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+
+        String acronymS = "ALC";
+        String nameS = "Alchemy";
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+        when(courseDataModel.get_acronym()).thenReturn(acronymS);
+        when(courseDataModel.get_name()).thenReturn(nameS);
+
+        Acronym acronym = new Acronym(acronymS);
+        Name name = new Name(nameS);
+        Course courseS = mock(Course.class);
+
+        when(courseFactory.createCourse(name,acronym)).thenReturn(courseS);
+
+        //Act
+        Course course = courseMapperImpl.toDomain(courseDataModel);
+        // Assert
+        assertNotNull(course);
+    }
+
+    @Test
+    void should_convert_Course_to_CourseDataModel_with_MOCK() throws Exception {
+        // Arrange
+        ICourseFactory courseFactory = mock(ICourseFactory.class);
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+
+        String acronymS = "ALC";
+        String nameS = "Alchemy";
+        Acronym acronym = new Acronym(acronymS );
+        Name name = new Name(nameS);
+        CourseID courseID = new CourseID(acronym,name);
+
+        Course courseDouble = mock(Course.class);
+        when(courseDouble.identity()).thenReturn(courseID);
+
+        //Act
+        CourseDataModel courseDataModel = courseMapperImpl.toDataModel(courseDouble);
+
+        //Assert
+        assertNotNull(courseDataModel);
+        assertEquals(nameS, courseDataModel.get_name());
+        assertEquals(acronymS, courseDataModel.get_acronym());
+
+    }
+    @Test
+    void should_convert_list_of_CourseDataModel_to_list_of_Course_with_mocks() {
+        // Arrange
+        ICourseFactory courseFactory = mock(ICourseFactory.class);
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+
+        String acronymS = "ALC";
+        String nameS = "Alchemy";
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+        when(courseDataModel.get_acronym()).thenReturn(acronymS);
+        when(courseDataModel.get_name()).thenReturn(nameS);
+
+        Course course = mock(Course.class);
+        when(courseFactory.createCourse(any(Name.class),any(Acronym.class))).thenReturn(course);
+
+        List<CourseDataModel> courselist = List.of(courseDataModel);
+
+        //Act
+        Iterable<Course> result = courseMapperImpl.toDomain(courselist);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+
+    }
+
+    @Test
+    void should_return_null_if_any_courseDataModel_is_invalid() throws Exception {
+        // Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(factory);
+
+        CourseDataModel courseDataModel = mock(CourseDataModel.class);
+        when(courseDataModel.get_name()).thenReturn(null);
+
+        List<CourseDataModel> courselist = List.of(courseDataModel);
+
+        // Act
+        Iterable<Course> result = courseMapperImpl.toDomain(courselist);
+
+        // Assert
+        assertNull(result);
+    }
+
+
+    @Test
     void should_convert_CourseDataModel_to_Course() throws Exception {
         // Arrange
         ICourseFactory courseFactory = new CourseFactoryImpl();
