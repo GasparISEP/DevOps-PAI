@@ -13,6 +13,8 @@
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
+    <class>PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel</class>
+    <class>PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel</class>t
     <class>PAI.persistence.datamodel.department.DepartmentIDDataModel</class>
     <class>PAI.persistence.datamodel.department.DepartmentDataModel</class>
     <class>PAI.persistence.datamodel.ProgrammeEnrolmentDataModel</class>
