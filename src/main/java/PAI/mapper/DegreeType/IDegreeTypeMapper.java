@@ -1,9 +1,9 @@
 package PAI.mapper.DegreeType;
 
 import PAI.domain.degreeType.DegreeType;
-import PAI.persistence.datamodel.DegreeTypeDM;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
 
 public interface IDegreeTypeMapper {
-    DegreeTypeDM toDataModel(DegreeType degreeType);
-    DegreeType toDomainModel(DegreeTypeDM degreeTypeDM);
+    DegreeTypeDataModel toDataModel(DegreeType degreeType);
+    DegreeType toDomainModel(DegreeTypeDataModel degreeTypeDataModel);
 }

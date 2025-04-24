@@ -5,7 +5,10 @@ import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
 import PAI.mapper.DegreeType.DegreeTypeMapper;
-import PAI.persistence.datamodel.DegreeTypeDM;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
+import PAI.persistence.springdata.DegreeType.DegreeTypeRepoSpringData;
+import PAI.persistence.springdata.DegreeType.IDegreeTypeRepoSpringData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +26,11 @@ class DegreeTypeRepoSpringDataTest {
     private DegreeTypeRepoSpringData repo;
 
     private final DegreeTypeID id = new DegreeTypeID(UUID.randomUUID().toString());
+    private final DegreeTypeIDDataModel idDataModel = new DegreeTypeIDDataModel(id.getDTID());
     private final Name name = new Name("Licenciatura");
     private final MaxEcts maxEcts = new MaxEcts(180);
     private final DegreeType domain = new DegreeType(id, name, maxEcts);
-    private final DegreeTypeDM dm = new DegreeTypeDM(id.getDTID(), name.getName(), maxEcts.getMaxEcts());
+    private final DegreeTypeDataModel dm = new DegreeTypeDataModel(idDataModel, name.getName(), maxEcts.getMaxEcts());
 
     @BeforeEach
     void setUp() {
@@ -37,7 +41,7 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testOfIdentity_WhenExists() {
-        when(repoJPA.findById(id.getDTID())).thenReturn(Optional.of(dm));
+        when(repoJPA.findById(idDataModel)).thenReturn(Optional.of(dm));
         when(mapper.toDomainModel(dm)).thenReturn(domain);
 
         Optional<DegreeType> result = repo.ofIdentity(id);
@@ -48,7 +52,7 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testOfIdentity_WhenNotExists() {
-        when(repoJPA.findById(id.getDTID())).thenReturn(Optional.empty());
+        when(repoJPA.findById(idDataModel)).thenReturn(Optional.empty());
 
         Optional<DegreeType> result = repo.ofIdentity(id);
 
@@ -57,14 +61,14 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testContainsOfIdentity_WhenExists() {
-        when(repoJPA.existsById(id.getDTID())).thenReturn(true);
+        when(repoJPA.existsById(idDataModel)).thenReturn(true);
 
         assertTrue(repo.containsOfIdentity(id));
     }
 
     @Test
     void testContainsOfIdentity_WhenNotExists() {
-        when(repoJPA.existsById(id.getDTID())).thenReturn(false);
+        when(repoJPA.existsById(idDataModel)).thenReturn(false);
 
         assertFalse(repo.containsOfIdentity(id));
     }
@@ -82,7 +86,7 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testFindAll() {
-        List<DegreeTypeDM> dms = List.of(dm);
+        List<DegreeTypeDataModel> dms = List.of(dm);
         when(repoJPA.findAll()).thenReturn(dms);
         when(mapper.toDomainModel(dm)).thenReturn(domain);
 
@@ -94,17 +98,17 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testRegisterDegreeType_WhenNotExists() throws Exception {
-        when(repoJPA.existsById(id.getDTID())).thenReturn(false);
+        when(repoJPA.existsById(idDataModel)).thenReturn(false);
 
         boolean result = repo.registerDegreeType(id, name, maxEcts);
 
         assertTrue(result);
-        verify(repoJPA).save(any(DegreeTypeDM.class));
+        verify(repoJPA).save(any(DegreeTypeDataModel.class));
     }
 
     @Test
     void testRegisterDegreeType_WhenExists() throws Exception {
-        when(repoJPA.existsById(id.getDTID())).thenReturn(true);
+        when(repoJPA.existsById(idDataModel)).thenReturn(true);
 
         boolean result = repo.registerDegreeType(id, name, maxEcts);
 
@@ -114,7 +118,7 @@ class DegreeTypeRepoSpringDataTest {
 
     @Test
     void testGetAllDegreeTypes() {
-        List<DegreeTypeDM> dms = List.of(dm);
+        List<DegreeTypeDataModel> dms = List.of(dm);
         when(repoJPA.findAll()).thenReturn(dms);
         when(mapper.toDomainModel(dm)).thenReturn(domain);
 

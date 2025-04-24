@@ -1,8 +1,11 @@
 package PAI.mapper.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 
 public interface IDegreeTypeIDMapper {
-    String toString(DegreeTypeID id);
-    DegreeTypeID toDomain(String idString);
+
+    DegreeTypeIDDataModel toDataModel(DegreeTypeID id);
+
+    DegreeTypeID toDomain(DegreeTypeIDDataModel dataModel);
 }

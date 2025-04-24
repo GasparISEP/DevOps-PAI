@@ -1,11 +1,12 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
 import PAI.mapper.DegreeType.DegreeTypeMapper;
-import PAI.persistence.datamodel.DegreeTypeDM;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,19 +26,19 @@ public class DegreeTypeRepoSpringData implements IDegreeTypeRepository {
 
     @Override
     public Optional<DegreeType> ofIdentity(DegreeTypeID id) {
-        return dtRepoJPA.findById(id.getDTID())
+        return dtRepoJPA.findById(new DegreeTypeIDDataModel(id.getDTID()))
                 .map(mapper::toDomainModel);
     }
 
     @Override
     public boolean containsOfIdentity(DegreeTypeID id) {
-        return dtRepoJPA.existsById(id.getDTID());
+        return dtRepoJPA.existsById(new DegreeTypeIDDataModel(id.getDTID()));
     }
 
     @Override
     public DegreeType save(DegreeType degreeType) {
-        DegreeTypeDM dm = mapper.toDataModel(degreeType);
-        DegreeTypeDM saved = dtRepoJPA.save(dm);
+        DegreeTypeDataModel dm = mapper.toDataModel(degreeType);
+        DegreeTypeDataModel saved = dtRepoJPA.save(dm);
         return mapper.toDomainModel(saved);
     }
 
@@ -50,10 +51,12 @@ public class DegreeTypeRepoSpringData implements IDegreeTypeRepository {
 
     @Override
     public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
-        if (dtRepoJPA.existsById(degreeTypeID.getDTID()))
+        DegreeTypeIDDataModel idDataModel = new DegreeTypeIDDataModel(degreeTypeID.getDTID());
+
+        if (dtRepoJPA.existsById(idDataModel))
             return false;
 
-        DegreeTypeDM dm = new DegreeTypeDM(degreeTypeID.getDTID(), name.getName(), maxEcts.getMaxEcts());
+        DegreeTypeDataModel dm = new DegreeTypeDataModel(idDataModel, name.getName(), maxEcts.getMaxEcts());
         dtRepoJPA.save(dm);
         return true;
     }
