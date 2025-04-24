@@ -3,7 +3,9 @@ package PAI.domain.programmeEdition;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeEditionFactoryImpl implements IProgrammeEditionFactory {
 
     @Override
