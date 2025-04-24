@@ -40,15 +40,6 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
     }
 
     @Override
-    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
-        for(ProgrammeEdition check : _programmeEditions) {
-            if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
-                return Optional.of(check.identity());
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public ProgrammeEdition save(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
@@ -79,6 +70,15 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
+        for(ProgrammeEdition check : _programmeEditions) {
+            if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
+                return Optional.of(check.identity());
+        }
+        return Optional.empty();
     }
 
     @Override

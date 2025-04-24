@@ -79,17 +79,21 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     }
 
     @Override
-    public ProgrammeEdition save(ProgrammeEdition entity) throws Exception {
+    public ProgrammeEdition save(ProgrammeEdition entity) {
         if (entity == null) {
             return null;
         }
-        Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(entity);
-        if (programmeEditionDataModel.isPresent()) {
-            _iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel.get());
-            Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
-            if(programmeEdition.isPresent()) {
-                return programmeEdition.get();
+        try {
+            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(entity);
+            if (programmeEditionDataModel.isPresent()) {
+                _iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel.get());
+                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
+                if(programmeEdition.isPresent()) {
+                    return programmeEdition.get();
+                }
             }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }

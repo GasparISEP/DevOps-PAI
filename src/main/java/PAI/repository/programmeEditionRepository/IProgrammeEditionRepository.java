@@ -13,9 +13,15 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
 
     public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
 
-    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
+    ProgrammeEdition save(ProgrammeEdition programmeEdition);
+
+    Iterable<ProgrammeEdition> findAll();
 
     Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id);
+
+    boolean containsOfIdentity(ProgrammeEditionID id);
+
+    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 
