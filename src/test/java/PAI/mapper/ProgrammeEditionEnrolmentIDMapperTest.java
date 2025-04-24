@@ -9,6 +9,8 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -55,11 +57,22 @@ class ProgrammeEditionEnrolmentIDMapperTest {
         when(programmeEditionIdMapper.toDomain(programmeEditionIdDataModel)).thenReturn(programmeEditionID);
         when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
-        ProgrammeEditionEnrolmentID result = mapper.toDomain(dataModel);
+        Optional<ProgrammeEditionEnrolmentID> result = mapper.toDomain(dataModel);
 
-        assertNotNull(result);
-        assertEquals(programmeEditionID, result.getProgrammeEditionId());
-        assertEquals(studentID, result.getStudentiD());
+        assertTrue(result.isPresent());
+        assertEquals(programmeEditionID, result.get().getProgrammeEditionId());
+        assertEquals(studentID, result.get().getStudentiD());
+    }
+
+    @Test
+    void shouldMapToDomainWhenDataModelIsNull() {
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+
+        Optional<ProgrammeEditionEnrolmentID> result = mapper.toDomain(null);
+
+        assertFalse(result.isPresent());
     }
 
     @Test
@@ -80,11 +93,22 @@ class ProgrammeEditionEnrolmentIDMapperTest {
         when(programmeEditionIdMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
 
-        ProgrammeEditionEnrolmentIDDataModel result = mapper.toDataModel(domain);
+        Optional<ProgrammeEditionEnrolmentIDDataModel> result = mapper.toDataModel(domain);
 
-        assertNotNull(result);
-        assertEquals(programmeEditionIdDataModel, result.getProgrammeEditionIdDataModel());
-        assertEquals(studentIDDataModel, result.getStudentIdDataModel());
+        assertTrue(result.isPresent());
+        assertEquals(programmeEditionIdDataModel, result.get().getProgrammeEditionIdDataModel());
+        assertEquals(studentIDDataModel, result.get().getStudentIdDataModel());
+    }
+
+    @Test
+    void shouldMapToDataModelWhenDomainIsNull() {
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+
+        Optional<ProgrammeEditionEnrolmentIDDataModel> result = mapper.toDataModel(null);
+
+        assertFalse(result.isPresent());
     }
 }
 

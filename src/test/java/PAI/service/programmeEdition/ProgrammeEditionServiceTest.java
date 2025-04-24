@@ -124,4 +124,56 @@ class ProgrammeEditionServiceTest {
         assertFalse(programmeEditionSaved.isPresent());
         assertEquals(Optional.empty(), programmeEditionSaved);
     }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenProgrammeEditionIsAlreadyRegistered() throws Exception {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        when(programmeEditionRepository.containsOfIdentity(programmeEdition.identity())).thenReturn(true);
+
+        //act
+        Optional<ProgrammeEdition> programmeEditionSaved = programmeEditionService.saveProgrammeEdition(programmeEdition);
+        //assert
+        assertFalse(programmeEditionSaved.isPresent());
+        assertEquals(Optional.empty(), programmeEditionSaved);
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenProgrammeEditionSavedIsNull() throws Exception {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(false);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        when(programmeEditionRepository.save(programmeEdition)).thenReturn(null);
+        //act
+        Optional<ProgrammeEdition> programmeEditionSaved = programmeEditionService.saveProgrammeEdition(programmeEdition);
+        //assert
+        assertFalse(programmeEditionSaved.isPresent());
+        assertEquals(Optional.empty(), programmeEditionSaved);
+    }
+
+//    @Test
+//    void shouldReturnOptionalEmptyWhenProgrammeEditionIsNotSaved() throws Exception {
+//        //arrange
+//        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+//        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+//
+//        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+//        when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(false);
+//
+//        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+//        when(programmeEditionRepository.save(programmeEdition)).thenReturn(Optional.empty());
+//        //act
+//        //assert
+//    }
 }
