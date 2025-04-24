@@ -1,0 +1,8 @@
+package PAI.persistence.springdata;
+
+import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IProgrammeEditionEnrolmentRepositorySpringData extends JpaRepository<ProgrammeEditionEnrolmentDataModel, ProgrammeEditionEnrolmentIDDataModel> {
+}
