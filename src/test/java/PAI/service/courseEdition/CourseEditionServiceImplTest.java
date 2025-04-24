@@ -9,10 +9,10 @@ import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CourseEditionServiceImplTest {
 
@@ -241,20 +241,67 @@ class CourseEditionServiceImplTest {
         assertNotNull(result);
         assertEquals(0, result.size());
     }
+    //add tests for inputnull and for exception
+
+    //------ofIdentity Tests-----
+    @Test
+    void shouldReturnEmptyOptionalIfTheGivenCourseEditionIDIsNull() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        CourseEditionID courseEditionID = null;
+
+        // Act
+        Optional<CourseEdition> result = courseEditionService.ofIdentity(courseEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(courseEditionRepository, times(0)).ofIdentity(courseEditionID);
+    }
 
     @Test
-    void shouldReturnNullWhenOfIdentityMethodIsCall() {
+    void shouldReturnEmptyOptionalIfThereIsNoCourseEditionInTheSystemThatHasTheGivenCourseEditionID() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.empty());
+
         // Act
-        CourseEdition result = courseEditionService.ofIdentity(courseEditionID);
+        Optional<CourseEdition> result = courseEditionService.ofIdentity(courseEditionID);
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(courseEditionRepository, times(1)).ofIdentity(courseEditionID);
+    }
+
+    @Test
+    void shouldReturnOptionalWithTheCourseEditionInTheSystemThatContainsTheGivenCourseEditionID() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        CourseEdition expectedCourseEdition = mock(CourseEdition.class);
+        Optional<CourseEdition> expectedOptional = Optional.of(expectedCourseEdition);
+
+
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(expectedOptional);
+
+        // Act
+        Optional<CourseEdition> result = courseEditionService.ofIdentity(courseEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isPresent());
+        assertEquals(expectedOptional, result);
+        verify(courseEditionRepository, times(1)).ofIdentity(courseEditionID);
     }
 
     @Test

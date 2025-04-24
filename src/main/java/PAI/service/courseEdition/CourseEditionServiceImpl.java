@@ -8,6 +8,7 @@ import PAI.factory.ICourseEditionFactory;
 import PAI.repository.ICourseEditionRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CourseEditionServiceImpl implements ICourseEditionService {
 
@@ -52,8 +53,11 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
         }
     }
 
-    public CourseEdition ofIdentity(CourseEditionID courseEditionID) {
-        return null;
+    public Optional<CourseEdition> ofIdentity(CourseEditionID courseEditionID) {
+        if (courseEditionID == null)
+            return Optional.empty();
+
+        return courseEditionRepository.ofIdentity(courseEditionID);
     }
 
     public boolean containsOfIdentity(CourseEditionID courseEditionID) {

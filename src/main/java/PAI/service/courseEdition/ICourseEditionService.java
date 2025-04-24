@@ -6,6 +6,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICourseEditionService {
 
@@ -15,7 +16,7 @@ public interface ICourseEditionService {
 
     public List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId);
 
-    public CourseEdition ofIdentity(CourseEditionID courseEditionID);
+    public Optional<CourseEdition> ofIdentity(CourseEditionID courseEditionID);
 
     public boolean containsOfIdentity(CourseEditionID courseEditionID);
 }
