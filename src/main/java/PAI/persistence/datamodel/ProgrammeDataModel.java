@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import jakarta.persistence.*;
 
@@ -23,7 +24,7 @@ public class ProgrammeDataModel {
     private int _quantEcts;
 
     @Column(name = "DegreeTypeID")
-    private String _degreeTypeID;
+    private DegreeTypeIDDataModel _degreeTypeID;
 
     @Embedded
     @Column(name = "DepartmentID")
@@ -35,7 +36,7 @@ public class ProgrammeDataModel {
 
     public ProgrammeDataModel() {}
 
-    public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, String degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
+    public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
         _programmeID = progID;
         _name = name;
@@ -63,7 +64,7 @@ public class ProgrammeDataModel {
         return _quantEcts;
     }
 
-    public String getDegreeTypeID(){
+    public DegreeTypeIDDataModel getDegreeTypeID(){
         return _degreeTypeID;
     }
 

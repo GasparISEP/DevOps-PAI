@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +15,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id",departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         //assert
         assertNotNull(programmeDataModel);
@@ -41,9 +43,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals("name", programmeDataModel.getName());
@@ -55,9 +58,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals("ACR", programmeDataModel.getAcronym());
@@ -69,9 +73,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals(6, programmeDataModel.getQuantSemesters());
@@ -83,9 +88,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals(30, programmeDataModel.getQuantEcts());
@@ -97,12 +103,13 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals("id", programmeDataModel.getDegreeTypeID());
+        assertEquals(degreeTypeIDDataModel, programmeDataModel.getDegreeTypeID());
     }
 
     @Test
@@ -111,9 +118,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals(departmentIDDataModel, programmeDataModel.getDepartmentID());
@@ -125,9 +133,10 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
 
         //act
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
         assertEquals(teacherIDDataModel, programmeDataModel.getProgrammeDirectorID());
@@ -139,7 +148,8 @@ public class ProgrammeDataModelTest {
         ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, "id", departmentIDDataModel, teacherIDDataModel);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         //act
         ProgrammeIDDataModel res = programmeDataModel.getProgID();
