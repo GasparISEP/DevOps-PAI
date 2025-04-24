@@ -1,8 +1,6 @@
-package PAI.mapper;
+package PAI.mapper.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
-import PAI.VOs.MaxEcts;
-import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
 import PAI.persistence.datamodel.DegreeTypeDM;
 import org.junit.jupiter.api.Test;

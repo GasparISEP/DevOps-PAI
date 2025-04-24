@@ -4,13 +4,10 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.mapper.DegreeTypeMapper;
+import PAI.mapper.DegreeType.DegreeTypeMapper;
 import PAI.persistence.datamodel.DegreeTypeDM;
-import PAI.persistence.springdata.DegreeTypeRepoSpringData;
-import PAI.persistence.springdata.IDegreeTypeRepoSpringData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import java.util.List;
 import java.util.Optional;

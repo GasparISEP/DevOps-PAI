@@ -1,20 +1,24 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "degree_types")
-
 public class DegreeTypeDM {
 
-        @Id
-        private String id;
+    @Id
+    @Column(name = "DegreeTypeID", nullable = false, length = 36)
+    private String id;
 
-        private String name;
+    @Column(name = "DegreeTypeName", nullable = false, length = 100)
+    private String name;
 
-        private int maxEcts;
+    @Column(name = "MaxECTS", nullable = false)
+    private int maxEcts;
+
 
         protected DegreeTypeDM() {
 
