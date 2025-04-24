@@ -1,15 +1,21 @@
 package PAI.factory;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
+
+import java.util.UUID;
 
 public class TeacherCareerProgressionFactoryImpl implements ITeacherCareerProgressionFactory {
 
-    public TeacherCareerProgression createTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) throws IllegalArgumentException {
+    public TeacherCareerProgression createTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) {
 
-        return new TeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+        TeacherCareerProgressionID teacherCareerProgressionId = new TeacherCareerProgressionID();
+
+        return new TeacherCareerProgression(teacherCareerProgressionId, date, teacherCategoryID, workingPercentage, teacherID);
+    }
+
+    public TeacherCareerProgression createTeacherCareerProgressionFromDataModel(TeacherCareerProgressionID teacherCareerProgressionId, Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) {
+
+        return new TeacherCareerProgression(teacherCareerProgressionId, date, teacherCategoryID, workingPercentage, teacherID);
     }
 }

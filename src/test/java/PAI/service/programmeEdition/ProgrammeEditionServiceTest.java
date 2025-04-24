@@ -1,5 +1,6 @@
 package PAI.service.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
@@ -8,6 +9,8 @@ import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -87,5 +90,38 @@ class ProgrammeEditionServiceTest {
 
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> programmeEditionService.createProgrammeEdition(programmeID, schoolYearID));
+    }
+
+    @Test
+    void shouldSaveProgrammeEdition() throws Exception {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(false);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        when(programmeEditionRepository.save(programmeEdition)).thenReturn(programmeEdition);
+        //act
+        Optional<ProgrammeEdition> programmeEditionSaved = programmeEditionService.saveProgrammeEdition(programmeEdition);
+        //assert
+        assertTrue(programmeEditionSaved.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenProgrammeEditionIsNull() throws Exception {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeEdition programmeEdition = null;
+        //act
+        Optional<ProgrammeEdition> programmeEditionSaved = programmeEditionService.saveProgrammeEdition(programmeEdition);
+        //assert
+        assertFalse(programmeEditionSaved.isPresent());
+        assertEquals(Optional.empty(), programmeEditionSaved);
     }
 }

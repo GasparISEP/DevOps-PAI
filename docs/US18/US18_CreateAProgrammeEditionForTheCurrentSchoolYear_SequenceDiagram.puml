@@ -72,7 +72,7 @@ end ref
 'PER -> PER : isProgrammeEditionAlreadyRegistered (programmeEdition)
 'PER -> PER : add (programmeEdition)
 PER --> PES -- : programmeEditionSaved
-PES --> CPEC -- : programmeEditionSaved
+PES --> CPEC -- : Optional.of(programmeEditionSaved)
 CPEC --> UI : programmeEditionSaved
 UI --> ASC -- : Programme Edition created for the current school year!
 participant "programmeIDMapper:IProgrammeIDMapper"

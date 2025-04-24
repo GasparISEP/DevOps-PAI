@@ -244,9 +244,9 @@ package "ProgrammeEnrolment Aggregate" #Lightblue{
 
 class ProgrammeEditionEnrolmentIDDataModel {
       - _studentId: String
-      - _programmeEditionId: String
+      - _programmeEditionId: ProgrammeEditionID
       + ProgrammeEditionEnrolmentIDDataModel()
-      + ProgrammeEditionEnrolmentIDDataModel(studentId: String, programmeEditionId: String)
+      + ProgrammeEditionEnrolmentIDDataModel(studentId: String, programmeEditionId: ProgrammeEditionID)
       + equals(obj: Object): boolean
       + hashCode(): int
 }
@@ -256,11 +256,11 @@ class ProgrammeEditionEnrolmentDataModel{
       - enrolmentDate: LocalDate
       - version: Long
       + ProgrammeEditionEnrolmentDataModel()
-      + ProgrammeEditionEnrolmentDataModel(studentId: String, programmeEditionId: String)
+      + ProgrammeEditionEnrolmentDataModel(programmeEditionId: ProgrammeEditionID, enrolmentDate: LocalDate)
       }
 
 'Mapper
-class ProgrammeEditionEnrolmentMapper{
+class ProgrammeEditionEnrolmentMapperImpl{
       - programmeEditionEnrolmentFactory IProgrammeEditionEnrolmentFactory
       + ProgrammeEditionEnrolmentMapper(programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory)
       + toDomain(peeDataModel: ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
@@ -611,8 +611,8 @@ SchoolYearRepositorySpringDataJPAImpl ..|> ISchoolYearRepository
 SchoolYearRepositorySpringDataJPAImpl ..> ISchoolYearRepositorySpringDataJPA
 SchoolYearRepositorySpringDataJPAImpl ..> SchoolYear
 
-ProgrammeEditionEnrolmentMapper ..> IProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrolmentMapper ..|> IProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentMapperImpl ..> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentMapperImpl ..|> IProgrammeEditionEnrolmentMapper
 IProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolment
 IProgrammeEditionEnrolmentMapper ..> ProgrammeEditionEnrolmentDataModel
 ProgrammeEditionEnrolmentRepositorySpringDataJPAImpl ..> ProgrammeEditionEnrolmentDataModel

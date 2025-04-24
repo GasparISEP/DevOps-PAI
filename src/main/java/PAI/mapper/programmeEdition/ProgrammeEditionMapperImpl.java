@@ -11,9 +11,11 @@ import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
     private IProgrammeEditionFactory _programmeEditionFactory;

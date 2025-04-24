@@ -15,16 +15,33 @@ import static org.mockito.Mockito.when;
 
 class TeacherCareerProgressionTest {
 
+    private TeacherCareerProgressionID _idDouble;
+    private Date _dateDouble;
+    private WorkingPercentage _wpDouble;
+    private TeacherCategoryID _tcIDDouble;
+    private TeacherID _tIDDouble;
+
+    private void createDoublesForTeacherCareerProgression(){
+        _idDouble = mock(TeacherCareerProgressionID.class);
+        _dateDouble = mock(Date.class);
+        _wpDouble = mock(WorkingPercentage.class);
+        _tcIDDouble = mock(TeacherCategoryID.class);
+        _tIDDouble = mock(TeacherID.class);
+    }
+
+    private TeacherCareerProgression createTeacherCareerProgression(){
+        createDoublesForTeacherCareerProgression();
+
+        return new TeacherCareerProgression(_idDouble, _dateDouble, _tcIDDouble, _wpDouble, _tIDDouble);
+    }
+
     @Test
     void shouldCreateObjectWithValidAttributes() {
         //arrange
-        Date date = mock(Date.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
+        createDoublesForTeacherCareerProgression();
 
         //act
-        TeacherCareerProgression tcp = new TeacherCareerProgression(date, tcDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression tcp = new TeacherCareerProgression(_idDouble, _dateDouble, _tcIDDouble, _wpDouble, _tIDDouble);
 
         //assert
         assertNotNull(tcp);
@@ -32,106 +49,93 @@ class TeacherCareerProgressionTest {
 
     public static Stream<Arguments> provideNullAttributes() {
         return Stream.of(
-                arguments(null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Date cannot be null!"),
-                arguments(mock(Date.class), null, mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Category cannot be null!"),
-                arguments(mock(Date.class), mock(TeacherCategoryID.class), null, mock(TeacherID.class), "Working Percentage cannot be null!"),
-                arguments(mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), null, "Teacher ID cannot be null!")
+                arguments(null, mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Career Progression Id cannot be null!"),
+                arguments(mock(TeacherCareerProgressionID.class), null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Date cannot be null!"),
+                arguments(mock(TeacherCareerProgressionID.class), mock(Date.class), null, mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Category cannot be null!"),
+                arguments(mock(TeacherCareerProgressionID.class), mock(Date.class), mock(TeacherCategoryID.class), null, mock(TeacherID.class), "Working Percentage cannot be null!"),
+                arguments(mock(TeacherCareerProgressionID.class), mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), null, "Teacher ID cannot be null!")
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideNullAttributes")
-    void shouldThrowExceptionIfAttributesAreNull(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID, String expectedMessage) {
+    void shouldThrowExceptionIfAttributesAreNull(TeacherCareerProgressionID id, Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID, String expectedMessage) {
         //arrange
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new TeacherCareerProgression(id, date, teacherCategoryID, workingPercentage, teacherID));
 
         //assert
         assertEquals(exception.getMessage(), expectedMessage);
     }
 
+    @Test
+    void getIDReturnsCorrectTeacherCareerProgressionID() {
+        //arrange
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
+
+        //act
+        TeacherCareerProgressionID result = TCP.getID();
+
+        //assert
+        assertEquals(_idDouble, result);
+    }
 
     @Test
     void getCategoryReturnsCorrectCategory() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
         TeacherCategoryID result = TCP.getTeacherCategoryID();
 
         //assert
-        assertEquals(tcIDDouble, result);
+        assertEquals(_tcIDDouble, result);
     }
 
     @Test
     void getWorkingPercentageReturnsWorkingPercentage() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
         WorkingPercentage result = TCP.getWorkingPercentage();
 
         //assert
-        assertEquals(wpDouble, result);
+        assertEquals(_wpDouble, result);
     }
 
     @Test
     void getDateReturnsDate() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
         Date result = TCP.getDate();
 
         //assert
-        assertEquals(result, dateDouble);
+        assertEquals(result, _dateDouble);
     }
 
     @Test
     void getTeacherIDReturnsTeacherID() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
         TeacherID result = TCP.getTeacherID();
 
         //assert
-        assertEquals(result, tIDDouble);
+        assertEquals(result, _tIDDouble);
     }
 
     @Test
     void shouldReturnTeacherCareerProgressionID() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression tcp = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
-        TeacherCareerProgressionID result = tcp.identity();
+        TeacherCareerProgressionID result = TCP.identity();
 
         //assert
         assertNotNull(result);
@@ -141,17 +145,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnTrueIfGivenDateIsEqualOrAfterLastDate() {
         //arrange
-        Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
         LocalDate localDateDouble1 = mock(LocalDate.class);
         LocalDate localDateDouble2 = mock(LocalDate.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
 
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
-        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
+        when(_dateDouble.getLocalDate()).thenReturn(localDateDouble1);
         when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
         when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(false);
 
@@ -165,17 +165,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfGivenDateIsBeforeLastDate() {
         //arrange
-        Date dateDouble1 = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
         LocalDate localDateDouble1 = mock(LocalDate.class);
         LocalDate localDateDouble2 = mock(LocalDate.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
 
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble1, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
-        when(dateDouble1.getLocalDate()).thenReturn(localDateDouble1);
+        when(_dateDouble.getLocalDate()).thenReturn(localDateDouble1);
         when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
         when(localDateDouble1.isAfter(localDateDouble2)).thenReturn(true);
 
@@ -190,18 +186,14 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnTrueIfNewTCPDateIsAfterLastTCPDate() {
         //arrange
-        Date dateDouble = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
         LocalDate localDateDouble1 = mock(LocalDate.class);
         LocalDate localDateDouble2 = mock(LocalDate.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
 
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
-        when(dateDouble.getLocalDate()).thenReturn(localDateDouble1);
+        when(_dateDouble.getLocalDate()).thenReturn(localDateDouble1);
         when(tcpDouble.getDate()).thenReturn(dateDouble2);
         when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
 
@@ -217,18 +209,14 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfNewTCPDateIsBeforeLastTCPDate() {
         //arrange
-        Date dateDouble = mock(Date.class);
         Date dateDouble2 = mock(Date.class);
         LocalDate localDateDouble1 = mock(LocalDate.class);
         LocalDate localDateDouble2 = mock(LocalDate.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
         TeacherCareerProgression tcpDouble = mock(TeacherCareerProgression.class);
 
-        TeacherCareerProgression TCP = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
-        when(dateDouble.getLocalDate()).thenReturn(localDateDouble1);
+        when(_dateDouble.getLocalDate()).thenReturn(localDateDouble1);
         when(tcpDouble.getDate()).thenReturn(dateDouble2);
         when(dateDouble2.getLocalDate()).thenReturn(localDateDouble2);
 
@@ -245,16 +233,12 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfObjectsAreNotOfTheSameInstance() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
         Object object = mock(Object.class);
 
-        TeacherCareerProgression tcp = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
-        boolean result = tcp.sameAs(object);
+        boolean result = TCP.sameAs(object);
 
         //assert
         assertFalse(result);
@@ -263,16 +247,10 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnTrueIfTeacherCareerProgressionObjectsAreTheSame() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
-
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
-        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
 
         //act
-        boolean result = tcp1.sameAs(tcp2);
+        boolean result = TCP.sameAs(TCP);
 
         //assert
         assertTrue(result);
@@ -282,17 +260,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentDate() {
         //arrange
-        Date date1Double = mock(Date.class);
         Date date2Double = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
 
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(date1Double, tcIDDouble, wpDouble, tIDDouble);
-        TeacherCareerProgression tcp2 = new TeacherCareerProgression(date2Double, tcIDDouble, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(_idDouble, date2Double, _tcIDDouble, _wpDouble, _tIDDouble);
 
         //act
-        boolean result = tcp1.sameAs(tcp2);
+        boolean result = TCP.sameAs(tcp2);
 
         //arrange
         assertFalse(result);
@@ -301,19 +275,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentTeacherID() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tID1Double = mock(TeacherID.class);
         TeacherID tID2Double = mock(TeacherID.class);
 
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID1Double);
-        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tID2Double);
-
-
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(_idDouble, _dateDouble, _tcIDDouble, _wpDouble, tID2Double);
 
         //act
-        boolean result = tcp1.sameAs(tcp2);
+        boolean result = TCP.sameAs(tcp2);
 
         //arrange
         assertFalse(result);
@@ -322,19 +290,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentWorkingPercentage() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
-        WorkingPercentage wp1Double = mock(WorkingPercentage.class);
         WorkingPercentage wp2Double = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
 
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcIDDouble, wp1Double, tIDDouble);
-        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcIDDouble, wp2Double, tIDDouble);
-
-
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(_idDouble, _dateDouble, _tcIDDouble, wp2Double, _tIDDouble);
 
         //act
-        boolean result = tcp1.sameAs(tcp2);
+        boolean result = TCP.sameAs(tcp2);
 
         //arrange
         assertFalse(result);
@@ -343,17 +305,13 @@ class TeacherCareerProgressionTest {
     @Test
     void shouldReturnFalseIfTeacherCareerProgressionObjectsHaveDifferentTeacherCategory() {
         //arrange
-        Date dateDouble = mock(Date.class);
-        TeacherCategoryID tcID1Double = mock(TeacherCategoryID.class);
         TeacherCategoryID tcID2Double = mock(TeacherCategoryID.class);
-        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
-        TeacherID tIDDouble = mock(TeacherID.class);
 
-        TeacherCareerProgression tcp1 = new TeacherCareerProgression(dateDouble, tcID1Double, wpDouble, tIDDouble);
-        TeacherCareerProgression tcp2 = new TeacherCareerProgression(dateDouble, tcID2Double, wpDouble, tIDDouble);
+        TeacherCareerProgression TCP = createTeacherCareerProgression();
+        TeacherCareerProgression tcp2 = new TeacherCareerProgression(_idDouble, _dateDouble, tcID2Double, _wpDouble, _tIDDouble);
 
         //act
-        boolean result = tcp1.sameAs(tcp2);
+        boolean result = TCP.sameAs(tcp2);
 
         //arrange
         assertFalse(result);

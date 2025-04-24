@@ -13,11 +13,13 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditionRepository {
 
     private final IProgrammeEditionRepositorySpringData _iProgrammeEditionRepositorySpringData;
@@ -138,11 +140,41 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
-        return List.of();
+        if (programmeid == null) {
+            return null;
+        }
+
+        try {
+            ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
+            List<ProgrammeEditionDataModel> programmeEditionDataModels =
+                    _iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel);
+
+            List<ProgrammeEdition> programmeEditions = new ArrayList<>();
+            for (ProgrammeEditionDataModel programmeEditionDataModel : programmeEditionDataModels) {
+                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
+                programmeEdition.ifPresent(programmeEditions::add);
+            }
+            return programmeEditions;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public SchoolYearID getSchoolYearIDByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        return null;
+        if (programmeEdition == null) {
+            return null;
+        }
+
+        try {
+            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(programmeEdition);
+            if (programmeEditionDataModel.isPresent()) {
+                SchoolYearIDDataModel schoolYearIDDataModel = programmeEditionDataModel.get().getSchoolYearIDDataModel();
+                return _iSchoolYearIDMapper.toDomain(schoolYearIDDataModel);
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
