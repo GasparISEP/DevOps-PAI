@@ -3,7 +3,9 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
+import PAI.mapper.DegreeType.DegreeTypeIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.ProgrammeDataModel;
 import PAI.persistence.datamodel.ProgrammeIDDataModel;
@@ -24,10 +26,11 @@ public class ProgrammeMapperTest {
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
+        DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
 
         //act
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,factory);
+        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         //assert
         assertNotNull(programmeMapper);
@@ -41,6 +44,7 @@ public class ProgrammeMapperTest {
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
+        DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
 
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -54,7 +58,7 @@ public class ProgrammeMapperTest {
         TeacherID progDirectorID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
 
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,factory);
+        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         when(programme.getProgrammeName()).thenReturn(name);
         when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
@@ -99,15 +103,19 @@ public class ProgrammeMapperTest {
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
+        DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
 
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,factory);
+        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
 
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
 
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID progDirectorID = mock(TeacherID.class);
         Programme programme = mock(Programme.class);
@@ -117,13 +125,14 @@ public class ProgrammeMapperTest {
                 any(Acronym.class),
                 any(QuantEcts.class),
                 any(QuantSemesters.class),
-                any(DegreeTypeID.class),
+                eq(degreeTypeID),
                 eq(departmentID),
                 eq(progDirectorID)
         )).thenReturn(programme);
 
         when(teacherIDMapper.toDomain(teacherIDDataModel)).thenReturn(progDirectorID);
         when(departmentIDMapper.toDomainModel(departmentIDDataModel)).thenReturn(departmentID);
+        when(degreeTypeIDMapper.toDomain(degreeTypeIDDataModel)).thenReturn(degreeTypeID);
 
         when(dataModel.getName()).thenReturn("name");
 
@@ -137,7 +146,8 @@ public class ProgrammeMapperTest {
         when(programmeIDDataModel.getAcronym()).thenReturn("OLA");
         when(programmeIDDataModel.getName()).thenReturn("name");
 
-        when(dataModel.getDegreeTypeID()).thenReturn("id");
+        when(dataModel.getDegreeTypeID()).thenReturn(degreeTypeIDDataModel);
+        when(degreeTypeIDDataModel.getDegreeTypeID()).thenReturn("id");
 
         when(dataModel.getDepartmentID()).thenReturn(departmentIDDataModel);
         when(departmentIDDataModel.getDepartmentID()).thenReturn("LEI");
