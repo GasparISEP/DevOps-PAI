@@ -31,7 +31,7 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
     }
 
     @Override
-    public Optional<ProgrammeEditionEnrolment> toDomain(ProgrammeEditionEnrolmentDataModel dataModel) throws Exception {
+    public Optional<ProgrammeEditionEnrolment> toDomain(ProgrammeEditionEnrolmentDataModel dataModel) {
 
         if(dataModel == null) {
             return Optional.empty();
@@ -47,7 +47,7 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
     }
 
     @Override
-    public Optional<ProgrammeEditionEnrolmentDataModel> toDataModel(ProgrammeEditionEnrolment domain) throws Exception {
+    public Optional<ProgrammeEditionEnrolmentDataModel> toDataModel(ProgrammeEditionEnrolment domain) {
 
         if(domain == null) {
             return Optional.empty();
