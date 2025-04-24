@@ -241,7 +241,40 @@ class CourseEditionServiceImplTest {
         assertNotNull(result);
         assertEquals(0, result.size());
     }
-    //add tests for inputnull and for exception
+
+    @Test
+    void shouldReturnAnEmptyListOfCoursesEditionIDIfTheGivenProgrammeEditionIDIsNull() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfCoursesEditionIDIfCourseEditionRepositoryThrowsAnException() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenThrow(IllegalArgumentException.class);
+
+        // Act
+        List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
+    }
 
     //------ofIdentity Tests-----
     @Test
