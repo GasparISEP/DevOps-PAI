@@ -33,6 +33,24 @@ public class ProgrammeIDDataModelTest {
     }
 
     @Test
+    public void testConstructorIsNullWithNullName() {
+        //arrange
+        String acronym = "OLA";
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeIDDataModel(null,acronym));
+    }
+
+    @Test
+    public void testConstructorIsNullWithNullAcronym() {
+        //arrange
+        String name = "name";
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeIDDataModel(name, null));
+    }
+
+    @Test
     public void testGettersDefaultsNull() {
         //arrange
         ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();

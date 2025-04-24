@@ -15,6 +15,9 @@ public class ProgrammeIDDataModel implements Serializable {
     }
 
     public ProgrammeIDDataModel(String name, String acronym) {
+        if (name == null | acronym == null) {
+            throw new IllegalArgumentException("Attributes cannot be null");
+        }
         _programmeName = name;
         _programmeAcronym = acronym;
     }
