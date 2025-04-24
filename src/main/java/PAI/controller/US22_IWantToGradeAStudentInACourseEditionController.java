@@ -32,9 +32,9 @@ public class US22_IWantToGradeAStudentInACourseEditionController {
         _courseEditionRepository = courseEditionRepository;
     }
 
-    public Optional <StudentID> findStudentIdByStudent(Student student){
-        return  _studentRepository.findIdByStudent(student);
-    }
+    //public Optional <StudentID> findStudentIdByStudent(Student student){
+        //return  _studentRepository.findIdByStudent(student);
+   // }
 //    public Optional <CourseEditionID> findCourseEditionIDByCourse(CourseEdition courseEdition_DDD){
 //        return _courseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
 //    }
