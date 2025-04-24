@@ -3,10 +3,11 @@ package PAI.mapper;
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 
+import java.util.Optional;
+
 public interface IProgrammeEditionEnrolmentIDMapper {
 
-    ProgrammeEditionEnrolmentID toDomain(ProgrammeEditionEnrolmentIDDataModel programmeEditionEnrolmentIDDataModel) throws Exception;
+    Optional<ProgrammeEditionEnrolmentID> toDomain(ProgrammeEditionEnrolmentIDDataModel dataModel);
 
-    ProgrammeEditionEnrolmentIDDataModel toDataModel(ProgrammeEditionEnrolmentID programmeEditionEnrolmentId) throws Exception;
-
-    }
+    Optional<ProgrammeEditionEnrolmentIDDataModel> toDataModel(ProgrammeEditionEnrolmentID domainId);
+}
