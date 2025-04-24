@@ -5,6 +5,7 @@ import PAI.domain.Teacher;
 import PAI.mapper.*;
 import PAI.persistence.datamodel.TeacherDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TeacherRepositorySpringData {
+public class TeacherRepositorySpringData implements ITeacherRepository {
 
     private ITeacherRepositorySpringData iteacherRepositorySpringData;
     private ITeacherMapper iteacherMapper;
@@ -81,5 +82,15 @@ public class TeacherRepositorySpringData {
 
     public boolean containsOfIdentity(TeacherID teacherID) {
         return iteacherRepositorySpringData.existsById(teacherID.getTeacherAcronym().getAcronym());
+    }
+
+    @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
+    public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground, Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
+        return Optional.empty();
+    }
+
+    @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
+    public Optional<TeacherID> findTeacherIdByTeacher(Teacher teacher) {
+        return Optional.empty();
     }
 }
