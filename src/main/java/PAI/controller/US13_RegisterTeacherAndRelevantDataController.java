@@ -3,6 +3,7 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
+import PAI.service.ITeacherService;
 
 import java.util.Optional;
 import java.util.Set;
@@ -12,12 +13,12 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     private ITeacherCategoryRepository _teacherCategoryRepository;
     private IDepartmentRepository _departmentRepository;
-    private ITeacherRepository _teacherRepository;
+    private ITeacherService _teacherService;
     private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryRepository teacherCategoryRepository,
-                                                         IDepartmentRepository departmentRepository, ITeacherRepository teacherRepository, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
 
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
@@ -27,7 +28,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
             throw new IllegalArgumentException("Department Repository cannot be null");
         }
 
-        if (teacherRepository == null) {
+        if (teacherService == null) {
             throw new IllegalArgumentException("Teacher Repository cannot be null");
         }
 
@@ -37,7 +38,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
         this._teacherCategoryRepository = teacherCategoryRepository;
         this._departmentRepository = departmentRepository;
-        this._teacherRepository = teacherRepository;
+        this._teacherService = teacherService;
         this._teacherCareerProgressionRepository = teacherCareerProgressionRepository;
     }
 
@@ -63,7 +64,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
 
         // register Teacher
-        Optional<TeacherID> optionalTeacherID = _teacherRepository.registerTeacher(vo.teacherAcronym, vo.name, vo.email,
+        Optional<TeacherID> optionalTeacherID = _teacherService.registerTeacher(vo.teacherAcronym, vo.name, vo.email,
                 vo.nif, vo.phoneNumber, vo.academicBackground, vo.street, vo.postalCode, vo.location, vo.country, vo.departmentID);
 
         if (optionalTeacherID.isEmpty()) {
