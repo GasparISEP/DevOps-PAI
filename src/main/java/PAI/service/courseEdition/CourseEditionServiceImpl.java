@@ -16,6 +16,11 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
 
     public CourseEditionServiceImpl(ICourseEditionFactory courseEditionFactory, ICourseEditionRepository courseEditionRepository) {
 
+        if (courseEditionFactory == null)
+            throw new IllegalArgumentException("courseEditionFactory cannot be null");
+        if (courseEditionRepository == null)
+            throw new IllegalArgumentException("courseEditionRepository cannot be null");
+
         this.courseEditionFactory = courseEditionFactory;
         this.courseEditionRepository = courseEditionRepository;
     }

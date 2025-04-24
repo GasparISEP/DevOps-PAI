@@ -31,6 +31,32 @@ class CourseEditionServiceImplTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenCourseEditionServiceImplReceivesANullCourseEditionFactory () {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = null;
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);});
+
+        // Assert
+        assertEquals("courseEditionFactory cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCourseEditionServiceImplReceivesANullCourseEditionRepository () {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);});
+
+        // Assert
+        assertEquals("courseEditionRepository cannot be null", exception.getMessage());
+    }
+
+    @Test
     void shouldReturnNullWhenCreateCourseEditionMethodIsCall() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
