@@ -198,19 +198,48 @@ class CourseEditionServiceImplTest {
         assertTrue(verifyList.contains(courseEdition3));
     }
 
+    //-----findCourseEditionsByProgrammeEditionID Tests-----
     @Test
-    void shouldReturnNullWhenFindByIdMethodIsCall() {
+    void shouldReturnAListContainingAllTheCoursesEditionIDInTheSystemThatHaveTheGivenProgrammeEditionID() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID2 = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID3 = mock(CourseEditionID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of(courseEditionID1, courseEditionID2, courseEditionID3));
+
         // Act
         List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionID(programmeEditionID);
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertTrue(result.contains(courseEditionID1));
+        assertTrue(result.contains(courseEditionID2));
+        assertTrue(result.contains(courseEditionID3));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfCoursesEditionIDIfTheSystemDoesNotHaveAnyCourseEditionWithTheGivenProgrammeEditionID() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of());
+
+        // Act
+        List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
     }
 
     @Test

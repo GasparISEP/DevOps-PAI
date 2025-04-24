@@ -42,7 +42,14 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     public List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId) {
-        return null;
+        if (programmeEditionId == null)
+            return List.of();
+
+        try {
+            return courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionId);
+        } catch (Exception e) {
+            return List.of();
+        }
     }
 
     public CourseEdition ofIdentity(CourseEditionID courseEditionID) {
