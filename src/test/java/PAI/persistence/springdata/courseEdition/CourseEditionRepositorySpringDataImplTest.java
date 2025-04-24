@@ -12,10 +12,7 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -117,6 +114,10 @@ class CourseEditionRepositorySpringDataImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(0, result.size());
+        assertTrue(result instanceof ArrayList);
+        assertNotSame(Collections.emptyList(), result);
+        List anotherResult = courseEditionRepositorySpringData.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+        assertNotSame(result, anotherResult);
     }
 
     @Test
@@ -197,6 +198,10 @@ class CourseEditionRepositorySpringDataImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(0, result.size());
+        assertTrue(result instanceof ArrayList);
+        assertNotSame(Collections.emptyList(), result);
+        List anotherResult = courseEditionRepositorySpringData.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+        assertNotSame(result, anotherResult);
     }
 
     //-----save Tests-----
@@ -248,7 +253,7 @@ class CourseEditionRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenSaveMethodIsReceivesAnExistentCourseEditionInTheRepository() throws Exception {
+    void shouldReturnNullWhenSaveMethodReceivesAnExistentCourseEditionInTheRepository() throws Exception {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
@@ -274,6 +279,7 @@ class CourseEditionRepositorySpringDataImplTest {
 
         // Assert
         assertNull(result);
+        verify(courseEditionRepoSD).existsById(courseEditionIDDataModel);
     }
 
     @Test
@@ -354,6 +360,8 @@ class CourseEditionRepositorySpringDataImplTest {
         List<CourseEdition> courseEditionList = new ArrayList<>();
         allCourseEditions.forEach(courseEditionList::add);
         assertEquals(0, courseEditionList.size());
+        assertEquals(0, ((List<CourseEdition>) allCourseEditions).size());
+        assertNotSame(Collections.emptyList(), allCourseEditions);
     }
 
     @Test
@@ -367,7 +375,6 @@ class CourseEditionRepositorySpringDataImplTest {
 
         CourseEdition courseEdition1 = mock(CourseEdition.class);
         CourseEdition courseEdition2 = mock(CourseEdition.class);
-        CourseEdition courseEdition3 = mock(CourseEdition.class);
 
         CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
         CourseEditionDataModel dataModel2 = mock(CourseEditionDataModel.class);
@@ -387,10 +394,11 @@ class CourseEditionRepositorySpringDataImplTest {
         assertNotNull(allCourseEditions);
         List<CourseEdition> courseEditionList = new ArrayList<>();
         allCourseEditions.forEach(courseEditionList::add);
+        assertNotNull(courseEditionList);
         assertEquals(0, courseEditionList.size());
-        assertFalse(courseEditionList.contains(courseEdition1));
-        assertFalse(courseEditionList.contains(courseEdition2));
-        assertFalse(courseEditionList.contains(courseEdition3));
+        assertTrue(allCourseEditions instanceof Iterable);
+        assertNotSame(Collections.emptyList(), courseEditionList);
+        assertNotSame(Collections.emptyList(), allCourseEditions);
     }
 
     @Test
@@ -499,7 +507,7 @@ class CourseEditionRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnOptionalEmptyWhencourseEditionIDMapperThrowsException() throws Exception {
+    void shouldReturnOptionalEmptyWhenCourseEditionIDMapperThrowsException() throws Exception {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
@@ -508,8 +516,6 @@ class CourseEditionRepositorySpringDataImplTest {
         ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper, programmeEditionIdMapper);
 
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
-        Optional<CourseEditionDataModel> opt = mock(Optional.class);
 
         when(courseEditionIDMapper.toDataModel(courseEditionID)).thenThrow(IllegalArgumentException.class);
 
