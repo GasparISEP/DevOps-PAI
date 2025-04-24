@@ -600,8 +600,9 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         assertFalse(result);
     }
 
+    // getProgrammeEditionsByProgrammeID TESTS
     @Test
-    void getProgrammeEditionsByProgrammeID() {
+    void shouldReturnListWithAllProgrammeEditionThatExistsInTheRepository() throws Exception {
         //arrange
         IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
         IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
@@ -612,10 +613,138 @@ class ProgrammeEditionRepositorySpringDataImplTest {
                 iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        ProgrammeEditionDataModel programmeEditionDataModel1 = mock(ProgrammeEditionDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = mock(ProgrammeEditionDataModel.class);
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = List.of(programmeEditionDataModel1, programmeEditionDataModel2);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel)).thenReturn(programmeEditionDataModels);
+
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel1)).thenReturn(Optional.of(programmeEdition1));
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel2)).thenReturn(Optional.of(programmeEdition2));
+
         //act
         List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
         //assert
-        assertTrue(result.isEmpty());
+        assertNotNull(result);
+        List<ProgrammeEdition> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+        assertEquals(2, resultList.size());
+        assertTrue(resultList.contains(programmeEdition1));
+        assertTrue(resultList.contains(programmeEdition2));
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammeEditionExistsInTheRepository() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = List.of();
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel)).thenReturn(programmeEditionDataModels);
+        //act
+        List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
+        //assert
+        assertNotNull(result);
+        List<ProgrammeEdition> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+        assertEquals(0, resultList.size());
+    }
+
+    @Test
+    void shouldNotAddToListIfProgrammeEditionIsNull() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        ProgrammeEditionDataModel programmeEditionDataModel1 = mock(ProgrammeEditionDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = mock(ProgrammeEditionDataModel.class);
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = List.of(programmeEditionDataModel1, programmeEditionDataModel2);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel)).thenReturn(programmeEditionDataModels);
+
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel1)).thenReturn(Optional.of(programmeEdition1));
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel2)).thenReturn(Optional.empty());
+
+        //act
+        List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
+        //assert
+        assertNotNull(result);
+        List<ProgrammeEdition> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+        assertEquals(1, resultList.size());
+        assertTrue(resultList.contains(programmeEdition1));
+    }
+
+    @Test
+    void shouldReturnNullIfParameterProgrammeIDNull() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeID programmeID = null;
+        //act
+        List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
+        //assert
+        assertNull(result);
+    }
+//
+    @Test
+    void shouldReturnNullIfProgrammeEditionMapperThrowsException2() throws Exception {
+        //arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        ProgrammeEditionDataModel programmeEditionDataModel1 = mock(ProgrammeEditionDataModel.class);
+        ProgrammeEditionDataModel programmeEditionDataModel2 = mock(ProgrammeEditionDataModel.class);
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = List.of(programmeEditionDataModel1, programmeEditionDataModel2);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel)).thenReturn(programmeEditionDataModels);
+
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel1)).thenReturn(Optional.of(programmeEdition1));
+        when(iProgrammeEditionMapper.toDomain(programmeEditionDataModel2)).thenThrow(IllegalArgumentException.class);
+
+        //act
+        List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
+        //assert
+        assertNull(result);
     }
 
     @Test

@@ -138,7 +138,24 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
-        return List.of();
+        if (programmeid == null) {
+            return null;
+        }
+
+        try {
+            ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
+            List<ProgrammeEditionDataModel> programmeEditionDataModels =
+                    _iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel);
+
+            List<ProgrammeEdition> programmeEditions = new ArrayList<>();
+            for (ProgrammeEditionDataModel programmeEditionDataModel : programmeEditionDataModels) {
+                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
+                programmeEdition.ifPresent(programmeEditions::add);
+            }
+            return programmeEditions;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
