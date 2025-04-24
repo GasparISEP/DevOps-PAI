@@ -1,18 +1,57 @@
 package PAI.service;
 
 import PAI.VOs.*;
+import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
+import PAI.factory.TeacherFactoryImpl;
 import PAI.persistence.springdata.TeacherRepositorySpringData;
-import PAI.repository.ITeacherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class TeacherServiceTest {
+
+    private ITeacherFactory teacherFactoryDouble;
+    private TeacherRepositorySpringData teacherRepositoryDouble;
+    private ITeacherService teacherService;
+
+    private TeacherAcronym acronymDouble;
+    private Name nameDouble;
+    private Email emailDouble;
+    private NIF nifDouble;
+    private PhoneNumber phoneNumberDouble;
+    private AcademicBackground academicBackgroundDouble;
+    private Street streetDouble;
+    private PostalCode postalCodeDouble;
+    private Location locationDouble;
+    private Country countryDouble;
+    private DepartmentID departmentIDDouble;
+
+    @BeforeEach
+    void setUp() {
+        teacherFactoryDouble = mock(TeacherFactoryImpl.class);
+        teacherRepositoryDouble = mock(TeacherRepositorySpringData.class);
+        teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
+
+        acronymDouble = mock(TeacherAcronym.class);
+        nameDouble = mock(Name.class);
+        emailDouble = mock(Email.class);
+        nifDouble = mock(NIF.class);
+        phoneNumberDouble = mock(PhoneNumber.class);
+        academicBackgroundDouble = mock(AcademicBackground.class);
+        streetDouble = mock(Street.class);
+        postalCodeDouble = mock(PostalCode.class);
+        locationDouble = mock(Location.class);
+        countryDouble = mock(Country.class);
+        departmentIDDouble = mock(DepartmentID.class);
+    }
 
     @Test
     void testConstructor () {
@@ -34,7 +73,7 @@ class TeacherServiceTest {
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {
-            TeacherService teacherService = new TeacherService(null, teacherRepositoryDouble);
+            new TeacherService(null, teacherRepositoryDouble);
         });
 
         // Assert
@@ -48,7 +87,7 @@ class TeacherServiceTest {
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {
-            TeacherService teacherService = new TeacherService(teacherFactoryDouble, null);
+            new TeacherService(teacherFactoryDouble, null);
         });
 
         // Assert
@@ -57,23 +96,15 @@ class TeacherServiceTest {
 
     @Test
     void registerTeacherShouldRegisterTeacher() {
+
         // Arrange
-        TeacherRepositorySpringData teacherRepositoryDouble = mock(TeacherRepositorySpringData.class);
-        ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        TeacherService teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
+        when(teacherFactoryDouble.createTeacher(
+                acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble)).thenReturn(teacherDouble);
 
-        TeacherAcronym acronymDouble = mock(TeacherAcronym.class);
-        Name nameDouble = mock(Name.class);
-        Email emailDouble = mock(Email.class);
-        NIF nifDouble = mock(NIF.class);
-        PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
-        AcademicBackground academicBackgroundDouble = mock(AcademicBackground.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        when(teacherRepositoryDouble.save(teacherDouble)).thenReturn(teacherDouble);
 
         // Act
         boolean result = teacherService.registerTeacher(
@@ -82,5 +113,58 @@ class TeacherServiceTest {
 
         // Assert
         assertTrue(result);
+    }
+
+    public static Stream<Arguments> provideInvalidAttributes () {
+        return Stream.of(
+                // Arrange
+                arguments(null, mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), null, mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), null, mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), null, mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), null, mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), null, mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), null, mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), null, mock(Location.class), mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), null, mock(Country.class), mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), null, mock(DepartmentID.class), "Passing parameters should not be null."),
+                arguments(mock(TeacherAcronym.class), mock(Name.class), mock(Email.class), mock(NIF.class), mock(PhoneNumber.class), mock(AcademicBackground.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), null, "Passing parameters should not be null.")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidAttributes")
+    void shouldThrowExceptionIfFactoryInRegisterTeacherDidNotCreateTeacherDueToInvalidAttributes (TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+                                                                                                  Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID, String expectedMessage) {
+        // Arrange
+        when(teacherFactoryDouble.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
+                street, postalCode, location, country, departmentID)).thenThrow(new IllegalArgumentException("Passing parameters should not be null."));
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> teacherService.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
+                street, postalCode, location, country, departmentID));
+
+        // Assert
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldNotSaveTeacherInDatabase () {
+
+        // Arrange
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(teacherFactoryDouble.createTeacher(
+                acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble)).thenReturn(teacherDouble);
+
+        when(teacherRepositoryDouble.save(teacherDouble)).thenThrow(new RuntimeException("Database is currently down."));
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> teacherService.registerTeacher(acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble));
+
+        // Assert
+        assertEquals("Database is currently down.", exception.getMessage());
     }
 }

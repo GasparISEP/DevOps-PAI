@@ -7,7 +7,7 @@ import PAI.persistence.springdata.TeacherRepositorySpringData;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeacherService {
+public class TeacherService implements ITeacherService {
 
     private ITeacherFactory _teacherFactory;
     private TeacherRepositorySpringData _teacherRepository;
