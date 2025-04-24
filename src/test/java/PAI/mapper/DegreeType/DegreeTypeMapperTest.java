@@ -1,18 +1,25 @@
-package PAI.mapper;
+package PAI.mapper.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
-import PAI.VOs.MaxEcts;
-import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.persistence.datamodel.DegreeTypeDM;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DegreeTypeMapperTest {
+class DegreeTypeMapperTest {
 
-    private final DegreeTypeMapper mapper = new DegreeTypeMapper();
+    private DegreeTypeMapper mapper;
+    private IDegreeTypeIDMapper idMapper;
+
+    @BeforeEach
+    void setUp() {
+        idMapper = mock(IDegreeTypeIDMapper.class);
+        mapper = new DegreeTypeMapper(idMapper);
+    }
 
     @Test
     void testToDataModel_withMocks() {
@@ -20,25 +27,27 @@ public class DegreeTypeMapperTest {
         DegreeTypeID id = mock(DegreeTypeID.class);
 
         when(degreeType.identity()).thenReturn(id);
-        when(id.getDTID()).thenReturn("mock-id-123");
+        when(idMapper.toDataModel(id)).thenReturn(new DegreeTypeIDDataModel("mock-id-123"));
         when(degreeType.getName()).thenReturn("MockName");
         when(degreeType.getMaxEcts()).thenReturn(60);
 
-        DegreeTypeDM result = mapper.toDataModel(degreeType);
+        DegreeTypeDataModel result = mapper.toDataModel(degreeType);
 
         assertNotNull(result);
-        assertEquals("mock-id-123", result.getId());
+        assertEquals("mock-id-123", result.getId().getDegreeTypeID());
         assertEquals("MockName", result.getName());
         assertEquals(60, result.getMaxEcts());
     }
 
     @Test
     void testToDomainModel_withMocks() {
-        DegreeTypeDM dm = mock(DegreeTypeDM.class);
+        DegreeTypeDataModel dm = mock(DegreeTypeDataModel.class);
 
-        when(dm.getId()).thenReturn("mock-id-456");
+        DegreeTypeIDDataModel dataModel = new DegreeTypeIDDataModel("mock-id-456");
+        when(dm.getId()).thenReturn(dataModel);
         when(dm.getName()).thenReturn("AnotherMock");
         when(dm.getMaxEcts()).thenReturn(90);
+        when(idMapper.toDomain(dataModel)).thenReturn(new DegreeTypeID("mock-id-456"));
 
         DegreeType result = mapper.toDomainModel(dm);
 

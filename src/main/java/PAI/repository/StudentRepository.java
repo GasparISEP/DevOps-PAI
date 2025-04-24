@@ -19,15 +19,6 @@ import java.util.Optional;
             _students = studentListFactory.newArrayList();
         }
 
-        public Optional<StudentID> findIdByStudent(Student student) {
-            for (Student existingStudent : _students) {
-                if (existingStudent.sameAs(student)) {
-                    return Optional.of(student.identity());
-                }
-            }
-            return Optional.empty();
-        }
-
         @Override
         public Student save(Student student) {
             _students.add(student);

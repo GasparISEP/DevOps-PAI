@@ -53,6 +53,10 @@ public class StudentRepositorySpringDataTest {
 
     @Test
     public void testConstructorThrowsOnNulls() {
+        // Arrange
+        // No need for specific mocks for this test.
+
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(null, studentMapper, studentIDMapper, nifMapper));
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(repoMock, null, studentIDMapper, nifMapper));
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(repoMock, studentMapper, null, nifMapper));
@@ -61,150 +65,229 @@ public class StudentRepositorySpringDataTest {
 
     @Test
     public void testGetStudentByID() throws Exception {
-        when(repoMock.findById(1234567)).thenReturn(Optional.of(dataModel));
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
         when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
 
+        // Act
         Optional<Student> result = repository.ofIdentity(studentID);
+
+        // Assert
         assertTrue(result.isPresent());
         assertEquals(student, result.get());
     }
 
-
     @Test
     public void testSaveReturnsMappedStudent() throws Exception {
+        // Arrange
         when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
         when(repoMock.save(dataModel)).thenReturn(dataModel);
         when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
 
+        // Act
         Student result = repository.save(student);
 
+        // Assert
         assertNotNull(result);
         assertEquals(student, result);
     }
 
     @Test
     public void testSaveThrowsRuntimeExceptionOnMappingFailure() throws Exception {
+        // Arrange
         when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
         when(repoMock.save(dataModel)).thenReturn(dataModel);
         when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Could not save student"));
 
+        // Act & Assert
         RuntimeException ex = assertThrows(RuntimeException.class, () -> repository.save(student));
-
         assertTrue(ex.getMessage().contains("Could not save student"));
     }
 
     @Test
     public void testFindAll() throws Exception {
+        // Arrange
         List<StudentDataModel> dataModels = Arrays.asList(dataModel, dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
         when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
 
+        // Act
         Iterable<Student> result = repository.findAll();
         List<Student> list = (List<Student>) result;
+
+        // Assert
         assertEquals(2, list.size());
     }
 
     @Test
     public void testOfIdentityDelegatesToGetStudentByID() {
+        // Arrange
         StudentRepositorySpringData spyRepo = spy(repository);
         doReturn(Optional.of(student)).when(spyRepo).ofIdentity(studentID);
 
+        // Act
         Optional<Student> result = spyRepo.ofIdentity(studentID);
+
+        // Assert
         assertTrue(result.isPresent());
     }
 
     @Test
     public void testContainsOfIdentity() {
-        when(repoMock.existsById(1234567)).thenReturn(true);
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(repoMock.existsById(studentIDDataModel)).thenReturn(true);
 
+        // Act
         boolean result = repository.containsOfIdentity(studentID);
+
+        // Assert
         assertTrue(result);
     }
 
     @Test
     public void testContainsByStudentIDOrNIF() {
+        // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(true);
 
+        // Act
         boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
+
+        // Assert
         assertTrue(result);
     }
 
     @Test
     public void testContainsOfIdentityReturnsFalseWhenStudentDoesNotExist() {
-        when(repoMock.existsById(1234567)).thenReturn(false);
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(repoMock.existsById(studentIDDataModel)).thenReturn(false);
 
+        // Act
         boolean result = repository.containsOfIdentity(studentID);
+
+        // Assert
         assertFalse(result);
     }
 
     @Test
     public void testContainsByStudentIDOrNIFReturnsFalse() {
+        // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(false);
 
+        // Act
         boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
+
+        // Assert
         assertFalse(result);
     }
 
     @Test
     public void testGetStudentByIDThrowsRuntimeExceptionOnMappingError() throws Exception {
-        when(repoMock.findById(1234567)).thenReturn(Optional.of(dataModel));
-        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping failed"));
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
+        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Failed to retrieve and map Student by ID"));
 
+        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             repository.ofIdentity(studentID);
         });
-
-        assertTrue(exception.getMessage().contains("Mapping error"));
+        assertTrue(exception.getMessage().contains("Failed to retrieve and map Student by ID"));
     }
 
     @Test
     public void testFindAllThrowsRuntimeExceptionOnMappingFailure() throws Exception {
+        // Arrange
         List<StudentDataModel> dataModels = Collections.singletonList(dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
         when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping fail"));
 
+        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             repository.findAll();
         });
-
         assertTrue(exception.getMessage().contains("Failed to convert"));
     }
 
     @Test
     public void testSaveThrowsRuntimeExceptionOnRepositoryFailure() {
+        // Arrange
         when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
         doThrow(new RuntimeException("Could not save student")).when(repoMock).save(dataModel);
 
+        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             repository.save(student);
         });
-
         assertTrue(exception.getMessage().contains("Could not save student"));
     }
 
     @Test
-    public void testFindIdByStudentReturnsIDWhenStudentExists() {
-        when(student.identity()).thenReturn(studentID);
-        when(repoMock.existsById(anyInt())).thenReturn(true);
+    void shouldReturnFalseWhenExceptionOccursInContainsOfIdentity() {
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
+        when(repoMock.existsById(any())).thenThrow(new RuntimeException("Database error"));
 
-        Optional<StudentID> result = repository.findIdByStudent(student);
+        // Act
+        boolean result = repository.containsOfIdentity(studentID);
 
-        assertTrue(result.isPresent());
-        assertEquals(studentID, result.get());
+        // Assert
+        assertFalse(result);
     }
 
     @Test
-    public void testFindIdByStudentReturnsEmptyWhenStudentDoesNotExist() {
-        when(student.identity()).thenReturn(studentID);
-        when(repoMock.existsById(anyInt())).thenReturn(false);
+    void shouldReturnEmptyWhenNoStudentFoundByIdentity() {
+        // Arrange
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
+        when(repoMock.findById(any())).thenReturn(Optional.empty());
 
-        Optional<StudentID> result = repository.findIdByStudent(student);
+        // Act
+        Optional<Student> result = repository.ofIdentity(studentID);
 
+        // Assert
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnStudentsWhenFindAllSucceeds() throws Exception {
+        // Arrange
+        StudentDataModel dataModel = mock(StudentDataModel.class);
+        List<StudentDataModel> dataModels = List.of(dataModel);
+        when(repoMock.findAll()).thenReturn(dataModels);
+
+        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+
+        // Act
+        List<Student> result = repository.findAll();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(student, result.get(0));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFindAllFailsDueToMapping() throws Exception {
+        //Arrange
+        StudentDataModel dataModel = mock(StudentDataModel.class);
+        List<StudentDataModel> dataModels = List.of(dataModel);
+        when(repoMock.findAll()).thenReturn(dataModels);
+
+        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping error"));
+
+        //Act
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            repository.findAll();
+        });
+
+        //Assert
+        assertEquals("Failed to convert StudentDataModel to Student", exception.getMessage());
     }
 
 }

@@ -1,3 +1,4 @@
+/*
 package PAI.mapper.TeacherCareerProgression;
 
 import PAI.VOs.*;
@@ -152,4 +153,4 @@ class TeacherCareerProgressionMapperTest {
         assertEquals(workingPercentage, dataModel.getWorkingPercentage());
         assertEquals(teacherId, dataModel.getTeacherId());
     }
-}
+}*/

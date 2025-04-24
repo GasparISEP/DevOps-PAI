@@ -6,6 +6,8 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 
+import java.util.Optional;
+
 //TODO @Service and Implements IProgrammeEditionService
 public class ProgrammeEditionService {
     private final IProgrammeEditionFactory _programmeEditionFactory;
@@ -27,4 +29,20 @@ public class ProgrammeEditionService {
         return this._programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
     }
 
+    public Optional<ProgrammeEdition> saveProgrammeEdition (ProgrammeEdition programmeEdition) throws Exception {
+        if (programmeEdition == null) {
+            return Optional.empty();
+        }
+
+        boolean isProgrammeEditionAlreadyRegistered = this._programmeEditionRepository.containsOfIdentity(programmeEdition.identity());
+
+        if (!isProgrammeEditionAlreadyRegistered) {
+            ProgrammeEdition programmeEditionSaved = this._programmeEditionRepository.save(programmeEdition);
+
+            //If programmeEditionSaved is null return optional empty
+            return Optional.ofNullable(programmeEditionSaved);
+        }
+
+        return Optional.empty();
+    }
 }
