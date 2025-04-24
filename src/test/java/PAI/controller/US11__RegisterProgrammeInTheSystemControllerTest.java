@@ -4,9 +4,9 @@ import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.factory.ProgrammeFactoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.ProgrammeRepositoryImpl;
-import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

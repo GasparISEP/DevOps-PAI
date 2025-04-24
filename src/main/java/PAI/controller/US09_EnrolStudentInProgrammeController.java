@@ -7,7 +7,7 @@ import PAI.domain.programme.Programme;
 import PAI.repository.ProgrammeEnrolmentRepository;
 import PAI.repository.StudentRepository;
 import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
-import PAI.persistence.mem.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 
 import java.util.Optional;
 

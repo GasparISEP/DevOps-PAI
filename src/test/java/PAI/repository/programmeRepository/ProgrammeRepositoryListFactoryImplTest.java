@@ -2,6 +2,7 @@ package PAI.repository.programmeRepository;
 
 
 import PAI.domain.programme.Programme;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;

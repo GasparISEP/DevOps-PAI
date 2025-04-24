@@ -3,7 +3,8 @@ package PAI.repository.programmeRepository;
 import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
-import PAI.persistence.mem.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

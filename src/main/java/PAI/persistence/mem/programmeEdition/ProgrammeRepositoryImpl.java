@@ -1,10 +1,9 @@
-package PAI.persistence.mem;
+package PAI.persistence.mem.programmeEdition;
 
 import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
 
 import java.util.ArrayList;
 import java.util.List;

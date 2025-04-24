@@ -1,13 +1,10 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.SchoolYear;
-import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
-import PAI.persistence.mem.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
@@ -15,15 +12,11 @@ import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.programmeRepository.IProgrammeRepositoryListFactory;
-import PAI.repository.programmeRepository.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.persistence.mem.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.repository.*;
 import PAI.repository.programmeRepository.IProgrammeRepository;

@@ -1,4 +1,4 @@
-package PAI.repository.programmeRepository;
+package PAI.persistence.mem.programmeEdition;
 
 import PAI.domain.programme.Programme;
 
