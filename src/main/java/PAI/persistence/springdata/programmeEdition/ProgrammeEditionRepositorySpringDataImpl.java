@@ -13,11 +13,13 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditionRepository {
 
     private final IProgrammeEditionRepositorySpringData _iProgrammeEditionRepositorySpringData;
