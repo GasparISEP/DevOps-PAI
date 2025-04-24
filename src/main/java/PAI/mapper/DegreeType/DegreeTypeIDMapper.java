@@ -1,16 +1,18 @@
 package PAI.mapper.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
+import org.springframework.stereotype.Component;
 
-public class DegreeTypeIDMapper {
+@Component
+public class DegreeTypeIDMapper implements IDegreeTypeIDMapper {
 
-
-    public static String toString(DegreeTypeID id) {
+    @Override
+    public String toString(DegreeTypeID id) {
         return id.getDTID();
     }
 
-
-    public static DegreeTypeID toDomain(String idString) {
+    @Override
+    public DegreeTypeID toDomain(String idString) {
         return new DegreeTypeID(idString);
     }
 }

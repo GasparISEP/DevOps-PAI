@@ -2,15 +2,24 @@ package PAI.mapper.DegreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.domain.degreeType.DegreeType;
+import PAI.mapper.DegreeType.IDegreeTypeIDMapper;
 import PAI.persistence.datamodel.DegreeTypeDM;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DegreeTypeMapperTest {
+class DegreeTypeMapperTest {
 
-    private final DegreeTypeMapper mapper = new DegreeTypeMapper();
+    private DegreeTypeMapper mapper;
+    private IDegreeTypeIDMapper idMapper;
+
+    @BeforeEach
+    void setUp() {
+        idMapper = mock(IDegreeTypeIDMapper.class);  // mock do ID mapper
+        mapper = new DegreeTypeMapper(idMapper);     // injetar no DegreeTypeMapper
+    }
 
     @Test
     void testToDataModel_withMocks() {
@@ -18,7 +27,7 @@ public class DegreeTypeMapperTest {
         DegreeTypeID id = mock(DegreeTypeID.class);
 
         when(degreeType.identity()).thenReturn(id);
-        when(id.getDTID()).thenReturn("mock-id-123");
+        when(idMapper.toString(id)).thenReturn("mock-id-123");  // usa o mapper mockado
         when(degreeType.getName()).thenReturn("MockName");
         when(degreeType.getMaxEcts()).thenReturn(60);
 
@@ -37,6 +46,7 @@ public class DegreeTypeMapperTest {
         when(dm.getId()).thenReturn("mock-id-456");
         when(dm.getName()).thenReturn("AnotherMock");
         when(dm.getMaxEcts()).thenReturn(90);
+        when(idMapper.toDomain("mock-id-456")).thenReturn(new DegreeTypeID("mock-id-456"));  // usa o mapper mockado
 
         DegreeType result = mapper.toDomainModel(dm);
 

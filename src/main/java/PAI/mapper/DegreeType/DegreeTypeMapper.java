@@ -3,25 +3,32 @@ package PAI.mapper.DegreeType;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
+import PAI.mapper.DegreeType.IDegreeTypeIDMapper;
 import PAI.persistence.datamodel.DegreeTypeDM;
 import org.springframework.stereotype.Component;
 
-import static PAI.mapper.DegreeType.DegreeTypeIDMapper.toDomain;
-
 @Component
-public class DegreeTypeMapper {
+public class DegreeTypeMapper implements IDegreeTypeMapper {
 
+    private final IDegreeTypeIDMapper idMapper;
+
+    public DegreeTypeMapper(IDegreeTypeIDMapper idMapper) {
+        this.idMapper = idMapper;
+    }
+
+    @Override
     public DegreeTypeDM toDataModel(DegreeType degreeType) {
         return new DegreeTypeDM(
-                DegreeTypeIDMapper.toString(degreeType.identity()),  // ← usa o mapper centralizado
+                idMapper.toString(degreeType.identity()), // ← usa o mapper injetado
                 degreeType.getName(),
                 degreeType.getMaxEcts()
         );
     }
 
+    @Override
     public DegreeType toDomainModel(DegreeTypeDM dm) {
         return new DegreeType(
-                toDomain(dm.getId()),              // ← usa o mapper centralizado
+                idMapper.toDomain(dm.getId()), // ← usa o mapper injetado
                 new Name(dm.getName()),
                 new MaxEcts(dm.getMaxEcts())
         );
