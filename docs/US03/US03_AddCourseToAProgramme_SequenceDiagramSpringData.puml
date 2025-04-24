@@ -87,8 +87,8 @@ ref over SPR
 end ref
 SPR -> SSP --: sP1_ID
 SSP -> CTRL --: sP1_ID
-CTRL-> SCSP ++  : registerCourseInStudyPlan\n(c1_ID, sp_1ID, CurricularYear, Semester)
-SCSP -> FCSP ++  : registerCourseInStudyPlan\n(c1_ID, sp_1ID, CurricularYear, Semester)
+CTRL-> SCSP ++  : registerCourseInStudyPlan\n(Semester, CurricularYear, c1_ID, sp_1ID, Duration, Credits)
+SCSP -> FCSP ++  : registerCourseInStudyPlan\n(Semester, CurricularYear, c1_ID, sp_1ID, Duration, Credits)
 
 create "cisp1:CourseInStudyPlan" as CISP #lightblue
 FCSP --> CISP : <create> (Semester, CurricularYear, c1_ID, sp_1ID, Duration, Credits)
