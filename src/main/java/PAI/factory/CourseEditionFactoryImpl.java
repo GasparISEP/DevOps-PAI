@@ -16,5 +16,4 @@ public class CourseEditionFactoryImpl implements ICourseEditionFactory {
     public CourseEdition newCourseEdition_2(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return new CourseEdition(courseEditionID, courseInStudyPlanID, programmeEditionID);
     }
-
 }

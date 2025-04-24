@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionServiceImplTest {
 
@@ -56,17 +57,98 @@ class CourseEditionServiceImplTest {
         assertEquals("courseEditionRepository cannot be null", exception.getMessage());
     }
 
+    //-----createCourseEdition Tests-----
     @Test
-    void shouldReturnNullWhenCreateCourseEditionMethodIsCall() {
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullCourseInStudyPlanID() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlanID courseInStudyPlanID = null;
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
         // Act
-        CourseEdition result = courseEditionService.createCourseEdition(courseInStudyPlanID, programmeEditionID);
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullProgrammeEditionID() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnAValidCourseEditionWhenCreateCourseEditionMethodCreatesACourseEditionInTheSystem() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
+
+        // Act
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(courseEdition, result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodCantSaveACourseEditionInTheSystem() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEditionRepository.save(courseEdition)).thenReturn(null);
+
+        // Act
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodCantCreateACourseEditionInTheSystem() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenThrow(IllegalArgumentException.class);
+
+        // Act
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
 
         // Assert
         assertNull(result);

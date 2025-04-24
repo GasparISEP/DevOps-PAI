@@ -25,8 +25,16 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
         this.courseEditionRepository = courseEditionRepository;
     }
 
-    public CourseEdition createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return null;
+    public CourseEdition createAndSaveCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        if (courseInStudyPlanID == null || programmeEditionID == null)
+            return null;
+
+        try {
+            CourseEdition courseEdition = courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID);
+            return courseEditionRepository.save(courseEdition);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Iterable<CourseEdition> findAll() {

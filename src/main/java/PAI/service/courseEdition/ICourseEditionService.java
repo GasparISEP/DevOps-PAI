@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ICourseEditionService {
 
-    public CourseEdition createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+    public CourseEdition createAndSaveCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 
     public Iterable<CourseEdition> findAll();
 
