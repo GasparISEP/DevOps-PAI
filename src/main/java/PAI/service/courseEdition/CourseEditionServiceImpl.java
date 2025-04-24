@@ -61,6 +61,9 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     public boolean containsOfIdentity(CourseEditionID courseEditionID) {
-        return false;
+        if (courseEditionID == null)
+            return false;
+
+        return courseEditionRepository.containsOfIdentity(courseEditionID);
     }
 }

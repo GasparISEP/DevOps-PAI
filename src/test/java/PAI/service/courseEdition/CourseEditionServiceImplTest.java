@@ -304,18 +304,54 @@ class CourseEditionServiceImplTest {
         verify(courseEditionRepository, times(1)).ofIdentity(courseEditionID);
     }
 
+    //-----containsOfIdentity Tests-----
     @Test
-    void shouldReturnFalseWhenContainsOfIdentityMethodIsCall() {
+    void shouldReturnFalseWhenThereIsNoCourseEditionInTheSystemWithCourseEditionIDGiven() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
         // Act
         boolean result = courseEditionService.containsOfIdentity(courseEditionID);
 
         // Assert
         assertFalse(result);
+        verify(courseEditionRepository, times(1)).containsOfIdentity(courseEditionID);
+    }
+
+    @Test
+    void shouldReturnTrueWhenThereIsACourseEditionInTheSystemWithCourseEditionIDGiven() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(true);
+        // Act
+        boolean result = courseEditionService.containsOfIdentity(courseEditionID);
+
+        // Assert
+        assertTrue(result);
+        verify(courseEditionRepository, times(1)).containsOfIdentity(courseEditionID);
+    }
+
+    @Test
+    void shouldReturnFalseWhenContainsOfIdentityReceivesANullCourseEditionID() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+        CourseEditionID courseEditionID = null;
+
+        // Act
+        boolean result = courseEditionService.containsOfIdentity(courseEditionID);
+
+        // Assert
+        assertFalse(result);
+        verify(courseEditionRepository, times(0)).containsOfIdentity(courseEditionID);
     }
 }
