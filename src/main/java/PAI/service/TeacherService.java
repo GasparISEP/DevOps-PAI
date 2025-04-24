@@ -6,6 +6,8 @@ import PAI.factory.ITeacherFactory;
 import PAI.persistence.springdata.TeacherRepositorySpringData;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TeacherService implements ITeacherService {
 
@@ -25,14 +27,18 @@ public class TeacherService implements ITeacherService {
         _teacherRepository = teacherRepository;
     }
 
-    public boolean registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+    public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
                                                Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
 
+        if (_teacherRepository.containsOfIdentity(teacher.identity())){
+            return Optional.empty();
+        }
+
         _teacherRepository.save(teacher);
 
-        return true;
+        return Optional.of(teacher.identity());
     }
 }

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Optional;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -99,20 +101,22 @@ class TeacherServiceTest {
 
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
+        TeacherID teacherIDdouble = mock(TeacherID.class);
 
         when(teacherFactoryDouble.createTeacher(
                 acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
                 streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble)).thenReturn(teacherDouble);
 
+        when(teacherDouble.identity()).thenReturn(teacherIDdouble);
         when(teacherRepositoryDouble.save(teacherDouble)).thenReturn(teacherDouble);
 
         // Act
-        boolean result = teacherService.registerTeacher(
+        Optional<TeacherID> result = teacherService.registerTeacher(
                 acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
                 streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble);
 
         // Assert
-        assertTrue(result);
+        assertEquals(result.get(), teacherIDdouble);
     }
 
     public static Stream<Arguments> provideInvalidAttributes () {
