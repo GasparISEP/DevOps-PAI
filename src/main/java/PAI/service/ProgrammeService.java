@@ -1,4 +1,4 @@
 package PAI.service;
 
-public class ProgrammeService {
+public class ProgrammeService implements IProgrammeService {
 }
