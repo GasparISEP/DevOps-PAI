@@ -38,7 +38,7 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     public Iterable<CourseEdition> findAll() {
-        return null;
+        return courseEditionRepository.findAll();
     }
 
     public List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId) {

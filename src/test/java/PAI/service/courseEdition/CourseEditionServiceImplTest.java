@@ -154,18 +154,48 @@ class CourseEditionServiceImplTest {
         assertNull(result);
     }
 
+    //-----findAll Tests-----
     @Test
-    void shouldReturnNullWhenFindAllMethodIsCall() {
+    void shouldReturnAnIterableListWithCourseEditionsWhenFindAllMethodIsCallIfTheSystemContainsCourseEdition() {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
 
+        when(courseEditionRepository.findAll()).thenReturn(List.of());
+
         // Act
         Iterable<CourseEdition> result = courseEditionService.findAll();
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnEmptyIterableWhenFindAllMethodIsCallIfTheSystemDoesNotContainAnyCourseEdition() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+        CourseEdition courseEdition3 = mock(CourseEdition.class);
+
+        when(courseEditionRepository.findAll()).thenReturn(List.of(courseEdition1, courseEdition2, courseEdition3));
+
+        // Act
+        Iterable<CourseEdition> result = courseEditionService.findAll();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        List<CourseEdition> verifyList = (List<CourseEdition>) result;
+        assertTrue(verifyList.size() == 3);
+        assertTrue(verifyList.contains(courseEdition1));
+        assertTrue(verifyList.contains(courseEdition2));
+        assertTrue(verifyList.contains(courseEdition3));
     }
 
     @Test
