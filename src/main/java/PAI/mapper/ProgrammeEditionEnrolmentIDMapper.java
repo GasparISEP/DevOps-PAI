@@ -9,6 +9,8 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrolmentIDMapper {
 
@@ -16,7 +18,6 @@ public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrol
     private final IStudentIDMapper _studentIdMapper;
 
     public ProgrammeEditionEnrolmentIDMapper(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
-
         if (programmeEditionIdMapper == null) {
             throw new IllegalArgumentException("ProgrammeEditionIDMapper cannot be null");
         }
@@ -30,27 +31,36 @@ public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrol
     }
 
     @Override
-    public ProgrammeEditionEnrolmentID toDomain(ProgrammeEditionEnrolmentIDDataModel programmeEditionEnrolmentIDDataModel) throws Exception {
+    public Optional<ProgrammeEditionEnrolmentID> toDomain(ProgrammeEditionEnrolmentIDDataModel dataModel) {
+        if (dataModel == null) return Optional.empty();
 
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionEnrolmentIDDataModel.getProgrammeEditionIdDataModel();
-        StudentIDDataModel studentIDDataModel = programmeEditionEnrolmentIDDataModel.getStudentIdDataModel();
+        try {
+            ProgrammeEditionIdDataModel editionDM = dataModel.getProgrammeEditionIdDataModel();
+            StudentIDDataModel studentDM = dataModel.getStudentIdDataModel();
 
-        ProgrammeEditionID programmeEditionID = _programmeEditionIdMapper.toDomain(programmeEditionIdDataModel);
-        StudentID studentID = _studentIdMapper.dataModelToDomain(studentIDDataModel);
+            ProgrammeEditionID editionID = _programmeEditionIdMapper.toDomain(editionDM);
+            StudentID studentID = _studentIdMapper.dataModelToDomain(studentDM);
 
-        return new ProgrammeEditionEnrolmentID(programmeEditionID, studentID);
-
+            return Optional.of(new ProgrammeEditionEnrolmentID(editionID, studentID));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public ProgrammeEditionEnrolmentIDDataModel toDataModel(ProgrammeEditionEnrolmentID programmeEditionEnrolmentId) throws Exception {
+    public Optional<ProgrammeEditionEnrolmentIDDataModel> toDataModel(ProgrammeEditionEnrolmentID domainId) {
+        if (domainId == null) return Optional.empty();
 
-        ProgrammeEditionID programmeEditionID = programmeEditionEnrolmentId.getProgrammeEditionId();
-        StudentID studentID = programmeEditionEnrolmentId.getStudentiD();
+        try {
+            ProgrammeEditionID editionID = domainId.getProgrammeEditionId();
+            StudentID studentID = domainId.getStudentiD();
 
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIdMapper.toDataModel(programmeEditionID);
-        StudentIDDataModel studentIDDataModel = _studentIdMapper.domainToDataModel(studentID);
+            ProgrammeEditionIdDataModel editionDM = _programmeEditionIdMapper.toDataModel(editionID);
+            StudentIDDataModel studentDM = _studentIdMapper.domainToDataModel(studentID);
 
-        return new ProgrammeEditionEnrolmentIDDataModel(studentIDDataModel, programmeEditionIdDataModel);
+            return Optional.of(new ProgrammeEditionEnrolmentIDDataModel(studentDM, editionDM));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

@@ -1,9 +1,6 @@
 package PAI.factory;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +25,6 @@ class TeacherCareerProgressionFactoryImplTest {
         TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
         WorkingPercentage wpDouble = mock(WorkingPercentage.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
-
 
         try (
                 MockedConstruction <TeacherCareerProgression> tcpConstructorMock = mockConstruction(TeacherCareerProgression.class)){
@@ -136,6 +132,65 @@ class TeacherCareerProgressionFactoryImplTest {
             catch (Exception e) {
                 assertTrue(e.getCause().getMessage().contains("Working Percentage must be between 0 and 100"));
             }
+        }
+    }
+
+    @Test
+    void shouldReturnTeacherCareerProgressionWhenCreateTeacherCareerProgressionFromDataModelIsCalled(){
+        // Arrange
+        TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
+        TeacherCareerProgressionID idDouble = mock(TeacherCareerProgressionID.class);
+        Date dateDouble = mock(Date.class);
+        TeacherCategoryID tcIDDouble = mock(TeacherCategoryID.class);
+        WorkingPercentage wpDouble = mock(WorkingPercentage.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+        try (MockedConstruction<TeacherCareerProgression> constructerDouble = mockConstruction(TeacherCareerProgression.class,
+                (mock, context) -> {
+
+            when(mock.getID()).thenReturn(idDouble);
+        })) {
+
+        // Act
+            TeacherCareerProgression result = factory.createTeacherCareerProgressionFromDataModel(
+                                            idDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble);
+
+            // Assert
+            assertEquals(1, constructerDouble.constructed().size());
+            assertSame(constructerDouble.constructed().get(0), result);
+            assertEquals(idDouble, result.getID());
+        }
+    }
+
+    static Stream<Arguments> testInvalidInputs() {
+        return Stream.of(
+                Arguments.of(null, mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Career Progression Id cannot be null!"),
+                Arguments.of(mock(TeacherCareerProgressionID.class), null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class), "Date cannot be null!"),
+                Arguments.of(mock(TeacherCareerProgressionID.class), mock(Date.class), null, mock(WorkingPercentage.class), mock(TeacherID.class), "Teacher Category cannot be null!"),
+                Arguments.of(mock(TeacherCareerProgressionID.class), mock(Date.class), mock(TeacherCategoryID.class), null, mock(TeacherID.class), "Working Percentage cannot be null!"),
+                Arguments.of(mock(TeacherCareerProgressionID.class), mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), null, "Teacher ID cannot be null!")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testInvalidInputs")
+    void shouldPropagateExceptionIfInputsAreInvalidWhenCreateTeacherCareerProgressionFromDataModelIsCalled(
+            TeacherCareerProgressionID idDouble, Date dateDouble, TeacherCategoryID tcIDDouble,
+            WorkingPercentage wpDouble, TeacherID teacherIDDouble, String expectedException){
+
+        // Arrange
+        TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
+
+        try (MockedConstruction<TeacherCareerProgression> constructerDouble = mockConstruction(TeacherCareerProgression.class,
+                (invocation) -> {
+
+                    throw new IllegalArgumentException(expectedException);
+                })) {
+
+            // Act & Assert
+            Throwable result = assertThrows(IllegalArgumentException.class, () -> factory.createTeacherCareerProgressionFromDataModel(
+                    idDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble));
+
+            assertEquals(result.getMessage(), expectedException);
         }
     }
 }

@@ -13,9 +13,12 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
     private TeacherID _teacherID;
 
     //constructor
-    public TeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) throws IllegalArgumentException {
+    public TeacherCareerProgression (TeacherCareerProgressionID teacherCareerProgressionId, Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) throws IllegalArgumentException {
 
-        _tcpID = new TeacherCareerProgressionID();
+        if(teacherCareerProgressionId == null)
+            throw new IllegalArgumentException("Teacher Career Progression Id cannot be null!");
+
+        _tcpID = teacherCareerProgressionId;
 
         if(date == null)
             throw new IllegalArgumentException("Date cannot be null!");
@@ -36,6 +39,10 @@ public class TeacherCareerProgression implements AggregateRoot<TeacherCareerProg
             throw new IllegalArgumentException("Teacher ID cannot be null!");
 
         _teacherID = teacherID;
+    }
+
+    public TeacherCareerProgressionID getID () {
+        return _tcpID;
     }
 
     public TeacherCategoryID getTeacherCategoryID () {

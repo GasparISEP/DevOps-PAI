@@ -227,3 +227,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#Vscode
+.vscode
+/code
+/code

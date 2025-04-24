@@ -11,11 +11,15 @@ import java.util.Optional;
 
 public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditionID, ProgrammeEdition> {
 
-    public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
+    ProgrammeEdition save(ProgrammeEdition programmeEdition);
 
-    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
+    Iterable<ProgrammeEdition> findAll();
 
     Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id);
+
+    boolean containsOfIdentity(ProgrammeEditionID id);
+
+    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 
