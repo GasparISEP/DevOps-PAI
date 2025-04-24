@@ -4,6 +4,8 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
+import PAI.factory.ICourseEditionFactory;
+import PAI.repository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,13 +15,16 @@ import static org.mockito.Mockito.mock;
 
 class CourseEditionServiceImplTest {
 
+    //-----Constructor Tests-----
     @Test
     void shouldCreateACourseEditionServiceImpl () {
         // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl courseEditionService;
 
         // Act
-        courseEditionService = new CourseEditionServiceImpl();
+        courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
 
         // Assert
         assertNotNull(courseEditionService);
@@ -28,7 +33,9 @@ class CourseEditionServiceImplTest {
     @Test
     void shouldReturnNullWhenCreateCourseEditionMethodIsCall() {
         // Arrange
-        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl();
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -42,7 +49,9 @@ class CourseEditionServiceImplTest {
     @Test
     void shouldReturnNullWhenFindAllMethodIsCall() {
         // Arrange
-        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl();
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
 
         // Act
         Iterable<CourseEdition> result = courseEditionService.findAll();
@@ -54,7 +63,9 @@ class CourseEditionServiceImplTest {
     @Test
     void shouldReturnNullWhenFindByIdMethodIsCall() {
         // Arrange
-        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl();
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
         // Act
@@ -67,7 +78,9 @@ class CourseEditionServiceImplTest {
     @Test
     void shouldReturnNullWhenOfIdentityMethodIsCall() {
         // Arrange
-        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl();
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act
@@ -80,7 +93,9 @@ class CourseEditionServiceImplTest {
     @Test
     void shouldReturnFalseWhenContainsOfIdentityMethodIsCall() {
         // Arrange
-        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl();
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act
