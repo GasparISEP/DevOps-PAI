@@ -19,7 +19,7 @@ public class DegreeTypeMapper implements IDegreeTypeMapper {
     @Override
     public DegreeTypeDM toDataModel(DegreeType degreeType) {
         return new DegreeTypeDM(
-                idMapper.toString(degreeType.identity()), // ← usa o mapper injetado
+                idMapper.toString(degreeType.identity()),
                 degreeType.getName(),
                 degreeType.getMaxEcts()
         );
@@ -28,7 +28,7 @@ public class DegreeTypeMapper implements IDegreeTypeMapper {
     @Override
     public DegreeType toDomainModel(DegreeTypeDM dm) {
         return new DegreeType(
-                idMapper.toDomain(dm.getId()), // ← usa o mapper injetado
+                idMapper.toDomain(dm.getId()),
                 new Name(dm.getName()),
                 new MaxEcts(dm.getMaxEcts())
         );

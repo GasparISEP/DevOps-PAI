@@ -7,16 +7,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DegreeTypeIDMapperTest {
 
-    private final IDegreeTypeIDMapper mapper = new DegreeTypeIDMapper(); // ← Instância
+    private final IDegreeTypeIDMapper mapper = new DegreeTypeIDMapper();
 
     @Test
     void testToStringAndBack() {
         DegreeTypeID id = new DegreeTypeID("abc-123");
-        String idString = mapper.toString(id);  // ← Usa instância
+        String idString = mapper.toString(id);
 
         assertEquals("abc-123", idString);
 
-        DegreeTypeID idBack = mapper.toDomain(idString);  // ← Usa instância
+        DegreeTypeID idBack = mapper.toDomain(idString);
         assertEquals(id, idBack);
     }
 }

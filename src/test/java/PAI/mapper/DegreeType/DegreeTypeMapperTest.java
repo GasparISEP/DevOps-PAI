@@ -27,7 +27,7 @@ class DegreeTypeMapperTest {
         DegreeTypeID id = mock(DegreeTypeID.class);
 
         when(degreeType.identity()).thenReturn(id);
-        when(idMapper.toString(id)).thenReturn("mock-id-123");  // usa o mapper mockado
+        when(idMapper.toString(id)).thenReturn("mock-id-123");
         when(degreeType.getName()).thenReturn("MockName");
         when(degreeType.getMaxEcts()).thenReturn(60);
 
@@ -46,7 +46,7 @@ class DegreeTypeMapperTest {
         when(dm.getId()).thenReturn("mock-id-456");
         when(dm.getName()).thenReturn("AnotherMock");
         when(dm.getMaxEcts()).thenReturn(90);
-        when(idMapper.toDomain("mock-id-456")).thenReturn(new DegreeTypeID("mock-id-456"));  // usa o mapper mockado
+        when(idMapper.toDomain("mock-id-456")).thenReturn(new DegreeTypeID("mock-id-456"));
 
         DegreeType result = mapper.toDomainModel(dm);
 
