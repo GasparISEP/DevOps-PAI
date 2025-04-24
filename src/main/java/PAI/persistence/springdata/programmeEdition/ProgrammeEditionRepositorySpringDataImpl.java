@@ -55,11 +55,6 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     }
 
     @Override
-    public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid) {
-        return false;
-    }
-
-    @Override
     public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception {
         if(programmeid == null) {
             return Optional.empty();

@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditionID, ProgrammeEdition> {
 
-    public boolean createProgrammeEdition(ProgrammeID programmeid, SchoolYearID schoolYearid);
-
     ProgrammeEdition save(ProgrammeEdition programmeEdition);
 
     Iterable<ProgrammeEdition> findAll();

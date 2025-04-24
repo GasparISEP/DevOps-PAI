@@ -105,25 +105,6 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         );
     }
 
-    @Test
-    void shouldCreateProgrammeEdition() {
-        // arrange
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-
-        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
-        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
-        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
-        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
-        // act
-        boolean result = programmeEditionRepositorySpringDataImpl.createProgrammeEdition(programmeID, schoolYearID);
-        // assert
-        assertFalse(result);
-    }
-
     // findProgrammeEditionIDByProgrammeIDAndSchoolYearID TESTS
     @Test
     void shouldReturnOptionalPresentWhenFindProgrammeEditionIDByProgrammeIDAndSchoolYearID() throws Exception {

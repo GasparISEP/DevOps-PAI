@@ -14,29 +14,13 @@ import java.util.Set;
 public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionRepository {
 
     private final Set<ProgrammeEdition> _programmeEditions;
-    private final IProgrammeEditionFactory _programmeEditionDDDFactory;
 
-    public ProgrammeEditionRepositoryImpl(IProgrammeEditionListFactory programmeEditionDDDListFactory, IProgrammeEditionFactory programmeEditionDDDFactory) throws Exception {
+    public ProgrammeEditionRepositoryImpl(IProgrammeEditionListFactory programmeEditionDDDListFactory) throws Exception {
 
         if (programmeEditionDDDListFactory == null)
             throw new Exception("Programme Edition ListFactory cannot be null");
-        if (programmeEditionDDDFactory == null)
-            throw new Exception("Programme Edition Factory cannot be null");
 
         _programmeEditions = programmeEditionDDDListFactory.createProgrammeEditionList();
-        _programmeEditionDDDFactory = programmeEditionDDDFactory;
-    }
-
-    @Override
-    public boolean createProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID) {
-        try {
-            ProgrammeEdition pE = _programmeEditionDDDFactory.createProgrammeEdition(programmeID, schoolYearID);
-            if (_programmeEditions.add(pE))
-                return true;
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
     }
 
     @Override
