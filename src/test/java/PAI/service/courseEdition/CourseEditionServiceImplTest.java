@@ -93,6 +93,23 @@ class CourseEditionServiceImplTest {
     }
 
     @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullProgrammeEditionIDAndNullCourseInStudyPlan() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        CourseInStudyPlanID courseInStudyPlanID = null;
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
     void shouldReturnAValidCourseEditionWhenCreateCourseEditionMethodCreatesACourseEditionInTheSystem() throws Exception {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
