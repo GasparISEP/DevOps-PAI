@@ -1,6 +1,8 @@
 package PAI.service;
 
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.repository.ITeacherCategoryRepository;
@@ -30,5 +32,9 @@ public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
         TeacherCategory newCategory = factory.createTeacherCategory(name);
         repository.save(newCategory);
         return true;
+    }
+
+    public boolean existsById(TeacherCategoryID teacherCategoryID) {
+        return repository.containsOfIdentity(teacherCategoryID);
     }
 }

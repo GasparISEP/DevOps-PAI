@@ -1,6 +1,8 @@
 package PAI.service;
 
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.repository.ITeacherCategoryRepository;
@@ -74,5 +76,27 @@ class TeacherCategoryServiceImplTest {
                 () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory(" inválido")),
                 () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory("1nválido"))
         );
+    }
+
+    @Test
+    void shouldReturnTrueIfTeacherCategoryExistsWhenCallingExistsByID(){
+        //Arrange
+        TeacherCategoryID id = mock(TeacherCategoryID.class);
+        when(repository.containsOfIdentity(id)).thenReturn(true);
+        //Act
+        boolean result = service.existsById(id);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCategoryExistsWhenCallingExistsByID(){
+        //Arrange
+        TeacherCategoryID id = mock(TeacherCategoryID.class);
+        when(repository.containsOfIdentity(id)).thenReturn(false);
+        //Act
+        boolean result = service.existsById(id);
+        //Assert
+        assertFalse(result);
     }
 }
