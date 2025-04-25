@@ -104,7 +104,14 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldReturnFalseIfProgrammeEditionAndStudentAreNull() {
+        // Act
+        boolean result = repository.isStudentEnrolledInThisProgrammeEdition(null, null);
 
+        // Assert
+        assertFalse(result);
+    }
 
     @Test
     void shouldReturnFalseIfMapperFailsToConvertToDomain() {
