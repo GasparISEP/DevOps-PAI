@@ -2,15 +2,12 @@ package PAI.persistence.springdata.Department;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
-import PAI.factory.IDepartmentFactory;
-import PAI.factory.IDepartmentListFactory;
 import PAI.mapper.ITeacherIDMapper;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.repository.DepartmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -46,7 +43,7 @@ class DepartmentRepositorySpringDataImplTest {
         assertEquals(departmentMock, result);
     }
     @Test
-    void shouldThrowExceptionIfSaveWasNotSuccessful() throws Exception {
+    void shouldThrowExceptionIfSaveWasNotSuccessful() {
         // Arrange
         IDepartmentRepositorySpringData departmentRepository = Mockito.mock(IDepartmentRepositorySpringData.class);
         IDepartmentMapper departmentMapper = Mockito.mock(IDepartmentMapper.class);
@@ -184,7 +181,7 @@ class DepartmentRepositorySpringDataImplTest {
         assertEquals(department, result.get());
     }
     @Test
-    void testOfIdentity_nonExistingDepartment() throws Exception {
+    void testOfIdentity_nonExistingDepartment(){
         // Arrange
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
@@ -580,6 +577,7 @@ class DepartmentRepositorySpringDataImplTest {
         boolean result = departmentRepository.updateOfDepartmentDirector(departmentID, teacherID);
 
         // Assert
+        assertTrue(result);
         assertEquals(teacherIDDataModel,departmentDataModel.getDirectorId());
     }
 
