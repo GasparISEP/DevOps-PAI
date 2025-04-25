@@ -4,11 +4,13 @@ import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProgrammeRepositoryImpl implements IProgrammeRepository {
 
     private final IProgrammeFactory _I_programmeFactory;
