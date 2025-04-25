@@ -36,7 +36,7 @@ UI --> ASC -- : Which Programme?
 
 
 ASC -> UI ++ #application : Programme 1!
-UI -> Controller ++ #application: getCoursesInStudyPlanByProgrammeID(p1_DTO)
+UI -> Controller ++ #application: getCoursesInStudyPlanByProgrammeID(p1_ID)
 Controller -> StudyPlanR ++ #application: getLatestStudyPlanIDByProgrammeID(p1_ID)
 StudyPlanR --> Controller -- : sP1_ID
 Controller -> CourseInStudyPlanR ++ #application: getCoursesInStudyPlanByStudyPlanID(sP1_ID)
