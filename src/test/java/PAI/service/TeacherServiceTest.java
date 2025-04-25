@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
 import PAI.factory.TeacherFactoryImpl;
-import PAI.persistence.springdata.TeacherRepositorySpringData;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 class TeacherServiceTest {
 
     private ITeacherFactory teacherFactoryDouble;
-    private TeacherRepositorySpringData teacherRepositoryDouble;
+    private TeacherRepositorySpringDataImpl teacherRepositoryDouble;
     private ITeacherService teacherService;
 
     private TeacherAcronym acronymDouble;
@@ -39,7 +39,7 @@ class TeacherServiceTest {
     @BeforeEach
     void setUp() {
         teacherFactoryDouble = mock(TeacherFactoryImpl.class);
-        teacherRepositoryDouble = mock(TeacherRepositorySpringData.class);
+        teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
         teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
 
         acronymDouble = mock(TeacherAcronym.class);
@@ -59,7 +59,7 @@ class TeacherServiceTest {
     void testConstructor () {
         // Arrange
         ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
-        TeacherRepositorySpringData teacherRepositoryDouble = mock(TeacherRepositorySpringData.class);
+        TeacherRepositorySpringDataImpl teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
 
         // Arrange + Act
         TeacherService teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
@@ -71,7 +71,7 @@ class TeacherServiceTest {
     @Test
     void testConstructorDoesNotBuildDueToNullFactory () {
         // Arrange
-        TeacherRepositorySpringData teacherRepositoryDouble = mock(TeacherRepositorySpringData.class);
+        TeacherRepositorySpringDataImpl teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {

@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TeacherRepositorySpringData implements ITeacherRepository {
+public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
 
     private ITeacherRepositorySpringData iTeacherRepositorySpringData;
     private ITeacherMapper teacherMapper;
     private ITeacherIDMapper teacherIDMapper;
     private INIFMapper nifMapper;
 
-    public TeacherRepositorySpringData(ITeacherRepositorySpringData teacherRepositorySpringData, ITeacherMapper teacherMapper,
+    public TeacherRepositorySpringDataImpl(ITeacherRepositorySpringData teacherRepositorySpringData, ITeacherMapper teacherMapper,
                                        ITeacherIDMapper teacherIDMapper, INIFMapper nifMapper) {
 
         if (teacherRepositorySpringData == null) {

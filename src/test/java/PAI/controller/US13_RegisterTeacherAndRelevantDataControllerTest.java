@@ -8,7 +8,7 @@ import PAI.factory.*;
 import PAI.mapper.*;
 import PAI.persistence.datamodel.TeacherDataModel;
 import PAI.persistence.springdata.ITeacherRepositorySpringData;
-import PAI.persistence.springdata.TeacherRepositorySpringData;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.*;
 import PAI.service.ITeacherService;
 import PAI.service.TeacherService;

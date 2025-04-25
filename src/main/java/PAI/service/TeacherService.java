@@ -3,7 +3,7 @@ package PAI.service;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
-import PAI.persistence.springdata.TeacherRepositorySpringData;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,9 +12,9 @@ import java.util.Optional;
 public class TeacherService implements ITeacherService {
 
     private ITeacherFactory _teacherFactory;
-    private TeacherRepositorySpringData _teacherRepository;
+    private TeacherRepositorySpringDataImpl _teacherRepository;
 
-    public TeacherService (ITeacherFactory teacherFactory, TeacherRepositorySpringData teacherRepository) {
+    public TeacherService (ITeacherFactory teacherFactory, TeacherRepositorySpringDataImpl teacherRepository) {
 
         if (teacherFactory == null)
             throw new IllegalArgumentException("Teacher Factory must not be null.");

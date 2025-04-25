@@ -23,7 +23,7 @@ class TeacherRepositorySpringDataTest {
     private ITeacherMapper teacherMapper;
     private ITeacherIDMapper teacherIDMapper;
     private INIFMapper nifMapper;
-    private TeacherRepositorySpringData teacherRepository;
+    private TeacherRepositorySpringDataImpl teacherRepository;
 
     @BeforeEach
     void setUp() {
@@ -32,7 +32,7 @@ class TeacherRepositorySpringDataTest {
         teacherIDMapper = mock(TeacherIDMapper.class);
         nifMapper = mock(NIFMapper.class);
 
-        teacherRepository = new TeacherRepositorySpringData(
+        teacherRepository = new TeacherRepositorySpringDataImpl(
                 iTeacherRepoSpringData,
                 teacherMapper,
                 teacherIDMapper,
@@ -54,7 +54,7 @@ class TeacherRepositorySpringDataTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringData(null, teacherMapper, teacherIDMapper, nifMapper));
+                new TeacherRepositorySpringDataImpl(null, teacherMapper, teacherIDMapper, nifMapper));
     }
 
     @Test
@@ -63,7 +63,7 @@ class TeacherRepositorySpringDataTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringData(iTeacherRepoSpringData, null, teacherIDMapper, nifMapper));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, null, teacherIDMapper, nifMapper));
     }
 
     @Test
@@ -72,7 +72,7 @@ class TeacherRepositorySpringDataTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringData(iTeacherRepoSpringData, teacherMapper, null, nifMapper));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, null, nifMapper));
     }
 
     @Test
@@ -81,7 +81,7 @@ class TeacherRepositorySpringDataTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringData(iTeacherRepoSpringData, teacherMapper, teacherIDMapper, null));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, teacherIDMapper, null));
     }
 
     @Test
