@@ -12,21 +12,21 @@ public class TeacherDataModel {
     @Id
     private TeacherIDDataModel teacherIDDataModel;
 
-    private String name;
-    private String email;
+    private String teacherName;
+    private String teacherEmail;
 
     @Embedded
-    private NIFDataModel nif;
+    private NIFDataModel teacherNIF;
 
     @Embedded
-    private PhoneNumberDataModel phoneNumber;
+    private PhoneNumberDataModel teacherPhoneNumber;
 
-    private String academicBackground;
+    private String teacherAcademicBackground;
 
     @Embedded
-    private AddressDataModel address;
+    private AddressDataModel teacherAddress;
 
-    private String dptAcronym;
+    private String teacherDepartmentAcronym;
 
     @Embedded
     private TeacherAcademicEmailDataModel teacherAcademicEmail;
@@ -37,14 +37,14 @@ public class TeacherDataModel {
     public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
 
         this.teacherIDDataModel = teacherIDDataModel;
-        this.name = name;
-        this.email = email;
-        this.nif = nif;
-        this.phoneNumber = phoneNumber;
-        this.academicBackground = academicBackground;
-        this.address = address;
+        this.teacherName = name;
+        this.teacherEmail = email;
+        this.teacherNIF = nif;
+        this.teacherPhoneNumber = phoneNumber;
+        this.teacherAcademicBackground = academicBackground;
+        this.teacherAddress = address;
         this.teacherAcademicEmail = teacherAcademicEmail;
-        this.dptAcronym = dptAcronym;
+        this.teacherDepartmentAcronym = dptAcronym;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
@@ -52,31 +52,31 @@ public class TeacherDataModel {
     }
 
     public String getName() {
-        return name;
+        return teacherName;
     }
 
     public String getEmail() {
-        return email;
+        return teacherEmail;
     }
 
     public NIFDataModel getNif() {
-        return nif;
+        return teacherNIF;
     }
 
     public PhoneNumberDataModel getPhoneNumber() {
-        return phoneNumber;
+        return teacherPhoneNumber;
     }
 
     public String getAcademicBackground() {
-        return academicBackground;
+        return teacherAcademicBackground;
     }
 
     public AddressDataModel getAddress() {
-        return address;
+        return teacherAddress;
     }
 
     public String getDptAcronym() {
-        return dptAcronym;
+        return teacherDepartmentAcronym;
     }
 
     public TeacherAcademicEmailDataModel getTeacherAcademicEmail() {
