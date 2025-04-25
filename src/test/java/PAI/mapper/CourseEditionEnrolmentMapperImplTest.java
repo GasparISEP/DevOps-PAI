@@ -1,15 +1,10 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEditionEnrolment;
-import PAI.domain.SchoolYear;
-import PAI.factory.ICourseEditionEnrolmentFactory;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
-import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
