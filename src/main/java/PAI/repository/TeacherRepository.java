@@ -73,4 +73,9 @@ public class TeacherRepository implements ITeacherRepository {
         }
         return Optional.empty();
     }
+
+    // [Temporary] method still not properly implemented but needs to exist in order for the class to implement the interface
+    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+        return false;
+    }
 }
