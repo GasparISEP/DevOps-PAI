@@ -9,7 +9,6 @@ import PAI.domain.programme.Programme;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 
-import java.util.Optional;
 
 
 public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
@@ -22,18 +21,17 @@ public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
         _teacherRepo = teacherRepo;
     }
 
-    public Optional <ProgrammeID> findProgrammeIDbyProgramme(Programme programme) throws Exception{
-        return _programmeRepo.findProgrammeIdByProgramme(programme);
-    }
+    public boolean changeProgrammeDirector(Programme programme, Teacher programmeDirector) throws Exception {
+        if (programme == null) {
+            throw new IllegalArgumentException("Programme cannot be null");
+        }
+        if (programmeDirector == null) {
+            throw new IllegalArgumentException("Programme Director cannot be null");
+        }
 
-    public Optional <TeacherID> findTeacherIDbyTeacher(Teacher teacher) throws Exception{
-        return _teacherRepo.findTeacherIdByTeacher(teacher);
-    }
+        ProgrammeID programmeID = programme.identity();
+        TeacherID programmeDirectorID = programmeDirector.identity();
 
-    public boolean changeProgrammeDirector (Programme programme, Teacher teacher) throws Exception{
-        Optional <ProgrammeID> programmeID = findProgrammeIDbyProgramme(programme);
-        Optional<TeacherID> teacherID = findTeacherIDbyTeacher(teacher);
-        return  _programmeRepo.changeProgrammeDirector(programmeID.get(), teacherID.get());
-
+        return _programmeRepo.changeProgrammeDirector(programmeID,programmeDirectorID);
     }
 }

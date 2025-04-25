@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.mapper.*;
+import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.TeacherDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.repository.ITeacherRepository;
@@ -15,10 +16,10 @@ import java.util.Optional;
 @Repository
 public class TeacherRepositorySpringData implements ITeacherRepository {
 
-    private ITeacherRepositorySpringData iteacherRepositorySpringData;
-    private ITeacherMapper iteacherMapper;
-    private ITeacherIDMapper iteacherIDMapper;
-    private INIFMapper inifMapper;
+    private ITeacherRepositorySpringData iTeacherRepositorySpringData;
+    private ITeacherMapper teacherMapper;
+    private ITeacherIDMapper teacherIDMapper;
+    private INIFMapper nifMapper;
 
     public TeacherRepositorySpringData(ITeacherRepositorySpringData teacherRepositorySpringData, ITeacherMapper teacherMapper,
                                        ITeacherIDMapper teacherIDMapper, INIFMapper nifMapper) {
@@ -36,19 +37,19 @@ public class TeacherRepositorySpringData implements ITeacherRepository {
             throw new IllegalArgumentException("nifMapper must not be null");
         }
 
-        iteacherRepositorySpringData = teacherRepositorySpringData;
-        iteacherMapper = teacherMapper;
-        iteacherIDMapper = teacherIDMapper;
-        inifMapper = nifMapper;
+        iTeacherRepositorySpringData = teacherRepositorySpringData;
+        this.teacherMapper = teacherMapper;
+        this.teacherIDMapper = teacherIDMapper;
+        this.nifMapper = nifMapper;
     }
 
 
     public Optional<Teacher> getTeacherByID(TeacherID teacherID) {
-        TeacherIDDataModel teacherIDDataModel = iteacherIDMapper.toDataModel(teacherID);
-        return iteacherRepositorySpringData.findById(teacherIDDataModel.toString())
+        TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
+        return iTeacherRepositorySpringData.findById(teacherIDDataModel.toString())
                 .map(dataModel -> {
                     try {
-                        return iteacherMapper.toDomain(dataModel);
+                        return teacherMapper.toDomain(dataModel);
                     } catch (Exception e) {
                         throw new RuntimeException("Mapping failed", e);
                     }
@@ -57,19 +58,19 @@ public class TeacherRepositorySpringData implements ITeacherRepository {
 
     public Teacher save(Teacher teacher) {
 
-        TeacherDataModel teacherDataModel = iteacherMapper.toDataModel(teacher);
-        iteacherRepositorySpringData.save(teacherDataModel);
+        TeacherDataModel teacherDataModel = teacherMapper.toDataModel(teacher);
+        iTeacherRepositorySpringData.save(teacherDataModel);
 
         return teacher;
     }
 
     public Iterable<Teacher> findAll() {
         List<Teacher> teachersList = new ArrayList<>();
-        List<TeacherDataModel> teacherDataModelsList = iteacherRepositorySpringData.findAll();
+        List<TeacherDataModel> teacherDataModelsList = iTeacherRepositorySpringData.findAll();
         for(TeacherDataModel teacherDataModel : teacherDataModelsList) {
             Optional<Teacher> teacher;
             try {
-                teacher = Optional.ofNullable(iteacherMapper.toDomain(teacherDataModel));
+                teacher = Optional.ofNullable(teacherMapper.toDomain(teacherDataModel));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -81,7 +82,7 @@ public class TeacherRepositorySpringData implements ITeacherRepository {
     public Optional<Teacher> ofIdentity(TeacherID teacherID) { return getTeacherByID(teacherID); }
 
     public boolean containsOfIdentity(TeacherID teacherID) {
-        return iteacherRepositorySpringData.existsById(teacherID.getTeacherAcronym().getAcronym());
+        return iTeacherRepositorySpringData.existsById(teacherID.getTeacherAcronym().getAcronym());
     }
 
     @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
@@ -92,5 +93,16 @@ public class TeacherRepositorySpringData implements ITeacherRepository {
     @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
     public Optional<TeacherID> findTeacherIdByTeacher(Teacher teacher) {
         return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+        TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
+        NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
+
+        if (iTeacherRepositorySpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel))
+            return true;
+
+        return false;
     }
 }
