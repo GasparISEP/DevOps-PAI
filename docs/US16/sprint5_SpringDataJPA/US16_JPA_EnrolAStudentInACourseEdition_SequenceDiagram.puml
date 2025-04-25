@@ -67,9 +67,9 @@ ref over Controller
 end ref
 activate Controller #E1F5FE
 participant ":ICourseEditionRepository" as CourseEditionRepository
-Controller -> CourseEditionEnrolmentService: findCourseEditionIDsByProgrammeEdition \n (programmeEditionID)
+Controller -> CourseEditionEnrolmentService: findCourseEditionIDsByProgrammeEditionID \n (programmeEditionID)
 activate CourseEditionEnrolmentService #E1F5FE
-CourseEditionEnrolmentService -> CourseEditionRepository: findCourseEditionsByProgrammeEdition (programmeEditionID)
+CourseEditionEnrolmentService -> CourseEditionRepository: findCourseEditionsByProgrammeEditionID (programmeEditionID)
 activate CourseEditionRepository #E1F5FE
 
 participant ":ICourseEditionSpringDataJPA" as ceJPAInterface
@@ -141,18 +141,16 @@ deactivate "cee:CourseEditionEnrolment"
 ' verify if already exists
 
 participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isEnrolmentAlreadyExists (cee)
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isStudentEnrolledInCourseEditionEnrolmentAlreadyExists (studentID, courseEditionID)
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
 ref over ICourseEditionEnrolmentRepository
-    SD Convert CourseEditionEnrolmentID to DataModel
+    SD isStudentEnrolledInCourseEdition (studentID, courseEditionID)
 end ref
 
 participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
-ICourseEditionEnrolmentRepository -> ceeJPAInterface: existsByID (ceeIDDataModel)
-activate ceeJPAInterface #E1F5FE
-ceeJPAInterface --> ICourseEditionEnrolmentRepository: False
-deactivate ceeJPAInterface
+
+
 ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: False
 deactivate ICourseEditionEnrolmentRepository
 
