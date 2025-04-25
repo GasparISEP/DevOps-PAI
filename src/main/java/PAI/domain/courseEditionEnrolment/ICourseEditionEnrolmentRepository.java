@@ -1,17 +1,16 @@
-package PAI.repository;
+package PAI.domain.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.ddd.IRepository;
-import PAI.domain.CourseEditionEnrolment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEditionEnrolmentID, CourseEditionEnrolment> {
 
-    boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId);
+    boolean enrolStudentInACourseEdition(CourseEditionEnrolment courseEditionEnrolment) throws Exception;
 
     boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId);
 

@@ -3,6 +3,7 @@ package PAI.domain;
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

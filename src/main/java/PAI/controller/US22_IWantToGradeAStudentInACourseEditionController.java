@@ -1,19 +1,10 @@
 
 package PAI.controller;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
-import PAI.domain.CourseEdition;
-import PAI.domain.Student;
-import PAI.factory.IStudentGradeRepository;
-import PAI.repository.ICourseEditionEnrolmentRepository;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IStudentRepository;
 import PAI.repository.StudentGradeRepository;
-
-import java.util.Optional;
 
 
 public class US22_IWantToGradeAStudentInACourseEditionController {

@@ -2,8 +2,8 @@ package PAI.factory;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.CourseEditionEnrolment;
-import PAI.domain.Student;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

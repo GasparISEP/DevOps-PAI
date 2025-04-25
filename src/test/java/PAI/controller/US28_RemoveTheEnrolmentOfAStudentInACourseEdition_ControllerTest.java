@@ -1,10 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.factory.*;
-import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
-import PAI.repository.ICourseEditionEnrolmentRepository;
+import PAI.domain.courseEditionEnrolment.*;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -202,9 +200,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeExistingEnrolment_ShouldReturnTrue_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -220,8 +217,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
 
         // Act
         boolean result = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -234,9 +232,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -253,6 +250,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID = new CourseID(acronym3, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         Acronym acronym2 = new Acronym("CVE");
@@ -266,9 +264,10 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID2 = new CourseID(acronym4, name2);
         CourseInStudyPlanID courseInStudyPlan2ID = new CourseInStudyPlanID(courseID2, studyPlanID2);
         CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlan2ID);
+        CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID, courseEdition2ID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEdition2ID);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -283,9 +282,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -303,9 +301,11 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
+        CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID2, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
-        enrolmentRepository.enrolStudentInACourseEdition(studentID2, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -324,9 +324,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeNonExistingEnrolment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -354,9 +353,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -372,8 +370,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -388,9 +387,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
     @Test
     void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
-        ICourseEditionEnrolmentFactory enrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
         ICourseEditionEnrolmentListFactory CeeListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(enrolmentFactory, CeeListFactory);
+        CourseEditionEnrolmentRepositoryImpl enrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
         US28_RemoveTheEnrolmentOfAStudentInACourseEditionController controller = new US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(enrolmentRepository);
 
         StudentID studentID = mock(StudentID.class);
@@ -406,8 +404,9 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseID courseID = new CourseID(acronym2, name);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
+        CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(studentID, courseEditionID);
+        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
 
         // Act and assert
         // test for the case where Student is null

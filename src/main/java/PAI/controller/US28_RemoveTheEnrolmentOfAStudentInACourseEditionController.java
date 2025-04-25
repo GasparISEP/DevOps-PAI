@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.repository.ICourseEditionEnrolmentRepository;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 
 public class US28_RemoveTheEnrolmentOfAStudentInACourseEditionController {
 

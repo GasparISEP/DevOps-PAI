@@ -3,6 +3,7 @@ package PAI.controller;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.*;
 
 import java.util.Collections;
@@ -44,9 +45,9 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
-        return _ceeRepositoryInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
-    }
+//    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
+//        return _ceeRepositoryInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
+//    }
 
     //Verify if the course edition enrollment repository is valid
     private void validateCourseEditionEnrolmentRepository (ICourseEditionEnrolmentRepository ceeRepositoryInterface) throws IllegalArgumentException {

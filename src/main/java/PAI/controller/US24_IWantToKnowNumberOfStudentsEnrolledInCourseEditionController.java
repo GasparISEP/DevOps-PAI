@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.repository.CourseEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 
 public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
 

@@ -1,8 +1,7 @@
-package PAI.factory;
+package PAI.domain.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.CourseEditionEnrolment;
 
 import java.time.LocalDate;
 

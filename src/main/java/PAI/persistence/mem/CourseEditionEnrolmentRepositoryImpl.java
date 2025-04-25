@@ -1,11 +1,11 @@
-package PAI.repository;
+package PAI.persistence.mem;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.*;
-import PAI.factory.ICourseEditionEnrolmentFactory;
-import PAI.factory.ICourseEditionEnrolmentListFactory;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 
 import java.util.*;
 
@@ -13,23 +13,18 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     private Set<CourseEditionEnrolment> _courseEditionEnrolments;
 
-    private final ICourseEditionEnrolmentFactory _courseEditionEnrolmentFactory;
-
-    public CourseEditionEnrolmentRepositoryImpl(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory, ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
+    public CourseEditionEnrolmentRepositoryImpl(ICourseEditionEnrolmentListFactory courseEditionEnrolmentListFactory) {
 
         _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();
-        _courseEditionEnrolmentFactory = courseEditionEnrolmentFactory;
     }
 
-    public boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
-        try {
-            CourseEditionEnrolment cee1 = _courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentId, courseEditionId);
+    public boolean enrolStudentInACourseEdition(CourseEditionEnrolment cee1) {
 
-            return _courseEditionEnrolments.add(cee1);
-
-        } catch (Exception e) {
+        if (cee1 == null) {
             return false;
         }
+        return _courseEditionEnrolments.add(cee1);
+
     }
 
     public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
@@ -81,21 +76,21 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
     }
 
 
-    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions){
+    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
 
-        for (CourseEditionID courseEditionId : courseEditions) {
-            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
-            if (existingEnrollment.isPresent()) {
-                throw new IllegalStateException("This course edition enrolment is already in the list.");
-            }
-            enrolStudentInACourseEdition(studentId, courseEditionId);
-        }
+//        for (CourseEditionID courseEditionId : courseEditions) {
+//            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
+//            if (existingEnrollment.isPresent()) {
+//                throw new IllegalStateException("This course edition enrolment is already in the list.");
+//            }
+//            enrolStudentInACourseEdition(studentId, courseEditionId);
+//        }
     }
 
     @Override
     public CourseEditionEnrolment save(CourseEditionEnrolment entity) {
 
-        if(entity == null){
+        if (entity == null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
         _courseEditionEnrolments.add(entity);
@@ -116,7 +111,7 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     @Override
     public boolean containsOfIdentity(CourseEditionEnrolmentID id) {
-        if (!ofIdentity(id).isPresent()){
+        if (!ofIdentity(id).isPresent()) {
             return false;
         }
         return true;

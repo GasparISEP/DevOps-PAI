@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
