@@ -42,7 +42,7 @@ class NIFDataModelTest {
         NIFDataModel dataModel = new NIFDataModel(nif, country);
 
         //Assert
-        assertEquals(nif, dataModel.getNIF());
+        assertEquals(nif, dataModel.getNifNumber());
 
     }
 
@@ -57,7 +57,7 @@ class NIFDataModelTest {
         NIFDataModel dataModel = new NIFDataModel(nif, country);
 
         //Assert
-        assertEquals(country, dataModel.getCountry());
+        assertEquals(country, dataModel.getNifCountry());
 
     }
 

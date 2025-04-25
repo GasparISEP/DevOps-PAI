@@ -32,8 +32,8 @@ class NIFMapperTest {
 
         // Assert
         assertNotNull(dataModel);
-        assertEquals(nifValue, dataModel.getNIF());
-        assertEquals(countryValue, dataModel.getCountry());
+        assertEquals(nifValue, dataModel.getNifNumber());
+        assertEquals(countryValue, dataModel.getNifCountry());
     }
 
     @Test
@@ -44,8 +44,8 @@ class NIFMapperTest {
         NIFDataModel nifDataModelMock = mock(NIFDataModel.class);
 
 
-        when(nifDataModelMock.getNIF()).thenReturn(nifValue);
-        when(nifDataModelMock.getCountry()).thenReturn(countryValue);
+        when(nifDataModelMock.getNifNumber()).thenReturn(nifValue);
+        when(nifDataModelMock.getNifCountry()).thenReturn(countryValue);
 
         NIFMapper nifMapper = new NIFMapper();
 

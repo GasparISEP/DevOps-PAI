@@ -18,8 +18,8 @@ public class NIFMapper implements INIFMapper {
 
     public NIF dataModelToDomain (NIFDataModel nifDataModel) throws Exception {
 
-        String NIF = nifDataModel.getNIF();
-        String countryValue = nifDataModel.getCountry();
+        String NIF = nifDataModel.getNifNumber();
+        String countryValue = nifDataModel.getNifCountry();
 
         Country country = new Country(countryValue);
 

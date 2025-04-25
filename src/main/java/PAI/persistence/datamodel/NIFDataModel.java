@@ -7,22 +7,22 @@ import java.util.Objects;
 @Embeddable
 public class NIFDataModel {
 
-    private String NIF;
-    private String country;
+    private String nifNumber;
+    private String nifCountry;
 
     public NIFDataModel() {}
 
-    public NIFDataModel(String NIF, String country) {
-        this.NIF = NIF;
-        this.country = country;
+    public NIFDataModel(String nifNumber, String nifCountry) {
+        this.nifNumber = nifNumber;
+        this.nifCountry = nifCountry;
     }
 
-    public String getNIF() {
-        return NIF;
+    public String getNifNumber() {
+        return nifNumber;
     }
 
-    public String getCountry() {
-        return country;
+    public String getNifCountry() {
+        return nifCountry;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class NIFDataModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NIFDataModel that = (NIFDataModel) o;
-        return Objects.equals(NIF, that.NIF) && Objects.equals(country, that.country);
+        return Objects.equals(nifNumber, that.nifNumber) && Objects.equals(nifCountry, that.nifCountry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(NIF, country);
+        return Objects.hash(nifNumber, nifCountry);
     }
 }
