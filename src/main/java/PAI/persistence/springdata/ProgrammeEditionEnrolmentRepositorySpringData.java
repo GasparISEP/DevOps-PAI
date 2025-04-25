@@ -1,17 +1,17 @@
 package PAI.persistence.springdata;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
+import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.repository.IProgrammeEditionEnrolmentRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class ProgrammeEditionEnrolmentRepositorySpringData {
+public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgrammeEditionEnrolmentRepository {
 
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
     private final IProgrammeEditionEnrolmentMapper _peeMapper;
@@ -33,6 +33,68 @@ public class ProgrammeEditionEnrolmentRepositorySpringData {
         this._peeMapper = peeMapper;
         this._peeIDMapper = peeIDMapper;
     }
+
+    public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+        if (studentId == null || programmeEditionId == null)
+            return false;
+
+        List<ProgrammeEditionEnrolmentDataModel> peeDataModels = this._peeRepositorySpringData.findAll();
+
+        for (ProgrammeEditionEnrolmentDataModel dataModel : peeDataModels) {
+            ProgrammeEditionEnrolment enrolment = _peeMapper.toDomain(dataModel)
+                    .orElseThrow(() -> new IllegalStateException("Could not map ProgrammeEditionEnrolmentDataModel to domain"));
+
+            if (enrolment.hasSameStudent(studentId) && enrolment.hasSameProgrammeEdition(programmeEditionId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId) {
+        List<ProgrammeEditionID> ProgrammeEditionsThatStudentIsEnrolled = new ArrayList<>();
+
+        List<ProgrammeEditionEnrolmentDataModel> peeDataModels = this._peeRepositorySpringData.findAll();
+
+        for (ProgrammeEditionEnrolmentDataModel dataModel : peeDataModels) {
+            ProgrammeEditionEnrolment enrolment = _peeMapper.toDomain(dataModel)
+                    .orElseThrow(() -> new IllegalStateException("Could not map data model to domain"));
+
+            if (enrolment.findStudentInProgrammeEdition().equals(studentId)) {
+                ProgrammeEditionID programmeEditionId = enrolment.findProgrammeEditionInEnrolment();
+                ProgrammeEditionsThatStudentIsEnrolled.add(programmeEditionId);
+            }
+        }
+
+        return ProgrammeEditionsThatStudentIsEnrolled;
+    }
+
+
+
+
+    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+
+
+
+        return false;
+    }
+
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
+
+
+        return 0;
+    }
+
+    //US21 - Get The Number Of Students Enrolled In A Programme Edition
+    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId){
+
+
+        return 0;
+    }
+
+
+
 
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment enrolment) {
         if (enrolment == null) {
