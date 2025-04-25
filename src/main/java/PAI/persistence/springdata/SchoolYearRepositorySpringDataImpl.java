@@ -60,7 +60,8 @@ public class SchoolYearRepositorySpringDataImpl {
         return allSchoolYears;
     }
     public Optional<SchoolYear> ofIdentity(SchoolYearID id, SchoolYearFactoryImpl schoolYearFactory) {
-        Optional<SchoolYearDataModel> schoolYearDMOpt = schoolYearRepositorySpringData.findById(id.toString());
+        SchoolYearIDDataModel schoolYearIDDataModel=schoolYearIDMapper.toDataModel(id);
+        Optional<SchoolYearDataModel> schoolYearDMOpt = schoolYearRepositorySpringData.findById(schoolYearIDDataModel);
 
         if (schoolYearDMOpt.isEmpty()) {
             return Optional.empty();
@@ -77,7 +78,8 @@ public class SchoolYearRepositorySpringDataImpl {
         if(id ==null){
             return false;
         }
-        return schoolYearRepositorySpringData.existsById(id.toString());
+        SchoolYearIDDataModel schoolYearIDDataModel=schoolYearIDMapper.toDataModel(id);
+        return schoolYearRepositorySpringData.existsById(schoolYearIDDataModel);
     }
 
     //US18

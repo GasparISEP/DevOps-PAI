@@ -278,9 +278,11 @@ class SchoolYearRepositorySpringDataImplTest {
         SchoolYear schoolYearClass=mock(SchoolYear.class);
         SchoolYearFactoryImpl schoolYearFactory = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+        SchoolYearIDDataModel schoolYearIDDataModel=mock(SchoolYearIDDataModel.class);
 
+        when(schoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
         when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenReturn(schoolYearClass);
-        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(schoolYearDMOpt);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearIDDataModel)).thenReturn(schoolYearDMOpt);
         //Act
         Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
 
@@ -301,9 +303,10 @@ class SchoolYearRepositorySpringDataImplTest {
         SchoolYear schoolYearClass=mock(SchoolYear.class);
         SchoolYearFactoryImpl schoolYearFactory = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+        SchoolYearIDDataModel schoolYearIDDataModel=mock(SchoolYearIDDataModel.class);
 
         when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenReturn(schoolYearClass);
-        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(Optional.empty());
+        when(iSchoolYearRepositorySpringData.findById(schoolYearIDDataModel)).thenReturn(Optional.empty());
         //Act
         Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
 
@@ -322,9 +325,10 @@ class SchoolYearRepositorySpringDataImplTest {
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYearFactoryImpl schoolYearFactory = null;
         SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+        SchoolYearIDDataModel schoolYearIDDataModel=mock(SchoolYearIDDataModel.class);
 
         when(schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory)).thenThrow(new IllegalArgumentException("School Year DataModel and/or Factory cannot be null"));
-        when(iSchoolYearRepositorySpringData.findById(schoolYearID.toString())).thenReturn(schoolYearDMOpt);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearIDDataModel)).thenReturn(schoolYearDMOpt);
         //Act
         Optional<SchoolYear> schoolYear = schoolYearRepositorySpringData.ofIdentity(schoolYearID, schoolYearFactory);
 
@@ -340,8 +344,10 @@ class SchoolYearRepositorySpringDataImplTest {
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+        SchoolYearIDDataModel schoolYearIDDataModel=mock(SchoolYearIDDataModel.class);
 
-        when(iSchoolYearRepositorySpringData.existsById(schoolYearID.toString())).thenReturn(true);
+        when(schoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iSchoolYearRepositorySpringData.existsById(schoolYearIDDataModel)).thenReturn(true);
 
         //Act
         boolean result = schoolYearRepositorySpringData.containsOfIdentity(schoolYearID);
@@ -359,8 +365,9 @@ class SchoolYearRepositorySpringDataImplTest {
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYearRepositorySpringDataImpl schoolYearRepositorySpringData= new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+        SchoolYearIDDataModel schoolYearIDDataModel=mock(SchoolYearIDDataModel.class);
 
-        when(iSchoolYearRepositorySpringData.existsById(schoolYearID.toString())).thenReturn(false);
+        when(iSchoolYearRepositorySpringData.existsById(schoolYearIDDataModel)).thenReturn(false);
 
         //Act
         boolean result = schoolYearRepositorySpringData.containsOfIdentity(schoolYearID);
