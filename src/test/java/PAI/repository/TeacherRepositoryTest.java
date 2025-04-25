@@ -372,4 +372,16 @@ class TeacherRepositoryTest {
         assertTrue(result.isEmpty());
     }
 
+    // [Temporary] method still not properly implemented, but needs to exist in order for the class to implement interface
+    @Test
+    void testExistsByIDorNIF () {
+
+        ITeacherRepository teacherRepository = mock(TeacherRepository.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+        NIF nifDouble = mock(NIF.class);
+
+        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+
+        assertFalse(result);
+    }
 }
