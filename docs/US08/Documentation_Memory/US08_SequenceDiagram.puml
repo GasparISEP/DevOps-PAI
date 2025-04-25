@@ -6,51 +6,45 @@ title US08: I want to register a Student in the system
 actor ASC
 participant ":UI" as UI #implementation
 participant "ctrl1:RegisterStudentInSystemController" as ctrl #lightyellow
+participant "sService1:StudentService" as service #lightblue
+participant "sf1:StudentFactory" as SF #technology
+participant "address1:Address" as A #physical
+participant "s1:Student" as s1 #strategy
 participant "sr1:StudentRepository" as SR #lightcyan
 participant "s[i]:Student" as Student #strategy
-participant "sf1:StudentFactory" as SF #technology
-participant "s1:Student" as s1 #strategy
-participant "af1:AddressFactory" as AF #motivation
-participant "address1:Address" as A #physical
 
+activate ASC
 ASC -> UI: I want to register a student in the system
 activate UI
 UI --> ASC: What is the Student's information?
-ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country, academicEmail
-
-UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country, academicEmail)
+deactivate UI
+ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+activate UI
+UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
 activate ctrl
 
 ref over ctrl
-    Convert studentID, name, NIF, phone, email,
-    street, postalCode, location, country, academicEmail to Value Object
+    create studentID, name, NIF, phone, email,
+    street, postalCode, location, country and academicEmail VOs
 end ref
 
-ctrl -> SR: registerStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
-activate SR
+ctrl -> service: registerStudent (studentIDVO, nameVO, NIFVO, phoneVO, \n emailVO, streetVO, postalCodeVO, locationVO, \n countryVO, academicEmailVO)
+activate service
 
-SR -> SF: newStudent \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, \n streetVO, postalCodeVO, locationVO, countryVO)
+service -> SF: newStudent (studentIDVO, nameVO, NIFVO, phoneVO, \n emailVO, streetVO, postalCodeVO, locationVO, \n countryVO, academicEmailVO)
 activate SF
 
-SF --> AF: createAddress \n (streetVO, postalCodeVO, locationVO, countryVO)
-activate AF
-
-AF --> A**: new Address \n (streetVO, postalCodeVO, locationVO, countryVO)
+SF -> A**: new Address \n (streetVO, postalCodeVO, locationVO, countryVO)
 activate A
-A --> AF: address1
+A --> SF: address1
 deactivate A
 
-AF --> SF: address1
-deactivate AF
-SF --> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, emailVO, address1)
+SF -> s1**: new Student \n (studentIDVO, nameVO, NIFVO, phoneVO, \n emailVO, address1, academicEmailVO)
 activate s1
 s1 --> SF: s1
 deactivate s1
-SF --> SR: s1
-deactivate SF
-
-SR -> SR : isStudentRepeated(s1)
-
+SF -> SR: existsByStudentIDOrNIF(s1)
+activate SR
 loop for each Student in SR
     SR -> Student: isEquals(s1) || sameAs(s1)
     activate Student
@@ -58,11 +52,18 @@ end
 
 Student --> SR : False
 deactivate Student
-
-SR -> SR: save(s1)
-SR --> ctrl: True
+SR --> SF: False
 deactivate SR
-ctrl --> UI: True
+SF --> service: s1
+deactivate SF
+service -> SR: save(s1)
+activate SR
+SR -> SR: add(s1)
+SR --> service: s1
+deactivate SR
+service --> ctrl : s1
+deactivate service
+ctrl --> UI: s1
 deactivate ctrl
 UI --> ASC: Success!
 deactivate UI
