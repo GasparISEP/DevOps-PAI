@@ -4,9 +4,9 @@ skinparam sequenceMessageAlign center
 
 participant ":US13_Controller" as controller #implementation
 participant ":ITeacherCategoryService" as ItcService #motivation
-participant ":ITeacherCategoryRepositoryJPA" as ItcRepoJPA #physical
+participant ":ITeacherCategoryRepositorySpringData" as ItcRepoJPA #physical
 participant ":TeacherCategoryDataModel" as tcDataModel #application
-participant ":TeacherCategoryMapper" as tcMapper #strategy
+participant ":TeacherCategoryMapperImpl" as tcMapper #strategy
 participant ":ITeacherCategoryFactory" as ItcFactory #technology
 participant "tc:TeacherCategory" as tc #application
 

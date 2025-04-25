@@ -5,9 +5,9 @@ skinparam sequenceMessageAlign center
 
 participant ":US13_Controller" as controller #implementation
 participant ":IDepartmentService" as IdptService #business
-participant ":IDepartmentRepositoryJPA" as IdptRepoJPA #implementation
+participant ":IDepartmentRepositorySpringData" as IdptRepoJPA #implementation
 participant ":DepartmentDataModel" as dptDataModel #technology
-participant ":DepartmentMapper" as dptMapper #motivation
+participant ":DepartmentMapperImpl" as dptMapper #motivation
 participant ":IDepartmentFactory" as dptFactory #physical
 participant "dpt:Department" as dpt #strategy
 

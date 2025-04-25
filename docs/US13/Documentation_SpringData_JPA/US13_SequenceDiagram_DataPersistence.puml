@@ -15,9 +15,9 @@ participant "addr:Address" as addr #physical
 participant "t1:Teacher" as t #strategy
 participant "t1ID:TeacherID" as tID #technology
 'Ref#3 : create Teacher Career Progression tcp1.
-participant ":ITeacherRepositoryJPA" as IteacherRepoJPA #skyblue
+participant ":ITeacherRepositorySpringData" as IteacherRepoJPA #skyblue
 participant ":Teacher" as teacher #palegreen
-participant ":TeacherMapper" as tMapper #wheat
+participant ":TeacherMapperImpl" as tMapper #wheat
 participant ":TeacherID" as teacherID #thistle
 participant "tDM1:TeacherDataModel" as teacherDM #lightgray
 
@@ -82,7 +82,7 @@ IteacherFactory -> IteacherFactory : t1ID = t1.identity()
 IteacherFactory -> IteacherRepoJPA : containsOfIdentity(t1ID)
 activate IteacherRepoJPA
 |||
-loop for each Teacher in TeacherRepositoryJPA
+loop for each Teacher in TeacherRepositorySpringDataImpl - compares IDs
     IteacherRepoJPA -> teacher : identity()
     activate teacher
     teacher -> teacherID : equals()
