@@ -13,10 +13,10 @@ class US16_EnrolAStudentInACourseEditionController {
 }
 
 class CourseEditionEnrolmentServiceImpl {
-    +CourseEditionEnrolmentServiceImpl (courseEditionEnrolmentFactory : ICourseEditionEnrolmentFactory, courseEditionEnrolmentRepositoryInterface : ICourseEditionEnrolmentRepository,
-    programmeEditionEnrolmentRepositoryInterface : IProgrammeEditionEnrolmentRepository, courseEditionRepositoryInterface : ICourseEditionRepository)
-    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
-    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
+    +CourseEditionEnrolmentServiceImpl (ceeFactoryInterface : ICourseEditionEnrolmentFactory, ceeRepositoryInterface : ICourseEditionEnrolmentRepository,
+    peeRepositoryInterface : IProgrammeEditionEnrolmentRepository, courseEditionRepositoryInterface : ICourseEditionRepository)
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+    +findCourseEditionIDsByProgrammeEditionID(programmeEditionId: ProgrammeEditionID): List<CourseEditionID>
     +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
@@ -24,12 +24,14 @@ class CourseEditionEnrolmentRepositoryImpl {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
     courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
     +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +isStudentEnrolledInCourseEdition(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
 }
 
 class CourseEditionEnrolmentRepositorySpringDataJPAImpl {
     +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
     courseEditionEnrolmentSpringDataJPAInterface: ICourseEditionEnrolmentRepositorySpringDataJPA)
     +enrolStudentInACourseEdition (courseEditionEnrolment: CourseEditionEnrolment): boolean
+    +isStudentEnrolledInCourseEdition(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl {
@@ -55,6 +57,7 @@ class CourseEditionRepositorySpringDataJPAImpl {
 
 class CourseEditionEnrolmentFactoryImpl{
     +createCourseEditionEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+    +createWithEnrolmentDate(studentId: StudentID, courseEditionID: CourseEditionID, enrolmentDate: LocalDate, isActive: boolean)
 }
 
 class CourseEditionEnrolmentListFactoryImpl {
@@ -64,13 +67,14 @@ class CourseEditionEnrolmentListFactoryImpl {
 'Interfaces
 
 interface ICourseEditionEnrolmentService {
-    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEdition>
-    +findCourseEditionIDsByProgrammeEdition(programmeEditionId: ProgrammeEditionID): List<CourseEdition>
+    +findProgrammeEditionIDsThatStudentIsEnrolled(studentId: StudentID): List<ProgrammeEditionID>
+    +findCourseEditionIDsByProgrammeEdition(programmeEditionID: ProgrammeEditionID): List<CourseEditionID>
     +enrolStudentInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
 }
 
 interface ICourseEditionEnrolmentRepository {
     +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +isStudentEnrolledInCourseEdition(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
 }
 
 interface ICourseEditionEnrolmentRepositorySpringDataJPA {
@@ -121,8 +125,8 @@ interface ICourseEditionIDMapper {
 }
 
 interface ICourseEditionEnrolmentMapper {
-    +toDomain(courseEditionEnrolmentIDDataModel: CourseEditionEnrolmentIDDataModel):\n CourseEditionEnrolmentID
-    +toDataModel(courseEditionEnrolmentID: CourseEditionEnrolmentID):\n CourseEditionEnrolmentDataModel
+    +toDomain(courseEditionEnrolmentDataModel: CourseEditionEnrolmentDataModel):\n Optional<CourseEditionEnrolmentID>
+    +toDataModel(courseEditionEnrolment: CourseEditionEnrolment):\n Optional<CourseEditionEnrolmentDataModel>
 }
 
 interface ICourseEditionEnrolmentIDMapper {
@@ -329,12 +333,12 @@ class CourseEditionIDMapperImpl {
 
 'Mapper's
 
-class CourseEditionEnrolmentMapper{
-    -ceeIDMapper ICourseEditionEnrolmentIDMapper
-    -ceIDMapper ICourseEditionIDMapper
-    -courseEditionEnrolmentFactory ICourseEditionEnrolmentFactory
-    +toData(courseEditionEnrolment:\n CourseEditionEnrolment):\n CourseEditionEnrolmentDataModel
-    +toDomain(courseEditionEnrolmentDataModel:\n CourseEditionEnrolmentDataModel):\n CourseEditionEnrolment
+class CourseEditionEnrolmentMapperImpl{
+    -idMapper ICourseEditionEnrolmentIDMapper
+    -factory ICourseEditionEnrolmentFactory
+    +CourseEditionEnrolmentMapperImpl \n(idMapper: ICourseEditionEnrolmentIDMapper,\n factory: ICourseEditionEnrolmentFactory)
+    +toData(courseEditionEnrolment:\n CourseEditionEnrolment):\n Optional<CourseEditionEnrolmentDataModel>
+    +toDomain(courseEditionEnrolmentDataModel:\n CourseEditionEnrolmentDataModel):\n Optional<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentIDMapperImpl {
@@ -367,7 +371,7 @@ ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDat
 CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentRepositorySpringDataJPA
 CourseEditionEnrolmentRepositorySpringDataJPAImpl --> ICourseEditionEnrolmentFactory
 CourseEditionEnrolmentRepositorySpringDataJPAImpl ..> CourseEditionEnrolment
-CourseEditionEnrolmentRepositorySpringDataJPAImpl --> CourseEditionEnrolmentMapper
+CourseEditionEnrolmentRepositorySpringDataJPAImpl --> CourseEditionEnrolmentMapperImpl
 ICourseEditionEnrolmentRepositorySpringDataJPA ..> CourseEditionEnrolmentDataModel
 
 CourseEditionEnrolmentRepositoryImpl " 1  " -u-> "_setOfCee  1       " Set
