@@ -44,7 +44,7 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
+    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
         return _ceeRepositoryInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
     }
 

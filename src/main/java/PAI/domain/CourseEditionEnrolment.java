@@ -88,4 +88,7 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._isActive = new EnrolmentStatus(false);  // Updating the status to inactive
     }
 
+    public LocalDate getEnrolmentDate() {
+        return _enrolmentDate.getLocalDate();
+    }
 }

@@ -160,7 +160,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
     //testing enroll a student in a course edition method
     @Test
-    void shouldReturnTrueIfIsAValidCourseEditionEnrollment() {
+    void shouldReturnTrueIfIsAValidCourseEditionEnrollment() throws Exception {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -182,7 +182,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition() throws Exception {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -208,7 +208,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() {
+    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions() throws Exception {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -235,7 +235,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() {
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions() throws Exception {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -261,7 +261,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() {
+    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() throws Exception {
         //arrange
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);

@@ -44,4 +44,12 @@ public class CourseEditionEnrolmentID implements DomainId {
     public String toString() {
         return "CourseEditionEnrolmentID =" + _studentID + _courseEditionID;
     }
+
+    public StudentID getStudentID() {
+        return _studentID;
+    }
+
+    public CourseEditionID getCourseEditionID() {
+        return _courseEditionID;
+    }
 }
