@@ -9,6 +9,7 @@ import PAI.factory.ITeacherFactory;
 import PAI.factory.ITeacherListFactory;
 import PAI.factory.TeacherFactoryImpl;
 import PAI.factory.TeacherListFactoryImpl;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
@@ -96,7 +97,9 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
         IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ITeacherFactory iTeacherFactory = new TeacherFactoryImpl();
+        // There was the need to mock TeacherRepositorySpringData due to a never-ending loop of dependency instantiation in the context of an integration test
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherFactory iTeacherFactory = new TeacherFactoryImpl(teacherRepository);
         ITeacherListFactory iTeacherListFactory = new TeacherListFactoryImpl();
 
         IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);

@@ -33,6 +33,11 @@ public class TeacherAcronym implements ValueObject {
     public int hashCode() {
         return Objects.hash(_teacherAcronymString);
     }
+
+    @Override
+    public String toString () {
+        return _teacherAcronymString;
+    }
 }
 
 

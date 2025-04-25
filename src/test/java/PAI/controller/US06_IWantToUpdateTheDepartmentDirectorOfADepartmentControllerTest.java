@@ -2,15 +2,30 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
+import PAI.mapper.*;
+import PAI.persistence.datamodel.NIFDataModel;
+import PAI.persistence.datamodel.TeacherDataModel;
+import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.springdata.ITeacherRepositorySpringData;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
+import PAI.service.ITeacherService;
+import PAI.service.TeacherService;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -240,7 +255,8 @@ void shouldReturnTrueIfUpdateOfDirectorSucessfull () throws Exception {
     DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(factory, listFactory);
 
 
-    ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+    ITeacherRepository teacherRepositorySpringData = mock(TeacherRepositorySpringDataImpl.class);
+    ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepositorySpringData);
     TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
     ITeacherRepository teacherRepository= new TeacherRepository(teacherFactory, teacherListFactoryImpl);
 
@@ -284,7 +300,8 @@ void shouldReturnFalseIfTeacherIdIsNull_IntegrationTest () throws Exception {
     DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(factory, listFactory);
 
 
-    ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+    ITeacherRepository teacherRepositorySpringData = mock(TeacherRepositorySpringDataImpl.class);
+    ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepositorySpringData);
     TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
     ITeacherRepository teacherRepository= new TeacherRepository(teacherFactory, teacherListFactoryImpl);
 
@@ -328,7 +345,8 @@ void shouldReturnFalseIfDepartmentIdIsNull_IntegrationTest () throws Exception {
     DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(factory, listFactory);
 
 
-    ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+    ITeacherRepository teacherRepositorySpringData = mock(TeacherRepositorySpringDataImpl.class);
+    ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepositorySpringData);
     TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
     ITeacherRepository teacherRepository= new TeacherRepository(teacherFactory, teacherListFactoryImpl);
 
@@ -373,7 +391,8 @@ void shouldReturnFalseIfDepartmentIdIsNull_IntegrationTest () throws Exception {
         DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(factory, listFactory);
 
 
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+        ITeacherRepository teacherRepositorySpringData = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepositorySpringData);
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository= new TeacherRepository(teacherFactory, teacherListFactoryImpl);
 

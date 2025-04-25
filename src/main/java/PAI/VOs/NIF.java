@@ -35,4 +35,9 @@ public class NIF implements ValueObject {
     }
 
     public Country getCountry(){ return _country; }
+
+    @Override
+    public String toString () {
+        return _NIF;
+    }
 }

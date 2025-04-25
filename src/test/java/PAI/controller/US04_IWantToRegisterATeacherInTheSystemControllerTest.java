@@ -3,6 +3,7 @@ import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.factory.*;
+import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
@@ -199,7 +200,9 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     //Methods
     private TeacherRepository createTeacherRepo() {
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
+        // There was the need to mock TeacherRepositorySpringData due to a never-ending loop of dependency instantiation in the context of an integration test
+        ITeacherRepository teacherRepositorySpringData = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepositorySpringData);
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
         return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
     }

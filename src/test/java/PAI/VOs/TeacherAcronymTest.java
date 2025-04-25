@@ -142,4 +142,16 @@ class TeacherAcronymTest {
         //Act & Assert
         assertNotEquals(teacherAcronym1.hashCode(), teacherAcronym2.hashCode());
     }
+
+    @Test
+    void toStringMethodShouldReturnRespectiveString () {
+        // Arrange
+        TeacherAcronym teacherAcronym1 = new TeacherAcronym("ABC");
+
+        // Act
+        String result = teacherAcronym1.toString();
+
+        // Assert
+        assertEquals("ABC", result);
+    }
 }

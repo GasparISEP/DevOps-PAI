@@ -2,6 +2,7 @@ package PAI.VOs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.RETURNS_SELF;
 import static org.mockito.Mockito.mock;
 
 class NIFTest {
@@ -484,5 +485,18 @@ class NIFTest {
 
         //Arrange
         assertEquals(country, result);
+    }
+
+    @Test
+    void toStringMethodShouldReturnRespectiveString () {
+        // Arrange
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+
+        // Act
+        String result = nif.toString();
+
+        // Assert
+        assertEquals("123456789", result);
     }
 }
