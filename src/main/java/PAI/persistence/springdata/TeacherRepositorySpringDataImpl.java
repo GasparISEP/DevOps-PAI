@@ -90,11 +90,6 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         return Optional.empty();
     }
 
-    @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
-    public Optional<TeacherID> findTeacherIdByTeacher(Teacher teacher) {
-        return Optional.empty();
-    }
-
     @Override
     public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);

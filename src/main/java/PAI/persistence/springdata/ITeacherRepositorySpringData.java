@@ -12,7 +12,5 @@ import java.util.Optional;
 
 public interface ITeacherRepositorySpringData extends JpaRepository<TeacherDataModel, String> {
 
-    Optional<TeacherDataModel> findTeacherByTeacherAcronymOrNIF(TeacherAcronym teacherAcronym, NIF nif);
-
     boolean existsByIDorNIF (TeacherIDDataModel teacherIDDataModel, NIFDataModel nifDataModel);
 }

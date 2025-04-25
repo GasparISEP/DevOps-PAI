@@ -65,15 +65,6 @@ public class TeacherRepository implements ITeacherRepository {
         return Optional.of(teacher.identity());
     }
 
-    public Optional<TeacherID> findTeacherIdByTeacher (Teacher teacher) {
-        for (Teacher existingTeacher : _teachers) {
-            if (existingTeacher.sameAs(teacher)) {
-                return Optional.of(teacher.identity());
-            }
-        }
-        return Optional.empty();
-    }
-
     // [Temporary] method still not properly implemented but needs to exist in order for the class to implement the interface
     public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
         return false;

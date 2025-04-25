@@ -290,45 +290,6 @@ class TeacherRepositoryTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    void shouldNotReturnIdWhenTeacherDoesntExistsInList() throws IllegalArgumentException {
-        // Arrange
-        ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
-        ITeacherListFactory teacherListFactory = mock(ITeacherListFactory.class);
-        List<Teacher> teacherList = new ArrayList<>();
-        when(teacherListFactory.newList()).thenReturn(teacherList);
-
-        TeacherRepository repository = new TeacherRepository(teacherFactory, teacherListFactory);
-
-        TeacherID teacherID1 = mock(TeacherID.class);
-        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
-        AcademicBackground academicBackground = mock(AcademicBackground.class);
-        Name name = mock(Name.class);
-        NIF nif = mock(NIF.class);
-        PhoneNumber phone = mock(PhoneNumber.class);
-        Email email = mock(Email.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-
-        Teacher teacher = mock(Teacher.class);
-
-        when(teacher.identity()).thenReturn(teacherID1);
-
-
-        when(teacherFactory.createTeacher(teacherAcronym, name, email, nif, phone, academicBackground, streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentID)).thenReturn(teacher);
-        when(teacher.sameAs(any())).thenReturn(false);
-
-        // Act
-        repository.registerTeacher(teacherAcronym, name, email, nif, phone, academicBackground, streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentID);
-        Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacher);
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
-
     /*@Test
     void testFindTeacherIdByTeacherReturnsCorrectIdWhenTeacherExists() {
             // Arrange
@@ -350,33 +311,12 @@ class TeacherRepositoryTest {
             assertTrue(result.isPresent());
     }*/
 
-    @Test
-    void testFindTeacherIdByTeacherReturnsEmptyWhenTeacherDoesNotExist() {
-        // Arrange
-        createFactoriesDoubles();
-        TeacherID idDouble = mock(TeacherID.class);
-        Teacher teacher = mock(Teacher.class);
-        Teacher teacherDouble = mock(Teacher.class);
-
-        List<Teacher> teachers = List.of(teacher);
-        _teacherListFactory = () -> teachers;
-
-        TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
-        when(teacher.identity()).thenReturn(idDouble);
-
-
-        // Act
-        Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacherDouble);
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
-
     // [Temporary] method still not properly implemented, but needs to exist in order for the class to implement interface
     @Test
     void testExistsByIDorNIF () {
 
-        ITeacherRepository teacherRepository = mock(TeacherRepository.class);
+        createFactoriesDoubles();
+        ITeacherRepository teacherRepository = new TeacherRepository(_teacherFactory, _teacherListFactory);
         TeacherID teacherIDDouble = mock(TeacherID.class);
         NIF nifDouble = mock(NIF.class);
 
