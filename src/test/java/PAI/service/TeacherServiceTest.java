@@ -184,7 +184,7 @@ class TeacherServiceTest {
     }
 
     @Test
-    void shouldReturnFalseIfTeacherExistsWhenCallingExistsByID(){
+    void shouldReturnFalseIfTeacherDoesNotExistsWhenCallingExistsByID(){
         //Arrange
         TeacherID id = mock(TeacherID.class);
         when(teacherRepositoryDouble.containsOfIdentity(id)).thenReturn(false);
