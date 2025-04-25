@@ -41,4 +41,8 @@ public class TeacherService implements ITeacherService {
 
         return Optional.of(teacher.identity());
     }
+
+    public boolean existsById(TeacherID teacherID) {
+        return _teacherRepository.containsOfIdentity(teacherID);
+    }
 }

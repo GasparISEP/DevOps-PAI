@@ -171,4 +171,26 @@ class TeacherServiceTest {
         // Assert
         assertEquals("Database is currently down.", exception.getMessage());
     }
+
+    @Test
+    void shouldReturnTrueIfTeacherExistsWhenCallingExistsByID(){
+        //Arrange
+        TeacherID id = mock(TeacherID.class);
+        when(teacherRepositoryDouble.containsOfIdentity(id)).thenReturn(true);
+        //Act
+        boolean result = teacherService.existsById(id);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherExistsWhenCallingExistsByID(){
+        //Arrange
+        TeacherID id = mock(TeacherID.class);
+        when(teacherRepositoryDouble.containsOfIdentity(id)).thenReturn(false);
+        //Act
+        boolean result = teacherService.existsById(id);
+        //Assert
+        assertFalse(result);
+    }
 }
