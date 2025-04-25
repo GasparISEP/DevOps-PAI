@@ -25,8 +25,7 @@ class ProgrammeEditionEnrolmentMapperImplTest {
     void testConstructorWithNullProgrammeEditionEnrolmentIDMapper() {
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolmentMapperImpl(null, mock(IProgrammeEditionEnrolmentFactory.class),
-                    mock(IProgrammeEditionEnrolmentIDMapper.class), mock(IProgrammeEditionEnrolmentFactory.class));
+            new ProgrammeEditionEnrolmentMapperImpl(null, mock(IProgrammeEditionEnrolmentFactory.class));
         });
     }
 
@@ -35,7 +34,7 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEditionEnrolmentMapperImpl(mock(IProgrammeEditionEnrolmentIDMapper.class),
-                    null, mock(IProgrammeEditionEnrolmentIDMapper.class), mock(IProgrammeEditionEnrolmentFactory.class));
+                    null);
         });
     }
 
@@ -45,7 +44,6 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         IProgrammeEditionEnrolmentIDMapper mockProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
         IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         ProgrammeEditionEnrolmentMapperImpl mapper = new ProgrammeEditionEnrolmentMapperImpl(
-                mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory,
                 mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory
         );
 
@@ -62,7 +60,6 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         IProgrammeEditionEnrolmentIDMapper mockProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
         IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         ProgrammeEditionEnrolmentMapperImpl mapper = new ProgrammeEditionEnrolmentMapperImpl(
-                mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory,
                 mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory
         );
 
@@ -91,7 +88,6 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         IProgrammeEditionEnrolmentIDMapper mockProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
         IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         ProgrammeEditionEnrolmentMapperImpl mapper = new ProgrammeEditionEnrolmentMapperImpl(
-                mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory,
                 mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory
         );
 
@@ -108,7 +104,6 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         IProgrammeEditionEnrolmentIDMapper mockProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
         IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         ProgrammeEditionEnrolmentMapperImpl mapper = new ProgrammeEditionEnrolmentMapperImpl(
-                mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory,
                 mockProgrammeEditionEnrolmentIDMapper, mockProgrammeEditionEnrolmentFactory
         );
 

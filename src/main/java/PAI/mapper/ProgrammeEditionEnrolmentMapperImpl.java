@@ -17,7 +17,7 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
     private final IProgrammeEditionEnrolmentFactory _programmeEditionEnrolmentFactory;
 
     public ProgrammeEditionEnrolmentMapperImpl(IProgrammeEditionEnrolmentIDMapper programmeEditionEnrolmentIDMapper,
-                                               IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory, IProgrammeEditionEnrolmentIDMapper programmeEditionEnrolmentIDMapper1, IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory1) {
+                                               IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory) {
         if (programmeEditionEnrolmentIDMapper == null) {
             throw new IllegalArgumentException("programmeEditionEnrolmentIDMapper cannot be null or blank");
         }
