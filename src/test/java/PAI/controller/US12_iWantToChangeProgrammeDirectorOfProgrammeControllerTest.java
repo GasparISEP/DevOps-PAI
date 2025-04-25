@@ -18,8 +18,6 @@ import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -42,24 +40,25 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     }
 
     @Test
-    void shouldReturnTrueWhenDirectorIsChanged() throws Exception{
-        //arrange
-        IProgrammeRepository programmeList = mock(IProgrammeRepository.class);
+    void shouldReturnTrueWhenDirectorIsChanged() throws Exception {
+        // arrange
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeList, teacherRepo);
-        Teacher teacher = mock(Teacher.class);
-        Programme programme = mock(Programme.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        TeacherID teacherID = mock(TeacherID.class);
+        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeRepo, teacherRepo);
 
-        when(programmeList.findProgrammeIdByProgramme(programme)).thenReturn(Optional.of(programmeID));
-        when(teacherRepo.findTeacherIdByTeacher(teacher)).thenReturn(Optional.of(teacherID));
-        when(programmeList.changeProgrammeDirector(programmeID,teacherID)).thenReturn(true);
+        Programme mockProgramme = mock(Programme.class);
+        Teacher mockTeacher = mock(Teacher.class);
+        ProgrammeID mockProgrammeID = mock(ProgrammeID.class);
+        TeacherID mockTeacherID = mock(TeacherID.class);
 
+        when(mockProgramme.identity()).thenReturn(mockProgrammeID);
+        when(mockTeacher.identity()).thenReturn(mockTeacherID);
+        when(programmeRepo.changeProgrammeDirector(mockProgrammeID, mockTeacherID)).thenReturn(true);
 
-        //act
-        boolean result = controller.changeProgrammeDirector(programme,teacher);
-        //assert
+        // act
+        boolean result = controller.changeProgrammeDirector(mockProgramme, mockTeacher);
+
+        // assert
         assertTrue(result);
     }
 
