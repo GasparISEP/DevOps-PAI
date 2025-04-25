@@ -16,14 +16,14 @@ import static org.mockito.Mockito.mock;
 
 class TeacherCareerProgressionServiceTest {
 
-    private ITeacherCareerProgressionRepository _repository;
-    private ITeacherCareerProgressionFactory _factory;
+    private ITeacherCareerProgressionRepository _repositoryDouble;
+    private ITeacherCareerProgressionFactory _factoryDouble;
 
     //Arrange
     @BeforeEach
     void setup(){
-        _repository = mock(ITeacherCareerProgressionRepository.class);
-        _factory = mock(ITeacherCareerProgressionFactory.class);
+        _repositoryDouble = mock(ITeacherCareerProgressionRepository.class);
+        _factoryDouble = mock(ITeacherCareerProgressionFactory.class);
     }
 
     @Test
@@ -31,7 +31,7 @@ class TeacherCareerProgressionServiceTest {
         //Arrange
 
         //Act & Assert
-        new TeacherCareerProgressionService(_repository, _factory);
+        new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
     }
 
     static Stream<Arguments> testWithNullInputs(){
@@ -42,12 +42,12 @@ class TeacherCareerProgressionServiceTest {
     }
     @ParameterizedTest
     @MethodSource("testWithNullInputs")
-    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs(ITeacherCareerProgressionRepository repo,
-                                                   ITeacherCareerProgressionFactory factory, String expectedMessage){
+    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs(ITeacherCareerProgressionRepository repoDouble,
+                                                   ITeacherCareerProgressionFactory factoryDouble, String expectedMessage){
         //Arrange
 
         //Act
-        Executable action = () -> new TeacherCareerProgressionService(repo, factory);
+        Executable action = () -> new TeacherCareerProgressionService(repoDouble, factoryDouble);
 
         //Assert
         Throwable result = assertThrows(NullPointerException.class, action);
