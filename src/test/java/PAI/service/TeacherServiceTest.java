@@ -176,7 +176,7 @@ class TeacherServiceTest {
     void shouldReturnTrueIfTeacherExistsWhenCallingExistsByID(){
         //Arrange
         TeacherID id = mock(TeacherID.class);
-        when(teacherRepositoryDouble.containsOfIdentity(id)).thenReturn(true);
+        when(teacherService.existsById(id)).thenReturn(true);
         //Act
         boolean result = teacherService.existsById(id);
         //Assert
@@ -187,7 +187,7 @@ class TeacherServiceTest {
     void shouldReturnFalseIfTeacherDoesNotExistsWhenCallingExistsByID(){
         //Arrange
         TeacherID id = mock(TeacherID.class);
-        when(teacherRepositoryDouble.containsOfIdentity(id)).thenReturn(false);
+        when(teacherService.existsById(id)).thenReturn(false);
         //Act
         boolean result = teacherService.existsById(id);
         //Assert
