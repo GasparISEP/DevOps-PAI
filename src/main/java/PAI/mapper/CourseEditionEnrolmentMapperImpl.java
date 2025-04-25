@@ -1,13 +1,15 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEditionEnrolment;
-import PAI.factory.ICourseEditionEnrolmentFactory;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class CourseEditionEnrolmentMapperImpl implements ICourseEditionEnrolmentMapper {
 
     private final ICourseEditionEnrolmentIDMapper idMapper;
