@@ -5,7 +5,9 @@ import PAI.VOs.Description;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.repository.ISchoolYearRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SchoolYearServiceImpl implements ISchoolYearService {
 
     private final ISchoolYearRepository schoolYearRepository;

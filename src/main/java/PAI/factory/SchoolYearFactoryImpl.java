@@ -4,9 +4,11 @@ import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class SchoolYearFactoryImpl implements ISchoolYearFactory {
 
     public SchoolYear createSchoolYear(Description description, Date startDate, Date endDate) {
