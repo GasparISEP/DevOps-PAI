@@ -7,7 +7,7 @@ import PAI.persistence.datamodel.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherMapper implements ITeacherMapper {
+public class TeacherMapperImpl implements ITeacherMapper {
 
     private ITeacherFactory _teacherFactory;
     private ITeacherIDMapper _teacherIDMapper;
@@ -17,7 +17,7 @@ public class TeacherMapper implements ITeacherMapper {
     private ITeacherAcademicEmailMapper _teacherAcademicEmailMapper;
 
 
-    public TeacherMapper(ITeacherFactory teacherFactory, ITeacherIDMapper teacherIDMapper, INIFMapper inifMapper, IPhoneNumberMapper phoneNumberMapper,
+    public TeacherMapperImpl(ITeacherFactory teacherFactory, ITeacherIDMapper teacherIDMapper, INIFMapper inifMapper, IPhoneNumberMapper phoneNumberMapper,
                          IAddressMapper addressMapper, ITeacherAcademicEmailMapper teacherAcademicEmailMapper) {
 
         if (teacherFactory == null) {

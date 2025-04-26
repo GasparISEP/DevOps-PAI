@@ -2,28 +2,16 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
-import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
-import PAI.factory.*;
-import PAI.mapper.*;
-import PAI.persistence.datamodel.TeacherDataModel;
-import PAI.persistence.springdata.ITeacherRepositorySpringData;
-import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.*;
 import PAI.service.ITeacherService;
-import PAI.service.TeacherService;
+import PAI.service.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +30,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void factoryDoublesSetup(){
         _teacherCategoryRepoDouble = mock(ITeacherCategoryRepository.class);
         _departmentRepoDouble = mock(IDepartmentRepository.class);
-        _teacherServiceDouble = mock(TeacherService.class);
+        _teacherServiceDouble = mock(TeacherServiceImpl.class);
         _teacherCareerProgressionRepoDouble = mock(ITeacherCareerProgressionRepository.class);
     }
 

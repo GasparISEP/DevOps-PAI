@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class TeacherRepositorySpringDataTest {
+class TeacherRepositorySpringDataImplTest {
 
     private ITeacherRepositorySpringData iTeacherRepoSpringData;
     private ITeacherMapper teacherMapper;
@@ -28,8 +28,8 @@ class TeacherRepositorySpringDataTest {
     @BeforeEach
     void setUp() {
         iTeacherRepoSpringData = mock(ITeacherRepositorySpringData.class);
-        teacherMapper = mock(TeacherMapper.class);
-        teacherIDMapper = mock(TeacherIDMapper.class);
+        teacherMapper = mock(TeacherMapperImpl.class);
+        teacherIDMapper = mock(TeacherIDMapperImpl.class);
         nifMapper = mock(NIFMapper.class);
 
         teacherRepository = new TeacherRepositorySpringDataImpl(

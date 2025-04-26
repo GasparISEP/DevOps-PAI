@@ -24,7 +24,7 @@ public class ProgrammeMapperTest {
     void shouldMakeANotNullConstructor() {
         //arrange
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-        TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
+        TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
@@ -42,7 +42,7 @@ public class ProgrammeMapperTest {
         Programme programme = mock(Programme.class);
 
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-        TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
+        TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
@@ -101,7 +101,7 @@ public class ProgrammeMapperTest {
         ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
 
         ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-        TeacherIDMapper teacherIDMapper = mock(TeacherIDMapper.class);
+        TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);

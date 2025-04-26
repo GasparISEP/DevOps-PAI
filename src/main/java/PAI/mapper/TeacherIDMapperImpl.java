@@ -6,7 +6,7 @@ import PAI.persistence.datamodel.TeacherIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherIDMapper implements ITeacherIDMapper {
+public class TeacherIDMapperImpl implements ITeacherIDMapper {
 
     public TeacherID toDomain (TeacherIDDataModel teacherIDDataModel) {
 

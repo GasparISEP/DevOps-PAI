@@ -12,12 +12,12 @@ import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 public class ProgrammeMapper implements IProgrammeMapper {
 
     private final ProgrammeIDMapper _progIDMapper;
-    private final TeacherIDMapper _teacherIDMapper;
+    private final TeacherIDMapperImpl _teacherIDMapper;
     private final DepartmentIDMapperImpl _departmentIDMapper;
     private final DegreeTypeIDMapper _degreeTypeIDMapper;
     private final IProgrammeFactory _factory;
 
-    public ProgrammeMapper (ProgrammeIDMapper progIDMapper, TeacherIDMapper teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper, DegreeTypeIDMapper degreeTypeIDMapper, IProgrammeFactory factory) {
+    public ProgrammeMapper (ProgrammeIDMapper progIDMapper, TeacherIDMapperImpl teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper, DegreeTypeIDMapper degreeTypeIDMapper, IProgrammeFactory factory) {
         _progIDMapper = progIDMapper;
         _teacherIDMapper = teacherIDMapper;
         _departmentIDMapper = departmentIDMapper;

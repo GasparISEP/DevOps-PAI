@@ -19,7 +19,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherServiceTest {
+class TeacherServiceImplTest {
 
     private ITeacherFactory teacherFactoryDouble;
     private ITeacherRepository teacherRepositoryDouble;
@@ -41,7 +41,7 @@ class TeacherServiceTest {
     void setUp() {
         teacherFactoryDouble = mock(TeacherFactoryImpl.class);
         teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
-        teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
+        teacherService = new TeacherServiceImpl(teacherFactoryDouble, teacherRepositoryDouble);
 
         acronymDouble = mock(TeacherAcronym.class);
         nameDouble = mock(Name.class);
@@ -63,7 +63,7 @@ class TeacherServiceTest {
         ITeacherRepository teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
 
         // Arrange + Act
-        TeacherService teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
+        TeacherServiceImpl teacherService = new TeacherServiceImpl(teacherFactoryDouble, teacherRepositoryDouble);
 
         // Assert
         assertNotNull(teacherService);
@@ -76,7 +76,7 @@ class TeacherServiceTest {
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherService(null, teacherRepositoryDouble);
+            new TeacherServiceImpl(null, teacherRepositoryDouble);
         });
 
         // Assert
@@ -90,7 +90,7 @@ class TeacherServiceTest {
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherService(teacherFactoryDouble, null);
+            new TeacherServiceImpl(teacherFactoryDouble, null);
         });
 
         // Assert

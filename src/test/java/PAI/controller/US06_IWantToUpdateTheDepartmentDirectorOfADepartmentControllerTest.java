@@ -12,20 +12,12 @@ import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepository;
-import PAI.service.ITeacherService;
-import PAI.service.TeacherService;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
+
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TeacherService implements ITeacherService {
+public class TeacherServiceImpl implements ITeacherService {
 
     private ITeacherFactory _teacherFactory;
     private ITeacherRepository _teacherRepository;
 
-    public TeacherService (ITeacherFactory teacherFactory, ITeacherRepository teacherRepository) {
+    public TeacherServiceImpl (ITeacherFactory teacherFactory, ITeacherRepository teacherRepository) {
 
         if (teacherFactory == null)
             throw new IllegalArgumentException("Teacher Factory must not be null.");

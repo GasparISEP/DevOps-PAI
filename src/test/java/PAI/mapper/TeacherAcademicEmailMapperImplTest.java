@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class TeacherAcademicEmailMapperTest {
+class TeacherAcademicEmailMapperImplTest {
 
     @Test
     void shouldReturnNullForNullTeacherAcademicEmail() {
         //Arrange
-        TeacherAcademicEmailMapper mapper = new TeacherAcademicEmailMapper();
+        TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
 
         //Act
         TeacherAcademicEmailDataModel result = mapper.toDataModel(null);
@@ -31,7 +31,7 @@ class TeacherAcademicEmailMapperTest {
         when(teacherAcademicEmail.getTeacherAcademicEmail()).thenReturn("abc@isep.ipp.pt");
 
         //Act
-        TeacherAcademicEmailDataModel result = new TeacherAcademicEmailMapper().toDataModel(teacherAcademicEmail);
+        TeacherAcademicEmailDataModel result = new TeacherAcademicEmailMapperImpl().toDataModel(teacherAcademicEmail);
 
         //Assert
         assertEquals("isep.ipp.pt", result.getEmailDomain());
@@ -41,7 +41,7 @@ class TeacherAcademicEmailMapperTest {
     @Test
     void shouldReturnNullForNullTeacherAcademicEmailDataModel() {
         //Arrange
-        TeacherAcademicEmailMapper mapper = new TeacherAcademicEmailMapper();
+        TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
 
         //Act
         TeacherAcademicEmail result = mapper.toDomain(null);
@@ -53,7 +53,7 @@ class TeacherAcademicEmailMapperTest {
     @Test
     void shouldReturnTeacherAcademicEmail() {
         //Arrange
-        TeacherAcademicEmailMapper mapper = new TeacherAcademicEmailMapper();
+        TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
         TeacherAcademicEmailDataModel teacherAcademicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
 
         when(teacherAcademicEmailDataModelDouble.getEmailDomain()).thenReturn("isep.ipp.pt");
@@ -73,7 +73,7 @@ class TeacherAcademicEmailMapperTest {
     @Test
     void shouldReturnExceptionForNullAcademicEmail() throws IllegalArgumentException {
         //Arrange
-        TeacherAcademicEmailMapper mapper = new TeacherAcademicEmailMapper();
+        TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
         TeacherAcademicEmailDataModel wrongEmail = mock(TeacherAcademicEmailDataModel.class);
 
         when(wrongEmail.getTeacherAcademicEmail()).thenReturn(null);
@@ -86,7 +86,7 @@ class TeacherAcademicEmailMapperTest {
     @Test
     void shouldReturnExceptionForInvalidEmailFormat() throws IllegalArgumentException {
         //Arrange
-        TeacherAcademicEmailMapper mapper = new TeacherAcademicEmailMapper();
+        TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
         TeacherAcademicEmailDataModel wrongEmail = mock(TeacherAcademicEmailDataModel.class);
 
         when(wrongEmail.getTeacherAcademicEmail()).thenReturn("no-at-sign-here");

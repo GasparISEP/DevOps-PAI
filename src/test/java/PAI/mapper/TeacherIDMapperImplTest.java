@@ -2,7 +2,6 @@ package PAI.mapper;
 
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.persistence.datamodel.TeacherDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,14 +11,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class TeacherIDMapperTest {
+class TeacherIDMapperImplTest {
 
-    private TeacherIDMapper teacherIDMapper;
+    private TeacherIDMapperImpl teacherIDMapper;
 
     @BeforeEach
     void setUp() {
         // Arrange
-        teacherIDMapper = new TeacherIDMapper();
+        teacherIDMapper = new TeacherIDMapperImpl();
     }
 
     @Test

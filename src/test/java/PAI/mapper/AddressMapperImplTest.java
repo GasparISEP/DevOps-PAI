@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class AddressMapperTest {
+class AddressMapperImplTest {
 
-    private AddressMapper _addressMapper;
+    private AddressMapperImpl _addressMapper;
 
     @BeforeEach
     void setUp () {
         // Arrange
-        _addressMapper = new AddressMapper();
+        _addressMapper = new AddressMapperImpl();
     }
 
     @Test

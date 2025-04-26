@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class TeacherMapperTest {
+class TeacherMapperImplTest {
 
     //mapper
     private ITeacherFactory _teacherFactoryDouble;
@@ -86,7 +86,7 @@ class TeacherMapperTest {
         //Arrange
         createMapperDoubles();
 
-        TeacherMapper teacherMapper = new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
 
         //Act + Assert
@@ -122,7 +122,7 @@ class TeacherMapperTest {
 
         //Assert
         assertThrows(IllegalArgumentException.class, () -> {
-                new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+                new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                         _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
         });
     }
@@ -131,7 +131,7 @@ class TeacherMapperTest {
     void shouldReturnNullWhenProvidedTeacherIsNull() {
         //Arrange
         createMapperDoubles();
-        TeacherMapper teacherMapper = new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
 
         //Act
@@ -147,7 +147,7 @@ class TeacherMapperTest {
         createMapperDoubles();
         createTeacherDataModelDoubles();
 
-        TeacherMapper teacherMapper = new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
 
         Teacher teacherDouble = mock(Teacher.class);
@@ -172,7 +172,7 @@ class TeacherMapperTest {
     void shouldReturnNullWhenProvidedTeacherDataModelIsNull() throws Exception {
         //Arrange
         createMapperDoubles();
-        TeacherMapper teacherMapper = new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
 
         //Act
@@ -188,7 +188,7 @@ class TeacherMapperTest {
         createMapperDoubles();
         createTeacherDoubles();
 
-        TeacherMapper teacherMapper = new TeacherMapper(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
 
         TeacherDataModel teacherDataModelDouble = mock(TeacherDataModel.class);
