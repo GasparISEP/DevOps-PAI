@@ -3,7 +3,7 @@ package PAI.service;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
-import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
+import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,9 +12,9 @@ import java.util.Optional;
 public class TeacherService implements ITeacherService {
 
     private ITeacherFactory _teacherFactory;
-    private TeacherRepositorySpringDataImpl _teacherRepository;
+    private ITeacherRepository _teacherRepository;
 
-    public TeacherService (ITeacherFactory teacherFactory, TeacherRepositorySpringDataImpl teacherRepository) {
+    public TeacherService (ITeacherFactory teacherFactory, ITeacherRepository teacherRepository) {
 
         if (teacherFactory == null)
             throw new IllegalArgumentException("Teacher Factory must not be null.");
@@ -28,14 +28,10 @@ public class TeacherService implements ITeacherService {
     }
 
     public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                                               Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
+                                               Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) throws Exception {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
-
-        if (_teacherRepository.containsOfIdentity(teacher.identity())){
-            return Optional.empty();
-        }
 
         _teacherRepository.save(teacher);
 

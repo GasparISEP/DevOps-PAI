@@ -72,7 +72,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
             try {
                 teacher = Optional.ofNullable(teacherMapper.toDomain(teacherDataModel));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not convert Teacher Data Model to Teacher domain object.");
             }
             teacher.ifPresent(teachersList::add);
         }

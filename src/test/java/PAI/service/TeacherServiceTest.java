@@ -5,6 +5,7 @@ import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
 import PAI.factory.TeacherFactoryImpl;
 import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
+import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 class TeacherServiceTest {
 
     private ITeacherFactory teacherFactoryDouble;
-    private TeacherRepositorySpringDataImpl teacherRepositoryDouble;
+    private ITeacherRepository teacherRepositoryDouble;
     private ITeacherService teacherService;
 
     private TeacherAcronym acronymDouble;
@@ -59,7 +60,7 @@ class TeacherServiceTest {
     void testConstructor () {
         // Arrange
         ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
-        TeacherRepositorySpringDataImpl teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
 
         // Arrange + Act
         TeacherService teacherService = new TeacherService(teacherFactoryDouble, teacherRepositoryDouble);
@@ -71,7 +72,7 @@ class TeacherServiceTest {
     @Test
     void testConstructorDoesNotBuildDueToNullFactory () {
         // Arrange
-        TeacherRepositorySpringDataImpl teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepositorySpringDataImpl.class);
 
         // Act
         IllegalArgumentException expectedException = assertThrows(IllegalArgumentException.class, () -> {
@@ -97,7 +98,7 @@ class TeacherServiceTest {
     }
 
     @Test
-    void registerTeacherShouldRegisterTeacher() {
+    void registerTeacherShouldRegisterTeacher() throws Exception {
 
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
@@ -153,7 +154,7 @@ class TeacherServiceTest {
     }
 
     @Test
-    void shouldNotSaveTeacherInDatabase () {
+    void shouldNotSaveTeacherInDatabase () throws Exception {
 
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
