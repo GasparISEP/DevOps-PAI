@@ -6,5 +6,5 @@ import PAI.persistence.datamodel.NIFDataModel;
 public interface INIFMapper {
 
     NIFDataModel domainToDataModel(NIF nif);
-    NIF dataModelToDomain (NIFDataModel nifDataModel) throws Exception;
+    NIF dataModelToDomain (NIFDataModel nifDataModel);
 }
