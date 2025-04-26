@@ -35,7 +35,10 @@ public class StudentGradeService {
         this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
 
-    public StudentGrade newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
+    public StudentGrade  newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
+        if(!courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)){
+            throw new Exception("Not possible to addGrade, Student in not enrolled in this CourseEdition");
+        }
         StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
         return studentGradeRepository.save(studentGrade);
     }

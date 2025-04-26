@@ -69,11 +69,12 @@ public class StudentGradeServiceTest {
     }
 
     @Test
-    public void shouldCreateNewStudentGrade() throws Exception {
+    public void shouldAddNewStudentGrade() throws Exception {
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+
         StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         Grade grade = mock(Grade.class);
@@ -81,18 +82,35 @@ public class StudentGradeServiceTest {
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
-        StudentGrade expected = new StudentGrade(grade, date, studentID, courseEditionID);
-        studentGradeRepository.save(expected);
-        when(studentGradeFactory.newGradeStudent(grade, date, studentID, courseEditionID))
-                .thenReturn(expected);
-        when(studentGradeRepository.save(expected)).thenReturn(expected);
+        StudentGrade studentGrade = mock(StudentGrade.class);
+        when(courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)).thenReturn(true);
+        when(studentGradeFactory.newGradeStudent(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
+        when(studentGradeRepository.save(studentGrade)).thenReturn(studentGrade);
 
         //act
-        StudentGrade actual = studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID);
+        StudentGrade result = studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
 
-        assertEquals(expected, actual);
+        assertEquals(studentGrade, result);
+
+    }
+    @Test
+    public void shouldThrowAnExceptionWhenNotEnrolled(){
+        //arrange
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        when(courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)).thenReturn(false);
+        // assert
+        assertThrows(Exception.class, () -> studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID));
 
     }
 
