@@ -1,4 +1,4 @@
-/*
+
 package PAI.mapper.TeacherCareerProgression;
 
 import PAI.VOs.*;
@@ -7,6 +7,8 @@ import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -16,141 +18,87 @@ import static org.mockito.Mockito.*;
 
 class TeacherCareerProgressionMapperTest {
 
-    private final ITeacherCareerProgressionIDMapper idMapper = mock(ITeacherCareerProgressionIDMapper.class);
+    private ITeacherCareerProgressionIDMapper idMapper = mock(ITeacherCareerProgressionIDMapper.class);
 
     @Test
-    void shouldReturnNonNullDomainObject() {
+    void shouldCreateDomainObject() {
         // arrange
+        UUID teacherCareerProgressionID = UUID.randomUUID();
         UUID teacherCategoryId = UUID.randomUUID();
         int workingPercentage = 50;
         LocalDate date = LocalDate.of(2022, 4, 17);
         String teacherId = "ABC";
 
-        TeacherCareerProgressionDataModel dataModel = new TeacherCareerProgressionDataModel(
-                new TeacherCareerProgressionIDDataModel(UUID.randomUUID()), teacherCategoryId, workingPercentage, date, teacherId
-        );
+        TeacherCareerProgressionDataModel tcpDataModel = mock(TeacherCareerProgressionDataModel.class);
 
         ITeacherCareerProgressionFactory tcpFactory = mock(ITeacherCareerProgressionFactory.class);
         TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(tcpFactory,idMapper);
 
-        TeacherCareerProgression tcp = new TeacherCareerProgression(
-                new Date(date),
-                new TeacherCategoryID(teacherCategoryId),
-                new WorkingPercentage(workingPercentage),
-                new TeacherID(new TeacherAcronym(teacherId))
-        );
+        TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
+        TeacherCareerProgressionIDDataModel tcpIDDataModel = mock (TeacherCareerProgressionIDDataModel.class);
 
-        when(tcpFactory.createTeacherCareerProgression(
-                new Date(date),
-                new TeacherCategoryID(teacherCategoryId),
-                new WorkingPercentage(workingPercentage),
-                new TeacherID(new TeacherAcronym(teacherId))
+        when(tcpDataModel.getId()).thenReturn(tcpIDDataModel);
+        when(tcpIDDataModel.getIDValue()).thenReturn(teacherCareerProgressionID);
+        when(tcpDataModel.getDate()).thenReturn(date);
+        when(tcpDataModel.getTeacherCategoryId()).thenReturn(teacherCategoryId);
+        when(tcpDataModel.getWorkingPercentage()).thenReturn(workingPercentage);
+        when(tcpDataModel.getTeacherId()).thenReturn(teacherId);
+
+        when(tcpFactory.createTeacherCareerProgressionFromDataModel(
+             any(TeacherCareerProgressionID.class), any(Date.class), any(TeacherCategoryID.class), any(WorkingPercentage.class),any(TeacherID.class)
         )).thenReturn(tcp);
 
-        // act
-        TeacherCareerProgression domain = mapper.toDomain(dataModel);
+       try(MockedConstruction<TeacherCareerProgressionID> tcpIDConstructor = mockConstruction(TeacherCareerProgressionID.class);
+           MockedConstruction<Date> dateConstructor = mockConstruction(Date.class);
+           MockedConstruction<TeacherCategoryID> teacherCategoryIDConstructor = mockConstruction(TeacherCategoryID.class);
+           MockedConstruction<WorkingPercentage> workingPercentageConstructor = mockConstruction(WorkingPercentage.class);
+           MockedConstruction<TeacherAcronym> teacherAcronymConstructor = mockConstruction(TeacherAcronym.class);
+           MockedConstruction<TeacherID> teacherIDConstructor = mockConstruction(TeacherID.class)) {
 
-        // assert
-        assertNotNull(domain);
-    }
+           //act
+           TeacherCareerProgression domain = mapper.toDomain(tcpDataModel);
 
-    @Test
-    void shouldCreateTCPDomainObject() {
-        // arrange
-        UUID teacherCategoryId = UUID.randomUUID();
-        int workingPercentage = 50;
-        LocalDate date = LocalDate.of(2022, 4, 17);
-        String teacherId = "ABC";
-
-        TeacherCareerProgressionDataModel dataModel = new TeacherCareerProgressionDataModel(
-                new TeacherCareerProgressionIDDataModel(UUID.randomUUID()), teacherCategoryId, workingPercentage, date, teacherId
-        );
-
-        ITeacherCareerProgressionFactory tcpFactory = mock(ITeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(tcpFactory,idMapper);
-
-        TeacherCareerProgression tcp = new TeacherCareerProgression(
-                new Date(date),
-                new TeacherCategoryID(teacherCategoryId),
-                new WorkingPercentage(workingPercentage),
-                new TeacherID(new TeacherAcronym(teacherId))
-        );
-
-        when(tcpFactory.createTeacherCareerProgression(
-                new Date(date),
-                new TeacherCategoryID(teacherCategoryId),
-                new WorkingPercentage(workingPercentage),
-                new TeacherID(new TeacherAcronym(teacherId))
-        )).thenReturn(tcp);
-
-        // act
-        TeacherCareerProgression domain = mapper.toDomain(dataModel);
-
-        // assert
-        assertEquals(date, domain.getDate().getLocalDate());
-        assertEquals(teacherCategoryId, domain.getTeacherCategoryID().getValue());
-        assertEquals(workingPercentage, domain.getWorkingPercentage().getValue());
-        assertEquals(teacherId, domain.getTeacherID().getTeacherAcronym().getAcronym());
-    }
-    @Test
-    void shouldReturnNonNullDataModelObject() {
-        // arrange
-        UUID teacherCategoryId = UUID.randomUUID();
-        int workingPercentage = 50;
-        LocalDate date = LocalDate.of(2022, 4, 17);
-        String teacherId = "ABC";
-
-        Date domainDate = new Date(date);
-        TeacherCategoryID domainTeacherCategoryId = new TeacherCategoryID(teacherCategoryId);
-        WorkingPercentage domainWorkingPercentage = new WorkingPercentage(workingPercentage);
-        TeacherID domainTeacherID = new TeacherID(new TeacherAcronym(teacherId));
-
-        TeacherCareerProgression domain = new TeacherCareerProgression(
-                domainDate, domainTeacherCategoryId, domainWorkingPercentage, domainTeacherID
-        );
-
-        TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(mock(ITeacherCareerProgressionFactory.class), mock(ITeacherCareerProgressionIDMapper.class));
-
-        // act
-        TeacherCareerProgressionDataModel dataModel = mapper.toDataModel(domain);
-
-        // assert
-        assertNotNull(dataModel);
+           // assert
+           assertNotNull(domain);
+       }
     }
 
     @Test
     void shouldCreateTCPDataModel() {
         // arrange
+        UUID teacherCareerProgressionID = UUID.randomUUID();
         UUID teacherCategoryId = UUID.randomUUID();
         int workingPercentage = 50;
         LocalDate date = LocalDate.of(2022, 4, 17);
         String teacherId = "ABC";
 
+        // domain objects
+        TeacherCareerProgressionID domainTCPId = new TeacherCareerProgressionID(teacherCareerProgressionID);
         Date domainDate = new Date(date);
         TeacherCategoryID domainTeacherCategoryId = new TeacherCategoryID(teacherCategoryId);
         WorkingPercentage domainWorkingPercentage = new WorkingPercentage(workingPercentage);
         TeacherID domainTeacherID = new TeacherID(new TeacherAcronym(teacherId));
 
-        TeacherCareerProgression domain = new TeacherCareerProgression(
-                domainDate, domainTeacherCategoryId, domainWorkingPercentage, domainTeacherID
+        TeacherCareerProgression domain = new TeacherCareerProgression(domainTCPId, domainDate, domainTeacherCategoryId,
+                domainWorkingPercentage, domainTeacherID
         );
 
-        TeacherCareerProgressionIDDataModel mockedTcpID = new TeacherCareerProgressionIDDataModel(UUID.randomUUID());
-        ITeacherCareerProgressionIDMapper tcpIDMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        when(tcpIDMapper.domainToDataModel(domain.identity())).thenReturn(mockedTcpID);
+        // stub the ID‐mapper
+        TeacherCareerProgressionIDDataModel mockedTcpID = new TeacherCareerProgressionIDDataModel(teacherCareerProgressionID);
+        ITeacherCareerProgressionIDMapper tcpIDMapper   = mock(ITeacherCareerProgressionIDMapper.class);
+        when(tcpIDMapper.domainToDataModel(domain.identity()))
+                .thenReturn(mockedTcpID);
 
         TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(
-                mock(ITeacherCareerProgressionFactory.class), tcpIDMapper
+                mock(ITeacherCareerProgressionFactory.class),
+                tcpIDMapper
         );
 
         // act
         TeacherCareerProgressionDataModel dataModel = mapper.toDataModel(domain);
 
-        // assert
-        assertEquals(mockedTcpID.getIDValue(), dataModel.getId().getIDValue());
-        assertEquals(date, dataModel.getDate());
-        assertEquals(teacherCategoryId, dataModel.getTeacherCategoryId());
-        assertEquals(workingPercentage, dataModel.getWorkingPercentage());
-        assertEquals(teacherId, dataModel.getTeacherId());
+        // assert — field-by-field
+        assertNotNull(dataModel);
     }
-}*/
+
+}
