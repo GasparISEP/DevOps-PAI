@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
@@ -193,5 +194,34 @@ class TeacherServiceImplTest {
         boolean result = teacherService.existsById(id);
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnAllTeachersWhenCallingGetAllTeachers(){
+        //Arrange
+        Teacher teacherDouble1 = mock(Teacher.class);
+        Teacher teacherDouble2 = mock(Teacher.class);
+        List<Teacher> teachersList = List.of(teacherDouble1, teacherDouble2);
+        when(teacherRepositoryDouble.findAll()).thenReturn(teachersList);
+
+        //Act
+        Iterable<Teacher> result = teacherService.getAllTeachers();
+
+        //Assert
+        List<Teacher> resultList = (List<Teacher>) result;
+        assertEquals(2, resultList.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoTeachersExistWhenCallingGetAllTeachers() {
+        // Arrange
+        when(teacherRepositoryDouble.findAll()).thenReturn(List.of());
+
+        // Act
+        Iterable<Teacher> result = teacherService.getAllTeachers();
+
+        // Assert
+        List<Teacher> resultList = (List<Teacher>) result;
+        assertTrue(resultList.isEmpty());
     }
 }
