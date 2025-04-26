@@ -3,6 +3,7 @@ package PAI.service;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
+import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.repository.ITeacherCategoryRepository;
@@ -36,5 +37,9 @@ public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
 
     public boolean existsById(TeacherCategoryID teacherCategoryID) {
         return repository.containsOfIdentity(teacherCategoryID);
+    }
+
+    public Iterable<TeacherCategory> getAllTeacherCategories() {
+        return repository.findAll();
     }
 }

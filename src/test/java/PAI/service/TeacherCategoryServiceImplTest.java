@@ -3,11 +3,14 @@ package PAI.service;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
+import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
 import PAI.factory.ITeacherCategoryFactory;
 import PAI.repository.ITeacherCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -98,5 +101,34 @@ class TeacherCategoryServiceImplTest {
         boolean result = service.existsById(id);
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnAllTeacherCategoriesWhenCallingGetAllTeacherCategories(){
+        //Arrange
+        TeacherCategory teacherCategoryDouble1 = mock(TeacherCategory.class);
+        TeacherCategory  teacherCategoryDouble2 = mock(TeacherCategory.class);
+        List<TeacherCategory> teacherCategoryList = List.of(teacherCategoryDouble1, teacherCategoryDouble2);
+        when(repository.findAll()).thenReturn(teacherCategoryList);
+
+        //Act
+        Iterable<TeacherCategory> result = service.getAllTeacherCategories();
+
+        //Assert
+        List<TeacherCategory> resultList = (List<TeacherCategory>) result;
+        assertEquals(2, resultList.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoTeacherCategoriesExistWhenCallingGetAllTeacherCategories() {
+        // Arrange
+        when(repository.findAll()).thenReturn(List.of());
+
+        // Act
+        Iterable<TeacherCategory> result = service.getAllTeacherCategories();
+
+        // Assert
+        List<TeacherCategory> resultList = (List<TeacherCategory>) result;
+        assertTrue(resultList.isEmpty());
     }
 }
