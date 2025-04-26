@@ -1,7 +1,5 @@
 package PAI.repository;
 import PAI.VOs.DepartmentID;
-import PAI.VOs.DepartmentAcronym;
-import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import java.util.HashSet;
@@ -20,18 +18,6 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
     public DepartmentRepositoryImpl(IDepartmentFactory iDepartmentFactory, IDepartmentListFactory iDepartmentListFactory) {
         _departmentFactory = iDepartmentFactory;
         _departments = iDepartmentListFactory.newDepartmentList();
-    }
-
-    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
-
-        Department newDepartment = _departmentFactory.newDepartment(acronym,name);
-
-        boolean isDepartmentRegistered = _departments.add(newDepartment);
-
-        if (!isDepartmentRegistered) {
-            return false;
-        }
-        return true;
     }
 
     // Method to get the list of Departments

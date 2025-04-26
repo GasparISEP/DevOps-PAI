@@ -14,11 +14,11 @@ public class US05_DepartmentRegistryController {
         this._departmentRepo=departmentRepo;
     }
 
-    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
-        if(acronym==null || name==null){
-            throw new IllegalArgumentException("Acronym or name cannot be null.");
-        }
-        _departmentRepo.registerDepartment(acronym,name);
-        return true;
-    }
+//    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception{
+//        if(acronym==null || name==null){
+//            throw new IllegalArgumentException("Acronym or name cannot be null.");
+//        }
+//        _departmentRepo.registerDepartment(acronym,name);
+//        return true;
+//    }
 }

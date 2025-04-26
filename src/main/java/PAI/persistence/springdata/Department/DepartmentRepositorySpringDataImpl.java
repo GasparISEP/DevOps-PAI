@@ -45,11 +45,6 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
     }
 
     @Override
-    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
-        return false;
-    }
-
-    @Override
     public List<Department> findAll(){
         List<Department> departments = new ArrayList<>();
         Iterable<DepartmentDataModel> departmentDataModels = jpaRepo.findAll();

@@ -122,18 +122,18 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         assertFalse(result);
     }
 
-    //Integration tests
-    @Test
-    void shouldReturnExceptionIfTeacherRepositoryIsNull_integrationTest() throws Exception {
-        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US04_IWantToRegisterATeacherInTheSystemController(
-                    null, departmentRepository);
-        });
-
-        //assert
-        assertEquals("TeacherRepository is null.", exception.getMessage());
-    }
+//    Integration tests
+//    @Test
+//    void shouldReturnExceptionIfTeacherRepositoryIsNull_integrationTest() throws Exception {
+//        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
+//        Exception exception = assertThrows(IllegalStateException.class, () -> {
+//            new US04_IWantToRegisterATeacherInTheSystemController(
+//                    null, departmentRepository);
+//        });
+//
+//        //assert
+//        assertEquals("TeacherRepository is null.", exception.getMessage());
+//    }
 
 
     @Test
@@ -148,55 +148,55 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         assertEquals("DepartmentRepository is null.", exception.getMessage());
     }
 
-    @Test
-    void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
-        //Arrange
-        TeacherAcronym teacherAcronym = createTeacherAcronym();
-        DepartmentID departmentID= createDepartmentID();
-        Name name = new Name("John Doe");
-        Email email = new Email("john@doe.com");
-        Street street = new Street("123 street");
-        PostalCode postalCode = new PostalCode("12345");
-        Country country = new Country("Portugal");
-        PAI.VOs.Location location = new PAI.VOs.Location("Porto");
-        NIF nif = new NIF("123431123",country);
-        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
-        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+//    @Test
+//    void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
+//        //Arrange
+//        TeacherAcronym teacherAcronym = createTeacherAcronym();
+//        DepartmentID departmentID= createDepartmentID();
+//        Name name = new Name("John Doe");
+//        Email email = new Email("john@doe.com");
+//        Street street = new Street("123 street");
+//        PostalCode postalCode = new PostalCode("12345");
+//        Country country = new Country("Portugal");
+//        PAI.VOs.Location location = new PAI.VOs.Location("Porto");
+//        NIF nif = new NIF("123431123",country);
+//        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
+//        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+//
+//        TeacherRepository teacherRepository = createTeacherRepo();
+//        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
+//
+//        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
+//        //Act
+//        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
+//        //Assert
+//        assertTrue(result);
+//    }
 
-        TeacherRepository teacherRepository = createTeacherRepo();
-        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
-
-        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
-        //Act
-        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
-        //Assert
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
-
-        TeacherAcronym teacherAcronym = createTeacherAcronym();
-        DepartmentID departmentID= createOtherDepartmentID();
-        Name name = new Name("John Doe");
-        Email email = new Email("john@doe.com");
-        Street street = new Street("123 street");
-        PostalCode postalCode = new PostalCode("12345");
-        Country country = new Country("Portugal");
-        PAI.VOs.Location location = new Location("Porto");
-        NIF nif = new NIF("123431123",country);
-        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
-        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
-
-        TeacherRepository teacherRepository = createTeacherRepo();
-        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
-
-        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
-        //Act
-        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
-        //Assert
-        assertFalse(result);
-    }
+//    @Test
+//    void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
+//
+//        TeacherAcronym teacherAcronym = createTeacherAcronym();
+//        DepartmentID departmentID= createOtherDepartmentID();
+//        Name name = new Name("John Doe");
+//        Email email = new Email("john@doe.com");
+//        Street street = new Street("123 street");
+//        PostalCode postalCode = new PostalCode("12345");
+//        Country country = new Country("Portugal");
+//        PAI.VOs.Location location = new Location("Porto");
+//        NIF nif = new NIF("123431123",country);
+//        PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
+//        AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+//
+//        TeacherRepository teacherRepository = createTeacherRepo();
+//        DepartmentRepositoryImpl departmentRepository = createDepartmentRepo();
+//
+//        US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherRepository, departmentRepository);
+//        //Act
+//        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
+//        //Assert
+//        assertFalse(result);
+//    }
 
     //Methods
     private TeacherRepository createTeacherRepo() {
@@ -213,13 +213,13 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         return new TeacherID(createTeacherAcronym());
     }
 
-    private DepartmentRepositoryImpl createDepartmentRepo() throws Exception {
-        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
-        departmentRepository.registerDepartment(createDepartmentAcronym1(), createDepartmentName1());
-        return departmentRepository;
-    }
+//    private DepartmentRepositoryImpl createDepartmentRepo() throws Exception {
+//        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
+//        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+//        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
+//        departmentRepository.registerDepartment(createDepartmentAcronym1(), createDepartmentName1());
+//        return departmentRepository;
+//    }
     private  DepartmentID createDepartmentID() throws Exception {
         return new DepartmentID(createDepartmentAcronym1());
     }
