@@ -94,7 +94,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
                 _iTeacherRepoDouble, _departmentRepoDouble);
 
 
-        when(_departmentRepoDouble.departmentExists(_departmentIDDouble)).thenReturn(true);
+        when(_departmentRepoDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
 
         //act
         boolean result = controller.registerATeacherInTheSystem(

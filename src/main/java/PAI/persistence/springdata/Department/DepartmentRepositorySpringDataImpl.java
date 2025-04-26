@@ -71,6 +71,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
 
     @Override
     public boolean containsOfIdentity(DepartmentID id) {
+        if (id == null){return false;}
         DepartmentIDDataModel departmentIDDataModel = idMapper.toDataModel(id);
         return jpaRepo.existsById(departmentIDDataModel.getDepartmentID());
     }
@@ -101,14 +102,6 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
                         throw new RuntimeException("Failed to map DepartmentDataModel to domain for ID: " + departmentID.getAcronym(), e);
                     }
                 });
-    }
-
-
-    @Override
-    public boolean departmentExists(DepartmentID departmentID)  {
-        if(departmentID == null){return false;}
-        Optional <Department> opDepartment=findDepartmentByID(departmentID);
-        return opDepartment.isPresent();
     }
 
     @Override

@@ -104,7 +104,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(true);
+        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
         when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
         when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
@@ -173,7 +173,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
-        when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(true);
+        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
         when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
         when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
@@ -201,7 +201,7 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
         when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.departmentExists(departmentDouble)).thenReturn(false);
+        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(false);
         when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
         when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);

@@ -35,7 +35,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
     }
 
     private boolean isDepartmentInDepartmentRepository(DepartmentID departmentID) {
-        return _iDepartmentRepository.departmentExists(departmentID);
+        return _iDepartmentRepository.containsOfIdentity(departmentID);
     }
 
     private void validateTeacherRepository(ITeacherRepository teacherRepository) {

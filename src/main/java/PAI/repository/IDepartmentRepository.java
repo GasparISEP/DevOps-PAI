@@ -18,7 +18,6 @@ public interface IDepartmentRepository extends IRepository<DepartmentID, Departm
 
     Optional<Department> findDepartmentByID(DepartmentID departmentID);
 
-    boolean departmentExists(DepartmentID departmentID);
 
     boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID teacherId);
 }

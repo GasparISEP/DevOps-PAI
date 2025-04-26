@@ -39,7 +39,7 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
         if(!_schoolYearRepository.schoolYearExistsByID(schoolYear)){
             throw new  IllegalArgumentException("SchoolYear does not exist.");
         }
-        if(!_departmentRepository.departmentExists(department)){
+        if(!_departmentRepository.containsOfIdentity(department)){
             throw new  IllegalArgumentException("Department does not exist.");
         }
         List<ProgrammeID> programmeIDs = _programmeRepository.findProgrammeByDepartment(department);
