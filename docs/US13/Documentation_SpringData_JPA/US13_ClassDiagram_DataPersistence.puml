@@ -46,6 +46,7 @@ interface IDepartmentRepository {
 interface ITeacherRepository {
   +registerTeacher(...): boolean
   +containsOfIdentity(TeacherID): boolean
+  +existsByIDorNIF(...): boolean
 }
 
 interface ITeacherRepositorySpringData {
@@ -71,6 +72,7 @@ class DepartmentRepositoryImpl {
 class TeacherRepositorySpringDataImpl {
   +save(Teacher)
   +containsOfIdentity(TeacherID)
+  +existsByIDorNIF(TeacherID, NIF)
 }
 
 class TeacherCareerProgressionRepositoryImpl {
@@ -295,6 +297,30 @@ class TeacherDataModel {
   +getTeacherAcademicEmail()
 }
 
+interface ITeacherMapper
+ITeacherMapper <|.. "1" TeacherMapperImpl : <<implements>>
+interface ITeacherCategoryMapper
+ITeacherCategoryMapper <|.. "1" TeacherCategoryMapperImpl : <<implements>>
+interface IDepartmentMapper
+IDepartmentMapper <|.. "1" DepartmentMapperImpl : <<implements>>
+interface ITeacherIDMapper
+ITeacherIDMapper <|.. "1" TeacherIDMapperImpl : <<implements>>
+interface IAddressMapper
+IAddressMapper <|.. "1" AddressMapperImpl : <<implements>>
+interface ITeacherAcademicEmailMapper
+ITeacherAcademicEmailMapper <|.. "1" TeacherAcademicEmailMapperImpl : <<implements>>
+interface INIFMapper
+INIFMapper <|.. "1" NIFMapperImpl : <<implements>>
+interface IPhoneNumberMapper
+IPhoneNumberMapper <|.. "1" PhoneNumberMapperImpl : <<implements>>
+
+
+
+
+
+
+
+
 '=== 9. CONNECTIONS WITH MULTIPLICITIES ==='
 'Controller Layer'
 US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherCategoryServiceImpl
@@ -328,7 +354,7 @@ TeacherServiceImpl "1" -->  ITeacherFactory
 TeacherServiceImpl "1" -->  ITeacherCareerProgressionFactory
 TeacherRepositorySpringDataImpl .up.|> ITeacherRepository : <<implements>>
 ITeacherRepository "1" --> "*" Teacher
-ITeacherRepositorySpringData <|.. "\n 1   " TeacherRepositorySpringDataImpl
+ITeacherRepositorySpringData <|.. "\n 1   " TeacherRepositorySpringDataImpl : <<implements>>
 TeacherRepositorySpringDataImpl "1" ..> "_teacherMapper" TeacherMapperImpl
 TeacherRepositorySpringDataImpl "1" ..> "1" TeacherIDMapperImpl
 TeacherRepositorySpringDataImpl "1" ..> "1" NIFMapperImpl
