@@ -24,9 +24,13 @@ class TeacherCategoryServiceImpl {
   +findAll(): List<TeacherCategory>
 }
 
+interface ITeacherCategoryService
+
 class DepartmentServiceImpl {
   +findAll(): Set<Department>
 }
+
+interface IDepartmentService
 
 class TeacherServiceImpl {
   +registerTeacher(...): boolean
@@ -314,35 +318,32 @@ INIFMapper <|.. "1" NIFMapperImpl : <<implements>>
 interface IPhoneNumberMapper
 IPhoneNumberMapper <|.. "1" PhoneNumberMapperImpl : <<implements>>
 
-
-
-
-
-
-
-
 '=== 9. CONNECTIONS WITH MULTIPLICITIES ==='
+'Services'
+
 'Controller Layer'
 US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherCategoryServiceImpl
 US13_RegisterTeacherAndRelevantDataController "1" ..> "1" DepartmentServiceImpl
 US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherServiceImpl
 
 'TeacherCategory Flow'
+TeacherCategoryServiceImpl "1" ..|>  ITeacherCategoryService : <<implements>>
 TeacherCategoryServiceImpl "1" --> ITeacherCategoryRepository
-TeacherCategoryRepositoryImpl .up.|> ITeacherCategoryRepository
+TeacherCategoryRepositoryImpl "1".up.|> ITeacherCategoryRepository : <<implements>>
 ITeacherCategoryRepository --> "1" TeacherCategoryMapperImpl
 TeacherCategoryMapperImpl "1" --> ITeacherCategoryFactory
-TeacherCategoryFactoryImpl .up.|> ITeacherCategoryFactory
+TeacherCategoryFactoryImpl "1".up.|> ITeacherCategoryFactory : <<implements>>
 ITeacherCategoryFactory ..> "1" TeacherCategory : <<create>>
 ITeacherCategoryRepository ..|> IRepository : <<extends>>
 
 
 'Department Flow'
+DepartmentServiceImpl "1" ..|>  IDepartmentService : <<implements>>
 DepartmentServiceImpl "1" --> IDepartmentRepository
-DepartmentRepositoryImpl .up.|> IDepartmentRepository
+DepartmentRepositoryImpl "1".up.|> IDepartmentRepository
 IDepartmentRepository  --> "1" DepartmentMapperImpl
 DepartmentMapperImpl "1" -->  IDepartmentFactory
-DepartmentFactoryImpl .up.|> IDepartmentFactory
+DepartmentFactoryImpl "1".up.|> IDepartmentFactory : <<implements>>
 IDepartmentFactory  ..> "1" Department : <<create>>
 IDepartmentRepository ..|> IRepository : <<extends>>
 
@@ -352,7 +353,7 @@ TeacherServiceImpl "1" ..|>  ITeacherService : <<implements>>
 TeacherServiceImpl "1" -->  ITeacherRepository
 TeacherServiceImpl "1" -->  ITeacherFactory
 TeacherServiceImpl "1" -->  ITeacherCareerProgressionFactory
-TeacherRepositorySpringDataImpl .up.|> ITeacherRepository : <<implements>>
+TeacherRepositorySpringDataImpl "1".up.|> ITeacherRepository : <<implements>>
 ITeacherRepository "1" --> "*" Teacher
 ITeacherRepositorySpringData <|.. "\n 1   " TeacherRepositorySpringDataImpl : <<implements>>
 TeacherRepositorySpringDataImpl "1" ..> "_teacherMapper" TeacherMapperImpl
@@ -364,14 +365,14 @@ TeacherMapperImpl "1" --> "1" TeacherDataModel
 TeacherMapperImpl "1" --> "1" Teacher
 TeacherMapperImpl "1" ..> "1" TeacherIDMapperImpl
 TeacherIDMapperImpl "1" --> "1" TeacherID
-TeacherIDMapperImpl "1" --> "1" TeacherIDDataModel
-AddressMapperImpl "1" --> "1" AddressDataModel
+TeacherIDMapperImpl "1" --> "_teacherIDDataModel" TeacherIDDataModel
+AddressMapperImpl "1" --> "_addressDataModel" AddressDataModel
 AddressMapperImpl "1" --> "1" Address
-NIFMapperImpl "1" --> "1" NIFDataModel
+NIFMapperImpl "1" --> "_nifDataMode" NIFDataModel
 NIFMapperImpl "1" --> "1" NIF
-PhoneNumberMapperImpl "1" --> "1" PhoneNumberDataModel
+PhoneNumberMapperImpl "1" --> "_phoneNumberDataModel" PhoneNumberDataModel
 PhoneNumberMapperImpl "1" --> "1" PhoneNumber
-TeacherAcademicEmailMapperImpl "1" --> "1" TeacherAcademicEmailDataModel
+TeacherAcademicEmailMapperImpl "1" --> "_teacherAcademicEmailDataModel" TeacherAcademicEmailDataModel
 TeacherAcademicEmailMapperImpl "1" --> "1" TeacherAcademicEmail
 
 
@@ -382,7 +383,7 @@ JpaRepository "\n 1 " <|.. ITeacherRepositorySpringData : <<extends>>
 
 
 'Factory Creation'
-TeacherFactoryImpl .up.|> ITeacherFactory
+TeacherFactoryImpl .up.|> ITeacherFactory : <<implements>>
 ITeacherFactory "1" ..> "1" Teacher : <<create>>
 ITeacherFactory "1" ..> "1" Address : <<create>>
 
