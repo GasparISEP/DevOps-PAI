@@ -5,6 +5,7 @@ import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.StudentGrade;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeListFactory;
 import PAI.factory.IStudentGradeRepository;
@@ -25,9 +26,10 @@ public class StudentGradeServiceTest {
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         //act
-        StudentGradeService studentGradeService = new StudentGradeService( studentGradeFactory, studentGradeRepository);
+        StudentGradeService studentGradeService = new StudentGradeService( studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         //assert
         assertNotNull(studentGradeService);
@@ -37,20 +39,33 @@ public class StudentGradeServiceTest {
     public void shouldNotCreatConstructorWithNullFactory(){
         //arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
 
         //act + assert
-        assertThrows(Exception.class, () -> new StudentGradeService(null, studentGradeRepository));
+        assertThrows(Exception.class, () -> new StudentGradeService(null, studentGradeRepository,courseEditionEnrolmentRepository));
     }
 
     @Test
     public void shouldNotCreatConstructorWithNullRepository(){
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
 
         //act + assert
-        assertThrows(Exception.class, () -> new StudentGradeService(studentGradeFactory, null));
+        assertThrows(Exception.class, () -> new StudentGradeService(studentGradeFactory, null,courseEditionEnrolmentRepository));
+    }
+
+    @Test
+    public void shouldNotCreatConstructorWithNullCourseEditionEnrolmentRepository(){
+        //arrange
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+
+
+        //act + assert
+        assertThrows(Exception.class, () -> new StudentGradeService(studentGradeFactory, studentGradeRepository,null));
     }
 
     @Test
@@ -58,7 +73,8 @@ public class StudentGradeServiceTest {
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
@@ -86,6 +102,7 @@ public class StudentGradeServiceTest {
         // Arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
@@ -104,7 +121,7 @@ public class StudentGradeServiceTest {
 
         when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2));
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
@@ -120,11 +137,12 @@ public class StudentGradeServiceTest {
         // Arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
@@ -140,6 +158,7 @@ public class StudentGradeServiceTest {
         // Arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
@@ -158,7 +177,7 @@ public class StudentGradeServiceTest {
 
         when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2));
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
@@ -174,11 +193,12 @@ public class StudentGradeServiceTest {
         // Arrange
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository);
+        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act

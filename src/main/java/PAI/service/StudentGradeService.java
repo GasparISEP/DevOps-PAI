@@ -5,6 +5,7 @@ import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.StudentGrade;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,9 @@ public class StudentGradeService {
 
     private final IStudentGradeFactory studentGradeFactory;
     private final IStudentGradeRepository studentGradeRepository;
+    private final ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
 
-    public StudentGradeService(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository) {
+    public StudentGradeService(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository,ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
         if (studentGradeFactory == null) {
             throw new IllegalArgumentException("Student Grade Factory cannot be null");
         }
@@ -26,6 +28,11 @@ public class StudentGradeService {
             throw new IllegalArgumentException("Student Grade Repository cannot be null");
         }
         this.studentGradeRepository = studentGradeRepository;
+
+        if(courseEditionEnrolmentRepository == null){
+            throw new IllegalArgumentException("CourseEditionEnrolment cannot be null");
+        }
+        this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
     }
 
     public StudentGrade newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
