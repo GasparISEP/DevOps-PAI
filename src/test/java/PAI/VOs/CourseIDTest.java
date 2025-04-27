@@ -82,7 +82,7 @@ class CourseIDTest {
     }
 
     @Test
-    void shouldReturnEqualsIfAcronymsAreEqualButNamesAreDifferent() {
+    void shouldReturnNotEqualsIfAcronymsAreEqualButNamesAreDifferent() {
         //Arrange
         Acronym acronymDouble = mock(Acronym.class);
         Name nameDouble = mock(Name.class);
@@ -90,7 +90,7 @@ class CourseIDTest {
         CourseID courseID = new CourseID(acronymDouble, nameDouble);
         CourseID courseID2 = new CourseID(acronymDouble, nameDouble2);
         //Act+Assert
-        assertEquals(courseID, courseID2);
+        assertNotEquals(courseID, courseID2);
     }
 
     @Test
@@ -102,7 +102,7 @@ class CourseIDTest {
         CourseID courseID = new CourseID(acronymDouble, nameDouble);
         CourseID courseID2 = new CourseID(acronymDouble2, nameDouble);
         //Act+Assert
-        assertEquals(courseID, courseID2);
+        assertNotEquals(courseID, courseID2);
     }
 
     @Test
