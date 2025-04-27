@@ -72,12 +72,7 @@ class SchoolYearServiceImplTest {
         // Mock the factory to return a new school year
         when(schoolYearFactory.createSchoolYear(description, startDate, endDate)).thenReturn(newSchoolYear);
 
-        // Mock the identity method to return a mock SchoolYearID
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(newSchoolYear.identity()).thenReturn(schoolYearID);
-
-        // Mock the repository to return false, indicating that the school year does not exist
-        when(schoolYearRepository.containsOfIdentity(any())).thenReturn(false);
+        when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
 
         // Act
         boolean result = service.addSchoolYear(description, startDate, endDate);
@@ -103,12 +98,8 @@ class SchoolYearServiceImplTest {
         // Mock the factory to return an existing school year
         when(schoolYearFactory.createSchoolYear(description, startDate, endDate)).thenReturn(existingSchoolYear);
 
-        // Create a mock SchoolYearID and return it for the existing school year
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(existingSchoolYear.identity()).thenReturn(schoolYearID);
-
         // Mock the repository to simulate that the school year already exists
-        when(schoolYearRepository.containsOfIdentity(any())).thenReturn(true);
+        when(schoolYearRepository.schoolYearExists(any())).thenReturn(true);
 
         // Act & Assert: Verify the exception is thrown
         // We expect an exception to be thrown because the school year already exists in the repository

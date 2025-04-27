@@ -29,7 +29,7 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
         SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
-        if (schoolYearRepository.containsOfIdentity(newSchoolYear.identity())) {
+        if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
             throw new Exception("School year already exists.");
         }
 

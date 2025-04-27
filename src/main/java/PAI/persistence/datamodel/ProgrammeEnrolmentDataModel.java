@@ -10,19 +10,19 @@ public class ProgrammeEnrolmentDataModel {
 
     @EmbeddedId
     @Column(name = "programme_enrolment_id")
-    private ProgrammeEnrolmentIDDataModel _programmeEnrolmentID;
+    private ProgrammeEnrolmentIDDataModel programmeEnrolmentID;
 
     @Embedded
-    private ProgrammeIDDataModel _programmeID;
+    private ProgrammeIDDataModel programmeID;
 
     @Embedded
-    private StudentIDDataModel _studentID;
+    private StudentIDDataModel studentID;
 
     @Embedded
-    private AccessMethodIDDataModel _accessMethodID;
+    private AccessMethodIDDataModel accessMethodID;
 
     @Column(name = "enrolment_date")
-    private LocalDate _date;
+    private LocalDate date;
 
     public ProgrammeEnrolmentDataModel() {
     }
@@ -34,30 +34,30 @@ public class ProgrammeEnrolmentDataModel {
             throw new IllegalArgumentException("Parameter cannot be null.");
         }
 
-        this._programmeEnrolmentID = programmeEnrolmentIDDM;
-        this._programmeID = programmeIDDM;
-        this._studentID = studentIDDM;
-        this._accessMethodID = accessMethodIDDM;
-        this._date = date;
+        this.programmeEnrolmentID = programmeEnrolmentIDDM;
+        this.programmeID = programmeIDDM;
+        this.studentID = studentIDDM;
+        this.accessMethodID = accessMethodIDDM;
+        this.date = date;
     }
 
     public ProgrammeEnrolmentIDDataModel getProgrammeEnrolmentID() {
-        return _programmeEnrolmentID;
+        return programmeEnrolmentID;
     }
 
     public ProgrammeIDDataModel getProgrammeID() {
-        return _programmeID;
+        return programmeID;
     }
 
     public StudentIDDataModel getStudentID() {
-        return _studentID;
+        return studentID;
     }
 
     public AccessMethodIDDataModel getAccessMethodID() {
-        return _accessMethodID;
+        return accessMethodID;
     }
 
     public LocalDate getDate() {
-        return _date;
+        return date;
     }
 }

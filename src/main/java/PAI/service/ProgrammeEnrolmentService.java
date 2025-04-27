@@ -7,7 +7,9 @@ import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.repository.IProgrammeEnrolmentRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProgrammeEnrolmentService implements IProgrammeEnrolmentService {
 
     private IProgrammeEnrolmentFactory _peFactory;
