@@ -1,24 +1,29 @@
 package PAI.persistence.datamodel.course;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class CourseIDDataModel implements Serializable {
 
-    private String _acronym;
-    private String _name;
+    @Column(name = "course_acronym")
+    private String _courseAcronym;
+
+    @Column(name = "course_name")
+    private String _courseName;
 
     public CourseIDDataModel() {
     }
 
     public CourseIDDataModel(String acronym, String name) {
-        _acronym = acronym;
-        _name = name;
+        _courseAcronym = acronym;
+        _courseName = name;
     }
 
     public String getId() {
-        return _acronym + "-" + _name;
+        return _courseAcronym + "-" + _courseName;
     }
 
     @Override
@@ -26,20 +31,20 @@ public class CourseIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof CourseIDDataModel)) return false;
         CourseIDDataModel courseIDDataModel = (CourseIDDataModel) objectToCompare;
-        return _acronym.equals(courseIDDataModel._acronym) ||
-                _name.equals(courseIDDataModel._name);
+        return _courseAcronym.equals(courseIDDataModel._courseAcronym) &&
+                _courseName.equals(courseIDDataModel._courseName);
     }
 
     @Override
     public int hashCode() {
-        return _acronym.hashCode() + _name.hashCode();
+        return Objects.hash(_courseAcronym, _courseName);
     }
 
     public String getAcronym() {
-        return _acronym;
+        return _courseAcronym;
     }
 
     public String getName() {
-        return _name;
+        return _courseName;
     }
 }
