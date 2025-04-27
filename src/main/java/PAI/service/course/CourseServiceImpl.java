@@ -6,10 +6,12 @@ import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
 import PAI.repository.courseRepository.ICourseRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public class CourseServiceImpl {
+@Service
+public class CourseServiceImpl implements ICourseService {
 
     private final ICourseFactory courseFactory;
     private final ICourseRepository courseRepository;
@@ -32,7 +34,7 @@ public class CourseServiceImpl {
         return this.courseRepository.save(course);
     }
 
-    public Iterable <Course> findAll() throws Exception {
+    public Iterable <Course> findAll() {
         return courseRepository.findAll();
     }
 
