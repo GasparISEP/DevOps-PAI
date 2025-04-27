@@ -145,7 +145,7 @@ class TeacherCareerProgressionFactoryImplTest {
         WorkingPercentage wpDouble = mock(WorkingPercentage.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
 
-        try (MockedConstruction<TeacherCareerProgression> constructerDouble = mockConstruction(TeacherCareerProgression.class,
+        try (MockedConstruction<TeacherCareerProgression> constructorDouble = mockConstruction(TeacherCareerProgression.class,
                 (mock, context) -> {
 
             when(mock.getID()).thenReturn(idDouble);
@@ -156,8 +156,8 @@ class TeacherCareerProgressionFactoryImplTest {
                                             idDouble, dateDouble, tcIDDouble, wpDouble, teacherIDDouble);
 
             // Assert
-            assertEquals(1, constructerDouble.constructed().size());
-            assertSame(constructerDouble.constructed().get(0), result);
+            assertEquals(1, constructorDouble.constructed().size());
+            assertSame(constructorDouble.constructed().get(0), result);
             assertEquals(idDouble, result.getID());
         }
     }
@@ -180,7 +180,7 @@ class TeacherCareerProgressionFactoryImplTest {
         // Arrange
         TeacherCareerProgressionFactoryImpl factory = new TeacherCareerProgressionFactoryImpl();
 
-        try (MockedConstruction<TeacherCareerProgression> constructerDouble = mockConstruction(TeacherCareerProgression.class,
+        try (MockedConstruction<TeacherCareerProgression> constructorDouble = mockConstruction(TeacherCareerProgression.class,
                 (invocation) -> {
 
                     throw new IllegalArgumentException(expectedException);
