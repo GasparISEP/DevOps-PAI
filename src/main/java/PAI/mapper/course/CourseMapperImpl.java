@@ -21,12 +21,12 @@ public class CourseMapperImpl implements ICourseMapper {
     }
 
     @Override
-    public Course toDomain(CourseDataModel courseDataModel) throws Exception {
+    public Course toDomain(CourseDataModel courseDataModel) {
         if (courseDataModel == null) {
             throw new NullPointerException("courseDataModel cannot be null");
         }
-        Name name = new Name(courseDataModel.get_name());
-        Acronym acronym = new Acronym(courseDataModel.get_acronym());
+        Name name = new Name(courseDataModel.getName());
+        Acronym acronym = new Acronym(courseDataModel.getAcronym());
 
         return courseFactory.createCourse(name, acronym);
     }
@@ -50,17 +50,12 @@ public class CourseMapperImpl implements ICourseMapper {
         );
     }
 
-    public Iterable<Course> toDomain (Iterable<CourseDataModel>listDataModel) {
+    public Iterable<Course> toDomain(Iterable<CourseDataModel> listDataModel) {
         List<Course> listDomain = new ArrayList<>();
         for (CourseDataModel courseDataModel : listDataModel) {
-            try {
-                Course course = toDomain(courseDataModel);
-                    listDomain.add(course);
-            } catch (Exception e) {
-                return null;
-            }
+            Course course = toDomain(courseDataModel);
+            listDomain.add(course);
         }
         return listDomain;
     }
-
 }
