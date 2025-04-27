@@ -35,13 +35,14 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             IProgrammeEnrolmentRepository programmeEnrolmentRepository,
             IProgrammeRepository programmeRepository) {
 
-        this.programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
-        this.programmeEditionRepository = programmeEditionRepository;
-        this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
-        this.courseEditionRepository = courseEditionRepository;
-        this.schoolYearRepository = schoolYearRepository;
-        this.programmeEnrolmentRepository = programmeEnrolmentRepository;
-        this.programmeRepository = programmeRepository;
+        this.programmeEditionEnrolmentRepository= validate(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
+        this.programmeEditionRepository= validate(programmeEditionRepository, "Programme edition repository");
+        this.courseEditionEnrolmentRepository = validate(courseEditionEnrolmentRepository, "Course edition enrolment repository");
+        this.courseEditionRepository= validate(courseEditionRepository, "Course edition repository");
+        this.schoolYearRepository= validate(schoolYearRepository, "School year repository");
+        this.programmeEnrolmentRepository= validate(programmeEnrolmentRepository, "Enrolment repository");
+        this.programmeRepository= validate(programmeRepository, "Programme repository");
+
     }
 
 
@@ -76,11 +77,20 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
 
     @Override
     public List<ProgrammeID> getAllProgrammesIDs() {
+
         return programmeRepository.getAllProgrammesIDs();
     }
 
     @Override
     public List<SchoolYearID> getAllSchoolYearIDs() {
+
         return schoolYearRepository.getAllSchoolYearsIDs();
+    }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null.");
+        }
+        return instance;
     }
 }
