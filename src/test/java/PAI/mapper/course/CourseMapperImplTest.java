@@ -6,6 +6,7 @@ import PAI.domain.course.CourseFactoryImpl;
 import PAI.domain.course.ICourseFactory;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
+import PAI.repository.courseRepository.ICourseRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -122,7 +123,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_CourseDataModel_to_Course() throws Exception {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel(
@@ -138,7 +140,8 @@ public class CourseMapperImplTest {
     @Test
     void should_throw_exception_if_courseDataModel_is_null(){
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
 
         //Act
@@ -149,7 +152,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_DataModelName_to_DomainName() throws Exception {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel(
@@ -167,7 +171,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_DataModelAcronym_to_DomainAcronym() throws Exception {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel(
@@ -187,7 +192,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_Course_to_CourseDataModel() throws Exception {
         //Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         ICourseMapper courseMapperImpl = new CourseMapperImpl(courseFactory);
 
         Name name = new Name ("Programação");
@@ -205,8 +211,8 @@ public class CourseMapperImplTest {
     @Test
     void should_throw_exception_if_course_is_null(){
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
-        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
+        ICourseFactory courseFactoryDouble = mock (ICourseFactory.class);
+        CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactoryDouble);
 
         //Act
         assertThrows(NullPointerException.class, () -> courseMapperImpl.toDataModel(null));
@@ -216,7 +222,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_Course_Name_to_CourseDataModel_Name() throws Exception {
         //Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         ICourseMapper courseMapperImpl = new CourseMapperImpl(courseFactory);
 
         Name name = new Name ("Programação");
@@ -233,7 +240,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_Course_Acronym_to_CourseDataModel_Acronym() throws Exception {
         //Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         ICourseMapper courseMapperImpl = new CourseMapperImpl(courseFactory);
 
         Name name = new Name ("Programação");
@@ -254,7 +262,8 @@ public class CourseMapperImplTest {
     @Test
     void should_convert_list_of_CourseDataModel_to_list_of_Course() {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
         CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
@@ -270,7 +279,8 @@ public class CourseMapperImplTest {
     @Test
     void should_return_null_if_CourseDataModel_is_invalid() {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel(null, null);
         CourseDataModel invalidDataModel = new CourseDataModel(courseIDDataModel, null, null);
@@ -286,7 +296,8 @@ public class CourseMapperImplTest {
     @Test
     void should_return_true_if_the_iteration_returns_an_element() {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
         CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
@@ -302,7 +313,8 @@ public class CourseMapperImplTest {
     @Test
     void should_get_Name_Of_Course() {
         // Arrange
-        ICourseFactory courseFactory = new CourseFactoryImpl();
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        ICourseFactory courseFactory = new CourseFactoryImpl(courseRepositoryDouble);
         CourseMapperImpl courseMapperImpl = new CourseMapperImpl(courseFactory);
         CourseIDDataModel courseIDDataModel = new CourseIDDataModel("LEI", "Programacao");
         CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, "Programacao", "LEI");
