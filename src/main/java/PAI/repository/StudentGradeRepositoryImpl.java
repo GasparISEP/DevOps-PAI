@@ -2,17 +2,16 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
-import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeListFactory;
 import PAI.factory.IStudentGradeRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class StudentGradeRepository implements IStudentGradeRepository {
+public class StudentGradeRepositoryImpl implements IStudentGradeRepository {
     private List<StudentGrade> _StudentGradeList;
 
-    public StudentGradeRepository(IStudentGradeListFactory studentGradeListFactory){
+    public StudentGradeRepositoryImpl(IStudentGradeListFactory studentGradeListFactory){
         if (studentGradeListFactory == null) {
             throw new IllegalArgumentException("Factory cannot be null!");
 

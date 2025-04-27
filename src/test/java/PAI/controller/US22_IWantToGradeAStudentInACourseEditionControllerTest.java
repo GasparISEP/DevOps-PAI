@@ -9,10 +9,7 @@ import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.*;
 import PAI.service.IStudentGradeService;
-import PAI.service.StudentGradeService;
 import org.junit.jupiter.api.Test;
 
 

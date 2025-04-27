@@ -1,13 +1,12 @@
-/* package PAI.controller;
+package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.Teacher;
-import PAI.repository.ITeacherCareerProgressionRepository;
-import PAI.repository.ITeacherRepository;
-import PAI.repository.TeacherCareerProgressionRepository;
-import PAI.repository.TeacherRepository;
+import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.ITeacherService;
+import PAI.service.TeacherCareerProgressionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,51 +26,49 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void newUpdateTeacherWorkingPercentageController() {
 
         //Arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
 
         //Act
-        new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
     }
 
     @Test
     void testConstructorWithNullTeacherRepository() {
         // Arrange
-        ITeacherRepository teacherRepositoryDouble = null;
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = null;
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
 
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+            new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
         });
-        assertEquals("Repository cannot be null", exception.getMessage());
+        assertEquals("Arguments cannot be null", exception.getMessage());
     }
 
     @Test
-    void testConstructorWithNullTeacherCareerProgressionRepository() {
+    void testConstructorWithNullTeacherCareerProgressionService() {
         // Arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = null;
-
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+            new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, null);
         });
-        assertEquals("Repository cannot be null", exception.getMessage());
+        assertEquals("Arguments cannot be null", exception.getMessage());
     }
 
     @Test
     void shouldReturnListOfTeachers() throws Exception {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
         List<Teacher> listDouble = mock(List.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
-        when(teacherRepositoryDouble.findAll()).thenReturn(listDouble);
+        when(teacherServiceDouble.getAllTeachers()).thenReturn(listDouble);
 
         //act
         Iterable<Teacher> result = controller.findAll();
@@ -83,14 +80,14 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @Test
     void successfullyUpdatesWorkingPercentageInTeacherCareerProgression() throws Exception {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
-        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(true);
+        when(teacherServiceDouble.existsById(any(TeacherID.class))).thenReturn(true);
 
-        when(teacherCareerProgressionRepositoryDouble.updateWorkingPercentageInTeacherCareerProgression(
+        when(teacherCareerProgressionServiceDouble.updateWorkingPercentageInTeacherCareerProgression(
                 any(Date.class), any(WorkingPercentage.class), any(TeacherID.class))).thenReturn(true);
 
         //act
@@ -103,12 +100,12 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @Test
     void shouldReturnFalseIfTeacherIsNotRegistered() throws Exception {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
-        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(false);
+        when(teacherServiceDouble.existsById(any(TeacherID.class))).thenReturn(false);
 
         //act
         boolean result = controller.updateWorkingPercentageInTeacherCareerProgression("12-03-2024", 70, "ABC");
@@ -120,14 +117,14 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @Test
     void shouldReturnFalseWhenUpdateWorkingPercentageInTeacherCareerProgressionUnsuccessful() throws Exception {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
-        when(teacherRepositoryDouble.containsOfIdentity(any(TeacherID.class))).thenReturn(true);
+        when(teacherServiceDouble.existsById(any(TeacherID.class))).thenReturn(true);
 
-        when(teacherCareerProgressionRepositoryDouble.updateWorkingPercentageInTeacherCareerProgression(
+        when(teacherCareerProgressionServiceDouble.updateWorkingPercentageInTeacherCareerProgression(
                 any(Date.class), any(WorkingPercentage.class), any(TeacherID.class))).thenReturn(false);
 
         //act
@@ -148,10 +145,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @MethodSource("provideInvalidWorkingPercentage")
     void shouldThrowExceptionWhenWorkingPercentageIsInvalid (int workingPercentage) {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> controller.updateWorkingPercentageInTeacherCareerProgression("12-03-2024", workingPercentage, "ABC"));
@@ -178,10 +175,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @MethodSource("provideInvalidDates")
     void shouldThrowExceptionWhenDateIsInvalid (String date, String exceptionThrown) {
         //arrange
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> controller.updateWorkingPercentageInTeacherCareerProgression(date, 70, "ABC"));
@@ -204,10 +201,10 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     @ParameterizedTest
     @MethodSource("provideInvalidTeacherAcronym")
     void shouldThrowExceptionWhenTeacherAcronymIsInvalid (String teacherAcronym, String exceptionThrown) {
-        ITeacherRepository teacherRepositoryDouble = mock(TeacherRepository.class);
-        ITeacherCareerProgressionRepository teacherCareerProgressionRepositoryDouble = mock(TeacherCareerProgressionRepository.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
 
-        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherRepositoryDouble, teacherCareerProgressionRepositoryDouble);
+        US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 
         //act
         Exception exception = assertThrows(Exception.class, () -> controller.updateWorkingPercentageInTeacherCareerProgression("12-03-2024", 70, teacherAcronym));
@@ -216,5 +213,3 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
         assertEquals(exception.getMessage(), exceptionThrown);
     }
 }
-
- */

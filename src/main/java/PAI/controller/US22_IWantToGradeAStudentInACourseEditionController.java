@@ -8,10 +8,6 @@ import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.IStudentRepository;
-import PAI.repository.StudentGradeRepository;
 import PAI.service.IStudentGradeService;
 
 import java.util.Optional;

@@ -5,7 +5,6 @@ import PAI.VOs.*;
 import PAI.domain.CourseEdition;
 import PAI.domain.SchoolYear;
 import PAI.domain.StudentGrade;
-import PAI.domain.Student;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.repository.CourseEditionRepositoryImpl;
@@ -13,12 +12,10 @@ import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
-import PAI.service.StudentGradeService;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Optional;
 

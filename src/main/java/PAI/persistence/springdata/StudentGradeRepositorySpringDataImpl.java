@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class StudentGradeRepositorySpringData implements IStudentGradeRepository {
+public class StudentGradeRepositorySpringDataImpl implements IStudentGradeRepository {
 
     private IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
     private IStudentGradeMapper studentGradeMapper;
     private IStudentGradeIDMapper studentGradeIDMapper;
 
 
-    public StudentGradeRepositorySpringData(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, IStudentGradeMapper studentGradeMapper, IStudentGradeIDMapper iStudentGradeIDMapper) {
+    public StudentGradeRepositorySpringDataImpl(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, IStudentGradeMapper studentGradeMapper, IStudentGradeIDMapper iStudentGradeIDMapper) {
         this.iStudentGradeRepositorySpringData = iStudentGradeRepositorySpringData;
         this.studentGradeMapper = studentGradeMapper;
         this.studentGradeIDMapper = iStudentGradeIDMapper;

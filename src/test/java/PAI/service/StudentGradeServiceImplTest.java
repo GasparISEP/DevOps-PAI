@@ -7,19 +7,15 @@ import PAI.VOs.StudentID;
 import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.factory.IStudentGradeFactory;
-import PAI.factory.IStudentGradeListFactory;
 import PAI.factory.IStudentGradeRepository;
-import PAI.repository.StudentGradeRepository;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class StudentGradeServiceTest {
+public class StudentGradeServiceImplTest {
 
     @Test
     public void shouldCreatConstructor(){
@@ -29,10 +25,10 @@ public class StudentGradeServiceTest {
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
         //act
-        StudentGradeService studentGradeService = new StudentGradeService( studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl( studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         //assert
-        assertNotNull(studentGradeService);
+        assertNotNull(studentGradeServiceImpl);
     }
 
     @Test
@@ -43,7 +39,7 @@ public class StudentGradeServiceTest {
 
 
         //act + assert
-        assertThrows(Exception.class, () -> new StudentGradeService(null, studentGradeRepository,courseEditionEnrolmentRepository));
+        assertThrows(Exception.class, () -> new StudentGradeServiceImpl(null, studentGradeRepository,courseEditionEnrolmentRepository));
     }
 
     @Test
@@ -54,7 +50,7 @@ public class StudentGradeServiceTest {
 
 
         //act + assert
-        assertThrows(Exception.class, () -> new StudentGradeService(studentGradeFactory, null,courseEditionEnrolmentRepository));
+        assertThrows(Exception.class, () -> new StudentGradeServiceImpl(studentGradeFactory, null,courseEditionEnrolmentRepository));
     }
 
     @Test
@@ -65,7 +61,7 @@ public class StudentGradeServiceTest {
 
 
         //act + assert
-        assertThrows(Exception.class, () -> new StudentGradeService(studentGradeFactory, studentGradeRepository,null));
+        assertThrows(Exception.class, () -> new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,null));
     }
 
     @Test
@@ -75,7 +71,7 @@ public class StudentGradeServiceTest {
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
@@ -88,7 +84,7 @@ public class StudentGradeServiceTest {
         when(studentGradeRepository.save(studentGrade)).thenReturn(studentGrade);
 
         //act
-        StudentGrade result = studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID);
+        StudentGrade result = studentGradeServiceImpl.newStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
 
@@ -102,7 +98,7 @@ public class StudentGradeServiceTest {
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
         Grade grade = mock(Grade.class);
         Date date = mock(Date.class);
@@ -110,7 +106,7 @@ public class StudentGradeServiceTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         when(courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)).thenReturn(false);
         // assert
-        assertThrows(Exception.class, () -> studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID));
+        assertThrows(Exception.class, () -> studentGradeServiceImpl.newStudentGrade(grade, date, studentID, courseEditionID));
 
     }
 
@@ -143,11 +139,11 @@ public class StudentGradeServiceTest {
 
         when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2,studentGrade3));
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
-        Double averageGrade = studentGradeService.getAverageGrade(courseEditionID1Double);
+        Double averageGrade = studentGradeServiceImpl.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(15, averageGrade, 0.01);
@@ -165,11 +161,11 @@ public class StudentGradeServiceTest {
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
-        Double averageGrade = studentGradeService.getAverageGrade(courseEditionID1Double);
+        Double averageGrade = studentGradeServiceImpl.getAverageGrade(courseEditionID1Double);
 
         // Assert
         assertEquals(null, averageGrade);
@@ -203,11 +199,11 @@ public class StudentGradeServiceTest {
 
         when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3));
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
-        double averageGrade = studentGradeService.knowApprovalRate(courseEditionID1Double);
+        double averageGrade = studentGradeServiceImpl.knowApprovalRate(courseEditionID1Double);
 
         // Assert
         assertEquals(100, averageGrade, 0.01);
@@ -241,11 +237,11 @@ public class StudentGradeServiceTest {
 
         when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3));
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
-        double averageGrade = studentGradeService.knowApprovalRate(courseEditionID1Double);
+        double averageGrade = studentGradeServiceImpl.knowApprovalRate(courseEditionID1Double);
 
         // Assert
         assertEquals(50, averageGrade, 0.01);
@@ -262,11 +258,11 @@ public class StudentGradeServiceTest {
         CourseEditionID courseEditionID1Double = mock(CourseEditionID.class);
 
 
-        StudentGradeService studentGradeService = new StudentGradeService(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
+        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository);
 
 
         // Act
-        Double averageGrade = studentGradeService.knowApprovalRate(courseEditionID1Double);
+        Double averageGrade = studentGradeServiceImpl.knowApprovalRate(courseEditionID1Double);
 
         // Assert
         assertEquals(0, averageGrade);
