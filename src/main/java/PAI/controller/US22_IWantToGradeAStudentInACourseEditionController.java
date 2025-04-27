@@ -5,22 +5,17 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IStudentRepository;
 import PAI.repository.StudentGradeRepository;
+import PAI.service.IStudentGradeService;
 
 
 public class US22_IWantToGradeAStudentInACourseEditionController {
-    StudentGradeRepository _StudentGradeRepository;
-    ICourseEditionEnrolmentRepository _courseEditionEnrolmentRepository;
-    IStudentRepository _studentRepository;
-    ICourseEditionRepository _courseEditionRepository;
+    IStudentGradeService studentGradeService;
 
-    public US22_IWantToGradeAStudentInACourseEditionController(StudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, IStudentRepository studentRepository, ICourseEditionRepository courseEditionRepository ){
-        if (studentGradeRepository == null || courseEditionEnrolmentRepository == null){
-            throw new IllegalArgumentException("Repository cannot be null");
+    public US22_IWantToGradeAStudentInACourseEditionController(IStudentGradeService studentGradeService) {
+        if (studentGradeService== null){
+            throw new IllegalArgumentException("Service cannot be null");
         }
-        _StudentGradeRepository = studentGradeRepository;
-        _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
-        _studentRepository=studentRepository;
-        _courseEditionRepository = courseEditionRepository;
+        this.studentGradeService = studentGradeService;
     }
 
     //public Optional <StudentID> findStudentIdByStudent(Student student){

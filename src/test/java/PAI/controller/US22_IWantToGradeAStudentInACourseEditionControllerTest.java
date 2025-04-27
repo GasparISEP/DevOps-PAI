@@ -4,6 +4,7 @@ package PAI.controller;
 
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.*;
+import PAI.service.IStudentGradeService;
 import org.junit.jupiter.api.Test;
 
 
@@ -14,36 +15,20 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
     @Test
     void shouldCreateController() {
         //arrange
-        StudentGradeRepository StudentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-        IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(StudentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
+        IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService);
         //assert
         assertNotNull(controller);
     }
     @Test
-    void shouldNotCreateControllerWhenStudentGradeRepoIsNull() {
+    void shouldNotCreateControllerWhenServiceIsNull() {
         //arrange
-        StudentGradeRepository studentGradeRepositorytudentGradeRepositoryDouble = null;
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-        IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IStudentGradeService studentGradeService = null;
 
         //assert
-        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositorytudentGradeRepositoryDouble,courseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
+        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService));
     }
-    @Test
-    void shouldNotCreateControllerWhenCourseEditionEnrollmentIsNull() {
-        //arrange
-        StudentGradeRepository studentGradeRepository = mock(StudentGradeRepository.class);;
-        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = null;
-        IStudentRepository studentRepository = mock(StudentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
 
-        //assert
-        assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepository,iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository));
-    }
 //    @Test
 //    void shouldReturnTrueIfStudentIsEnrolledInCourseEdition() {
 //        //arrange
