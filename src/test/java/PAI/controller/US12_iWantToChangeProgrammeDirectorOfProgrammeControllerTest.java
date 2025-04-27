@@ -16,6 +16,7 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.service.IProgrammeService;
 import org.junit.jupiter.api.Test;
 
 
@@ -27,9 +28,8 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldCreateController() throws Exception{
         //arrange
-        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeRepo, teacherRepo);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeService);
         //assert
         assertNotNull(controller);
     }
@@ -37,15 +37,14 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
     @Test
     void shouldCreateAnExceptionWhenRepoIsNull(){
         //assert
-        assertThrows(Exception.class, () -> new US12_iWantToChangeProgrammeDirectorOfProgrammeController(null, null));
+        assertThrows(Exception.class, () -> new US12_iWantToChangeProgrammeDirectorOfProgrammeController(null));
     }
 
     @Test
     void shouldReturnTrueWhenDirectorIsChanged() throws Exception {
         // arrange
-        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeRepo, teacherRepo);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeService);
 
         Programme mockProgramme = mock(Programme.class);
         Teacher mockTeacher = mock(Teacher.class);
@@ -54,7 +53,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
 
         when(mockProgramme.identity()).thenReturn(mockProgrammeID);
         when(mockTeacher.identity()).thenReturn(mockTeacherID);
-        when(programmeRepo.changeProgrammeDirector(mockProgrammeID, mockTeacherID)).thenReturn(true);
+        when(programmeService.changeProgrammeDirector(mockProgrammeID, mockTeacherID)).thenReturn(true);
 
         // act
         boolean result = controller.changeProgrammeDirector(mockProgramme, mockTeacher);
@@ -95,25 +94,17 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
 
 
         Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
-        IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        // There was the need to mock TeacherRepositorySpringData due to a never-ending loop of dependency instantiation in the context of an integration test
-        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
-        ITeacherFactory iTeacherFactory = new TeacherFactoryImpl(teacherRepository);
-        ITeacherListFactory iTeacherListFactory = new TeacherListFactoryImpl();
-
-        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
-        ITeacherRepository iTeacherRepository = new TeacherRepository(iTeacherFactory,iTeacherListFactory);
-
-        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(iProgrammeRepository,iTeacherRepository);
-        iTeacherRepository.registerTeacher(teacherAcronym2,name,email,nif,phoneNumber,academicBackground,street,postalCode,location,country,departmentID);
-
-        iProgrammeRepository.registerProgramme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
 
 
-        //act
-        boolean result = controller.changeProgrammeDirector(programme,teacher2);
-        //assert
+        when(programmeService.changeProgrammeDirector(programme.identity(), teacher2.identity())).thenReturn(true);
+
+        US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeService);
+
+        // act
+        boolean result = controller.changeProgrammeDirector(programme, teacher2);
+
+        // assert
         assertTrue(result);
 
     }

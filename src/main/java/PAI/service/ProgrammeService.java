@@ -13,7 +13,6 @@ public class ProgrammeService implements IProgrammeService {
 
     private final IProgrammeFactory _programmeFactory;
     private final IProgrammeRepository _programmeRepository;
-    private final ITeacherRepository _teacherRepository;
 
     public ProgrammeService(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository, ITeacherRepository teacherRepository) {
         if (programmeFactory == null) {
@@ -25,11 +24,6 @@ public class ProgrammeService implements IProgrammeService {
             throw new IllegalArgumentException("Programme Repository cannot be null");
         }
         _programmeRepository = programmeRepository;
-
-        if (teacherRepository == null) {
-            throw new IllegalArgumentException("Teacher Repository cannot be null");
-        }
-        _teacherRepository = teacherRepository;
     }
 
     public Programme registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
@@ -37,17 +31,21 @@ public class ProgrammeService implements IProgrammeService {
         return _programmeRepository.save(programme);
     }
 
-    public boolean changeProgrammeDirector(Programme programme, Teacher programmeDirector) throws Exception {
-        if (programme == null) {
-            throw new IllegalArgumentException("Programme cannot be null");
+    public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception {
+        if (programmeID == null) {
+            throw new IllegalArgumentException("ProgrammeID cannot be null");
         }
-        if (programmeDirector == null) {
-            throw new IllegalArgumentException("Programme Director cannot be null");
+        if (programmeDirectorID == null) {
+            throw new IllegalArgumentException("ProgrammeDirectorID cannot be null");
         }
 
-        ProgrammeID programmeID = programme.identity();
-        TeacherID programmeDirectorID = programmeDirector.identity();
+        Programme programme = _programmeRepository.ofIdentity(programmeID)
+                .orElseThrow(() -> new IllegalArgumentException("Programme not found"));
 
-        return _programmeRepository.changeProgrammeDirector(programmeID,programmeDirectorID);
+        programme.newProgrammeDirector(programmeDirectorID);
+
+        _programmeRepository.save(programme);
+
+        return true;
     }
 }
