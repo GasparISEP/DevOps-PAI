@@ -10,29 +10,15 @@ import java.util.Optional;
 
 public class CourseRepositoryImpl implements ICourseRepository {
 
-//  private final ICourseFactory _courseFactory;
     private List<Course> courseList;
 
     public CourseRepositoryImpl(ICourseRepositoryListFactory iCourseRepositoryListFactory) {
-//        if(iCourseFactory == null){
-//            throw new IllegalArgumentException("iCourseFactoryDDD cannot be null");
-//        }
+
         if(iCourseRepositoryListFactory == null){
             throw new IllegalArgumentException("iCourseRepositoryListFactoryDDD cannot be null");
         }
-//        _courseFactory = iCourseFactory;
         courseList = iCourseRepositoryListFactory.createCourseRepositoryList();
     }
-
-//    public boolean registerCourse (Name name, Acronym acronym) throws Exception {
-//
-//        Course course = _courseFactory.createCourse(name, acronym);
-//
-//        course = save(course);
-//        if(course == null)
-//            return false;
-//        return true;
-//    }
 
     @Override
     public Course save(Course entity) {
@@ -64,5 +50,31 @@ public class CourseRepositoryImpl implements ICourseRepository {
     @Override
     public boolean containsOfIdentity(CourseID id) {
         return ofIdentity(id).isPresent();
+    }
+
+    @Override
+    public boolean existsCourseByAcronym(Acronym courseAcronym) {
+        if(courseAcronym == null) {
+            return false;
+        }
+        for (Course course : courseList) {
+            if (course.identity().getAcronym().equals(courseAcronym)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsCourseByName(Name courseName) {
+        if(courseName == null) {
+            return false;
+        }
+        for (Course course : courseList) {
+            if (course.identity().getName().equals(courseName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

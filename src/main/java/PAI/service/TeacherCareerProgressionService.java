@@ -17,8 +17,8 @@ public class TeacherCareerProgressionService implements ITeacherCareerProgressio
     private ITeacherCareerProgressionFactory _TCPfactory;
 
     public TeacherCareerProgressionService(ITeacherCareerProgressionRepository teacherCareerProgressionRepo, ITeacherCareerProgressionFactory teacherCareerProgressionFactory) {
-        Objects.requireNonNull(_TCPrepository = teacherCareerProgressionRepo, "Teacher Career Progression Repository cannot be null!");
-        Objects.requireNonNull(_TCPfactory = teacherCareerProgressionFactory, "Teacher Career Progression Factory cannot be null!");
+        this._TCPrepository = Objects.requireNonNull(teacherCareerProgressionRepo, "Teacher Career Progression Repository cannot be null!");
+        this._TCPfactory = Objects.requireNonNull(teacherCareerProgressionFactory, "Teacher Career Progression Factory cannot be null!");
     }
 
     public boolean createTeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
@@ -58,6 +58,31 @@ public class TeacherCareerProgressionService implements ITeacherCareerProgressio
         TeacherCareerProgression newTeacherCareerProgression = _TCPfactory.createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
 
         _TCPrepository.save(newTeacherCareerProgression);
+        return true;
+    }
+
+    public boolean updateWorkingPercentageInTeacherCareerProgression(Date date, WorkingPercentage workingPercentage, TeacherID teacherID) throws Exception {
+
+        if(date == null || workingPercentage == null || teacherID == null)
+            return false;
+
+        Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(teacherID);
+
+        if (optionalTCP.isEmpty())
+            return false;
+
+        TeacherCareerProgression lastTCP = optionalTCP.get();
+
+        if (!lastTCP.isLastDateEqualOrBeforeNewDate(date))
+            return false;
+
+        TeacherCategoryID teacherCategoryID = lastTCP.getTeacherCategoryID();
+
+        if(lastTCP.getWorkingPercentage().equals(workingPercentage))
+            return false;
+
+        createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+
         return true;
     }
 }

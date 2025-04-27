@@ -7,8 +7,8 @@ import java.io.Serializable;
 @Embeddable
 public class ProgrammeIDDataModel implements Serializable {
 
-    private String _programmeName;
-    private String _programmeAcronym;
+    private String programmeName;
+    private String programmeAcronym;
 
 
     public ProgrammeIDDataModel() {
@@ -18,8 +18,8 @@ public class ProgrammeIDDataModel implements Serializable {
         if (name == null | acronym == null) {
             throw new IllegalArgumentException("Attributes cannot be null");
         }
-        _programmeName = name;
-        _programmeAcronym = acronym;
+        this.programmeName = name;
+        this.programmeAcronym = acronym;
     }
 
     @Override
@@ -27,21 +27,21 @@ public class ProgrammeIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof ProgrammeIDDataModel)) return false;
         ProgrammeIDDataModel programmeIDDataModel = (ProgrammeIDDataModel) objectToCompare;
-        return _programmeAcronym.equals(programmeIDDataModel._programmeAcronym) &&
-                _programmeName.equals(programmeIDDataModel._programmeName);
+        return programmeAcronym.equals(programmeIDDataModel.programmeAcronym) &&
+                programmeName.equals(programmeIDDataModel.programmeName);
     }
 
     @Override
     public int hashCode() {
-        return _programmeAcronym.hashCode() + _programmeName.hashCode();
+        return programmeAcronym.hashCode() + programmeName.hashCode();
     }
 
     public String getName() {
-        return _programmeName;
+        return programmeName;
     }
 
     public String getAcronym() {
-        return _programmeAcronym;
+        return programmeAcronym;
     }
 
 }
