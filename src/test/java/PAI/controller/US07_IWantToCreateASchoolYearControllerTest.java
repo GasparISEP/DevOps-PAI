@@ -8,6 +8,7 @@ import PAI.factory.SchoolYearFactoryImpl;
 import PAI.factory.SchoolYearListFactoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.service.schoolYear.ISchoolYearService;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -143,19 +144,50 @@ class US07_IWantToCreateASchoolYearControllerTest {
 
 
     //---------------Integration Tests--------------
-//    @Test
-//    void shouldCreateSchoolYear_IntegrationTest() throws Exception {
-//
-//        //Arrange
-//        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-//        ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-//        SchoolYearRepositoryImpl schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
-//        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearRepositoryImpl);
-//        String descriptionInfo = "School Year 24/25";
-//        String startDateInfo = "24-09-2024";
-//        String endDateInfo = "31-06-2025";
-//
-//        // Act + Assert
-//        assertTrue(controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo));
-//    }
+    @Test
+    void integrationTest_ShouldCreateSchoolYearSuccessfully() throws Exception {
+        // Arrange: Create real dependencies
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        SchoolYearRepositoryImpl schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+
+        String descriptionInfo = "School Year 24/25";
+        String startDateInfo = "24-09-2024";
+        String endDateInfo = "31-06-2025";
+
+        // Act: Try to create a new school year
+        boolean result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+
+        // Assert: Should return true
+        assertTrue(result);
+    }
+
+    @Test
+    void integrationTest_ShouldThrowExceptionWhenSchoolYearAlreadyExists() throws Exception {
+        // Arrange: Create real dependencies
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+
+        String descriptionInfo = "School Year 24/25";
+        String startDateInfo = "24-09-2024";
+        String endDateInfo = "31-06-2025";
+
+        // Act: Create the school year the first time
+        boolean created = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        assertTrue(created, "First creation should succeed.");
+
+        // Act & Assert: Creating the same school year again should throw an exception
+        Exception exception = assertThrows(Exception.class, () ->
+                controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo)
+        );
+
+        // Assert: Check that the exception message matches
+        assertEquals("School year already exists.", exception.getMessage());
+    }
+
 }
