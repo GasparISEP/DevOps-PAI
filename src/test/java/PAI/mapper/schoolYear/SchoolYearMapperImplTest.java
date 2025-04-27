@@ -23,11 +23,36 @@ import static org.mockito.Mockito.when;
 class SchoolYearMapperImplTest {
 
     // Tests with isolation
+
+    @Test
+    void testToConstructorWhenParametersAreValid() {
+
+        //arrange
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
+
+        //act + assert
+        assertNotNull(mapper);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFactoryIsNullWithDoubles() {
+
+        //arrange
+        ISchoolYearFactory schoolYearFactory = null;
+
+        //act + assert
+        assertThrows(Exception.class, () -> {
+            ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
+        });
+    }
+
     @Test
     void shouldMapSchoolYearToDataModelWithDoubleVariables() {
 
         //arrange
-        ISchoolYearMapper mapper = new SchoolYearMapperImpl();
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
         SchoolYear schoolYear = mock(SchoolYear.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         Description description = mock(Description.class);
@@ -49,7 +74,8 @@ class SchoolYearMapperImplTest {
     void shouldThrowExceptionIfInputSchoolYearIsNullWithDoubles() {
 
         //arrange
-        ISchoolYearMapper mapper = new SchoolYearMapperImpl();
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
         SchoolYear schoolYear = null;
 
         //act +assert
@@ -75,9 +101,9 @@ class SchoolYearMapperImplTest {
         when(schoolYearDataModel.getEndDate()).thenReturn(LocalDate.of(2024, 12, 31));
         when(schoolYearFactory.createSchoolYear(any(), any(), any(), any())).thenReturn(schoolYear);
 
-        ISchoolYearMapper mapper = new SchoolYearMapperImpl();
+        ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
         //act
-        SchoolYear schoolYearResult = mapper.toDomain(schoolYearDataModel, schoolYearFactory);
+        SchoolYear schoolYearResult = mapper.toDomain(schoolYearDataModel);
 
         //assert
         assertNotNull(schoolYearResult);
@@ -88,32 +114,21 @@ class SchoolYearMapperImplTest {
     void shouldThrowExceptionWhenDataModelIsNullWithDoubles() {
 
         //arrange
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
         ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
 
         //act + assert
         assertThrows(Exception.class, () -> {
-            SchoolYear schoolYear = mapper.toDomain(null, schoolYearFactory);
+            SchoolYear schoolYear = mapper.toDomain(null);
         });
     }
 
-    @Test
-    void shouldThrowExceptionWhenFactoryIsNullWithDoubles() {
-
-        //arrange
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
-        SchoolYearDataModel schoolYearDataModel = mock(SchoolYearDataModel.class);
-
-        //act + assert
-        assertThrows(Exception.class, () -> {
-            SchoolYear schoolYear = mapper.toDomain(schoolYearDataModel, null);
-        });
-    }
 
     // Integration tests
     @Test
     void shouldMapSchoolYearToDataModelCorrectly() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl(schoolYearFactory);
         String description = "2024/2025";
         LocalDate startDate = LocalDate.of(2024, 1, 1);
         LocalDate endDate = LocalDate.of(2025, 1, 1);
@@ -130,7 +145,8 @@ class SchoolYearMapperImplTest {
 
     @Test
     void shouldMapSchoolYearToDataModelWithUUIDCorrectly() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl(schoolYearFactory);
         UUID uuid = UUID.randomUUID();
         String description = "2024/2025";
         LocalDate startDate = LocalDate.of(2024, 1, 1);
@@ -148,7 +164,8 @@ class SchoolYearMapperImplTest {
 
     @Test
     void shouldThrowExceptionWhenSchoolYearIsNull() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl(schoolYearFactory);
         assertThrows(Exception.class, () -> {
             SchoolYearDataModel model = mapper.toDataModel(null);
         });
@@ -156,8 +173,8 @@ class SchoolYearMapperImplTest {
 
     @Test
     void shouldCorrectlyReturnSchoolYearWhenAccurateDataIsProvided() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl(schoolYearFactory);
         SchoolYearIDDataModel schoolYearIDDataModel = new SchoolYearIDDataModel("9fbd7db8-2ab5-456b-98ac-e372589d57bb");
         String description = "2024/2025";
         LocalDate startDate = LocalDate.of(2024, 1, 1);
@@ -165,7 +182,7 @@ class SchoolYearMapperImplTest {
 
         SchoolYearDataModel schoolYearDataModel = new SchoolYearDataModel(schoolYearIDDataModel, description, startDate, endDate);
 
-        SchoolYear schoolYear = mapper.toDomain(schoolYearDataModel, schoolYearFactory);
+        SchoolYear schoolYear = mapper.toDomain(schoolYearDataModel);
 
         assertEquals(schoolYear.identity().getSchoolYearID().toString(), schoolYearIDDataModel.getId());
         assertEquals(schoolYear.getDescription().getDescription(), description);
@@ -175,26 +192,12 @@ class SchoolYearMapperImplTest {
 
     @Test
     void shouldThrowExceptionWhenDataModelIsNull() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl(schoolYearFactory);
+
 
         assertThrows(Exception.class, () -> {
-            SchoolYear schoolYear = mapper.toDomain(null, schoolYearFactory);
-        });
-    }
-
-    @Test
-    void shouldThrowExceptionWhenFactoryIsNull() {
-        SchoolYearMapperImpl mapper = new SchoolYearMapperImpl();
-        SchoolYearIDDataModel schoolYearIDDataModel = new SchoolYearIDDataModel("9fbd7db8-2ab5-456b-98ac-e372589d57bb");
-        String description = "2024/2025";
-        LocalDate startDate = LocalDate.of(2024, 1, 1);
-        LocalDate endDate = LocalDate.of(2025, 1, 1);
-
-        SchoolYearDataModel schoolYearDataModel = new SchoolYearDataModel(schoolYearIDDataModel, description, startDate, endDate);
-
-        assertThrows(Exception.class, () -> {
-            SchoolYear schoolYear = mapper.toDomain(schoolYearDataModel, null);
+            SchoolYear schoolYear = mapper.toDomain(null);
         });
     }
 }

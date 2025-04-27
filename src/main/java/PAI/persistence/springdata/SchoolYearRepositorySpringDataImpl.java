@@ -1,14 +1,15 @@
 package PAI.persistence.springdata;
 
 
+import PAI.VOs.Date;
+import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
-import PAI.factory.ISchoolYearFactory;
-import PAI.factory.SchoolYearFactoryImpl;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
+import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,11 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-
-//TODO "implements ISchoolYearRepository"
-
 @Repository
-public class SchoolYearRepositorySpringDataImpl {
+public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository {
 
     private ISchoolYearRepositorySpringData schoolYearRepositorySpringData;
     private ISchoolYearMapper schoolYearMapper;
@@ -46,12 +44,12 @@ public class SchoolYearRepositorySpringDataImpl {
         return schoolYear;
     }
 
-    public Iterable<SchoolYear> findAll(ISchoolYearFactory factory){
+    public Iterable<SchoolYear> findAll(){
         List<SchoolYear> allSchoolYears = new ArrayList<>();
         List<SchoolYearDataModel> allSchoolYearDataModels = schoolYearRepositorySpringData.findAll();
         for(SchoolYearDataModel existingSchoolYears : allSchoolYearDataModels){
             try {
-                SchoolYear schoolYear = schoolYearMapper.toDomain(existingSchoolYears, factory);
+                SchoolYear schoolYear = schoolYearMapper.toDomain(existingSchoolYears);
                 allSchoolYears.add(schoolYear);
             } catch (Exception e) {
                 return Collections.emptyList();
@@ -59,7 +57,7 @@ public class SchoolYearRepositorySpringDataImpl {
         }
         return allSchoolYears;
     }
-    public Optional<SchoolYear> ofIdentity(SchoolYearID id, SchoolYearFactoryImpl schoolYearFactory) {
+    public Optional<SchoolYear> ofIdentity(SchoolYearID id) {
         SchoolYearIDDataModel schoolYearIDDataModel=schoolYearIDMapper.toDataModel(id);
         Optional<SchoolYearDataModel> schoolYearDMOpt = schoolYearRepositorySpringData.findById(schoolYearIDDataModel);
 
@@ -67,7 +65,7 @@ public class SchoolYearRepositorySpringDataImpl {
             return Optional.empty();
         }
         try {
-            SchoolYear schoolYear = schoolYearMapper.toDomain(schoolYearDMOpt.get(), schoolYearFactory);
+            SchoolYear schoolYear = schoolYearMapper.toDomain(schoolYearDMOpt.get());
             return Optional.of(schoolYear);
         } catch (Exception e) {
             return Optional.empty();
@@ -82,13 +80,44 @@ public class SchoolYearRepositorySpringDataImpl {
         return schoolYearRepositorySpringData.existsById(schoolYearIDDataModel);
     }
 
-    //US18
-    public Optional<SchoolYearID> getCurrentSchoolYear() {
-        Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
-
-        //If present return Optional com ProgrammeID, else return Empty
-        return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
+    @Override
+    public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
+        return false;
     }
 
+    @Override
+    public boolean schoolYearExists(SchoolYear schoolYear) {
+        return false;
+    }
 
+   //@Override
+    public SchoolYear getCurrentSchoolYear() {
+        return null;
+    }
+
+    @Override
+    public List<SchoolYear> getAllSchoolYears() {
+        return List.of();
+    }
+
+    @Override
+    public List<SchoolYearID> getAllSchoolYearsIDs() {
+        return List.of();
+    }
+
+/*
+    //Ver 2 métodos abaixo para getCurrentSchoolYear
+    @Override
+    public SchoolYear getCurrentSchoolYear() {
+        return null;
+    }
+
+        //US18
+        public Optional<SchoolYearID> getCurrentSchoolYear() {
+            Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
+
+            //If present return Optional com ProgrammeID, else return Empty
+            return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
+        }
+*/
 }
