@@ -142,8 +142,25 @@ class US07_IWantToCreateASchoolYearControllerTest {
         assertEquals("School year already exists.", exception.getMessage());
     }
 
+    // Verify allowing multiple different school years creation
+    @Test
+    void shouldAllowMultipleDifferentSchoolYearsCreation() throws Exception {
+        // Arrange
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+
+        when(schoolYearService.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
+                .thenReturn(true) // 1st creation
+                .thenReturn(true); // 2nd creation
+
+        // Act & Assert
+        assertTrue(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"));
+        assertTrue(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"));
+    }
+
 
     //---------------Integration Tests--------------
+
     @Test
     void integrationTest_ShouldCreateSchoolYearSuccessfully() throws Exception {
         // Arrange: Create real dependencies
@@ -188,6 +205,20 @@ class US07_IWantToCreateASchoolYearControllerTest {
 
         // Assert: Check that the exception message matches
         assertEquals("School year already exists.", exception.getMessage());
+    }
+
+    @Test
+    void integrationTest_ShouldAllowMultipleDifferentSchoolYearsCreation() throws Exception {
+        // Arrange
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+
+        // Act & Assert
+        assertTrue(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"));
+        assertTrue(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"));
     }
 
 }
