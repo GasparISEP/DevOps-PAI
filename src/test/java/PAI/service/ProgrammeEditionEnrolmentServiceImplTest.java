@@ -335,10 +335,6 @@ class ProgrammeEditionEnrolmentServiceImplTest {
     void testGetAllSchoolYears_NotNull() {
         // Arrange
         IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
-        SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
-        StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
         IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
@@ -430,6 +426,174 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         // Assert
         assertTrue(doubleSchoolYears.contains(doubleSchoolYear1), "The list should contain doubleSchoolYear1.");
         assertTrue(doubleSchoolYears.contains(doubleSchoolYear2), "The list should contain doubleSchoolYear2.");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionEnrolmentRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    null,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    null,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCourseEditionEnrolmentRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    null,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCourseEditionRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    null,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    null,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEnrolmentRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    null,
+                    doubleProgrammeRepository
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    null
+            );
+        });
     }
 
 }
