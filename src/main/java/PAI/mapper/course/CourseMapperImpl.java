@@ -1,4 +1,4 @@
-package PAI.mapper.Course;
+package PAI.mapper.course;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;

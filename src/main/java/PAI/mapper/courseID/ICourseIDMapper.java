@@ -1,4 +1,4 @@
-package PAI.mapper.CourseID;
+package PAI.mapper.courseID;
 
 import PAI.VOs.CourseID;
 import PAI.persistence.datamodel.course.CourseIDDataModel;

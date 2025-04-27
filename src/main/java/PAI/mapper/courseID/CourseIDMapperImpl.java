@@ -1,4 +1,4 @@
-package PAI.mapper.CourseID;
+package PAI.mapper.courseID;
 
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
@@ -11,7 +11,7 @@ public class CourseIDMapperImpl implements ICourseIDMapper {
 
     public CourseID toDomain(CourseIDDataModel courseIDDataModel) {
         if (courseIDDataModel == null) {
-            throw new NullPointerException("courseIDDataModel cannot be null");
+            throw new IllegalArgumentException("courseIDDataModel cannot be null");
         }
         Acronym acronym = new Acronym(courseIDDataModel.getAcronym());
         Name name = new Name(courseIDDataModel.getName());
@@ -20,7 +20,7 @@ public class CourseIDMapperImpl implements ICourseIDMapper {
 
     public CourseIDDataModel toDataModel(CourseID courseID) {
         if (courseID == null) {
-            throw new NullPointerException("courseID cannot be null");
+            throw new IllegalArgumentException("courseID cannot be null");
         }
         String acronym = courseID.getAcronym().getAcronym();
         String name = courseID.getName().getName();

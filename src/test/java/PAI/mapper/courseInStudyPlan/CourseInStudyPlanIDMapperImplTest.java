@@ -1,7 +1,7 @@
 package PAI.mapper.courseInStudyPlan;
 
 import PAI.VOs.*;
-import PAI.mapper.CourseID.CourseIDMapperImpl;
+import PAI.mapper.courseID.CourseIDMapperImpl;
 import PAI.mapper.ProgrammeIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.course.CourseIDDataModel;

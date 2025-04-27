@@ -2,8 +2,8 @@ package PAI.persistence.springdata.course;
 
 import PAI.VOs.CourseID;
 import PAI.domain.course.Course;
-import PAI.mapper.Course.ICourseMapper;
-import PAI.mapper.CourseID.ICourseIDMapper;
+import PAI.mapper.course.ICourseMapper;
+import PAI.mapper.courseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import org.junit.jupiter.api.Test;
