@@ -28,6 +28,10 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         return this._programmeID;
     }
 
+    public DurationInYears getDurationInYears() {
+        return this._durationInYears;
+    }
+
     @Override
     public boolean equals (Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -109,6 +109,22 @@ class StudyPlanTest {
     }
 
     @Test
+    void shouldReturnDurationInYears() {
+        // arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
+
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        // act
+        DurationInYears result = studyPlan1.getDurationInYears();
+
+        // assert
+        assertEquals(durationInYears, result);
+    }
+
+    @Test
     void testIdentityReturnsCorrectID() {
         //arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
