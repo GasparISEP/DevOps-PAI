@@ -3,10 +3,11 @@ package PAI.persistence.datamodel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class StudentIDDataModel {
+public class StudentIDDataModel implements Serializable {
 
     @Column(name = "StudentID")
     private int uniqueNumber;

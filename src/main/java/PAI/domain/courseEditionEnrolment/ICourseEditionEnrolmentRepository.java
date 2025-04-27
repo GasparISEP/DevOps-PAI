@@ -12,7 +12,7 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     boolean enrolStudentInACourseEdition(CourseEditionEnrolment courseEditionEnrolment) throws Exception;
 
-    boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId);
+    boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception;
 
     Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId);
 
@@ -20,6 +20,6 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId);
 
-    void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions);
+    void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception;
 
 }

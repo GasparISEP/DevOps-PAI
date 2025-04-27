@@ -7,6 +7,7 @@ import PAI.VOs.WorkingPercentage;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.repository.ITeacherCareerProgressionRepository;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -14,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,28 +26,48 @@ class TeacherCareerProgressionServiceTest {
 
     private ITeacherCareerProgressionRepository _repositoryDouble;
     private ITeacherCareerProgressionFactory _factoryDouble;
+    private TeacherCareerProgression _lastTCPDouble;
+    private TeacherCareerProgression _TCPDouble;
+    private TeacherID _teacherIDDouble;
+    private Date _dateDouble;
+    private WorkingPercentage _lastWorkingPercentageDouble;
+    private WorkingPercentage _workingPercentageDouble;
+    private TeacherCategoryID _lastTeacherCategoryIDDouble;
+    private TeacherCategoryID _teacherCategoryIDDouble;
 
     //Arrange
     @BeforeEach
-    void setup(){
+    void setup() {
         _repositoryDouble = mock(ITeacherCareerProgressionRepository.class);
         _factoryDouble = mock(ITeacherCareerProgressionFactory.class);
     }
 
+    private void createDoubles(){
+        _lastTCPDouble = mock(TeacherCareerProgression.class);
+        _TCPDouble = mock(TeacherCareerProgression.class);
+        _teacherIDDouble = mock(TeacherID.class);
+        _dateDouble = mock(Date.class);
+        _lastWorkingPercentageDouble = mock(WorkingPercentage.class);
+        _workingPercentageDouble = mock(WorkingPercentage.class);
+        _lastTeacherCategoryIDDouble = mock(TeacherCategoryID.class);
+        _teacherCategoryIDDouble = mock(TeacherCategoryID.class);
+    }
+
     @Test
-    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs(){
+    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs() {
         //Arrange
 
         //Act & Assert
         new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
     }
 
-    static Stream<Arguments> testWithNullInputs(){
+    static Stream<Arguments> testWithNullInputs() {
         return Stream.of(
                 Arguments.of(null, mock(ITeacherCareerProgressionFactory.class), "Teacher Career Progression Repository cannot be null!"),
                 Arguments.of(mock(ITeacherCareerProgressionRepository.class), null, "Teacher Career Progression Factory cannot be null!")
         );
     }
+
     @ParameterizedTest
     @MethodSource("testWithNullInputs")
     void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs(ITeacherCareerProgressionRepository repoDouble,
@@ -69,7 +91,6 @@ class TeacherCareerProgressionServiceTest {
                 Arguments.of(mock(Date.class), mock(TeacherCategoryID.class), mock(WorkingPercentage.class), null)
         );
     }
-
     @ParameterizedTest
     @MethodSource("provideNullArgumentsForCreate")
     void shouldThrowExceptionWhenAnyArgumentIsNull(Date date, TeacherCategoryID categoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
@@ -87,17 +108,17 @@ class TeacherCareerProgressionServiceTest {
     void shouldReturnFalseWhenTeacherCareerProgressionAlreadyExists() throws Exception {
         //Arrange
         TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
-        Date date = mock(Date.class);
-        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
-        WorkingPercentage wp = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
+        createDoubles();
+        TeacherCareerProgression teacherCareerProgressionDouble = mock(TeacherCareerProgression.class);
 
-        when(_factoryDouble.createTeacherCareerProgression(date, categoryID, wp, teacherID)).thenReturn(tcp);
-        when(_repositoryDouble.containsOfIdentity(tcp.getID())).thenReturn(true);
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _workingPercentageDouble, _teacherIDDouble)).thenReturn(teacherCareerProgressionDouble);
+
+        when(_repositoryDouble.containsOfIdentity(teacherCareerProgressionDouble.getID())).thenReturn(true);
 
         //Act
-        boolean result = service.createTeacherCareerProgression(date, categoryID, wp, teacherID);
+        boolean result = service.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                                                            _workingPercentageDouble, _teacherIDDouble);
 
         //Assert
         assertFalse(result);
@@ -108,20 +129,165 @@ class TeacherCareerProgressionServiceTest {
     void shouldSaveTeacherCareerProgressionAndReturnTrueWhenNotExists() throws Exception {
         //Arrange
         TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
-        Date date = mock(Date.class);
-        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
-        WorkingPercentage wp = mock(WorkingPercentage.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
+        createDoubles();
+        TeacherCareerProgression teacherCareerProgressionDouble = mock(TeacherCareerProgression.class);
 
-        when(_factoryDouble.createTeacherCareerProgression(date, categoryID, wp, teacherID)).thenReturn(tcp);
-        when(_repositoryDouble.containsOfIdentity(tcp.getID())).thenReturn(false);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _workingPercentageDouble, _teacherIDDouble)).thenReturn(teacherCareerProgressionDouble);
+
+        when(_repositoryDouble.containsOfIdentity(teacherCareerProgressionDouble.getID())).thenReturn(false);
 
         //Act
-        boolean result = service.createTeacherCareerProgression(date, categoryID, wp, teacherID);
+        boolean result = service.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                                                            _workingPercentageDouble, _teacherIDDouble);
 
         //Assert
         assertTrue(result);
     }
 
+
+    @Test
+    void shouldReturnTrueIfTeacherCareerProgressionWasSuccessfullyUpdated() throws Exception {
+        //Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+        when(_repositoryDouble.save(_TCPDouble)).thenReturn(_TCPDouble);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _lastWorkingPercentageDouble, _teacherIDDouble)).thenReturn(_TCPDouble);
+
+        //Act
+        boolean result = service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfLastTeacherCareerProgressionDoesNotExistWhenUpdatingTeachersCategory() throws Exception {
+        //Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.empty());
+
+        //Act
+        boolean result = service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfDateIsTheSameOrOlderThanLastTCPWhenUpdatingTeachersCategory() throws Exception {
+        //Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(false);
+
+        //Act
+        boolean result = service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfTeacherCategoryIsTheSameAsTheLastOneRegisteredWhenUpdatingTeachersCategory() throws Exception {
+        //Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_teacherCategoryIDDouble);
+
+        //Act
+        boolean result = service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    static Stream<Arguments> provideInvalidInputs() {
+        return Stream.of(
+                Arguments.of(new IllegalArgumentException("Teacher Career Progression Id cannot be null!")),
+                Arguments.of(new IllegalArgumentException("Date cannot be null!")),
+                Arguments.of(new IllegalArgumentException("Teacher Category cannot be null!")),
+                Arguments.of(new IllegalArgumentException("Working Percentage cannot be null!")),
+                Arguments.of(new IllegalArgumentException("Teacher ID cannot be null!"))
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideInvalidInputs")
+    void shouldPropagateIllegalArgumentExceptionThrownWhenCreatingNewTeacherCareerProgression(IllegalArgumentException expectedException) {
+        // Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
+                .thenThrow(expectedException);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble)
+        );
+    }
+
+    @Test
+    void shouldPropagateIllegalArgumentExceptionThrownWhenSavingNewTeacherCareerProgressionWithNullParameter() throws Exception {
+        // Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
+                .thenReturn(null);
+
+        when(_repositoryDouble.save(null)).thenThrow(new IllegalArgumentException());
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble)
+        );
+    }
+
+    @Test
+    void shouldPropagateIllegalArgumentExceptionWhenSavingNewTeacherCareerProgressionWithNullParameter() throws Exception {
+        // Arrange
+        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        createDoubles();
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
+                .thenReturn(_TCPDouble);
+
+        when(_repositoryDouble.save(_TCPDouble)).thenThrow(new PersistenceException());
+
+        // Act & Assert
+        assertThrows(PersistenceException.class, () ->
+                service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble)
+        );
+    }
 }

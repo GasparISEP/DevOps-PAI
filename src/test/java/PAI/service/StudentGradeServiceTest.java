@@ -96,7 +96,7 @@ public class StudentGradeServiceTest {
 
     }
     @Test
-    public void shouldThrowAnExceptionWhenNotEnrolled(){
+    public void shouldThrowAnExceptionWhenNotEnrolled() throws Exception {
         //arrange
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
         IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
