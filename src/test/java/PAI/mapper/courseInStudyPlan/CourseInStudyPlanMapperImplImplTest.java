@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseInStudyPlanMapperImplTest {
+class CourseInStudyPlanMapperImplImplTest {
 
     private ICourseInStudyPlanMapper mapper;
     private ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;

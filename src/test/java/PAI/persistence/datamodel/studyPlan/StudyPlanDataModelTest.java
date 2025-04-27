@@ -1,5 +1,7 @@
 package PAI.persistence.datamodel.studyPlan;
 
+import PAI.VOs.DurationInYears;
+import PAI.VOs.MaxEcts;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -21,9 +23,11 @@ class StudyPlanDataModelTest {
     void shouldCreateStudyPlanDataModelWithParameters() {
         //arrange
         StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
-        LocalDate implementationDate = mock(LocalDate.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+
         //act
-        StudyPlanDataModel studyPlanDataModel = new StudyPlanDataModel(studyPlanIDDataModel, implementationDate);
+        StudyPlanDataModel studyPlanDataModel = new StudyPlanDataModel(studyPlanIDDataModel, maxEcts, durationInYears);
         //assert
         assertNotNull(studyPlanDataModel);
     }
