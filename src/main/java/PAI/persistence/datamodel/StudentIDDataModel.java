@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
@@ -7,6 +8,7 @@ import java.util.Objects;
 @Embeddable
 public class StudentIDDataModel {
 
+    @Column(name = "StudentID")
     private int uniqueNumber;
 
     public StudentIDDataModel() {}

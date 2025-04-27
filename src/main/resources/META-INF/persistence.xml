@@ -30,6 +30,11 @@
     <class>PAI.persistence.datamodel.TeacherIDDataModel</class>
     <class>PAI.persistence.datamodel.AddressDataModel</class>
     <class>PAI.persistence.datamodel.TeacherAcademicEmailDataModel</class>
+    <class>PAI.persistence.datamodel.StudentAcademicEmailDataModel</class>
+    <class>PAI.persistence.datamodel.NIFDataModel</class>
+    <class>PAI.persistence.datamodel.PhoneNumberDataModel</class>
+    <class>PAI.persistence.datamodel.StudentIDDataModel</class>
+    <class>PAI.persistence.datamodel.StudentDataModel</class>
 
         <properties>
           <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>

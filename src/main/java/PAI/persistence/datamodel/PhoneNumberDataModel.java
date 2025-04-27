@@ -1,11 +1,14 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PhoneNumberDataModel {
 
+    @Column(name = "CountryCode")
     private String countryCode;
+    @Column(name = "PhoneNumber")
     private String phoneNumber;
 
     public PhoneNumberDataModel() {}
