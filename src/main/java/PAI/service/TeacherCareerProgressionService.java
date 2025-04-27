@@ -9,13 +9,14 @@ import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.repository.ITeacherCareerProgressionRepository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class TeacherCareerProgressionService implements ITeacherCareerProgressionService {
 
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
 
-    public TeacherCareerProgressionService(ITeacherCareerProgressionRepository teacherCareerProgressionRepo, ITeacherCareerProgressionFactory teacherCareerProgressionFactory){
+    public TeacherCareerProgressionService(ITeacherCareerProgressionRepository teacherCareerProgressionRepo, ITeacherCareerProgressionFactory teacherCareerProgressionFactory) {
         Objects.requireNonNull(_TCPrepository = teacherCareerProgressionRepo, "Teacher Career Progression Repository cannot be null!");
         Objects.requireNonNull(_TCPfactory = teacherCareerProgressionFactory, "Teacher Career Progression Factory cannot be null!");
     }
@@ -34,6 +35,29 @@ public class TeacherCareerProgressionService implements ITeacherCareerProgressio
 
         _TCPrepository.save(tcp);
 
+        return true;
+    }
+
+    public boolean updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherID) throws Exception {
+
+        Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(teacherID);
+
+        if (optionalTCP.isEmpty())
+            return false;
+
+        TeacherCareerProgression lastTCP = optionalTCP.get();
+
+        if (!lastTCP.isLastDateEqualOrBeforeNewDate(date))
+            return false;
+
+        WorkingPercentage workingPercentage = lastTCP.getWorkingPercentage();
+
+        if (lastTCP.getTeacherCategoryID().equals(teacherCategoryID))
+            return false;
+
+        TeacherCareerProgression newTeacherCareerProgression = _TCPfactory.createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
+
+        _TCPrepository.save(newTeacherCareerProgression);
         return true;
     }
 }
