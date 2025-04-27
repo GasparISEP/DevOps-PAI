@@ -11,6 +11,7 @@
     <!--  <class>pt.isep.incenzzo.persistence.jpa.datamodel.TipoAlojamentoDataModel</class> -->
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodDataModel</class>
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel</class>
+    <class>PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
     <class>PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel</class>
