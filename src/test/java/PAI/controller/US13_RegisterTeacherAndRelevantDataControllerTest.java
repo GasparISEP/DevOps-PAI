@@ -1,10 +1,11 @@
-package PAI.controller;
+ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
 import PAI.service.ITeacherService;
+import PAI.service.TeacherCareerProgressionService;
 import PAI.service.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +25,14 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     private ITeacherCategoryRepository _teacherCategoryRepoDouble;
     private IDepartmentRepository _departmentRepoDouble;
     private ITeacherService _teacherServiceDouble;
-    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepoDouble;
+    private TeacherCareerProgressionService _teacherCareerProgressionServiceDouble;
 
     @BeforeEach
-    void factoryDoublesSetup(){
+    void factoryDoublesSetup() {
         _teacherCategoryRepoDouble = mock(ITeacherCategoryRepository.class);
         _departmentRepoDouble = mock(IDepartmentRepository.class);
         _teacherServiceDouble = mock(TeacherServiceImpl.class);
-        _teacherCareerProgressionRepoDouble = mock(ITeacherCareerProgressionRepository.class);
+        _teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
     }
 
 
@@ -43,7 +44,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act
         new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         // Assert
     }
@@ -54,7 +55,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-                null, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble));
+                null, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble));
     }
 
     @Test
@@ -62,8 +63,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
 
         // Act + Assert
-       assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-               _teacherCategoryRepoDouble, null, _teacherServiceDouble, _teacherCareerProgressionRepoDouble));
+        assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
+                _teacherCategoryRepoDouble, null, _teacherServiceDouble, _teacherCareerProgressionServiceDouble));
     }
 
     @Test
@@ -71,8 +72,8 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         // Arrange
 
         // Act + Assert
-         assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-                 _teacherCategoryRepoDouble, _departmentRepoDouble, null, _teacherCareerProgressionRepoDouble));
+        assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
+                _teacherCategoryRepoDouble, _departmentRepoDouble, null, _teacherCareerProgressionServiceDouble));
     }
 
     @Test
@@ -88,7 +89,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldReturnExceptionIfCategoriesListIsEmpty() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         when(_teacherCategoryRepoDouble.findAll()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
 
@@ -102,7 +103,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         List<TeacherCategory> tcListDouble = List.of(tcDouble);
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         when(_teacherCategoryRepoDouble.findAll()).thenReturn(tcListDouble);
 
@@ -117,7 +118,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldReturnExceptionIfDepartmentsListIsEmpty() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         when(_departmentRepoDouble.findAll()).thenThrow(new IllegalStateException("Department list is empty."));
 
@@ -129,7 +130,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldReturnDepartmentListWithRegisteredDepartments() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         Iterable<Department> dptListDouble = new HashSet<>();
 
@@ -145,7 +146,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldRegisterTeacherWithValidInputsIsolated() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         TeacherID teacherID = mock(TeacherID.class);
         Optional<TeacherID> optionalTeacherID = Optional.of(teacherID);
@@ -154,7 +155,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
                 any(NIF.class), any(PhoneNumber.class), any(AcademicBackground.class), any(Street.class),
                 any(PostalCode.class), any(Location.class), any(Country.class), any(DepartmentID.class))).thenReturn(optionalTeacherID);
 
-        when(_teacherCareerProgressionRepoDouble.createTeacherCareerProgression(any(Date.class), any(TeacherCategoryID.class),
+        when(_teacherCareerProgressionServiceDouble.createTeacherCareerProgression(any(Date.class), any(TeacherCategoryID.class),
                 any(WorkingPercentage.class), any(TeacherID.class))).thenReturn(true);
 
         // Act
@@ -171,7 +172,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldNotRegisterTeacherIsolated() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionRepoDouble);
+                _teacherCategoryRepoDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         Optional<TeacherID> optionalEmpty = Optional.empty();
 
@@ -259,3 +260,4 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 //        assertFalse(result);
 //    }
 }
+

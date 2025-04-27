@@ -1,13 +1,18 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class AddressDataModel {
 
+    @Column(name = "Street")
     private String street;
+    @Column(name = "PostalCode")
     private String postalCode;
+    @Column(name = "Location")
     private String location;
+    @Column(name = "Country")
     private String country;
 
     public AddressDataModel () {}

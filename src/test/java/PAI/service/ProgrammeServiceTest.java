@@ -8,6 +8,8 @@ import PAI.repository.ITeacherRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,17 +47,6 @@ class ProgrammeServiceTest {
         IProgrammeFactory programmeFactory = null;
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-
-        //Act+Assert
-        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository,teacherRepository));
-    }
-
-    @Test
-    void shouldThrowExceptionIfTeacherRepositoryIsNull() {
-        //Arrange
-        ITeacherRepository teacherRepository = null;
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
 
         //Act+Assert
         assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository,teacherRepository));
@@ -101,12 +92,13 @@ class ProgrammeServiceTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         TeacherID teacherID = mock(TeacherID.class);
 
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programme));
         when(programme.identity()).thenReturn(programmeID);
         when(teacher.identity()).thenReturn(teacherID);
         when(programmeRepository.changeProgrammeDirector(programmeID,teacherID)).thenReturn(true);
 
         //Act
-        boolean result = service.changeProgrammeDirector(programme,teacher);
+        boolean result = service.changeProgrammeDirector(programmeID,teacherID);
 
         //Assert
         assertTrue(result);
@@ -120,11 +112,11 @@ class ProgrammeServiceTest {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
 
-        Programme programme = null;
-        Teacher teacher = mock(Teacher.class);
+        ProgrammeID programmeID = null;
+        TeacherID teacherID  = mock(TeacherID.class);
 
         //Act+Assert
-        assertThrows(Exception.class, () -> service.changeProgrammeDirector(programme, teacher));
+        assertThrows(Exception.class, () -> service.changeProgrammeDirector(programmeID, teacherID));
     }
 
     @Test
@@ -135,11 +127,11 @@ class ProgrammeServiceTest {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
 
-        Programme programme = mock(Programme.class);
-        Teacher teacher = null;
+        ProgrammeID programmeID  = mock(ProgrammeID.class);
+        TeacherID teacherID = null;
 
         //Act+Assert
-        assertThrows(Exception.class, () -> service.changeProgrammeDirector(programme, teacher));
+        assertThrows(Exception.class, () -> service.changeProgrammeDirector(programmeID, teacherID));
 
     }
 

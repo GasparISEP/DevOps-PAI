@@ -129,7 +129,7 @@ class CourseIDDataModelTest {
     }
 
     @Test
-    void shouldReturnTrueIfCourseIDDataModelEqualsWithSameAcronym() {
+    void shouldReturnFalseIfCourseIDDataModelEqualsWithSameAcronym() {
         // Arrange
         String acronym = "DSOFT";
         String name = "Software Development";
@@ -145,11 +145,11 @@ class CourseIDDataModelTest {
         boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
 
         // Assert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
-    void shouldReturnTrueIfCourseIDDataModelEqualsWithSameName() {
+    void shouldReturnFalseIfCourseIDDataModelEqualsWithSameName() {
         // Arrange
         String acronym = "DSOFT";
         String name = "Software Development";
@@ -165,7 +165,7 @@ class CourseIDDataModelTest {
         boolean result = CourseIDDataModel.equals(CourseIDDataModel2);
 
         // Assert
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test

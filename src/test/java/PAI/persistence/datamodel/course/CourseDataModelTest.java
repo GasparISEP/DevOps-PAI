@@ -42,7 +42,7 @@ class CourseDataModelTest {
 
         CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
         //Act
-        String expected = courseDataModel.get_name();
+        String expected = courseDataModel.getName();
         //Assert
         assertEquals(name, expected);
 
@@ -58,10 +58,27 @@ class CourseDataModelTest {
         CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
 
         //Act
-        String expected = courseDataModel.get_acronym();
+        String expected = courseDataModel.getAcronym();
 
         //Assert
         assertEquals(acronym, expected);
+
+    }
+
+    @Test
+    void shouldReturnCourseIDFromCourseDataModel() {
+        // Arrange
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+        String name = ("Alchemy");
+        String acronym = ("ALC");
+
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+
+        //Act
+        CourseIDDataModel expected = courseDataModel.getCourseID();
+
+        //Assert
+        assertEquals(courseIDDataModel, expected);
 
     }
 }

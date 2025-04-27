@@ -7,7 +7,7 @@ public class PhoneNumber implements ValueObject {
     private final String _countryCode;
     private final String _number;
 
-    public PhoneNumber(String countryCode, String number) throws Exception{
+    public PhoneNumber(String countryCode, String number) {
 
         if(areParameterInvalid(countryCode)){
             throw new IllegalArgumentException("Country Code cannot be empty");}

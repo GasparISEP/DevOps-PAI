@@ -1,0 +1,355 @@
+@startuml
+
+title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYear.puml
+top to bottom direction
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam classBackgroundColor #E1F5FE
+skinparam linetype ortho
+
+' ========== CONTROLLER LAYER ==========
+package Controller #F5EEF8{
+class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepository PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository, IProgrammeRepository programmeRepository)
+    +countStudentsInProgrammeFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
+}
+}
+
+' ========== SERVICE LAYER ==========
+
+package DepartmentServices {
+interface IDepartmentService <<Interface>> {
++departmentExists(DepartmentID department) :boolean
+}
+
+class DepartmentServiceImpl {
++departmentExists(DepartmentID department) :boolean
+
+}
+}
+
+package SchoolYearServices {
+interface ISchoolYearService <<Interface>> {
++schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+}
+
+class SchoolYearServiceImpl {
++schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+
+}
+}
+
+
+package ProgrammeEditionEnrolmentServices {
+interface IProgrammeEditionEnrolmentService <<Interface>> {
++isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
+      +findStudentInProgrammeEdition(): StudentID
+}
+
+class ProgrammeEditionEnrolmentServiceImpl {
++isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
+      +findStudentInProgrammeEdition(): StudentID
+
+}
+}
+
+package ProgrammeServices {
+interface IProgrammeService <<Interface>> {
++findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
+}
+
+class ProgrammeServiceImpl {
++findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
+}
+}
+
+' ========== REPOSITORY LAYER ==========
+
+package DepartmentRepository {
+interface IDepartmentRepository <<Interface>> {
+    +departmentExists(DepartmentID department) :boolean
+}
+
+class DepartmentRepositorySpringDataImpl {
+    +departmentExists(DepartmentID department) :boolean
+    +findDepartmentByID(DepartmentID department) :Optional <Department>
+}
+}
+
+package ProgrammeRepository {
+interface IProgrammeRepository <<Interface>> {
+    +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
+}
+
+class ProgrammeRepositorySpringDataImpl {
+     +findProgrammeByDepartment(DepartmentID department): List<ProgrammeID>
+}
+}
+
+package ProgrammeEditionEnrolmentRepository {
+interface IProgrammeEditionEnrolmentRepository <<Interface>> {
+     +countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, List<ProgrammeID> ProgrammeIDs): int
+}
+class ProgrammeEditionEnrolmentRepositorySpringDataImpl {
+    +countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, List<ProgrammeID> ProgrammeIDs): int
+}
+}
+
+package SchoolYearRepository {
+interface ISchoolYearRepository <<Interface>> {
+    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+}
+
+class SchoolYearRepositorySpringDataImpl {
+    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+}
+}
+
+'Aggregates'
+
+package "JPA Programme Aggregate" #58AFDD {
+    class ProgrammeDataModel {
+    -_programmeID: ProgrammeIDDataModel
+    -_name: String
+    -_acronym: String
+    -_quantSemesters: int
+    -_quantEcts: int
+    -_degreeTypeID: DegreeTypeIDDataModel
+    -_departmentID: DepartmentIDDataModel
+    -_programmeDirectorID: TeacherIDDataModel
+    +isInDepartment ( departmentID: DepartmentID): boolean
+    +identity (): ProgrammeID
+    }
+}
+
+package "Programme Aggregate" #LightBlue{
+    class Programme <<Root>> <<Entity>> {
+    -_nameWithNumbersAndSpecialChars: NameWithNumbersAndSpecialChars
+    -_quantSemesters: QuantSemesters
+    -_quantECTS: QuantEcts
+    -_acronym: Acronym
+    -_degreeTypeID: DegreeTypeID
+    +isInDepartment ( departmentID: DepartmentID): boolean
+    +identity (): ProgrammeID
+    }
+}
+
+package "JPA Department Aggregate" #58AFDD {
+    class DepartmentDataModel {
+    -id: DepartmentIDDataModel
+    -name: String
+    -acronym: String
+    -directorId: TeacherIDDataModel
+    +getId(): DepartmentIDDataModel
+    }
+}
+package "Department Aggregate" #LightBlue {
+    class Department <<Root>> <<Entity>> {
+    -_name: Name
+     +getDepartmentID(): DepartmentID
+    }
+}
+
+package "DepartmentMapper" {
+
+interface IDepartmentMapper <<Interface>> {
++toEntity(): DepartmentDataModel
++toDomain(): Department
+}
+
+class DepartmentMapperImpl {
++toEntity(): DepartmentDataModel
++toDomain(): Department
+}
+}
+
+package "SchoolYearMapper" {
+
+interface ISchoolYearMapper <<Interface>> {
++toEntity(): SchoolYearDataModel
++toDomain(): SchoolYear
+}
+
+class SchoolYearMapperImpl {
++toEntity(): SchoolYearDataModel
++toDomain(): SchoolYear
+}
+}
+
+package "ProgrammeMapper" {
+
+interface IProgrammeMapper <<Interface>> {
++toEntity(): ProgrammeDataModel
++toDomain(): Programme
+}
+
+class ProgrammeMapperImpl {
++toEntity(): ProgrammeDataModel
++toDomain(): Programme
+}
+}
+
+package "ProgrammeEditionEnrolmentMapper" {
+
+interface IProgrammeEditionEnrolmentMapper <<Interface>> {
++toEntity(): ProgrammeEditionEnrolmentDataModel
++toDomain(): ProgrammeEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentMapperImpl {
++toEntity(): ProgrammeEditionEnrolmentDataModel
++toDomain(): ProgrammeEditionEnrolment
+}
+}
+
+package "ProgrammeFactory" {
+interface IProgrammeFactory <<interface>>{
++registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): Programme
+}
+class ProgrammeFactoryImpl {
++registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): Programme
+}
+}
+
+
+package "ProgrammeEditionEnrolmentFactory" {
+interface IProgrammeEditionEnrolmentFactory <<interface>> {
++createWithEnrolmentData(StudentID studentID, ProgrammeEditionID programmeEditionID, LocalDate enrolmentDate): ProgrammeEditionEnrolment
+}
+class ProgrammeEditionEnrolmentFactoryImpl {
++createWithEnrolmentData(StudentID studentID, ProgrammeEditionID programmeEditionID, LocalDate enrolmentDate): ProgrammeEditionEnrolment
+}
+}
+
+class ProgrammeID <<Value Object>> {
+     +equals ()
+}
+class DepartmentID <<Value Object>> {
+     +equals ()
+}
+class SchoolYearID <<Value Object>> {
+     +equals ()
+}
+class ProgrammeEditionID <<Value Object>> {
+     +isSameProgrammeEdition ()
+}
+
+
+package "JPA ProgrammeEditionEnrolment Aggregate" #58AFDD {
+    class ProgrammeEditionEnrolmentDataModel {
+        -_id: ProgrammeEditionEnrolmentIDDataModel
+        -_enrolmentDate: LocalDate
+      +isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
+      +findStudentInProgrammeEdition(): StudentID
+    }
+}
+
+package "ProgrammeEditionEnrolment Aggregate" #LightBlue {
+    class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
+       -_enrolmentDate: LocalDate
+      +isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
+      +findStudentInProgrammeEdition(): StudentID
+    }
+}
+
+class ProgrammeEditionEnrolmentID <<Value Object>> {
+}
+class ProgrammeEditionID <<Value Object>> {
+}
+class StudentID <<Value Object>> {
+}
+
+ package "SchoolYear Aggregate" #Lightblue{
+     class SchoolYear <<Root>> <<Entity>>  {
+        -_startDate: Date
+        -_endDate: Date
+        -_description: Description
+        +identity(): SchoolYearID
+    }
+ }
+
+ package "JPA SchoolYear Aggregate" #58AFDD {
+     class SchoolYearDataModel  {
+        -id: SchoolYearIDDataModel
+        -description: String
+        -startDate: LocalDate
+        -endDate: LocalDate
+        +identity(): SchoolYearID
+    }
+ }
+
+
+IProgrammeFactory <|.. ProgrammeFactoryImpl
+ProgrammeFactoryImpl --> Programme
+ProgrammeMapperImpl --> IProgrammeFactory
+
+
+IProgrammeEditionEnrolmentFactory <|.. ProgrammeEditionEnrolmentFactoryImpl
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentMapperImpl -right-> IProgrammeEditionEnrolmentFactory
+
+ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionEnrolmentID
+ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionID
+ProgrammeEditionEnrolment "1" --> "1" StudentID
+
+
+DepartmentServiceImpl --> IDepartmentMapper
+IDepartmentMapper <|.. DepartmentMapperImpl
+DepartmentRepositorySpringDataImpl --> DepartmentMapperImpl
+DepartmentMapperImpl ...>  Department
+DepartmentMapperImpl ..> DepartmentDataModel
+
+SchoolYearServiceImpl --> ISchoolYearMapper
+ISchoolYearMapper <|.. SchoolYearMapperImpl
+SchoolYearRepositorySpringDataImpl --> SchoolYearMapperImpl
+SchoolYearMapperImpl ..> SchoolYear
+SchoolYearMapperImpl ..> SchoolYearDataModel
+
+ProgrammeServiceImpl --> IProgrammeMapper
+IProgrammeMapper <|.. ProgrammeMapperImpl
+ProgrammeRepositorySpringDataImpl --> ProgrammeMapperImpl
+ProgrammeMapperImpl ..> Programme
+ProgrammeMapperImpl ..> ProgrammeDataModel
+
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentMapper
+IProgrammeEditionEnrolmentMapper <|.. ProgrammeEditionEnrolmentMapperImpl
+ProgrammeEditionEnrolmentRepositorySpringDataImpl --> ProgrammeEditionEnrolmentMapperImpl
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolmentDataModel
+
+
+ProgrammeEditionEnrolmentRepositorySpringDataImpl "1" --> "1..*" ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolment "1" --> "1" ProgrammeEditionID
+ProgrammeEditionID "1" --> "1" ProgrammeID
+ProgrammeEditionID "1" --> "1" SchoolYearID
+SchoolYearRepositorySpringDataImpl "1" --> "1..*" SchoolYearDataModel
+SchoolYear "1" --> "1 _schoolYearID" SchoolYearID
+Department "1" --> "1 _departmentID" DepartmentID
+DepartmentRepositorySpringDataImpl "1" --> "1..*" DepartmentDataModel
+ProgrammeRepositorySpringDataImpl "1" --> "1..*" ProgrammeDataModel
+Programme "1" --> "1 _departmentID" DepartmentID
+Programme "1" -u-> "1 _programmeID" ProgrammeID
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController .left.> IDepartmentService
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController ..> IProgrammeEditionEnrolmentService
+ProgrammeEditionEnrolmentServiceImpl ..> "1 _peeRepo" "IProgrammeEditionEnrolmentRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController ..> IProgrammeService
+ProgrammeServiceImpl ..> "1 _pRepo" "IProgrammeRepository"
+US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController ..> ISchoolYearService
+IDepartmentRepository <|.. DepartmentRepositorySpringDataImpl
+IProgrammeRepository <|.. ProgrammeRepositorySpringDataImpl
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositorySpringDataImpl
+ISchoolYearRepository <|.. SchoolYearRepositorySpringDataImpl
+IProgrammeEditionEnrolmentService <|.. ProgrammeEditionEnrolmentServiceImpl
+
+IProgrammeService <|.. ProgrammeServiceImpl
+
+IDepartmentService <|.. DepartmentServiceImpl
+DepartmentServiceImpl -left-> "1 _departmentRepo" IDepartmentRepository
+ISchoolYearService <|.. SchoolYearServiceImpl
+SchoolYearServiceImpl ---> "1 _schoolYearRepo" ISchoolYearRepository
+
+note as n1 #lightgrey
+   In this simplified class diagram, value objects (with the exception of IDs)
+   are represented as class attributes within the Aggregate Roots
+end note
+@enduml

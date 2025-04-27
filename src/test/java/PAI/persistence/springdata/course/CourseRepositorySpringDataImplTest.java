@@ -1,11 +1,14 @@
 package PAI.persistence.springdata.course;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
+import PAI.VOs.Name;
 import PAI.domain.course.Course;
-import PAI.mapper.Course.ICourseMapper;
-import PAI.mapper.CourseID.ICourseIDMapper;
+import PAI.mapper.course.ICourseMapper;
+import PAI.mapper.courseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
+import PAI.repository.courseRepository.ICourseRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -345,5 +348,107 @@ class CourseRepositorySpringDataImplTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfExistsByName() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Name name = new Name("Software Development");
+
+        when(springDataRepoMock.existsBy_name(name.getName())).thenReturn(true);
+
+        // Act & Assert
+        assertTrue(courseRepository.existsCourseByName(name));
+        verify(springDataRepoMock, times(1)).existsBy_name(name.getName());
+    }
+
+    @Test
+    void shouldReturnFalseIfNotExistsByName() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Name name = new Name("Software Development");
+
+        when(springDataRepoMock.existsBy_name(name.getName())).thenReturn(false);
+
+        // Act & Assert
+        assertFalse(courseRepository.existsCourseByName(name));
+        verify(springDataRepoMock, times(1)).existsBy_name(name.getName());
+    }
+
+    @Test
+    void shouldReturnFalseIfNameIsNullExistsByName() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Name name = null;
+
+        // Act & Assert
+        assertFalse(courseRepository.existsCourseByName(name));
+    }
+
+    @Test
+    void shouldReturnFalseIfAcronymIsNullExistsByAcronym() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Acronym acronym = null;
+
+        // Act & Assert
+        assertFalse(courseRepository.existsCourseByAcronym(acronym));
+    }
+
+    @Test
+    void shouldReturnTrueIfExistsByAcronym() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Acronym acronym = new Acronym("DSOFT");
+
+        when(springDataRepoMock.existsBy_acronym(acronym.getAcronym())).thenReturn(true);
+
+        // Act & Assert
+        assertTrue(courseRepository.existsCourseByAcronym(acronym));
+        verify(springDataRepoMock, times(1)).existsBy_acronym(acronym.getAcronym());
+    }
+
+    @Test
+    void shouldReturnFalseIfNotExistsByAcronym() {
+        // Arrange
+        ICourseRepositorySpringData springDataRepoMock = mock(ICourseRepositorySpringData.class);
+        ICourseMapper courseMapperMock = mock(ICourseMapper.class);
+        ICourseIDMapper courseIDMapperMock = mock(ICourseIDMapper.class);
+
+        ICourseRepository courseRepository = new CourseRepositorySpringDataImpl(springDataRepoMock, courseMapperMock, courseIDMapperMock);
+
+        Acronym acronym = new Acronym("DSOFT");
+
+        when(springDataRepoMock.existsBy_acronym(acronym.getAcronym())).thenReturn(false);
+
+        // Act & Assert
+        assertFalse(courseRepository.existsCourseByAcronym(acronym));
+        verify(springDataRepoMock, times(1)).existsBy_acronym(acronym.getAcronym());
     }
 }

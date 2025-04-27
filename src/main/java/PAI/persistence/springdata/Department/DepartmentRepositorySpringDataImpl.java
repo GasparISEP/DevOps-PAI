@@ -45,11 +45,6 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
     }
 
     @Override
-    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
-        return false;
-    }
-
-    @Override
     public List<Department> findAll(){
         List<Department> departments = new ArrayList<>();
         Iterable<DepartmentDataModel> departmentDataModels = jpaRepo.findAll();
@@ -71,6 +66,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
 
     @Override
     public boolean containsOfIdentity(DepartmentID id) {
+        if (id == null){return false;}
         DepartmentIDDataModel departmentIDDataModel = idMapper.toDataModel(id);
         return jpaRepo.existsById(departmentIDDataModel.getDepartmentID());
     }
@@ -101,14 +97,6 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
                         throw new RuntimeException("Failed to map DepartmentDataModel to domain for ID: " + departmentID.getAcronym(), e);
                     }
                 });
-    }
-
-
-    @Override
-    public boolean departmentExists(DepartmentID departmentID)  {
-        if(departmentID == null){return false;}
-        Optional <Department> opDepartment=findDepartmentByID(departmentID);
-        return opDepartment.isPresent();
     }
 
     @Override

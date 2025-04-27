@@ -41,4 +41,8 @@ public class TeacherServiceImpl implements ITeacherService {
     public boolean existsById(TeacherID teacherID) {
         return _teacherRepository.containsOfIdentity(teacherID);
     }
+
+    public Iterable<Teacher> getAllTeachers() {
+        return _teacherRepository.findAll();
+    }
 }

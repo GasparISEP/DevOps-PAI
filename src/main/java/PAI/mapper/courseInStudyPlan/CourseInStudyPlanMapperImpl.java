@@ -3,7 +3,7 @@ package PAI.mapper.courseInStudyPlan;
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
-import PAI.mapper.CourseID.ICourseIDMapper;
+import PAI.mapper.courseID.ICourseIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
@@ -54,8 +54,8 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
         return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, studyPlanDM, courseDM, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
     }
 
-    public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) throws Exception {
-
+    public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) {
+        try {
         Semester semester = new Semester(courseInStudyPlanDataModel.getSemester());
 
         CurricularYear year = new CurricularYear(courseInStudyPlanDataModel.getCurricularYear());
@@ -69,5 +69,9 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
 
         return _courseInStudyPlanFactory.newCourseInStudyPlan(semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error trying to map CourseInStudyPlanDataModel back to domain", e);
+        }
     }
 }

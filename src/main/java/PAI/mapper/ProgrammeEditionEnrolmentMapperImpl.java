@@ -7,10 +7,12 @@ import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@Component
 public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnrolmentMapper {
 
     private final IProgrammeEditionEnrolmentIDMapper _programmeEditionEnrolmentIDMapper;

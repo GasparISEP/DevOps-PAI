@@ -2,29 +2,28 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.service.schoolYear.ISchoolYearService;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class US07_IWantToCreateASchoolYearController {
 
-    private SchoolYearRepositoryImpl _schoolYearRepo;
+    private final ISchoolYearService schoolYearService;
 
     // Constructor
-    public US07_IWantToCreateASchoolYearController (SchoolYearRepositoryImpl schoolYearRepo) {
-
-        if (schoolYearRepo == null) {
-            throw new IllegalArgumentException("School Year Repository must not be null.");
+    public US07_IWantToCreateASchoolYearController (ISchoolYearService schoolYearService) {
+        if (schoolYearService == null) {
+            throw new IllegalArgumentException("School Year Service must not be null.");
         }
-
-        _schoolYearRepo = schoolYearRepo;
+        this.schoolYearService = schoolYearService;
     }
 
+    // Creates a new School Year
     public boolean addSchoolYear (String descriptionInfo, String startDateInfo, String endDateInfo) throws Exception {
-
         Description description = new Description(descriptionInfo);
         Date startDate = new Date(startDateInfo);
         Date endDate = new Date(endDateInfo);
-        _schoolYearRepo.addSchoolYear(description, startDate, endDate);
 
-        return true;
+        return schoolYearService.addSchoolYear(description, startDate, endDate);
     }
 }

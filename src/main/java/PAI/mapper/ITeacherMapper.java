@@ -7,5 +7,5 @@ public interface ITeacherMapper {
 
     TeacherDataModel toDataModel(Teacher teacher);
 
-    Teacher toDomain(TeacherDataModel teacherDataModel) throws Exception;
+    Teacher toDomain(TeacherDataModel teacherDataModel);
 }

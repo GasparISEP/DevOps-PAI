@@ -5,10 +5,12 @@ import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Component
 public class TeacherCareerProgressionMapper implements ITeacherCareerProgressionMapper {
 
     private final ITeacherCareerProgressionFactory tcpFactory;
@@ -21,12 +23,13 @@ public class TeacherCareerProgressionMapper implements ITeacherCareerProgression
 
     @Override
     public TeacherCareerProgression toDomain(TeacherCareerProgressionDataModel tcpDataModel) {
+        TeacherCareerProgressionID tcpID = new TeacherCareerProgressionID(tcpDataModel.getId().getIDValue());
         Date date = new Date(tcpDataModel.getDate());
         TeacherCategoryID teacherCategory = new TeacherCategoryID(tcpDataModel.getTeacherCategoryId());
         WorkingPercentage workingPercentage = new WorkingPercentage(tcpDataModel.getWorkingPercentage());
         TeacherID teacherID = new TeacherID(new TeacherAcronym(tcpDataModel.getTeacherId()));
 
-        return tcpFactory.createTeacherCareerProgression(date, teacherCategory, workingPercentage, teacherID);
+        return tcpFactory.createTeacherCareerProgressionFromDataModel(tcpID, date, teacherCategory, workingPercentage, teacherID);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package PAI.mapper.Course;
+package PAI.mapper.course;
 
 import PAI.domain.course.Course;
 import PAI.persistence.datamodel.course.CourseDataModel;

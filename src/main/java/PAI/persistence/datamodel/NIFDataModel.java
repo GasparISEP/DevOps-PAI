@@ -1,13 +1,19 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
 @Embeddable
+@Table(name = "NIF")
 public class NIFDataModel {
 
+    @Column(name = "nifNumber")
     private String nifNumber;
+
+    @Column(name = "nifCountry")
     private String nifCountry;
 
     public NIFDataModel() {}

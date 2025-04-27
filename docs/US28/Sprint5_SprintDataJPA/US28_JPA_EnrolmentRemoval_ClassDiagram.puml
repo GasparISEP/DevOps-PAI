@@ -195,6 +195,7 @@ ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDat
 CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
 CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
 CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentMapper
+CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentIDMapper
 CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolment : maps to
 CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolmentDataModel : maps to
 CourseEditionEnrolmentMapperImpl ..|> ICourseEditionEnrolmentMapper

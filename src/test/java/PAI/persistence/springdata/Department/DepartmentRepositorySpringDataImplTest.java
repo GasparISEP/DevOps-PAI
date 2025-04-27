@@ -399,7 +399,7 @@ class DepartmentRepositorySpringDataImplTest {
         assertEquals("Failed to map DepartmentDataModel to domain for ID: null", exception.getMessage());
     }
     @Test
-    void testDepartmentExists_whenDepartmentExists() {
+    void testContainsIdentity_whenDepartmentExists() {
         // Arrange
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
@@ -408,19 +408,20 @@ class DepartmentRepositorySpringDataImplTest {
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper, directorIDMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
-        Department department = mock(Department.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
 
-        DepartmentRepositorySpringDataImpl spyRepository = spy(repository);
-        doReturn(Optional.of(department)).when(spyRepository).findDepartmentByID(departmentID);
+        when(idMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
+        when(departmentIDDataModel.getDepartmentID()).thenReturn("DEPT123"); // or any string representing ID
+        when(jpaRepo.existsById("DEPT123")).thenReturn(true);
 
         // Act
-        boolean result = spyRepository.departmentExists(departmentID);
+        boolean result = repository.containsOfIdentity(departmentID);
 
         // Assert
         assertTrue(result);
     }
     @Test
-    void testDepartmentExists_whenDepartmentDoesNotExists() {
+    void testContainsIdentity_whenDepartmentDoesNotExists() {
         // Arrange
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
@@ -435,7 +436,7 @@ class DepartmentRepositorySpringDataImplTest {
         when(repository.findDepartmentByID(departmentID)).thenReturn(Optional.empty());
 
         // Act
-        boolean result = repository.departmentExists(departmentID);
+        boolean result = repository.containsOfIdentity(departmentID);
 
         // Assert
         assertFalse(result);
@@ -450,7 +451,7 @@ class DepartmentRepositorySpringDataImplTest {
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper, directorIDMapper);
 
         // Act
-        boolean result = repository.departmentExists(null);
+        boolean result = repository.containsOfIdentity(null);
 
         // Assert
         assertFalse(result);

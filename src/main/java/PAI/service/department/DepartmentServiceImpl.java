@@ -1,8 +1,13 @@
 package PAI.service.department;
+import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.DepartmentID;
+import PAI.VOs.Name;
+import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 
-public class DepartmentServiceImpl {
+
+public class DepartmentServiceImpl implements IDepartmentService {
 
     private final IDepartmentFactory _departmentFactory;
     private final IDepartmentRepository _departmentRepo;
@@ -18,5 +23,18 @@ public class DepartmentServiceImpl {
 
         this._departmentFactory=departmentFactory;
         this._departmentRepo=departmentRepo;
+    }
+
+    public boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception {
+        DepartmentID id= new DepartmentID(acronym);
+
+        if(_departmentRepo.containsOfIdentity(id)){
+            return false;
+        }
+
+        Department department= _departmentFactory.newDepartment(acronym,name);
+
+        _departmentRepo.save(department);
+        return true;
     }
 }

@@ -6,19 +6,19 @@ import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
-import PAI.repository.ITeacherRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.IProgrammeService;
 
 
 
 public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
-    IProgrammeRepository _programmeRepo;
-    ITeacherRepository _teacherRepo;
 
-    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(IProgrammeRepository programmeList, ITeacherRepository teacherRepo) throws Exception{
-        if (programmeList == null ) throw new Exception("List cannot be null");
-        _programmeRepo = programmeList;
-        _teacherRepo = teacherRepo;
+    private final IProgrammeService programmeService;
+
+    public US12_iWantToChangeProgrammeDirectorOfProgrammeController(IProgrammeService programmeService) {
+        if (programmeService == null) {
+            throw new IllegalArgumentException("ProgrammeService cannot be null");
+        }
+        this.programmeService = programmeService;
     }
 
     public boolean changeProgrammeDirector(Programme programme, Teacher programmeDirector) throws Exception {
@@ -32,6 +32,6 @@ public class US12_iWantToChangeProgrammeDirectorOfProgrammeController {
         ProgrammeID programmeID = programme.identity();
         TeacherID programmeDirectorID = programmeDirector.identity();
 
-        return _programmeRepo.changeProgrammeDirector(programmeID,programmeDirectorID);
+        return programmeService.changeProgrammeDirector(programmeID, programmeDirectorID);
     }
 }

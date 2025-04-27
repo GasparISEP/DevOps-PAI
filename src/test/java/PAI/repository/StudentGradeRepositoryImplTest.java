@@ -3,35 +3,32 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
-import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeListFactory;
-import PAI.domain.Student;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class StudentGradeRepositoryTest {
+class StudentGradeRepositoryImplTest {
 
     @Test
     void shouldCreateConstructor(){
         //arrange
         IStudentGradeListFactory iStudentGradeListFactory = mock(IStudentGradeListFactory.class);
-        StudentGradeRepository studentGradeRepository = new StudentGradeRepository(iStudentGradeListFactory);
+        StudentGradeRepositoryImpl studentGradeRepositoryImpl = new StudentGradeRepositoryImpl(iStudentGradeListFactory);
         //assert
-        assertNotNull(studentGradeRepository);
+        assertNotNull(studentGradeRepositoryImpl);
     }
 
     @Test
     void shouldNotAddGradeToAStudentWithListFactoryNull() throws IllegalArgumentException {
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new StudentGradeRepository( null));
+                new StudentGradeRepositoryImpl( null));
 
         assertEquals("Factory cannot be null!", exception.getMessage());
     }
@@ -42,7 +39,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-        StudentGradeRepository list = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl list = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
         StudentGrade studentGrade1 = mock(StudentGrade.class);
         // Act
         StudentGrade result1 = list.save(studentGrade1);
@@ -56,7 +53,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl repository = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
         StudentGrade studentGrade = mock(StudentGrade.class);
         // Act
         repository.save(studentGrade);
@@ -73,7 +70,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = new ArrayList<>();
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl repository = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
         // Act & Assert
         assertThrows(IllegalStateException.class, repository::findAll);
     }
@@ -85,7 +82,7 @@ class StudentGradeRepositoryTest {
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
 
-        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl repository = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
 
         StudentGradeID gradeID = mock(StudentGradeID.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
@@ -104,7 +101,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl repository = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
         StudentGradeID gradeID = mock(StudentGradeID.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
         when(studentGrade.identity()).thenReturn(gradeID);
@@ -121,7 +118,7 @@ class StudentGradeRepositoryTest {
         IStudentGradeListFactory IStudentGradeListFactory = mock(IStudentGradeListFactory.class);
         List<StudentGrade> mockGradeList = spy(new ArrayList<>());
         when(IStudentGradeListFactory.newArrayList()).thenReturn(mockGradeList);
-        StudentGradeRepository repository = new StudentGradeRepository(IStudentGradeListFactory);
+        StudentGradeRepositoryImpl repository = new StudentGradeRepositoryImpl(IStudentGradeListFactory);
         StudentGradeID existingID = mock(StudentGradeID.class);
         StudentGradeID otherID = mock(StudentGradeID.class);
         StudentGrade studentGrade = mock(StudentGrade.class);

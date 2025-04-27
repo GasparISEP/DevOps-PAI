@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
@@ -43,46 +44,43 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         this.nifMapper = nifMapper;
     }
 
+    public Teacher save(Teacher teacher) {
 
-    public Optional<Teacher> getTeacherByID(TeacherID teacherID) {
+        TeacherDataModel teacherDataModel = teacherMapper.toDataModel(teacher);
+        TeacherDataModel savedTeacher = iTeacherRepositorySpringData.save(teacherDataModel);
+
+        return teacherMapper.toDomain(savedTeacher);
+    }
+
+    public List<Teacher> findAll() {
+
+        return iTeacherRepositorySpringData.findAll().stream()
+                .map(teacherMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Teacher> ofIdentity(TeacherID teacherID) {
+
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
-        return iTeacherRepositorySpringData.findById(teacherIDDataModel.toString())
+
+        return iTeacherRepositorySpringData.findById(teacherIDDataModel)
                 .map(dataModel -> {
                     try {
                         return teacherMapper.toDomain(dataModel);
                     } catch (Exception e) {
-                        throw new RuntimeException("Mapping failed", e);
+                        throw new RuntimeException("Could not convert Teacher Data Model to Teacher domain object.", e);
                     }
-                });
+                })
+        ;
     }
 
-    public Teacher save(Teacher teacher) {
-
-        TeacherDataModel teacherDataModel = teacherMapper.toDataModel(teacher);
-        iTeacherRepositorySpringData.save(teacherDataModel);
-
-        return teacher;
-    }
-
-    public Iterable<Teacher> findAll() {
-        List<Teacher> teachersList = new ArrayList<>();
-        List<TeacherDataModel> teacherDataModelsList = iTeacherRepositorySpringData.findAll();
-        for(TeacherDataModel teacherDataModel : teacherDataModelsList) {
-            Optional<Teacher> teacher;
-            try {
-                teacher = Optional.ofNullable(teacherMapper.toDomain(teacherDataModel));
-            } catch (Exception e) {
-                throw new RuntimeException("Could not convert Teacher Data Model to Teacher domain object.");
-            }
-            teacher.ifPresent(teachersList::add);
-        }
-        return teachersList;
-    }
-
-    public Optional<Teacher> ofIdentity(TeacherID teacherID) { return getTeacherByID(teacherID); }
-
+    @Override
     public boolean containsOfIdentity(TeacherID teacherID) {
-        return iTeacherRepositorySpringData.existsById(teacherID.getTeacherAcronym().getAcronym());
+
+        TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
+
+        return iTeacherRepositorySpringData.existsById(teacherIDDataModel);
     }
 
     @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method

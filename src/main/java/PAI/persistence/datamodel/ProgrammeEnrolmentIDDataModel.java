@@ -2,27 +2,28 @@ package PAI.persistence.datamodel;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProgrammeEnrolmentIDDataModel {
+public class ProgrammeEnrolmentIDDataModel implements Serializable {
 
-    private StudentIDDataModel _studentID;
-    private ProgrammeIDDataModel _programmeID;
+    private StudentIDDataModel peStudentID;
+    private ProgrammeIDDataModel peProgrammeID;
 
     public ProgrammeEnrolmentIDDataModel () {}
 
     public ProgrammeEnrolmentIDDataModel (StudentIDDataModel studentID, ProgrammeIDDataModel programmeID) {
-        _studentID = studentID;
-        _programmeID = programmeID;
+        peStudentID = studentID;
+        peProgrammeID = programmeID;
     }
 
     public StudentIDDataModel getStudentID () {
-        return _studentID;
+        return peStudentID;
     }
 
     public ProgrammeIDDataModel getProgrammeID () {
-        return _programmeID;
+        return peProgrammeID;
     }
 
     @Override
@@ -33,12 +34,12 @@ public class ProgrammeEnrolmentIDDataModel {
 
         ProgrammeEnrolmentIDDataModel other = (ProgrammeEnrolmentIDDataModel) obj;
 
-        return Objects.equals(this._studentID, other._studentID) &&
-                Objects.equals(this._programmeID, other._programmeID);
+        return Objects.equals(this.peStudentID, other.peStudentID) &&
+                Objects.equals(this.peProgrammeID, other.peProgrammeID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_studentID, _programmeID);
+        return Objects.hash(peStudentID, peProgrammeID);
     }
 }

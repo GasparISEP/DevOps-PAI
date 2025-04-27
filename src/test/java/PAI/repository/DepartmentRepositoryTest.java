@@ -11,73 +11,6 @@ import static org.mockito.Mockito.*;
 
 class DepartmentRepositoryTest {
 
-    //Verifying the creation of a new valid department
-    @Test
-    void shouldRegisterValidDepartment() throws Exception {
-        // Arrange
-        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-        IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        Name name = mock(Name.class);
-        // Act
-        boolean result = repository.registerDepartment(acronym, name);
-        // Assert
-        assertTrue(result, "The department should be successfully registered.");
-    }
-
-    //Verifying the creation of two new valid departments
-    @Test
-    void shouldRegisterMultipleDifferentDepartments() throws Exception {
-        // Arrange
-        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-        IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
-
-        Department department1Double = mock(Department.class);
-        Department department2Double = mock(Department.class);
-
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        DepartmentAcronym acronym2 = mock(DepartmentAcronym.class);
-
-        Name name = mock(Name.class);
-        Name name2 = mock(Name.class);
-
-        when(factoryInterfaceDouble.newDepartment(acronym, name)).thenReturn(department1Double);
-        when(factoryInterfaceDouble.newDepartment(acronym2, name2)).thenReturn(department2Double);
-
-        // Act
-        boolean result1 = repository.registerDepartment(acronym, name);
-        boolean result2 = repository.registerDepartment(acronym2, name2);
-
-        // Assert
-        assertTrue(result1, "The first department should be registered.");
-        assertTrue(result2, "The second department should be registered.");
-    }
-
-    // Testing an attempt to register a department that already exists
-    @Test
-    void shouldReturnFalseIfDepartmentAlreadyExists() throws Exception {
-        // Arrange
-        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
-        IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        Name name = mock(Name.class);
-        Department department1Double = new Department(acronym, name);
-        Department department2Double = new Department(acronym, name);
-
-        when(factoryInterfaceDouble.newDepartment(acronym, name)).thenReturn(department1Double);
-        repository.registerDepartment(acronym, name);
-        when(factoryInterfaceDouble.newDepartment(acronym, name)).thenReturn(department2Double);
-
-        //act
-        boolean result = repository.registerDepartment(acronym, name);
-
-        //assert
-        assertFalse(result);
-    }
-
     //Testing that the list should not be retrieved if empty
     @Test
     void shouldReturnExceptionIfDepartmentListIsEmpty() throws IllegalStateException {
@@ -118,8 +51,8 @@ class DepartmentRepositoryTest {
         when(department1Double.identity()).thenReturn(id1);
         when(department2Double.identity()).thenReturn(id2);
 
-        repository.registerDepartment(acronym, name);
-        repository.registerDepartment(acronym2, name2);
+        repository.save(department1Double);
+        repository.save(department2Double);
 
         // Act
         Set<DepartmentID> result = repository.getDepartmentIDs();
@@ -141,7 +74,7 @@ class DepartmentRepositoryTest {
         when(factoryInterfaceDouble.newDepartment(departmentAcronym, name)).thenReturn(department1Double);
         when(department1Double.getDepartmentID()).thenReturn(departmentID);
 
-        repository.registerDepartment(departmentAcronym, name);
+        repository.save(department1Double);
 
         // Act
         boolean result = repository.departmentExists(departmentID);
@@ -165,7 +98,7 @@ class DepartmentRepositoryTest {
         when(factoryInterfaceDouble.newDepartment(departmentAcronym, name)).thenReturn(departmentDouble);
         when(departmentDouble.getDepartmentID()).thenReturn(departmentID);
 
-        repository.registerDepartment(departmentAcronym, name);
+        repository.save(departmentDouble);
 
 
         //act

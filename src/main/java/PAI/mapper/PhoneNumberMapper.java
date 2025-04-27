@@ -15,7 +15,7 @@ public class PhoneNumberMapper implements IPhoneNumberMapper{
         return new PhoneNumberDataModel(countryCode, number);
     }
 
-    public PhoneNumber dataModelToDomain(PhoneNumberDataModel phoneNumberDataModel) throws Exception {
+    public PhoneNumber dataModelToDomain(PhoneNumberDataModel phoneNumberDataModel) {
 
         String countryCode = phoneNumberDataModel.getCountryCode();
         String number = phoneNumberDataModel.getNumber();

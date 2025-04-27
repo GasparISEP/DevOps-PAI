@@ -1,10 +1,8 @@
-package PAI.mapper;
+package PAI.mapper.courseID;
 
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
-import PAI.mapper.CourseID.CourseIDMapperImpl;
-import PAI.mapper.CourseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +35,7 @@ class CourseIDMapperImplTest {
         ICourseIDMapper courseIDMapper = new CourseIDMapperImpl();
 
         // Act & Assert
-        assertThrows(NullPointerException.class, () -> courseIDMapper.toDomain(null));
+        assertThrows(IllegalArgumentException.class, () -> courseIDMapper.toDomain(null));
     }
 
     @Test
@@ -65,6 +63,6 @@ class CourseIDMapperImplTest {
         ICourseIDMapper courseIDMapper = new CourseIDMapperImpl();
 
         // Act & Assert
-        assertThrows(NullPointerException.class, () -> courseIDMapper.toDataModel(null));
+        assertThrows(IllegalArgumentException.class, () -> courseIDMapper.toDataModel(null));
     }
 }

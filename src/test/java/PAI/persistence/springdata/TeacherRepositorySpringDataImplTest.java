@@ -6,6 +6,7 @@ import PAI.mapper.*;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.TeacherDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +24,11 @@ class TeacherRepositorySpringDataImplTest {
     private ITeacherMapper teacherMapper;
     private ITeacherIDMapper teacherIDMapper;
     private INIFMapper nifMapper;
-    private TeacherRepositorySpringDataImpl teacherRepository;
+    private ITeacherRepository teacherRepository;
 
     @BeforeEach
     void setUp() {
+        // Arrange
         iTeacherRepoSpringData = mock(ITeacherRepositorySpringData.class);
         teacherMapper = mock(TeacherMapperImpl.class);
         teacherIDMapper = mock(TeacherIDMapperImpl.class);
@@ -85,78 +87,24 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldGetTeacherByID() throws Exception {
-        // Arrange
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
-        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
-        Teacher teacher = mock(Teacher.class);
-
-        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel.toString())).thenReturn(Optional.of(teacherDataModel));
-        when(teacherMapper.toDomain(teacherDataModel)).thenReturn(teacher);
-
-        // Act
-        Optional<Teacher> result = teacherRepository.getTeacherByID(teacherID);
-
-        // Assert
-        assertTrue(result.isPresent());
-        assertEquals(teacher, result.get());
-    }
-
-    @Test
-    void shouldReturnEmptyWhenTeacherNotFoundByID() {
-        // Arrange
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
-
-        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel.toString())).thenReturn(Optional.empty());
-
-        // Act
-        Optional<Teacher> result = teacherRepository.getTeacherByID(teacherID);
-
-        // Assert
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    void shouldHandleMappingExceptionWhenGettingTeacherByID() throws Exception {
-        // Arrange
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
-        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
-
-        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel.toString())).thenReturn(Optional.of(teacherDataModel));
-        when(teacherMapper.toDomain(teacherDataModel)).thenThrow(new Exception("Mapping failed"));
-
-        // Act + Assert
-        assertThrows(RuntimeException.class, () -> teacherRepository.getTeacherByID(teacherID));
-    }
-
-
-    @Test
-    void shouldSaveTeacher() {
+    void shouldSaveTeacher () throws Exception {
         // Arrange
         Teacher teacher = mock(Teacher.class);
         TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
 
         when(teacherMapper.toDataModel(teacher)).thenReturn(teacherDataModel);
         when(iTeacherRepoSpringData.save(teacherDataModel)).thenReturn(teacherDataModel);
+        when(teacherMapper.toDomain(teacherDataModel)).thenReturn(teacher);
 
         // Act
         Teacher result = teacherRepository.save(teacher);
 
         // Assert
         assertEquals(teacher, result);
-        verify(iTeacherRepoSpringData).save(teacherDataModel);
     }
 
     @Test
-    void shouldNotSaveNullTeacher() {
-        //Arrange
-
+    void shouldNotSaveNullTeacher() throws Exception {
         //Act
         Teacher result = teacherRepository.save(null);
 
@@ -165,70 +113,56 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldFindAllTeachers() throws Exception {
+    void shouldFindAllTeachers() {
         //Arrange
-        List<TeacherDataModel> dataModels = new ArrayList<>();
-        dataModels.add(mock(TeacherDataModel.class));
-        dataModels.add(mock(TeacherDataModel.class));
+        List<TeacherDataModel> teacherDataModels = List.of(
+                mock(TeacherDataModel.class),
+                mock(TeacherDataModel.class));
 
-        Teacher teacher1 = mock(Teacher.class);
-        Teacher teacher2 = mock(Teacher.class);
+        Teacher teacherDouble1 = mock(Teacher.class);
+        Teacher teacherDouble2 = mock(Teacher.class);
 
-        when(iTeacherRepoSpringData.findAll()).thenReturn(dataModels);
-        when(teacherMapper.toDomain(dataModels.get(0))).thenReturn(teacher1);
-        when(teacherMapper.toDomain(dataModels.get(1))).thenReturn(teacher2);
+        TeacherDataModel teacherDMdouble = mock(TeacherDataModel.class);
+        //List<Teacher> teachers = new ArrayList<>();
+
+        when(iTeacherRepoSpringData.findAll()).thenReturn(teacherDataModels);
+        when(teacherMapper.toDomain(teacherDataModels.get(0))).thenReturn(teacherDouble1);
+        when(teacherMapper.toDomain(teacherDataModels.get(1))).thenReturn(teacherDouble2);
 
         //Act
         Iterable<Teacher> result = teacherRepository.findAll();
+        List<Teacher> teacherList = (List<Teacher>) result;
 
         //Assert
-        List<Teacher> resultList = new ArrayList<>();
-        result.forEach(resultList::add);
-
-        assertEquals(2, resultList.size());
-        assertTrue(resultList.contains(teacher1));
-        assertTrue(resultList.contains(teacher2));
+        assertEquals(2, teacherList.size());
     }
 
     @Test
     void shouldHandleEmptyTeacherList() {
         // Arrange
-        List<TeacherDataModel> dataModels = new ArrayList<>();
+        List<TeacherDataModel> teacherDataModels = new ArrayList<>();
 
-        when(iTeacherRepoSpringData.findAll()).thenReturn(dataModels);
+        when(iTeacherRepoSpringData.findAll()).thenReturn(teacherDataModels);
 
         // Act
         Iterable<Teacher> result = teacherRepository.findAll();
+        List<Teacher> teacherList = (List<Teacher>) result;
 
         // Assert
-        assertFalse(result.iterator().hasNext());
-    }
-
-    @Test
-    void shouldHandleMappingExceptionInFindAll() throws Exception {
-        // Arrange
-        List<TeacherDataModel> dataModels = new ArrayList<>();
-        dataModels.add(mock(TeacherDataModel.class));
-
-        when(iTeacherRepoSpringData.findAll()).thenReturn(dataModels);
-        when(teacherMapper.toDomain(any())).thenThrow(new Exception("Mapping failed"));
-
-        // Act & Assert
-        assertThrows(RuntimeException.class, () -> teacherRepository.findAll());
+        assertFalse(teacherList.iterator().hasNext());
     }
 
     @Test
     void shouldCheckContainsOfIdentity() {
         // Arrange
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherAcronym acronym = mock(TeacherAcronym.class);
+        TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
+        TeacherID teacherIDdouble = mock(TeacherID.class);
 
-        when(teacherID.getTeacherAcronym()).thenReturn(acronym);
-        when(acronym.getAcronym()).thenReturn("ABC");
-        when(iTeacherRepoSpringData.existsById("ABC")).thenReturn(true);
+        when(teacherIDMapper.toDataModel(teacherIDdouble)).thenReturn(teacherIDDataModelDouble);
+        when(iTeacherRepoSpringData.existsById(teacherIDDataModelDouble)).thenReturn(true);
 
         // Act
-        boolean result = teacherRepository.containsOfIdentity(teacherID);
+        boolean result = teacherRepository.containsOfIdentity(teacherIDdouble);
 
         // Assert
         assertTrue(result);
@@ -237,22 +171,21 @@ class TeacherRepositorySpringDataImplTest {
     @Test
     void shouldCheckNotContainsOfIdentity() {
         // Arrange
-        TeacherID teacherID = mock(TeacherID.class);
-        TeacherAcronym acronym = mock(TeacherAcronym.class);
+        TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
+        TeacherID teacherIDdouble = mock(TeacherID.class);
 
-        when(teacherID.getTeacherAcronym()).thenReturn(acronym);
-        when(acronym.getAcronym()).thenReturn("CBA");
-        when(iTeacherRepoSpringData.existsById("CBA")).thenReturn(false);
+        when(teacherIDMapper.toDataModel(teacherIDdouble)).thenReturn(teacherIDDataModelDouble);
+        when(iTeacherRepoSpringData.existsById(teacherIDDataModelDouble)).thenReturn(false);
 
         // Act
-        boolean result = teacherRepository.containsOfIdentity(teacherID);
+        boolean result = teacherRepository.containsOfIdentity(teacherIDdouble);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnOfIdentity() throws Exception {
+    void shouldReturnOfIdentity() {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
         TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
@@ -260,20 +193,19 @@ class TeacherRepositorySpringDataImplTest {
         Teacher teacher = mock(Teacher.class);
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel.toString())).thenReturn(Optional.of(teacherDataModel));
+        when(iTeacherRepoSpringData.findById(idDataModel)).thenReturn(Optional.of(teacherDataModel));
         when(teacherMapper.toDomain(teacherDataModel)).thenReturn(teacher);
 
         // Act
         Optional<Teacher> result = teacherRepository.ofIdentity(teacherID);
 
         // Assert
-        assertTrue(result.isPresent());
         assertEquals(teacher, result.get());
     }
 
     // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
     @Test
-    void shouldReturnEmptyWhenRegisteringTeacher() throws Exception {
+    void shouldReturnEmptyWhenRegisteringTeacher() {
         // Arrange
         TeacherAcronym acronym = new TeacherAcronym("MSA");
         Name name = new Name("John Doe");

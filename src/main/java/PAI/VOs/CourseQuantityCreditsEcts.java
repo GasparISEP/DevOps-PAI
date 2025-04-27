@@ -9,7 +9,7 @@ public class CourseQuantityCreditsEcts implements ValueObject {
 
     private final double _quantityCreditsEcts;
 
-    public CourseQuantityCreditsEcts(double quantityCreditsEcts) throws Exception{
+    public CourseQuantityCreditsEcts(double quantityCreditsEcts) throws Exception {
 
         if(!isValidQuantityCreditsEcts(quantityCreditsEcts)){
             throw new IllegalArgumentException("quantityCreditsEcts can only have 1 decimal place");}

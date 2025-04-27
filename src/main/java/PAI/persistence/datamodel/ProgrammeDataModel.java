@@ -9,74 +9,74 @@ import jakarta.persistence.*;
 public class ProgrammeDataModel {
 
     @EmbeddedId
-    private ProgrammeIDDataModel _programmeID;
+    private ProgrammeIDDataModel programmeID;
 
     @Column(name = "Name")
-    private String _name;
+    private String name;
 
     @Column(name = "Acronym")
-    private String _acronym;
+    private String acronym;
 
     @Column(name = "QuantSemesters")
-    private int _quantSemesters;
+    private int quantSemesters;
 
     @Column(name = "QuantEcts")
-    private int _quantEcts;
+    private int quantEcts;
 
     @Column(name = "DegreeTypeID")
-    private DegreeTypeIDDataModel _degreeTypeID;
+    private DegreeTypeIDDataModel degreeTypeID;
 
     @Embedded
     @Column(name = "DepartmentID")
-    private DepartmentIDDataModel _departmentID;
+    private DepartmentIDDataModel departmentID;
 
     @Embedded
     @Column(name = "ProgDirectorID")
-    private TeacherIDDataModel _programmeDirectorID;
+    private TeacherIDDataModel programmeDirectorID;
 
     public ProgrammeDataModel() {}
 
     public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
-        _programmeID = progID;
-        _name = name;
-        _acronym = acronym;
-        _quantSemesters = quantSemesters;
-        _quantEcts = quantEcts;
-        _degreeTypeID = degreeTypeID;
-        _departmentID = departmentID;
-        _programmeDirectorID = progDirectorID;
+        this.programmeID = progID;
+        this.name = name;
+        this.acronym = acronym;
+        this.quantSemesters = quantSemesters;
+        this.quantEcts = quantEcts;
+        this.degreeTypeID = degreeTypeID;
+        this.departmentID = departmentID;
+        this.programmeDirectorID = progDirectorID;
     }
 
     public String getName(){
-        return _name;
+        return name;
     }
 
     public String getAcronym(){
-        return _acronym;
+        return acronym;
     }
 
     public int getQuantSemesters(){
-        return _quantSemesters;
+        return quantSemesters;
     }
 
     public int getQuantEcts(){
-        return _quantEcts;
+        return quantEcts;
     }
 
     public DegreeTypeIDDataModel getDegreeTypeID(){
-        return _degreeTypeID;
+        return degreeTypeID;
     }
 
     public DepartmentIDDataModel getDepartmentID(){
-        return _departmentID;
+        return departmentID;
     }
 
     public TeacherIDDataModel getProgrammeDirectorID(){
-        return _programmeDirectorID;
+        return programmeDirectorID;
     }
 
     public ProgrammeIDDataModel getProgID() {
-        return _programmeID;
+        return programmeID;
     }
 }

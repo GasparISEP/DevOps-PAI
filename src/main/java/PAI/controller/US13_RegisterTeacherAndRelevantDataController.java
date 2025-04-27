@@ -4,9 +4,9 @@ import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
 import PAI.service.ITeacherService;
+import PAI.service.TeacherCareerProgressionService;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public class US13_RegisterTeacherAndRelevantDataController {
@@ -14,11 +14,11 @@ public class US13_RegisterTeacherAndRelevantDataController {
     private ITeacherCategoryRepository _teacherCategoryRepository;
     private IDepartmentRepository _departmentRepository;
     private ITeacherService _teacherService;
-    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
+    private TeacherCareerProgressionService _tcpService;
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryRepository teacherCategoryRepository,
-                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, TeacherCareerProgressionService tcpService) {
 
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
@@ -29,17 +29,17 @@ public class US13_RegisterTeacherAndRelevantDataController {
         }
 
         if (teacherService == null) {
-            throw new IllegalArgumentException("Teacher Repository cannot be null");
+            throw new IllegalArgumentException("Teacher Service cannot be null");
         }
 
-        if (teacherCareerProgressionRepository == null){
-            throw new IllegalArgumentException("Teacher Career Progression Repository cannot be null");
+        if (tcpService == null){
+            throw new IllegalArgumentException("Teacher Career Progression Service cannot be null");
         }
 
         this._teacherCategoryRepository = teacherCategoryRepository;
         this._departmentRepository = departmentRepository;
         this._teacherService = teacherService;
-        this._teacherCareerProgressionRepository = teacherCareerProgressionRepository;
+        this._tcpService = tcpService;
     }
 
     // Method to get all Teacher Categories
@@ -74,7 +74,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
         TeacherID teacherID = optionalTeacherID.get();
 
         // If teacher was created and saved, then create and save first Teacher Career Progression
-        _teacherCareerProgressionRepository.createTeacherCareerProgression(vo.Date, vo.teacherCategoryID, vo.workingPercentage, teacherID);
+        _tcpService.createTeacherCareerProgression(vo.Date, vo.teacherCategoryID, vo.workingPercentage, teacherID);
 
         return true;
     }
@@ -113,3 +113,5 @@ public class US13_RegisterTeacherAndRelevantDataController {
         );
     }
 }
+
+

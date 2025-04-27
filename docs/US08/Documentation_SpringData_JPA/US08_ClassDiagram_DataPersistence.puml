@@ -10,12 +10,12 @@ class US08_IWantToRegisterAStudentInTheSystemController {
 }
 
 class StudentRepositoryJPA {
-    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
-    + getStudentByID(studentID : StudentID) : Optional<Student>
+
     + save(student : Student) : Student
     + findAll() : Iterable<Student>
     + ofIdentity(studentID : StudentID) : Optional<Student>
     + containsOfIdentity(studentID : StudentID) : boolean
+    + existsByStudentIDOrNIF (studentID : StudentID, nif : NIF) : boolean
 }
 
 package "Student Aggregate" {
@@ -124,13 +124,11 @@ class StudentFactoryImpl {
 
 
 interface IStudentRepository <<Interface>> {
-    +getStudentByID()
-    + findIdByStudent(student : Student)
     + save(student : Student)
     + findAll()
     + ofIdentity(studentID : StudentID)
     + containsOfIdentity(studentID : StudentID)
-    + existsByIDAndNIFNumber(ID, NIFNumber)
+    + existsByStudentIDOrNIF(studentID : studentID, nif : NIF)
 }
 
 interface IRepository <<Interface>> {
@@ -146,7 +144,8 @@ class StudentService {
 }
 
 class StudentMapper {
-    + toDataModel(student : Student) : StudentDataModel
+    + domainToDataModel(student : Student) : StudentDataModel
+    + dataModelToDomain(studentDataModel : StudentDataModel) : Student
 }
 
 class StudentDataModel {
@@ -160,12 +159,22 @@ class StudentDataModel {
 }
 
 interface IStudentRepositorySpringData{
+  + save(student : Student) : Student
+  + findAll() : Iterable<Student>
+  + ofIdentity(studentID : StudentID) : Optional<Student>
+  + containsOfIdentity(studentID : StudentID) : boolean
+  + existsByStudentIDOrNIF (studentID : StudentID, nif : NIF) : boolean
 }
 
 interface IStudentService {
++ registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country,
+                      institutionalEmail : InstitutionalEmail) : Student
+
 }
 
 interface IStudentMapper {
++ domainToDataModel(student : Student) : StudentDataModel
++ dataModelToDomain(studentDataModel : StudentDataModel) : Student
 }
 
 

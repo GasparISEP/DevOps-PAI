@@ -2,29 +2,29 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.repository.ITeacherCareerProgressionRepository;
-import PAI.repository.ITeacherRepository;
+import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.ITeacherService;
 
 public class US15_UpdateTeacherWorkingPercentageController {
 
-    private ITeacherRepository _teacherRepository;
-    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
+    private ITeacherService _teacherService;
+    private ITeacherCareerProgressionService _teacherCareerProgressionService;
 
 
     // Constructor
-    public US15_UpdateTeacherWorkingPercentageController (ITeacherRepository teacherRepository, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
+    public US15_UpdateTeacherWorkingPercentageController (ITeacherService teacherService, ITeacherCareerProgressionService teacherCareerProgressionService) {
 
-        if (teacherRepository == null || teacherCareerProgressionRepository == null) {
-            throw new IllegalArgumentException("Repository cannot be null");
+        if (teacherService == null || teacherCareerProgressionService == null) {
+            throw new IllegalArgumentException("Arguments cannot be null");
         }
 
-        _teacherRepository = teacherRepository;
-        _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
+        _teacherService = teacherService;
+        _teacherCareerProgressionService = teacherCareerProgressionService;
     }
 
     public Iterable<Teacher> findAll() throws Exception {
 
-        return _teacherRepository.findAll();
+        return _teacherService.getAllTeachers();
     }
 
     public boolean updateWorkingPercentageInTeacherCareerProgression (String date, int workingPercentage, String teacherAcronym) throws Exception {
@@ -37,9 +37,10 @@ public class US15_UpdateTeacherWorkingPercentageController {
 
         TeacherID teacherID = new TeacherID(acronymVO);
 
-        if(!_teacherRepository.containsOfIdentity(teacherID))
+        if(!_teacherService.existsById(teacherID))
             return false;
 
-        return _teacherCareerProgressionRepository.updateWorkingPercentageInTeacherCareerProgression(dateVO, workingPercentageVO, teacherID);
+        return _teacherCareerProgressionService.updateWorkingPercentageInTeacherCareerProgression(dateVO, workingPercentageVO, teacherID);
     }
 }
+

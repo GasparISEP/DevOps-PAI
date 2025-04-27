@@ -78,7 +78,7 @@ public class TeacherMapperImpl implements ITeacherMapper {
                 teacherAcademicEmailDataModel, departmentAcronym);
     }
 
-    public Teacher toDomain (TeacherDataModel teacherDataModel) throws Exception {
+    public Teacher toDomain (TeacherDataModel teacherDataModel) {
 
         if (teacherDataModel == null) {
             return null;

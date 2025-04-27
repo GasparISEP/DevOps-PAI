@@ -1,9 +1,11 @@
 package PAI.persistence.springdata.course;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
+import PAI.VOs.Name;
 import PAI.domain.course.Course;
-import PAI.mapper.Course.ICourseMapper;
-import PAI.mapper.CourseID.ICourseIDMapper;
+import PAI.mapper.course.ICourseMapper;
+import PAI.mapper.courseID.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.repository.courseRepository.ICourseRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,7 @@ import java.util.Optional;
 @Repository
 public class CourseRepositorySpringDataImpl implements ICourseRepository {
 
-    private final ICourseRepositorySpringData _iCourseRepo;
+    private final ICourseRepositorySpringData _iCourseRepository;
     private final ICourseMapper _iCourseMapper;
     private final ICourseIDMapper _iCourseIDMapper;
 
@@ -29,7 +31,7 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
             throw new IllegalArgumentException("iCourseIDMapper must not be null");
         }
 
-        _iCourseRepo = iCourseRepo;
+        _iCourseRepository = iCourseRepo;
         _iCourseMapper = iCourseMapper;
         _iCourseIDMapper = iCourseIDMapper;
     }
@@ -42,7 +44,7 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
         try {
         CourseDataModel courseDataModel = _iCourseMapper.toDataModel(entity);
         if (!containsOfIdentity(entity.identity())) {
-            _iCourseRepo.save(courseDataModel);
+            _iCourseRepository.save(courseDataModel);
         }
         else {
             return null;
@@ -55,7 +57,7 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
 
     @Override
     public Iterable<Course> findAll() {
-        Iterable<CourseDataModel> courseDataModels = _iCourseRepo.findAll();
+        Iterable<CourseDataModel> courseDataModels = _iCourseRepository.findAll();
         Iterable<Course> courses = _iCourseMapper.toDomain(courseDataModels);
 
         return courses;
@@ -63,7 +65,7 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
 
     @Override
     public Optional<Course> ofIdentity(CourseID id) {
-        Optional<CourseDataModel> optCourseDataModelSaved = _iCourseRepo.findById(_iCourseIDMapper.toDataModel(id));
+        Optional<CourseDataModel> optCourseDataModelSaved = _iCourseRepository.findById(_iCourseIDMapper.toDataModel(id));
         if (optCourseDataModelSaved.isEmpty())
             return Optional.empty();
         try {
@@ -80,6 +82,22 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
         if (id == null) {
             return false;
         }
-        return _iCourseRepo.existsById(_iCourseIDMapper.toDataModel(id));
+        return _iCourseRepository.existsById(_iCourseIDMapper.toDataModel(id));
+    }
+
+    @Override
+    public boolean existsCourseByName(Name courseName) {
+        if (courseName == null) {
+            return false;
+        }
+        return _iCourseRepository.existsBy_name(courseName.getName());
+    }
+
+    @Override
+    public boolean existsCourseByAcronym(Acronym courseAcronym) {
+        if (courseAcronym == null) {
+            return false;
+        }
+        return _iCourseRepository.existsBy_acronym(courseAcronym.getAcronym());
     }
 }

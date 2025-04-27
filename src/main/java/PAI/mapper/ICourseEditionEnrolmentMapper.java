@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ICourseEditionEnrolmentMapper {
 
-        Optional<CourseEditionEnrolmentDataModel> toDataModel(CourseEditionEnrolment enrolment) throws Exception;
+        Optional<CourseEditionEnrolmentDataModel> toDataModel(CourseEditionEnrolment courseEditionEnrolment) throws Exception;
 
-        Optional<CourseEditionEnrolment> toDomain(CourseEditionEnrolmentDataModel dataModel) throws Exception;
+        Optional<CourseEditionEnrolment> toDomain(CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel) throws Exception;
 }

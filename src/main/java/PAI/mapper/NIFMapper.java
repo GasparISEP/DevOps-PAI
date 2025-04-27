@@ -16,7 +16,7 @@ public class NIFMapper implements INIFMapper {
         return new NIFDataModel (_NIF, country);
     }
 
-    public NIF dataModelToDomain (NIFDataModel nifDataModel) throws Exception {
+    public NIF dataModelToDomain (NIFDataModel nifDataModel) {
 
         String NIF = nifDataModel.getNifNumber();
         String countryValue = nifDataModel.getNifCountry();

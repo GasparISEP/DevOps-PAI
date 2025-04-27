@@ -19,7 +19,7 @@ class TeacherCareerProgressionIDMapperTest {
         UUID idDouble = mock(UUID.class);
         when(domainIDDouble.getIDValue()).thenReturn(idDouble);
 
-        try (MockedConstruction<TeacherCareerProgressionIDDataModel> constructerDouble = mockConstruction(
+        try (MockedConstruction<TeacherCareerProgressionIDDataModel> constructorDouble = mockConstruction(
                 TeacherCareerProgressionIDDataModel.class, (mock, context) -> {
 
                 when(mock.getIDValue()).thenReturn(idDouble);
@@ -29,8 +29,8 @@ class TeacherCareerProgressionIDMapperTest {
             TeacherCareerProgressionIDDataModel result = mapper.domainToDataModel(domainIDDouble);
 
             // Assert
-            assertEquals(1, constructerDouble.constructed().size());
-            assertSame(constructerDouble.constructed().get(0), result);
+            assertEquals(1, constructorDouble.constructed().size());
+            assertSame(constructorDouble.constructed().get(0), result);
             assertEquals(idDouble, result.getIDValue());
         }
     }
@@ -55,7 +55,7 @@ class TeacherCareerProgressionIDMapperTest {
 
         when(dataModelIdDouble.getIDValue()).thenReturn(idDouble);
 
-        try (MockedConstruction<TeacherCareerProgressionID> constructerDouble = mockConstruction(
+        try (MockedConstruction<TeacherCareerProgressionID> constructorDouble = mockConstruction(
                 TeacherCareerProgressionID.class, (mock, context) -> {
 
                     when(mock.getIDValue()).thenReturn(idDouble);
@@ -65,8 +65,8 @@ class TeacherCareerProgressionIDMapperTest {
             TeacherCareerProgressionID result = mapper.dataModelToDomain(dataModelIdDouble);
 
             // Assert
-            assertEquals(1, constructerDouble.constructed().size());
-            assertSame(constructerDouble.constructed().get(0), result);
+            assertEquals(1, constructorDouble.constructed().size());
+            assertSame(constructorDouble.constructed().get(0), result);
             assertEquals(idDouble, result.getIDValue());
         }
     }
@@ -78,7 +78,7 @@ class TeacherCareerProgressionIDMapperTest {
         TeacherCareerProgressionIDDataModel dataModelIdDouble = mock(TeacherCareerProgressionIDDataModel.class);
         when(dataModelIdDouble.getIDValue()).thenReturn(null);
 
-        try (MockedConstruction<TeacherCareerProgressionID> constructerDouble = mockConstruction(
+        try (MockedConstruction<TeacherCareerProgressionID> constructorDouble = mockConstruction(
                 TeacherCareerProgressionID.class, invocation -> {
 
                     throw new NullPointerException("Id can not be null!");

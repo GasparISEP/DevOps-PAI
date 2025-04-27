@@ -9,6 +9,7 @@ public class StudentDataModel {
     @EmbeddedId
     private StudentIDDataModel studentID;
 
+    @Column(name = "Name")
     private String name;
 
     @Embedded
@@ -17,6 +18,7 @@ public class StudentDataModel {
     @Embedded
     private PhoneNumberDataModel phone;
 
+    @Column(name = "StudentEmail")
     private String email;
 
     @Embedded
