@@ -1,72 +1,54 @@
-//package PAI.controller;
-//
-//import PAI.VOs.*;
-//import PAI.domain.Teacher;
-//import PAI.domain.TeacherCategory;
-//import PAI.repository.ITeacherCareerProgressionRepository;
-//import PAI.repository.ITeacherCategoryRepository;
-//import PAI.repository.ITeacherRepository;
-//
-//import java.util.Optional;
-//
-//public class US14_UpdateTeachersCategoryController {
-//
-//    private ITeacherRepository _teacherRepository;
-//    private ITeacherCategoryRepository _teacherCategoryRepository;
-//    private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;
-//
-//    public US14_UpdateTeachersCategoryController(ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository, ITeacherCareerProgressionRepository teacherCareerProgressionRepository) {
-//
-//        if (teacherRepository == null) {
-//            throw new IllegalArgumentException("Teacher Repository cannot be null");
-//        }
-//
-//        _teacherRepository = teacherRepository;
-//
-//        if (teacherCategoryRepository == null) {
-//            throw new IllegalArgumentException("Teacher Category Repository cannot be null");
-//        }
-//
-//        _teacherCategoryRepository = teacherCategoryRepository;
-//
-//        if (teacherCareerProgressionRepository == null) {
-//            throw new IllegalArgumentException("Teacher Career Progression Repository cannot be null");
-//        }
-//
-//        _teacherCareerProgressionRepository = teacherCareerProgressionRepository;
-//    }
-//
-//    public Iterable<Teacher> findAllTeachers() throws Exception {
-//
-//        return _teacherRepository.findAll();
-//    }
-//
-//    public Iterable<TeacherCategory> findAllTeacherCategories() throws Exception {
-//
-//        return _teacherCategoryRepository.findAll();
-//    }
-//
-//
-//    public boolean updateTeacherCategoryInTeacherCareerProgression (String date, String teacherCategory, String teacherAcronym) throws Exception {
-//
-//        Date dateVO = new Date(date);
-//
-//        Name teacherCategoryName = new Name (teacherCategory);
-//
-//        Optional<TeacherCategoryID> optionalTeacherCategoryID = _teacherCategoryRepository.getTeacherCategoryIDFromName(teacherCategoryName);
-//
-//        if (optionalTeacherCategoryID.isEmpty())
-//            return false;
-//
-//        TeacherCategoryID teacherCategoryID = optionalTeacherCategoryID.get();
-//
-//        TeacherAcronym acronymVO = new TeacherAcronym(teacherAcronym);
-//
-//        TeacherID teacherID = new TeacherID(acronymVO);
-//
-//        if(!_teacherRepository.containsOfIdentity(teacherID))
-//            return false;
-//
-//        return _teacherCareerProgressionRepository.updateTeacherCategoryInTeacherCareerProgression(dateVO, teacherCategoryID, teacherID);
-//    }
-//}
+package PAI.controller;
+
+import PAI.VOs.*;
+import PAI.domain.Teacher;
+import PAI.domain.TeacherCategory;
+import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.ITeacherCategoryService;
+import PAI.service.ITeacherService;
+
+import java.util.Objects;
+import java.util.UUID;
+
+public class US14_UpdateTeachersCategoryController {
+
+    private ITeacherService _teacherService;
+    private ITeacherCategoryService _teacherCategoryService;
+    private ITeacherCareerProgressionService _teacherCareerProgressionService;
+
+    public US14_UpdateTeachersCategoryController(ITeacherService teacherService, ITeacherCategoryService teacherCategoryService, ITeacherCareerProgressionService teacherCareerProgressionService) {
+        _teacherService = Objects.requireNonNull(teacherService, "Teacher Service cannot be null!");
+        _teacherCategoryService = Objects.requireNonNull(teacherCategoryService, "Teacher Category Service cannot be null!");
+        _teacherCareerProgressionService = Objects.requireNonNull(teacherCareerProgressionService, "Teacher Career Progression Service cannot be null!");
+    }
+
+    public Iterable<Teacher> getAllTeachers() {
+        return _teacherService.getAllTeachers();
+    }
+
+    public Iterable<TeacherCategory> getAllTeacherCategories() {
+        return _teacherCategoryService.getAllTeacherCategories();
+    }
+
+
+    public boolean updateTeacherCategoryInTeacherCareerProgression (String date, UUID teacherCategoryID, String teacherAcronym) {
+        try {
+            //Create VOs
+            Date dateVO = new Date(date);
+            TeacherCategoryID teacherCategoryIDVO = new TeacherCategoryID(teacherCategoryID);
+            TeacherAcronym acronymVO = new TeacherAcronym(teacherAcronym);
+            TeacherID teacherIDVO = new TeacherID(acronymVO);
+
+            //If teacher and teacherCategory exists, update Teacher's Category
+            if (!_teacherService.existsById(teacherIDVO) || !_teacherCategoryService.existsById(teacherCategoryIDVO)) {
+                return false;
+            }
+
+            _teacherCareerProgressionService.updateTeacherCategoryInTeacherCareerProgression(dateVO, teacherCategoryIDVO, teacherIDVO);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+}
