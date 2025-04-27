@@ -11,33 +11,33 @@ import java.util.Objects;
 public class CourseInStudyPlanDataModel {
 
     @EmbeddedId
-    private CourseInStudyPlanIDDataModel _courseInStudyPlanID;
+    private CourseInStudyPlanIDDataModel courseInStudyPlanID;
 
     @Embedded
     @AttributeOverride(
             name = "ID",
             column = @Column(name = "studyPlanID", nullable = false)
     )
-    private StudyPlanIDDataModel _studyPlanIDDataModel;
+    private StudyPlanIDDataModel CISPstudyPlanIDDataModel;
 
     @Embedded
     @AttributeOverride(
             name = "ID",
             column = @Column(name = "courseID", nullable = false)
     )
-    private CourseIDDataModel _courseID;
+    private CourseIDDataModel CISPcourseID;
 
     @Column(name = "semester", nullable = false)
-    private int _semester;
+    private int semester;
 
     @Column(name = "curricularYear", nullable = false)
-    private int _curricularYear;
+    private int curricularYear;
 
     @Column (name = "courseDuration" , nullable = false)
-    private int _durationOfCourse;
+    private int durationOfCourse;
 
     @Column (name = "ECTSQuantity", nullable = false)
-    private double _quantityOfCreditsEcts;
+    private double quantityOfCreditsEcts;
 
     protected CourseInStudyPlanDataModel() {
     }
@@ -49,18 +49,18 @@ public class CourseInStudyPlanDataModel {
             throw new IllegalArgumentException("CourseInStudyPlanIDDataModel, StudyPlanIDDataModel and CourseIDDataModel cannot be null");
         }
 
-        this._courseInStudyPlanID = courseInStudyPlanIDDataModel;
-        this._studyPlanIDDataModel = studyPlanIDDataModel;
-        this._courseID = courseIDDataModel;
+        this.courseInStudyPlanID = courseInStudyPlanIDDataModel;
+        this.CISPstudyPlanIDDataModel = studyPlanIDDataModel;
+        this.CISPcourseID = courseIDDataModel;
 
         if (semester < 1 || curricularYear < 1 || durationOfCourse < 1 || quantityOfCreditsEcts < 1) {
             throw new IllegalArgumentException("Semester, CurricularYear, DurationOfCourse or QuantityOfCreditsEcts must be greater than 0");
         }
 
-        this._semester = semester;
-        this._curricularYear = curricularYear;
-        this._durationOfCourse = durationOfCourse;
-        this._quantityOfCreditsEcts = quantityOfCreditsEcts;
+        this.semester = semester;
+        this.curricularYear = curricularYear;
+        this.durationOfCourse = durationOfCourse;
+        this.quantityOfCreditsEcts = quantityOfCreditsEcts;
     }
 
     @Override
@@ -68,39 +68,39 @@ public class CourseInStudyPlanDataModel {
         if (this == other) return true;
         if (!(other instanceof CourseInStudyPlanDataModel)) return false;
         CourseInStudyPlanDataModel otherCourseInStudyPlanDataModel = (CourseInStudyPlanDataModel) other;
-        return _courseInStudyPlanID == otherCourseInStudyPlanDataModel._courseInStudyPlanID;
+        return courseInStudyPlanID == otherCourseInStudyPlanDataModel.courseInStudyPlanID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_courseInStudyPlanID);
+        return Objects.hash(courseInStudyPlanID);
     }
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
-        return _courseInStudyPlanID;
+        return courseInStudyPlanID;
     }
 
     public StudyPlanIDDataModel getStudyPlanIDDataModel() {
-        return _studyPlanIDDataModel;
+        return CISPstudyPlanIDDataModel;
     }
 
     public CourseIDDataModel getCourseIDDataModel() {
-        return _courseID;
+        return CISPcourseID;
     }
 
     public int getSemester() {
-        return _semester;
+        return semester;
     }
 
     public int getCurricularYear() {
-        return _curricularYear;
+        return curricularYear;
     }
 
     public int getDurationOfCourse() {
-        return _durationOfCourse;
+        return durationOfCourse;
     }
 
     public double getQuantityOfCreditsEcts() {
-        return _quantityOfCreditsEcts;
+        return quantityOfCreditsEcts;
     }
 }
