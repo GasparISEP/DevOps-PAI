@@ -105,6 +105,11 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
         return List.of();
     }
 
+    @Override
+    public boolean schoolYearExistsByID(SchoolYearID schoolYear) {
+        return false;
+    }
+
 /*
     //Ver 2 métodos abaixo para getCurrentSchoolYear
     @Override
