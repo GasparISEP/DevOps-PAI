@@ -11,14 +11,14 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentGradeMapper implements IStudentGradeMapper {
+public class StudentGradeMapperImpl implements IStudentGradeMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapper studentIDMapper;
     private final IStudentGradeFactory iStudentGradeFactory;
 
 
-    public StudentGradeMapper(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper, IStudentGradeFactory iStudentGradeFactory) {
+    public StudentGradeMapperImpl(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper, IStudentGradeFactory iStudentGradeFactory) {
         this.courseEditionIDMapper = courseEditionIDMapper;
         this.studentIDMapper = studentIDMapper;
         this.iStudentGradeFactory = iStudentGradeFactory;

@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class StudentGradeService {
+public class StudentGradeServiceImpl {
 
     private final IStudentGradeFactory studentGradeFactory;
     private final IStudentGradeRepository studentGradeRepository;
     private final ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
 
-    public StudentGradeService(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository,ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
+    public StudentGradeServiceImpl(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
         if (studentGradeFactory == null) {
             throw new IllegalArgumentException("Student Grade Factory cannot be null");
         }

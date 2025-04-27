@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class StudentGradeRepositorySpringDataTest {
+class StudentGradeRepositoryImplSpringDataTest {
 
     @Test
     void shouldCreatConstructor(){
@@ -24,9 +24,9 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
         //assert
-        assertNotNull(studentGradeRepositorySpringData);
+        assertNotNull(studentGradeRepositorySpringDataImpl);
     }
 
     @Test
@@ -35,14 +35,14 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
         StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
 
         when(iStudentGradeMapper.toData(studentGrade)).thenReturn(studentGradeDM);
         when(iStudentGradeRepositorySpringData.save(studentGradeDM)).thenReturn(studentGradeDM);
         //act
-        StudentGrade result = studentGradeRepositorySpringData.save(studentGrade);
+        StudentGrade result = studentGradeRepositorySpringDataImpl.save(studentGrade);
         //assert
         assertNotNull(result);
     }
@@ -52,14 +52,14 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
 
         StudentGrade studentGrade = mock(StudentGrade.class);
 
         when (iStudentGradeMapper.toData(studentGrade)).thenThrow(IllegalArgumentException.class);
 
         //act
-        StudentGrade result = studentGradeRepositorySpringData.save(studentGrade);
+        StudentGrade result = studentGradeRepositorySpringDataImpl.save(studentGrade);
         //assert
         assertNotNull(result);
     }
@@ -69,14 +69,14 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData,iStudentGradeMapper,iStudentGradeIDMapper);
         StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
 
         when(iStudentGradeRepositorySpringData.findAll()).thenReturn(List.of(studentGradeDM));
         when(iStudentGradeMapper.toDomain(studentGradeDM)).thenReturn(studentGrade);
         //act
-        Iterable<StudentGrade> result = studentGradeRepositorySpringData.findAll();
+        Iterable<StudentGrade> result = studentGradeRepositorySpringDataImpl.findAll();
         //assert
         assertNotNull(result);
     }
@@ -86,14 +86,14 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData = mock(IStudentGradeRepositorySpringData.class);
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeDM faultyDM = mock(StudentGradeDM.class);
 
         when(iStudentGradeRepositorySpringData.findAll()).thenReturn(List.of(faultyDM));
         when(iStudentGradeMapper.toDomain(faultyDM)).thenThrow(new RuntimeException("Mapping failed"));
 
         // Act
-        Iterable<StudentGrade> result = studentGradeRepositorySpringData.findAll();
+        Iterable<StudentGrade> result = studentGradeRepositorySpringDataImpl.findAll();
 
         // Assert
         assertNotNull(result);
@@ -106,7 +106,7 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
         StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
@@ -115,7 +115,7 @@ class StudentGradeRepositorySpringDataTest {
         when(iStudentGradeMapper.toDomain(studentGradeDM)).thenReturn(studentGrade);
 
         //act
-        Optional<StudentGrade> result = studentGradeRepositorySpringData.ofIdentity(studentGradeID);
+        Optional<StudentGrade> result = studentGradeRepositorySpringDataImpl.ofIdentity(studentGradeID);
 
         //assert
         assertNotNull(result);
@@ -128,12 +128,12 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
         when(iStudentGradeIDMapper.toDataModel(studentGradeID)).thenReturn(studentGradeIDDataModel);
         when(iStudentGradeRepositorySpringData.findById(studentGradeIDDataModel)).thenReturn(Optional.empty());
         //act
-        Optional<StudentGrade> result = studentGradeRepositorySpringData.ofIdentity(studentGradeID);
+        Optional<StudentGrade> result = studentGradeRepositorySpringDataImpl.ofIdentity(studentGradeID);
         //assert
         assertEquals(Optional.empty(),result);
     }
@@ -144,7 +144,7 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
         StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
@@ -152,7 +152,7 @@ class StudentGradeRepositorySpringDataTest {
         when(iStudentGradeRepositorySpringData.findById(studentGradeIDDataModel)).thenReturn(Optional.of(studentGradeDM));
         when(iStudentGradeMapper.toDomain(studentGradeDM)).thenThrow(new RuntimeException());
         //act
-        Optional<StudentGrade> result = studentGradeRepositorySpringData.ofIdentity(studentGradeID);
+        Optional<StudentGrade> result = studentGradeRepositorySpringDataImpl.ofIdentity(studentGradeID);
         //assert
         assertEquals(Optional.empty(),result);
     }
@@ -163,7 +163,7 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
         StudentGrade studentGrade = mock(StudentGrade.class);
         StudentGradeDM studentGradeDM = mock(StudentGradeDM.class);
@@ -172,7 +172,7 @@ class StudentGradeRepositorySpringDataTest {
         when(iStudentGradeMapper.toDomain(studentGradeDM)).thenReturn(studentGrade);
 
         //act
-        boolean result = studentGradeRepositorySpringData.containsOfIdentity(studentGradeID);
+        boolean result = studentGradeRepositorySpringDataImpl.containsOfIdentity(studentGradeID);
 
         //assert
         assertTrue(result);
@@ -185,12 +185,12 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
         when(iStudentGradeIDMapper.toDataModel(studentGradeID)).thenReturn(studentGradeIDDataModel);
         when(iStudentGradeRepositorySpringData.findById(studentGradeIDDataModel)).thenReturn(Optional.empty());
         //act
-        boolean result = studentGradeRepositorySpringData.containsOfIdentity(studentGradeID);
+        boolean result = studentGradeRepositorySpringDataImpl.containsOfIdentity(studentGradeID);
 
         //assert
         assertFalse(result);
@@ -202,10 +202,10 @@ class StudentGradeRepositorySpringDataTest {
         IStudentGradeMapper iStudentGradeMapper = mock(IStudentGradeMapper.class);
         IStudentGradeIDMapper iStudentGradeIDMapper = mock(IStudentGradeIDMapper.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
-        StudentGradeRepositorySpringData studentGradeRepositorySpringData = new StudentGradeRepositorySpringData(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
+        StudentGradeRepositorySpringDataImpl studentGradeRepositorySpringDataImpl = new StudentGradeRepositorySpringDataImpl(iStudentGradeRepositorySpringData, iStudentGradeMapper, iStudentGradeIDMapper);
         when(iStudentGradeIDMapper.toDataModel(studentGradeID)).thenThrow(new RuntimeException());
         //act
-        boolean result = studentGradeRepositorySpringData.containsOfIdentity(studentGradeID);
+        boolean result = studentGradeRepositorySpringDataImpl.containsOfIdentity(studentGradeID);
 
         //assert
         assertFalse(result);

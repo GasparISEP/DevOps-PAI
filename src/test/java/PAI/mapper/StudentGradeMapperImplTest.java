@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class StudentGradeMapperTest {
+public class StudentGradeMapperImplTest {
 
     @Test
     public void testToDataWithMocks() throws Exception {
@@ -28,7 +28,7 @@ public class StudentGradeMapperTest {
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
 
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper,studentGradeFactory);
+        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapper,studentGradeFactory);
 
         StudentID studentID = mock(StudentID.class);
         Grade grade = mock(Grade.class);
@@ -73,7 +73,7 @@ public class StudentGradeMapperTest {
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
         StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
-        StudentGradeMapper mapper = new StudentGradeMapper(courseEditionIDMapper, studentIDMapper, studentGradeFactory);
+        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapper, studentGradeFactory);
 
         StudentGradeDM dataModel = mock(StudentGradeDM.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
