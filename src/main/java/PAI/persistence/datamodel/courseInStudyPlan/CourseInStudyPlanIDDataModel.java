@@ -11,23 +11,23 @@ import java.io.Serializable;
 public class CourseInStudyPlanIDDataModel implements Serializable {
 
     @Embedded
-    private StudyPlanIDDataModel _studyPlanIDDataModel;
+    private StudyPlanIDDataModel CISPstudyPlanIDDataModel;
     @Embedded
-    private CourseIDDataModel _courseID;
+    private CourseIDDataModel CISPcourseID;
 
     public CourseInStudyPlanIDDataModel() {}
 
     public CourseInStudyPlanIDDataModel(StudyPlanIDDataModel studyPlanIDDataModel, CourseIDDataModel courseID) {
-        this._studyPlanIDDataModel = studyPlanIDDataModel;
-        this._courseID = courseID;
+        this.CISPstudyPlanIDDataModel = studyPlanIDDataModel;
+        this.CISPcourseID = courseID;
     }
 
     public CourseIDDataModel getCourseID() {
-        return _courseID;
+        return CISPcourseID;
     }
 
     public StudyPlanIDDataModel getStudyPlanIDDataModel() {
-        return _studyPlanIDDataModel;
+        return CISPstudyPlanIDDataModel;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class CourseInStudyPlanIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof CourseInStudyPlanIDDataModel)) return false;
         CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = (CourseInStudyPlanIDDataModel) objectToCompare;
-        return _studyPlanIDDataModel.equals(courseInStudyPlanIDDataModel._studyPlanIDDataModel) &&
-                _courseID.equals(courseInStudyPlanIDDataModel._courseID);
+        return CISPstudyPlanIDDataModel.equals(courseInStudyPlanIDDataModel.CISPstudyPlanIDDataModel) &&
+                CISPcourseID.equals(courseInStudyPlanIDDataModel.CISPcourseID);
     }
 
     @Override
     public int hashCode() {
-        return _studyPlanIDDataModel.hashCode() + _courseID.hashCode();
+        return CISPstudyPlanIDDataModel.hashCode() + CISPcourseID.hashCode();
     }
 }

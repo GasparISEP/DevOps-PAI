@@ -21,6 +21,7 @@ class CourseInStudyPlanRepositoryImpTest {
     private List<CourseInStudyPlan> courseList;
     private CourseInStudyPlanRepositoryImpl repository;
 
+
     @BeforeEach
     void setUp() {
         listFactory = mock(ICourseInStudyPlanListFactory.class);
@@ -28,6 +29,7 @@ class CourseInStudyPlanRepositoryImpTest {
         when(listFactory.newArrayList()).thenReturn(courseList);
         repository = new CourseInStudyPlanRepositoryImpl(listFactory);
     }
+
     @Test
     void testSaveAddsEntityToListAndReturnsIt() {
         // arrange

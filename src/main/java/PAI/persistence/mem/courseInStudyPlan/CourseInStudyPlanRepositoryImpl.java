@@ -17,30 +17,9 @@ public class CourseInStudyPlanRepositoryImpl implements ICourseInStudyPlanReposi
 
     }
 
-   /* public boolean createCourseInStudyPlan_2(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID) {
-
-        CourseInStudyPlan courseInStudyPlan_DDD = _courseInStudyPlanFactory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID);
-
-        if (_coursesInStudyPlanList.contains(courseInStudyPlan_DDD))
-            return false;
-
-        _coursesInStudyPlanList.add(courseInStudyPlan_DDD);
-        return true;
-    }*/
-
     public List<CourseInStudyPlan> getAllCourseInStudyPlanList() {
         return _coursesInStudyPlanList;
     }
-
-   /* @Override
-    public List<CourseInStudyPlan> getCoursesInStudyPlanByStudyPlanID(StudyPlanID studyPlanID) {
-        List<CourseInStudyPlan> listOfCoursesInStudyPlan = new ArrayList<>();
-        for (CourseInStudyPlan courseInStudyPlan : _coursesInStudyPlanList) {
-            if (courseInStudyPlan.getStudyplanID().equals(studyPlanID))
-                listOfCoursesInStudyPlan.add(courseInStudyPlan);
-        }
-        return listOfCoursesInStudyPlan;
-    }*/
 
     @Override
     public CourseInStudyPlan save(CourseInStudyPlan courseInStudyPlan) {

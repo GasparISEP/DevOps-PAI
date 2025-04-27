@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 
 public interface ICourseInStudyPlanMapper {
 
-    CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) throws Exception;
+    CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel);
 
     CourseInStudyPlanDataModel toDataModel(CourseInStudyPlan courseInStudyPlan);
 }
