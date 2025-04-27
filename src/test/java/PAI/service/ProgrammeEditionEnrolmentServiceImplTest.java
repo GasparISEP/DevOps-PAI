@@ -1,9 +1,12 @@
 package PAI.service;
 
 import PAI.VOs.*;
+import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
+import PAI.factory.IProgrammeEditionEnrolmentFactory;
+import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
@@ -19,6 +22,184 @@ import static org.mockito.Mockito.*;
 
 class ProgrammeEditionEnrolmentServiceImplTest {
 
+
+    @Test
+    void shouldReturnFalseWhenStudentIsNull() {
+        // Arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+                doubleProgrammeEditionEnrolmentRepository,
+                doubleProgrammeEditionRepository,
+                doubleCourseEditionEnrolmentRepository,
+                doubleCourseEditionRepository,
+                doubleSchoolYearRepository,
+                doubleProgrammeEnrolmentRepository,
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
+
+        ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.enrolStudentInProgrammeEdition(null, peId1);
+        });
+        assertEquals("ProgrammeEdition and Student cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnFalseWhenProgrammeEditionIsNull() {
+        // Arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+                doubleProgrammeEditionEnrolmentRepository,
+                doubleProgrammeEditionRepository,
+                doubleCourseEditionEnrolmentRepository,
+                doubleCourseEditionRepository,
+                doubleSchoolYearRepository,
+                doubleProgrammeEnrolmentRepository,
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
+
+        StudentID stId1 = mock(StudentID.class);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.enrolStudentInProgrammeEdition(stId1, null);
+        });
+
+        assertEquals("ProgrammeEdition and Student cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionWhenProgrammeEditionEnrolmentAlreadyExists() throws Exception {
+        // Arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+                doubleProgrammeEditionEnrolmentRepository,
+                doubleProgrammeEditionRepository,
+                doubleCourseEditionEnrolmentRepository,
+                doubleCourseEditionRepository,
+                doubleSchoolYearRepository,
+                doubleProgrammeEnrolmentRepository,
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
+
+        StudentID stId1 = mock(StudentID.class);
+        ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
+
+        when(doubleProgrammeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(stId1, peId1))
+                .thenReturn(true);
+
+        // Act + Assert
+        assertThrows(IllegalStateException.class, () -> {
+            service.enrolStudentInProgrammeEdition(stId1, peId1);
+        });
+
+    }
+
+    @Test
+    void shouldReturnAValidProgrammeEditionEnrolment() throws Exception {
+        // Arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+                doubleProgrammeEditionEnrolmentRepository,
+                doubleProgrammeEditionRepository,
+                doubleCourseEditionEnrolmentRepository,
+                doubleCourseEditionRepository,
+                doubleSchoolYearRepository,
+                doubleProgrammeEnrolmentRepository,
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
+
+        StudentID stId1 = mock(StudentID.class);
+        ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
+
+
+        ProgrammeEditionEnrolment enrolMock = mock(ProgrammeEditionEnrolment.class);
+        when(doubleProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(stId1, peId1)).thenReturn(enrolMock);
+
+        //act
+        boolean result = service.enrolStudentInProgrammeEdition(stId1, peId1);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnATwoValidProgrammeEditionEnrollments() throws Exception {
+        //arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+                doubleProgrammeEditionEnrolmentRepository,
+                doubleProgrammeEditionRepository,
+                doubleCourseEditionEnrolmentRepository,
+                doubleCourseEditionRepository,
+                doubleSchoolYearRepository,
+                doubleProgrammeEnrolmentRepository,
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
+        StudentID stId1 = mock(StudentID.class);
+        StudentID stId2 = mock(StudentID.class);
+
+        ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID peId2 = mock(ProgrammeEditionID.class);
+
+
+
+        ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment enrolMock2 = mock(ProgrammeEditionEnrolment.class);
+        when(doubleProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(stId1, peId1)).thenReturn(enrolMock1);
+        when(doubleProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(stId2, peId2)).thenReturn(enrolMock2);
+        //act
+        boolean result1 = service.enrolStudentInProgrammeEdition(stId1, peId2);
+        boolean result2 = service.enrolStudentInProgrammeEdition(stId2, peId2);
+
+        //assert
+        assertTrue(result1);
+        assertTrue(result2);
+
+    }
+
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception{
         // Arrange
@@ -33,6 +214,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -41,7 +223,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory);
 
         CourseEditionID doubleCe1Id = mock(CourseEditionID.class);
         CourseEditionID doubleCe2Id = mock(CourseEditionID.class);
@@ -86,6 +269,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeEditionFactory doubleProgrammeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -94,7 +278,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         doubleProgrammeEditionFactory.createProgrammeEdition(doubleProgrammeId, doubleSchoolYearId);
 
@@ -112,13 +298,13 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ProgrammeID doubleProgrammeId = mock(ProgrammeID.class);
         SchoolYearID doubleSchoolYearId = mock(SchoolYearID.class);
         StudentID doubleStudentId = mock(StudentID.class);
-        ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
         IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -127,7 +313,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudentId, doubleProgrammeId))
                 .thenReturn(true);
@@ -154,6 +342,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -162,7 +351,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         when(doubleProgrammeEnrolmentRepository.isStudentEnrolled(doubleStudentId, doubleProgrammeId)).thenReturn(true);
         when(doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(doubleProgrammeId, doubleSchoolYearId)).thenReturn(Optional.of(doubleProgrammeEditionId));
@@ -189,6 +380,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -197,7 +389,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         CourseEditionID ce1Id = mock(CourseEditionID.class);
         CourseEditionID ce2Id = mock(CourseEditionID.class);
@@ -243,6 +437,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -251,7 +446,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
         ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
@@ -275,6 +472,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -283,7 +481,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
         ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
@@ -307,6 +507,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -315,7 +516,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
         ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
@@ -341,6 +544,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -349,7 +553,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         SchoolYearID doubleSchoolYear1 = mock(SchoolYearID.class);
         SchoolYearID doubleSchoolYear2 = mock(SchoolYearID.class);
@@ -373,6 +579,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -381,7 +588,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         SchoolYearID doubleSchoolYear1 = mock(SchoolYearID.class);
         SchoolYearID doubleSchoolYear2 = mock(SchoolYearID.class);
@@ -405,6 +614,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
                 doubleProgrammeEditionEnrolmentRepository,
@@ -413,7 +623,9 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                 doubleCourseEditionRepository,
                 doubleSchoolYearRepository,
                 doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository);
+                doubleProgrammeRepository,
+                doubleProgrammeEditionEnrolmentFactory
+        );
 
         SchoolYearID doubleSchoolYear1 = mock(SchoolYearID.class);
         SchoolYearID doubleSchoolYear2 = mock(SchoolYearID.class);
@@ -437,6 +649,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -447,7 +660,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     doubleSchoolYearRepository,
                     doubleProgrammeEnrolmentRepository,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -461,6 +675,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -471,7 +686,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     doubleSchoolYearRepository,
                     doubleProgrammeEnrolmentRepository,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -485,6 +701,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -495,7 +712,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     doubleSchoolYearRepository,
                     doubleProgrammeEnrolmentRepository,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -509,6 +727,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -519,7 +738,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     null,
                     doubleSchoolYearRepository,
                     doubleProgrammeEnrolmentRepository,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -533,6 +753,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -543,7 +764,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     null,
                     doubleProgrammeEnrolmentRepository,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -557,6 +779,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -567,7 +790,8 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     doubleSchoolYearRepository,
                     null,
-                    doubleProgrammeRepository
+                    doubleProgrammeRepository,
+                    doubleProgrammeEditionEnrolmentFactory
             );
         });
     }
@@ -581,6 +805,7 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
         ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
         IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
 
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -591,6 +816,34 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     doubleCourseEditionRepository,
                     doubleSchoolYearRepository,
                     doubleProgrammeEnrolmentRepository,
+                    null,
+                    doubleProgrammeEditionEnrolmentFactory
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFactoryIsNull() throws Exception {
+        // arrange
+        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionEnrolmentServiceImpl(
+                    doubleProgrammeEditionEnrolmentRepository,
+                    doubleProgrammeEditionRepository,
+                    doubleCourseEditionEnrolmentRepository,
+                    doubleCourseEditionRepository,
+                    doubleSchoolYearRepository,
+                    doubleProgrammeEnrolmentRepository,
+                    doubleProgrammeRepository,
                     null
             );
         });
