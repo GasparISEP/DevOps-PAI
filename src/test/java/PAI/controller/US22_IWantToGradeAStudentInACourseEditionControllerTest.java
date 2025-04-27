@@ -2,11 +2,21 @@
 package PAI.controller;
 
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
+import PAI.domain.CourseEdition;
+import PAI.domain.Student;
+import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.*;
 import PAI.service.IStudentGradeService;
+import PAI.service.StudentGradeService;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -17,152 +27,99 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
         //arrange
         IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
         US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService);
-        //assert
+        //act + assert
         assertNotNull(controller);
     }
+
     @Test
     void shouldNotCreateControllerWhenServiceIsNull() {
         //arrange
         IStudentGradeService studentGradeService = null;
 
-        //assert
+        //act + assert
         assertThrows(IllegalArgumentException.class, () -> new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService));
     }
 
-//    @Test
-//    void shouldReturnTrueIfStudentIsEnrolledInCourseEdition() {
-//        //arrange
-//        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-//        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-//        IStudentRepository studentRepository = mock(StudentRepository.class);
-//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-//        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
-//
-//        Student student = mock(Student.class);
-//        StudentID studentID = mock(StudentID.class);
-//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-//
-//        when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentID));
-//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
-//        when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
-//
-//        //assert
-//        assertTrue(result);
-//    }
+    @Test
+    void shoudStudentGrade() throws Exception {
+        //arrange
+        IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Student student = mock(Student.class);
 
-//    @Test
-//    void shouldReturnFalseIfStudentIDIsNotFoundAndEnrollInCourseEdition() {
-//        //arrange
-//        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-//        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-//        IStudentRepository studentRepository = mock(StudentRepository.class);
-//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-//        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
-//
-//        Student student = mock(Student.class);
-//        StudentID studentID = mock(StudentID.class);
-//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-//
-//        when(studentRepository.findIdByStudent(student)).thenReturn(Optional.empty());
-//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
-//
-//        when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
-//
-//        //assert
-//        assertFalse(result);
-//    }
-//    @Test
-//    void shouldReturnFalseIfCourseEditionIDNotFoundAndEnrollInCourseEdition() {
-//        //arrange
-//        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-//        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-//        IStudentRepository studentRepository = mock(StudentRepository.class);
-//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-//        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
-//
-//        Student student = mock(Student.class);
-//        StudentID studentID = mock(StudentID.class);
-//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-//
-//        when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentID));
-//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.empty());
-//
-//        when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentID,courseEditionIDDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.isStudentEnrolledInCourseEdition(student, courseEdition_DDDDouble);
-//
-//        //assert
-//        assertFalse(result);
-//    }
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        StudentGrade studentGrade = mock(StudentGrade.class);
 
-//    @Test
-//    void shouldAddGradeToAStudentInACourseEdition() throws Exception {
-//        //arrange
-//        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-//        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-//        IStudentRepository studentRepository = mock(StudentRepository.class);
-//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-//
-//        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
-//
-//        Student student = mock(Student.class);
-//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-//        StudentID studentIDDouble = mock(StudentID.class);
-//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-//        Grade gradeDouble = mock(Grade.class);
-//        Date dateDouble = mock(Date.class);
-//
-//        when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentIDDouble));
-//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
-//
-//        when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(true);
-//        when(studentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
-//
-//        //assert
-//        assertTrue(result);
-//    }
-//    @Test
-//    void shouldNotAddGradeToAStudentWhenStudentIsNotEnrolledInACourseEdition() throws Exception {
-//        //arrange
-//        StudentGradeRepository studentGradeRepositoryDouble = mock(StudentGradeRepository.class);
-//        ICourseEditionEnrolmentRepository iCourseEditionEnrolmentRepositoryDouble = mock(ICourseEditionEnrolmentRepository.class);
-//        IStudentRepository studentRepository = mock(StudentRepository.class);
-//        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-//        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeRepositoryDouble, iCourseEditionEnrolmentRepositoryDouble,studentRepository,courseEditionRepository);
-//
-//        Student student = mock(Student.class);
-//        CourseEdition courseEdition_DDDDouble = mock(CourseEdition.class);
-//        StudentID studentIDDouble = mock(StudentID.class);
-//        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-//        Grade gradeDouble = mock(Grade.class);
-//        Date dateDouble = mock(Date.class);
-//
-//        when(studentRepository.findIdByStudent(student)).thenReturn(Optional.of(studentIDDouble));
-//        when(courseEditionRepository.findIdByCourseEdition(courseEdition_DDDDouble)).thenReturn(Optional.of(courseEditionIDDouble));
-//
-//
-//        when(iCourseEditionEnrolmentRepositoryDouble.isStudentEnrolledInCourseEdition(studentIDDouble,courseEditionIDDouble)).thenReturn(false);
-//        when(studentGradeRepositoryDouble.addGradeToStudent(gradeDouble,dateDouble,studentIDDouble,courseEditionIDDouble)).thenReturn(true);
-//
-//        //act
-//        boolean result = controller.registerStudentGrade(gradeDouble,dateDouble,student, courseEdition_DDDDouble);
-//
-//        //assert
-//        assertFalse(result);
-//    }
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(student.identity()).thenReturn(studentID);
+
+        when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
+
+        //act
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+
+        //assert
+        assertTrue(result.isPresent());
+        assertEquals(studentGrade,result.get());
+    }
+
+    @Test
+    void shouldNotAddGradeWhenCourseEditionIsNull() throws Exception {
+        //arrange
+        IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Student student = mock(Student.class);
+
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = null;
+        StudentGrade studentGrade = mock(StudentGrade.class);
+
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(student.identity()).thenReturn(studentID);
+
+        when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
+
+        //act
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+
+        //assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldNotAddGradeWhenStudentIsNull() throws Exception {
+        //arrange
+        IStudentGradeService studentGradeService = mock(IStudentGradeService.class);
+        US22_IWantToGradeAStudentInACourseEditionController controller = new US22_IWantToGradeAStudentInACourseEditionController(studentGradeService);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        Student student = mock(Student.class);
+
+        StudentID studentID = null;
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        StudentGrade studentGrade = mock(StudentGrade.class);
+
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(student.identity()).thenReturn(studentID);
+
+        when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
+
+        //act
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+
+        //assert
+        assertTrue(result.isEmpty());
+
+    }
+
 
 }
 

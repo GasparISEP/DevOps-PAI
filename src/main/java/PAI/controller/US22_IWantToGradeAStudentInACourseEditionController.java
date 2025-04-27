@@ -1,11 +1,20 @@
 
 package PAI.controller;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.Date;
+import PAI.VOs.Grade;
+import PAI.VOs.StudentID;
+import PAI.domain.CourseEdition;
+import PAI.domain.Student;
+import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IStudentRepository;
 import PAI.repository.StudentGradeRepository;
 import PAI.service.IStudentGradeService;
+
+import java.util.Optional;
 
 
 public class US22_IWantToGradeAStudentInACourseEditionController {
@@ -18,31 +27,17 @@ public class US22_IWantToGradeAStudentInACourseEditionController {
         this.studentGradeService = studentGradeService;
     }
 
-    //public Optional <StudentID> findStudentIdByStudent(Student student){
-        //return  _studentRepository.findIdByStudent(student);
-   // }
-//    public Optional <CourseEditionID> findCourseEditionIDByCourse(CourseEdition courseEdition_DDD){
-//        return _courseEditionRepository.findIdByCourseEdition(courseEdition_DDD);
-//    }
 
-//    public boolean isStudentEnrolledInCourseEdition (Student student, CourseEdition courseEdition_DDD){
-//        Optional<StudentID> studentID = findStudentIdByStudent(student);
-//        if (studentID.isPresent() && findCourseEditionIDByCourse(courseEdition_DDD).isPresent())  {
-//            return _courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID.get(), findCourseEditionIDByCourse(courseEdition_DDD).get());
-//        }
-//
-//        return false;
-//    }
+    public Optional <StudentGrade> registerStudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition_DDD) throws Exception{
+        StudentID studentID = student.identity();
+        CourseEditionID courseEditionID = courseEdition_DDD.identity();
 
-//    public boolean registerStudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition_DDD) throws Exception{
-//        Optional<StudentID> studentID = findStudentIdByStudent(student);
-//
-//        if (isStudentEnrolledInCourseEdition(student, courseEdition_DDD)){
-//            _StudentGradeRepository.addGradeToStudent(grade,date,studentID.get(),findCourseEditionIDByCourse(courseEdition_DDD).get());
-//            return true;
-//        }
-//        return false;
-//    }
+        if (studentID != null && courseEditionID != null){
+            return Optional.of(studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID));
+        }
+
+        return Optional.empty();
+    }
 
 }
 
