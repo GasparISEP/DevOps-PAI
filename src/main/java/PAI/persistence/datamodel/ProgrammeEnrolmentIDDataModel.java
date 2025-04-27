@@ -2,10 +2,11 @@ package PAI.persistence.datamodel;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProgrammeEnrolmentIDDataModel {
+public class ProgrammeEnrolmentIDDataModel implements Serializable {
 
     private StudentIDDataModel _studentID;
     private ProgrammeIDDataModel _programmeID;
