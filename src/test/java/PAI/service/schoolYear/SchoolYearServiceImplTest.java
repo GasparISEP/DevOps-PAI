@@ -112,4 +112,44 @@ class SchoolYearServiceImplTest {
         // Verify that save() was never called (since the school year already exists)
         verify(schoolYearRepository, never()).save(any());  // Ensure save() is NOT called
     }
+
+    // Test case for adding multiple different school years successfully
+    @Test
+    void addMultipleSchoolYearsSuccessfully() throws Exception {
+        // Arrange: Mocks and setup
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        // Mock the description, startDate, and endDate for the school years
+        Description description1 = mock(Description.class);
+        Description description2 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date startDate2 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
+        Date endDate2 = mock(Date.class);
+
+        // Mock the school year objects
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+
+        // Mocks behaviour
+        // Mock the factory to return new school years
+        when(schoolYearFactory.createSchoolYear(description1, startDate1, endDate1)).thenReturn(schoolYear1);
+        when(schoolYearFactory.createSchoolYear(description2, startDate2, endDate2)).thenReturn(schoolYear2);
+
+        // Mock the repository to return false for school year existence check (meaning the school year doesn't exist yet)
+        when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
+
+        // Act: Try to add two different school years
+        boolean result1 = service.addSchoolYear(description1, startDate1, endDate1);
+        boolean result2 = service.addSchoolYear(description2, startDate2, endDate2);
+
+        // Assert: Verify that both school years are added successfully
+        assertTrue(result1);
+        assertTrue(result2);
+
+        // Verify that save() is called twice, once for each school year
+        verify(schoolYearRepository, times(2)).save(any());  // Ensure save() is called for both school years
+    }
 }
