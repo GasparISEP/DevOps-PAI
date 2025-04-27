@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.courseInStudyPlan;
 
-import PAI.VOs.DurationCourseInCurricularYear;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -100,6 +99,63 @@ class CourseInStudyPlanDataModelTest {
         );
 
         assertEquals(m1.hashCode(), m2.hashCode());
+    }
+
+    @Test
+    void constructorShouldThrowWhenAnyIdIsNull() {
+        StudyPlanIDDataModel sp = mock(StudyPlanIDDataModel.class);
+        CourseIDDataModel    c  = mock(CourseIDDataModel.class);
+
+        // embeddedId null
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(
+                        null, sp, c, 1, 1, 1, 1.0
+                )
+        );
+        assertTrue(ex1.getMessage().contains("cannot be null"));
+
+        // studyPlanID null
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(
+                        mock(CourseInStudyPlanIDDataModel.class), null, c, 1, 1, 1, 1.0
+                )
+        );
+        assertTrue(ex2.getMessage().contains("cannot be null"));
+
+        // courseID null
+        IllegalArgumentException ex3 = assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(
+                        mock(CourseInStudyPlanIDDataModel.class), sp, null, 1, 1, 1, 1.0
+                )
+        );
+        assertTrue(ex3.getMessage().contains("cannot be null"));
+    }
+
+    @Test
+    void constructorShouldThrowWhenNumericFieldsAreInvalid() {
+        var id   = mock(CourseInStudyPlanIDDataModel.class);
+        var sp   = mock(StudyPlanIDDataModel.class);
+        var c    = mock(CourseIDDataModel.class);
+
+        // semester < 1
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(id, sp, c, 0, 1, 1, 1.0)
+        );
+
+        // curricularYear < 1
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(id, sp, c, 1, 0, 1, 1.0)
+        );
+
+        // durationOfCourse < 1
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(id, sp, c, 1, 1, 0, 1.0)
+        );
+
+        // quantityOfCreditsEcts < 1
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanDataModel(id, sp, c, 1, 1, 1, 0.0)
+        );
     }
 
 }
