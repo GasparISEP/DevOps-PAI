@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -83,7 +84,7 @@ class TeacherCareerProgressionServiceTest {
         assertEquals(expectedMessage, result.getMessage());
     }
 
-//CreateTCP
+    //CreateTCP
     static Stream<Arguments> provideNullArgumentsForCreate() {
         return Stream.of(
                 Arguments.of(null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class)),
@@ -158,10 +159,11 @@ class TeacherCareerProgressionServiceTest {
         when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
         when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
         when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
-        when(_repositoryDouble.save(_TCPDouble)).thenReturn(_TCPDouble);
 
         when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
                 _lastWorkingPercentageDouble, _teacherIDDouble)).thenReturn(_TCPDouble);
+        when(_TCPDouble.getTeacherID()).thenReturn(_teacherIDDouble);
+        when(_repositoryDouble.save(_TCPDouble)).thenReturn(_TCPDouble);
 
         //Act
         boolean result = service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble);
@@ -239,8 +241,9 @@ class TeacherCareerProgressionServiceTest {
         when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
         when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
         when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
-        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
-                .thenThrow(expectedException);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _lastWorkingPercentageDouble, _teacherIDDouble)).thenThrow(expectedException);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
@@ -259,10 +262,10 @@ class TeacherCareerProgressionServiceTest {
         when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
         when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
 
-        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
-                .thenReturn(null);
-
-        when(_repositoryDouble.save(null)).thenThrow(new IllegalArgumentException());
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _lastWorkingPercentageDouble, _teacherIDDouble)).thenReturn(_TCPDouble);
+        when(_TCPDouble.getTeacherID()).thenReturn(_teacherIDDouble);
+        when(_repositoryDouble.save(any())).thenThrow(new IllegalArgumentException());
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
@@ -281,9 +284,9 @@ class TeacherCareerProgressionServiceTest {
         when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
         when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
 
-        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _lastWorkingPercentageDouble, _teacherIDDouble))
-                .thenReturn(_TCPDouble);
-
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble,
+                _lastWorkingPercentageDouble, _teacherIDDouble)).thenReturn(_TCPDouble);
+        when(_TCPDouble.getTeacherID()).thenReturn(_teacherIDDouble);
         when(_repositoryDouble.save(_TCPDouble)).thenThrow(new PersistenceException());
 
         // Act & Assert

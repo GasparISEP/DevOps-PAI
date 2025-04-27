@@ -55,9 +55,7 @@ public class TeacherCareerProgressionService implements ITeacherCareerProgressio
         if (lastTCP.getTeacherCategoryID().equals(teacherCategoryID))
             return false;
 
-        TeacherCareerProgression newTeacherCareerProgression = _TCPfactory.createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
-
-        _TCPrepository.save(newTeacherCareerProgression);
+        createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID);
         return true;
     }
 
