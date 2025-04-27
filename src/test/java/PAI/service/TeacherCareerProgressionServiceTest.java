@@ -53,8 +53,9 @@ class TeacherCareerProgressionServiceTest {
         _teacherCategoryIDDouble = mock(TeacherCategoryID.class);
     }
 
+    //TCPService
     @Test
-    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs() {
+    void shouldCreateTeacherCareerProgressionServiceWhenPassingValidInputs(){
         //Arrange
 
         //Act & Assert
@@ -82,7 +83,7 @@ class TeacherCareerProgressionServiceTest {
         assertEquals(expectedMessage, result.getMessage());
     }
 
-
+//CreateTCP
     static Stream<Arguments> provideNullArgumentsForCreate() {
         return Stream.of(
                 Arguments.of(null, mock(TeacherCategoryID.class), mock(WorkingPercentage.class), mock(TeacherID.class)),
@@ -146,9 +147,9 @@ class TeacherCareerProgressionServiceTest {
         assertTrue(result);
     }
 
-
+    //updateTeacherCategory
     @Test
-    void shouldReturnTrueIfTeacherCareerProgressionWasSuccessfullyUpdated() throws Exception {
+    void shouldReturnTrueIfTeacherCategoryWasSuccessfullyUpdated() throws Exception {
         //Arrange
         TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
         createDoubles();
@@ -289,5 +290,125 @@ class TeacherCareerProgressionServiceTest {
         assertThrows(PersistenceException.class, () ->
                 service.updateTeacherCategoryInTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _teacherIDDouble)
         );
+    }
+
+
+//updateWorkingPercentage
+@Test
+void shouldReturnTrueWhenSuccessfullyUpdatesWorkingPercentageInTeacherCareerProgression() throws Exception {
+    // Arrange
+    createDoubles();
+    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(
+            _repositoryDouble, _factoryDouble
+    );
+
+    Optional<TeacherCareerProgression> optionalTcp = Optional.of(_lastTCPDouble);
+    when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(optionalTcp);
+    when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+    when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_lastWorkingPercentageDouble);
+    when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+
+    when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _lastTeacherCategoryIDDouble, _workingPercentageDouble,
+                                                       _teacherIDDouble)).thenReturn(_TCPDouble);
+
+    // Act
+    boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, _workingPercentageDouble,
+                                                                                  _teacherIDDouble);
+
+    // Assert
+    assertTrue(result);
+}
+
+@Test
+void shouldReturnFalseIfDateIsNullWhenUpdatingWorkingPercentage() throws Exception {
+    // Arrange
+    createDoubles();
+    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+
+    // Act
+    boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(null, _workingPercentageDouble,
+                                                                                  _teacherIDDouble);
+
+    // Assert
+    assertFalse(result);
+}
+
+@Test
+void shouldReturnFalseIfWorkingPercentageIsNullWhenUpdatingWorkingPercentage() throws Exception {
+    // Arrange
+    createDoubles();
+    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+
+    // Act
+    boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, null, _teacherIDDouble);
+
+    // Assert
+    assertFalse(result);
+}
+
+@Test
+void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Exception {
+    // Arrange
+    createDoubles();
+    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+
+    // Act
+    boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, _workingPercentageDouble, null);
+    // Assert
+    assertFalse(result);
+}
+
+    @Test
+    void shouldReturnFalseWhenThereIsNoLastTCPToUpdateWorkingPercentage() throws Exception {
+        // Arrange
+        createDoubles();
+        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.empty());
+
+        // Act
+        boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, _workingPercentageDouble, _teacherIDDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDateToUpdateWorkingPercentage() throws Exception {
+        // Arrange
+        createDoubles();
+        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(false);
+
+        // Act
+        boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, _workingPercentageDouble, _teacherIDDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGivenWorkingPercentageIsTheSameAsLastTCPWorkingPercentage() throws Exception {
+        // Arrange
+        createDoubles();
+        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+
+        when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
+        when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);
+        when(_lastTCPDouble.getTeacherCategoryID()).thenReturn(_lastTeacherCategoryIDDouble);
+        when(_lastTCPDouble.getWorkingPercentage()).thenReturn(_workingPercentageDouble);
+
+        when(_factoryDouble.createTeacherCareerProgression(_dateDouble, _teacherCategoryIDDouble, _workingPercentageDouble, _teacherIDDouble)).thenReturn(_TCPDouble);
+
+        // Act
+        boolean result = tcpService.updateWorkingPercentageInTeacherCareerProgression(_dateDouble, _workingPercentageDouble, _teacherIDDouble);
+
+        // Assert
+        assertFalse(result);
     }
 }
