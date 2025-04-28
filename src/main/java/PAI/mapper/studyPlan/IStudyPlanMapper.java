@@ -7,6 +7,6 @@ public interface IStudyPlanMapper {
 
     StudyPlanDataModel toDataModel(StudyPlan studyPlan);
 
-    StudyPlan toDomain(StudyPlanDataModel studyPlanDataModel);
+    StudyPlan toDomain(StudyPlanDataModel studyPlanDataModel) throws Exception;
 
 }
