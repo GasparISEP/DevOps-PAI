@@ -4,6 +4,8 @@ import PAI.VOs.TeacherCareerProgressionID;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
+import org.mockito.exceptions.base.MockitoException;
+
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,13 +81,13 @@ class TeacherCareerProgressionIDMapperTest {
         when(dataModelIdDouble.getIDValue()).thenReturn(null);
 
         try (MockedConstruction<TeacherCareerProgressionID> constructorDouble = mockConstruction(
-                TeacherCareerProgressionID.class, invocation -> {
+                TeacherCareerProgressionID.class, (mock, context)-> {
 
                     throw new NullPointerException("Id can not be null!");
                 })) {
 
             // Act & Assert
-            assertThrows(NullPointerException.class, () -> mapper.dataModelToDomain(dataModelIdDouble));
+            assertThrows(MockitoException.class, () -> mapper.dataModelToDomain(dataModelIdDouble));
         }
     }
 }
