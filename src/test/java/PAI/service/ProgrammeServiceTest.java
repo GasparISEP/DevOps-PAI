@@ -73,7 +73,7 @@ class ProgrammeServiceTest {
         ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
 
         //Act
-        Programme result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        boolean result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         //Assert
         assertNotNull(result);
