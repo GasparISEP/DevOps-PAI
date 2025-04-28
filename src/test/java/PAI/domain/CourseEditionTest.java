@@ -70,6 +70,23 @@ class CourseEditionTest {
     }
 
     @Test
+    void shouldCreateCourseEditionWithRuc() {
+        // SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        // Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        TeacherID teacherID = mock (TeacherID.class);
+
+        // Act
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, teacherID);
+
+        // Assert
+        assertNotNull(courseEdition);
+        assertEquals(teacherID, courseEdition.getRuc());
+    }
+
+    @Test
     void shouldThrowExceptionIfProgrammeEditionIDAndCourseInStudyPlanIDAreNull() {
         //SUT = CourseEdition -> CourseEditionID as Double, ProgrammeEditionID and CourseInStudyPlanID forced to be null
         //Arrange
