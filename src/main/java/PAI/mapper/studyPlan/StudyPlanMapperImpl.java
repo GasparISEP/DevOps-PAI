@@ -7,7 +7,7 @@ import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 
-public class StudyPlanMapperImpl {
+public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
     private final IStudyPlanIDMapper _studyPlanIDMapper;
     private final IStudyPlanFactory _studyPlanFactory;
