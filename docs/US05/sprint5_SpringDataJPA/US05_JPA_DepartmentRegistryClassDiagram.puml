@@ -24,9 +24,7 @@ interface IDepartmentRepository #lightyellow {
 
 class DepartmentRepositoryMem #lightcyan {
     + save (entity: Department): Department
-    + findAll(): Iterable<Department>
-    + ofIdentity (id: DepartmentID): Optional<Department>
-    + containsOfIdentity(id: DepartmentID): boolean
+Refs #296, #360 - Minor updates on department registry class diagram: removed unnecessary methods and added relation between DepartmentDataModel and DepartmentIDDataModel    + containsOfIdentity(id: DepartmentID): boolean
 }
 
 class DepartmentFactoryImpl #lightyellow {
@@ -117,13 +115,12 @@ class DepartmentDataModel #lightcyan {
     - name: String
     - version: Long
     + DepartmentDataModel()
-    + DepartmentDataModel(acronym: String, name: String, directorID: String, version: Long)
+    + DepartmentDataModel(acronym: String, name: String)
+    + getId(): DepartmentIDDataModel
     + getAcronym(): String
-    + setAcronym(acronym: String): void
     + getName(): String
-    + setName(name: String): void
-    + getVersion(): Long
-    + setVersion(version: Long): void
+    + equals((obj: Object): boolean
+    + hashCode(): int
 }
 }
 
@@ -134,8 +131,6 @@ interface IDepartmentRepositorySpringData #ccffcc{
 class DepartmentRepositorySpringData #lightcyan {
    + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapperImpl) {
    + save (entity: Department): Department
-   + findAll(): Iterable<Department>
-   + ofIdentity (id: DepartmentID): Optional<Department>
    + containsOfIdentity(id: DepartmentID): boolean
 }
 
@@ -169,6 +164,7 @@ interface IDepartmentIDMapper #lightcyan {
     + toDomainModel(departmentIDDataModel: DepartmentIDDataModel): DepartmentID
 }
 
+DepartmentDataModel "1" --> "id 1" DepartmentIDDataModel
 DepartmentRepositorySpringData "1" ..> "1" DepartmentDataModel
 DepartmentRepositorySpringData "1" ..> "*" Department
 DepartmentRepositorySpringData "1" --> "_repositorySpringData 1" IDepartmentRepositorySpringData
