@@ -3,9 +3,8 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
+import PAI.service.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
-import PAI.service.TeacherCareerProgressionService;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,11 +13,11 @@ public class US13_RegisterTeacherAndRelevantDataController {
     private ITeacherCategoryRepository _teacherCategoryRepository;
     private IDepartmentRepository _departmentRepository;
     private ITeacherService _teacherService;
-    private TeacherCareerProgressionService _tcpService;
+    private ITeacherCareerProgressionService _tcpService;
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryRepository teacherCategoryRepository,
-                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, TeacherCareerProgressionService tcpService) {
+                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, ITeacherCareerProgressionService tcpService) {
 
         if (teacherCategoryRepository == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
