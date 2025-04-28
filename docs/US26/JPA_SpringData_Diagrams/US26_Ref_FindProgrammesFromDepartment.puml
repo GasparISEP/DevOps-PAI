@@ -1,0 +1,83 @@
+@startuml
+
+title US26 Reference SD: FindProgrammesFromDepartment
+autonumber
+skinparam sequence {
+   LifelineBorderColor Black
+   LifelineBackgroundColor LightBlue
+ }
+
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":IProgrammeService" as IProgrammeService #LightBlue/White
+participant ":IProgrammeRepository" as IProgrammeRepository #LightBlue/White
+participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepositorySpringDataImpl #LightBlue/White
+
+activate Controller
+Controller -> IProgrammeService: findProgrammeByDepartment ()
+
+activate IProgrammeService
+IProgrammeService -> IProgrammeRepository: findProgrammeByDepartment ()
+activate IProgrammeRepository
+IProgrammeRepository -> ProgrammeRepositorySpringDataImpl: findProgrammeByDepartment ()
+activate ProgrammeRepositorySpringDataImpl
+create ":ProgrammesWithDepartment" #LightBlue/White
+
+ProgrammeRepositorySpringDataImpl ->  ":ProgrammesWithDepartment"** : new List <ProgrammeID>()
+activate ":ProgrammesWithDepartment"
+
+create "p[i]: domainList" #LightBlue/White
+ProgrammeRepositorySpringDataImpl ->  "p[i]: domainList"** : new List <Programme>()
+activate "p[i]: domainList"
+participant ":IProgrammeRepositorySpringDataImpl" as IProgrammeRepositorySpringDataImpl #LightBlue/White
+
+ProgrammeRepositorySpringDataImpl -> IProgrammeRepositorySpringDataImpl: findAll()
+activate IProgrammeRepositorySpringDataImpl
+create "PDM[i]:ProgrammeDataModel" #LightBlue/White
+IProgrammeRepositorySpringDataImpl -> "PDM[i]:ProgrammeDataModel"** : findAll()
+deactivate IProgrammeRepositorySpringDataImpl
+activate "PDM[i]:ProgrammeDataModel"
+"PDM[i]:ProgrammeDataModel" --> ProgrammeRepositorySpringDataImpl: PDM[i]:ProgrammeDataModelList
+
+loop for each ProgrammeDataModel[i] in PDM[i]:ProgrammeDataModelList
+deactivate "PDM[i]:ProgrammeDataModel"
+participant ":IProgrammeMapper" as IProgrammeMapper #LightBlue/White
+
+ProgrammeRepositorySpringDataImpl -> IProgrammeMapper: toDomain(ProgrammeDataModel)
+activate IProgrammeMapper
+participant ":IProgrammeFactory" as IProgrammeFactory #LightBlue/White
+
+IProgrammeMapper -> IProgrammeFactory: register Programme()
+activate IProgrammeFactory
+create "p1: Programme" #LightBlue/White
+IProgrammeFactory ->  "p1: Programme"** : new Programme()
+activate "p1: Programme"
+"p1: Programme" --> IProgrammeFactory: p1: Programme
+IProgrammeFactory --> IProgrammeMapper: p1: Programme
+deactivate IProgrammeFactory
+IProgrammeMapper --> ProgrammeRepositorySpringDataImpl: p1: Programme
+
+deactivate IProgrammeMapper
+ProgrammeRepositorySpringDataImpl -> "p[i]: domainList": add (p1)
+end
+
+"p[i]: domainList" --> ProgrammeRepositorySpringDataImpl: p[i]:domainList
+deactivate "p[i]: domainList"
+loop for each Programme[i] in p[i]:domainList
+ProgrammeRepositorySpringDataImpl -> "p1: Programme": isInDepartment(departmentID)
+"p1: Programme" --> ProgrammeRepositorySpringDataImpl: True
+deactivate "p1: Programme"
+alt isInDepartment
+ProgrammeRepositorySpringDataImpl -> ":ProgrammesWithDepartment": add(p1.identity())
+end
+end
+
+":ProgrammesWithDepartment" --> ProgrammeRepositorySpringDataImpl: :ProgrammesWithDepartment
+deactivate ":ProgrammesWithDepartment"
+ProgrammeRepositorySpringDataImpl --> IProgrammeRepository: :ProgrammesWithDepartment
+deactivate ProgrammeRepositorySpringDataImpl
+IProgrammeRepository --> IProgrammeService: :ProgrammesWithDepartment
+deactivate IProgrammeRepository
+IProgrammeService --> Controller: :ProgrammesWithDepartment
+deactivate IProgrammeService
+deactivate Controller
+@enduml
