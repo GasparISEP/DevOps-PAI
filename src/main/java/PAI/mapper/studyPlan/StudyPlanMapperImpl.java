@@ -3,6 +3,7 @@ package PAI.mapper.studyPlan;
 import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
@@ -10,12 +11,17 @@ import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
     private final IStudyPlanIDMapper _studyPlanIDMapper;
+    private final IProgrammeIDMapper _programmeIDMapper;
     private final IStudyPlanFactory _studyPlanFactory;
 
-    public StudyPlanMapperImpl(IStudyPlanIDMapper studyPlanIDMapper,IStudyPlanFactory studyPlanFactory) throws IllegalArgumentException {
+    public StudyPlanMapperImpl(IStudyPlanIDMapper studyPlanIDMapper, IProgrammeIDMapper programmeIDMapper, IStudyPlanFactory studyPlanFactory) throws IllegalArgumentException {
         if (studyPlanIDMapper == null)
             throw new IllegalArgumentException("StudyPlanIDMapper cannot be null");
         _studyPlanIDMapper = studyPlanIDMapper;
+
+        if (programmeIDMapper == null)
+            throw new IllegalArgumentException("StudyPlanFactory cannot be null");
+        _programmeIDMapper = programmeIDMapper;
 
         if (studyPlanFactory == null)
             throw new IllegalArgumentException("StudyPlanFactory cannot be null");
@@ -33,14 +39,14 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
     }
 
     public StudyPlan toDomain(StudyPlanDataModel studyPlanDataModel) throws Exception {
-        NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getName());
-        Acronym progAcronym = new Acronym(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getAcronym());
-        ProgrammeID programmeID = new ProgrammeID(progName, progAcronym);
+
+        ProgrammeID programmeID = _programmeIDMapper.toDomain(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID());
+
         Date implementationDate = new Date(studyPlanDataModel.getStudyPlanIDDataModel().getImplementationDate());
         DurationInYears durationInYears = new DurationInYears(studyPlanDataModel.getDurationInYears());
         MaxEcts maxEcts = new MaxEcts(studyPlanDataModel.getMaxECTS());
 
-        return new StudyPlan(programmeID, implementationDate, durationInYears, maxEcts);
+        return _studyPlanFactory.newStudyPlan_2(programmeID, implementationDate, durationInYears, maxEcts);
     }
 
 }
