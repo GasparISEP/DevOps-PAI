@@ -3,6 +3,7 @@ package PAI.factory;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 
 public class CourseEditionFactoryImpl implements ICourseEditionFactory {
@@ -13,7 +14,7 @@ public class CourseEditionFactoryImpl implements ICourseEditionFactory {
     }
 
     @Override
-    public CourseEdition createCourseEditionFromDataModel(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return new CourseEdition(courseEditionID, courseInStudyPlanID, programmeEditionID);
+    public CourseEdition createCourseEditionFromDataModel(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID, TeacherID teacherID) {
+        return new CourseEdition(courseEditionID, courseInStudyPlanID, programmeEditionID, teacherID);
     }
 }
