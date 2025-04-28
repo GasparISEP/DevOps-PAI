@@ -14,17 +14,11 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     private final ISchoolYearFactory schoolYearFactory;
 
     public SchoolYearServiceImpl(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory) {
-        if (schoolYearRepository == null) {
-            throw new IllegalArgumentException("schoolYearRepository cannot be null");
-        }
-        if (schoolYearFactory == null) {
-            throw new IllegalArgumentException("schoolYearFactory cannot be null");
-        }
-        this.schoolYearRepository = schoolYearRepository;
-        this.schoolYearFactory = schoolYearFactory;
+        this.schoolYearRepository = validateNotNull(schoolYearRepository, "schoolYearRepository");
+        this.schoolYearFactory = validateNotNull(schoolYearFactory, "schoolYearFactory");
     }
 
-    //create and save a new school year if it does not already exist
+    // Create and save a new school year if it does not already exist
     @Override
     public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
         SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
@@ -35,5 +29,13 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
 
         schoolYearRepository.save(newSchoolYear);
         return true;
+    }
+
+     // Validate that a given dependency is not null
+    private <T> T validateNotNull(T dependency, String name) {
+        if (dependency == null) {
+            throw new IllegalArgumentException(name + " cannot be null");
+        }
+        return dependency;
     }
 }
