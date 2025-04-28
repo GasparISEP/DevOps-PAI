@@ -3,13 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <groupId>PAI</groupId>
     <artifactId>PAI</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -90,10 +83,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring Boot Starter Data JPA (herda versão 3.4.5 do parent) -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.4.3</version>
         </dependency>
 
         <dependency>
