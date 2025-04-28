@@ -2,8 +2,7 @@ package PAI.persistence.datamodel.course;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 
@@ -80,5 +79,21 @@ class CourseDataModelTest {
         //Assert
         assertEquals(courseIDDataModel, expected);
 
+    }
+
+    @Test
+    void shouldReturnNullCourseDataModelVersionForNonPersistedCourseDataModel() {
+        // Arrange
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+        String name = "Software Development";
+        String acronym = "DSOFT";
+
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, name, acronym);
+
+        // Act
+        Long expected = courseDataModel.getVersion();
+
+        // Assert
+        assertNull(expected);
     }
 }
