@@ -6,10 +6,9 @@ import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.ICourseEditionRepository;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.persistence.mem.studyPlanRepository.IStudyPlanRepository;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 
 

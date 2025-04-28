@@ -16,10 +16,10 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
-import PAI.repository.studyPlanRepository.IStudyPlanListFactory;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
-import PAI.repository.studyPlanRepository.StudyPlanListFactoryImpl;
-import PAI.repository.studyPlanRepository.StudyPlanRepositoryImpl;
+import PAI.persistence.mem.studyPlanRepository.IStudyPlanListFactory;
+import PAI.persistence.mem.studyPlanRepository.IStudyPlanRepository;
+import PAI.persistence.mem.studyPlanRepository.StudyPlanListFactoryImpl;
+import PAI.persistence.mem.studyPlanRepository.StudyPlanRepositoryImpl;
 
 import org.junit.jupiter.api.Test;
 

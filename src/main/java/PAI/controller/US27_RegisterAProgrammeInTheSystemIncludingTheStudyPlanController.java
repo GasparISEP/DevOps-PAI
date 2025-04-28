@@ -3,10 +3,9 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
-import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.persistence.mem.studyPlanRepository.IStudyPlanRepository;
 
 import java.util.Optional;
 
