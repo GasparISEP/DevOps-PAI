@@ -28,6 +28,22 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
         this._programmeEditionID = programmeEditionID;
     }
 
+    public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID, TeacherID teacherID) {
+        if (courseEditionID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+        }
+        if (courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+        }
+        if (programmeEditionID == null) {
+            throw new IllegalArgumentException("ProgrammeEdition must be valid");
+        }
+        this._courseEditionID = courseEditionID;
+        this._courseInStudyPlanID = courseInStudyPlanID;
+        this._programmeEditionID = programmeEditionID;
+        this._ruc = teacherID;
+    }
+
     @Override
     public CourseEditionID identity() {
         return _courseEditionID;
