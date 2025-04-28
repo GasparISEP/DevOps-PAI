@@ -91,7 +91,7 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
     }
 
    //@Override
-    public SchoolYear getCurrentSchoolYear() {
+    public Optional<SchoolYear> getCurrentSchoolYear() {
         return null;
     }
 

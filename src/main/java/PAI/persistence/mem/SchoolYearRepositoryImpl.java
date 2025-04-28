@@ -70,18 +70,18 @@ public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
         return false;
     }
 
-    public SchoolYear getCurrentSchoolYear() {
+    public Optional<SchoolYear> getCurrentSchoolYear() {
 
         if (_schoolYearList.isEmpty())
-            return null;
+            return Optional.empty();
 
         Date today = Date.now();
 
         for (int i = 0; i < _schoolYearList.size(); i++) {
             if (!today.isBefore(_schoolYearList.get(i).getStartDate()) && !today.isAfter(_schoolYearList.get(i).getEndDate()))
-                return _schoolYearList.get(i);
+                return Optional.of(_schoolYearList.get(i));
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<SchoolYear> getAllSchoolYears() {
