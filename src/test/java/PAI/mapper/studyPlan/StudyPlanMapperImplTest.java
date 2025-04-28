@@ -50,8 +50,26 @@ class StudyPlanMapperImplTest {
         });
     }
 
-//    @Test
-//    void shouldReturnStudyPlanDataModel() {
-//
-//    }
+    @Test
+    void shouldReturnStudyPlanDataModel() throws Exception {
+        //arrange
+        NameWithNumbersAndSpecialChars progname = new NameWithNumbersAndSpecialChars("Programme");
+        Acronym progacronym = new Acronym("PRO");
+        ProgrammeID progID = new ProgrammeID(progname, progacronym);
+
+        Date date = mock(Date.class);
+        DurationInYears durationInYears = new DurationInYears(4);
+        MaxEcts maxEcts = new MaxEcts(30);
+        StudyPlanID spID = new StudyPlanID(progID, date);
+        StudyPlan studyPlan = new StudyPlan(progID, date, durationInYears, maxEcts);
+
+        ProgrammeIDMapper progIDMapper = new ProgrammeIDMapper();
+        IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);
+        StudyPlanFactoryImpl spFac = new StudyPlanFactoryImpl();
+        StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, spFac);
+        //act
+        StudyPlanDataModel result = spMapper.toDataModel(studyPlan);
+        //assert
+        assertNotNull(result);
+    }
 }
