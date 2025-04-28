@@ -26,9 +26,14 @@ public class ProgrammeService implements IProgrammeService {
         _programmeRepository = programmeRepository;
     }
 
-    public Programme registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
         Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
-        return _programmeRepository.save(programme);
+        Programme savedProgramme = _programmeRepository.save(programme);
+
+        if (savedProgramme == null) {
+            throw new Exception("Failed to save Programme.");
+        }
+        return true;
     }
 
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception {
