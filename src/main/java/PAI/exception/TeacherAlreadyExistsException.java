@@ -1,4 +1,4 @@
-package PAI.utils;
+package PAI.exception;
 
 import PAI.VOs.NIF;
 import PAI.VOs.TeacherAcronym;

@@ -4,22 +4,23 @@ import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
 import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
 import java.util.Optional;
 import java.util.UUID;
 
 public class US13_RegisterTeacherAndRelevantDataController {
 
-    private ITeacherCategoryRepository _teacherCategoryRepository;
+    private ITeacherCategoryService _teacherCategoryService;
     private IDepartmentRepository _departmentRepository;
     private ITeacherService _teacherService;
     private ITeacherCareerProgressionService _tcpService;
 
     //Constructor
-    public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryRepository teacherCategoryRepository,
+    public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryService teacherCategoryService,
                                                          IDepartmentRepository departmentRepository, ITeacherService teacherService, ITeacherCareerProgressionService tcpService) {
 
-        if (teacherCategoryRepository == null) {
+        if (teacherCategoryService == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
         }
 
@@ -35,7 +36,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
             throw new IllegalArgumentException("Teacher Career Progression Service cannot be null");
         }
 
-        this._teacherCategoryRepository = teacherCategoryRepository;
+        this._teacherCategoryService = teacherCategoryService;
         this._departmentRepository = departmentRepository;
         this._teacherService = teacherService;
         this._tcpService = tcpService;
@@ -43,11 +44,11 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     // Method to get all Teacher Categories
     public Iterable<TeacherCategory> getTeacherCategoryList() throws Exception {
-        return _teacherCategoryRepository.findAll();
+        return _teacherCategoryService.getAllTeacherCategories();
     }
 
     // Method to get all Departments
-    public Iterable<Department> getDepartmentList() throws Exception {
+    public Iterable<Department> getDepartmentList() {
         return _departmentRepository.findAll();
     }
 
@@ -89,7 +90,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
     // turn Input into VOs
     private TeacherVOs inputToVO(String teacherAcronym, String name, String email, String nif, String phoneNumber,
            String academicBackground, String street, String postalCode, String location, String country,
-           String departmentAcronym, String date, String teacherCategoryID, int workingPercentage, String countryCode) throws Exception {
+           String departmentAcronym, String date, String teacherCategoryID, int workingPercentage, String countryCode) {
 
         Country countryVO = new Country(country);
         DepartmentAcronym departmentAcronymVO = new DepartmentAcronym(departmentAcronym);
