@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
+import PAI.service.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
-import PAI.service.TeacherCareerProgressionService;
 import PAI.service.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +25,14 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     private ITeacherCategoryRepository _teacherCategoryRepoDouble;
     private IDepartmentRepository _departmentRepoDouble;
     private ITeacherService _teacherServiceDouble;
-    private TeacherCareerProgressionService _teacherCareerProgressionServiceDouble;
+    private ITeacherCareerProgressionService _teacherCareerProgressionServiceDouble;
 
     @BeforeEach
     void factoryDoublesSetup() {
         _teacherCategoryRepoDouble = mock(ITeacherCategoryRepository.class);
         _departmentRepoDouble = mock(IDepartmentRepository.class);
         _teacherServiceDouble = mock(TeacherServiceImpl.class);
-        _teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
+        _teacherCareerProgressionServiceDouble = mock(ITeacherCareerProgressionService.class);
     }
 
 
