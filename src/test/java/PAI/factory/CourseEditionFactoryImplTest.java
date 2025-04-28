@@ -38,7 +38,7 @@ class CourseEditionFactoryImplTest {
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
             // Asserts
             assertNotNull(courseEdition);
@@ -76,7 +76,7 @@ class CourseEditionFactoryImplTest {
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
         // Act
-            CourseEdition courseEdition = ICourseEditionFactory.newCourseEdition_2(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
 
         // Asserts
             assertNotNull(courseEdition);
@@ -110,7 +110,7 @@ class CourseEditionFactoryImplTest {
 
         //Act + Assert
             try {
-                ICourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble);
+                ICourseEditionFactory.createCourseEditionToDomain(courseInStudyPlanIDDouble, programmeEditionIDDouble);
                 fail("Expect exception not thrown");
             } catch (Exception e) {
                 //Assertion to check if the exception is thrown
@@ -127,6 +127,6 @@ class CourseEditionFactoryImplTest {
         ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
         //Act + Assert
-        assertThrows(Exception.class, () -> ICourseEditionFactory.newCourseEdition_2(null, null));
+        assertThrows(Exception.class, () -> ICourseEditionFactory.createCourseEditionToDomain(null, null));
     }
 }

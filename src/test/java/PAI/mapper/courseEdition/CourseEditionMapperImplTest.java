@@ -151,7 +151,7 @@ class CourseEditionMapperImplTest {
         when(teacherIDMapper.toDomain(courseEditionDataModel.getTeacherIDDataModel())).thenReturn(teacherID);
 
         CourseEdition expectedResult = mock(CourseEdition.class);
-        when(courseEditionFactory.newCourseEdition_2(courseEditionID, courseInStudyPlanID, programmeEditionID)).thenReturn(expectedResult);
+        when(courseEditionFactory.createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID)).thenReturn(expectedResult);
 
         // Act
         CourseEdition courseEdition = iCourseEditionMapper.toDomain(courseEditionDataModel);
