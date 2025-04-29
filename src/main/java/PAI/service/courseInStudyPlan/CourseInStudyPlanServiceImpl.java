@@ -22,15 +22,15 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
 
         public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
                                                DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) throws Exception {
-            CourseInStudyPlan candidate = _factory.newCourseInStudyPlan(
+            CourseInStudyPlan courseInStudyPlan = _factory.newCourseInStudyPlan(
                     semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
-            CourseInStudyPlanID id = candidate.identity();
+            CourseInStudyPlanID courseInStudyPlanID = courseInStudyPlan.identity();
 
-            if (_repository.containsOfIdentity(id)) {
+            if (_repository.containsOfIdentity(courseInStudyPlanID)) {
                 return false;
             }
 
-            _repository.save(candidate);
+            _repository.save(courseInStudyPlan);
             return true;
         }
 

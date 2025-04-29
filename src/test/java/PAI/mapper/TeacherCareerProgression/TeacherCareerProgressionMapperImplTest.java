@@ -7,7 +7,6 @@ import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
 import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
@@ -16,7 +15,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class TeacherCareerProgressionMapperTest {
+class TeacherCareerProgressionMapperImplTest {
 
     private ITeacherCareerProgressionIDMapper idMapper = mock(ITeacherCareerProgressionIDMapper.class);
 
@@ -32,7 +31,7 @@ class TeacherCareerProgressionMapperTest {
         TeacherCareerProgressionDataModel tcpDataModel = mock(TeacherCareerProgressionDataModel.class);
 
         ITeacherCareerProgressionFactory tcpFactory = mock(ITeacherCareerProgressionFactory.class);
-        TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(tcpFactory,idMapper);
+        TeacherCareerProgressionMapperImpl mapper = new TeacherCareerProgressionMapperImpl(tcpFactory,idMapper);
 
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
         TeacherCareerProgressionIDDataModel tcpIDDataModel = mock (TeacherCareerProgressionIDDataModel.class);
@@ -89,7 +88,7 @@ class TeacherCareerProgressionMapperTest {
         when(tcpIDMapper.domainToDataModel(domain.identity()))
                 .thenReturn(mockedTcpID);
 
-        TeacherCareerProgressionMapper mapper = new TeacherCareerProgressionMapper(
+        TeacherCareerProgressionMapperImpl mapper = new TeacherCareerProgressionMapperImpl(
                 mock(ITeacherCareerProgressionFactory.class),
                 tcpIDMapper
         );

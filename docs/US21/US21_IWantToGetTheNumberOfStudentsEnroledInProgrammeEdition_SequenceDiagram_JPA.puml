@@ -11,12 +11,17 @@ participant ":ProgrammeEditionEnrolmentService"
 participant ":ProgrammeEditionEnrolmentSpringData" as SpringData
 participant ":ProgrammeEditionEnrolmentMapper"
 participant ":ProgrammeEditionEnrolmentFactory"
+participant "programmeEditionList1"
 autonumber
 skinparam titleFontSize 18
 
 title: SEQUENCE DIAGRAM\nUS21_GET THE NUMBER OF STUDENTS ENROLLED IN A PROGRAMME EDITION (HAPPY PATH)
 
 ASC -> UI ++ : I want to get the number of students enrolled in a programme edition!
+UI -> CTR ++: getAllProgrammeEditions()
+CTR -> SpringData ++: findAll()
+SpringData --> CTR --: Iterable<programmeEditionList1>
+CTR --> UI --: Iterable<programmeEditionList1>
 UI --> ASC -- : Which Programme Edition?
 ASC -> UI ++ : programmeEdition1
 UI -> CTR ++ : iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1ID)

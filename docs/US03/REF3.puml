@@ -1,15 +1,15 @@
 @startuml
-title <size:30>"REF 1 | FindAll() ProgrammeDataModel"</size>
+title <size:30>"REF 3 | FindLast() StudyPlanID"</size>
 |||
-participant ":Programme\nService" as Service
-participant ":ProgrammeRepository\nSpringData" as Repository
+participant ":StudyPlan\nService" as Service
+participant ":StudyPlanRepository\nSpringData" as Repository
 database "Database" as DT #application
-participant ":Programme\nMapper" as PM
-participant ":Programme\nIDMapper" as PIM
+participant ":StudyPlan\nMapper" as PM
+participant ":StudyPlan\nIDMapper" as PIM
 participant ":DegreeType\nIDMapper" as DTIDM
 participant ":Department\nIDMapper" as DIDM
 participant ":Teacher\nIDMapper" as TIDM
-participant ":Programme\nFactory" as F
+participant ":StudyPlan\nFactory" as F
 
 skinparam sequenceLifeLineBackgroundColor #application
 |||

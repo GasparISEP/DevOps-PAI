@@ -3,7 +3,6 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
-import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
@@ -11,7 +10,6 @@ import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
-
 
     IDegreeTypeRepository _degreeTypeRepo;
     IProgrammeRepository _programmeDDDList;
@@ -73,7 +71,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         int quantityOfEcts = degreeType.getMaxEcts();
         MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
 
-        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
+        _studyPlanDDDRepo.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
         return true;
     }
 }

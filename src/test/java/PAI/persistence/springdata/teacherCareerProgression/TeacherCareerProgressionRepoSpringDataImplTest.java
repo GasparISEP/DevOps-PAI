@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherCareerProgressionRepoSpringDataTest {
+class TeacherCareerProgressionRepoSpringDataImplTest {
 
     @Test
     void shouldCreateTeacherCareerProgressionRepositorySpringData() {
@@ -25,7 +25,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
         // act
-        TeacherCareerProgressionRepoSpringData result = new TeacherCareerProgressionRepoSpringData(iTCPRepoSD, iTCPMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl result = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepoSD, iTCPMapper,iTCPIdMapper);
         // assert
         assertNotNull(result);
     }
@@ -37,7 +37,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionRepoSpringData(null, iTCPMapper, iTCPIdMapper);
+            new TeacherCareerProgressionRepoSpringDataImpl(null, iTCPMapper, iTCPIdMapper);
         });
     }
 
@@ -48,7 +48,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionRepoSpringData(iTCPRepoSD , null, iTCPIdMapper);
+            new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepoSD , null, iTCPIdMapper);
         });
     }
 
@@ -59,7 +59,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         // act & assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionRepoSpringData(iTCPRepoSD , iTCPMapper, null);
+            new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepoSD , iTCPMapper, null);
         });
     }
 
@@ -69,7 +69,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData mockRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper mockMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData repo = new TeacherCareerProgressionRepoSpringData(mockRepo, mockMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl repo = new TeacherCareerProgressionRepoSpringDataImpl(mockRepo, mockMapper,iTCPIdMapper);
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
 
         TeacherID teacherID = mock(TeacherID.class);
@@ -98,7 +98,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData mockRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper mockMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData repo = new TeacherCareerProgressionRepoSpringData(mockRepo, mockMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl repo = new TeacherCareerProgressionRepoSpringDataImpl(mockRepo, mockMapper,iTCPIdMapper);
 
         TeacherID teacherID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
@@ -122,7 +122,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData tcpRepoSD = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl tcpRepoSD = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper,iTCPIdMapper);
 
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
         TeacherCareerProgressionDataModel tcpDataModel = mock(TeacherCareerProgressionDataModel.class);
@@ -147,7 +147,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData repo = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper, iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl repo = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper, iTCPIdMapper);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> repo.save(null),
@@ -161,7 +161,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData tcpRepoSD = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl tcpRepoSD = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper,iTCPIdMapper);
 
         TeacherCareerProgressionDataModel tcpDataModel1 = mock(TeacherCareerProgressionDataModel.class);
         TeacherCareerProgressionDataModel tcpDataModel2 = mock(TeacherCareerProgressionDataModel.class);
@@ -191,7 +191,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData tcpRepoSD = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper, iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl tcpRepoSD = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper, iTCPIdMapper);
 
         TeacherCareerProgressionID id = mock(TeacherCareerProgressionID.class);
         TeacherCareerProgressionIDDataModel idDataModel = mock(TeacherCareerProgressionIDDataModel.class);
@@ -216,7 +216,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData tcpRepoSD = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper,iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl tcpRepoSD = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper,iTCPIdMapper);
 
         TeacherCareerProgressionID id = mock(TeacherCareerProgressionID.class);
         TeacherCareerProgressionIDDataModel idDataModel = mock(TeacherCareerProgressionIDDataModel.class);
@@ -237,7 +237,7 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData repo = new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper, iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl repo = new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper, iTCPIdMapper);
 
         TeacherCareerProgressionID id = mock(TeacherCareerProgressionID.class);
         TeacherCareerProgressionIDDataModel idDataModel = mock(TeacherCareerProgressionIDDataModel.class);
@@ -258,8 +258,8 @@ class TeacherCareerProgressionRepoSpringDataTest {
         ITeacherCareerProgressionRepoSpringData iTCPRepo = mock(ITeacherCareerProgressionRepoSpringData.class);
         ITeacherCareerProgressionMapper iTCPMapper = mock(ITeacherCareerProgressionMapper.class);
         ITeacherCareerProgressionIDMapper iTCPIdMapper = mock(ITeacherCareerProgressionIDMapper.class);
-        TeacherCareerProgressionRepoSpringData repo =
-                new TeacherCareerProgressionRepoSpringData(iTCPRepo, iTCPMapper, iTCPIdMapper);
+        TeacherCareerProgressionRepoSpringDataImpl repo =
+                new TeacherCareerProgressionRepoSpringDataImpl(iTCPRepo, iTCPMapper, iTCPIdMapper);
 
         TeacherCareerProgressionID id = mock(TeacherCareerProgressionID.class);
         TeacherCareerProgressionIDDataModel idDataModel = mock(TeacherCareerProgressionIDDataModel.class);

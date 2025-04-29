@@ -17,8 +17,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-class CourseInStudyPlanMapperImplImplTest {
+class CourseInStudyPlanMapperImplTest {
 
     private ICourseInStudyPlanMapper mapper;
     private ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;
@@ -195,5 +197,35 @@ class CourseInStudyPlanMapperImplImplTest {
         // Assert: identidade composta
         assertEquals(courseIDValueObject,     domain.identity().getCourseID());
         assertEquals(studyPlanIDValueObject,  domain.identity().getStudyPlanID());
+    }
+
+    @Test
+    void toDomain_ShouldThrowRuntimeException_WhenCourseIDMapperFails() throws Exception {
+        // Arrange: mocks individuais
+        ICourseIDMapper mockCourseIDMapper = mock(ICourseIDMapper.class);
+        IStudyPlanIDMapper mockStudyPlanIDMapper = mock(IStudyPlanIDMapper.class);
+        ICourseInStudyPlanIDMapper mockCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseInStudyPlanFactory mockFactory = mock(ICourseInStudyPlanFactory.class);
+
+        CourseInStudyPlanDataModel courseInStudyPlanDataModel = mock(CourseInStudyPlanDataModel.class);
+        when(courseInStudyPlanDataModel.getCourseIDDataModel()).thenReturn(mock(CourseIDDataModel.class));
+
+        // Simular falha no mapeamento do courseID
+        when(mockCourseIDMapper.toDomain(courseInStudyPlanDataModel.getCourseIDDataModel()))
+                .thenThrow(new RuntimeException("Simulated mapping failure"));
+
+        CourseInStudyPlanMapperImpl courseInStudyPlanMapperImpl = new CourseInStudyPlanMapperImpl(
+                mockCourseIDMapper,
+                mockStudyPlanIDMapper,
+                mockCourseInStudyPlanIDMapper,
+                mockFactory
+        );
+
+        // Act & Assert
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            courseInStudyPlanMapperImpl.toDomain(courseInStudyPlanDataModel);
+        });
+
+        assertTrue(thrown.getMessage().contains("Error trying to map CourseInStudyPlanDataModel back to domain"));
     }
 }

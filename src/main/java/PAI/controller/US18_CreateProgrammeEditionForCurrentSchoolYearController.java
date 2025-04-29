@@ -37,9 +37,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeService = programmeService;
     }
 
-    public List<Programme> getAllProgrammes(){
+    public Iterable<Programme> getAllProgrammes(){
 
-        return _programmeRepository.getAllProgrammes();
+        return _programmeService.findAll();
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme) throws Exception {

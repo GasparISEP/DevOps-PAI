@@ -1,21 +1,21 @@
-package PAI.repository;
+package PAI.repository.TeacherCareerProgressionImpl;
 
 import PAI.VOs.*;
-import PAI.ddd.IRepository;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.factory.ITeacherCareerProgressionListFactory;
+import PAI.repository.ITeacherCareerProgressionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TeacherCareerProgressionRepository implements ITeacherCareerProgressionRepository {
+public class TeacherCareerProgressionRepositoryImpl implements ITeacherCareerProgressionRepository {
 
     private ITeacherCareerProgressionFactory _teacherCareerProgressionFactory;
     private List<TeacherCareerProgression> _teacherCareerProgressions;
 
-    public TeacherCareerProgressionRepository (ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory){
+    public TeacherCareerProgressionRepositoryImpl(ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionListFactory tcpListFactory){
 
         if (tcpFactory == null || tcpListFactory == null){
             throw new IllegalStateException("Factory cannot be null!");

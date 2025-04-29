@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
-public class TeacherCareerProgressionMapper implements ITeacherCareerProgressionMapper {
+public class TeacherCareerProgressionMapperImpl implements ITeacherCareerProgressionMapper {
 
     private final ITeacherCareerProgressionFactory tcpFactory;
     private final ITeacherCareerProgressionIDMapper tcpIDMapper;
 
-    public TeacherCareerProgressionMapper(ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionIDMapper tcpIDMapper) {
+    public TeacherCareerProgressionMapperImpl(ITeacherCareerProgressionFactory tcpFactory, ITeacherCareerProgressionIDMapper tcpIDMapper) {
         this.tcpFactory = tcpFactory;
         this.tcpIDMapper = tcpIDMapper;
     }

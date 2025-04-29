@@ -34,16 +34,6 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         return true;
     }
 
-    @Override
-    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
-        List <Programme> programmeList = new ArrayList<>();
-        for (Programme programme : _programmeRepo) {
-            if (programme.getDegreeTypeID().equals(degreeTypeID))
-                programmeList.add(programme);
-        }
-        return programmeList;
-    }
-
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
         Optional<Programme> programmeDDD = ofIdentity(programmeID);
@@ -74,14 +64,6 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         }
         return null;
     }
-
-//    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames() {
-//        List<NameWithNumbersAndSpecialChars> list = new ArrayList<>();
-//        for (Programme programme : _programmeRepo) {
-//            list.add(programme.getProgrammeName());
-//        }
-//        return list;
-//    }
 
     @Override
     public Programme save(Programme entity) {

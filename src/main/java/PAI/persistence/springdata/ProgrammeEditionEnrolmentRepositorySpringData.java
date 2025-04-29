@@ -75,16 +75,6 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         return ProgrammeEditionsThatStudentIsEnrolled;
     }
 
-
-
-
-    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
-
-
-
-        return false;
-    }
-
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
 
 

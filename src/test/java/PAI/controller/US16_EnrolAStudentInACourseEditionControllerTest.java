@@ -1,19 +1,27 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentFactoryImpl;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
+import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.factory.*;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanListFactoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.*;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.CourseEditionEnrolmentServiceImpl;
 import PAI.service.ICourseEditionEnrolmentService;
+import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
 import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
-import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -304,8 +312,33 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ProgrammeID programmeID2 = new ProgrammeID(name2, acronym2);
         ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
 
-        peeRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
-        peeRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionID2);
+        IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory);
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+
+        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                peeRepository,
+                programmeEditionRepository,
+                courseEditionEnrolmentRepositoryImpl,
+                courseEditionRepository,
+                schoolYearRepository,
+                programmeEnrolmentRepository,
+                programmeRepository,
+                programmeEditionEnrolmentFactory);
+
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID, programmeEditionID2);
 
         //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(studentID);

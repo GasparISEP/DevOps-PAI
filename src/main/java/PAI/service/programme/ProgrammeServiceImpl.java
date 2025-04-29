@@ -6,6 +6,7 @@ import PAI.factory.IProgrammeFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,18 +57,60 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
-        return _programmeRepository.findProgrammeByDepartment(id);
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if(programme.isInDepartment(id)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(id);
+        List <Programme> programmeList = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getDegreeTypeID().equals(id))
+                programmeList.add(programme);
+        }
+        return programmeList;
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
-        return _programmeRepository.findProgrammeIdByProgramme(prog);
+        for (Programme existingProgramme : _programmeRepository.findAll()) {
+            if (existingProgramme.sameAs(prog)) {
+                return Optional.of(prog.identity());
+            }
+        }
+        return Optional.empty();
     }
 
-    public List<Programme> getAllProgrammes() {
-        return _programmeRepository.getAllProgrammes();
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisProgrammeName(name)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Programme getProgrammeByAcronym(Acronym acronym) {
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getAcronym().equals(acronym)) {
+                return programme;
+            }
+        }
+        return null;
+    }
+
+    public List<ProgrammeID> getAllProgrammeIDs() {
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            programmeIDs.add(programme.getProgrammeID());
+        }
+        return programmeIDs;
+    }
+
+    public Iterable<Programme> findAll() {
+        return _programmeRepository.findAll();
     }
 }

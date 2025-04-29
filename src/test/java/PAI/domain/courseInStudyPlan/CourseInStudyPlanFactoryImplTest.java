@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 class CourseInStudyPlanFactoryImplTest {
 
     @Test
-    void shouldCreateFactoryConstrutor() throws Exception {
+    void shouldCreateFactoryConstrutorNewCourseInStudyPlan() throws Exception {
 
         //arrange
         Semester semester = mock(Semester.class);
@@ -26,4 +26,26 @@ class CourseInStudyPlanFactoryImplTest {
         //assert
         assertNotNull(courseInStudyPlan_DDD);
     }
+
+
+    @Test
+    void shouldCreateFactoryConstrutorNewCourseInStudyPlanFromDataModel() throws Exception {
+
+        //arrange
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyplanID = mock(StudyPlanID.class);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        //act
+        ICourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanID, semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts);
+
+        //assert
+        assertNotNull(courseInStudyPlan);
+    }
+
 }

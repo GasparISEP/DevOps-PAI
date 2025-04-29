@@ -26,7 +26,7 @@ class ProgrammeEnrolmentRepositoryTest {
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
 
         //act
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, listFactoryDouble);
 
         //assert
         assertNotNull(programmeEnrolmentRepository);
@@ -39,7 +39,7 @@ class ProgrammeEnrolmentRepositoryTest {
         IProgrammeEnrolmentListFactory listFactoryDouble = null;
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, listFactoryDouble));
     }
 
     @Test
@@ -49,7 +49,7 @@ class ProgrammeEnrolmentRepositoryTest {
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, listFactoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, listFactoryDouble));
     }
 
     @Test
@@ -69,7 +69,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryDouble, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactoryDouble, listFactoryDouble);
 
         //Iterator da lista
         Iterator<ProgrammeEnrolment> it = mock(Iterator.class);
@@ -107,7 +107,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
-        ProgrammeEnrolmentRepository enrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryDouble, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl enrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactoryDouble, listFactoryDouble);
 
         //Iterator
         Iterator<ProgrammeEnrolment> itDouble = mock(Iterator.class);
@@ -145,7 +145,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryDouble, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactoryDouble, listFactoryDouble);
 
         //Iterator
         Iterator<ProgrammeEnrolment> itDouble = mock(Iterator.class);
@@ -180,7 +180,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryDouble, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactoryDouble, listFactoryDouble);
 
         //Iterator
         Iterator<ProgrammeEnrolment> itDouble = mock(Iterator.class);
@@ -216,7 +216,7 @@ class ProgrammeEnrolmentRepositoryTest {
 
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
 
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactoryDouble, listFactoryDouble);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactoryDouble, listFactoryDouble);
 
         //Iterator
         Iterator<ProgrammeEnrolment> itDouble = mock(Iterator.class);
@@ -243,7 +243,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
 
         // Act
@@ -258,7 +258,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         programmeEnrolmentRepository.save(programmeEnrolmentDouble);
 
@@ -274,7 +274,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> programmeEnrolmentRepository.findAll());
@@ -285,7 +285,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolment programmeEnrolmentDouble = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolmentID programmeEnrolmentID = mock(ProgrammeEnrolmentID.class);
         when(programmeEnrolmentDouble.identity()).thenReturn(programmeEnrolmentID);
@@ -303,7 +303,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolmentID programmeEnrolmentID = mock(ProgrammeEnrolmentID.class);
 
         // Act
@@ -318,7 +318,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolmentID programmeEnrolmentID = mock(ProgrammeEnrolmentID.class);
 
@@ -337,7 +337,7 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = mock(IProgrammeEnrolmentFactory.class);
         IProgrammeEnrolmentListFactory programmeEnrolmentListFactory = mock(IProgrammeEnrolmentListFactory.class);
-        ProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentListFactory);
+        ProgrammeEnrolmentRepositoryImpl programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentListFactory);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
         ProgrammeEnrolmentID programmeEnrolmentID = mock(ProgrammeEnrolmentID.class);
 
@@ -358,7 +358,7 @@ class ProgrammeEnrolmentRepositoryTest {
         IProgrammeEnrolmentListFactory listFactory = mock(IProgrammeEnrolmentListFactory.class);
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
+        ProgrammeEnrolmentRepositoryImpl repository = new ProgrammeEnrolmentRepositoryImpl(factory, listFactory);
         ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
 
@@ -382,7 +382,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
         StudentID studentIDDouble2 = mock(StudentID.class);
         ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
-        ProgrammeEnrolmentRepository repository = new ProgrammeEnrolmentRepository(factory, listFactory);
+        ProgrammeEnrolmentRepositoryImpl repository = new ProgrammeEnrolmentRepositoryImpl(factory, listFactory);
         ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);
         ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
 

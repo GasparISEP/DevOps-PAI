@@ -23,6 +23,7 @@ import javax.swing.text.html.Option;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -155,11 +156,12 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         // Act
-        List<Programme> listToTest = controller.getAllProgrammes();
+        Iterable<Programme> listToTest = controller.getAllProgrammes();
 
         // Assert
         assertNotNull(listToTest);
-        assertEquals(3, listToTest.size());
+        long size = StreamSupport.stream(listToTest.spliterator(), false).count();
+        assertEquals(3, size);
     }
 
     @Test
@@ -181,11 +183,12 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService, programmeEditionFactory, schoolYearRepository, programmeRepository);
 
         // Act
-        List<Programme> listToTest = controller.getAllProgrammes();
+        Iterable<Programme> listToTest = controller.getAllProgrammes();
 
         // Assert
         assertNotNull(listToTest);
-        assertEquals(0, listToTest.size());
+        long size = StreamSupport.stream(listToTest.spliterator(), false).count();
+        assertEquals(0, size);
     }
 
     @Test

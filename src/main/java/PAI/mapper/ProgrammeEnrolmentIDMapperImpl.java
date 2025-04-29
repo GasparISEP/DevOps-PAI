@@ -10,12 +10,12 @@ import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProgrammeEnrolmentIDMapper implements IProgrammeEnrolmentIDMapper {
+public class ProgrammeEnrolmentIDMapperImpl implements IProgrammeEnrolmentIDMapper {
 
     private final IStudentIDMapper studentIDMapper;
     private final IProgrammeIDMapper programmeIDMapper;
 
-    public ProgrammeEnrolmentIDMapper(IStudentIDMapper studentIDMapper, IProgrammeIDMapper programmeIDMapper) {
+    public ProgrammeEnrolmentIDMapperImpl(IStudentIDMapper studentIDMapper, IProgrammeIDMapper programmeIDMapper) {
         this.studentIDMapper = studentIDMapper;
         this.programmeIDMapper = programmeIDMapper;
     }
