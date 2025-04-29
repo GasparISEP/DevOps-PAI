@@ -123,16 +123,16 @@ loop for each enrolment
 
   Service -> Service: equals(programmeEditionID, inputProgrammeEditionID)
 
-  alt match found: Has other active course edition enrolments
+  alt [1] match found: Has other active course edition enrolments
     Service --> Controller: true (only course enrolment deactivated)
     deactivate Service
   end
 end
 end
-
+else
 ' After loop
 group Deactivate Programme Edition Enrolment: deactivateProgrammeEditionEnrolment
-alt No more active course edition enrolments
+alt [2] No more active course edition enrolments
 Service --> Service: No active course edition enrolments found
     ' Step 7.1: Retrieve programme edition enrolment from repository
     Service -> PEERepo: findByStudentAndProgrammeEdition(studentID, programmeEditionID)
