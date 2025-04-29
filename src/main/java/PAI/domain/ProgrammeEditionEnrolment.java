@@ -15,6 +15,7 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
     private Date _enrolmentDate;
     private ProgrammeEditionEnrolmentID _programmeEditionEnrolmentID;
     private StudentID _studentId;
+    private EnrolmentStatus _isActive;
 
     //constructor
     public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId) {
@@ -22,13 +23,15 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
         validateProgrammeEdition(programmeEditionId);
         this._enrolmentDate = new Date(LocalDate.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
+        this._isActive = new EnrolmentStatus(true);
     }
 
-    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate) {
+    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
         this._enrolmentDate = ((enrolmentDate != null) ? enrolmentDate : Date.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
+        this._isActive = isActive;
     }
 
     private void validateStudent(StudentID studentId) {
@@ -103,5 +106,13 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
 
         ProgrammeEditionEnrolment other = (ProgrammeEditionEnrolment) object;
         return this.identity().equals(other.identity());
+    }
+
+    public boolean isEnrolmentActive() {
+        return _isActive.isEnrolmentActive();
+    }
+
+    public void deactivateEnrolment() {
+        this._isActive = new EnrolmentStatus(false);
     }
 }
