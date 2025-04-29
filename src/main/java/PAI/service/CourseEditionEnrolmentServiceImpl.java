@@ -70,11 +70,7 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
                 return false;
             }
 
-            CourseEditionEnrolment courseEditionEnrolmentSaved = _ceeRepositoryInterface.save (cee);
-
-            if(courseEditionEnrolmentSaved == null){
-                return false;
-            }
+            _ceeRepositoryInterface.save (cee);
 
             return true;
 
