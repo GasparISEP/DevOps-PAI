@@ -5,14 +5,8 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
-import PAI.factory.IDepartmentListFactory;
-import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
