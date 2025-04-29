@@ -1,4 +1,3 @@
-/*
 package PAI.service;
 
 import PAI.VOs.DegreeTypeID;
@@ -36,14 +35,14 @@ class DegreeTypeServiceTest {
 
         name = new Name("Engenharia Informática");
         ects = new MaxEcts(180);
-        degreeType = DegreeType.create(name, ects);
+        degreeType = new DegreeType(new DegreeTypeID(), name, ects);
     }
 
     @Test
     void testRegisterDegreeType_Success() throws Exception {
         // Arrange
         when(factory.create(name, ects)).thenReturn(degreeType);
-        when(repository.registerDegreeType(degreeType.identity(), name, ects)).thenReturn(true);
+        when(repository.containsOfIdentity(degreeType.identity())).thenReturn(false);
 
         // Act
         boolean result = service.registerDegreeType(name, ects);
@@ -51,7 +50,8 @@ class DegreeTypeServiceTest {
         // Assert
         assertTrue(result);
         verify(factory).create(name, ects);
-        verify(repository).registerDegreeType(degreeType.identity(), name, ects);
+        verify(repository).containsOfIdentity(degreeType.identity());
+        verify(repository).save(degreeType);
         verifyNoMoreInteractions(factory, repository);
     }
 
@@ -59,8 +59,7 @@ class DegreeTypeServiceTest {
     void testRegisterDegreeType_FailsIfAlreadyExists() throws Exception {
         // Arrange
         when(factory.create(name, ects)).thenReturn(degreeType);
-        when(service.registerDegreeType(name, ects)).thenReturn(true);
-        when(repository.registerDegreeType(degreeType.identity(), name, ects)).thenReturn(false);
+        when(repository.containsOfIdentity(degreeType.identity())).thenReturn(true);
 
         // Act
         boolean result = service.registerDegreeType(name, ects);
@@ -68,7 +67,7 @@ class DegreeTypeServiceTest {
         // Assert
         assertFalse(result);
         verify(factory).create(name, ects);
-        verify(repository).registerDegreeType(degreeType.identity(), name, ects);
+        verify(repository).containsOfIdentity(degreeType.identity());
         verifyNoMoreInteractions(factory, repository);
     }
 
@@ -130,4 +129,4 @@ class DegreeTypeServiceTest {
         verify(repository).ofIdentity(id);
         verifyNoMoreInteractions(repository, factory);
     }
-}*/
+}

@@ -1,4 +1,3 @@
-/*
 package PAI.persistence.springdata;
 
 import PAI.VOs.DegreeTypeID;
@@ -128,4 +127,4 @@ class DegreeTypeRepoSpringDataTest {
         assertEquals(1, result.size());
         assertEquals(domain, result.get(0));
     }
-}*/
+}
