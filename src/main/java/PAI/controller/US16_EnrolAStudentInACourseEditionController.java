@@ -3,70 +3,43 @@ package PAI.controller;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.*;
+import PAI.service.ICourseEditionEnrolmentService;
+import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
-
+@Component
 public class US16_EnrolAStudentInACourseEditionController {
 
-    private final ICourseEditionEnrolmentRepository _ceeRepositoryInterface;
-    private final IProgrammeEditionEnrolmentRepository _peeRepositoryInterface;
-    private final ICourseEditionRepository _courseEditionRepositoryInterface;
-
+    private final ICourseEditionEnrolmentService _courseEditionEnrolmentServiceInterface;
 
     public US16_EnrolAStudentInACourseEditionController(
-            ICourseEditionEnrolmentRepository _ceeRepositoryInterface, IProgrammeEditionEnrolmentRepository peeRepositoryInterface, ICourseEditionRepository courseEditionRepositoryInterface) {
+            ICourseEditionEnrolmentService courseEditionEnrolmentServiceInterface) {
 
-        validateCourseEditionEnrolmentRepository (_ceeRepositoryInterface);
-        validateProgrammeEditionEnrolmentRepository (peeRepositoryInterface);
-        validateCourseEditionRepository (courseEditionRepositoryInterface);
+        validateCourseEditionEnrolmentServiceInterface (courseEditionEnrolmentServiceInterface);
 
-        this._ceeRepositoryInterface = _ceeRepositoryInterface;
-        this._peeRepositoryInterface = peeRepositoryInterface;
-        this._courseEditionRepositoryInterface = courseEditionRepositoryInterface;
+        this._courseEditionEnrolmentServiceInterface = courseEditionEnrolmentServiceInterface;
     }
 
     //show a list of programme editions that student is enrolled
     public List<ProgrammeEditionID> findProgrammeEditionIDsThatStudentIsEnrolled(StudentID studentId) {
-
-        if (studentId == null) {
-            return Collections.emptyList();
-        }
-
-        return _peeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled (studentId);
+        return _courseEditionEnrolmentServiceInterface.findProgrammeEditionIDsThatStudentIsEnrolled (studentId);
     }
 
     //show a list of course editions that belongs to a course edition for student choose a course edition
     public List<CourseEditionID> findCourseEditionIDsByProgrammeEdition(ProgrammeEditionID programmeEditionID) {
-        return _courseEditionRepositoryInterface.findCourseEditionsByProgrammeEditionID(programmeEditionID);
+        return _courseEditionEnrolmentServiceInterface.findCourseEditionIDsByProgrammeEdition(programmeEditionID);
     }
 
     //enrol a student in a course edition
-//    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
-//        return _ceeRepositoryInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
-//    }
-
-    //Verify if the course edition enrollment repository is valid
-    private void validateCourseEditionEnrolmentRepository (ICourseEditionEnrolmentRepository ceeRepositoryInterface) throws IllegalArgumentException {
-        if (ceeRepositoryInterface == null) {
-            throw new IllegalArgumentException("Course edition enrolment repository interface cannot be null!");
-        }
+    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
+        return _courseEditionEnrolmentServiceInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
     }
 
-    //Verify if the programme edition enrollment repository is valid
-    private void validateProgrammeEditionEnrolmentRepository (IProgrammeEditionEnrolmentRepository peeRepositoryInterface) throws IllegalArgumentException {
-        if (peeRepositoryInterface == null) {
-            throw new IllegalArgumentException("Programme edition enrolment repository interface cannot be null!");
-        }
-    }
-
-    //verify if the course edition repository is valid
-    private void validateCourseEditionRepository (ICourseEditionRepository courseEditionRepositoryInterface) throws IllegalArgumentException {
-        if (courseEditionRepositoryInterface == null) {
-            throw new IllegalArgumentException("Course edition repository cannot be null!");
+    //Verify if the course edition enrollment service interface is valid
+    private void validateCourseEditionEnrolmentServiceInterface (ICourseEditionEnrolmentService ceeServiceInterface) throws IllegalArgumentException {
+        if (ceeServiceInterface == null) {
+            throw new IllegalArgumentException("Course edition enrolment service interface cannot be null!");
         }
     }
 }

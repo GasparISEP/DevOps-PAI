@@ -1,0 +1,42 @@
+@startuml
+
+title US26 Reference SD: CheckingIfDepartmentExistsInSpringDataRepository
+autonumber
+skinparam sequence {
+   LifelineBorderColor Black
+   LifelineBackgroundColor LightBlue
+ }
+
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":IDepartmentService" as IDepartmentService #LightBlue/White
+participant ":IDepartmentRepository" as IDepartmentRepository #LightBlue/White
+participant ":DepartmentRepositorySpringDataImpl" as DepartmentRepositorySpringDataImpl #LightBlue/White
+
+
+activate Controller
+Controller -> IDepartmentService: departmentExists (DepartmentID)
+
+activate IDepartmentService
+IDepartmentService -> IDepartmentRepository: containsOfIdentity (DepartmentID)
+activate IDepartmentRepository
+IDepartmentRepository -> DepartmentRepositorySpringDataImpl: containsOfIdentity (DepartmentID)
+activate DepartmentRepositorySpringDataImpl
+participant ":IDepartmentIDMapper" as IDepartmentIDMapper #LightBlue/White
+DepartmentRepositorySpringDataImpl -> IDepartmentIDMapper: toDataModel(DepartmentID)
+activate IDepartmentIDMapper
+IDepartmentIDMapper --> DepartmentRepositorySpringDataImpl: DepartmentIDDataModel
+deactivate IDepartmentIDMapper
+participant ":IDepartmentRepositorySpringData" as IDepartmentRepositorySpringData #LightBlue/White
+
+DepartmentRepositorySpringDataImpl -> IDepartmentRepositorySpringData: existsById(DepartmentIDDataModel)
+activate IDepartmentRepositorySpringData
+IDepartmentRepositorySpringData --> DepartmentRepositorySpringDataImpl: True
+deactivate IDepartmentRepositorySpringData
+DepartmentRepositorySpringDataImpl --> IDepartmentRepository: True
+deactivate DepartmentRepositorySpringDataImpl
+IDepartmentRepository --> IDepartmentService: True
+deactivate IDepartmentRepository
+IDepartmentService --> Controller: True
+deactivate IDepartmentService
+deactivate Controller
+@enduml

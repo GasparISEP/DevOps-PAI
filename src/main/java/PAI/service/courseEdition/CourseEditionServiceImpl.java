@@ -33,7 +33,7 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
             return null;
 
         try {
-            CourseEdition courseEdition = courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID);
+            CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
             return courseEditionRepository.save(courseEdition);
         } catch (Exception e) {
             return null;

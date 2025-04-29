@@ -1,7 +1,9 @@
 package PAI.service;
 
 import PAI.VOs.*;
+import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.IProgrammeEnrolmentRepository;
@@ -24,6 +26,7 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
     private final ISchoolYearRepository schoolYearRepository;
     private final IProgrammeEnrolmentRepository programmeEnrolmentRepository;
     private final IProgrammeRepository programmeRepository;
+    private final IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
 
     @Autowired
     public ProgrammeEditionEnrolmentServiceImpl(
@@ -33,20 +36,38 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             ICourseEditionRepository courseEditionRepository,
             ISchoolYearRepository schoolYearRepository,
             IProgrammeEnrolmentRepository programmeEnrolmentRepository,
-            IProgrammeRepository programmeRepository) {
+            IProgrammeRepository programmeRepository,
+            IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory) {
 
-        this.programmeEditionEnrolmentRepository= validate(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
-        this.programmeEditionRepository= validate(programmeEditionRepository, "Programme edition repository");
+        this.programmeEditionEnrolmentRepository = validate(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
+        this.programmeEditionRepository = validate(programmeEditionRepository, "Programme edition repository");
         this.courseEditionEnrolmentRepository = validate(courseEditionEnrolmentRepository, "Course edition enrolment repository");
-        this.courseEditionRepository= validate(courseEditionRepository, "Course edition repository");
-        this.schoolYearRepository= validate(schoolYearRepository, "School year repository");
-        this.programmeEnrolmentRepository= validate(programmeEnrolmentRepository, "Enrolment repository");
-        this.programmeRepository= validate(programmeRepository, "Programme repository");
+        this.courseEditionRepository = validate(courseEditionRepository, "Course edition repository");
+        this.schoolYearRepository = validate(schoolYearRepository, "School year repository");
+        this.programmeEnrolmentRepository = validate(programmeEnrolmentRepository, "Enrolment repository");
+        this.programmeRepository = validate(programmeRepository, "Programme repository");
+        this.programmeEditionEnrolmentFactory = validate(programmeEditionEnrolmentFactory, "~ProgrammeEdition enrolment factory");
 
     }
 
-
     @Override
+    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) throws Exception {
+        if (programmeEditionId == null || studentId == null) {
+            throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
+        }
+
+        if (programmeEditionEnrolmentRepository.isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)) {
+            throw new IllegalStateException("Student is already enrolled in this programme edition.");
+        }
+
+        ProgrammeEditionEnrolment programmeEditionEnrol = programmeEditionEnrolmentFactory.newProgrammeEditionEnrolment(studentId, programmeEditionId);
+
+        programmeEditionEnrolmentRepository.save(programmeEditionEnrol);
+
+        return true;
+    }
+
+
     public boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID studentID, ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeID)) {
             return false;

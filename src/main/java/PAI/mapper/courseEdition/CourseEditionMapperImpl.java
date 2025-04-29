@@ -3,6 +3,7 @@ package PAI.mapper.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.mapper.ITeacherIDMapper;
@@ -53,7 +54,8 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         CourseEditionID courseEditionID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
         ProgrammeEditionID programmeEditionID = _programmeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
         CourseInStudyPlanID courseInStudyPlanID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
-        CourseEdition result = _courseEditionFactory.newCourseEdition_2(courseEditionID, courseInStudyPlanID, programmeEditionID);
+        TeacherID teacherID = _teacherIDMapper.toDomain(courseEditionDataModel.getTeacherIDDataModel());
+        CourseEdition result = _courseEditionFactory.createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID, teacherID);
 
         return result;
     }

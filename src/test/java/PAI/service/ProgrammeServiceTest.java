@@ -21,10 +21,9 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
 
         //Act
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
+        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
 
         //Assert
         assertNotNull(service);
@@ -35,10 +34,9 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = null;
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository, teacherRepository));
+        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository));
     }
 
     @Test
@@ -46,10 +44,10 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = null;
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository,teacherRepository));
+        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository));
     }
 
     @Test
@@ -57,7 +55,6 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         QuantEcts quantityOfEcts = mock(QuantEcts.class);
@@ -70,10 +67,10 @@ class ProgrammeServiceTest {
         when(programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenReturn(programme);
         when(programmeRepository.save(programme)).thenReturn(programme);
 
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
+        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
 
         //Act
-        Programme result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        boolean result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         //Assert
         assertNotNull(result);
@@ -84,8 +81,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
+        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
 
         Programme programme = mock(Programme.class);
         Teacher teacher = mock(Teacher.class);
@@ -95,7 +91,6 @@ class ProgrammeServiceTest {
         when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programme));
         when(programme.identity()).thenReturn(programmeID);
         when(teacher.identity()).thenReturn(teacherID);
-        when(programmeRepository.changeProgrammeDirector(programmeID,teacherID)).thenReturn(true);
 
         //Act
         boolean result = service.changeProgrammeDirector(programmeID,teacherID);
@@ -109,8 +104,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
+        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
 
         ProgrammeID programmeID = null;
         TeacherID teacherID  = mock(TeacherID.class);
@@ -124,8 +118,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository, teacherRepository);
+        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
 
         ProgrammeID programmeID  = mock(ProgrammeID.class);
         TeacherID teacherID = null;

@@ -25,7 +25,7 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
     public boolean createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         try {
-            CourseEdition courseEdition = _courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID);
+            CourseEdition courseEdition = _courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
            if (containsOfIdentity(courseEdition.identity()))
                 return false;
 

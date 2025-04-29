@@ -13,10 +13,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class StudentRepositoryTest {
+class StudentRepositoryImplTest {
 
     private IStudentListFactory studentListFactory;
-    private StudentRepository studentRepository;
+    private StudentRepositoryImpl studentRepositoryImpl;
     private Student student;
     private StudentID studentID;
     private NIF studentNIF;
@@ -24,7 +24,7 @@ class StudentRepositoryTest {
     @BeforeEach
     void setUp() {
         studentListFactory = mock(IStudentListFactory.class);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
         student = mock(Student.class);
         studentID = mock(StudentID.class);
         studentNIF = mock(NIF.class);
@@ -35,7 +35,7 @@ class StudentRepositoryTest {
     void shouldThrowExceptionWhenFactoryIsNull() {
         // Act
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudentRepository(null);
+            new StudentRepositoryImpl(null);
         });
 
         // Assert
@@ -45,7 +45,7 @@ class StudentRepositoryTest {
     @Test
     void shouldInitializeWithEmptyList() {
         // Act
-        StudentRepository repository = new StudentRepository(studentListFactory);
+        StudentRepositoryImpl repository = new StudentRepositoryImpl(studentListFactory);
 
         // Assert
         assertNotNull(repository);
@@ -54,7 +54,7 @@ class StudentRepositoryTest {
     @Test
     void shouldSaveStudent() {
         // Act
-        Student savedStudent = studentRepository.save(student);
+        Student savedStudent = studentRepositoryImpl.save(student);
 
         // Assert
         verify(studentListFactory).newArrayList();
@@ -65,7 +65,7 @@ class StudentRepositoryTest {
     void shouldThrowExceptionWhenListIsEmpty() {
         // Act + Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            studentRepository.findAll();
+            studentRepositoryImpl.findAll();
         });
 
         // Assert
@@ -78,7 +78,7 @@ class StudentRepositoryTest {
         List<Student> studentList = new ArrayList<>();
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        StudentRepository repo = new StudentRepository(studentListFactory);
+        StudentRepositoryImpl repo = new StudentRepositoryImpl(studentListFactory);
 
         // Act
         Iterable<Student> students = repo.findAll();
@@ -94,13 +94,13 @@ class StudentRepositoryTest {
         List<Student> studentList = new ArrayList<>();
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         when(student.identity()).thenReturn(studentID);
         when(student.sameAs(student)).thenReturn(true);
 
         // Act
-        Optional<Student> result = studentRepository.ofIdentity(studentID);
+        Optional<Student> result = studentRepositoryImpl.ofIdentity(studentID);
 
         // Assert
         assertTrue(result.isPresent());
@@ -112,10 +112,10 @@ class StudentRepositoryTest {
         // Arrange
         List<Student> studentList = new ArrayList<>();
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        Optional<Student> result = studentRepository.ofIdentity(studentID);
+        Optional<Student> result = studentRepositoryImpl.ofIdentity(studentID);
 
         // Assert
         assertFalse(result.isPresent());
@@ -128,10 +128,10 @@ class StudentRepositoryTest {
         when(student.identity()).thenReturn(studentID);
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        boolean result = studentRepository.containsOfIdentity(studentID);
+        boolean result = studentRepositoryImpl.containsOfIdentity(studentID);
 
         // Assert
         assertTrue(result);
@@ -147,10 +147,10 @@ class StudentRepositoryTest {
         when(anotherStudent.identity()).thenReturn(anotherID);
         studentList.add(anotherStudent);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        boolean result = studentRepository.containsOfIdentity(studentID);
+        boolean result = studentRepositoryImpl.containsOfIdentity(studentID);
 
         // Assert
         assertFalse(result);
@@ -163,10 +163,10 @@ class StudentRepositoryTest {
         when(student.identity()).thenReturn(studentID);
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        boolean result = studentRepository.existsByStudentIDOrNIF(studentID, studentNIF);
+        boolean result = studentRepositoryImpl.existsByStudentIDOrNIF(studentID, studentNIF);
 
         // Assert
         assertTrue(result);
@@ -180,10 +180,10 @@ class StudentRepositoryTest {
         when(student.getStudentNIF()).thenReturn(studentNIF);
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        boolean result = studentRepository.existsByStudentIDOrNIF(studentID, studentNIF);
+        boolean result = studentRepositoryImpl.existsByStudentIDOrNIF(studentID, studentNIF);
 
         // Assert
         assertTrue(result);
@@ -194,10 +194,10 @@ class StudentRepositoryTest {
         // Arrange
         List<Student> studentList = new ArrayList<>();
         when(studentListFactory.newArrayList()).thenReturn(studentList);
-        studentRepository = new StudentRepository(studentListFactory);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 
         // Act
-        boolean result = studentRepository.existsByStudentIDOrNIF(studentID, studentNIF);
+        boolean result = studentRepositoryImpl.existsByStudentIDOrNIF(studentID, studentNIF);
 
         // Assert
         assertFalse(result);

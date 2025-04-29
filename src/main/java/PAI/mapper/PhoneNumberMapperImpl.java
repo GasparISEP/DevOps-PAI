@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.PhoneNumberDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PhoneNumberMapper implements IPhoneNumberMapper{
+public class PhoneNumberMapperImpl implements IPhoneNumberMapper{
 
     public PhoneNumberDataModel domainToDataModel(PhoneNumber phoneNumber) {
 

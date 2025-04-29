@@ -14,14 +14,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class StudentRepositorySpringData implements IStudentRepository {
+public class StudentRepositorySpringDataImpl implements IStudentRepository {
 
     private IStudentRepositorySpringData studentRepositorySpringData;
     private IStudentMapper studentMapper;
     private IStudentIDMapper studentIDMapper;
     private INIFMapper nifMapper;
 
-    public StudentRepositorySpringData  (IStudentRepositorySpringData studentRepositorySpringData, IStudentMapper studentMapper, IStudentIDMapper studentIDMapper, INIFMapper nifMapper ) {
+    public StudentRepositorySpringDataImpl(IStudentRepositorySpringData studentRepositorySpringData, IStudentMapper studentMapper, IStudentIDMapper studentIDMapper, INIFMapper nifMapper ) {
 
         if (studentRepositorySpringData == null)
             throw new IllegalArgumentException("Student Repository SpringData must not be null");

@@ -121,7 +121,7 @@ class CourseEditionServiceImplTest {
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
 
         // Act
@@ -143,7 +143,7 @@ class CourseEditionServiceImplTest {
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
         when(courseEditionRepository.save(courseEdition)).thenReturn(null);
 
         // Act
@@ -163,7 +163,7 @@ class CourseEditionServiceImplTest {
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
-        when(courseEditionFactory.newCourseEdition_2(courseInStudyPlanID, programmeEditionID)).thenThrow(IllegalArgumentException.class);
+        when(courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenThrow(IllegalArgumentException.class);
 
         // Act
         CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);

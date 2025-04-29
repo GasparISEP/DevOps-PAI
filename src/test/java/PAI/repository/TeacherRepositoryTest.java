@@ -290,27 +290,6 @@ class TeacherRepositoryTest {
         assertTrue(result.isEmpty());
     }
 
-    /*@Test
-    void testFindTeacherIdByTeacherReturnsCorrectIdWhenTeacherExists() {
-            // Arrange
-            createFactoriesDoubles();
-            TeacherID idDouble = mock(TeacherID.class);
-            Teacher teacher = mock(Teacher.class);
-
-            List<Teacher> teachers = List.of(teacher);
-            _teacherListFactory = () -> teachers;
-
-            TeacherRepository repository = new TeacherRepository(_teacherFactory, _teacherListFactory);
-            when(teacher.identity()).thenReturn(idDouble);
-
-
-        // Act
-            Optional<TeacherID> result = repository.findTeacherIdByTeacher(teacher);
-
-            // Assert
-            assertTrue(result.isPresent());
-    }*/
-
     // [Temporary] method still not properly implemented, but needs to exist in order for the class to implement interface
     @Test
     void testExistsByIDorNIF () {

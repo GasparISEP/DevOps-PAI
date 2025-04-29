@@ -7,11 +7,11 @@ import PAI.factory.IStudentListFactory;
 import java.util.List;
 import java.util.Optional;
 
-    public class StudentRepository implements IStudentRepository {
+    public class StudentRepositoryImpl implements IStudentRepository {
 
         private List<Student> _students;
 
-        public StudentRepository(IStudentListFactory studentListFactory) {
+        public StudentRepositoryImpl(IStudentListFactory studentListFactory) {
             if ( studentListFactory == null) {
                 throw new IllegalArgumentException("Invalid factory argument, null values are not allowed!");
             }

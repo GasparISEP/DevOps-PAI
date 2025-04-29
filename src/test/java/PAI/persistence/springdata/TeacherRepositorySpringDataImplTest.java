@@ -32,7 +32,7 @@ class TeacherRepositorySpringDataImplTest {
         iTeacherRepoSpringData = mock(ITeacherRepositorySpringData.class);
         teacherMapper = mock(TeacherMapperImpl.class);
         teacherIDMapper = mock(TeacherIDMapperImpl.class);
-        nifMapper = mock(NIFMapper.class);
+        nifMapper = mock(NIFMapperImpl.class);
 
         teacherRepository = new TeacherRepositorySpringDataImpl(
                 iTeacherRepoSpringData,

@@ -5,10 +5,9 @@ import PAI.domain.Student;
 import PAI.persistence.datamodel.*;
 import PAI.factory.IStudentFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
-public class StudentMapper implements IStudentMapper {
+public class StudentMapperImpl implements IStudentMapper {
 
     private IStudentFactory _studentFactory;
     private IStudentIDMapper _studentIDMapper;
@@ -17,7 +16,7 @@ public class StudentMapper implements IStudentMapper {
     private IAddressMapper _addressMapper;
     private IStudentAcademicEmailMapper _studentAcademicEmailMapper;
 
-    public StudentMapper(IStudentFactory studentFactory, IStudentIDMapper studentIDMapper, IPhoneNumberMapper phoneNumberMapper, INIFMapper nifMapper, IAddressMapper addressMapper, IStudentAcademicEmailMapper studentAcademicEmailMapper) {
+    public StudentMapperImpl(IStudentFactory studentFactory, IStudentIDMapper studentIDMapper, IPhoneNumberMapper phoneNumberMapper, INIFMapper nifMapper, IAddressMapper addressMapper, IStudentAcademicEmailMapper studentAcademicEmailMapper) {
 
         if (studentFactory == null)
             throw new IllegalArgumentException("Student Factory cannot be null!");

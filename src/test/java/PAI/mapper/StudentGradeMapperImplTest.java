@@ -25,10 +25,10 @@ public class StudentGradeMapperImplTest {
     public void testToDataWithMocks() throws Exception {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
-        StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
+        StudentIDMapperImpl studentIDMapperImpl = mock(StudentIDMapperImpl.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
 
-        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapper,studentGradeFactory);
+        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapperImpl,studentGradeFactory);
 
         StudentID studentID = mock(StudentID.class);
         Grade grade = mock(Grade.class);
@@ -40,7 +40,7 @@ public class StudentGradeMapperImplTest {
         when(studentIDDM.getUniqueNumber()).thenReturn(1000001);
 
         // Mocks
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDM);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDM);
         when(courseEditionIDMapper.toDataModel(any())).thenReturn(courseEditionIDDataModel);
         when(studentID.getUniqueNumber()).thenReturn(1000001);
         when(grade.knowGrade()).thenReturn(17.5);
@@ -71,9 +71,9 @@ public class StudentGradeMapperImplTest {
     public void testToDomain_withMockedDataModel() throws Exception {
         // Arrange
         CourseEditionIDMapperImpl courseEditionIDMapper = mock(CourseEditionIDMapperImpl.class);
-        StudentIDMapper studentIDMapper = mock(StudentIDMapper.class);
+        StudentIDMapperImpl studentIDMapperImpl = mock(StudentIDMapperImpl.class);
         IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
-        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapper, studentGradeFactory);
+        StudentGradeMapperImpl mapper = new StudentGradeMapperImpl(courseEditionIDMapper, studentIDMapperImpl, studentGradeFactory);
 
         StudentGradeDM dataModel = mock(StudentGradeDM.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
@@ -86,7 +86,7 @@ public class StudentGradeMapperImplTest {
         when(dataModel.getCourseEditionID()).thenReturn(courseEditionIDDataModel);
 
         StudentID studentID = mock(StudentID.class);
-        when(studentIDMapper.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
+        when(studentIDMapperImpl.dataModelToDomain(studentIDDataModel)).thenReturn(studentID);
 
         CourseEditionID fakeCourseEditionID = mock(CourseEditionID.class);
         when(courseEditionIDMapper.toDomain(courseEditionIDDataModel)).thenReturn(fakeCourseEditionID);

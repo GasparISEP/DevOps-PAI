@@ -8,18 +8,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class StudentIDMapperTest {
+class StudentIDMapperImplTest {
 
     @Test
     void shouldReturnDataModelFromDomain() {
         //arrange
-        StudentIDMapper studentIDMapper = new StudentIDMapper();
+        StudentIDMapperImpl studentIDMapperImpl = new StudentIDMapperImpl();
         StudentID studentID = mock(StudentID.class);
 
         when(studentID.getUniqueNumber()).thenReturn(1000001);
 
         //act
-        StudentIDDataModel result = studentIDMapper.domainToDataModel(studentID);
+        StudentIDDataModel result = studentIDMapperImpl.domainToDataModel(studentID);
 
         //assert
         assertEquals(1000001, result.getUniqueNumber());
@@ -28,13 +28,13 @@ class StudentIDMapperTest {
     @Test
     void shouldReturnDomainFromDataModel() {
         //arrange
-        StudentIDMapper studentIDMapper = new StudentIDMapper();
+        StudentIDMapperImpl studentIDMapperImpl = new StudentIDMapperImpl();
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
 
         when(studentIDDataModel.getUniqueNumber()).thenReturn(1000001);
 
         //act
-        StudentID result = studentIDMapper.dataModelToDomain(studentIDDataModel);
+        StudentID result = studentIDMapperImpl.dataModelToDomain(studentIDDataModel);
 
         //assert
         assertEquals(1000001, result.getUniqueNumber());

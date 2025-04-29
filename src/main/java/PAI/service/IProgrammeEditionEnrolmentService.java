@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IProgrammeEditionEnrolmentService {
 
+    boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) throws Exception;
+
     boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID studentID, ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception;
 
     List<ProgrammeID> getAllProgrammesIDs();

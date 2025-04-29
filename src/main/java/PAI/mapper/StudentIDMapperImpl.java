@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentIDMapper implements  IStudentIDMapper {
+public class StudentIDMapperImpl implements  IStudentIDMapper {
 
     public StudentIDDataModel domainToDataModel(StudentID studentID) {
 

@@ -19,34 +19,34 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class StudentMapperTest {
+class StudentMapperImplTest {
 
     @Test
     void constructorShouldCreateObject() {
         //arrange
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapperImpl.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 
         //act
-        StudentMapper studentMapper = new StudentMapper(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
+        StudentMapperImpl studentMapperImpl = new StudentMapperImpl(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
                 nifMapperDouble, addressMapperDouble, studentAcademicEmailMapperDouble);
 
         //assert
-        assertNotNull(studentMapper);
+        assertNotNull(studentMapperImpl);
     }
 
     static Stream<Arguments> testNullInputs() {
         return Streams.of(
-                Arguments.of(null, mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "Student Factory cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), null, mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "StudentID Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), null, mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "PhoneNumber Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), null, mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "NIF Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), null, mock(StudentAcademicEmailMapper.class), "Address Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), null, "Student Academic Email Mapper cannot be null!")
+                Arguments.of(null, mock(StudentIDMapperImpl.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "Student Factory cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), null, mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "StudentID Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapperImpl.class), null, mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "PhoneNumber Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapperImpl.class), mock(PhoneNumberMapperImpl.class), null, mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "NIF Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapperImpl.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), null, mock(StudentAcademicEmailMapper.class), "Address Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapperImpl.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), null, "Student Academic Email Mapper cannot be null!")
         );
     }
 
@@ -57,7 +57,7 @@ class StudentMapperTest {
         //arrange
 
         //act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new StudentMapper(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble, nifMapperDouble, addressMapperDouble, studentAcademicEmailMapperDouble));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new StudentMapperImpl(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble, nifMapperDouble, addressMapperDouble, studentAcademicEmailMapperDouble));
 
         //assert
         assertEquals(expectedMessage, exception.getMessage());
@@ -69,13 +69,13 @@ class StudentMapperTest {
 
         //create studentMapper
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapperImpl.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 
-        StudentMapper studentMapper = new StudentMapper(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
+        StudentMapperImpl studentMapperImpl = new StudentMapperImpl(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
                 nifMapperDouble, addressMapperDouble, studentAcademicEmailMapperDouble);
 
         //parametersToCreateStudentDataModel
@@ -117,7 +117,7 @@ class StudentMapperTest {
         StudentDataModel expected = new StudentDataModel(studentIDDataModelDouble, "Harry Potter", nifDataModelDouble, phoneNumberDataModelDouble, "harrypotter@gmail.com", addressDataModelDouble, studentAcademicEmailDataModelDouble);
 
         //act
-        StudentDataModel result = studentMapper.domainToDataModel(studentDouble);
+        StudentDataModel result = studentMapperImpl.domainToDataModel(studentDouble);
 
         //assert
         assertAll(
@@ -137,13 +137,13 @@ class StudentMapperTest {
 
         //create studentMapper
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapperImpl.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 
-        StudentMapper studentMapper = new StudentMapper(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
+        StudentMapperImpl studentMapperImpl = new StudentMapperImpl(studentFactoryDouble, studentIDMapperDouble, phoneNumberMapperDouble,
                 nifMapperDouble, addressMapperDouble, studentAcademicEmailMapperDouble);
 
         //parametersToCreateStudentObject
@@ -182,7 +182,7 @@ class StudentMapperTest {
         when(studentFactoryDouble.newStudentFromDataModel(eq(studentIDDouble), any(Name.class), eq(nifDouble), eq(phoneNumberDouble), any(Email.class), eq(addressDouble), eq(studentAcademicEmailDouble))).thenReturn(studentDouble);
 
         //act
-        Student result = studentMapper.dataModelToDomain(studentDataModelDouble);
+        Student result = studentMapperImpl.dataModelToDomain(studentDataModelDouble);
 
         //assert
         assertEquals(result, studentDouble);
