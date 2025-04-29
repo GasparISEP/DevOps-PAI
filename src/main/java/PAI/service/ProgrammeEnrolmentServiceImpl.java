@@ -10,12 +10,12 @@ import PAI.repository.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProgrammeEnrolmentService implements IProgrammeEnrolmentService {
+public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService {
 
     private IProgrammeEnrolmentFactory _peFactory;
     private IProgrammeEnrolmentRepository _peRepository;
 
-    public ProgrammeEnrolmentService (IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentRepository programmeEnrolmentRepository){
+    public ProgrammeEnrolmentServiceImpl(IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentRepository programmeEnrolmentRepository){
         if (programmeEnrolmentFactory == null || programmeEnrolmentRepository == null){
             throw new IllegalArgumentException("Parameters cannot be null");
         }
