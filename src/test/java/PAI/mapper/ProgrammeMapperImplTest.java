@@ -120,21 +120,24 @@ public class ProgrammeMapperImplTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID progDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
         Programme programme = mock(Programme.class);
 
-        when(factory.registerProgramme(
+        when(factory.reregisterProgramme(
                 any(NameWithNumbersAndSpecialChars.class),
                 any(Acronym.class),
                 any(QuantEcts.class),
                 any(QuantSemesters.class),
                 eq(degreeTypeID),
                 eq(departmentID),
-                eq(progDirectorID)
+                eq(progDirectorID),
+                eq(programmeID)
         )).thenReturn(programme);
 
         when(teacherIDMapper.toDomain(teacherIDDataModel)).thenReturn(progDirectorID);
         when(departmentIDMapper.toDomainModel(departmentIDDataModel)).thenReturn(departmentID);
         when(degreeTypeIDMapper.toDomain(degreeTypeIDDataModel)).thenReturn(degreeTypeID);
+        when(programmeIDMapper.toDomain(programmeIDDataModel)).thenReturn(programmeID);
 
         when(dataModel.getName()).thenReturn("name");
 
