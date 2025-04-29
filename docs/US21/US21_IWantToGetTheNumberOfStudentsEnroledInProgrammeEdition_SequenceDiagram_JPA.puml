@@ -33,8 +33,7 @@ loop for each ProgrammeEditionEnrolmentDataModel
     create "pEE1:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment1
     ":ProgrammeEditionEnrolmentFactory" -> ProgrammeEditionEnrolment1: <create>
     ":ProgrammeEditionEnrolmentFactory" --> ":ProgrammeEditionEnrolmentMapper": Optional<pEE1>
-    ":ProgrammeEditionEnrolmentMapper" -> ":ProgrammeEditionEnrolmentMapper": unwrap Optional
-    ":ProgrammeEditionEnrolmentMapper" --> SpringData --: programmeEditionEnrolment
+    ":ProgrammeEditionEnrolmentMapper" --> SpringData --: Optional<pEE1>
     SpringData -> SpringData: add to List<ProgrammeEditionEnrolment>
 end
 
