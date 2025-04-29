@@ -2,50 +2,51 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.IDepartmentRepository;
-import PAI.repository.ITeacherRepository;
+import PAI.service.ITeacherService;
+import PAI.service.department.IDepartmentService;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
-    private final ITeacherRepository _iTeacherRepository;
-    private final IDepartmentRepository _iDepartmentRepository;
+    private final ITeacherService _teacherService;
+    private final IDepartmentService _iDepartmentService;
 
-    public US04_IWantToRegisterATeacherInTheSystemController( ITeacherRepository iTeacherRepository,
-                                                              IDepartmentRepository iDepartmentRepository) {
+    public US04_IWantToRegisterATeacherInTheSystemController( ITeacherService teacherService,
+                                                              IDepartmentService iDepartmentService) {
 
-        validateTeacherRepository(iTeacherRepository);
-        validateDepartmentRepository(iDepartmentRepository);
+        validateTeacherService(teacherService);
+        validateDepartmentService(iDepartmentService);
 
-        this._iTeacherRepository = iTeacherRepository;
-        this._iDepartmentRepository = iDepartmentRepository;
+        this._teacherService = teacherService;
+        this._iDepartmentService = iDepartmentService;
     }
 
     public boolean registerATeacherInTheSystem(
             TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-            Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
+            Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) throws Exception {
 
         if(!isDepartmentInDepartmentRepository(departmentID)){
             return false;
         }
 
-        _iTeacherRepository.registerTeacher(
+        _teacherService.registerTeacher(
                  acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
 
     private boolean isDepartmentInDepartmentRepository(DepartmentID departmentID) {
-        return _iDepartmentRepository.containsOfIdentity(departmentID);
+        return _iDepartmentService.containsOfIdentity(departmentID);
     }
 
-    private void validateTeacherRepository(ITeacherRepository teacherRepository) {
-        if (teacherRepository == null) {
-            throw new IllegalStateException("TeacherRepository is null.");
+    private void validateTeacherService(ITeacherService teacherService) {
+        if (teacherService == null) {
+            throw new IllegalStateException("TeacherService is null.");
         }
     }
-    private void validateDepartmentRepository(IDepartmentRepository iDepartmentRepository) {
-        if (iDepartmentRepository == null) {
-            throw new IllegalStateException("DepartmentRepository is null.");
+    private void validateDepartmentService(IDepartmentService iDepartmentService) {
+        if (iDepartmentService == null) {
+            throw new IllegalStateException("DepartmentService is null.");
         }
     }
 }
