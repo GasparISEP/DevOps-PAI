@@ -34,9 +34,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeRepository = programmeRepository;
     }
 
-    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
+    public List<Programme> getAllProgrammes(){
 
-        return _programmeRepository.getAllProgrammeNames();
+        return _programmeRepository.getAllProgrammes();
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName) throws Exception {

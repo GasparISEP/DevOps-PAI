@@ -75,13 +75,13 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         return null;
     }
 
-    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames() {
-        List<NameWithNumbersAndSpecialChars> list = new ArrayList<>();
-        for (Programme programme : _programmeRepo) {
-            list.add(programme.getProgrammeName());
-        }
-        return list;
-    }
+//    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames() {
+//        List<NameWithNumbersAndSpecialChars> list = new ArrayList<>();
+//        for (Programme programme : _programmeRepo) {
+//            list.add(programme.getProgrammeName());
+//        }
+//        return list;
+//    }
 
     @Override
     public Programme save(Programme entity) {
