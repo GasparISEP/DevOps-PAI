@@ -37,14 +37,9 @@ activate Service
 group Deactivate Course Edition Enrolment: removeCourseEditionEnrolment
 Service -> CEERepo: findByStudentAndEdition(studentID, courseEditionID)
 activate CEERepo
-CEERepo -> CEESpringRepo: findByStudentAndEdition(studentID, courseEditionID)
-activate CEESpringRepo
-CEESpringRepo --> CEERepo: CourseEditionEnrolmentDataModel
-deactivate CEESpringRepo
-CEERepo -> CEEMapper: toDomain(CourseEditionEnrolmentDataModel)
-activate CEEMapper
-CEEMapper --> CEERepo: CourseEditionEnrolment
-deactivate CEEMapper
+ref over CEERepo
+SD  cee:findByStudentAndCourseEdition(studentID, courseEditionID)
+end ref
 CEERepo --> Service: CourseEditionEnrolment
 deactivate CEESpringRepo
 deactivate CEERepo
@@ -140,14 +135,9 @@ Service --> Service: No active course edition enrolments found
     ' Step 7.1: Retrieve programme edition enrolment from repository
     Service -> PEERepo: findByStudentAndProgrammeEdition(studentID, programmeEditionID)
     activate PEERepo
-    PEERepo -> PEESpringRepo: findByStudentAndProgrammeEdition(studentID, programmeEditionID)
-    activate PEESpringRepo
-    PEESpringRepo --> PEERepo: ProgrammeEditionEnrolmentDataModel
-    deactivate PEESpringRepo
-    PEERepo -> PEEMapper: toDomain(ProgrammeEditionEnrolmentDataModel)
-    activate PEEMapper
-    PEEMapper --> PEERepo: ProgrammeEditionEnrolment
-    deactivate PEEMapper
+    ref over PEERepo
+    SD  pee:findByStudentAndProgrammeEdition(studentID, programmeEditionID)
+    end ref
     PEERepo --> Service: ProgrammeEditionEnrolment
     deactivate PEESpringRepo
     deactivate PEERepo
