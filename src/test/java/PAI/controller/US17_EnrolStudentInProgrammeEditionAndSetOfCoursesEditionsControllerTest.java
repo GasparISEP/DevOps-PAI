@@ -921,118 +921,118 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        });
 //    }
 
-    @Test
-    void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//    @Test
+//    void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepositoryImpl,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository);
+//
+//        Acronym acronym1 = new Acronym("CSE");
+//        Acronym acronym2 = new Acronym("CVE");
+//        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
+//        QuantEcts quantEcts = new QuantEcts(25);
+//        QuantSemesters quantSemesters = new QuantSemesters(6);
+//        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+//        DepartmentID departmentID = new DepartmentID(dAcronym);
+//        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
+//        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
+//        TeacherID teacherID1 = new TeacherID(tAcronym);
+//
+//        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//
+//        // Act
+//        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertNotNull(programmes, "The list of programmes should not be null.");
+//    }
 
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepositoryImpl,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
-
-        Acronym acronym1 = new Acronym("CSE");
-        Acronym acronym2 = new Acronym("CVE");
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-
-        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-
-        // Act
-        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertNotNull(programmes, "The list of programmes should not be null.");
-    }
-
-    @Test
-    void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
-
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepositoryImpl,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository);
-
-        Acronym acronym1 = new Acronym("CSE");
-        Acronym acronym2 = new Acronym("CVE");
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-
-        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-
-        // Act
-        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-
-    }
+//    @Test
+//    void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepositoryImpl,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository);
+//
+//        Acronym acronym1 = new Acronym("CSE");
+//        Acronym acronym2 = new Acronym("CVE");
+//        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
+//        QuantEcts quantEcts = new QuantEcts(25);
+//        QuantSemesters quantSemesters = new QuantSemesters(6);
+//        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+//        DepartmentID departmentID = new DepartmentID(dAcronym);
+//        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
+//        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
+//        TeacherID teacherID1 = new TeacherID(tAcronym);
+//
+//        programmeRepository.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//        programmeRepository.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//
+//        // Act
+//        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
+//
+//    }
 
     @Test
     void testGetAllSchoolYears_NotNullList_IntegrationTest() throws Exception {

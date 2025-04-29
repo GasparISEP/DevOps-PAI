@@ -3,6 +3,7 @@ package PAI.service.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ICourseEditionService {
     public Optional<CourseEdition> ofIdentity(CourseEditionID courseEditionID);
 
     public boolean containsOfIdentity(CourseEditionID courseEditionID);
+
+    boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID);
 }

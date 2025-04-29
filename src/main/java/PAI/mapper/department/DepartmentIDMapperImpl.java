@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DepartmentIDMapperImpl implements IDepartmentIDMapper {
 
+    @Override
     public DepartmentIDDataModel toDataModel(DepartmentID departmentID) {
         if(departmentID==null){
             throw new IllegalArgumentException("DepartmentID cannot be null");
@@ -16,6 +17,7 @@ public class DepartmentIDMapperImpl implements IDepartmentIDMapper {
         return new DepartmentIDDataModel(acronym.getAcronym());
     }
 
+    @Override
     public DepartmentID toDomainModel(DepartmentIDDataModel departmentIDDataModel) {
         if(departmentIDDataModel==null){
             throw new IllegalArgumentException("DepartmentIDDataModel cannot be null");

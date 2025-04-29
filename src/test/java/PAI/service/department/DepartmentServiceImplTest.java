@@ -2,6 +2,7 @@ package PAI.service.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
@@ -83,6 +84,84 @@ class DepartmentServiceImplTest {
 
         // Act
         boolean result = departmentService.registerDepartment(acronym, name);
+
+        // Assert
+        assertFalse(result);
+    }
+    @Test
+    void shouldReturnTrueWhenUpdateDirector(){
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        TeacherID directorID = mock(TeacherID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(departmentRepoDouble.updateOfDepartmentDirector(departmentID, directorID)).thenReturn(true);
+
+        // Act
+        boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
+
+        // Assert
+        assertTrue(result);
+    }
+    @Test
+    void shouldReturnFalseWhenUpdateDirectorWhenDepartmentDoesNotExist(){
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        TeacherID directorID = mock(TeacherID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(departmentRepoDouble.updateOfDepartmentDirector(null, directorID)).thenReturn(false);
+
+        // Act
+        boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
+
+        // Assert
+        assertFalse(result);
+    }
+    @Test
+    void shouldReturnFalseWhenUpdateDirectorWhenDirectorDoesNotExist(){
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        TeacherID directorID = mock(TeacherID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(departmentRepoDouble.updateOfDepartmentDirector(departmentID, null)).thenReturn(false);
+
+        // Act
+        boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
+
+        // Assert
+        assertFalse(result);
+    }
+    @Test
+    void shouldReturnTrueWhenContainsIdentity(){
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(departmentRepoDouble.containsOfIdentity(departmentID)).thenReturn(true);
+
+        // Act
+        boolean result = departmentService.containsOfIdentity(departmentID);
+
+        // Assert
+        assertTrue(result);
+    }
+    @Test
+    void shouldReturnFalseWhenDoesntContainsIdentity(){
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(departmentRepoDouble.containsOfIdentity(departmentID)).thenReturn(false);
+
+        // Act
+        boolean result = departmentService.containsOfIdentity(departmentID);
 
         // Assert
         assertFalse(result);

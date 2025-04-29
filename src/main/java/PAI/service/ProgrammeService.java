@@ -4,7 +4,6 @@ import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeFactory;
-import PAI.repository.ITeacherRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class ProgrammeService implements IProgrammeService {
     private final IProgrammeFactory _programmeFactory;
     private final IProgrammeRepository _programmeRepository;
 
-    public ProgrammeService(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository, ITeacherRepository teacherRepository) {
+    public ProgrammeService(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository) {
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
         }

@@ -4,7 +4,6 @@ import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.mapper.IProgrammeIDMapper;
 import PAI.mapper.ProgrammeIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
@@ -12,9 +11,12 @@ import PAI.persistence.datamodel.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudyPlanMapperImplTest {
 
@@ -22,10 +24,9 @@ class StudyPlanMapperImplTest {
     void shouldCreateStudyPlanMapperImpl() throws IllegalArgumentException {
         //arrange
         IStudyPlanIDMapper studyPlanIDMapper = mock(IStudyPlanIDMapper.class);
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         IStudyPlanFactory studyPlanFactory = mock(IStudyPlanFactory.class);
         //act
-        StudyPlanMapperImpl result = new StudyPlanMapperImpl(studyPlanIDMapper, programmeIDMapper, studyPlanFactory);
+        StudyPlanMapperImpl result = new StudyPlanMapperImpl(studyPlanIDMapper, studyPlanFactory);
         //assert
         assertNotNull(result);
     }
@@ -34,23 +35,10 @@ class StudyPlanMapperImplTest {
     void shouldNotCreateStudyPlanMapperImplWithNullSPIDMAPPER() throws IllegalArgumentException {
         //arrange
         IStudyPlanIDMapper studyPlanIDMapper = null;
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         IStudyPlanFactory studyPlanFactory = mock(IStudyPlanFactory.class);
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlanMapperImpl(studyPlanIDMapper, programmeIDMapper, studyPlanFactory);
-        });
-    }
-
-    @Test
-    void shouldNotCreateStudyPlanMapperImplWithNullPROGIDMAPPER() throws IllegalArgumentException {
-        //arrange
-        IStudyPlanIDMapper studyPlanIDMapper = mock(StudyPlanIDMapperImpl.class);
-        IProgrammeIDMapper programmeIDMapper = null;
-        IStudyPlanFactory studyPlanFactory = mock(IStudyPlanFactory.class);
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlanMapperImpl(studyPlanIDMapper, programmeIDMapper, studyPlanFactory);
+            new StudyPlanMapperImpl(studyPlanIDMapper, studyPlanFactory);
         });
     }
 
@@ -58,11 +46,10 @@ class StudyPlanMapperImplTest {
     void shouldNotCreateStudyPlanMapperImplWithNullSPFACTORY() throws IllegalArgumentException {
         //arrange
         IStudyPlanIDMapper studyPlanIDMapper = mock(IStudyPlanIDMapper.class);
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
         IStudyPlanFactory studyPlanFactory = null;
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlanMapperImpl(studyPlanIDMapper, programmeIDMapper, studyPlanFactory);
+            new StudyPlanMapperImpl(studyPlanIDMapper, studyPlanFactory);
         });
     }
 
@@ -81,11 +68,8 @@ class StudyPlanMapperImplTest {
 
         ProgrammeIDMapper progIDMapper = new ProgrammeIDMapper();
         IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-        IStudyPlanFactory spFac = new StudyPlanFactoryImpl();
-
-        IStudyPlanMapper spMapper = new StudyPlanMapperImpl(spIDmapper,  programmeIDMapper, spFac);
-
+        StudyPlanFactoryImpl spFac = new StudyPlanFactoryImpl();
+        StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, spFac);
         //act
         StudyPlanDataModel result = spMapper.toDataModel(studyPlan);
         //assert
@@ -104,9 +88,8 @@ class StudyPlanMapperImplTest {
 
         ProgrammeIDMapper progIDMapper = new ProgrammeIDMapper();
         IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
-        IStudyPlanFactory spFac = new StudyPlanFactoryImpl();
-        StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, programmeIDMapper, spFac);
+        StudyPlanFactoryImpl spFac = new StudyPlanFactoryImpl();
+        StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, spFac);
 
         StudyPlan result = spMapper.toDomain(spDM);
 

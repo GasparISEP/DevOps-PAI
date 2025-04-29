@@ -3,9 +3,11 @@ package PAI.service.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.repository.ICourseEditionRepository;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,5 +67,23 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
             return false;
 
         return courseEditionRepository.containsOfIdentity(courseEditionID);
+    }
+
+    @Override
+    @Transactional
+    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
+        return courseEditionRepository.ofIdentity(courseEditionId)
+                .map(courseEdition -> {
+                    boolean success = courseEdition.setRuc(teacherId);
+                    if (success) {
+                        try {
+                            courseEditionRepository.save(courseEdition);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    return success;
+                })
+                .orElse(false);
     }
 }

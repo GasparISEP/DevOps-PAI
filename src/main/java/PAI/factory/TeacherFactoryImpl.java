@@ -4,8 +4,7 @@ import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
 import PAI.repository.ITeacherRepository;
-import PAI.service.ITeacherService;
-import PAI.utils.TeacherAlreadyExistsException;
+import PAI.exception.TeacherAlreadyExistsException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

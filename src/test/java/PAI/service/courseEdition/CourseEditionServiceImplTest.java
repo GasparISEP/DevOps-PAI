@@ -3,6 +3,7 @@ package PAI.service.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.repository.ICourseEditionRepository;
@@ -403,5 +404,53 @@ class CourseEditionServiceImplTest {
         // Assert
         assertFalse(result);
         verify(courseEditionRepository, times(0)).containsOfIdentity(courseEditionID);
+    }
+
+    //----- assignRucToCourseEdition Tests -----
+
+    @Test
+    void shouldReturnTrueWhenAssignRucAndEditionExists() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+
+        TeacherID tId = mock(TeacherID.class);
+        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseEdition ce = mock(CourseEdition.class);
+
+        // este "when" é obrigatório para corrigir o comportamento:
+        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
+        when(repo.save(ce)).thenReturn(ce);
+        when(ce.setRuc(tId)).thenReturn(true); // <- **esta linha é a chave**
+
+        // Act
+        boolean result = service.assignRucToCourseEdition(tId, ceId);
+
+        // Assert
+        assertTrue(result);
+        verify(ce).setRuc(tId);
+        verify(repo).save(ce);
+    }
+
+
+    @Test
+    void shouldReturnFalseWhenAssignRucAndEditionNotExists() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+
+        TeacherID tId = mock(TeacherID.class);
+        CourseEditionID ceId = mock(CourseEditionID.class);
+
+        when(repo.ofIdentity(ceId)).thenReturn(Optional.empty());
+
+        // Act
+        boolean result = service.assignRucToCourseEdition(tId, ceId);
+
+        // Assert
+        assertFalse(result);
+        verify(repo, never()).save(any());
     }
 }

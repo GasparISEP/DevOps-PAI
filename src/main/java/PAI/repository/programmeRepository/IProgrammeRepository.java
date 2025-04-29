@@ -12,15 +12,11 @@ import java.util.Optional;
 
 public interface IProgrammeRepository extends IRepository <ProgrammeID, Programme> {
 
-    boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception;
-
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID);
 
     List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception;
 
     Optional<ProgrammeID> findProgrammeIdByProgramme(Programme programme) throws Exception;
-
-    boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception;
 
     List<Programme> getAllProgrammes();
 

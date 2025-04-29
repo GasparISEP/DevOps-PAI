@@ -2,7 +2,7 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.persistence.springdata.StudentRepositorySpringData;
+import PAI.persistence.springdata.StudentRepositorySpringDataImpl;
 import PAI.repository.IStudentRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -15,7 +15,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldCreateFactoryWhenRepositoryIsProvided() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
 
         //act
         StudentFactoryImpl studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
@@ -39,7 +39,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldReturnStudentWhenInputIsValid() throws Exception {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -72,7 +72,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenStudentWithSameIDOrNIFExists() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -106,7 +106,7 @@ class StudentFactoryImplTest {
     @Test
     void whenNewStudentFromDataModelConstructorInvokedThenMockedObjectShouldBeCreated() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Address addressDouble = mock(Address.class);
@@ -133,7 +133,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenStudentIDIsNull () {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -162,7 +162,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputNameIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -191,7 +191,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputNIFIsNull () {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -220,7 +220,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputPhoneNumberIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -249,7 +249,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenInputEmailIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -278,7 +278,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenAcademicEmailIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -307,7 +307,7 @@ class StudentFactoryImplTest {
     @Test
     void studentCreationShouldThrowExceptionWhenStreetIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         PostalCode postalCodeDouble = mock(PostalCode.class);
@@ -336,7 +336,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenPostalCodeIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -365,7 +365,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenLocationIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
@@ -394,7 +394,7 @@ class StudentFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenCountryIsNull() {
         //arrange
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
         IStudentFactory studentFactory = new StudentFactoryImpl(studentRepositoryDouble);
 
         Street streetDouble = mock(Street.class);
