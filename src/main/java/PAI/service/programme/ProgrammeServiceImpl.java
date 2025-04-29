@@ -76,11 +76,12 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
-        return _programmeRepository.findProgrammeIdByProgramme(prog);
-    }
-
-    public List<Programme> getAllProgrammes() {
-        return _programmeRepository.getAllProgrammes();
+        for (Programme existingProgramme : _programmeRepository.findAll()) {
+            if (existingProgramme.sameAs(prog)) {
+                return Optional.of(prog.identity());
+            }
+        }
+        return Optional.empty();
     }
 
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
