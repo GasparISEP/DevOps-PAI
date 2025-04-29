@@ -322,7 +322,8 @@ class ProgrammeServiceImplTest {
         Acronym acronym = mock(Acronym.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammeByAcronym(acronym)).thenReturn(programme1);
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.getAcronym()).thenReturn(acronym);
 
         //Act
         Programme result = service.getProgrammeByAcronym(acronym);
