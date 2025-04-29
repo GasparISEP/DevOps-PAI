@@ -53,4 +53,21 @@ public class DegreeTypeRepoSpringData implements IDegreeTypeRepository {
     public List<DegreeType> getAllDegreeTypes() {
         return findAll();
     }
+
+    public boolean registerDegreeType(DegreeTypeID id, Name name, MaxEcts maxEcts) {
+        DegreeTypeIDDataModel idModel = new DegreeTypeIDDataModel(id.getDTID());
+
+        if (dtRepoJPA.existsById(idModel)) {
+            return false;
+        }
+
+        DegreeTypeDataModel newDataModel = new DegreeTypeDataModel(
+                idModel,
+                name.getName(),
+                maxEcts.getMaxEcts()
+        );
+
+        dtRepoJPA.save(newDataModel);
+        return true;
+    }
 }

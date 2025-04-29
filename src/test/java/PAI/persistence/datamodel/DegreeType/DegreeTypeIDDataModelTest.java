@@ -1,6 +1,7 @@
 package PAI.persistence.datamodel.DegreeType;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DegreeTypeIDDataModelTest {
@@ -9,6 +10,12 @@ class DegreeTypeIDDataModelTest {
     void testConstructorAndGetter() {
         DegreeTypeIDDataModel dataModel = new DegreeTypeIDDataModel("abc-123");
         assertEquals("abc-123", dataModel.getDegreeTypeID());
+    }
+
+    @Test
+    void testNoArgsConstructor() {
+        DegreeTypeIDDataModel dataModel = new DegreeTypeIDDataModel();
+        assertNotNull(dataModel);
     }
 
     @Test
