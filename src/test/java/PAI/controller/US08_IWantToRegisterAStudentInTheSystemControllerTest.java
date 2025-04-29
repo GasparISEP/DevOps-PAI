@@ -24,7 +24,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     @Test
     void IWantToRegisterAStudentInTheSystemControllerConstructorTest() {
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
 
         //act
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
@@ -48,7 +48,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void registerStudentWithValidParametersReturnsTrue() throws Exception {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -89,7 +89,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseStudentIDIsInvalid(int uniqueNumber) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         String name = "Miguel";
@@ -127,7 +127,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseNameIsInvalid(String name) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -167,7 +167,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseNIFIsNull(String nif, String nifCountry, String expectedMessage) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -207,7 +207,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecausePhoneNumberIsInvalid(String countryCode, String phoneNumber, String expectedMessage) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -243,7 +243,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseEmailIsInvalid(String email) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -277,7 +277,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void testIfStudentIsNotRegisteredBecauseStreetIsInvalid(String street) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -311,7 +311,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecausePostalCodeIsInvalid(String postalCode) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -344,7 +344,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseLocationIsInvalid(String location)  {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
@@ -378,7 +378,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
     void studentIsNotRegisteredBecauseCountryIsInvalid(String country) {
 
         //arrange
-        IStudentService studentServiceDouble = mock(StudentServiceImpl.class);
+        IStudentService studentServiceDouble = mock(IStudentService.class);
         US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
 
         int uniqueNumber = 1000005;
