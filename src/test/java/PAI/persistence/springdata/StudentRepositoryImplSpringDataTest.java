@@ -3,7 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.mapper.NIFMapperImpl;
-import PAI.mapper.StudentIDMapper;
+import PAI.mapper.StudentIDMapperImpl;
 import PAI.mapper.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.StudentDataModel;
@@ -20,7 +20,7 @@ public class StudentRepositoryImplSpringDataTest {
 
     private IStudentRepositorySpringData repoMock;
     private StudentMapperImpl studentMapperImpl;
-    private StudentIDMapper studentIDMapper;
+    private StudentIDMapperImpl studentIDMapperImpl;
     private NIFMapperImpl nifMapperImpl;
 
     private StudentRepositorySpringDataImpl repository;
@@ -36,10 +36,10 @@ public class StudentRepositoryImplSpringDataTest {
     public void setup() {
         repoMock = mock(IStudentRepositorySpringData.class);
         studentMapperImpl = mock(StudentMapperImpl.class);
-        studentIDMapper = mock(StudentIDMapper.class);
+        studentIDMapperImpl = mock(StudentIDMapperImpl.class);
         nifMapperImpl = mock(NIFMapperImpl.class);
 
-        repository = new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, nifMapperImpl);
+        repository = new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapperImpl, nifMapperImpl);
 
         studentID = mock(StudentID.class);
         when(studentID.getUniqueNumber()).thenReturn(1234567);
@@ -57,16 +57,16 @@ public class StudentRepositoryImplSpringDataTest {
         // No need for specific mocks for this test.
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapper, nifMapperImpl));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapper, nifMapperImpl));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapperImpl, nifMapperImpl));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapperImpl, nifMapperImpl));
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, null, nifMapperImpl));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, null));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapperImpl, null));
     }
 
     @Test
     public void testGetStudentByID() throws Exception {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
         when(studentMapperImpl.dataModelToDomain(dataModel)).thenReturn(student);
 
@@ -136,7 +136,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     public void testContainsOfIdentity() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.existsById(studentIDDataModel)).thenReturn(true);
 
         // Act
@@ -149,7 +149,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     public void testContainsByStudentIDOrNIF() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(true);
 
@@ -163,7 +163,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     public void testContainsOfIdentityReturnsFalseWhenStudentDoesNotExist() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.existsById(studentIDDataModel)).thenReturn(false);
 
         // Act
@@ -176,7 +176,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     public void testContainsByStudentIDOrNIFReturnsFalse() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(false);
 
@@ -190,7 +190,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     public void testGetStudentByIDThrowsRuntimeExceptionOnMappingError() throws Exception {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
         when(studentMapperImpl.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Failed to retrieve and map Student by ID"));
 
@@ -231,7 +231,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     void shouldReturnFalseWhenExceptionOccursInContainsOfIdentity() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
         when(repoMock.existsById(any())).thenThrow(new RuntimeException("Database error"));
 
         // Act
@@ -244,7 +244,7 @@ public class StudentRepositoryImplSpringDataTest {
     @Test
     void shouldReturnEmptyWhenNoStudentFoundByIdentity() {
         // Arrange
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(mock(StudentIDDataModel.class));
         when(repoMock.findById(any())).thenReturn(Optional.empty());
 
         // Act

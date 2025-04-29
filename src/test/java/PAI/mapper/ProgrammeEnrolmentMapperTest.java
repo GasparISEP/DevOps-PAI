@@ -43,7 +43,7 @@ class ProgrammeEnrolmentMapperTest {
         _peFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
         _peIDMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
         _programmeIDMapperDouble = mock(ProgrammeIDMapper.class);
-        _studentIDMapperDouble = mock(StudentIDMapper.class);
+        _studentIDMapperDouble = mock(StudentIDMapperImpl.class);
         _amIDMapperDouble = mock(AccessMethodIDMapperImpl.class);
         _peIDDouble = mock(ProgrammeEnrolmentID.class);
         _peIDDataModelDouble = mock(ProgrammeEnrolmentIDDataModel.class);
