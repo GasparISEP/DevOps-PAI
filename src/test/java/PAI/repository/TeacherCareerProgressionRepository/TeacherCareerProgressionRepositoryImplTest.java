@@ -1,9 +1,10 @@
-package PAI.repository;
+package PAI.repository.TeacherCareerProgressionRepository;
 
 import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.factory.ITeacherCareerProgressionListFactory;
+import PAI.repository.TeacherCareerProgressionImpl.TeacherCareerProgressionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherCareerProgressionRepositoryTest {
+class TeacherCareerProgressionRepositoryImplTest {
 
     private Object[] createDoublesForTestsWithIsolation() {
         ITeacherCareerProgressionFactory tcpFactoryDouble = mock(ITeacherCareerProgressionFactory.class);
@@ -39,7 +40,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
 
         //Act
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Assert
         assertNotNull(tcpRepository);
@@ -52,7 +53,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
 
         //Act + Assert
-        assertThrows (IllegalStateException.class, () -> new TeacherCareerProgressionRepository(null, tcpListFactoryDouble));
+        assertThrows (IllegalStateException.class, () -> new TeacherCareerProgressionRepositoryImpl(null, tcpListFactoryDouble));
     }
 
     @Test
@@ -62,7 +63,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
 
         //Act + Assert
-        assertThrows (IllegalStateException.class, () -> new TeacherCareerProgressionRepository(tcpFactoryDouble, null));
+        assertThrows (IllegalStateException.class, () -> new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, null));
     }
 
     @Test
@@ -84,7 +85,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -113,7 +114,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherID tIDDouble = (TeacherID) doubles[4];
         WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> tcpRepository.createTeacherCareerProgression(null, tcIDDouble, wpDouble, tIDDouble));
@@ -129,7 +130,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherID tIDDouble = (TeacherID) doubles[4];
         WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> tcpRepository.createTeacherCareerProgression(dateDouble, null, wpDouble, tIDDouble));
@@ -145,7 +146,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
         TeacherID tIDDouble = (TeacherID) doubles[4];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> tcpRepository.createTeacherCareerProgression(dateDouble, tcIDDouble, null, tIDDouble));
@@ -161,7 +162,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherCategoryID tcIDDouble = (TeacherCategoryID) doubles[3];
         WorkingPercentage wpDouble = (WorkingPercentage) doubles[6];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> tcpRepository.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, null));
@@ -184,7 +185,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         when(tcpFactoryDouble.createTeacherCareerProgression(dateDouble, tcIDDouble, wpDouble, tIDDouble)).thenReturn(tcpDouble2);
 
@@ -210,7 +211,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         // Act
         TeacherCareerProgression result = tcpRepository.save(tcpDouble);
@@ -228,7 +229,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         when(tcpDouble.sameAs(tcpDouble)).thenReturn(false);
 
@@ -248,7 +249,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act + Assert
         assertThrows(Exception.class, () -> tcpRepository.findAll());
@@ -263,7 +264,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherCareerProgressionID tcpIDDouble = (TeacherCareerProgressionID) doubles[5];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         when(tcpDouble.identity()).thenReturn(tcpIDDouble);
 
@@ -284,7 +285,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         TeacherCareerProgressionID tcpIDDouble = (TeacherCareerProgressionID) doubles[5];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act
         Optional<TeacherCareerProgression> result = tcpRepository.ofIdentity(tcpIDDouble);
@@ -302,7 +303,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherCareerProgressionID tcpIDDouble = (TeacherCareerProgressionID) doubles[5];
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         when(tcpDouble.sameAs(tcpDouble)).thenReturn(false);
 
@@ -325,7 +326,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         TeacherCareerProgressionID tcpIDDouble = (TeacherCareerProgressionID) doubles[5];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act
         boolean result = tcpRepository.containsOfIdentity(tcpIDDouble);
@@ -344,7 +345,7 @@ class TeacherCareerProgressionRepositoryTest {
         TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
         TeacherCareerProgression tcpDouble2 = (TeacherCareerProgression) doubles[7];
 
-        TeacherCareerProgressionRepository repo = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl repo = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         when(tcpDouble.getTeacherID()).thenReturn(tIDDouble);
         when(tcpDouble2.getTeacherID()).thenReturn(tIDDouble);
@@ -369,7 +370,7 @@ class TeacherCareerProgressionRepositoryTest {
         ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
         TeacherID tIDDouble = (TeacherID) doubles[4];
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Act
         Optional<TeacherCareerProgression> result = tcpRepository.findLastTCPFromTeacherID(tIDDouble);
@@ -397,7 +398,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -438,7 +439,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(null, wpDouble, teacherIDDouble);
@@ -459,7 +460,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(dateDouble, null, teacherIDDouble);
@@ -480,7 +481,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateWorkingPercentageInTeacherCareerProgression(dateDouble, wpDouble, null);
@@ -503,7 +504,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -534,7 +535,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -574,7 +575,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -620,7 +621,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -661,7 +662,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(null, teacherCategoryIDDouble, teacherIDDouble);
@@ -682,7 +683,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(dateDouble, null, teacherIDDouble);
@@ -703,7 +704,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //act
         boolean result = tcpRepository.updateTeacherCategoryInTeacherCareerProgression(dateDouble, teacherCategoryIDDouble, null);
@@ -726,7 +727,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -757,7 +758,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
@@ -799,7 +800,7 @@ class TeacherCareerProgressionRepositoryTest {
         ArrayList<TeacherCareerProgression> listDouble = mock(ArrayList.class);
         when(tcpListFactoryDouble.createTeacherCareerProgressionList()).thenReturn(listDouble);
 
-        TeacherCareerProgressionRepository tcpRepository = new TeacherCareerProgressionRepository(tcpFactoryDouble, tcpListFactoryDouble);
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
 
         //Iterator
         Iterator<TeacherCareerProgression> itDouble = mock(Iterator.class);
