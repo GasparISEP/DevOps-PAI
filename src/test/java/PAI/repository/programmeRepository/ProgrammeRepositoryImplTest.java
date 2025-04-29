@@ -126,8 +126,9 @@ class ProgrammeRepositoryImplTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts quantEcts = mock(QuantEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
-        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, master, departmentDouble,  teacher);
+        Programme programme = new Programme(name, acronym, quantEcts, quantSemesters, master, departmentDouble,  teacher, programmeID);
 
         when(IProgrammeFactoryDouble.registerProgramme(name, acronym, quantEcts, quantSemesters, master, departmentDouble,  teacher))
                 .thenReturn(programme);
@@ -308,9 +309,10 @@ class ProgrammeRepositoryImplTest {
         DegreeTypeID master = mock(DegreeTypeID.class);
         DepartmentID cse = mock(DepartmentID.class);
         TeacherID teacher = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         when(IProgrammeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher))
-                .thenAnswer(invocation -> new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher));
+                .thenAnswer(invocation -> new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher,programmeID));
 
         when(programmeListRepoFactory.copyProgrammeArrayList(anyList()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
@@ -320,7 +322,6 @@ class ProgrammeRepositoryImplTest {
         // Act
         repository.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, master, cse, teacher);
         Programme createdProgramme = repository.getAllProgrammes().get(0);
-        ProgrammeID programmeID = createdProgramme.getProgrammeID();
 
         // Act
         Optional<Programme> result = repository.ofIdentity(programmeID);

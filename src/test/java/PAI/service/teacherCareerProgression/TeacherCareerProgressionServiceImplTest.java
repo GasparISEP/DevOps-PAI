@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.teacherCareerProgression;
 
 import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;
@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherCareerProgressionServiceTest {
+class TeacherCareerProgressionServiceImplTest {
 
     private ITeacherCareerProgressionRepository _repositoryDouble;
     private ITeacherCareerProgressionFactory _factoryDouble;
@@ -60,7 +60,7 @@ class TeacherCareerProgressionServiceTest {
         //Arrange
 
         //Act & Assert
-        new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
     }
 
     static Stream<Arguments> testWithNullInputs() {
@@ -77,7 +77,7 @@ class TeacherCareerProgressionServiceTest {
         //Arrange
 
         //Act
-        Executable action = () -> new TeacherCareerProgressionService(repoDouble, factoryDouble);
+        Executable action = () -> new TeacherCareerProgressionServiceImpl(repoDouble, factoryDouble);
 
         //Assert
         Throwable result = assertThrows(NullPointerException.class, action);
@@ -97,7 +97,7 @@ class TeacherCareerProgressionServiceTest {
     @MethodSource("provideNullArgumentsForCreate")
     void shouldThrowExceptionWhenAnyArgumentIsNull(Date date, TeacherCategoryID categoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
         //Act
         Executable action = () -> service.createTeacherCareerProgression(date, categoryID, wp, teacherID);
@@ -109,7 +109,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldReturnFalseWhenTeacherCareerProgressionAlreadyExists() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
         TeacherCareerProgression teacherCareerProgressionDouble = mock(TeacherCareerProgression.class);
 
@@ -130,7 +130,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldSaveTeacherCareerProgressionAndReturnTrueWhenNotExists() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
         TeacherCareerProgression teacherCareerProgressionDouble = mock(TeacherCareerProgression.class);
 
@@ -152,7 +152,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldReturnTrueIfTeacherCategoryWasSuccessfullyUpdated() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -175,7 +175,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldReturnFalseIfLastTeacherCareerProgressionDoesNotExistWhenUpdatingTeachersCategory() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.empty());
@@ -190,7 +190,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldReturnFalseIfDateIsTheSameOrOlderThanLastTCPWhenUpdatingTeachersCategory() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -206,7 +206,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldReturnFalseIfTeacherCategoryIsTheSameAsTheLastOneRegisteredWhenUpdatingTeachersCategory() throws Exception {
         //Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -234,7 +234,7 @@ class TeacherCareerProgressionServiceTest {
     @MethodSource("provideInvalidInputs")
     void shouldPropagateIllegalArgumentExceptionThrownWhenCreatingNewTeacherCareerProgression(IllegalArgumentException expectedException) {
         // Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -254,7 +254,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldPropagateIllegalArgumentExceptionThrownWhenSavingNewTeacherCareerProgressionWithNullParameter() throws Exception {
         // Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -276,7 +276,7 @@ class TeacherCareerProgressionServiceTest {
     @Test
     void shouldPropagateIllegalArgumentExceptionWhenSavingNewTeacherCareerProgressionWithNullParameter() throws Exception {
         // Arrange
-        TeacherCareerProgressionService service = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl service = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
         createDoubles();
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
@@ -301,7 +301,7 @@ class TeacherCareerProgressionServiceTest {
 void shouldReturnTrueWhenSuccessfullyUpdatesWorkingPercentageInTeacherCareerProgression() throws Exception {
     // Arrange
     createDoubles();
-    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(
+    TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(
             _repositoryDouble, _factoryDouble
     );
 
@@ -326,7 +326,7 @@ void shouldReturnTrueWhenSuccessfullyUpdatesWorkingPercentageInTeacherCareerProg
 void shouldReturnFalseIfDateIsNullWhenUpdatingWorkingPercentage() throws Exception {
     // Arrange
     createDoubles();
-    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+    TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
 
     // Act
@@ -341,7 +341,7 @@ void shouldReturnFalseIfDateIsNullWhenUpdatingWorkingPercentage() throws Excepti
 void shouldReturnFalseIfWorkingPercentageIsNullWhenUpdatingWorkingPercentage() throws Exception {
     // Arrange
     createDoubles();
-    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+    TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
 
     // Act
@@ -355,7 +355,7 @@ void shouldReturnFalseIfWorkingPercentageIsNullWhenUpdatingWorkingPercentage() t
 void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Exception {
     // Arrange
     createDoubles();
-    TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+    TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
 
     // Act
@@ -368,7 +368,7 @@ void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Ex
     void shouldReturnFalseWhenThereIsNoLastTCPToUpdateWorkingPercentage() throws Exception {
         // Arrange
         createDoubles();
-        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.empty());
 
@@ -383,7 +383,7 @@ void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Ex
     void shouldReturnFalseWhenGivenDateIsBeforeLastTCPDateToUpdateWorkingPercentage() throws Exception {
         // Arrange
         createDoubles();
-        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
         when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(false);
@@ -399,7 +399,7 @@ void shouldReturnFalseIfTeacherIDIsNullWhenUpdatingWorkingPercentage() throws Ex
     void shouldReturnFalseWhenGivenWorkingPercentageIsTheSameAsLastTCPWorkingPercentage() throws Exception {
         // Arrange
         createDoubles();
-        TeacherCareerProgressionService tcpService = new TeacherCareerProgressionService(_repositoryDouble, _factoryDouble);
+        TeacherCareerProgressionServiceImpl tcpService = new TeacherCareerProgressionServiceImpl(_repositoryDouble, _factoryDouble);
 
         when(_repositoryDouble.findLastTCPFromTeacherID(_teacherIDDouble)).thenReturn(Optional.of(_lastTCPDouble));
         when(_lastTCPDouble.isLastDateEqualOrBeforeNewDate(_dateDouble)).thenReturn(true);

@@ -78,13 +78,15 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
 
-//        for (CourseEditionID courseEditionId : courseEditions) {
-//            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
-//            if (existingEnrollment.isPresent()) {
-//                throw new IllegalStateException("This course edition enrolment is already in the list.");
-//            }
-//            enrolStudentInACourseEdition(studentId, courseEditionId);
-//        }
+        for (CourseEditionID courseEditionId : courseEditions) {
+            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
+            if (existingEnrollment.isPresent()) {
+                throw new IllegalStateException("This course edition enrolment is already in the list.");
+            }
+
+            CourseEditionEnrolment newEnrolment = new CourseEditionEnrolment(studentId, courseEditionId);
+            enrolStudentInACourseEdition(newEnrolment);
+        }
     }
 
     @Override

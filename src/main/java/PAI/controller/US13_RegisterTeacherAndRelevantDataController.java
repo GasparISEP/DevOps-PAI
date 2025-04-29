@@ -3,7 +3,7 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
-import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
 import java.util.Optional;
