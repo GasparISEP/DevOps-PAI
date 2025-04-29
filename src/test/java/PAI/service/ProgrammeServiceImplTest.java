@@ -8,6 +8,7 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,6 +78,27 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
+    void shouldNotRegisterProgrammeWhenItsNull() throws Exception {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        //Act
+        //Assert
+        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
+
+    }
+
+    @Test
     void shouldChangeProgrammeDirector() throws Exception {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
@@ -100,7 +122,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotChangeProgrammeDirectorIfProgrammeIsNull() throws Exception {
+    void shouldNotChangeProgrammeDirectorIfProgrammeIsNull() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
@@ -114,7 +136,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotChangeProgrammeDirectorIfTeacherIsNull() throws Exception {
+    void shouldNotChangeProgrammeDirectorIfTeacherIsNull() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
@@ -128,5 +150,44 @@ class ProgrammeServiceImplTest {
 
     }
 
+    @Test
+    void shouldFindProgrammeByDepartment() {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        ProgrammeID programme1 = mock(ProgrammeID.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
+
+        when(doubleRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programme1,programme2));
+
+        //Act
+        List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
+
+        //Assert
+        assertEquals(2,result.size());
+
+    }
+
+    @Test
+    void shouldNotFindProgrammeByDepartment() {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+
+        //Act
+        List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
   
 }

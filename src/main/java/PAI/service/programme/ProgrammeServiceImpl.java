@@ -6,6 +6,8 @@ import PAI.factory.IProgrammeFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProgrammeServiceImpl implements IProgrammeService {
 
@@ -29,7 +31,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         Programme savedProgramme = _programmeRepository.save(programme);
 
         if (savedProgramme == null) {
-            throw new Exception("Failed to save Programme.");
+            throw new IllegalArgumentException("Failed to save Programme.");
         }
         return true;
     }
@@ -50,5 +52,9 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         _programmeRepository.save(programme);
 
         return true;
+    }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
+        return _programmeRepository.findProgrammeByDepartment(id);
     }
 }
