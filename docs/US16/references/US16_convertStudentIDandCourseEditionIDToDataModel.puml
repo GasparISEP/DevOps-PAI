@@ -1,0 +1,35 @@
+@startuml
+title Convert StudentID and CourseEditionID to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEditionEnrolmentRepository" as ceeRepository
+activate ceeRepository #E1F5FE
+
+'convert StudentID to DataModel
+
+participant ":IStudentIDMapper" as stIDMapper
+
+ceeRepository -> stIDMapper: domainToDataModel (ceeID.findStudentID())
+activate stIDMapper #E1F5FE
+stIDMapper --> ceeRepository: studentIDDataModel
+deactivate stIDMapper
+
+'convert CourseEdtionID to DataModel
+
+participant ":ICourseEditionIDMapper" as ceIDMapper
+
+ceeRepository -> ceIDMapper: toDataModel (ceeID.findCourseEditionID())
+activate ceIDMapper #E1F5FE
+ceIDMapper --> ceeRepository: courseEditionIDDataModel
+deactivate ceIDMapper
+
+
+@enduml

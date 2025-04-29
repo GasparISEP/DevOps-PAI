@@ -5,7 +5,7 @@ import PAI.factory.*;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
-import PAI.repository.TeacherRepository;
+import PAI.repository.TeacherRepositoryImpl;
 import PAI.service.ITeacherService;
 import PAI.service.TeacherServiceImpl;
 import PAI.service.department.DepartmentServiceImpl;
@@ -199,11 +199,10 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     }
 
     //Methods
-    private TeacherRepository createTeacherRepo() {
+    private TeacherRepositoryImpl createTeacherRepo() {
        ITeacherRepository iTeacherRepository = mock(ITeacherRepository.class);
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl(iTeacherRepository);
         TeacherListFactoryImpl teacherListFactoryImpl = new TeacherListFactoryImpl();
-        return new TeacherRepository(teacherFactory, teacherListFactoryImpl);
+        return new TeacherRepositoryImpl(teacherListFactoryImpl);
     }
     private TeacherAcronym createTeacherAcronym() throws Exception {
         return new TeacherAcronym("ABC");

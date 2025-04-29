@@ -8,15 +8,13 @@ import PAI.factory.*;
 import java.util.List;
 import java.util.Optional;
 
-public class TeacherRepository implements ITeacherRepository {
+public class TeacherRepositoryImpl implements ITeacherRepository {
     private List<Teacher> _teachers;
-    private ITeacherFactory _teacherFactory;
 
     //constructor
-    public TeacherRepository(ITeacherFactory teacherFactory, ITeacherListFactory teacherListFactoryImpl){
+    public TeacherRepositoryImpl(ITeacherListFactory teacherListFactoryImpl){
 
         _teachers = teacherListFactoryImpl.newList();
-        _teacherFactory = teacherFactory;
     }
 
     @Override
@@ -48,21 +46,6 @@ public class TeacherRepository implements ITeacherRepository {
             }
         }
         return false;
-    }
-
-    public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
-                                   Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
-
-        Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
-                street, postalCode, location, country, departmentID);
-
-        if (containsOfIdentity(teacher.identity())){
-            return Optional.empty();
-        }
-
-        save(teacher);
-
-        return Optional.of(teacher.identity());
     }
 
     // [Temporary] method still not properly implemented but needs to exist in order for the class to implement the interface

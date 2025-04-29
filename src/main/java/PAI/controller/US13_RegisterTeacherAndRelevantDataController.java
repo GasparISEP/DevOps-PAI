@@ -3,6 +3,7 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.repository.*;
+import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
@@ -12,19 +13,19 @@ import java.util.UUID;
 public class US13_RegisterTeacherAndRelevantDataController {
 
     private ITeacherCategoryService _teacherCategoryService;
-    private IDepartmentRepository _departmentRepository;
+    private IDepartmentService _departmentService;
     private ITeacherService _teacherService;
     private ITeacherCareerProgressionService _tcpService;
 
     //Constructor
     public US13_RegisterTeacherAndRelevantDataController(ITeacherCategoryService teacherCategoryService,
-                                                         IDepartmentRepository departmentRepository, ITeacherService teacherService, ITeacherCareerProgressionService tcpService) {
+                                                         IDepartmentService departmentService, ITeacherService teacherService, ITeacherCareerProgressionService tcpService) {
 
         if (teacherCategoryService == null) {
             throw new IllegalArgumentException("Teacher Category Repository cannot be null");
         }
 
-        if (departmentRepository == null) {
+        if (departmentService == null) {
             throw new IllegalArgumentException("Department Repository cannot be null");
         }
 
@@ -37,7 +38,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
         }
 
         this._teacherCategoryService = teacherCategoryService;
-        this._departmentRepository = departmentRepository;
+        this._departmentService = departmentService;
         this._teacherService = teacherService;
         this._tcpService = tcpService;
     }
@@ -49,7 +50,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
     // Method to get all Departments
     public Iterable<Department> getDepartmentList() {
-        return _departmentRepository.findAll();
+        return _departmentService.findAll();
     }
 
     // Method to register the Teacher object

@@ -1,0 +1,26 @@
+@startuml US21
+actor ASC
+participant UI #application
+participant ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" #application
+participant "ProgrammeEditionRepositoryImpl" #application
+participant ":ProgrammeEditionEnrolmentService" #application
+participant ":ProgrammeEditionEnrolmentRepositoryImpl" #application
+participant "programmeEdition1:ProgrammeEdition" #application
+autonumber
+
+ASC -> UI  ++ #application : I want to know the number of students enrolled in a ProgrammeEdition
+UI -> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" ++ #application: getAllProgrammeEditions()
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> "ProgrammeEditionRepositoryImpl" ++ #application: getAllProgrammeEditions()
+"ProgrammeEditionRepositoryImpl" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -- : Iterable<programmeEditionList1>
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --> UI -- : Iterable<programmeEditionList1>
+UI --> ASC -- : which ProgrammeEdition?
+
+ASC -> UI ++ #application: programmeEdition1!
+UI -> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" ++ #application: getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEdition1ID)
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" -> ":ProgrammeEditionEnrolmentService" ++ #application: totalStudentsInProgrammeEdition(programmeEdition1ID)
+":ProgrammeEditionEnrolmentService" -> ":ProgrammeEditionEnrolmentRepositoryImpl" ++ #application: getAllProgrammeEditionsEnrolmentByProgrammeEditionID(programmeEdition1ID)
+":ProgrammeEditionEnrolmentRepositoryImpl" --> ":ProgrammeEditionEnrolmentService" --: List<ProgrammeEditionEnrolment>
+":ProgrammeEditionEnrolmentService" --> ":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --: int
+":IWantToKnowTheNumberOfStudentsEnrolledInAProgrammeEditionController" --> "UI" -- #application : int
+"UI" --> ASC -- #application : int
+@enduml

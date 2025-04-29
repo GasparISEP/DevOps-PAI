@@ -8,6 +8,9 @@ import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
+
 @Service
 public class DepartmentServiceImpl implements IDepartmentService {
 
@@ -46,5 +49,9 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
     public boolean containsOfIdentity(DepartmentID id) {
         return _departmentRepo.containsOfIdentity(id);
+    }
+
+    public Iterable<Department> findAll() {
+        return _departmentRepo.findAll();
     }
 }
