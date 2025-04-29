@@ -9,7 +9,6 @@ import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -81,11 +80,6 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
 
         return iTeacherRepositorySpringData.existsById(teacherIDDataModel);
-    }
-
-    @Override   // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
-    public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground, Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) {
-        return Optional.empty();
     }
 
     @Override
