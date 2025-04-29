@@ -14,6 +14,6 @@ public class CourseEditionEnrolmentFactoryImpl implements ICourseEditionEnrolmen
 
     @Override
     public CourseEditionEnrolment createWithEnrolmentDate(StudentID studentID, CourseEditionID courseEditionID, LocalDate enrolmentDate, boolean active) {
-        return new CourseEditionEnrolment(studentID,courseEditionID);
+        return new CourseEditionEnrolment(studentID,courseEditionID, enrolmentDate, active);
     }
 }
