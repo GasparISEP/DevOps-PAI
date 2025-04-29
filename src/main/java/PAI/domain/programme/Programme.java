@@ -14,7 +14,7 @@ public class Programme implements AggregateRoot<ProgrammeID> {
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws IllegalArgumentException {
+    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID programmeID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -49,7 +49,11 @@ public class Programme implements AggregateRoot<ProgrammeID> {
             throw new IllegalArgumentException("Insert a valid Programme Director");
         }
         _programmeDirectorID = programmeDirectorID;
-        _programmeID = new ProgrammeID(name,acronym);
+
+        if (programmeID == null) {
+            throw new IllegalArgumentException("Insert a valid ProgrammeID");
+        }
+        _programmeID = programmeID;
     }
 
     @Override
