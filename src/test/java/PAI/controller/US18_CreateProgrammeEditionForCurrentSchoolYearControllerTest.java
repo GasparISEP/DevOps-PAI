@@ -17,6 +17,10 @@ import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
+import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEdition.ProgrammeEditionService;
+import PAI.service.schoolYear.ISchoolYearService;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.text.html.Option;
@@ -33,9 +37,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldCreateController() throws Exception {
         // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
 
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -47,17 +52,19 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
         // Act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
 
         // Assert
         assertNotNull(controller);
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionFactoryIsNull() {
+    void shouldThrowExceptionWhenProgrammeEditionServiceIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionFactory programmeEditionFactory = null;
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
@@ -68,63 +75,133 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository, programmeRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService,programmeEditionFactory, schoolYearRepository);});
+
+        // Assert
+        assertEquals("Programme Edition Service cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeServiceIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService, programmeEditionFactory, schoolYearRepository);});
+
+        // Assert
+        assertEquals("Programme Service cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearServiceIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null, programmeEditionFactory, schoolYearRepository);});
+
+        // Assert
+        assertEquals("School Year Service cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionFactoryIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,null, schoolYearRepository);});
 
         // Assert
         assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenSchoolYearIsNull() throws Exception {
+    void shouldThrowExceptionWhenSchoolYearRepositoryIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository ProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
         IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
-        ISchoolYearRepository schoolYearRepository = null;
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,programmeEditionFactory, null);});
 
         // Assert
         assertEquals("School Year Repository cannot be null", exception.getMessage());
     }
 
-    @Test
-    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
 
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, null);});
-
-        // Assert
-        assertEquals("Programme Repository cannot be null", exception.getMessage());
-    }
 
     @Test
     void shouldReturnListOfNamesOfAllExistingProgrammes() throws Exception {
         // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
@@ -135,7 +212,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -167,9 +246,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnEmptyListOfNamesIfProgrammeRepositoryIsEmpty() throws Exception {
         // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
@@ -180,7 +261,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService, programmeEditionFactory, schoolYearRepository, programmeRepository);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -194,9 +277,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldReturnFalseIfThereIsNoCurrentSchoolYearInTheSystem() throws Exception {
         // Arrange
-        IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionRepositoryListFactory);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
@@ -207,7 +292,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");

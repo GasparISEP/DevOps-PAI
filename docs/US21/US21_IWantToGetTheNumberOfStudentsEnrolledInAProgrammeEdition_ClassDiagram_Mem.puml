@@ -2,7 +2,6 @@
 
 title Domain Model - US21: Get the Number of Students Enrolled in a Programme Edition
 
-package "Domain" {
 
   ' === CONTROLLER ===
   class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
@@ -77,6 +76,11 @@ package "Domain" {
       + add(programmeEditionEnrolment: ProgrammeEditionEnrolment): boolean
   }
 
+  interface IProgrammeEditionEnrolmentService {
+  }
+
+  class ProgrammeEditionEnrolmentServiceImpl {
+  }
   ' === RELATIONSHIPS ===
   ProgrammeEditionEnrolment --> ProgrammeEditionID: contains
   ProgrammeEditionEnrolment --> StudentID: contains
@@ -86,8 +90,9 @@ package "Domain" {
   ProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolmentArrayList: stores
   ProgrammeEditionEnrolmentArrayList --> ProgrammeEditionEnrolment: contains
 
-  US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController ..> IProgrammeEditionEnrolmentRepository
-
+  US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController ..> IProgrammeEditionEnrolmentService
+  ProgrammeEditionEnrolmentServiceImpl -right..|> IProgrammeEditionEnrolmentService: implements
+  IProgrammeEditionEnrolmentService -down-> IProgrammeEditionEnrolmentRepository: uses
   ProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolmentFactory : uses
   ProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolmentListFactory : uses
 

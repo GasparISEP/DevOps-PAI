@@ -7,10 +7,12 @@ import PAI.VOs.WorkingPercentage;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.repository.ITeacherCareerProgressionRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
 public class TeacherCareerProgressionServiceImpl implements ITeacherCareerProgressionService {
 
     private ITeacherCareerProgressionRepository _TCPrepository;

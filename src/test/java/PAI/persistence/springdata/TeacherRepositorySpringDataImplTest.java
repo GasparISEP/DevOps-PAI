@@ -203,34 +203,6 @@ class TeacherRepositorySpringDataImplTest {
         assertEquals(teacher, result.get());
     }
 
-    // [Temporary] method added only because in order to implement ITeacherRepository this class needs this method
-    @Test
-    void shouldReturnEmptyWhenRegisteringTeacher() {
-        // Arrange
-        TeacherAcronym acronym = new TeacherAcronym("MSA");
-        Name name = new Name("John Doe");
-        Email email = new Email("john.doe@example.com");
-        Country country = new Country("Portugal");
-        NIF nif = new NIF("123456789", country);
-        PhoneNumber phoneNumber = new PhoneNumber("+351","912345678");
-        AcademicBackground academicBackground = new AcademicBackground("PhD in AI");
-        Street street = new Street("Main Street");
-        PostalCode postalCode = new PostalCode("1000-000");
-        Location location = new Location("Lisbon");
-        DepartmentAcronym dptAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dptAcronym);
-
-        // Act
-        Optional<TeacherID> result = teacherRepository.registerTeacher(
-                acronym, name, email, nif, phoneNumber,
-                academicBackground, street, postalCode,
-                location, country, departmentID
-        );
-
-        // Assert
-        assertTrue(result.isEmpty());
-    }
-
     @Test
     void shouldReturnFalseIfDoesNotExistsByIDorNIF () {
         // Arrange
