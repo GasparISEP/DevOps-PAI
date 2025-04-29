@@ -314,7 +314,7 @@ class CourseEditionEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldReturnFalseWhenStudentIsAlreadyEnrolledInCourseEdition() throws Exception {
+    void shouldReturnFalseWhenCourseEditionEnrolmentWasNotSaved() throws Exception {
         //arrange
         ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
@@ -330,39 +330,9 @@ class CourseEditionEnrolmentServiceImplTest {
 
         when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
 
-        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
-
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
         when(doubleCeeRepositoryInterface.save(doubleCEE)).thenThrow();
-
-        //act
-        boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
-
-        //assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseWhenCourseEditionEnrolmentSavedIsNull() throws Exception {
-        //arrange
-        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
-        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
-        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
-        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
-
-        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
-                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
-
-        StudentID doubleStudentID = mock(StudentID.class);
-        CourseEditionID doubleCEID = mock(CourseEditionID.class);
-        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
-
-        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
-
-        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
-
-
-        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenReturn(null);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
@@ -412,6 +382,33 @@ class CourseEditionEnrolmentServiceImplTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnFalseIfStudentIsAlreadyEnrolled() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
+
+        //act
+        boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
+
+        //assert
+        assertFalse(result);
+    }
+
 
     @Test
     void shouldReturnFalseIfIsNotPossibleTheCreationOfCourseEditionEnrolment (){

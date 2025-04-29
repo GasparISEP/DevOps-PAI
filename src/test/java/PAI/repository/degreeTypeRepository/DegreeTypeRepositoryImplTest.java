@@ -1,4 +1,3 @@
-/*
 package PAI.repository.degreeTypeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +6,6 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.factory.DegreeTypeFactory.IDegreeTypeListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,18 +18,6 @@ class DegreeTypeRepositoryImplTest {
 
     @BeforeEach
     void setUp() {
-        IDegreeTypeFactory factory = new IDegreeTypeFactory() {
-            @Override
-            public DegreeType create(Name name, MaxEcts ects) {
-                return DegreeType.create(name, ects);
-            }
-
-            @Override
-            public DegreeType recreate(DegreeTypeID id, Name name, MaxEcts ects) {
-                return new DegreeType(id, name, ects);
-            }
-        };
-
         IDegreeTypeListFactory listFactory = new IDegreeTypeListFactory() {
             @Override
             public List<DegreeType> createEmptyList() {
@@ -44,75 +30,78 @@ class DegreeTypeRepositoryImplTest {
             }
         };
 
-        repository = new DegreeTypeRepositoryImpl(factory, listFactory);
+        repository = new DegreeTypeRepositoryImpl(listFactory);
     }
 
     @Test
-    void testRegisterNewDegreeType() {
+    void testSaveAndGetAllDegreeTypes() {
         DegreeTypeID id = new DegreeTypeID("DT001");
         Name name = new Name("Licenciatura");
         MaxEcts ects = new MaxEcts(180);
+        DegreeType degreeType = new DegreeType(id, name, ects);
 
-        assertTrue(repository.registerDegreeType(id, name, ects));
-        assertTrue(repository.containsOfIdentity(id));
+        DegreeType saved = repository.save(degreeType);
+
+        assertEquals(degreeType, saved);
+        List<DegreeType> all = repository.getAllDegreeTypes();
+        assertEquals(1, all.size());
+        assertTrue(all.contains(degreeType));
     }
 
     @Test
-    void testRegisterDuplicateReturnsFalse() {
+    void testFindAll() {
         DegreeTypeID id = new DegreeTypeID("DT002");
         Name name = new Name("Mestrado");
         MaxEcts ects = new MaxEcts(120);
+        DegreeType degreeType = new DegreeType(id, name, ects);
 
-        repository.registerDegreeType(id, name, ects);
-        assertFalse(repository.registerDegreeType(id, name, ects));
-    }
-
-    @Test
-    void testSaveAndFindAll() {
-        DegreeType degreeType = DegreeType.create(new Name("Engenharia"), new MaxEcts(180));
         repository.save(degreeType);
 
         Iterable<DegreeType> all = repository.findAll();
         assertTrue(all.iterator().hasNext());
+        assertEquals(degreeType, all.iterator().next());
     }
 
     @Test
-    void testOfIdentityReturnsCorrectType() {
-        DegreeType degreeType = DegreeType.create(new Name("Design"), new MaxEcts(180));
+    void testOfIdentity_WhenExists() {
+        DegreeTypeID id = new DegreeTypeID("DT003");
+        Name name = new Name("Engenharia");
+        MaxEcts ects = new MaxEcts(180);
+        DegreeType degreeType = new DegreeType(id, name, ects);
+
         repository.save(degreeType);
 
-        Optional<DegreeType> found = repository.ofIdentity(degreeType.identity());
+        Optional<DegreeType> found = repository.ofIdentity(id);
+
         assertTrue(found.isPresent());
         assertEquals(degreeType, found.get());
     }
 
     @Test
-    void testOfIdentityReturnsEmptyIfNotFound() {
-        DegreeTypeID id = new DegreeTypeID("NOT_FOUND");
-        assertTrue(repository.ofIdentity(id).isEmpty());
+    void testOfIdentity_WhenNotExists() {
+        DegreeTypeID id = new DegreeTypeID("NON_EXISTENT");
+
+        Optional<DegreeType> found = repository.ofIdentity(id);
+
+        assertTrue(found.isEmpty());
     }
 
     @Test
-    void testContainsOfIdentity() {
-        DegreeType degreeType = DegreeType.create(new Name("Biologia"), new MaxEcts(180));
+    void testContainsOfIdentity_WhenExists() {
+        DegreeTypeID id = new DegreeTypeID("DT004");
+        Name name = new Name("Arquitetura");
+        MaxEcts ects = new MaxEcts(180);
+        DegreeType degreeType = new DegreeType(id, name, ects);
+
         repository.save(degreeType);
 
-        assertTrue(repository.containsOfIdentity(degreeType.identity()));
-        assertFalse(repository.containsOfIdentity(new DegreeTypeID("FAKE")));
+        assertTrue(repository.containsOfIdentity(id));
     }
 
     @Test
-    void testGetAllDegreeTypes() {
-        DegreeType d1 = DegreeType.create(new Name("Psicologia"), new MaxEcts(180));
-        DegreeType d2 = DegreeType.create(new Name("Arquitetura"), new MaxEcts(180));
+    void testContainsOfIdentity_WhenNotExists() {
+        DegreeTypeID id = new DegreeTypeID("NOT_FOUND");
 
-        repository.save(d1);
-        repository.save(d2);
-
-        List<DegreeType> all = repository.getAllDegreeTypes();
-
-        assertEquals(2, all.size());
-        assertTrue(all.contains(d1));
-        assertTrue(all.contains(d2));
+        assertFalse(repository.containsOfIdentity(id));
     }
-}*/
+}

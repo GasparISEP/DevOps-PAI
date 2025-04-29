@@ -76,7 +76,11 @@ CEERepo -> CEESpringRepo: save(CourseEditionEnrolmentDataModel)
 activate CEESpringRepo
 CEESpringRepo --> CEERepo: saved
 deactivate CEESpringRepo
-CEERepo --> Service: saved
+CEERepo -> CEEMapper: toDomain(CourseEditionEnrolmentDataModel)
+activate CEEMapper
+CEEMapper --> CEERepo: CourseEditionEnrolment
+deactivate CEEMapper
+CEERepo --> Service: CourseEditionEnrolment
 deactivate CEERepo
 
 
@@ -125,7 +129,6 @@ loop for each enrolment
 
   alt [1] match found: Has other active course edition enrolments
     Service --> Controller: true (only course enrolment deactivated)
-    deactivate Service
   end
 end
 end
@@ -170,7 +173,11 @@ Service --> Service: No active course edition enrolments found
     activate PEESpringRepo
     PEESpringRepo --> PEERepo: saved
     deactivate PEESpringRepo
-    PEERepo --> Service: saved
+    PEERepo -> PEEMapper: toDomain(ProgrammeEditionEnrolmentDataModel)
+    activate PEEMapper
+    PEEMapper --> PEERepo: ProgrammeEditionEnrolment
+    deactivate PEEMapper
+    PEERepo --> Service: ProgrammeEditionEnrolment
     deactivate PEERepo
 
     ' Step 7.4: Return success to the controller
