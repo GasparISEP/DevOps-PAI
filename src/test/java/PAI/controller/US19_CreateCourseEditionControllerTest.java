@@ -167,34 +167,34 @@ class US19_CreateCourseEditionControllerTest {
         verify(degreeTypeRepositoryDouble).getAllDegreeTypes();
     }
 
-    @Test
-    void shouldReturnListOfProgrammesByDegreeTypeID() throws Exception {
-        //Arrange
-        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
-        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
-        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
-        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
-        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
-
-
-        DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
-
-        Programme programme = mock(Programme.class);
-        when(programme.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
-
-        List<Programme> ListWithProgramme = Arrays.asList(programme);
-        when(programmeRepositoryDouble.getProgrammesByDegreeTypeID(degreeTypeIDDouble)).thenReturn(ListWithProgramme);
-
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanServiceDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
-
-        //Act
-        List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeIDDouble);
-
-        //Assert
-        assertEquals(1, result.size());
-        assertTrue(result.contains(programme));
-    }
+//    @Test
+//    void shouldReturnListOfProgrammesByDegreeTypeID() throws Exception {
+//        //Arrange
+//        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
+//        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
+//        IStudyPlanRepository studyPlanRepositoryDouble = mock(IStudyPlanRepository.class);
+//        ICourseInStudyPlanService courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
+//        IProgrammeEditionRepository programmeEditionRepositoryDouble = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionRepository courseEditionRepositoryDouble = mock(ICourseEditionRepository.class);
+//
+//
+//        DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
+//
+//        Programme programme = mock(Programme.class);
+//        when(programme.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
+//
+//        List<Programme> ListWithProgramme = Arrays.asList(programme);
+//        when(programmeRepositoryDouble.getProgrammesByDegreeTypeID(degreeTypeIDDouble)).thenReturn(ListWithProgramme);
+//
+//        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeRepositoryDouble, programmeRepositoryDouble, studyPlanRepositoryDouble, courseInStudyPlanServiceDouble, programmeEditionRepositoryDouble, courseEditionRepositoryDouble);
+//
+//        //Act
+//        List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeIDDouble);
+//
+//        //Assert
+//        assertEquals(1, result.size());
+//        assertTrue(result.contains(programme));
+//    }
 
     @Test
     void shouldReturnListOfCoursesInStudyPLanByProgrammeID() throws Exception {

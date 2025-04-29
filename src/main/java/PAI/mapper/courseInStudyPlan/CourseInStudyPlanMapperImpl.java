@@ -68,7 +68,9 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
 
-        return _courseInStudyPlanFactory.newCourseInStudyPlan(semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlanID courseInStudyPlanId = _courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
+
+        return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
 
         } catch (Exception e) {
             throw new RuntimeException("Error trying to map CourseInStudyPlanDataModel back to domain", e);

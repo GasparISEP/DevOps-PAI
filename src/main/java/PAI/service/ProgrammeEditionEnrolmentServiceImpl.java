@@ -99,11 +99,11 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         return true;
     }
 
-    @Override
-    public List<ProgrammeID> getAllProgrammesIDs() {
-
-        return programmeRepository.getAllProgrammesIDs();
-    }
+//    @Override
+//    public List<ProgrammeID> getAllProgrammesIDs() {
+//
+//        return programmeRepository.getAllProgrammesIDs();
+//    }
 
     @Override
     public List<SchoolYearID> getAllSchoolYearIDs() {

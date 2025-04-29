@@ -426,112 +426,112 @@ class ProgrammeEditionEnrolmentServiceImplTest {
         assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
-    @Test
-    void testGetAllProgrammes() {
-        // Arrange
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+//    @Test
+//    void testGetAllProgrammes() {
+//        // Arrange
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+//
+//        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+//                doubleProgrammeEditionEnrolmentRepository,
+//                doubleProgrammeEditionRepository,
+//                doubleCourseEditionEnrolmentRepository,
+//                doubleCourseEditionRepository,
+//                doubleSchoolYearRepository,
+//                doubleProgrammeEnrolmentRepository,
+//                doubleProgrammeRepository,
+//                doubleProgrammeEditionEnrolmentFactory
+//        );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertNotNull(doubleProgrammes, "The list of programmes should not be null.");
+//    }
 
-        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
-                doubleProgrammeEditionEnrolmentRepository,
-                doubleProgrammeEditionRepository,
-                doubleCourseEditionEnrolmentRepository,
-                doubleCourseEditionRepository,
-                doubleSchoolYearRepository,
-                doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository,
-                doubleProgrammeEditionEnrolmentFactory
-        );
-
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
-
-        // Assert
-        assertNotNull(doubleProgrammes, "The list of programmes should not be null.");
-    }
-
-    @Test
-    void testGetAllProgrammes_SizeEqualsTwo()  {
-        // Arrange
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
-
-        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
-                doubleProgrammeEditionEnrolmentRepository,
-                doubleProgrammeEditionRepository,
-                doubleCourseEditionEnrolmentRepository,
-                doubleCourseEditionRepository,
-                doubleSchoolYearRepository,
-                doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository,
-                doubleProgrammeEditionEnrolmentFactory
-        );
-
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
-
-        // Assert
-        assertEquals(2, doubleProgrammes.size(), "The list of programmes should contain exactly 2 programmes.");
-    }
-
-    @Test
-    void testGetAllProgrammes_ContainsAllProgrammes() {
-        // Arrange
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
-
-        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
-                doubleProgrammeEditionEnrolmentRepository,
-                doubleProgrammeEditionRepository,
-                doubleCourseEditionEnrolmentRepository,
-                doubleCourseEditionRepository,
-                doubleSchoolYearRepository,
-                doubleProgrammeEnrolmentRepository,
-                doubleProgrammeRepository,
-                doubleProgrammeEditionEnrolmentFactory
-        );
-
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
-
-        // Assert
-        assertTrue(doubleProgrammes.contains(doubleProgramme1));
-        assertTrue(doubleProgrammes.contains(doubleProgramme2));
-
-    }
+//    @Test
+//    void testGetAllProgrammes_SizeEqualsTwo()  {
+//        // Arrange
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+//
+//        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+//                doubleProgrammeEditionEnrolmentRepository,
+//                doubleProgrammeEditionRepository,
+//                doubleCourseEditionEnrolmentRepository,
+//                doubleCourseEditionRepository,
+//                doubleSchoolYearRepository,
+//                doubleProgrammeEnrolmentRepository,
+//                doubleProgrammeRepository,
+//                doubleProgrammeEditionEnrolmentFactory
+//        );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertEquals(2, doubleProgrammes.size(), "The list of programmes should contain exactly 2 programmes.");
+//    }
+//
+//    @Test
+//    void testGetAllProgrammes_ContainsAllProgrammes() {
+//        // Arrange
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeRepository = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        IProgrammeEditionEnrolmentFactory doubleProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+//
+//        ProgrammeEditionEnrolmentServiceImpl service = new ProgrammeEditionEnrolmentServiceImpl(
+//                doubleProgrammeEditionEnrolmentRepository,
+//                doubleProgrammeEditionRepository,
+//                doubleCourseEditionEnrolmentRepository,
+//                doubleCourseEditionRepository,
+//                doubleSchoolYearRepository,
+//                doubleProgrammeEnrolmentRepository,
+//                doubleProgrammeRepository,
+//                doubleProgrammeEditionEnrolmentFactory
+//        );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeRepository.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = service.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertTrue(doubleProgrammes.contains(doubleProgramme1));
+//        assertTrue(doubleProgrammes.contains(doubleProgramme2));
+//
+//    }
 
     @Test
     void testGetAllSchoolYears_NotNull() {

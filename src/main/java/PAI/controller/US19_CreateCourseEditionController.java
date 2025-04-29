@@ -60,9 +60,9 @@ public class US19_CreateCourseEditionController {
         return _degreeTypeRepository.getAllDegreeTypes();
     }
 
-    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
-    }
+//    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
+//        return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
+//    }
 
     public List<CourseInStudyPlan> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) throws Exception {
         StudyPlanID studyPlanID = _studyPlanRepository.getLatestStudyPlanIDByProgrammeID(programmeID);

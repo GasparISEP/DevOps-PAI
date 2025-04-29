@@ -10,6 +10,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.programme.IProgrammeService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
     private final IProgrammeEditionFactory _programmeEditionFactory;
     private final ISchoolYearRepository _schoolYearRepository;
     private final IProgrammeRepository _programmeRepository;
+    private final IProgrammeService _programmeService;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionFactory programmeEditionFactory, ISchoolYearRepository schoolYearRepository, IProgrammeRepository programmeRepository) throws Exception {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeService programmeService, IProgrammeEditionFactory programmeEditionFactory, ISchoolYearRepository schoolYearRepository, IProgrammeRepository programmeRepository) throws Exception {
 
         if (programmeEditionFactory == null)
             throw new Exception("Programme Edition Repository cannot be null");
@@ -32,23 +34,17 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeEditionFactory = programmeEditionFactory;
         _schoolYearRepository = schoolYearRepository;
         _programmeRepository = programmeRepository;
+        _programmeService = programmeService;
     }
 
-    public List<Programme> getAllProgrammes(){
+    public Iterable<Programme> getAllProgrammes(){
 
-        return _programmeRepository.getAllProgrammes();
+        return _programmeService.findAll();
     }
 
-    public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName) throws Exception {
+    public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme) throws Exception {
 
-        Optional<Programme> programmeOpt = _programmeRepository.getProgrammeByName(programmeName);
-        Programme programme = programmeOpt.orElse(null);
-
-        ProgrammeID pID;
-        if (programme == null)
-            return false;
-
-        pID = programme.identity();
+        ProgrammeID pID = programme.identity();
 
         Optional<SchoolYear> currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
         if(currentSchoolYear.isEmpty())

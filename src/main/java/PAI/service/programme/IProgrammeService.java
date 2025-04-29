@@ -15,5 +15,6 @@ public interface IProgrammeService {
     Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name);
     Programme getProgrammeByAcronym(Acronym acronym);
     List<ProgrammeID> getAllProgrammeIDs();
+    Iterable<Programme> findAll();
 }
 
