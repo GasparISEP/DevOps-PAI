@@ -6,7 +6,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.service.DegreeTypeService;
+import PAI.service.DegreeType.IDegreeTypeService;
 import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
@@ -27,7 +27,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldCreateControllerSuccessfully() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -45,7 +45,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfDegreeTypeServiceIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = null;
+        IDegreeTypeService degreeTypeService = null;
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -63,7 +63,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfProgrammeServiceIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = null;
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -81,7 +81,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfStudyPlanServiceIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = null;
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -99,7 +99,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfCourseInStudyPlanServiceIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = null;
@@ -117,7 +117,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfProgrammeEditionServiceIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -135,7 +135,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldThrowExceptionIfCourseEditionRepositoryIsNull() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -154,7 +154,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnNullWhenGetAllDegreeTypesMethodIsCalled() {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -174,7 +174,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnNullWhenGetProgrammesByDegreeTypeIDMethodIsCalled() throws Exception {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -196,7 +196,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnNullWhenGetCoursesInStudyPlanByProgrammeIDMethodIsCalled() throws Exception {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -218,7 +218,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnNullWhenGetProgrammeEditionsByProgrammeIDMethodIsCalled() throws Exception {
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
@@ -241,7 +241,7 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnFalseWhenCreateCourseEditionMethodIsCalled(){
         // SUT = Controller
         // Arrange
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
         IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
