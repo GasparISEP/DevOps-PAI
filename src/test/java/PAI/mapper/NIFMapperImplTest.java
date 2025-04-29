@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class NIFMapperTest {
+class NIFMapperImplTest {
 
     @Test
     void testDomainToDataModel() {
@@ -25,10 +25,10 @@ class NIFMapperTest {
         when(nifMock.getCountry()).thenReturn(countryMock);
         when(countryMock.toString()).thenReturn(countryValue);
 
-        NIFMapper nifMapper = new NIFMapper();
+        NIFMapperImpl nifMapperImpl = new NIFMapperImpl();
 
         // Act
-        NIFDataModel dataModel = nifMapper.domainToDataModel(nifMock);
+        NIFDataModel dataModel = nifMapperImpl.domainToDataModel(nifMock);
 
         // Assert
         assertNotNull(dataModel);
@@ -47,10 +47,10 @@ class NIFMapperTest {
         when(nifDataModelMock.getNifNumber()).thenReturn(nifValue);
         when(nifDataModelMock.getNifCountry()).thenReturn(countryValue);
 
-        NIFMapper nifMapper = new NIFMapper();
+        NIFMapperImpl nifMapperImpl = new NIFMapperImpl();
 
         // Act
-        NIF nif = nifMapper.dataModelToDomain(nifDataModelMock);
+        NIF nif = nifMapperImpl.dataModelToDomain(nifDataModelMock);
 
         // Assert
         assertNotNull(nif);

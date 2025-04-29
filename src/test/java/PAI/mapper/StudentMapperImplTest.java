@@ -26,8 +26,8 @@ class StudentMapperImplTest {
         //arrange
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
         IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 
@@ -41,12 +41,12 @@ class StudentMapperImplTest {
 
     static Stream<Arguments> testNullInputs() {
         return Streams.of(
-                Arguments.of(null, mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "Student Factory cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), null, mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "StudentID Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), null, mock(NIFMapper.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "PhoneNumber Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), null, mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "NIF Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), null, mock(StudentAcademicEmailMapper.class), "Address Mapper cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapper.class), mock(NIFMapper.class), mock(AddressMapperImpl.class), null, "Student Academic Email Mapper cannot be null!")
+                Arguments.of(null, mock(StudentIDMapper.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "Student Factory cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), null, mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "StudentID Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), null, mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "PhoneNumber Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapperImpl.class), null, mock(AddressMapperImpl.class), mock(StudentAcademicEmailMapper.class), "NIF Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), null, mock(StudentAcademicEmailMapper.class), "Address Mapper cannot be null!"),
+                Arguments.of(mock(StudentFactoryImpl.class), mock(StudentIDMapper.class), mock(PhoneNumberMapperImpl.class), mock(NIFMapperImpl.class), mock(AddressMapperImpl.class), null, "Student Academic Email Mapper cannot be null!")
         );
     }
 
@@ -70,8 +70,8 @@ class StudentMapperImplTest {
         //create studentMapper
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
         IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 
@@ -138,8 +138,8 @@ class StudentMapperImplTest {
         //create studentMapper
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
         IStudentIDMapper studentIDMapperDouble = mock(StudentIDMapper.class);
-        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapper.class);
-        INIFMapper nifMapperDouble = mock(NIFMapper.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(PhoneNumberMapperImpl.class);
+        INIFMapper nifMapperDouble = mock(NIFMapperImpl.class);
         IAddressMapper addressMapperDouble = mock(AddressMapperImpl.class);
         IStudentAcademicEmailMapper studentAcademicEmailMapperDouble = mock(StudentAcademicEmailMapper.class);
 

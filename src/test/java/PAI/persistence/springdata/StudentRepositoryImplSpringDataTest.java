@@ -2,7 +2,7 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.mapper.NIFMapper;
+import PAI.mapper.NIFMapperImpl;
 import PAI.mapper.StudentIDMapper;
 import PAI.mapper.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
@@ -21,7 +21,7 @@ public class StudentRepositoryImplSpringDataTest {
     private IStudentRepositorySpringData repoMock;
     private StudentMapperImpl studentMapperImpl;
     private StudentIDMapper studentIDMapper;
-    private NIFMapper nifMapper;
+    private NIFMapperImpl nifMapperImpl;
 
     private StudentRepositorySpringDataImpl repository;
 
@@ -37,9 +37,9 @@ public class StudentRepositoryImplSpringDataTest {
         repoMock = mock(IStudentRepositorySpringData.class);
         studentMapperImpl = mock(StudentMapperImpl.class);
         studentIDMapper = mock(StudentIDMapper.class);
-        nifMapper = mock(NIFMapper.class);
+        nifMapperImpl = mock(NIFMapperImpl.class);
 
-        repository = new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, nifMapper);
+        repository = new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, nifMapperImpl);
 
         studentID = mock(StudentID.class);
         when(studentID.getUniqueNumber()).thenReturn(1234567);
@@ -57,9 +57,9 @@ public class StudentRepositoryImplSpringDataTest {
         // No need for specific mocks for this test.
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapper, nifMapper));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapper, nifMapper));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, null, nifMapper));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapper, nifMapperImpl));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapper, nifMapperImpl));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, null, nifMapperImpl));
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, null));
     }
 
@@ -150,7 +150,7 @@ public class StudentRepositoryImplSpringDataTest {
     public void testContainsByStudentIDOrNIF() {
         // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-        when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
+        when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(true);
 
         // Act
@@ -177,7 +177,7 @@ public class StudentRepositoryImplSpringDataTest {
     public void testContainsByStudentIDOrNIFReturnsFalse() {
         // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-        when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
+        when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
         when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(false);
 
         // Act

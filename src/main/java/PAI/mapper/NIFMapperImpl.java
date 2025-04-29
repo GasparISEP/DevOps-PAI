@@ -6,7 +6,7 @@ import PAI.persistence.datamodel.NIFDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NIFMapper implements INIFMapper {
+public class NIFMapperImpl implements INIFMapper {
 
     public NIFDataModel domainToDataModel(NIF NIF) {
 

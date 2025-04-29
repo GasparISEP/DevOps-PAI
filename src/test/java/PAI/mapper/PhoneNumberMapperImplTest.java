@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class PhoneNumberMapperTest {
+class PhoneNumberMapperImplTest {
 
     @Test
     void shouldCreatePhoneNumberDataModelFromDomain() {
         //arrange
         PhoneNumber phoneNumber = mock(PhoneNumber.class);
-        PhoneNumberMapper mapper = new PhoneNumberMapper();
+        PhoneNumberMapperImpl mapper = new PhoneNumberMapperImpl();
 
         when(phoneNumber.getCountryCode()).thenReturn("+351");
         when(phoneNumber.getNumber()).thenReturn("912345678");
@@ -31,7 +31,7 @@ class PhoneNumberMapperTest {
     void shouldCreatePhoneNumberVOFromDataModel() throws Exception {
         //arrange
         PhoneNumberDataModel phoneNumberDataModel = mock(PhoneNumberDataModel.class);
-        PhoneNumberMapper mapper = new PhoneNumberMapper();
+        PhoneNumberMapperImpl mapper = new PhoneNumberMapperImpl();
 
         when(phoneNumberDataModel.getCountryCode()).thenReturn("+351");
         when(phoneNumberDataModel.getNumber()).thenReturn("912345678");
