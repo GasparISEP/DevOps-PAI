@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEditionEnrolmentID> {
     private ProgrammeEditionID _programmeEditionId;
-    private LocalDate _enrolmentDate;
+    private Date _enrolmentDate;
     private ProgrammeEditionEnrolmentID _programmeEditionEnrolmentID;
     private StudentID _studentId;
 
@@ -20,14 +20,14 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
     public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
-        this._enrolmentDate = LocalDate.now();
+        this._enrolmentDate = new Date(LocalDate.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
     }
 
-    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, LocalDate enrolmentDate) {
+    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
-        this._enrolmentDate = (enrolmentDate != null) ? enrolmentDate : LocalDate.now();
+        this._enrolmentDate = ((enrolmentDate != null) ? enrolmentDate : Date.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
     }
 
@@ -71,7 +71,7 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
         return _studentId;
     }
 
-    public LocalDate getEnrolmentDate() {
+    public Date getEnrolmentDate() {
         return _enrolmentDate;
     }
 
