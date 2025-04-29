@@ -60,6 +60,7 @@ public class Department implements AggregateRoot <DepartmentID> {
 
     public DepartmentID getDepartmentID() {return _departmentId;}
 
+    public TeacherID getDirectorID() { return _director; }
 
     //US06
     public boolean changeDirector(TeacherID furtherDirectorID) {
