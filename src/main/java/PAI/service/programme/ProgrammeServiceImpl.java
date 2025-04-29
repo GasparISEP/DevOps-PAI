@@ -74,4 +74,8 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
         return  _programmeRepository.getProgrammeByName(name);
     }
+
+    public Programme getProgrammeByAcronym(Acronym acronym) {
+        return _programmeRepository.getProgrammeByAcronym(acronym);
+    }
 }
