@@ -56,18 +56,17 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
         List<CourseInStudyPlan> allCoursesInStudyPlan = new ArrayList<>();
 
         iCourseInStudyPlanRepositorySpringData.findAll().forEach(dataModel -> {
-            CourseInStudyPlan courseInStudyPlan = null;
-            try {
-                courseInStudyPlan = iCourseInStudyPlanMapper.toDomain(dataModel);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
             if(dataModel != null) {
-                allCoursesInStudyPlan.add(courseInStudyPlan);
+
+                try {
+            CourseInStudyPlan courseInStudyPlan = iCourseInStudyPlanMapper.toDomain(dataModel);
+                    allCoursesInStudyPlan.add(courseInStudyPlan);
+
+                } catch (Exception e) {
+                throw new RuntimeException(e);
+                }
             }
         });
-
         return allCoursesInStudyPlan;
     }
 
@@ -89,7 +88,6 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
             }
         });
     }
-
 
     @Override
     public boolean containsOfIdentity(CourseInStudyPlanID id) {
