@@ -1,5 +1,6 @@
 package PAI.factory.DegreeTypeFactory;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
@@ -10,6 +11,11 @@ public class DegreeTypeFactoryImpl implements IDegreeTypeFactory {
 
     @Override
     public DegreeType create(Name name, MaxEcts maxEcts) {
-        return DegreeType.create(name, maxEcts);  // gera automaticamente o ID
+        return DegreeType.create(name, maxEcts);
+    }
+
+    @Override
+    public DegreeType recreate(DegreeTypeID id, Name name, MaxEcts maxEcts) {
+        return new DegreeType(id, name, maxEcts);
     }
 }

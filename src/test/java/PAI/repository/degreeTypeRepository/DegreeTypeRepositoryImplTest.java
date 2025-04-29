@@ -19,7 +19,18 @@ class DegreeTypeRepositoryImplTest {
 
     @BeforeEach
     void setUp() {
-        IDegreeTypeFactory factory = (name, ects) -> DegreeType.create(name, ects);
+        IDegreeTypeFactory factory = new IDegreeTypeFactory() {
+            @Override
+            public DegreeType create(Name name, MaxEcts ects) {
+                return DegreeType.create(name, ects);
+            }
+
+            @Override
+            public DegreeType recreate(DegreeTypeID id, Name name, MaxEcts ects) {
+                return new DegreeType(id, name, ects);
+            }
+        };
+
         IDegreeTypeListFactory listFactory = new IDegreeTypeListFactory() {
             @Override
             public List<DegreeType> createEmptyList() {
