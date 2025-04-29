@@ -32,20 +32,20 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
         _programmeRepository =programmeRepository;
     }
 
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(DepartmentID department, SchoolYearID schoolYear) {
-        if(department==null || schoolYear==null){
-            throw new  IllegalArgumentException("Department or SchoolYear cannot be null");
-        }
-        if(!_schoolYearRepository.schoolYearExistsByID(schoolYear)){
-            throw new  IllegalArgumentException("SchoolYear does not exist.");
-        }
-        if(!_departmentRepository.containsOfIdentity(department)){
-            throw new  IllegalArgumentException("Department does not exist.");
-        }
-        List<ProgrammeID> programmeIDs = _programmeRepository.findProgrammeByDepartment(department);
-
-        return _PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear,programmeIDs);
-    }
+//    public int countStudentsInProgrammesFromDepartmentInSchoolYear(DepartmentID department, SchoolYearID schoolYear) {
+//        if(department==null || schoolYear==null){
+//            throw new  IllegalArgumentException("Department or SchoolYear cannot be null");
+//        }
+//        if(!_schoolYearRepository.schoolYearExistsByID(schoolYear)){
+//            throw new  IllegalArgumentException("SchoolYear does not exist.");
+//        }
+//        if(!_departmentRepository.containsOfIdentity(department)){
+//            throw new  IllegalArgumentException("Department does not exist.");
+//        }
+//        List<ProgrammeID> programmeIDs = _programmeRepository.findProgrammeByDepartment(department);
+//
+//        return _PEERepo.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear,programmeIDs);
+//    }
 
     public Set<DepartmentID> getAllDepartmentID() {
         return _departmentRepository.getDepartmentIDs();

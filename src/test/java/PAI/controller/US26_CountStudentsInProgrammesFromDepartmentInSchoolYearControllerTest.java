@@ -92,130 +92,130 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     }
 
     //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
-    @Test
-    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndInSchoolYear() {
-        // Arrange
-        DepartmentID departmentDouble = mock(DepartmentID.class);
-        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
-
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
-
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
-        // Act
-        int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
-
-        // Assert
-        assertEquals(3, result);
-    }
-
-    //test that ensures that the method throws an exception when Department is null
-    @Test
-    void shouldThrowExceptionWhenDepartmentIsNull() {
-        // arrange
-        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(null, schoolYearDouble);
-        });
-        // Assert
-        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
-    }
-
-    //test that ensures that the method throws an exception when School Year is null
-    @Test
-    void shouldThrowExceptionWhenSchoolYearIsNull() {
-        // arrange
-        DepartmentID departmentID = mock(DepartmentID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID, null);
-        });
-        // Assert
-        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfSchoolYearIsNotInRepo() {
-        // Arrange
-        DepartmentID departmentDouble = mock(DepartmentID.class);
-        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
-
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
-
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
-        });
-        // Assert
-        assertEquals("SchoolYear does not exist.", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfDepartmentIsNotInRepo() {
-        // Arrange
-        DepartmentID departmentDouble = mock(DepartmentID.class);
-        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
-
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(false);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
-
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
-
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {
-            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
-        });
-        // Assert
-        assertEquals("Department does not exist.", exception.getMessage());
-    }
+//    @Test
+//    void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndInSchoolYear() {
+//        // Arrange
+//        DepartmentID departmentDouble = mock(DepartmentID.class);
+//        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
+//        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+//        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
+//        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+//        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+//        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
+//
+//        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
+//        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
+//        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+//
+//        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+//
+//        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
+//                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+//
+//        // Act
+//        int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
+//
+//        // Assert
+//        assertEquals(3, result);
+//    }
+//
+//    //test that ensures that the method throws an exception when Department is null
+//    @Test
+//    void shouldThrowExceptionWhenDepartmentIsNull() {
+//        // arrange
+//        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
+//        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+//        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
+//        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+//        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+//
+//        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
+//                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+//
+//        // Act
+//        Exception exception = assertThrows(Exception.class, () -> {
+//            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(null, schoolYearDouble);
+//        });
+//        // Assert
+//        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
+//    }
+//
+//    //test that ensures that the method throws an exception when School Year is null
+//    @Test
+//    void shouldThrowExceptionWhenSchoolYearIsNull() {
+//        // arrange
+//        DepartmentID departmentID = mock(DepartmentID.class);
+//        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+//        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
+//        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+//        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+//
+//        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
+//                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+//
+//        // Act
+//        Exception exception = assertThrows(Exception.class, () -> {
+//            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID, null);
+//        });
+//        // Assert
+//        assertEquals("Department or SchoolYear cannot be null", exception.getMessage());
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionIfSchoolYearIsNotInRepo() {
+//        // Arrange
+//        DepartmentID departmentDouble = mock(DepartmentID.class);
+//        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
+//        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+//        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
+//        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+//        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+//        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
+//
+//        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
+//        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
+//        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+//
+//        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+//
+//        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
+//                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+//
+//        // Act
+//        Exception exception = assertThrows(Exception.class, () -> {
+//            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
+//        });
+//        // Assert
+//        assertEquals("SchoolYear does not exist.", exception.getMessage());
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionIfDepartmentIsNotInRepo() {
+//        // Arrange
+//        DepartmentID departmentDouble = mock(DepartmentID.class);
+//        SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
+//        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+//        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
+//        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+//        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+//        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
+//
+//        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
+//        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(false);
+//        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+//
+//        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+//
+//        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
+//                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+//
+//        // Act
+//        Exception exception = assertThrows(Exception.class, () -> {
+//            controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
+//        });
+//        // Assert
+//        assertEquals("Department does not exist.", exception.getMessage());
+//    }
 
     @Test
     void testGetAllSchoolYears_NotNull() {

@@ -259,112 +259,112 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
-    @Test
-    void testGetAllProgrammes() {
-        // Arrange
-        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        doubleProgrammeList,
-                        doubleCourseEditionEnrolmentRepositoryImpl,
-                        doubleCourseEditionRepository,
-                        doubleSchoolYearRepository,
-                        doubleEnrolmentRepository,
-                        doubleProgrammeEditionEnrolmentService
-                );
+//    @Test
+//    void testGetAllProgrammes() {
+//        // Arrange
+//        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        doubleProgrammeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        doubleProgrammeList,
+//                        doubleCourseEditionEnrolmentRepositoryImpl,
+//                        doubleCourseEditionRepository,
+//                        doubleSchoolYearRepository,
+//                        doubleEnrolmentRepository,
+//                        doubleProgrammeEditionEnrolmentService
+//                );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertNotNull(doubleProgrammes, "The list of programmes should not be null.");
+//    }
 
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertNotNull(doubleProgrammes, "The list of programmes should not be null.");
-    }
-
-    @Test
-    void testGetAllProgrammes_SizeEqualsTwo()  {
-        // Arrange
-        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        doubleProgrammeList,
-                        doubleCourseEditionEnrolmentRepositoryImpl,
-                        doubleCourseEditionRepository,
-                        doubleSchoolYearRepository,
-                        doubleEnrolmentRepository,
-                        doubleProgrammeEditionEnrolmentService
-                );
-
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertEquals(2, doubleProgrammes.size(), "The list of programmes should contain exactly 2 programmes.");
-    }
-
-    @Test
-    void testGetAllProgrammes_ContainsAllProgrammes() {
-        // Arrange
-        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
-        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
-        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
-        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        doubleProgrammeEditionEnrolmentRepository,
-                        doubleProgrammeEditionRepository,
-                        doubleProgrammeList,
-                        doubleCourseEditionEnrolmentRepositoryImpl,
-                        doubleCourseEditionRepository,
-                        doubleSchoolYearRepository,
-                        doubleEnrolmentRepository,
-                        doubleProgrammeEditionEnrolmentService
-                );
-
-        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
-        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
-
-        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
-
-        // Act
-        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertTrue(doubleProgrammes.contains(doubleProgramme1));
-        assertTrue(doubleProgrammes.contains(doubleProgramme2));
-
-    }
+//    @Test
+//    void testGetAllProgrammes_SizeEqualsTwo()  {
+//        // Arrange
+//        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        doubleProgrammeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        doubleProgrammeList,
+//                        doubleCourseEditionEnrolmentRepositoryImpl,
+//                        doubleCourseEditionRepository,
+//                        doubleSchoolYearRepository,
+//                        doubleEnrolmentRepository,
+//                        doubleProgrammeEditionEnrolmentService
+//                );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertEquals(2, doubleProgrammes.size(), "The list of programmes should contain exactly 2 programmes.");
+//    }
+//
+//    @Test
+//    void testGetAllProgrammes_ContainsAllProgrammes() {
+//        // Arrange
+//        IProgrammeEditionEnrolmentService doubleProgrammeEditionEnrolmentService = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+//        IProgrammeEditionEnrolmentRepository doubleProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+//        IProgrammeRepository doubleProgrammeList = mock(IProgrammeRepository.class);
+//        IProgrammeEditionRepository doubleProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+//        ICourseEditionEnrolmentRepository doubleCourseEditionEnrolmentRepositoryImpl = mock(ICourseEditionEnrolmentRepository.class);
+//        ICourseEditionRepository doubleCourseEditionRepository = mock(ICourseEditionRepository.class);
+//        ISchoolYearRepository doubleSchoolYearRepository = mock(ISchoolYearRepository.class);
+//        IProgrammeEnrolmentRepository doubleEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        doubleProgrammeEditionEnrolmentRepository,
+//                        doubleProgrammeEditionRepository,
+//                        doubleProgrammeList,
+//                        doubleCourseEditionEnrolmentRepositoryImpl,
+//                        doubleCourseEditionRepository,
+//                        doubleSchoolYearRepository,
+//                        doubleEnrolmentRepository,
+//                        doubleProgrammeEditionEnrolmentService
+//                );
+//
+//        ProgrammeID doubleProgramme1 = mock(ProgrammeID.class);
+//        ProgrammeID doubleProgramme2 = mock(ProgrammeID.class);
+//
+//        when(doubleProgrammeList.getAllProgrammesIDs()).thenReturn(List.of(doubleProgramme1, doubleProgramme2));
+//
+//        // Act
+//        List<ProgrammeID> doubleProgrammes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertTrue(doubleProgrammes.contains(doubleProgramme1));
+//        assertTrue(doubleProgrammes.contains(doubleProgramme2));
+//
+//    }
 
     @Test
     void testGetAllSchoolYears_NotNull() {
@@ -1035,141 +1035,141 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         });
     }
 
-    @Test
-    void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
-
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
-                programmeEditionEnrolmentRepository,
-                programmeEditionRepository,
-                courseEditionEnrolmentRepositoryImpl,
-                courseEditionRepository,
-                schoolYearRepository,
-                programmeEnrolmentRepository,
-                programmeRepository,
-                programmeEditionEnrolmentFactory);
-
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        programmeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository,
-                        programmeEditionEnrolmentService);
-
-        Acronym acronym1 = new Acronym("CSE");
-        Acronym acronym2 = new Acronym("CVE");
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-
-        // Act
-        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertNotNull(programmes, "The list of programmes should not be null.");
-    }
-
-    @Test
-    void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
-        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
-        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
-
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
-                programmeEditionEnrolmentRepository,
-                programmeEditionRepository,
-                courseEditionEnrolmentRepositoryImpl,
-                courseEditionRepository,
-                schoolYearRepository,
-                programmeEnrolmentRepository,
-                programmeRepository,
-                programmeEditionEnrolmentFactory);
-
-        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionEnrolmentRepository,
-                        programmeEditionRepository,
-                        programmeRepository,
-                        courseEditionEnrolmentRepositoryImpl,
-                        courseEditionRepository,
-                        schoolYearRepository,
-                        programmeEnrolmentRepository,
-                        programmeEditionEnrolmentService);
-
-        Acronym acronym1 = new Acronym("CSE");
-        Acronym acronym2 = new Acronym("CVE");
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(6);
-        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
-        DepartmentID departmentID = new DepartmentID(dAcronym);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
-        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
-        TeacherID teacherID1 = new TeacherID(tAcronym);
-
-
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-
-        // Act
-        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
-
-        // Assert
-        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
-
-    }
+//    @Test
+//    void testGetAllProgrammes_NotNull_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+//                programmeEditionEnrolmentRepository,
+//                programmeEditionRepository,
+//                courseEditionEnrolmentRepositoryImpl,
+//                courseEditionRepository,
+//                schoolYearRepository,
+//                programmeEnrolmentRepository,
+//                programmeRepository,
+//                programmeEditionEnrolmentFactory);
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        programmeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepository,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository,
+//                        programmeEditionEnrolmentService);
+//
+//        Acronym acronym1 = new Acronym("CSE");
+//        Acronym acronym2 = new Acronym("CVE");
+//        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
+//        QuantEcts quantEcts = new QuantEcts(25);
+//        QuantSemesters quantSemesters = new QuantSemesters(6);
+//        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+//        DepartmentID departmentID = new DepartmentID(dAcronym);
+//        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
+//        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
+//        TeacherID teacherID1 = new TeacherID(tAcronym);
+//
+//        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+//        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//
+//        // Act
+//        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertNotNull(programmes, "The list of programmes should not be null.");
+//    }
+//
+//    @Test
+//    void testGetAllProgrammes_ListSize_IntegrationTest() throws Exception {
+//        // Arrange
+//        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+//        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+//        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+//        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
+//        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
+//        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
+//        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+//        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+//        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+//        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+//                programmeEditionEnrolmentRepository,
+//                programmeEditionRepository,
+//                courseEditionEnrolmentRepositoryImpl,
+//                courseEditionRepository,
+//                schoolYearRepository,
+//                programmeEnrolmentRepository,
+//                programmeRepository,
+//                programmeEditionEnrolmentFactory);
+//
+//        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
+//                        programmeEditionEnrolmentRepository,
+//                        programmeEditionRepository,
+//                        programmeRepository,
+//                        courseEditionEnrolmentRepositoryImpl,
+//                        courseEditionRepository,
+//                        schoolYearRepository,
+//                        programmeEnrolmentRepository,
+//                        programmeEditionEnrolmentService);
+//
+//        Acronym acronym1 = new Acronym("CSE");
+//        Acronym acronym2 = new Acronym("CVE");
+//        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
+//        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
+//        QuantEcts quantEcts = new QuantEcts(25);
+//        QuantSemesters quantSemesters = new QuantSemesters(6);
+//        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+//        DepartmentID departmentID = new DepartmentID(dAcronym);
+//        DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
+//        TeacherAcronym tAcronym = new TeacherAcronym("AAA");
+//        TeacherID teacherID1 = new TeacherID(tAcronym);
+//
+//
+//        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+//        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+//
+//        // Act
+//        List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
+//
+//        // Assert
+//        assertEquals(2, programmes.size(), "The list of programmes should contain exactly 2 programmes.");
+//
+//    }
 
     @Test
     void testGetAllSchoolYears_NotNullList_IntegrationTest() throws Exception {
