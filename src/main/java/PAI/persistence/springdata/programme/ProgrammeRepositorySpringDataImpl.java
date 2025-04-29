@@ -81,19 +81,6 @@ public class ProgrammeRepositorySpringDataImpl {
         return _iProgRepo.existsById(id.toString());
     }
 
-    //US18
-    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames (){
-        List<String> programmesNamesListData = _iProgRepo.findAllProgrammeNames();
-
-        List<NameWithNumbersAndSpecialChars> programmeNamesListVO = new ArrayList<>();
-
-        for(String programmeNameData : programmesNamesListData) {
-            NameWithNumbersAndSpecialChars programmeNameVO = new NameWithNumbersAndSpecialChars(programmeNameData);
-            programmeNamesListVO.add(programmeNameVO);
-        }
-
-        return programmeNamesListVO;
-    }
 
     public Optional<ProgrammeID> getProgrammeIDByName (NameWithNumbersAndSpecialChars programmeName){
         String programmeNameToSearch = programmeName.toString();
