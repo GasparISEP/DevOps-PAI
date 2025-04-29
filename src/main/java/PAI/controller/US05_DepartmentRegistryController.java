@@ -2,7 +2,9 @@ package PAI.controller;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.service.department.IDepartmentService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class US05_DepartmentRegistryController {
 
     private final IDepartmentService _departmentService;

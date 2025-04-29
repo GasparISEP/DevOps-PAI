@@ -8,8 +8,6 @@ import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class DepartmentServiceImpl implements IDepartmentService {
 
@@ -41,9 +39,11 @@ public class DepartmentServiceImpl implements IDepartmentService {
         _departmentRepo.save(department);
         return true;
     }
+
     public boolean updateOfDepartmentDirector(DepartmentID departmentID, TeacherID furtherDirectorID) {
         return _departmentRepo.updateOfDepartmentDirector(departmentID,furtherDirectorID);
     }
+
     public boolean containsOfIdentity(DepartmentID id) {
         return _departmentRepo.containsOfIdentity(id);
     }
