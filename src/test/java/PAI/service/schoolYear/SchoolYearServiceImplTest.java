@@ -9,6 +9,8 @@ import PAI.repository.ISchoolYearRepository;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -151,5 +153,23 @@ class SchoolYearServiceImplTest {
 
         // Verify that save() is called twice, once for each school year
         verify(schoolYearRepository, times(2)).save(any());  // Ensure save() is called for both school years
+    }
+
+    @Test
+    void shouldReturnOptionalSchoolYearIdWhenSchoolYearExists() throws Exception {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.of(schoolYear1));
+        when(schoolYear1.identity()).thenReturn(schoolYearID1);
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isPresent());
+        assertEquals(schoolYearID1,result.get());
     }
 }
