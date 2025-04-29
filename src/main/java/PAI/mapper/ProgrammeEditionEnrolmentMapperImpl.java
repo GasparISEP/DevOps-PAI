@@ -1,5 +1,6 @@
 package PAI.mapper;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
@@ -43,7 +44,8 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
 
         StudentID studentID = pEEID.get().getStudentiD();
         ProgrammeEditionID programmeEditionId = pEEID.get().getProgrammeEditionId();
-        LocalDate enrolmentDate = dataModel.getEnrolmentDate();
+        LocalDate enrolmentDateLocal = dataModel.getEnrolmentDate();
+        Date enrolmentDate = new Date(enrolmentDateLocal);
 
         return Optional.of(_programmeEditionEnrolmentFactory.createWithEnrolmentDate(studentID, programmeEditionId,enrolmentDate));
     }
@@ -57,6 +59,6 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
 
         Optional<ProgrammeEditionEnrolmentIDDataModel> idDataModel = _programmeEditionEnrolmentIDMapper.toDataModel(domain.identity());
 
-        return Optional.of(new ProgrammeEditionEnrolmentDataModel(idDataModel.get(),domain.getEnrolmentDate()));
+        return Optional.of(new ProgrammeEditionEnrolmentDataModel(idDataModel.get(), domain.getEnrolmentDate().getLocalDate()));
     }
 }

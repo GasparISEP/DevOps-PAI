@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEditionEnrolment;
@@ -24,7 +25,7 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
     }
 
     @Override
-    public ProgrammeEditionEnrolment createWithEnrolmentDate(StudentID studentId, ProgrammeEditionID programmeEditionId, LocalDate enrolmentDate) {
+    public ProgrammeEditionEnrolment createWithEnrolmentDate(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate) {
 
         if (studentId == null) {
             throw new IllegalArgumentException("Student cannot be null.");
