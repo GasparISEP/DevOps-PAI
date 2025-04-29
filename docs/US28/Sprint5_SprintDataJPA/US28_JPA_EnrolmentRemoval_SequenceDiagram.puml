@@ -81,7 +81,7 @@ deactivate CEERepo
 
 
 ' Step 6: Checking for other active course enrolments
-group Checking other active course enrolments: hasOtherActiveCourseEditionEnrolments
+group Checking other active course edition enrolments: hasOtherActiveCourseEditionEnrolments
 Service -> CEERepo: findAll()
 activate CEERepo
 CEERepo -> CEESpringRepo: findAll()
@@ -121,19 +121,19 @@ loop for each enrolment
   courseEditionID --> Service: programmeEditionID
   deactivate courseEditionID
 
-  ' Step 6.5: Compare programmeEditionID with inputProgrammeEditionID
   Service -> Service: equals(programmeEditionID, inputProgrammeEditionID)
-  alt programmeEditionID equals inputProgrammeEditionID
-    Service --> Service : found matching enrolment: \nreturn true
+
+  alt [1] match found: Has other active course edition enrolments
+    Service --> Controller: true (only course enrolment deactivated)
+    deactivate Service
   end
 end
 end
-
-' Step 7: Handle the case if there are other active course enrolments
+else
+' After loop
 group Deactivate Programme Edition Enrolment: deactivateProgrammeEditionEnrolment
-alt Has other active course enrolments
-    Service --> Controller : true (only course enrolment deactivated)
-else No more active enrolments
+alt [2] No more active course edition enrolments
+Service --> Service: No active course edition enrolments found
     ' Step 7.1: Retrieve programme edition enrolment from repository
     Service -> PEERepo: findByStudentAndProgrammeEdition(studentID, programmeEditionID)
     activate PEERepo
@@ -179,6 +179,7 @@ else No more active enrolments
 end
 end
 end
+
 ' Step 8: Return success message to the user
 Controller --> UI: true
 deactivate Controller
