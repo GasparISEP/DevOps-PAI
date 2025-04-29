@@ -341,5 +341,78 @@ class ProgrammeServiceImplTest {
 
     }
 
+    @Test
+    void shouldGetProgrammeByAcronym() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        Acronym acronym = mock(Acronym.class);
+        Programme programme1 = mock(Programme.class);
+
+        when(doubleRepo.getProgrammeByAcronym(acronym)).thenReturn(programme1);
+
+        //Act
+        Programme result = service.getProgrammeByAcronym(acronym);
+
+        //Assert
+        assertNotNull(result);
+
+    }
+
+    @Test
+    void shouldNotGetProgrammeByAcronym() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        Programme result = service.getProgrammeByAcronym(null);
+
+        //Assert
+        assertNull(result);
+
+    }
+
+    @Test
+    void shouldGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        ProgrammeID programme1 = mock(ProgrammeID.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
+
+        when(doubleRepo.getAllProgrammesIDs()).thenReturn(List.of(programme1 ,programme2));
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
+
+        //Assert
+        assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldNotGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
 
 }
