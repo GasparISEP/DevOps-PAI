@@ -317,7 +317,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
@@ -471,7 +471,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID1);
@@ -544,7 +544,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID,ceID2);
@@ -619,7 +619,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID2);
@@ -683,7 +683,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID,ceID1);

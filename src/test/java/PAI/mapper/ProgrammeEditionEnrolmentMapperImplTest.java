@@ -72,7 +72,7 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         when(pEEID.getStudentiD()).thenReturn(mock(StudentID.class));
         when(pEEID.getProgrammeEditionId()).thenReturn(mock(ProgrammeEditionID.class));
         when(dataModel.getEnrolmentDate()).thenReturn(LocalDate.now());
-        when(mockProgrammeEditionEnrolmentFactory.createWithEnrolmentDate(any(), any(), any()))
+        when(mockProgrammeEditionEnrolmentFactory.createWithEnrolmentDate(any(), any(), any(), any()))
                 .thenReturn(mock(ProgrammeEditionEnrolment.class));
 
         // Act

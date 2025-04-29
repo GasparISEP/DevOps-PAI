@@ -19,11 +19,6 @@ public class DegreeType implements AggregateRoot<DegreeTypeID> {
         this._maxEcts = Objects.requireNonNull(maxEcts, "MaxEcts cannot be null");
     }
 
-
-    public static DegreeType create(Name name, MaxEcts maxEcts) {
-        return new DegreeType(new DegreeTypeID(), name, maxEcts);
-    }
-
     @Override
     public DegreeTypeID identity() {
         return this._degreeTypeID;

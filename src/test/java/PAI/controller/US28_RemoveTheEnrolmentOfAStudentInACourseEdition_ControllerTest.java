@@ -219,7 +219,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act
         boolean result = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -266,8 +266,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID,courseInStudyPlan2ID);
         CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID, courseEdition2ID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
+        enrolmentRepository.save(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -304,8 +304,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
         CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID2, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
+        enrolmentRepository.save(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -372,7 +372,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act
         boolean firstRemoval = controller.removeStudentEnrolment(studentID, courseEditionID);
@@ -406,7 +406,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID,courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID, courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act and assert
         // test for the case where Student is null

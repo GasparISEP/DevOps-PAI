@@ -8,8 +8,11 @@ import PAI.mapper.SchoolYear.ISchoolYearMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
+import PAI.repository.ISchoolYearRepository;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -391,6 +394,51 @@ class SchoolYearRepositorySpringDataImplTest {
 
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnAllSchoolYearIDs() {
+        // arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        SchoolYearID id1 = mock(SchoolYearID.class);
+        SchoolYearID id2 = mock(SchoolYearID.class);
+        SchoolYearID id3 = mock(SchoolYearID.class);
+
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+        SchoolYear schoolYear3 = mock(SchoolYear.class);
+
+        when(schoolYear1.identity()).thenReturn(id1);
+        when(schoolYear2.identity()).thenReturn(id2);
+        when(schoolYear3.identity()).thenReturn(id3);
+
+        when(schoolYearRepository.findAll()).thenReturn(List.of(schoolYear1, schoolYear2, schoolYear3));
+
+        // act
+        List<SchoolYearID> result = schoolYearService.getAllSchoolYearsIDs();
+
+        // assert
+        assertEquals(3, result.size());
+        assertTrue(result.containsAll(Arrays.asList(id1, id2, id3)));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoSchoolYearsExist() {
+        // arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        when(schoolYearRepository.findAll()).thenReturn(List.of());
+
+        // act
+        List<SchoolYearID> result = schoolYearService.getAllSchoolYearsIDs();
+
+        // assert
+        assertTrue(result.isEmpty());
     }
 
 }

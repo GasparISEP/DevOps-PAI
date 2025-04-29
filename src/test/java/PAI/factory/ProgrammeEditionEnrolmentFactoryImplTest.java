@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockConstruction;
 
 import PAI.VOs.Date;
+import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEditionEnrolment;
@@ -76,11 +77,12 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
         StudentID studentId = mock(StudentID.class);
         ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
         Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         // Act
-        ProgrammeEditionEnrolment enrolment = factory.createWithEnrolmentDate(studentId, programmeEditionId, enrolmentDate);
+        ProgrammeEditionEnrolment enrolment = factory.createWithEnrolmentDate(studentId, programmeEditionId, enrolmentDate, enrolmentStatus);
 
         // Assert
         assertNotNull(enrolment);
@@ -93,12 +95,13 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
         // Arrange:
         ProgrammeEditionID mockProgrammeEditionId = mock(ProgrammeEditionID.class);
         Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createWithEnrolmentDate(null, mockProgrammeEditionId, enrolmentDate);
+            factory.createWithEnrolmentDate(null, mockProgrammeEditionId, enrolmentDate, enrolmentStatus);
         });
 
         assertEquals("Student cannot be null.", exception.getMessage());
@@ -109,12 +112,13 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
         // Arrange:
         StudentID mockStudentId = mock(StudentID.class);
         Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createWithEnrolmentDate(mockStudentId, null, enrolmentDate);
+            factory.createWithEnrolmentDate(mockStudentId, null, enrolmentDate, enrolmentStatus);
         });
 
         assertEquals("ProgrammeEdition cannot be null.", exception.getMessage());
