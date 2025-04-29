@@ -11,7 +11,9 @@ import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeMapperImpl implements IProgrammeMapper {
 
     private final ProgrammeIDMapperImpl _progIDMapper;
