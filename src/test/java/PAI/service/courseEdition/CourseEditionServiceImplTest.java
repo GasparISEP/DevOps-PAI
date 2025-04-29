@@ -410,7 +410,6 @@ class CourseEditionServiceImplTest {
 
     @Test
     void shouldReturnTrueWhenAssignRucAndEditionExists() throws Exception {
-        // Arrange
         ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
@@ -419,24 +418,19 @@ class CourseEditionServiceImplTest {
         CourseEditionID ceId = mock(CourseEditionID.class);
         CourseEdition ce = mock(CourseEdition.class);
 
-        // este "when" é obrigatório para corrigir o comportamento:
         when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
         when(repo.save(ce)).thenReturn(ce);
-        when(ce.setRuc(tId)).thenReturn(true); // <- **esta linha é a chave**
+        when(ce.setRuc(tId)).thenReturn(true);
 
-        // Act
         boolean result = service.assignRucToCourseEdition(tId, ceId);
 
-        // Assert
         assertTrue(result);
         verify(ce).setRuc(tId);
         verify(repo).save(ce);
     }
 
-
     @Test
     void shouldReturnFalseWhenAssignRucAndEditionNotExists() throws Exception {
-        // Arrange
         ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
         CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
@@ -446,11 +440,54 @@ class CourseEditionServiceImplTest {
 
         when(repo.ofIdentity(ceId)).thenReturn(Optional.empty());
 
-        // Act
         boolean result = service.assignRucToCourseEdition(tId, ceId);
 
-        // Assert
         assertFalse(result);
         verify(repo, never()).save(any());
     }
+
+    @Test
+    void shouldReturnFalseWhenSetRucFails() throws Exception {
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+
+        TeacherID tId = mock(TeacherID.class);
+        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseEdition ce = mock(CourseEdition.class);
+
+        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
+        when(ce.setRuc(tId)).thenReturn(false);
+
+        boolean result = service.assignRucToCourseEdition(tId, ceId);
+
+        assertFalse(result);
+        verify(ce).setRuc(tId);
+        verify(repo, never()).save(any());
+    }
+
+    @Test
+    void shouldThrowRuntimeExceptionWhenSaveFails() throws Exception {
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+
+        TeacherID tId = mock(TeacherID.class);
+        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseEdition ce = mock(CourseEdition.class);
+
+        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
+        when(ce.setRuc(tId)).thenReturn(true);
+        when(repo.save(ce)).thenThrow(new RuntimeException("Persistência falhou"));
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            service.assignRucToCourseEdition(tId, ceId);
+        });
+
+        assertTrue(thrown.getMessage().contains("Erro ao persistir CourseEdition com novo RUC"));
+        verify(ce).setRuc(tId);
+        verify(repo).save(ce);
+    }
+
+
 }

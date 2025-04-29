@@ -72,18 +72,24 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     @Override
     @Transactional
     public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
-        return courseEditionRepository.ofIdentity(courseEditionId)
-                .map(courseEdition -> {
-                    boolean success = courseEdition.setRuc(teacherId);
-                    if (success) {
-                        try {
-                            courseEditionRepository.save(courseEdition);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    return success;
-                })
-                .orElse(false);
+        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
+
+        if (optionalEdition.isEmpty()) {
+            return false;
+        }
+
+        CourseEdition courseEdition = optionalEdition.get();
+        boolean success = courseEdition.setRuc(teacherId);
+
+        if (success) {
+            try {
+                courseEditionRepository.save(courseEdition);
+            } catch (Exception e) {
+                // Pode fazer log aqui, se quiseres
+                throw new RuntimeException("Erro ao persistir CourseEdition com novo RUC", e);
+            }
+        }
+
+        return success;
     }
 }
