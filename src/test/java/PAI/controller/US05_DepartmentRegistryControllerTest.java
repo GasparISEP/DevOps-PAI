@@ -42,11 +42,25 @@ class US05_DepartmentRegistryControllerTest {
         Name name = mock(Name.class);
         IDepartmentService departmentServiceDouble = mock(IDepartmentService.class);
         US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentServiceDouble);
-        when(departmentServiceDouble.registerDepartment(acronym,name)).thenReturn(true);
+        when(departmentServiceDouble.registerDepartment(acronym, name)).thenReturn(true);
         //act
         boolean result = controller.registerDepartment(acronym, name);
         //assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenDepartmentNotRegistered() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        IDepartmentService departmentServiceDouble = mock(IDepartmentService.class);
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentServiceDouble);
+        when(departmentServiceDouble.registerDepartment(acronym, name)).thenReturn(false);
+        //act
+        boolean result = controller.registerDepartment(acronym, name);
+        //assert
+        assertFalse(result);
     }
 
     @Test
@@ -76,13 +90,12 @@ class US05_DepartmentRegistryControllerTest {
         assertTrue(exception.getMessage().contains("Acronym or name cannot be null."));
     }
 
-
     //Integration tests
     @Test
-    void shouldReturnTrueWhen_DepartmentIsRegistered() throws Exception {
+    void shouldReturnTrueWhenDepartmentIsRegistered_IntegrationTest() throws Exception {
         //arrange
         DepartmentAcronym acronym = new DepartmentAcronym("SED");
-        Name name = new Name ("Software Engineer Department");
+        Name name = new Name("Software Engineer Department");
 
         DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
@@ -98,9 +111,9 @@ class US05_DepartmentRegistryControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenAcronymIs_Null() {
+    void shouldThrowExceptionWhenAcronymIsNull_IntegrationTest() {
         //arrange
-        Name name = new Name ("Software Engineer Department");
+        Name name = new Name("Software Engineer Department");
 
         DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
@@ -119,7 +132,7 @@ class US05_DepartmentRegistryControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNameIs_Null() {
+    void shouldThrowExceptionWhenNameIsNull_IntegrationTest() {
         //arrange
         DepartmentAcronym acronym = new DepartmentAcronym("SED");
 
@@ -136,5 +149,50 @@ class US05_DepartmentRegistryControllerTest {
         });
         //assert
         assertEquals("Acronym or name cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnFalseWhenTryingToRegisterDepartmentAlreadyRegistered_IntegrationTest() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = new DepartmentAcronym("SED");
+        Name name = new Name("Software Engineer Department");
+
+        DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(iDepartmentFactory, departmentRepositoryImpl);
+
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentService);
+
+        controller.registerDepartment(acronym,name);
+        //act
+        boolean result = controller.registerDepartment(acronym, name);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenTryingToRegisterDifferentDepartments_IntegrationTest() throws Exception {
+        //arrange
+        DepartmentAcronym acronym = new DepartmentAcronym("SED");
+        Name name = new Name("Software Engineer Department");
+
+        DepartmentAcronym acronym1= new DepartmentAcronym("MED");
+        Name name1= new Name("Mechanical Engineer Department");
+
+        DepartmentFactoryImpl iDepartmentFactory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl iDepartmentListFactory = new DepartmentListFactoryImpl();
+        DepartmentRepositoryImpl departmentRepositoryImpl = new DepartmentRepositoryImpl(iDepartmentFactory, iDepartmentListFactory);
+
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(iDepartmentFactory, departmentRepositoryImpl);
+
+        US05_DepartmentRegistryController controller = new US05_DepartmentRegistryController(departmentService);
+
+        controller.registerDepartment(acronym1,name1);
+        //act
+        boolean result = controller.registerDepartment(acronym, name);
+        //assert
+        assertTrue(result);
     }
 }
