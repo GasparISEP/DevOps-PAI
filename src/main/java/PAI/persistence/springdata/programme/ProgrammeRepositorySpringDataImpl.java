@@ -21,16 +21,21 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
+    private final IProgrammeIDMapper _iProgIDMapper;
 
-    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo) {
+    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }
         if(iProgMapper == null) {
             throw new IllegalArgumentException("iProgrammedMapper must not be null");
         }
+        if(iProgIDMapper == null) {
+            throw new IllegalArgumentException("iProgrammedIDMapper must not be null");
+        }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
+        _iProgIDMapper = iProgIDMapper;
     }
 
     public Programme save(Programme prog) {
@@ -42,8 +47,8 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
         return null;
     }
 
-    public Programme update(ProgrammeID id,Programme prog) {
-        if(!_iProgRepo.existsById(id.toString()))
+    public Programme update(ProgrammeIDDataModel id,Programme prog) {
+        if(!_iProgRepo.existsById(id))
             throw new EntityNotFoundException("Programme not found!");
 
         ProgrammeDataModel programmeDataModel = _iProgMapper.toData(prog);
@@ -65,7 +70,8 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     }
 
     public Optional<Programme> ofIdentity(ProgrammeID id) {
-        Optional<ProgrammeDataModel> dataModelOptional = _iProgRepo.findById(id.toString());
+        ProgrammeIDDataModel idDM = _iProgIDMapper.toData(id);
+        Optional<ProgrammeDataModel> dataModelOptional = _iProgRepo.findById(idDM);
 
         if (dataModelOptional.isPresent()) {
             Programme programme = _iProgMapper.toDomain(dataModelOptional.get());
@@ -76,6 +82,7 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     }
 
     public boolean containsOfIdentity(ProgrammeID id) {
-        return _iProgRepo.existsById(id.toString());
+        ProgrammeIDDataModel idDM = _iProgIDMapper.toData(id);
+        return _iProgRepo.existsById(idDM);
     }
 }
