@@ -1,9 +1,6 @@
 package PAI.persistence.datamodel.course;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "COURSE")
@@ -17,6 +14,10 @@ public class CourseDataModel
 
     @Column(name = "course_acronym")
     private String _acronym;
+
+    @Column(name = "version")
+    @Version
+    private Long _version;
 
     public CourseDataModel() {}
 
@@ -32,4 +33,6 @@ public class CourseDataModel
     public String getAcronym() {return _acronym;}
 
     public CourseIDDataModel getCourseID() {return _courseID; }
+
+    public Long getVersion() { return _version; }
 }

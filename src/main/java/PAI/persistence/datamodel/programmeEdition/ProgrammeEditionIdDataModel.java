@@ -1,5 +1,5 @@
 package PAI.persistence.datamodel.programmeEdition;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;

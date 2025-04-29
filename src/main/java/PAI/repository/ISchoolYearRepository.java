@@ -7,6 +7,7 @@ import PAI.ddd.IRepository;
 import PAI.domain.SchoolYear;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ISchoolYearRepository extends IRepository<SchoolYearID, SchoolYear> {
 
@@ -14,7 +15,7 @@ public interface ISchoolYearRepository extends IRepository<SchoolYearID, SchoolY
 
     boolean schoolYearExists(SchoolYear schoolYear);
 
-    SchoolYear getCurrentSchoolYear();
+    Optional<SchoolYear> getCurrentSchoolYear();
 
     List<SchoolYear> getAllSchoolYears();
 

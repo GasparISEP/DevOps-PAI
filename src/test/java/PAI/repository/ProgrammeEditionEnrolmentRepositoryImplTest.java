@@ -370,94 +370,94 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     }
 
 
-    @Test
-    void shouldReturnNumberOfStudentsEnrolledInAProgrammeEdition() {
-        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
-        // Arrange
-        //Doubles' instantiation
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        StudentID studentId1Double = mock(StudentID.class);
-        StudentID studentId2Double = mock(StudentID.class);
-
-        ProgrammeEditionEnrolment programmeEditionEnrolment1Double = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment2Double = mock(ProgrammeEditionEnrolment.class);
-
-        ProgrammeEditionID programmeEditionId1Double = mock(ProgrammeEditionID.class); ProgrammeEditionID programmeEditionId2Double = mock(ProgrammeEditionID.class);
-
-
-        // SUT
-
-        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        //Instructions
-        when(programmeEditionEnrolment1Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId1Double);
-        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId1Double, programmeEditionId1Double)).thenReturn(programmeEditionEnrolment1Double);
-
-        when(programmeEditionEnrolment2Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId1Double);
-        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId2Double, programmeEditionId1Double)).thenReturn(programmeEditionEnrolment2Double);
-
-        // Act
-        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId1Double, programmeEditionId1Double);
-        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId2Double, programmeEditionId1Double);
-        int result = programmeEditionEnrolmentRepositoryImpl.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionId1Double);
-
-        // Assert
-        assertEquals(2, result);
-    }
-
-    @Test
-    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() {
-        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
-        // Arrange
-        //Doubles' instantiation
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionID programmeEditionIdDouble = mock(ProgrammeEditionID.class);
-
-        // SUT
-        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        // Act
-        int result = programmeEditionEnrolmentRepositoryImpl.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionIdDouble);
-
-        // Assert
-        assertEquals(0, result);
-    }
-
-    @Test
-    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() {
-        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
-        // Arrange
-        //Doubles' instantiation
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        StudentID studentId1Double = mock(StudentID.class);
-        StudentID studentId2Double = mock(StudentID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment1Double = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment2Double = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionID programmeEditionId1Double = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID programmeEditionId2Double = mock(ProgrammeEditionID.class);
-        // SUT
-
-        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        //Instructions
-        when(programmeEditionEnrolment1Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId2Double);
-        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId1Double, programmeEditionId2Double)).thenReturn(programmeEditionEnrolment1Double);
-
-        when(programmeEditionEnrolment2Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId2Double);
-        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId2Double, programmeEditionId2Double)).thenReturn(programmeEditionEnrolment2Double);
-
-        // Act
-        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId1Double, programmeEditionId2Double);
-        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId2Double, programmeEditionId2Double);
-
-        int result = programmeEditionEnrolmentRepositoryImpl.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionId1Double);
-
-        // Assert
-        assertEquals(0, result);
-    }
+//    @Test
+//    void shouldReturnNumberOfStudentsEnrolledInAProgrammeEdition() {
+//        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
+//        // Arrange
+//        //Doubles' instantiation
+//        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+//        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+//        StudentID studentId1Double = mock(StudentID.class);
+//        StudentID studentId2Double = mock(StudentID.class);
+//
+//        ProgrammeEditionEnrolment programmeEditionEnrolment1Double = mock(ProgrammeEditionEnrolment.class);
+//        ProgrammeEditionEnrolment programmeEditionEnrolment2Double = mock(ProgrammeEditionEnrolment.class);
+//
+//        ProgrammeEditionID programmeEditionId1Double = mock(ProgrammeEditionID.class); ProgrammeEditionID programmeEditionId2Double = mock(ProgrammeEditionID.class);
+//
+//
+//        // SUT
+//
+//        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+//
+//        //Instructions
+//        when(programmeEditionEnrolment1Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId1Double);
+//        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId1Double, programmeEditionId1Double)).thenReturn(programmeEditionEnrolment1Double);
+//
+//        when(programmeEditionEnrolment2Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId1Double);
+//        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId2Double, programmeEditionId1Double)).thenReturn(programmeEditionEnrolment2Double);
+//
+//        // Act
+//        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId1Double, programmeEditionId1Double);
+//        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId2Double, programmeEditionId1Double);
+//        int result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionId1Double);
+//
+//        // Assert
+//        assertEquals(2, result);
+//    }
+//
+//    @Test
+//    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() {
+//        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
+//        // Arrange
+//        //Doubles' instantiation
+//        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+//        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+//        ProgrammeEditionID programmeEditionIdDouble = mock(ProgrammeEditionID.class);
+//
+//        // SUT
+//        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+//
+//        // Act
+//        int result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionIdDouble);
+//
+//        // Assert
+//        assertEquals(0, result);
+//    }
+//
+//    @Test
+//    void shouldReturnZeroIfCheckingNumberOfStudentsInDifferentProgrammeEdition() {
+//        //SUT = ProgrammeEditionEnrolmentRepo -> all else as Double
+//        // Arrange
+//        //Doubles' instantiation
+//        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
+//        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
+//        StudentID studentId1Double = mock(StudentID.class);
+//        StudentID studentId2Double = mock(StudentID.class);
+//        ProgrammeEditionEnrolment programmeEditionEnrolment1Double = mock(ProgrammeEditionEnrolment.class);
+//        ProgrammeEditionEnrolment programmeEditionEnrolment2Double = mock(ProgrammeEditionEnrolment.class);
+//        ProgrammeEditionID programmeEditionId1Double = mock(ProgrammeEditionID.class);
+//        ProgrammeEditionID programmeEditionId2Double = mock(ProgrammeEditionID.class);
+//        // SUT
+//
+//        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+//
+//        //Instructions
+//        when(programmeEditionEnrolment1Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId2Double);
+//        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId1Double, programmeEditionId2Double)).thenReturn(programmeEditionEnrolment1Double);
+//
+//        when(programmeEditionEnrolment2Double.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId2Double);
+//        when(doubleIPEEF.newProgrammeEditionEnrolment(studentId2Double, programmeEditionId2Double)).thenReturn(programmeEditionEnrolment2Double);
+//
+//        // Act
+//        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId1Double, programmeEditionId2Double);
+//        programmeEditionEnrolmentRepositoryImpl.enrolStudentInProgrammeEdition(studentId2Double, programmeEditionId2Double);
+//
+//        int result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionId1Double);
+//
+//        // Assert
+//        assertEquals(0, result);
+//    }
     @Test
     void should_return_a_list_of_programmeEditions_that_student_is_enrolled (){
         //arrange
@@ -815,5 +815,53 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         //Assert
         assertTrue(set.contains(repo2));
+    }
+
+    @Test
+    void shouldGetAllProgrammeEditionsEnrolments() {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+
+        when(programmeEditionEnrolment.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionID);
+
+        Set<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = Set.of(programmeEditionEnrolment);
+
+        IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        when(iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment()).thenReturn(allProgrammeEditionEnrolments);
+
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl =
+                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentFactory, iProgrammeEditionEnrolmentListFactory);
+
+        // act
+        List<ProgrammeEditionEnrolment> result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
+        // assert
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammeEditionsEnrolmentsFound() {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+
+        when(programmeEditionEnrolment.findProgrammeEditionInEnrolment()).thenReturn(null);
+
+        Set<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = Set.of();
+
+        IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        when(iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment()).thenReturn(allProgrammeEditionEnrolments);
+
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl =
+                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentFactory, iProgrammeEditionEnrolmentListFactory);
+
+        // act
+        List<ProgrammeEditionEnrolment> result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
+        // assert
+        assertEquals(0, result.size());
     }
 }

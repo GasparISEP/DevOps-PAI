@@ -6,8 +6,12 @@ import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
+import PAI.mapper.ProgrammeEditionEnrolmentIDMapper;
+import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,21 +28,24 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
     private IProgrammeEditionEnrolmentMapper mapper;
     private IProgrammeEditionEnrolmentIDMapper idMapper;
     private ProgrammeEditionEnrolmentRepositorySpringData repository;
+    private IProgrammeEditionIdMapper programmeEditionIdMapper;
 
     @BeforeEach
     void setUp() {
         repoSpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
         mapper = mock(IProgrammeEditionEnrolmentMapper.class);
         idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
-        repository = new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper);
+        programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        repository = new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, programmeEditionIdMapper);
     }
 
     @Test
     void testConstructorThrowsIfAnyDependencyIsNull() {
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(null, mapper, idMapper));
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, null, idMapper));
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(null, mapper, idMapper, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, null, idMapper, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, null, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, null));
     }
 
     @Test
@@ -291,6 +298,39 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
 
         // Case 4: Null input
         assertFalse(repository.containsOfIdentity(null), "Expected result to be false when ID is null");
+    }
+
+    @Test
+    void shouldGetAllProgrammeEditionEnrolmentsBySpecificProgrammeEditionID() throws Exception {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolment = List.of(programmeEditionEnrolmentDataModel);
+        when(programmeEditionIdMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
+        when(repoSpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
+        when(mapper.toDomain(programmeEditionEnrolmentDataModel)).thenReturn(Optional.of(programmeEditionEnrolment));
+
+        // act
+        List<ProgrammeEditionEnrolment> result = repository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
+        // assert
+        assertEquals(List.of(programmeEditionEnrolment), result);
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammeEditionEnrolmentFind() throws Exception {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolment = List.of();
+        when(programmeEditionIdMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
+        when(repoSpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
+
+        // act
+        List<ProgrammeEditionEnrolment> result = repository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
+        // assert
+        assertEquals(List.of(), result);
     }
 
 }

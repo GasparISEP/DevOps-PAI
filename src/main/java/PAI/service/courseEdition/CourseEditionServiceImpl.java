@@ -3,9 +3,11 @@ package PAI.service.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.repository.ICourseEditionRepository;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,5 +67,29 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
             return false;
 
         return courseEditionRepository.containsOfIdentity(courseEditionID);
+    }
+
+    @Override
+    @Transactional
+    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
+        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
+
+        if (optionalEdition.isEmpty()) {
+            return false;
+        }
+
+        CourseEdition courseEdition = optionalEdition.get();
+        boolean success = courseEdition.setRuc(teacherId);
+
+        if (success) {
+            try {
+                courseEditionRepository.save(courseEdition);
+            } catch (Exception e) {
+                // Pode fazer log aqui, se quiseres
+                throw new RuntimeException("Erro ao persistir CourseEdition com novo RUC", e);
+            }
+        }
+
+        return success;
     }
 }

@@ -1,7 +1,6 @@
 package PAI.persistence.datamodel.accessMethod;
 
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
-import jakarta.persistence.Access;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

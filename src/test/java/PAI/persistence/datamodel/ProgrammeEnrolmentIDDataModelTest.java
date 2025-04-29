@@ -1,9 +1,7 @@
 package PAI.persistence.datamodel;
 
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.ProgrammeID;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

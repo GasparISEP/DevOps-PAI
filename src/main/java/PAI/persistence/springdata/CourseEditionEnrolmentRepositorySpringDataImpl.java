@@ -1,0 +1,212 @@
+package PAI.persistence.springdata;
+
+import PAI.VOs.CourseEditionEnrolmentID;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.mapper.ICourseEditionEnrolmentIDMapper;
+import PAI.mapper.ICourseEditionEnrolmentMapper;
+import PAI.mapper.IStudentIDMapper;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
+import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Repository
+public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEditionEnrolmentRepository {
+
+    private final ICourseEditionEnrolmentRepositorySpringData iCEERepoSpringData;
+    private final ICourseEditionEnrolmentMapper iCEEMapper;
+    private final ICourseEditionEnrolmentIDMapper iCEEIDMapper;
+    private final IStudentIDMapper iStudentIDMapper;
+    private final ICourseEditionIDMapper icourseEditionIDMapper;
+
+    public CourseEditionEnrolmentRepositorySpringDataImpl(
+            ICourseEditionEnrolmentRepositorySpringData springDataRepository,
+            ICourseEditionEnrolmentMapper mapper, ICourseEditionEnrolmentIDMapper idMapper,
+            IStudentIDMapper iStudentIDMapper, ICourseEditionIDMapper iCourseEditionIDMapper
+    ) {
+        if (springDataRepository == null) throw new IllegalArgumentException("Spring Data Repository cannot be null!");
+        this.iCEERepoSpringData = springDataRepository;
+        if (mapper == null) throw new IllegalArgumentException("Mapper cannot be null!");
+        this.iCEEMapper = mapper;
+        if (idMapper == null) throw new IllegalArgumentException("The ID Mapper cannot be null!");
+        this.iCEEIDMapper = idMapper;
+        if (iStudentIDMapper == null) throw new IllegalArgumentException("The ID Student Mapper cannot be null!");
+        this.iStudentIDMapper = iStudentIDMapper;
+        if (iCourseEditionIDMapper == null)
+            throw new IllegalArgumentException("The ID Course Edition Mapper cannot be null!");
+        this.icourseEditionIDMapper = iCourseEditionIDMapper;
+    }
+
+    @Override
+    public boolean enrolStudentInACourseEdition(CourseEditionEnrolment courseEditionEnrolment) throws Exception {
+
+        if (courseEditionEnrolment == null) return false;
+
+        CourseEditionEnrolmentID ceeID = courseEditionEnrolment.identity();
+        if (containsOfIdentity(ceeID)) {
+            return false;
+        }
+
+        CourseEditionEnrolmentDataModel ceeDataModel = iCEEMapper.toDataModel(courseEditionEnrolment).orElseThrow();
+        iCEERepoSpringData.save(ceeDataModel);
+        return true;
+    }
+
+    @Override
+    public boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
+
+        StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);
+
+        CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
+
+        return iCEERepoSpringData.existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIDDataModel, courseEditionIDDataModel);
+    }
+
+    @Override
+    public Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId) {
+        try {
+            StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);
+            CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
+
+            Optional<CourseEditionEnrolmentDataModel> dataModel =
+                    iCEERepoSpringData.findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel);
+
+            if (dataModel.isEmpty()) return Optional.empty();
+
+            return iCEEMapper.toDomain(dataModel.get());
+
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+
+
+    @Override
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
+        CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
+        return (int) iCEERepoSpringData.countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIDDataModel);
+    }
+
+
+    @Override
+    @Transactional
+    public boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
+        try {
+            StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);
+            CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
+
+            Optional<CourseEditionEnrolmentDataModel> optionalEnrolment =
+                    iCEERepoSpringData.findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel);
+
+            if (optionalEnrolment.isPresent()) {
+                CourseEditionEnrolmentDataModel enrolment = optionalEnrolment.get();
+
+                if (enrolment.isActive()) {
+                    enrolment.setActive(false);
+                    iCEERepoSpringData.save(enrolment);
+                    return true;
+                }
+            }
+
+        } catch (Exception exception) {
+            return false;
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
+    }
+
+    @Override
+    public CourseEditionEnrolment save(CourseEditionEnrolment entity) throws Exception {
+        if (entity == null) {
+            throw new IllegalArgumentException("Entity cannot be null!");
+        }
+
+        Optional<CourseEditionEnrolmentDataModel> entitySaved = iCEEMapper.toDataModel(entity);
+
+        if (entitySaved.isEmpty()) {
+            throw new IllegalArgumentException("Entity cannot be empty!");
+        }
+
+        CourseEditionEnrolmentDataModel ceeDataModel = iCEERepoSpringData.save(entitySaved.get());
+
+        Optional<CourseEditionEnrolment> courseEditionEnrolment = iCEEMapper.toDomain(ceeDataModel);
+
+        if (courseEditionEnrolment.isEmpty()) {
+            throw new IllegalArgumentException("Course Edition Enrolment cannot be empty!");
+        }
+
+        return courseEditionEnrolment.get();
+    }
+
+    @Override
+    public Iterable<CourseEditionEnrolment> findAll() {
+        return iCEERepoSpringData.findAll().stream()
+                .map(courseEditionEnrolmentDataModel -> {
+                    try {
+                        return iCEEMapper.toDomain(courseEditionEnrolmentDataModel)
+                                .orElseThrow(() -> new IllegalArgumentException("Could not map Course Edition Enrolment."));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<CourseEditionEnrolment> ofIdentity(CourseEditionEnrolmentID id) {
+
+        Optional<CourseEditionEnrolmentIDDataModel> ceeIDDataModel;
+        try {
+            ceeIDDataModel = iCEEIDMapper.toDataModel(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (ceeIDDataModel.isEmpty()) {
+            return Optional.empty();
+        }
+        Optional<CourseEditionEnrolmentDataModel> ceeDataModel = iCEERepoSpringData.findById(ceeIDDataModel.get());
+
+        Optional<CourseEditionEnrolment> cee;
+        try {
+            cee = iCEEMapper.toDomain(ceeDataModel.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return cee;
+    }
+
+    @Override
+    public boolean containsOfIdentity(CourseEditionEnrolmentID id) {
+
+        Optional<CourseEditionEnrolmentIDDataModel> ceeIDDataModel;
+        try {
+            ceeIDDataModel = iCEEIDMapper.toDataModel(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (ceeIDDataModel.isEmpty()) {
+            return false;
+        }
+
+        return iCEERepoSpringData.existsById(ceeIDDataModel.get());
+    }
+}

@@ -34,9 +34,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         _programmeRepository = programmeRepository;
     }
 
-    public List<NameWithNumbersAndSpecialChars> getAllProgrammeNames(){
+    public List<Programme> getAllProgrammes(){
 
-        return _programmeRepository.getAllProgrammeNames();
+        return _programmeRepository.getAllProgrammes();
     }
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(NameWithNumbersAndSpecialChars programmeName) throws Exception {
@@ -50,11 +50,11 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
         pID = programme.identity();
 
-        SchoolYear currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
-        if(currentSchoolYear == null)
+        Optional<SchoolYear> currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
+        if(currentSchoolYear.isEmpty())
             return false;
 
-        SchoolYearID sYID = currentSchoolYear.identity();
+        SchoolYearID sYID = currentSchoolYear.get().identity();
 
         try {
             ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(pID, sYID);

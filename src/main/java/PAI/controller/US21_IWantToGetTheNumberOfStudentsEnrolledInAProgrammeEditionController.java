@@ -1,52 +1,36 @@
 package PAI.controller;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
-
-
-//to be implemented
-/*
-public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
-
-    //private final ProgrammeEditionRepository _programmeEditionRepository;
-    private final IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
-
-    //public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(ProgrammeEditionRepository programmeEditionRepository, ProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository){
-    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController( IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository){
-       // if(programmeEditionRepository == null){
-            //throw new IllegalArgumentException("Programme Edition Repository is null");
-        //}
-        //_programmeEditionRepository = programmeEditionRepository;
-
-        if(programmeEditionEnrolmentRepository == null){
-            throw new IllegalArgumentException("Programme Edition Enrollment Repository is null");
-        }
-        _programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
- }*/
-
-/*    public List<ProgrammeEdition> getAllProgrammeEditions() {
-        return _programmeEditionRepository.getAllProgrammeEditions();
-    }
-*/
+import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.service.IProgrammeEditionEnrolmentService;
 
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
-    private final IProgrammeEditionEnrolmentRepository _programmeEditionEnrolmentRepository;
+    private final IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService;
+    private final IProgrammeEditionRepository iProgrammeEditionRepository;
 
 
-    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository) {
-
-        if (programmeEditionEnrolmentRepository == null) {
-            throw new IllegalArgumentException("Programme Edition Enrollment Repository is null");
+    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService, IProgrammeEditionRepository iProgrammeEditionRepository) {
+        if(iProgrammeEditionEnrolmentService == null) {
+            throw new IllegalArgumentException("iProgrammeEditionEnrolmentService cannot be null");
         }
-        _programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
+        if(iProgrammeEditionRepository == null) {
+            throw new IllegalArgumentException("iProgrammeEditionRepository cannot be null");
+        }
+        this.iProgrammeEditionRepository = iProgrammeEditionRepository;
+        this.iProgrammeEditionEnrolmentService = iProgrammeEditionEnrolmentService;
+    }
+
+    public Iterable<ProgrammeEdition> getAllProgrammeEdition() {
+        return iProgrammeEditionRepository.findAll();
     }
 
 
-    public int iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionID) {
+    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionID) throws Exception {
 
         if (programmeEditionID == null) {
             throw new IllegalArgumentException("Programme Edition ID cannot be null");
         }
-        return _programmeEditionEnrolmentRepository.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID);
+        return iProgrammeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEditionID);
     }
 }

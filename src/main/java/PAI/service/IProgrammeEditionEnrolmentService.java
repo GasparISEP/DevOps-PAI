@@ -17,4 +17,5 @@ public interface IProgrammeEditionEnrolmentService {
 
     List<SchoolYearID> getAllSchoolYearIDs();
 
+    int totalStudentsInProgrammeEdition(ProgrammeEditionID programmeEditionID) throws Exception;
 }

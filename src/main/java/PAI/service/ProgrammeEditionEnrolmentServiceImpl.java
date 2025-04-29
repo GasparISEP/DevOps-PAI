@@ -3,6 +3,7 @@ package PAI.service;
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
@@ -106,6 +107,12 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
     public List<SchoolYearID> getAllSchoolYearIDs() {
 
         return schoolYearRepository.getAllSchoolYearsIDs();
+    }
+
+    @Override
+    public int totalStudentsInProgrammeEdition(ProgrammeEditionID programmeEditionID) throws Exception {
+        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
+        return allProgrammeEditionEnrolment.size();
     }
 
     private <T> T validate(T instance, String name) {

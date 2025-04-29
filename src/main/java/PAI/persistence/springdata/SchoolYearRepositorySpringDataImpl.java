@@ -90,11 +90,6 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
         return false;
     }
 
-   //@Override
-    public SchoolYear getCurrentSchoolYear() {
-        return null;
-    }
-
     @Override
     public List<SchoolYear> getAllSchoolYears() {
         return List.of();
@@ -110,19 +105,13 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
         return false;
     }
 
-/*
-    //Ver 2 métodos abaixo para getCurrentSchoolYear
+
+    //US18
     @Override
-    public SchoolYear getCurrentSchoolYear() {
-        return null;
+    public Optional<SchoolYear> getCurrentSchoolYear() {
+        Optional<SchoolYearDataModel> schoolYearDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
+
+        //If present return Optional com SchoolYear, else return Empty
+        return schoolYearDataModelFromCurrentSchoolYear.map(schoolYearMapper::toDomain);
     }
-
-        //US18
-        public Optional<SchoolYearID> getCurrentSchoolYear() {
-            Optional<SchoolYearIDDataModel> schoolYearIDDataModelFromCurrentSchoolYear = schoolYearRepositorySpringData.findCurrentSchoolYear();
-
-            //If present return Optional com ProgrammeID, else return Empty
-            return schoolYearIDDataModelFromCurrentSchoolYear.map(schoolYearIDMapper::toDomain);
-        }
-*/
 }

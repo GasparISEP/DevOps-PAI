@@ -2,7 +2,7 @@ package PAI.mapper.studyPlanID;
 
 import PAI.VOs.Date;
 import PAI.VOs.StudyPlanID;
-import PAI.mapper.IProgrammeIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 
 public class StudyPlanIDMapperImpl implements IStudyPlanIDMapper{

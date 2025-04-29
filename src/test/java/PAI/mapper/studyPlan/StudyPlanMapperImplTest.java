@@ -4,10 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
-import PAI.mapper.ProgrammeIDMapper;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class StudyPlanMapperImplTest {
 
@@ -66,7 +65,7 @@ class StudyPlanMapperImplTest {
         StudyPlanID spID = new StudyPlanID(progID, date);
         StudyPlan studyPlan = new StudyPlan(progID, date, durationInYears, maxEcts);
 
-        ProgrammeIDMapper progIDMapper = new ProgrammeIDMapper();
+        ProgrammeIDMapperImpl progIDMapper = new ProgrammeIDMapperImpl();
         IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);
         StudyPlanFactoryImpl spFac = new StudyPlanFactoryImpl();
         StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, spFac);
@@ -86,7 +85,7 @@ class StudyPlanMapperImplTest {
 
         StudyPlanDataModel spDM = new StudyPlanDataModel(spIDdm, maxEcts, durationInYears);
 
-        ProgrammeIDMapper progIDMapper = new ProgrammeIDMapper();
+        ProgrammeIDMapperImpl progIDMapper = new ProgrammeIDMapperImpl();
         IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);
         StudyPlanFactoryImpl spFac = new StudyPlanFactoryImpl();
         StudyPlanMapperImpl spMapper = new StudyPlanMapperImpl(spIDmapper, spFac);

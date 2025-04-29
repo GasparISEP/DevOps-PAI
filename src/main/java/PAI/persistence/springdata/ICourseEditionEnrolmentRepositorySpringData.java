@@ -13,9 +13,8 @@ public interface ICourseEditionEnrolmentRepositorySpringData extends JpaReposito
 
     boolean existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(StudentIDDataModel studentID, CourseEditionIDDataModel courseEditionID);
 
-    long countById_CourseEditionIDAndIsActiveIsTrue(CourseEditionID courseEditionId);
+    long countById_CourseEditionIDAndIsActiveIsTrue(CourseEditionIDDataModel courseEditionId);
 
-    Optional<CourseEditionEnrolmentDataModel> findById_StudentIDAndId_CourseEditionID(StudentID studentId, CourseEditionID courseEditionId);
+    Optional<CourseEditionEnrolmentDataModel> findById_StudentIDAndId_CourseEditionID(StudentIDDataModel studentId, CourseEditionIDDataModel courseEditionId);
 
-    Object existsById_StudentIDAndId_CourseEditionIDAndIsActiveIsTrue(StudentIDDataModel studentIDDataModel, CourseEditionIDDataModel courseEditionIDDataModel);
 }
