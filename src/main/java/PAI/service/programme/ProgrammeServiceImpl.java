@@ -103,6 +103,10 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public List<ProgrammeID> getAllProgrammeIDs() {
-        return _programmeRepository.getAllProgrammesIDs();
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            programmeIDs.add(programme.getProgrammeID());
+        }
+        return programmeIDs;
     }
 }
