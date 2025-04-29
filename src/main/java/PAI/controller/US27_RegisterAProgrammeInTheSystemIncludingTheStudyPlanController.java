@@ -4,53 +4,57 @@ import PAI.VOs.*;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.service.DegreeType.IDegreeTypeService;
 import PAI.service.StudyPlan.IStudyPlanService;
+import PAI.service.programme.IProgrammeService;
 
 import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
-    IDegreeTypeRepository _degreeTypeRepo;
-    IProgrammeRepository _programmeDDDList;
-    IStudyPlanService _studyPlanDDDService;
+    IDegreeTypeService _degreeTypeService;
+    IProgrammeService _programmeService;
+    IStudyPlanService _studyPlanService;
 
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanService studyPlanDDDService, IDegreeTypeRepository degreeTypeRepository) throws Exception {
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeService programmeService, IStudyPlanService studyPlanService, IDegreeTypeService degreeTypeService) throws Exception {
 
-        if (programmeDDDList == null) {
-            throw new Exception("Programme Repository cannot be null.");
+        if (programmeService == null) {
+            throw new Exception("Programme Service cannot be null.");
         }
 
-        _programmeDDDList = programmeDDDList;
+        _programmeService = programmeService;
 
-        if (studyPlanDDDService == null) {
+        if (studyPlanService == null) {
             throw new Exception("Study Plan Service cannot be null.");
         }
 
-        _studyPlanDDDService = studyPlanDDDService;
+        _studyPlanService = studyPlanService;
 
 
-        if (degreeTypeRepository == null) {
+        if (degreeTypeService == null) {
             throw new Exception("Degree Type Repository cannot be null.");
         }
 
-        _degreeTypeRepo = degreeTypeRepository;
+        _degreeTypeService = degreeTypeService;
     }
 
-//    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
-//
-//        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
-//        return true;
-//    }
+    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
-    public boolean createStudyPlanDDD(ProgrammeID programmeID, Date implementationDate) throws Exception {
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(name);
+        Acronym programmeAcronym = new Acronym(acronym);
+        QuantEcts programmeQuantityOfEcts = new QuantEcts(quantityOfEcts);
+        QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
+
+        return _programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+    }
+
+    public boolean createStudyPlan(ProgrammeID programmeID, Date implementationDate) throws Exception {
 
         Programme programme;
 
         try {
-            Optional<Programme> optionalProgrammeDDD = _programmeDDDList.ofIdentity(programmeID);
-            programme = optionalProgrammeDDD.orElseThrow(() -> new IllegalArgumentException("Programme with ID " + programmeID + " not found"));
+            Optional<Programme> optionalProgramme = _programmeService.getProgrammeByID(programmeID);
+            programme = optionalProgramme.orElseThrow(() -> new IllegalArgumentException("Programme with ID " + programmeID + " not found"));
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -59,12 +63,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         DegreeType degreeType;
 
         try {
-            Optional<DegreeType> optionalDegreeType = _degreeTypeRepo.ofIdentity(degreeTypeID);
+            Optional<DegreeType> optionalDegreeType = _degreeTypeService.getDegreeTypeById(degreeTypeID);
             degreeType = optionalDegreeType.orElseThrow(() -> new IllegalArgumentException("Degree Type with ID " + degreeTypeID + " not found"));
         } catch (IllegalArgumentException e) {
             return false;
         }
-
 
         int quantSemester = programme.getQuantSemesters().getQuantityOfSemesters();
         DurationInYears durationInYears = new DurationInYears(quantSemester);
@@ -72,7 +75,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         int quantityOfEcts = degreeType.getMaxEcts();
         MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
 
-        _studyPlanDDDService.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
+        _studyPlanService.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
         return true;
     }
 }
