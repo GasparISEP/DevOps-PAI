@@ -6,7 +6,7 @@ import PAI.domain.TeacherCategory;
 import PAI.factory.*;
 import PAI.persistence.springdata.Department.DepartmentRepositorySpringDataImpl;
 import PAI.persistence.springdata.TeacherCategoryRepositorySpringDataImpl;
-import PAI.persistence.springdata.teacherCareerProgression.TeacherCareerProgressionRepoSpringData;
+import PAI.persistence.springdata.teacherCareerProgression.TeacherCareerProgressionRepoSpringDataImpl;
 import PAI.repository.*;
 import PAI.service.*;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
@@ -210,7 +210,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Arrange dependencies of TCP aggregate
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionRepository tcpRepository = mock(TeacherCareerProgressionRepoSpringData.class);
+        ITeacherCareerProgressionRepository tcpRepository = mock(TeacherCareerProgressionRepoSpringDataImpl.class);
         ITeacherCareerProgressionService tcpService = new TeacherCareerProgressionServiceImpl(tcpRepository, tcpFactory);
 
         // Arrange call of registerTeacher method from TeacherService
@@ -257,7 +257,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Arrange dependencies of TCP aggregate
         ITeacherCareerProgressionFactory tcpFactory = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionRepository tcpRepository = mock(TeacherCareerProgressionRepoSpringData.class);
+        ITeacherCareerProgressionRepository tcpRepository = mock(TeacherCareerProgressionRepoSpringDataImpl.class);
         ITeacherCareerProgressionService tcpService = new TeacherCareerProgressionServiceImpl(tcpRepository, tcpFactory);
 
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
