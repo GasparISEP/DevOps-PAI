@@ -1,0 +1,45 @@
+@startuml
+
+title findByStudentAndProgrammeEdition \n detailed visualization of method behaviour
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEdition\nEnrolmentService" as ICourseEditionEnrolmentService #E1F5FE
+participant ":IProgrammeEdition\nEnrolmentRepository" as IProgrammeEditionEnrolmentRepository #E1F5FE
+participant ":IStudentIDMapper" as StudentMapper #E1F5FE
+participant ":IProgrammeEditionIDMapper" as ProgrammeMapper #E1F5FE
+participant ":IProgrammeEditionEnrolment\nRepoSpringData" as Repo #E1F5FE
+participant ":IProgrammeEdition\nEnrolmentMapper" as EnrolmentMapper #E1F5FE
+
+ICourseEditionEnrolmentService -> IProgrammeEditionEnrolmentRepository : findByStudentAndProgrammeEdition\n(studentID, programmeEditionID)
+activate IProgrammeEditionEnrolmentRepository
+
+
+IProgrammeEditionEnrolmentRepository -> StudentMapper : toDataModel(studentId)
+activate StudentMapper
+StudentMapper --> IProgrammeEditionEnrolmentRepository : studentIDDataModel
+deactivate StudentMapper
+
+IProgrammeEditionEnrolmentRepository -> ProgrammeMapper : toDataModel(programmeEditionId)
+activate ProgrammeMapper
+ProgrammeMapper --> IProgrammeEditionEnrolmentRepository : programmeEditionIDDataModel
+deactivate ProgrammeMapper
+
+IProgrammeEditionEnrolmentRepository -> Repo : findByStudentIDAndProgrammeEditionID\n(studentIDDataModel, programmeEditionIDDataModel)
+activate Repo
+Repo --> IProgrammeEditionEnrolmentRepository : Optional<ProgrammeEditionEnrolmentDataModel>
+deactivate Repo
+
+    IProgrammeEditionEnrolmentRepository -> EnrolmentMapper : toDomain(dataModel.get())
+    activate EnrolmentMapper
+    EnrolmentMapper --> IProgrammeEditionEnrolmentRepository : Optional.of(ProgrammeEditionEnrolment)
+    deactivate EnrolmentMapper
+IProgrammeEditionEnrolmentRepository --> ICourseEditionEnrolmentService : ProgrammeEditionEnrolment
+deactivate IProgrammeEditionEnrolmentRepository
+@enduml

@@ -31,7 +31,7 @@ activate CourseMapper
 CourseMapper --> ICourseEditionEnrolmentRepository : courseEditionIDDataModel
 deactivate CourseMapper
 
-ICourseEditionEnrolmentRepository -> Repo : findByStudentIDAndCourseEditionID(studentIDDataModel, courseEditionIDDataModel)
+ICourseEditionEnrolmentRepository -> Repo : findByStudentIDAndCourseEditionID\n(studentIDDataModel, courseEditionIDDataModel)
 activate Repo
 Repo --> ICourseEditionEnrolmentRepository : Optional<CourseEditionEnrolmentDataModel>
 deactivate Repo
