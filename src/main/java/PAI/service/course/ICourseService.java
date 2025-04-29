@@ -9,12 +9,11 @@ import java.util.Optional;
 
 public interface ICourseService {
 
-    Course newCourse (Name name, Acronym acronym) throws Exception;
+    Course createAndSaveCourse (Name name, Acronym acronym) throws Exception;
 
     Iterable <Course> findAll();
 
     Optional<Course> ofIdentity(CourseID courseID);
 
     boolean containsOfIdentity(CourseID courseID);
-
 }
