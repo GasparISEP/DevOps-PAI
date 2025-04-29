@@ -8,6 +8,7 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,14 +156,15 @@ class ProgrammeServiceImplTest {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
         DepartmentID departmentID = mock(DepartmentID.class);
-        ProgrammeID programme1 = mock(ProgrammeID.class);
-        ProgrammeID programme2 = mock(ProgrammeID.class);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
 
-        when(doubleRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programme1,programme2));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1,programme2));
+        when(programme1.isInDepartment(departmentID)).thenReturn(true);
+        when(programme2.isInDepartment(departmentID)).thenReturn(true);
 
         //Act
         List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
