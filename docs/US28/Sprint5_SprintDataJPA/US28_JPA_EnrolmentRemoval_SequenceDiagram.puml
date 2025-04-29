@@ -21,8 +21,8 @@ participant ":IProgrammeEditionEnrolment\nRepositorySpringData" as PEESpringRepo
 participant "cee:CourseEditionEnrolment" as CEE #E1F5FE
 participant "pee:ProgrammeEditionEnrolment" as PEE #E1F5FE
 participant "status:EnrolmentStatus" as Status #E1F5FE
-participant "ceeMapper:CourseEdition\nEnrolmentMapperImpl" as CEEMapper #E1F5FE
-participant "peeMapper:ProgrammeEdition\nEnrolmentMapperImpl" as PEEMapper #E1F5FE
+participant ":ICourseEdition\nEnrolmentMapper" as CEEMapper #E1F5FE
+participant ":IProgrammeEdition\nEnrolmentMapper" as PEEMapper #E1F5FE
 participant "ceID: CourseEditionID" as courseEditionID #E1F5FE
 
 ' Step 1: User initiates the request to remove enrolment
