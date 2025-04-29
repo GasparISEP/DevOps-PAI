@@ -8,5 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProgrammeRepositorySpringData extends JpaRepository<ProgrammeDataModel, String> {
-    Optional<ProgrammeIDDataModel> findProgrammeIDByName(String name);
 }

@@ -17,7 +17,7 @@ participant ":ProgrammeEditionRepository" as PER
 ASC -> UI ++ #application : I want to create a programme edition for the current school year
 UI -> CPEC ++ #application : getAllProgrammes()
 CPEC -> PS ++ #application : getAllProgrammes()
-PS -> PR ++ #application : findAllProgrammeNames()
+PS -> PR ++ #application : findAllProgrammes()
 ref over PR
     convert DataModel to Domain
     List<Programme>
@@ -29,17 +29,7 @@ UI -> ASC --  : Which Programme?
 '''''''''''''''''''''''''''''''''''''''''
 
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
-UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programmeNameVO)
-
-'get programmeID by name
-CPEC -> PS ++ #application : getProgrammeIdByName(programmeNameVO)
-PS -> PR ++ #application : getProgrammeIdByName(programmeNameVO)
-ref over PR
-    convert DataModel to Domain
-    toDomain(programmeIDDataModel)
-end ref
-PR --> PS -- : Optional.of(programmeID)
-PS --> CPEC -- : programmeID
+UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programme)
 '''''''''''''''''''''''''''''
 
 'get current School Year
