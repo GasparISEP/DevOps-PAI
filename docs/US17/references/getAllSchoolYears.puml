@@ -1,27 +1,25 @@
 @startuml
-participant ":ISchoolYearRepository" as ISchoolYearRepository
-participant ":SchoolYearRepository" as SchoolYearRepository
+participant ":ISchoolYearService" as SchoolYearService
+participant ":ISchoolYearRepository" as SchoolYearRepository
+participant ":SchoolYear" as SchoolYear
+participant "List<SchoolYearID>" as SchoolYearIDList
 
-activate ISchoolYearRepository
-ISchoolYearRepository -> SchoolYearRepository : getAllSchoolYearsIDs()
+SchoolYearService -> SchoolYearRepository : findAll()
 activate SchoolYearRepository
-
-create ":SchoolYearArrayList"
-SchoolYearRepository -> ":SchoolYearArrayList": create()
-participant ":SchoolYear" as SchoolYear
-loop for each "sy[i]:SchoolYearRepository" as SchoolYearRepository
-SchoolYearRepository -> SchoolYear :  getAllSchoolYearsIDs()
-participant ":SchoolYear" as SchoolYear
-activate SchoolYear
-SchoolYear --> SchoolYearRepository : syID
-deactivate SchoolYear
-SchoolYearRepository -> ":SchoolYearArrayList" :  add()
-activate ":SchoolYearArrayList"
-":SchoolYearArrayList" --> SchoolYearRepository: True
-deactivate ":SchoolYearArrayList"
-end
-SchoolYearRepository --> ISchoolYearRepository : listOfSchoolYearsIDs
+SchoolYearRepository --> SchoolYearService : SchoolYearList
 deactivate SchoolYearRepository
 
-deactivate ISchoolYearRepository
+SchoolYearService -> SchoolYearIDList : create()
+activate SchoolYearIDList
+
+loop for each SchoolYear in SchoolYearList
+    SchoolYearService -> SchoolYear : getSchoolYearID()
+    activate SchoolYear
+    SchoolYear --> SchoolYearService : SchoolYearID
+    deactivate SchoolYear
+
+    SchoolYearService -> SchoolYearIDList : add(SchoolYearID)
+end
+
+deactivate SchoolYearIDList
 @enduml

@@ -1,8 +1,10 @@
 package PAI.repository.studyPlanRepository;
 
 import PAI.VOs.*;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.domain.studyPlan.IStudyPlanFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,433 +16,116 @@ import static org.mockito.Mockito.*;
 
 public class StudyPlanRepositoryImplTest {
 
-    @Test
-    void testCreateStudyPlanNewPlan() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
+    private IStudyPlanListFactory listFactory;
+    private List<StudyPlan> studyPlanList;
+    private StudyPlanRepositoryImpl repository;
+
+    @BeforeEach
+    void setUp() {
+        listFactory = mock(IStudyPlanListFactory.class);
+        studyPlanList = new ArrayList<>();
         when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-        StudyPlanID studyPlanID = mock(StudyPlanID.class);
-
-
-        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID));
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        boolean created = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
-
-        // Assert
-        assertTrue(created);
-        assertEquals(1, repository.getAllStudyPlans().size());
+        repository = new StudyPlanRepositoryImpl(listFactory);
     }
 
     @Test
-    void testCreateStudyPlanDuplicatePlan() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        boolean createdFirstStudyPlan = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        boolean createdSecondStudyPlan = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
-
-        // Assert
-        assertTrue(createdFirstStudyPlan);
-        assertFalse(createdSecondStudyPlan);
-        assertEquals(1, repository.getAllStudyPlans().size());
-    }
-
-    @Test
-    void testGetAllStudyPlansReturnsMultiplePlans() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
-        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
-
-        when(factory.createStudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts, studyPlanID1));
-        when(factory.createStudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts, studyPlanID2));
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        boolean created1 = repository.createStudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts);
-        boolean created2 = repository.createStudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts);
-        List<StudyPlan> allPlans = repository.getAllStudyPlans();
-
-        // Assert
-        assertTrue(created1);
-        assertTrue(created2);
-        assertEquals(2, allPlans.size());
-    }
-
-    @Test
-    void testFindByStudyPlanIDFound() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-        StudyPlanID studyPlanID = mock(StudyPlanID.class);
-
-        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID));
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        StudyPlan createdPlan = repository.getAllStudyPlans().get(0);
-
-        // Act
-        Optional<StudyPlan> foundPlan = repository.ofIdentity(studyPlanID);
-
-        // Assert
-        assertTrue(foundPlan.isPresent());
-        assertEquals(createdPlan, foundPlan.get());
-    }
-
-    @Test
-    void testFindByStudyPlanIDNotFound() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        StudyPlanID nonExistentID = new StudyPlanID(programmeID, implementationDate);
-        Optional<StudyPlan> foundPlanOpt = repository.ofIdentity(nonExistentID);
-
-        // Assert
-        assertFalse(foundPlanOpt.isPresent());
-    }
-
-    @Test
-    void shouldGetAllStudyPlansByProgrammeID() throws Exception {
-        // arrange
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        when(studyPlan1.getProgrammeID()).thenReturn(programmeID);
-
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        studyPlanList.add(studyPlan1);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // act
-        List<StudyPlan> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID);
-
-        // assert
-        assertEquals(studyPlan1, listStudyPlansByProgrammeID.get(0));
-        assertEquals(listStudyPlansByProgrammeID.size(), 1);
-    }
-
-    @Test
-    void shouldReturnEmptyListWhenProgrammeIDNotMatchAnyProgrammeIDinStudyPlan(){
-        // arrange
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
-        when(studyPlan1.getProgrammeID()).thenReturn(programmeID);
-
-
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        studyPlanList.add(studyPlan1);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // act
-        List<StudyPlan> listStudyPlansByProgrammeID = repository.getAllStudyPlansByProgrammeId(programmeID2);
-
-        // assert
-        assertEquals(listStudyPlansByProgrammeID.size(), 0);
-    }
-
-    @Test
-    void testSaveAddsStudyPlan() {
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-        when(studyPlan1.identity()).thenReturn(id);
-
-        StudyPlan saved = repository.save(studyPlan1);
-
-        assertEquals(studyPlan1, saved);
-        assertTrue(repository.containsOfIdentity(id));
-    }
-
-    @Test
-    void testFindAllReturnsAllStudyPlans() {
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
-        StudyPlan studyPlan2 = mock(StudyPlan.class);
-
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        repository.save(studyPlan1);
-        repository.save(studyPlan2);
+    void testSaveAddsEntityToListAndReturnsIt() {
+        //arrange
+        StudyPlan studyPlan = mock(StudyPlan.class);
 
         //act
-        List<StudyPlan> all = (List<StudyPlan>) repository.findAll();
+        StudyPlan saved = repository.save(studyPlan);
 
         //assert
-        assertEquals(2, all.size());
-        assertTrue(all.contains(studyPlan1) && all.contains(studyPlan2));
+        assertSame(studyPlan, saved);
+        assertTrue(studyPlanList.contains(studyPlan));
     }
 
     @Test
-    void testOfIdentityReturnsCorrectPlan() {
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
+    void testFindAllReturnsAllSavedEntities() {
+        // arrange
+        StudyPlan sp1 = mock(StudyPlan.class);
+        StudyPlan sp2 = mock(StudyPlan.class);
+
+        repository.save(sp1);
+        repository.save(sp2);
+
+        // act
+        Iterable<StudyPlan> all = repository.findAll();
+
+        // assert
+        List<StudyPlan> asList = new ArrayList<>();
+        all.forEach(asList::add);
+        assertEquals(2, asList.size());
+        assertTrue(asList.contains(sp1));
+        assertTrue(asList.contains(sp2));
+    }
+
+    @Test
+    void testGetAllCourseInStudyPlanListReturnsBackingListInstance() {
+        // act
+        List<StudyPlan> listFromRepo = repository.getAllStudyPlansList();
+
+        // assert
+        assertSame(studyPlanList, listFromRepo);
+    }
+
+    @Test
+    void testOfIdentityReturnsPresentWhenFound() {
+        // arrange
+        StudyPlan sp = mock(StudyPlan.class);
+        Date date = mock(Date.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
+        StudyPlanID id = new StudyPlanID(programmeID, date);
 
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+        when(sp.identity()).thenReturn(id);
+        repository.save(sp);
 
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-        when(studyPlan1.identity()).thenReturn(id);
-
-        repository.save(studyPlan1);
-
+        // act
         Optional<StudyPlan> found = repository.ofIdentity(id);
 
+        // assert
         assertTrue(found.isPresent());
-        assertEquals(studyPlan1, found.get());
+        assertSame(sp, found.get());
     }
 
     @Test
     void testOfIdentityReturnsEmptyWhenNotFound() {
+        // arrange
+        Date date = mock(Date.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
+        StudyPlanID id = new StudyPlanID(programmeID, date);
 
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-
+        // act
         Optional<StudyPlan> found = repository.ofIdentity(id);
 
+        // assert
         assertFalse(found.isPresent());
     }
 
     @Test
-    void testContainsOfIdentityReturnsTrueWhenExists() {
-        StudyPlan studyPlan1 = mock(StudyPlan.class);
+    void testContainsOfIdentityTrueWhenExists() {
+        // arrange
+        StudyPlan sp = mock(StudyPlan.class);
+        Date date = mock(Date.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        when(studyPlan1.getProgrammeID()).thenReturn(programmeID);
+        StudyPlanID id = new StudyPlanID(programmeID, date);
 
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
+        when(sp.identity()).thenReturn(id);
+        repository.save(sp);
 
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-        when(studyPlan1.identity()).thenReturn(id);
-
-        repository.save(studyPlan1);
-
+        // act + assert
         assertTrue(repository.containsOfIdentity(id));
     }
 
     @Test
-    void testContainsOfIdentityReturnsFalseWhenNotExists() {
+    void testContainsOfIdentityFalseWhenNotExists() {
+        // arrange
+        Date date = mock(Date.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
+        StudyPlanID id = new StudyPlanID(programmeID, date);
 
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        StudyPlanID id = new StudyPlanID(programmeID, implementationDate);
-
+        // act + assert
         assertFalse(repository.containsOfIdentity(id));
-    }
-
-
-    @Test
-    void shouldReturnStudyPlanIDFromLastStudyPlanByProgrammeID() {
-        // Arrange
-        IStudyPlanFactory studyPlanFactoryDouble = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactoryDouble = mock(IStudyPlanListFactory.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-
-        List<StudyPlan> listOfStudyPlan = new ArrayList<>();
-        when(listFactoryDouble.newArrayList()).thenReturn(listOfStudyPlan);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(studyPlanFactoryDouble, listFactoryDouble);
-
-        StudyPlan studyPlan1Double = mock(StudyPlan.class);
-        StudyPlan studyPlan2Double = mock(StudyPlan.class);
-
-        when(studyPlan1Double.getProgrammeID()).thenReturn(programmeIDDouble);
-        when(studyPlan2Double.getProgrammeID()).thenReturn(programmeIDDouble);
-
-        StudyPlanID studyPlanID1Double = mock(StudyPlanID.class);
-        StudyPlanID studyPlanID2Double = mock(StudyPlanID.class);
-
-        when(studyPlan1Double.identity()).thenReturn(studyPlanID1Double);
-        when(studyPlan2Double.identity()).thenReturn(studyPlanID2Double);
-
-
-        listOfStudyPlan.add(studyPlan1Double);
-        listOfStudyPlan.add(studyPlan2Double);
-
-        // Act
-        StudyPlanID result = repository.getLatestStudyPlanIDByProgrammeID(programmeIDDouble);
-
-        // Assert
-        assertEquals(studyPlanID2Double, result);
-    }
-
-    @Test
-    void testGetLatestStudyPlanIDByProgrammeIDSinglePlan() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        Date implementationDate = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-        StudyPlanID studyPlanID = mock(StudyPlanID.class);
-
-        // Criar um plano de estudos real para teste
-        StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
-        StudyPlanID expectedID = studyPlan.identity();
-
-        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
-                .thenReturn(studyPlan);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        StudyPlanID actualID = repository.getLatestStudyPlanIDByProgrammeID(programmeID);
-
-        // Assert
-        assertEquals(expectedID, actualID);
-    }
-
-    @Test
-    void testFindAllReturnsEmptyForNewRepository() {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-
-        // Act
-        List<StudyPlan> allPlans = repository.getAllStudyPlans();
-
-        // Assert
-        assertTrue(allPlans.isEmpty());
-    }
-
-    @Test
-    void testOfIdentityWithMultiplePlans() throws Exception {
-        // Arrange
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
-        IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
-        List<StudyPlan> studyPlanList = new ArrayList<>();
-        when(listFactory.newArrayList()).thenReturn(studyPlanList);
-
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
-        Date implementationDate1 = mock(Date.class);
-        Date implementationDate2 = mock(Date.class);
-        DurationInYears durationInYears = mock(DurationInYears.class);
-        MaxEcts quantityOfEcts = mock(MaxEcts.class);
-        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
-        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
-
-        // Criar dois planos, para diferentes programas
-        StudyPlan studyPlan1 = new StudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts, studyPlanID1);
-        StudyPlan studyPlan2 = new StudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts, studyPlanID2);
-
-        StudyPlanID expectedID = studyPlan2.identity();
-
-        when(factory.createStudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts))
-                .thenReturn(studyPlan1);
-        when(factory.createStudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts))
-                .thenReturn(studyPlan2);
-
-        StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        repository.createStudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
-        repository.createStudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
-
-        // Act
-        Optional<StudyPlan> foundPlan = repository.ofIdentity(expectedID);
-
-        // Assert
-        assertTrue(foundPlan.isPresent());
-        assertEquals(studyPlan2, foundPlan.get());
     }
 }

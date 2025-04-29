@@ -1,7 +1,10 @@
 
 package PAI.controller;
 
+import PAI.VOs.*;
 import PAI.domain.course.Course;
+import PAI.domain.programme.Programme;
+import PAI.domain.studyPlan.StudyPlan;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -17,6 +20,7 @@ public class US03AddCourseToProgrammeControllerTest {
     private US03_AddCourseToProgrammeController controller;
     private IProgrammeService programmeService;
     private ICourseService courseService;
+    //private IStudyPlanService studyPlanService;
     private ICourseInStudyPlanService courseInStudyPlanService;
 
     @BeforeEach
@@ -67,6 +71,78 @@ public class US03AddCourseToProgrammeControllerTest {
         assertEquals(expectedCourses, actualCourses);
     }
 
+    @Test
+    void shouldReturnAllProgrammes() {
+        // arrange
+        Iterable<Programme> expectedProgrammes = mock(Iterable.class);
+        when(programmeService.findAll()).thenReturn(expectedProgrammes);
+
+        // act
+        Iterable<Programme> actualProgrammes = controller.getAllProgrammes();
+
+        // assert
+        assertEquals(expectedProgrammes, actualProgrammes);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseIsAddedToProgrammeSuccessfully() throws Exception {
+        // arrange
+        Course course = mock(Course.class);
+        CourseID courseID = mock(CourseID.class);
+        when(course.identity()).thenReturn(courseID);
+
+        StudyPlan studyPlan = mock(StudyPlan.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        when(studyPlan.identity()).thenReturn(studyPlanID);
+
+        int semesterInt = 1;
+        int curricularYearInt = 1;
+        int durationOfCourseInCurricularYear = 1;
+        double quantEctsDouble = 30.0;
+
+        Semester semester = new Semester(semesterInt);
+        CurricularYear curricularYear = new CurricularYear(curricularYearInt);
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(durationOfCourseInCurricularYear);
+        CourseQuantityCreditsEcts quantEcts = new CourseQuantityCreditsEcts(quantEctsDouble);
+
+        when(courseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts)).thenReturn(true);
+
+        // act
+        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+
+        // assert
+        assertEquals(true, result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseIsNotAddedToProgramme() throws Exception {
+        // arrange
+        Course course = mock(Course.class);
+        CourseID courseID = mock(CourseID.class);
+        when(course.identity()).thenReturn(courseID);
+
+        StudyPlan studyPlan = mock(StudyPlan.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        when(studyPlan.identity()).thenReturn(studyPlanID);
+
+        int semesterInt = 1;
+        int curricularYearInt = 1;
+        int durationOfCourseInCurricularYear = 1;
+        double quantEctsDouble = 30.0;
+
+        Semester semester = new Semester(semesterInt);
+        CurricularYear curricularYear = new CurricularYear(curricularYearInt);
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(durationOfCourseInCurricularYear);
+        CourseQuantityCreditsEcts quantEcts = new CourseQuantityCreditsEcts(quantEctsDouble);
+
+        when(courseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts)).thenReturn(false);
+
+        // act
+        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+
+        // assert
+        assertEquals(false, result);
+    }
 
 //    @Test
 //    void shouldReturnFalseIfNotAddCourseToProgramme_IsolatedTest() throws Exception {
