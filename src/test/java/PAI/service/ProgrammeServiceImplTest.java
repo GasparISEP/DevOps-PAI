@@ -200,14 +200,16 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DegreeTypeID id1 = mock(DegreeTypeID.class);
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(List.of(programme1,programme2));
+        when(doubleRepo.findAll()).thenReturn(List.of(programme1,programme2));
+        when(programme1.getDegreeTypeID()).thenReturn(id1);
+        when(programme2.getDegreeTypeID()).thenReturn(id1);
 
         //Act
-        List<Programme> result = service.getProgrammesByDegreeTypeID(degreeTypeID);
+        List<Programme> result = service.getProgrammesByDegreeTypeID(id1);
 
         //Assert
         assertEquals(2,result.size());

@@ -67,7 +67,12 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(id);
+        List <Programme> programmeList = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getDegreeTypeID().equals(id))
+                programmeList.add(programme);
+        }
+        return programmeList;
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
