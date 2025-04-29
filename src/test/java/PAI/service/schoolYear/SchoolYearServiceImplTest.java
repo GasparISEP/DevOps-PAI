@@ -179,10 +179,22 @@ class SchoolYearServiceImplTest {
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
-        SchoolYear schoolYear1 = mock(SchoolYear.class);
 
-        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
         when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenRepositoryThrowsException() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        when(schoolYearRepository.getCurrentSchoolYear()).thenThrow(new NullPointerException());
         //act
         Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
         //assert
