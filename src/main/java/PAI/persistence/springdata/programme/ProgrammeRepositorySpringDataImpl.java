@@ -7,14 +7,17 @@ import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
-//Should Implement IProgrammeRepository
-public class ProgrammeRepositorySpringDataImpl {
+@Repository
+public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;

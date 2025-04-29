@@ -87,7 +87,9 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             return false;
         }
 
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionId);
+        ProgrammeEditionEnrolment enrolment = programmeEditionEnrolmentFactory.newProgrammeEditionEnrolment(studentID, programmeEditionId);
+
+        programmeEditionEnrolmentRepository.save(enrolment);
 
         List<CourseEditionID> courseEditions =
                 courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionId);
@@ -97,11 +99,11 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         return true;
     }
 
-    @Override
-    public List<ProgrammeID> getAllProgrammesIDs() {
-
-        return programmeRepository.getAllProgrammesIDs();
-    }
+//    @Override
+//    public List<ProgrammeID> getAllProgrammesIDs() {
+//
+//        return programmeRepository.getAllProgrammesIDs();
+//    }
 
     @Override
     public List<SchoolYearID> getAllSchoolYearIDs() {

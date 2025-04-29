@@ -5,6 +5,7 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.IProgrammeEditionEnrolmentService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
     private ICourseEditionRepository _courseEditionRepository;
     private ISchoolYearRepository _schoolYearRepository;
     private IProgrammeEnrolmentRepository _programmeEnrolmentRepository;
+    private IProgrammeEditionEnrolmentService _programmeEditionEnrolmentService;
 
     public US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
             IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
@@ -26,21 +28,22 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
             ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository,
             ICourseEditionRepository courseEditionRepository,
             ISchoolYearRepository schoolYearRepository,
-            IProgrammeEnrolmentRepository programmeEnrolmentRepository) {
+            IProgrammeEnrolmentRepository programmeEnrolmentRepository,
+            IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
 
-        this._programmeEditionEnrolmentRepository= validateRepository(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
-        this._programmeEditionRepository= validateRepository(programmeEditionRepository, "Programme edition repository");
-        this._programmeList= validateRepository(programmeRepository, "Programme list");
-        this._courseEditionEnrolmentRepository = validateRepository(courseEditionEnrolmentRepository, "Course edition enrolment repository");
-        this._courseEditionRepository= validateRepository(courseEditionRepository, "Course edition repository");
-        this._schoolYearRepository= validateRepository(schoolYearRepository, "School year repository");
-        this._programmeEnrolmentRepository= validateRepository(programmeEnrolmentRepository, "Enrolment repository");
-
+        this._programmeEditionEnrolmentRepository= validate(programmeEditionEnrolmentRepository, "Programme edition enrolment repository");
+        this._programmeEditionRepository= validate(programmeEditionRepository, "Programme edition repository");
+        this._programmeList= validate(programmeRepository, "Programme list");
+        this._courseEditionEnrolmentRepository = validate(courseEditionEnrolmentRepository, "Course edition enrolment repository");
+        this._courseEditionRepository= validate(courseEditionRepository, "Course edition repository");
+        this._schoolYearRepository= validate(schoolYearRepository, "School year repository");
+        this._programmeEnrolmentRepository= validate(programmeEnrolmentRepository, "Programme Enrolment repository");
+        this._programmeEditionEnrolmentService = validate(programmeEditionEnrolmentService, "Programme Edition Enrolment Service");
     }
 
-     public List<ProgrammeID> getAllProgrammesIDs() {
-        return _programmeList.getAllProgrammesIDs();
-    }
+//     public List<ProgrammeID> getAllProgrammesIDs() {
+//        return _programmeList.getAllProgrammesIDs();
+//    }
 
     public List<SchoolYearID> getAllSchoolYearsIDs() {
         return _schoolYearRepository.getAllSchoolYearsIDs();
@@ -70,7 +73,7 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         }
 
         // Enroll student in programmeEdition
-        _programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
+        _programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentId, programmeEditionId);
 
         List<CourseEditionID> courseEditions = _courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionId);
 
@@ -78,11 +81,11 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         return true;
     }
 
-   private <T> T validateRepository(T repository, String name) {
-        if (repository == null) {
+   private <T> T validate(T instance, String name) {
+        if (instance == null) {
             throw new IllegalStateException(name + " cannot be null.");
             }
-       return repository;
+       return instance;
    }
 
 }

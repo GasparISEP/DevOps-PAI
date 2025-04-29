@@ -3,21 +3,20 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
-import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.service.StudyPlan.IStudyPlanService;
 
 import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
-
     IDegreeTypeRepository _degreeTypeRepo;
     IProgrammeRepository _programmeDDDList;
-    IStudyPlanRepository _studyPlanDDDRepo;
+    IStudyPlanService _studyPlanDDDService;
 
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanRepository studyPlanDDDRepo, IDegreeTypeRepository degreeTypeRepository) throws Exception {
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeRepository programmeDDDList, IStudyPlanService studyPlanDDDService, IDegreeTypeRepository degreeTypeRepository) throws Exception {
 
         if (programmeDDDList == null) {
             throw new Exception("Programme Repository cannot be null.");
@@ -25,11 +24,11 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
         _programmeDDDList = programmeDDDList;
 
-        if (studyPlanDDDRepo == null) {
-            throw new Exception("Study Plan Repository cannot be null.");
+        if (studyPlanDDDService == null) {
+            throw new Exception("Study Plan Service cannot be null.");
         }
 
-        _studyPlanDDDRepo = studyPlanDDDRepo;
+        _studyPlanDDDService = studyPlanDDDService;
 
 
         if (degreeTypeRepository == null) {
@@ -73,7 +72,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         int quantityOfEcts = degreeType.getMaxEcts();
         MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
 
-        _studyPlanDDDRepo.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
+        _studyPlanDDDService.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
         return true;
     }
 }

@@ -2,6 +2,24 @@ package PAI.controller;
 
 import PAI.VOs.*;
 
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.factory.*;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.repository.*;
+
+import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
@@ -83,6 +101,127 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         // act && assert
         assertThrows(IllegalArgumentException.class, () -> controller.getTheNumberOfStudentsEnrolledInAProgrammeEdition(null));
     }
+
+    @Test
+    void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition() throws Exception {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        StudentID studentID3 = mock(StudentID.class);
+        StudentID studentID4 = mock(StudentID.class);
+
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
+
+
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
+        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
+        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+
+        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                programmeEditionEnrolmentRepository,
+                programmeEditionRepository,
+                courseEditionEnrolmentRepositoryImpl,
+                courseEditionRepository,
+                schoolYearRepository,
+                programmeEnrolmentRepository,
+                programmeRepository,
+                programmeEditionEnrolmentFactory);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
+
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+        SchoolYearID schoolYearID2 = new SchoolYearID();
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
+
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, programmeEditionRepository);
+
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID3, programmeEditionID1);
+        programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID4, programmeEditionID2);
+
+        // Act
+        int result = controller1.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1);
+
+        // Assert
+        assertEquals(3, result);
+    }
+
+    @Test
+    void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception {
+        //Arrange
+
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
+
+        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
+        Acronym programmeAcronym1 = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
+
+        SchoolYearID schoolYearID1 = new SchoolYearID();
+
+        ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, IProgrammeRepositoryListFactory);
+        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
+        ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
+        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
+        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+
+        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                programmeEditionEnrolmentRepository,
+                programmeEditionRepository,
+                courseEditionEnrolmentRepositoryImpl,
+                courseEditionRepository,
+                schoolYearRepository,
+                programmeEnrolmentRepository,
+                programmeRepository,
+                programmeEditionEnrolmentFactory);
+        US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, programmeEditionRepository);
+
+        // Act
+        int result = controller1.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1);
+
+        // Assert
+        assertEquals(0, result);
+    }
+//
+
 
     @Test
     void shouldGetAllProgrammeEdition() {

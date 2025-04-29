@@ -8,9 +8,4 @@ import java.util.List;
 
 public interface IStudyPlanRepository extends IRepository<StudyPlanID, StudyPlan> {
 
-    boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts);
-    List<StudyPlan> getAllStudyPlansByProgrammeId(ProgrammeID programmeID);
-    List<StudyPlan> getAllStudyPlans_2();
-
-    StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID);
 }

@@ -10,6 +10,7 @@ import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 
 
@@ -18,14 +19,14 @@ import java.util.List;
 public class US19_CreateCourseEditionController {
     private final IDegreeTypeRepository _degreeTypeRepository;
     private final IProgrammeRepository _programmeRepository;
-    private final IStudyPlanRepository _studyPlanRepository;
+    private final IStudyPlanService _studyPlanService;
     private final ICourseInStudyPlanService _courseInStudyPlanService;
     private final IProgrammeEditionRepository _programmeEditionRepository;
     private final ICourseEditionRepository _courseEditionRepository;
 
     public US19_CreateCourseEditionController(IDegreeTypeRepository degreeTypeRepository,
                                               IProgrammeRepository programmeRepository,
-                                              IStudyPlanRepository studyPlanRepository,
+                                              IStudyPlanService studyPlanService,
                                               ICourseInStudyPlanService courseInStudyPlanService,
                                               IProgrammeEditionRepository programmeEditionRepository,
                                               ICourseEditionRepository courseEditionRepository){
@@ -35,8 +36,8 @@ public class US19_CreateCourseEditionController {
         if (programmeRepository == null) {
             throw new IllegalArgumentException("programmeRepository cannot be null");
         }
-        if (studyPlanRepository == null) {
-            throw new IllegalArgumentException("studyPlanRepository cannot be null");
+        if (studyPlanService == null) {
+            throw new IllegalArgumentException("studyPlanService cannot be null");
         }
         if (courseInStudyPlanService == null) {
             throw new IllegalArgumentException("courseInStudyPlanRepository be cannot null");
@@ -50,7 +51,7 @@ public class US19_CreateCourseEditionController {
 
         _degreeTypeRepository = degreeTypeRepository;
         _programmeRepository = programmeRepository;
-        _studyPlanRepository = studyPlanRepository;
+        _studyPlanService = studyPlanService;
         _courseInStudyPlanService = courseInStudyPlanService;
         _programmeEditionRepository = programmeEditionRepository;
         _courseEditionRepository = courseEditionRepository;
@@ -60,12 +61,12 @@ public class US19_CreateCourseEditionController {
         return _degreeTypeRepository.getAllDegreeTypes();
     }
 
-    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
-    }
+//    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
+//        return _programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
+//    }
 
     public List<CourseInStudyPlan> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) throws Exception {
-        StudyPlanID studyPlanID = _studyPlanRepository.getLatestStudyPlanIDByProgrammeID(programmeID);
+        StudyPlanID studyPlanID = _studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID);
         return _courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID);
     }
 

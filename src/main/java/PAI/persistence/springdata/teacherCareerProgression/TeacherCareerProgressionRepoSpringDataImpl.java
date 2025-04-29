@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TeacherCareerProgressionRepoSpringData implements ITeacherCareerProgressionRepository {
+public class TeacherCareerProgressionRepoSpringDataImpl implements ITeacherCareerProgressionRepository {
     private final ITeacherCareerProgressionRepoSpringData iTCPRepo;
     private final ITeacherCareerProgressionMapper iTCPMapper;
     private final ITeacherCareerProgressionIDMapper iTCPIdMapper;
 
-    public TeacherCareerProgressionRepoSpringData(ITeacherCareerProgressionRepoSpringData iTCPRepo, ITeacherCareerProgressionMapper iTCPMapper, ITeacherCareerProgressionIDMapper iTCPIdMapper) {
+    public TeacherCareerProgressionRepoSpringDataImpl(ITeacherCareerProgressionRepoSpringData iTCPRepo, ITeacherCareerProgressionMapper iTCPMapper, ITeacherCareerProgressionIDMapper iTCPIdMapper) {
         if(iTCPRepo == null) {
             throw new IllegalArgumentException("Repository must not be null");
         }

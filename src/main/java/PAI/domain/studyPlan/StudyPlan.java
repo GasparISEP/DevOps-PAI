@@ -11,13 +11,33 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
     private StudyPlanID _studyPlanID;
     private MaxEcts _quantityOfEcts;
 
-    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {
+    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID) {
 
-        this._implementationDate = implementationDate;
-        this._durationInYears = durationInYears;
+        if (programmeID == null) {
+            throw new IllegalArgumentException("Programme ID cannot be null");
+        }
         this._programmeID = programmeID;
+
+        if (implementationDate == null) {
+            throw new IllegalArgumentException("Implementation Date cannot be null");
+        }
+        this._implementationDate = implementationDate;
+
+        if (durationInYears == null) {
+            throw new IllegalArgumentException("Duration In Years cannot be null");
+        }
+        this._durationInYears = durationInYears;
+
+        if (quantityOfEcts == null) {
+            throw new IllegalArgumentException("Quantity Of ECTs cannot be null");
+        }
         this._quantityOfEcts = quantityOfEcts;
-        this._studyPlanID = new StudyPlanID(programmeID, implementationDate);
+
+        if (studyPlanID == null) {
+            throw new IllegalArgumentException("Study Plan ID cannot be null");
+
+        }
+        this._studyPlanID = studyPlanID;
     }
 
     public MaxEcts getQuantityOfEcts() {
