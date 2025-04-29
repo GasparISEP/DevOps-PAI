@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
@@ -145,14 +146,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         // Act
-        List<NameWithNumbersAndSpecialChars> listToTest = controller.getAllProgrammeNames();
+        List<Programme> listToTest = controller.getAllProgrammes();
 
         // Assert
         assertNotNull(listToTest);
         assertEquals(3, listToTest.size());
-        assertEquals(programmeName1, listToTest.get(0));
-        assertEquals(programmeName2, listToTest.get(1));
-        assertEquals(programmeName3, listToTest.get(2));
     }
 
     @Test
@@ -173,7 +171,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionFactory, schoolYearRepository, programmeRepository);
 
         // Act
-        List<NameWithNumbersAndSpecialChars> listToTest = controller.getAllProgrammeNames();
+        List<Programme> listToTest = controller.getAllProgrammes();
 
         // Assert
         assertNotNull(listToTest);

@@ -7,6 +7,7 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProgrammeServiceImpl implements IProgrammeService {
@@ -60,5 +61,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
         return _programmeRepository.getProgrammesByDegreeTypeID(id);
+    }
+
+    public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
+        return _programmeRepository.findProgrammeIdByProgramme(prog);
+    }
+
+    public List<Programme> getAllProgrammes() {
+        return _programmeRepository.getAllProgrammes();
     }
 }
