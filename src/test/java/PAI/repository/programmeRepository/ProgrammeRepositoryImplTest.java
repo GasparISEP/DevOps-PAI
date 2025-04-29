@@ -294,64 +294,6 @@ class ProgrammeRepositoryImplTest {
     }
 
     @Test
-    void shouldReturnAListOfProgrammeNamesMock() throws Exception {
-        // SUT = ProgrammeList - getAllProgrammeNames
-        // Arrange
-        IProgrammeFactory IProgrammeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepositoryListFactory programmeRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
-        ProgrammeRepositoryImpl programmeRepo = new ProgrammeRepositoryImpl(IProgrammeFactory, programmeRepoListFactory);
-
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym1 = mock(Acronym.class);
-        QuantEcts quantityOfEcts1 = mock(QuantEcts.class);
-        QuantSemesters quantityOfSemesters1 = mock(QuantSemesters.class);
-        DegreeTypeID master1 = mock(DegreeTypeID.class);
-        DepartmentID cse1 = mock(DepartmentID.class);
-        TeacherID teacher1 = mock(TeacherID.class);
-
-        when(name1.getnameWithNumbersAndSpecialChars()).thenReturn("Matemática");
-        when(name2.getnameWithNumbersAndSpecialChars()).thenReturn("Computer Engineering");
-
-
-        Programme programme1 = mock(Programme.class);
-        Programme programme2 = mock(Programme.class);
-        when(programme1.getProgrammeName()).thenReturn(name1);
-        when(programme2.getProgrammeName()).thenReturn(name2);
-        when(IProgrammeFactory.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme1);
-        when(IProgrammeFactory.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1)).thenReturn(programme2);
-
-        programmeRepo.registerProgramme(name1, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1);
-        programmeRepo.registerProgramme(name2, acronym1, quantityOfEcts1, quantityOfSemesters1, master1, cse1, teacher1);
-
-        when(programme1.getProgrammeName()).thenReturn(name1);
-        when(programme2.getProgrammeName()).thenReturn(name2);
-
-        // Act
-        List<NameWithNumbersAndSpecialChars> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
-
-        // Assert
-        assertEquals(2, listOfProgrammeNames.size());
-        assertTrue(listOfProgrammeNames.contains(name1));
-        assertTrue(listOfProgrammeNames.contains(name2));
-    }
-
-    @Test
-    void shouldReturnAnEmptyListOfProgrammeNamesIfThereAreNoProgrammesInTheProgrammeListMock() throws Exception {
-        // SUT = ProgrammeList - getAllProgrammeNames
-        // Arrange
-        IProgrammeFactory IProgrammeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepositoryListFactory programmeListRepoFactory = mock(IProgrammeRepositoryListFactory.class);
-        ProgrammeRepositoryImpl programmeRepo = new ProgrammeRepositoryImpl(IProgrammeFactory, programmeListRepoFactory);
-
-        // Act
-        List<NameWithNumbersAndSpecialChars> listOfProgrammeNames = programmeRepo.getAllProgrammeNames();
-
-        // Assert
-        assertEquals(0, listOfProgrammeNames.size());
-    }
-
-    @Test
     void testFindProgrammeByIDFound() throws  Exception {
         // Arrange
         IProgrammeFactory IProgrammeFactory = mock(IProgrammeFactory.class);

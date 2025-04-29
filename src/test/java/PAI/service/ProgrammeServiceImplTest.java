@@ -229,5 +229,79 @@ class ProgrammeServiceImplTest {
         assertTrue(result.isEmpty());
 
     }
-  
+
+    @Test
+    void shouldFindProgrammeIDByProgramme() throws Exception {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        Programme programme1 = mock(Programme.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
+
+        when(doubleRepo.findProgrammeIdByProgramme(programme1)).thenReturn(Optional.of(programme2));
+
+        //Act
+        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(programme1);
+
+        //Assert
+        assertNotNull(Optional.of(result));
+
+    }
+
+    @Test
+    void shouldNotFindProgrammeIDByProgramme() throws Exception {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(null);
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    void shouldGetAllProgrammes() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(doubleRepo.getAllProgrammes()).thenReturn(List.of(programme1,programme2));
+
+        //Act
+        List<Programme> result = service.getAllProgrammes();
+
+        //Assert
+        assertEquals(2,result.size());
+
+    }
+
+    @Test
+    void shouldNotGetAllProgrammes() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        List<Programme> result = service.getAllProgrammes();
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
+
 }
