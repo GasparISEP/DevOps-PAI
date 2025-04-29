@@ -54,7 +54,9 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
 
         TeacherID teacherID = _teacherIDMapper.toDomain(programmeDataModel.getProgrammeDirectorID());
 
-        return _factory.registerProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID);
+        ProgrammeID programmeID = _progIDMapper.toDomain(programmeDataModel.getProgID());
+
+        return _factory.reregisterProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID,programmeID);
     }
 
 }

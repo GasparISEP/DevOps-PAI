@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEditionEnrolmentID, CourseEditionEnrolment> {
 
-    boolean enrolStudentInACourseEdition(CourseEditionEnrolment courseEditionEnrolment) throws Exception;
-
     boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception;
 
     Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId);

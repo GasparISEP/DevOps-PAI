@@ -15,7 +15,22 @@ import static org.mockito.Mockito.*;
 
 class CourseEditionEnrolmentRepositoryImplTest {
 
-    //test enroll a student in a course edition method
+
+    //test save Method
+
+    @Test
+    void should_throw_exception_if_identity_is_null() throws IllegalArgumentException {
+
+        //arrange
+        ICourseEditionEnrolmentListFactory doubleCEELF = mock(ICourseEditionEnrolmentListFactory.class);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCEELF);
+
+        //act + assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->{
+            repository.save(null);
+        });
+        assertEquals(exception.getMessage(),"Entity cannot be null");
+    }
 
     @Test
     void shouldReturnTrueWithAValidCourseEditionEnrollment() {
@@ -34,34 +49,10 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
 
         //act
-        boolean result = repository.enrolStudentInACourseEdition(doubleCee1);
+        CourseEditionEnrolment result = repository.save(doubleCee1);
 
         //assert
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfAddFails() {
-        // Arrange
-        ICourseEditionEnrolmentFactory doubleCeeFactory = mock(ICourseEditionEnrolmentFactory.class);
-        ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        Set<CourseEditionEnrolment> doubleEnrolmentSet = mock(Set.class);
-
-        StudentID doubleStudentId = mock(StudentID.class);
-        CourseEditionID doubleCourseEditionId = mock(CourseEditionID.class);
-        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
-
-        when(doubleCeeFactory.createCourseEditionEnrolment(doubleStudentId, doubleCourseEditionId)).thenReturn(enrolment);
-        when(doubleCeeListFactory.getCourseEditionEnrolmentList()).thenReturn(doubleEnrolmentSet);
-        when(doubleEnrolmentSet.add(enrolment)).thenReturn(false);
-
-        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(doubleCeeListFactory);
-
-        // Act
-        boolean result = repo.enrolStudentInACourseEdition(enrolment);
-
-        // Assert
-        assertFalse(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -87,13 +78,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
         when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
 
-        repository.enrolStudentInACourseEdition(doubleCee1);
+        repository.save(doubleCee1);
 
         //act
-        boolean result = repository.enrolStudentInACourseEdition(doubleCee2);
+        CourseEditionEnrolment result = repository.save(doubleCee2);
 
         //assert
-        assertEquals(true, result);
+        assertNotNull(result);
     }
 
     @Test
@@ -118,13 +109,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
         when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
 
-        repository.enrolStudentInACourseEdition(doubleCee1);
+        repository.save(doubleCee1);
 
         //act
-        boolean result = repository.enrolStudentInACourseEdition(doubleCee2);
+        CourseEditionEnrolment result = repository.save(doubleCee2);
 
         //assert
-        assertEquals(true, result);
+        assertNotNull(result);
     }
 
     @Test
@@ -149,13 +140,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrolmentset.add(doubleCee1)).thenReturn(true);
         when(doubleEnrolmentset.add(doubleCee2)).thenReturn(true);
 
-        repository.enrolStudentInACourseEdition(doubleCee1);
+        repository.save(doubleCee1);
 
         //act
-        boolean result = repository.enrolStudentInACourseEdition(doubleCee2);
+        CourseEditionEnrolment result = repository.save(doubleCee2);
 
         //assert
-        assertEquals(true, result);
+        assertNotNull(result);
     }
 
     @Test
@@ -176,27 +167,16 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleCeeFactory.createCourseEditionEnrolment(doubleStID1, doubleCeID1)).thenReturn(doubleCee);
         when(enrolmentSet.add(doubleCee)).thenReturn(false);
 
-        // act
-        boolean result = repository.enrolStudentInACourseEdition(doubleCee);
+        // act & assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            repository.save(doubleCee);
+        });
 
-        // assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfStudentIsNull() {
-        //arrange
-        ICourseEditionEnrolmentListFactory doubleCeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCeeListFactory);
-
-        //act
-        boolean result = repository.enrolStudentInACourseEdition(null);
-
-        //assert
-        assertFalse(result);
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
     }
 
     //test isStudentEnrolledInCourseEdition method
+
     @Test
     void shouldConfirmStudentIsEnrollInACourseEdition() throws Exception {
         // arrange
@@ -220,7 +200,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(cee1.isEnrolmentActive()).thenReturn(true);
 
         // act
-        repository.enrolStudentInACourseEdition(cee1);
+        repository.save(cee1);
 
         // assert
         assertTrue(repository.isStudentEnrolledInCourseEdition(studentID, ce1));
@@ -257,7 +237,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(cee1.isEnrolmentActive()).thenReturn(true);
 
 
-        repository.enrolStudentInACourseEdition(cee1);
+        repository.save(cee1);
 
         // act
 
@@ -285,7 +265,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
 
         when(courseEEnrollments.hasCourseEdition(doubleCe1)).thenReturn(true);
 
-        repository.enrolStudentInACourseEdition(courseEEnrollments);
+        repository.save(courseEEnrollments);
 
         // Act
         Optional<CourseEditionEnrolment> result = repository.findByStudentAndEdition(doubleSt1, doubleCe1);
@@ -377,7 +357,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
 
         when(cee1.knowCourseEdition()).thenReturn(doubleCourseEdition1);
 
-        repo.enrolStudentInACourseEdition(cee1);
+        repo.save(cee1);
 
         // Act
         int studentsEnrolled = repo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
@@ -408,8 +388,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(cee1.knowCourseEdition()).thenReturn(doubleCourseEdition2);
         when(cee2.knowCourseEdition()).thenReturn(doubleCourseEdition2);
 
-        repo.enrolStudentInACourseEdition(cee1);
-        repo.enrolStudentInACourseEdition(cee2);
+        repo.save(cee1);
+        repo.save(cee2);
 
         // Act
         int studentsEnrolled = repo.numberOfStudentsEnrolledInCourseEdition(doubleCourseEdition1);
@@ -434,13 +414,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertEquals(0, studentsEnrolled);
     }
 
-
 // ==============================
 // Enrolment Removal Success Cases
-// ==============================
 
+// ==============================
     // Test Removing an Existing Enrolment
     // System should allow the successful removal of a student enrolled in a course edition
+
     @Test
     void removeExistingEnrolment_ShouldReturnTrue() {
         // Arrange
@@ -459,7 +439,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(mockCee.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
         when(mockCee.isEnrolmentActive()).thenReturn(true);
 
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee);
+        enrolmentRepository.save(mockCee);
 
         // Act
         boolean result = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
@@ -468,9 +448,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(result, "Enrolment should be removed successfully.");
         verify(mockCee).deactivateEnrolment(); // Verify that deactivateEnrolment() was called
     }
-
     // Multiple Course Edition Removals
     // Ensures that a student can be removed from multiple course editions correctly
+
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth() {
         // Arrange
@@ -495,8 +475,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(mockCee2.hasCourseEdition(mockCourseEditionID2)).thenReturn(true);
         when(mockCee2.isEnrolmentActive()).thenReturn(true);
 
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee1);
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee2);
+        enrolmentRepository.save(mockCee1);
+        enrolmentRepository.save(mockCee2);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID1);
@@ -508,9 +488,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         verify(mockCee1).deactivateEnrolment();
         verify(mockCee2).deactivateEnrolment();
     }
-
     // Batch Removal of Multiple Students
     // Ensures that different students enrolled in the same course edition can be removed without issues
+
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth() {
         // Arrange
@@ -537,8 +517,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(mockCee2.hasCourseEdition(mockCourseEditionID)).thenReturn(true);
         when(mockCee2.isEnrolmentActive()).thenReturn(true);
 
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee1);
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee2);
+        enrolmentRepository.save(mockCee1);
+        enrolmentRepository.save(mockCee2);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID1, mockCourseEditionID);
@@ -550,13 +530,13 @@ class CourseEditionEnrolmentRepositoryImplTest {
         verify(mockCee1).deactivateEnrolment();
         verify(mockCee2).deactivateEnrolment();
     }
-
 // ==============================
 // Enrolment Removal Failure Handling
-// ==============================
 
+// ==============================
     // Test Removing a Non-Existing Enrolment
     // Ensures that the system does not allow the removal of a non-existent enrolment
+
     @Test
     void removeNonExistingEnrolment_ShouldReturnFalse() {
         // Arrange
@@ -574,9 +554,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertFalse(result, "Removing a non existing enrolment should return false.");
         verify(enrolmentFactoryMock, never()).createCourseEditionEnrolment(any(), any()); // Ensure no enrolment creation occurs
     }
-
     // Remove Already Inactive Enrolment
     // Ensures that the system does not allow the removal of an enrolment that has already been deactivated
+
     @Test
     void removeAlreadyInactiveEnrolment_ShouldReturnFalse() {
         // Arrange
@@ -599,9 +579,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertFalse(result, "Removing an already inactive enrolment should return false.");
         verify(mockCee, never()).deactivateEnrolment(); // Ensure deactivateEnrolment is not called
     }
-
     // Multiple Removal Attempts of Same Enrolment
     // Confirms that removing the same enrolment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
+
     @Test
     void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() {
         // Arrange
@@ -622,7 +602,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         // Simulate first call: Enrolment starts as active, then becomes inactive
         when(mockCee.isEnrolmentActive()).thenReturn(true).thenReturn(false);
 
-        enrolmentRepository.enrolStudentInACourseEdition(mockCee);
+        enrolmentRepository.save(mockCee);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(mockStudentID, mockCourseEditionID);
@@ -638,9 +618,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertFalse(secondRemoval, "The second removal should not succeed.");
         verify(mockCee, times(1)).deactivateEnrolment(); // Ensure deactivation was called exactly once
     }
-
     // Null Information
     // If the student or course edition information is missing (null), the system should reject the operation
+
     @Test
     void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse() {
         // Arrange
@@ -677,12 +657,11 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrollment.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
         // Act
-        repository.enrolStudentInACourseEdition(doubleEnrollment);
+        repository.save(doubleEnrollment);
 
         // Assert
         assertTrue(repository.findByStudentAndEdition(doubleStudent, doubleCourseEdition1).isPresent());
     }
-
 //    @Test //Teste de Fernando
 //    void shouldThrowExceptionWhenStudentAlreadyEnrolled() {
 //        // Arrange
@@ -718,6 +697,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
 //
 //        //assert
 //        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
+
 //    }
 
     @Test
@@ -744,12 +724,12 @@ class CourseEditionEnrolmentRepositoryImplTest {
 
 
     //---------------Integration Tests--------------
-
 // ==============================
 // Enrolment Removal Success Cases
-// ==============================
 
+// ==============================
     // Test Removing an Existing Enrolment
+
     @Test
     void removeExistingEnrolment_ShouldReturnTrue_IntegrationTest() throws Exception {
         // Arrange
@@ -771,7 +751,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act
         boolean result = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
@@ -779,8 +759,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         // Assert
         assertTrue(result, "Enrolment should be removed successfully.");
     }
-
     // Multiple Course Edition Removals
+
     @Test
     void removeStudentFromMultipleCourseEditions_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
@@ -817,8 +797,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionID courseEdition2ID = new CourseEditionID(programmeEdition2ID, courseInStudyPlanID2);
         CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID,courseEdition2ID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
+        enrolmentRepository.save(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
@@ -828,8 +808,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(firstRemoval, "Student should be removed from the first course edition.");
         assertTrue(secondRemoval, "Student should be removed from the second course edition.");
     }
-
     // Batch Removal of Multiple Students
+
     @Test
     void removeMultipleStudentsFromSameCourseEdition_ShouldReturnTrueForBoth_IntegrationTest() throws Exception {
         // Arrange
@@ -854,8 +834,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
         CourseEditionEnrolment courseEditionEnrolment2 = new CourseEditionEnrolment(studentID2,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment2);
+        enrolmentRepository.save(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment2);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
@@ -865,12 +845,12 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(firstRemoval, "First student's enrolment should be removed successfully.");
         assertTrue(secondRemoval, "Second student's enrolment should be removed successfully.");
     }
-
 // ==============================
 // Enrolment Removal Failure Handling
-// ==============================
 
+// ==============================
     // Test Removing a Non-Existing Enrolment
+
     @Test
     void removeNonExistingEnrollment_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
@@ -897,8 +877,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         // Assert
         assertFalse(result, "Removing a non existing enrollment should return false.");
     }
-
     // Multiple Removal Attempts of Same Enrolment
+
     @Test
     void removeEnrolmentTwice_ShouldReturnFalseOnSecondAttempt_IntegrationTest() throws Exception {
         // Arrange
@@ -920,7 +900,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act
         boolean firstRemoval = enrolmentRepository.removeEnrolment(studentID, courseEditionID);
@@ -930,8 +910,8 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(firstRemoval, "Enrollment should be removed successfully.");
         assertFalse(secondRemoval, "The second removal should not succeed.");
     }
-
     // Null Information
+
     @Test
     void removeEnrolment_WithNullStudentOrCourseEdition_ShouldReturnFalse_IntegrationTest() throws Exception {
         // Arrange
@@ -953,7 +933,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
         CourseEditionEnrolment courseEditionEnrolment = new CourseEditionEnrolment(studentID,courseEditionID);
 
-        enrolmentRepository.enrolStudentInACourseEdition(courseEditionEnrolment);
+        enrolmentRepository.save(courseEditionEnrolment);
 
         // Act and assert
         // test for the case where Student is null
@@ -1159,20 +1139,6 @@ class CourseEditionEnrolmentRepositoryImplTest {
         //assert
         assertTrue(idExists.isPresent());
         assertEquals(enrolment2,idExists.get());
-    }
-
-    @Test
-    void should_throw_exception_if_identity_is_null() throws IllegalArgumentException {
-
-        //arrange
-        ICourseEditionEnrolmentListFactory doubleCEELF = mock(ICourseEditionEnrolmentListFactory.class);
-        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(doubleCEELF);
-
-        //act + assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->{
-            repository.save(null);
-        });
-        assertEquals(exception.getMessage(),"Entity cannot be null");
     }
 
 }

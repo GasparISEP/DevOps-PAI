@@ -422,4 +422,74 @@ class ProgrammeServiceImplTest {
         //assert
         assertFalse(all.iterator().hasNext());
     }
+
+    @Test
+    void getProgrammeByIDFoundShouldReturnProgramme() throws Exception {
+        // Arrange
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+
+        ProgrammeID id = new ProgrammeID(name, acronym);
+        Programme programme = mock(Programme.class);
+        when(programme.identity()).thenReturn(id);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(programme));
+
+        // Act
+        Optional<Programme> result = programmeService.getProgrammeByID(id);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(programme, result.get());
+    }
+
+    @Test
+    void getProgrammeByIDShouldReturnEmptyOptionalWhenProgrammeNotFound() throws Exception {
+        // Arrange
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        ProgrammeID id = new ProgrammeID(name, acronym);
+
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym1 = mock(Acronym.class);
+
+        Programme differentProgramme = mock(Programme.class);
+        when(differentProgramme.identity()).thenReturn(new ProgrammeID(name1, acronym1));
+        when(programmeRepository.findAll()).thenReturn(List.of(differentProgramme));
+
+        // Act
+        Optional<Programme> result = programmeService.getProgrammeByID(id);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testGetProgrammeByID_EmptyRepository() {
+        // Arrange
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        ProgrammeID id = new ProgrammeID(name, acronym);
+
+        when(programmeRepository.findAll()).thenReturn(List.of());
+
+        // Act
+        Optional<Programme> result = programmeService.getProgrammeByID(id);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
 }

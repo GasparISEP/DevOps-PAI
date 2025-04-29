@@ -2,6 +2,8 @@ package PAI.persistence.datamodel.course;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "COURSE")
 public class CourseDataModel
@@ -26,6 +28,19 @@ public class CourseDataModel
         _courseID = courseIDDataModel;
         _name = name;
         _acronym = acronym;
+    }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+        if (this == objectToCompare) return true;
+        if (objectToCompare== null || !(objectToCompare instanceof CourseDataModel))
+            return false;
+        CourseDataModel courseDataModel = (CourseDataModel) objectToCompare;
+        return Objects.equals(_courseID, courseDataModel._courseID);
+    }
+    @Override
+    public int hashCode() {
+        return _courseID.hashCode();
     }
 
     public String getName() {return _name; }

@@ -6,6 +6,8 @@ import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -466,4 +468,37 @@ class CourseEditionEnrolmentTest {
         // assert
         assertFalse(result);
     }
+
+    @Test
+    void should_create_course_edition_enrolment_with_default_values() {
+
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        // act
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID);
+
+        // assert
+        assertNotNull(enrolment.getEnrolmentDate());
+        assertTrue(enrolment.isEnrolmentActive());
+        assertEquals(studentID, enrolment.knowStudent());
+        assertEquals(courseEditionID, enrolment.knowCourseEdition());
+    }
+
+    @Test
+    void should_return_correct_enrolment_date() {
+
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        LocalDate expectedDate = LocalDate.of(2024, 5, 20);
+
+        // act
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID, expectedDate, true);
+
+        // assert
+        assertEquals(expectedDate, enrolment.getEnrolmentDate());
+    }
+
 }

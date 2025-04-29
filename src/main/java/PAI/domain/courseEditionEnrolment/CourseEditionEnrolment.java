@@ -22,6 +22,15 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._isActive= new EnrolmentStatus(true);
     }
 
+    public CourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID, LocalDate enrolmentDate, boolean active) {
+        validateStudent(studentID);
+        validateCourseEdition(courseEditionID);
+        this._enrolmentDate = new Date(enrolmentDate);
+        this._courseEditionEnrolmentId = new CourseEditionEnrolmentID(studentID, courseEditionID);
+        this._isActive = new EnrolmentStatus(active);
+    }
+
+
     private void validateStudent(StudentID studentID) throws IllegalArgumentException {
         if (studentID == null) {
             throw new IllegalArgumentException("Student cannot be null!");

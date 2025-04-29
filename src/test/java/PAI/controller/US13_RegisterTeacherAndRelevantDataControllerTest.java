@@ -4,11 +4,12 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.domain.TeacherCategory;
 import PAI.factory.*;
-import PAI.persistence.springdata.Department.DepartmentRepositorySpringDataImpl;
 import PAI.persistence.springdata.TeacherCategoryRepositorySpringDataImpl;
 import PAI.persistence.springdata.teacherCareerProgression.TeacherCareerProgressionRepoSpringDataImpl;
 import PAI.repository.*;
 import PAI.service.*;
+import PAI.service.department.DepartmentServiceImpl;
+import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
 import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;
@@ -28,14 +29,14 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
     // Arrange
     private ITeacherCategoryService _teacherCategoryServiceDouble;
-    private IDepartmentRepository _departmentRepoDouble;
+    private IDepartmentService _departmentServiceDouble;
     private ITeacherService _teacherServiceDouble;
     private ITeacherCareerProgressionService _teacherCareerProgressionServiceDouble;
 
     @BeforeEach
     void factoryDoublesSetup() {
         _teacherCategoryServiceDouble = mock(TeacherCategoryServiceImpl.class);
-        _departmentRepoDouble = mock(IDepartmentRepository.class);
+        _departmentServiceDouble = mock(IDepartmentService.class);
         _teacherServiceDouble = mock(TeacherServiceImpl.class);
         _teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionServiceImpl.class);
     }
@@ -49,7 +50,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act
         new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         // Assert
     }
@@ -60,7 +61,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-                null, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble));
+                null, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble));
     }
 
     @Test
@@ -78,7 +79,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, null, _teacherCareerProgressionServiceDouble));
+                _teacherCategoryServiceDouble, _departmentServiceDouble, null, _teacherCareerProgressionServiceDouble));
     }
 
     @Test
@@ -87,14 +88,14 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, null));
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, null));
     }
 
     @Test
     void shouldReturnExceptionIfCategoriesListIsEmpty() {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         when(_teacherCategoryServiceDouble.getAllTeacherCategories()).thenThrow(new IllegalStateException("Teacher Category list is empty."));
 
@@ -108,7 +109,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherCategory tcDouble = mock(TeacherCategory.class);
         List<TeacherCategory> tcListDouble = List.of(tcDouble);
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         when(_teacherCategoryServiceDouble.getAllTeacherCategories()).thenReturn(tcListDouble);
 
@@ -123,9 +124,9 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldReturnExceptionIfDepartmentsListIsEmpty() {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
-        when(_departmentRepoDouble.findAll()).thenThrow(new IllegalStateException("Department list is empty."));
+        when(_departmentServiceDouble.findAll()).thenThrow(new IllegalStateException("Department list is empty."));
 
         // Act + Assert
         assertThrows(IllegalStateException.class, () -> controllerUS13Double.getDepartmentList());
@@ -135,11 +136,11 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldReturnDepartmentListWithRegisteredDepartments() {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         Iterable<Department> dptListDouble = new HashSet<>();
 
-        when(_departmentRepoDouble.findAll()).thenReturn(dptListDouble);
+        when(_departmentServiceDouble.findAll()).thenReturn(dptListDouble);
 
         // Act
         Iterable<Department> result = controllerUS13Double.getDepartmentList();
@@ -151,7 +152,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldRegisterTeacherWithValidInputsIsolated() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         TeacherID teacherID = mock(TeacherID.class);
         Optional<TeacherID> optionalTeacherID = Optional.of(teacherID);
@@ -177,7 +178,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldNotRegisterTeacherIsolated() throws Exception {
         // Arrange
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                _teacherCategoryServiceDouble, _departmentRepoDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
+                _teacherCategoryServiceDouble, _departmentServiceDouble, _teacherServiceDouble, _teacherCareerProgressionServiceDouble);
 
         Optional<TeacherID> optionalEmpty = Optional.empty();
 
@@ -203,7 +204,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory);
 
         // Arrange dependencies of Department aggregate
-        IDepartmentRepository departmentRepository = mock(DepartmentRepositorySpringDataImpl.class);
+        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
 
         // Arrange dependencies of Teacher aggregate
         ITeacherService teacherService = mock(TeacherServiceImpl.class);
@@ -230,7 +231,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 //        when(tcpService.createTeacherCareerProgression(date, tcID, workingPercentage, teacherID)).thenReturn(true);
 
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                teacherCategoryService, departmentRepository, teacherService, tcpService);
+                teacherCategoryService, departmentService, teacherService, tcpService);
 
         // Act
         boolean result = controllerUS13Double.registerTeacher("ACR", "Alice", "alice@exemplo.com", "123456789", "912345678",
@@ -250,7 +251,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory);
 
         // Arrange dependencies of Department aggregate
-        IDepartmentRepository departmentRepository = mock(DepartmentRepositorySpringDataImpl.class);
+        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
 
         // Arrange dependencies of Teacher aggregate
         ITeacherService teacherService = mock(TeacherServiceImpl.class);
@@ -261,7 +262,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         ITeacherCareerProgressionService tcpService = new TeacherCareerProgressionServiceImpl(tcpRepository, tcpFactory);
 
         US13_RegisterTeacherAndRelevantDataController controllerUS13Double = new US13_RegisterTeacherAndRelevantDataController(
-                teacherCategoryService, departmentRepository, teacherService, tcpService);
+                teacherCategoryService, departmentService, teacherService, tcpService);
 
         // Arrange call of registerTeacher method from TeacherService
         when(teacherService.registerTeacher(

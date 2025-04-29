@@ -4,7 +4,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.service.DegreeTypeService;
+import PAI.service.DegreeType.IDegreeTypeService;
 import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
@@ -14,14 +14,14 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import java.util.List;
 
 public class US19_CreateCourseEditionController {
-    private final DegreeTypeService degreeTypeService;
+    private final IDegreeTypeService degreeTypeService;
     private final IProgrammeService programmeService;
     private final IStudyPlanService studyPlanService;
     private final ICourseInStudyPlanService courseInStudyPlanService;
     private final IProgrammeEditionService programmeEditionService;
     private final ICourseEditionService courseEditionService;
 
-    public US19_CreateCourseEditionController(DegreeTypeService degreeTypeService,
+    public US19_CreateCourseEditionController(IDegreeTypeService degreeTypeService,
                                               IProgrammeService programmeService,
                                               IStudyPlanService studyPlanService,
                                               ICourseInStudyPlanService courseInStudyPlanService,

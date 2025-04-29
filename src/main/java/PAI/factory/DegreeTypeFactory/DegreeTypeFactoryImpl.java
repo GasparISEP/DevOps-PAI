@@ -11,7 +11,8 @@ public class DegreeTypeFactoryImpl implements IDegreeTypeFactory {
 
     @Override
     public DegreeType create(Name name, MaxEcts maxEcts) {
-        return DegreeType.create(name, maxEcts);
+        DegreeTypeID id = new DegreeTypeID();
+        return new DegreeType(id, name, maxEcts);
     }
 
     @Override

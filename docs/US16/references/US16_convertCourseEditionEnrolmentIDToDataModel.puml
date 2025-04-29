@@ -1,0 +1,44 @@
+@startuml
+
+title Convert CourseEditionEnrolementID to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEditionEnrolmentMapper" as ceeMapper
+participant ":ICourseEditionEnrolmentIDMapper" as ceeIDMapper
+
+ceeMapper -> ceeIDMapper: toDataModel (ceeID)
+activate ceeIDMapper #E1F5FE
+
+'convert StudentID to DataModel
+
+participant ":IStudentIDMapper" as stIDMapper
+
+ceeIDMapper -> stIDMapper: domainToDataModel (ceeID.findStudentID())
+activate stIDMapper #E1F5FE
+stIDMapper --> ceeIDMapper: studentIDDataModel
+deactivate stIDMapper
+
+'convert CourseEdtionID to DataModel
+
+participant ":ICourseEditionIDMapper" as ceIDMapper
+
+ceeIDMapper -> ceIDMapper: toDataModel (ceeID.findCourseEditionID())
+activate ceIDMapper #E1F5FE
+ceIDMapper --> ceeIDMapper: courseEditionIDDataModel
+deactivate ceIDMapper
+
+' create CourseEditionEnrolmentID DataModel
+
+create "ceeIDDataModel: CourseEditionEnrolmentIDDataModel"
+
+ceeIDMapper -> "ceeIDDataModel: CourseEditionEnrolmentIDDataModel": create (studentIDDataModel, courseEditionIDDataModel)
+
+@enduml

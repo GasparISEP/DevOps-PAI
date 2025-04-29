@@ -166,4 +166,17 @@ class DepartmentServiceImplTest {
         // Assert
         assertFalse(result);
     }
+    @Test
+    void shouldReturnDepartmentIterableWhenFindAll() {
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+
+        // Act
+        Iterable<Department> departmentIterable = departmentService.findAll();
+
+        //Assert
+        assertNotNull(departmentIterable);
+    }
 }

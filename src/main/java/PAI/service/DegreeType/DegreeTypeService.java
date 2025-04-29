@@ -25,11 +25,15 @@ public class DegreeTypeService implements IDegreeTypeService {
     @Override
     public boolean registerDegreeType(Name name, MaxEcts maxEcts) throws Exception {
         DegreeType degreeType = factory.create(name, maxEcts);
-        return repository.registerDegreeType(
-                degreeType.identity(),
-                name,
-                maxEcts
-        );
+
+        DegreeTypeID id = degreeType.identity();
+
+        if (repository.containsOfIdentity(id)) {
+            return false;
+        }
+
+        repository.save(degreeType);
+        return true;
     }
 
     @Override
