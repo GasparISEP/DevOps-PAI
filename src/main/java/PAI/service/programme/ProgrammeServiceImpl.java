@@ -6,6 +6,7 @@ import PAI.factory.IProgrammeFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
-        return _programmeRepository.findProgrammeByDepartment(id);
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if(programme.isInDepartment(id)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
@@ -73,5 +80,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
         return  _programmeRepository.getProgrammeByName(name);
+    }
+
+    public Programme getProgrammeByAcronym(Acronym acronym) {
+        return _programmeRepository.getProgrammeByAcronym(acronym);
+    }
+
+    public List<ProgrammeID> getAllProgrammeIDs() {
+        return _programmeRepository.getAllProgrammesIDs();
     }
 }
