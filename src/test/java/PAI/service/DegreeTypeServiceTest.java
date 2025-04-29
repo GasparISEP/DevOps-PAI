@@ -8,7 +8,6 @@ import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,59 +39,92 @@ class DegreeTypeServiceTest {
 
     @Test
     void testRegisterDegreeType_Success() throws Exception {
+        // Arrange
         when(factory.create(name, ects)).thenReturn(degreeType);
-        when(repository.registerDegreeType(
-                degreeType.identity(), name, ects)).thenReturn(true);
+        when(repository.registerDegreeType(degreeType.identity(), name, ects)).thenReturn(true);
 
+        // Act
         boolean result = service.registerDegreeType(name, ects);
 
+        // Assert
         assertTrue(result);
         verify(factory).create(name, ects);
         verify(repository).registerDegreeType(degreeType.identity(), name, ects);
+        verifyNoMoreInteractions(factory, repository);
     }
 
     @Test
     void testRegisterDegreeType_FailsIfAlreadyExists() throws Exception {
+        // Arrange
         when(factory.create(name, ects)).thenReturn(degreeType);
-        when(repository.registerDegreeType(
-                degreeType.identity(), name, ects)).thenReturn(false);
+        when(repository.registerDegreeType(degreeType.identity(), name, ects)).thenReturn(false);
 
+        // Act
         boolean result = service.registerDegreeType(name, ects);
 
+        // Assert
         assertFalse(result);
         verify(factory).create(name, ects);
         verify(repository).registerDegreeType(degreeType.identity(), name, ects);
+        verifyNoMoreInteractions(factory, repository);
+    }
+
+    @Test
+    void testRegisterDegreeType_ThrowsException() throws Exception {
+        // Arrange
+        when(factory.create(name, ects)).thenThrow(new Exception("Erro de criação"));
+
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> service.registerDegreeType(name, ects));
+        assertEquals("Erro de criação", exception.getMessage());
+        verify(factory).create(name, ects);
+        verifyNoMoreInteractions(factory, repository);
     }
 
     @Test
     void testGetAllDegreeTypes() {
+        // Arrange
         List<DegreeType> list = List.of(degreeType);
         when(repository.getAllDegreeTypes()).thenReturn(list);
 
+        // Act
         List<DegreeType> result = service.getAllDegreeTypes();
 
+        // Assert
         assertEquals(1, result.size());
         assertEquals(degreeType, result.get(0));
+        verify(repository).getAllDegreeTypes();
+        verifyNoMoreInteractions(repository, factory);
     }
 
     @Test
     void testGetDegreeTypeById_WhenExists() {
+        // Arrange
         DegreeTypeID id = degreeType.identity();
         when(repository.ofIdentity(id)).thenReturn(Optional.of(degreeType));
 
+        // Act
         Optional<DegreeType> result = service.getDegreeTypeById(id);
 
+        // Assert
         assertTrue(result.isPresent());
         assertEquals(degreeType, result.get());
+        verify(repository).ofIdentity(id);
+        verifyNoMoreInteractions(repository, factory);
     }
 
     @Test
     void testGetDegreeTypeById_WhenNotExists() {
+        // Arrange
         DegreeTypeID id = new DegreeTypeID(UUID.randomUUID().toString());
         when(repository.ofIdentity(id)).thenReturn(Optional.empty());
 
+        // Act
         Optional<DegreeType> result = service.getDegreeTypeById(id);
 
+        // Assert
         assertTrue(result.isEmpty());
+        verify(repository).ofIdentity(id);
+        verifyNoMoreInteractions(repository, factory);
     }
 }
