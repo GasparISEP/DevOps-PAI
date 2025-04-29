@@ -12,22 +12,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class DegreeTypeRepositoryImpl implements IDegreeTypeRepository {
-    private final IDegreeTypeFactory degreeTypeFactory;
     private final List<DegreeType> degreeTypeRepository;
 
-    public DegreeTypeRepositoryImpl(IDegreeTypeFactory degreeTypeFactory, IDegreeTypeListFactory degreeTypeListFactory) {
-        this.degreeTypeFactory = Objects.requireNonNull(degreeTypeFactory, "Factory cannot be null");
+    public DegreeTypeRepositoryImpl(IDegreeTypeListFactory degreeTypeListFactory) {
         this.degreeTypeRepository = Objects.requireNonNull(degreeTypeListFactory, "Factory cannot be null").createEmptyList();
     }
 
-    @Override
-    public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) {
-        DegreeType degreeType = new DegreeType(degreeTypeID, name, maxEcts);
-        if (degreeTypeRepository.contains(degreeType)) {
-            return false;
-        }
-        return degreeTypeRepository.add(degreeType);
-    }
 
     @Override
     public List<DegreeType> getAllDegreeTypes() {

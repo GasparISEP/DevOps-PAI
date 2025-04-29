@@ -10,4 +10,8 @@ public class ProgrammeFactoryImpl implements IProgrammeFactory {
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
         return new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID, programmeID);
     }
+
+    public Programme reregisterProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID id) {
+        return new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID, id);
+    }
 }

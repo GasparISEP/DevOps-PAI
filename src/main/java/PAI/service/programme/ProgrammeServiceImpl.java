@@ -113,4 +113,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public Iterable<Programme> findAll() {
         return _programmeRepository.findAll();
     }
+
+    @Override
+    public Optional<Programme> getProgrammeByID(ProgrammeID id) {
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.identity().equals(id)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
+    }
 }

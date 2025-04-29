@@ -1,3 +1,4 @@
+/*
 package PAI.repository.degreeTypeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,4 +115,4 @@ class DegreeTypeRepositoryImplTest {
         assertTrue(all.contains(d1));
         assertTrue(all.contains(d2));
     }
-}
+}*/

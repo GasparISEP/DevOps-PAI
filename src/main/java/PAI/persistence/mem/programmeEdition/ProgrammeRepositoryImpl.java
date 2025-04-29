@@ -12,14 +12,10 @@ import java.util.Optional;
 
 public class ProgrammeRepositoryImpl implements IProgrammeRepository {
 
-    private final IProgrammeFactory _I_programmeFactory;
     private final List<Programme> _programmeRepo;
-    private IProgrammeRepositoryListFactory _programmeRepoListFactory;
 
-    public ProgrammeRepositoryImpl(IProgrammeFactory IProgrammeFactory, IProgrammeRepositoryListFactory programmeLisListFactory) {
-        _I_programmeFactory = IProgrammeFactory;
+    public ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory programmeLisListFactory) {
         _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
-        _programmeRepoListFactory = programmeLisListFactory;
     }
 
     @Override

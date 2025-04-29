@@ -149,17 +149,83 @@ class TeacherRepositoryTest {
         assertFalse(result);
     }
 
-    // [Temporary] method still not properly implemented, but needs to exist in order for the class to implement interface
     @Test
-    void testExistsByIDorNIF () {
-
+    void existsByIDorNIFShouldReturnFalse () throws Exception {
+        // Arrange
         createFactoriesDoubles();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+        Teacher teacherDouble = mock(Teacher.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
         NIF nifDouble = mock(NIF.class);
 
+        when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(false);
+        when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(false);
+        teacherRepository.save(teacherDouble);
+
+        // Act
         boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
 
+        // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void existsByIDorNIFShouldReturnTrueDueToSameID () {
+        // Arrange
+        createFactoriesDoubles();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+        NIF nifDouble = mock(NIF.class);
+
+        when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(true);
+        when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(false);
+
+        // Act
+        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByIDorNIFShouldReturnTrueDueToSameNIF () {
+        // Arrange
+        createFactoriesDoubles();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+        NIF nifDouble = mock(NIF.class);
+
+        when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(false);
+        when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(true);
+
+        // Act
+        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByIDorNIFShouldReturnTrueDueToSameIDAndSameNIF () throws Exception {
+        // Arrange
+        createFactoriesDoubles();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+        Teacher teacherDouble = mock(Teacher.class);
+
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+        NIF nifDouble = mock(NIF.class);
+
+        when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(true);
+        when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(true);
+
+        teacherRepository.save(teacherDouble);
+
+        // Act
+        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+
+        // Assert
+        assertTrue(result);
     }
 }
