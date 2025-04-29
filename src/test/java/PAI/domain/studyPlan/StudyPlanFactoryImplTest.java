@@ -19,7 +19,7 @@ class StudyPlanFactoryImplTest {
 
         //act
         IStudyPlanFactory studyPlanFactory_2 = new StudyPlanFactoryImpl();
-        StudyPlan studyPlan_DDD = studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlan studyPlan_DDD = studyPlanFactory_2.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         //assert
         assertNotNull(studyPlan_DDD);

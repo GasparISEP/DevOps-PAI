@@ -33,14 +33,21 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
     }
 
     public StudyPlan toDomain(StudyPlanDataModel studyPlanDataModel) throws Exception {
+
+        StudyPlanID studyPlanID = _studyPlanIDMapper.toDomain(studyPlanDataModel.getStudyPlanIDDataModel());
+
         NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getName());
+
         Acronym progAcronym = new Acronym(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getAcronym());
+
         ProgrammeID programmeID = new ProgrammeID(progName, progAcronym);
+
         Date implementationDate = new Date(studyPlanDataModel.getStudyPlanIDDataModel().getImplementationDate());
+
         DurationInYears durationInYears = new DurationInYears(studyPlanDataModel.getDurationInYears());
+
         MaxEcts maxEcts = new MaxEcts(studyPlanDataModel.getMaxECTS());
 
-        return new StudyPlan(programmeID, implementationDate, durationInYears, maxEcts);
+        return _studyPlanFactory.createStudyPlanFromDataModel(programmeID, implementationDate, durationInYears, maxEcts, studyPlanID);
     }
-
 }

@@ -26,19 +26,20 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
         MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
 
-        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts));
+        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID));
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        boolean created = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        boolean created = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
         assertTrue(created);
-        assertEquals(1, repository.getAllStudyPlans_2().size());
+        assertEquals(1, repository.getAllStudyPlans().size());
     }
 
     @Test
@@ -57,13 +58,13 @@ public class StudyPlanRepositoryImplTest {
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        boolean createdFirstStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        boolean createdSecondStudyPlan = repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        boolean createdFirstStudyPlan = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        boolean createdSecondStudyPlan = repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         // Assert
         assertTrue(createdFirstStudyPlan);
         assertFalse(createdSecondStudyPlan);
-        assertEquals(1, repository.getAllStudyPlans_2().size());
+        assertEquals(1, repository.getAllStudyPlans().size());
     }
 
     @Test
@@ -79,18 +80,20 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
         MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
+        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
 
-        when(factory.newStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts));
-        when(factory.newStudyPlan_2(programmeID2, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts));
+        when(factory.createStudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts, studyPlanID1));
+        when(factory.createStudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts, studyPlanID2));
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        boolean created1 = repository.createStudyPlan_2(programmeID1, implementationDate, durationInYears, quantityOfEcts);
-        boolean created2 = repository.createStudyPlan_2(programmeID2, implementationDate, durationInYears, quantityOfEcts);
-        List<StudyPlan> allPlans = repository.getAllStudyPlans_2();
+        boolean created1 = repository.createStudyPlan(programmeID1, implementationDate, durationInYears, quantityOfEcts);
+        boolean created2 = repository.createStudyPlan(programmeID2, implementationDate, durationInYears, quantityOfEcts);
+        List<StudyPlan> allPlans = repository.getAllStudyPlans();
 
         // Assert
         assertTrue(created1);
@@ -110,16 +113,16 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
         MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
-        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
-                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts));
+        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
+                .thenAnswer(invocation -> new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID));
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
-        StudyPlan createdPlan = repository.getAllStudyPlans_2().get(0);
-        StudyPlanID studyPlanID = createdPlan.identity();
+        repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlan createdPlan = repository.getAllStudyPlans().get(0);
 
         // Act
         Optional<StudyPlan> foundPlan = repository.ofIdentity(studyPlanID);
@@ -365,18 +368,19 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
         MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         // Criar um plano de estudos real para teste
-        StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlan studyPlan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
         StudyPlanID expectedID = studyPlan.identity();
 
-        when(factory.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts))
+        when(factory.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts))
                 .thenReturn(studyPlan);
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        repository.createStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        repository.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
         StudyPlanID actualID = repository.getLatestStudyPlanIDByProgrammeID(programmeID);
 
         // Assert
@@ -394,7 +398,7 @@ public class StudyPlanRepositoryImplTest {
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
 
         // Act
-        List<StudyPlan> allPlans = repository.getAllStudyPlans_2();
+        List<StudyPlan> allPlans = repository.getAllStudyPlans();
 
         // Assert
         assertTrue(allPlans.isEmpty());
@@ -414,21 +418,23 @@ public class StudyPlanRepositoryImplTest {
         Date implementationDate2 = mock(Date.class);
         DurationInYears durationInYears = mock(DurationInYears.class);
         MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
+        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
 
         // Criar dois planos, para diferentes programas
-        StudyPlan studyPlan1 = new StudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
-        StudyPlan studyPlan2 = new StudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts, studyPlanID1);
+        StudyPlan studyPlan2 = new StudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts, studyPlanID2);
 
         StudyPlanID expectedID = studyPlan2.identity();
 
-        when(factory.newStudyPlan_2(programmeID1, implementationDate1, durationInYears, quantityOfEcts))
+        when(factory.createStudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts))
                 .thenReturn(studyPlan1);
-        when(factory.newStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts))
+        when(factory.createStudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts))
                 .thenReturn(studyPlan2);
 
         StudyPlanRepositoryImpl repository = new StudyPlanRepositoryImpl(factory, listFactory);
-        repository.createStudyPlan_2(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
-        repository.createStudyPlan_2(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
+        repository.createStudyPlan(programmeID1, implementationDate1, durationInYears, quantityOfEcts);
+        repository.createStudyPlan(programmeID2, implementationDate2, durationInYears, quantityOfEcts);
 
         // Act
         Optional<StudyPlan> foundPlan = repository.ofIdentity(expectedID);

@@ -4,13 +4,13 @@ skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title Diagram Referenced in US15_SequenceDiagram
 
-participant ":TeacherCareerProgressionRepo" as TCPRepo #lightblue
-participant ":TeacherMapper" as TMapper #lightblue
+participant ":TeacherCareerProgressionRepoImpl" as TCPRepo #lightblue
+participant ":TeacherIDMapperImpl" as TMapper #lightblue
 participant ":TeacherID" as TID #lightblue
 participant ":TeacherAcronym" as TAVO #lightblue
 participant ":TeacherDataModel" as TDM #lightblue
 
-TCPRepo -> TMapper : teacherIDtoDataModel(teacherID)
+TCPRepo -> TMapper : toDataModel(teacherID)
 activate TCPRepo
 TMapper -> TID : getTeacherAcronym()
 activate TID

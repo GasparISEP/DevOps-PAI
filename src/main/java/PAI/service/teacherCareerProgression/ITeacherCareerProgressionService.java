@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.teacherCareerProgression;
 
 import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;

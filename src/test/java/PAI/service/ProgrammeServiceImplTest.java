@@ -322,7 +322,8 @@ class ProgrammeServiceImplTest {
         Acronym acronym = mock(Acronym.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammeByAcronym(acronym)).thenReturn(programme1);
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.getAcronym()).thenReturn(acronym);
 
         //Act
         Programme result = service.getProgrammeByAcronym(acronym);
@@ -356,10 +357,14 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
-        ProgrammeID programme1 = mock(ProgrammeID.class);
-        ProgrammeID programme2 = mock(ProgrammeID.class);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        ProgrammeID id1 = mock(ProgrammeID.class);
+        ProgrammeID id2 = mock(ProgrammeID.class);
 
-        when(doubleRepo.getAllProgrammesIDs()).thenReturn(List.of(programme1 ,programme2));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1, programme2));
+        when(programme1.getProgrammeID()).thenReturn(id1);
+        when(programme2.getProgrammeID()).thenReturn(id2);
 
         //Act
         List<ProgrammeID> result = service.getAllProgrammeIDs();
