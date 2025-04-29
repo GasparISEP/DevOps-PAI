@@ -5,6 +5,7 @@ import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -20,15 +21,16 @@ public class US03AddCourseToProgrammeControllerTest {
     private US03_AddCourseToProgrammeController controller;
     private IProgrammeService programmeService;
     private ICourseService courseService;
-    //private IStudyPlanService studyPlanService;
+    private IStudyPlanService studyPlanService;
     private ICourseInStudyPlanService courseInStudyPlanService;
 
     @BeforeEach
     void setUp() throws Exception {
         programmeService = mock(IProgrammeService.class);
         courseService = mock(ICourseService.class);
+        studyPlanService = mock(IStudyPlanService.class);
         courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        controller = new US03_AddCourseToProgrammeController(programmeService, courseService, courseInStudyPlanService);
+        controller = new US03_AddCourseToProgrammeController(programmeService, courseService, studyPlanService, courseInStudyPlanService);
     }
 
     @Test
@@ -36,7 +38,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(null, courseService, courseInStudyPlanService);
+            new US03_AddCourseToProgrammeController(null, courseService, studyPlanService, courseInStudyPlanService);
         });
     }
 
@@ -45,7 +47,7 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(programmeService, null, courseInStudyPlanService);
+            new US03_AddCourseToProgrammeController(programmeService, null, studyPlanService, courseInStudyPlanService);
         });
     }
 
@@ -54,7 +56,16 @@ public class US03AddCourseToProgrammeControllerTest {
         // arrange
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new US03_AddCourseToProgrammeController(programmeService, courseService, null);
+            new US03_AddCourseToProgrammeController(programmeService, courseService, studyPlanService, null);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfStudyPlanServiceIsNull() {
+        // arrange
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new US03_AddCourseToProgrammeController(programmeService, courseService, null, courseInStudyPlanService);
         });
     }
 
@@ -82,6 +93,28 @@ public class US03AddCourseToProgrammeControllerTest {
 
         // assert
         assertEquals(expectedProgrammes, actualProgrammes);
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIdIsNull() {
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            controller.getLatestStudyPlanByProgrammeId(null);
+        });
+    }
+
+    @Test
+    void shouldReturnLatestStudyPlanByProgrammeID() {
+        // arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        StudyPlanID expectedStudyPlanID = mock(StudyPlanID.class);
+        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(expectedStudyPlanID);
+
+        // act
+        StudyPlanID actualStudyPlanID = controller.getLatestStudyPlanByProgrammeId(programmeID);
+
+        // assert
+        assertEquals(expectedStudyPlanID, actualStudyPlanID);
     }
 
     @Test
@@ -142,6 +175,36 @@ public class US03AddCourseToProgrammeControllerTest {
 
         // assert
         assertEquals(false, result);
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseIsNull() {
+        // arrange
+        StudyPlan studyPlan = mock(StudyPlan.class);
+        int semesterInt = 1;
+        int curricularYearInt = 1;
+        int durationOfCourseInCurricularYear = 1;
+        double quantEctsDouble = 30.0;
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            controller.addCourseToProgramme(semesterInt, curricularYearInt, null, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfStudyPlanIsNull() {
+        // arrange
+        Course course = mock(Course.class);
+        int semesterInt = 1;
+        int curricularYearInt = 1;
+        int durationOfCourseInCurricularYear = 1;
+        double quantEctsDouble = 30.0;
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            controller.addCourseToProgramme(semesterInt, curricularYearInt, course, null, durationOfCourseInCurricularYear, quantEctsDouble);
+        });
     }
 
 //    @Test
