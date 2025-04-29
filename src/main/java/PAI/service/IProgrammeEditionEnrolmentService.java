@@ -13,7 +13,7 @@ public interface IProgrammeEditionEnrolmentService {
 
     boolean enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID studentID, ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception;
 
-    List<ProgrammeID> getAllProgrammesIDs();
+//    List<ProgrammeID> getAllProgrammesIDs();
 
     List<SchoolYearID> getAllSchoolYearIDs();
 

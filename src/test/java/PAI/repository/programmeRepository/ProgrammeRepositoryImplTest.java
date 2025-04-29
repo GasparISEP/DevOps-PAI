@@ -496,66 +496,66 @@ class ProgrammeRepositoryImplTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    void shouldReturnListOfProgrammesForProgrammesByDegreeTypeIDMethod_MatchFound() throws Exception {
-        //Arrange
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
-        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
-        Programme programme = mock(Programme.class);
-        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
+//    @Test
+//    void shouldReturnListOfProgrammesForProgrammesByDegreeTypeIDMethod_MatchFound() throws Exception {
+//        //Arrange
+//        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+//        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+//        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
+//        Programme programme = mock(Programme.class);
+//        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
+//
+//        List<Programme> ListWithProgramme = Arrays.asList(programme);
+//        when(listFactory.newProgrammeArrayList()).thenReturn(ListWithProgramme);
+//
+//            //SUT
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
+//
+//        //Act
+//        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
+//
+//        //Assert
+//        assertEquals(1, result.size());
+//        assertTrue(result.contains(programme));
+//    }
 
-        List<Programme> ListWithProgramme = Arrays.asList(programme);
-        when(listFactory.newProgrammeArrayList()).thenReturn(ListWithProgramme);
-
-            //SUT
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
-
-        //Act
-        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(degreeTypeID);
-
-        //Assert
-        assertEquals(1, result.size());
-        assertTrue(result.contains(programme));
-    }
-
-    @Test
-    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_NoMatch() throws Exception {
-        //Arrange
-        DegreeTypeID searchedID = mock(DegreeTypeID.class);
-        DegreeTypeID otherID = mock(DegreeTypeID.class);
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
-        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
-        Programme programme = mock(Programme.class);
-        when(programme.getDegreeTypeID()).thenReturn(otherID);
-
-            //SUT
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
-
-        //Act
-        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(searchedID);
-
-        //Assert
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_EmptyRepo() throws Exception {
-        //Arrange
-        DegreeTypeID anyID = mock(DegreeTypeID.class);
-
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
-        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
-
-            //SUT
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
-
-        //Act
-        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(anyID);
-
-        //Assert
-        assertTrue(result.isEmpty());
-    }
+//    @Test
+//    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_NoMatch() throws Exception {
+//        //Arrange
+//        DegreeTypeID searchedID = mock(DegreeTypeID.class);
+//        DegreeTypeID otherID = mock(DegreeTypeID.class);
+//        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+//        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
+//        Programme programme = mock(Programme.class);
+//        when(programme.getDegreeTypeID()).thenReturn(otherID);
+//
+//            //SUT
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
+//
+//        //Act
+//        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(searchedID);
+//
+//        //Assert
+//        assertTrue(result.isEmpty());
+//    }
+//
+//    @Test
+//    void shouldReturnEmptyListForProgrammesByDegreeTypeIDMethod_EmptyRepo() throws Exception {
+//        //Arrange
+//        DegreeTypeID anyID = mock(DegreeTypeID.class);
+//
+//        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+//        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
+//
+//            //SUT
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(factory, listFactory);
+//
+//        //Act
+//        List<Programme> result = programmeRepository.getProgrammesByDegreeTypeID(anyID);
+//
+//        //Assert
+//        assertTrue(result.isEmpty());
+//    }
 
     @Test
     void testFindProgrammeIdByTeacherReturnsCorrectIdWhenProgrammeExists() {

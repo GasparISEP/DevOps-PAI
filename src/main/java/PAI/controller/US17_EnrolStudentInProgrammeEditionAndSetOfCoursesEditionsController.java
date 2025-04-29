@@ -41,9 +41,9 @@ public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControlle
         this._programmeEditionEnrolmentService = validate(programmeEditionEnrolmentService, "Programme Edition Enrolment Service");
     }
 
-     public List<ProgrammeID> getAllProgrammesIDs() {
-        return _programmeList.getAllProgrammesIDs();
-    }
+//     public List<ProgrammeID> getAllProgrammesIDs() {
+//        return _programmeList.getAllProgrammesIDs();
+//    }
 
     public List<SchoolYearID> getAllSchoolYearsIDs() {
         return _schoolYearRepository.getAllSchoolYearsIDs();

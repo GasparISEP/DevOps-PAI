@@ -34,16 +34,6 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         return true;
     }
 
-    @Override
-    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) {
-        List <Programme> programmeList = new ArrayList<>();
-        for (Programme programme : _programmeRepo) {
-            if (programme.getDegreeTypeID().equals(degreeTypeID))
-                programmeList.add(programme);
-        }
-        return programmeList;
-    }
-
     // Change ProgrammeDirector
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
         Optional<Programme> programmeDDD = ofIdentity(programmeID);
