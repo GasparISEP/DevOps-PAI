@@ -57,4 +57,8 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
         return _programmeRepository.findProgrammeByDepartment(id);
     }
+
+    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
+        return _programmeRepository.getProgrammesByDegreeTypeID(id);
+    }
 }

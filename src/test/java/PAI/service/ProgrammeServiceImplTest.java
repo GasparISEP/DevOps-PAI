@@ -189,5 +189,45 @@ class ProgrammeServiceImplTest {
         assertTrue(result.isEmpty());
 
     }
+
+    @Test
+    void shouldFindProgrammeByDegreeTypeID() throws Exception {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(doubleRepo.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(List.of(programme1,programme2));
+
+        //Act
+        List<Programme> result = service.getProgrammesByDegreeTypeID(degreeTypeID);
+
+        //Assert
+        assertEquals(2,result.size());
+
+    }
+
+    @Test
+    void shouldNotFindProgrammeByDegreeTypeID() throws Exception {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+
+        //Act
+        List<Programme> result = service.getProgrammesByDegreeTypeID(degreeTypeID);
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
   
 }
