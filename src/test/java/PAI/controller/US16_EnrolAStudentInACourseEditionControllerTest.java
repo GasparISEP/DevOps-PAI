@@ -471,7 +471,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID1);
@@ -544,7 +544,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID,ceID2);
@@ -619,7 +619,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID2);
@@ -683,7 +683,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionEnrolment cee = new CourseEditionEnrolment(studentID,ceID1);
 
-        ceeRepository.enrolStudentInACourseEdition(cee);
+        ceeRepository.save(cee);
 
         //act
         boolean result = controller.enrolStudentInCourseEdition(studentID,ceID1);

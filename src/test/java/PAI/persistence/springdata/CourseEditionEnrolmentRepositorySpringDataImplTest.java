@@ -23,48 +23,6 @@ import static org.mockito.Mockito.*;
 class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
     @Test
-    void should_enrol_student_in_course_edition() throws Exception {
-
-        // arrange
-        ICourseEditionEnrolmentRepositorySpringData springDataRepository = mock(ICourseEditionEnrolmentRepositorySpringData.class);
-        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
-        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
-        IStudentIDMapper studentIdMapper = mock(IStudentIDMapper.class);
-        ICourseEditionIDMapper courseEditionIdMapper = mock(ICourseEditionIDMapper.class);
-
-        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
-                springDataRepository,
-                mapper,
-                idMapper,
-                studentIdMapper,
-                courseEditionIdMapper
-        );
-
-        StudentID studentId = mock(StudentID.class);
-        CourseEditionID courseEditionId = mock(CourseEditionID.class);
-        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
-        CourseEditionEnrolmentID enrolmentId = mock(CourseEditionEnrolmentID.class);
-        CourseEditionEnrolmentDataModel enrolmentDataModel = mock(CourseEditionEnrolmentDataModel.class);
-
-        when(enrolment.identity()).thenReturn(enrolmentId);
-        when(idMapper.toDataModel(enrolmentId)).thenReturn(Optional.of(mock(CourseEditionEnrolmentIDDataModel.class)));
-        when(springDataRepository.existsById(any())).thenReturn(false);
-        when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(enrolmentDataModel));
-        when(springDataRepository.save(enrolmentDataModel)).thenReturn(enrolmentDataModel);
-
-        // act
-        boolean result = repository.enrolStudentInACourseEdition(enrolment);
-
-        // assert
-        assertTrue(result);
-        verify(enrolment).identity();
-        verify(idMapper).toDataModel(enrolmentId);
-        verify(springDataRepository).existsById(any());
-        verify(mapper).toDataModel(enrolment);
-        verify(springDataRepository).save(enrolmentDataModel);
-    }
-
-    @Test
     void should_return_true_if_student_is_enrolled_in_course_edition() throws Exception {
 
         // arrange

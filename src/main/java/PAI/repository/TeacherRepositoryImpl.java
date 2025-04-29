@@ -48,8 +48,13 @@ public class TeacherRepositoryImpl implements ITeacherRepository {
         return false;
     }
 
-    // [Temporary] method still not properly implemented but needs to exist in order for the class to implement the interface
     public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+
+        for (Teacher teacher : _teachers) {
+            if (teacher.sameAs(teacherID) || teacher.hasThisNIF(nif)) {
+                return true;
+            }
+        }
         return false;
     }
 }
