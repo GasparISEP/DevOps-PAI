@@ -2,12 +2,16 @@ package PAI.service.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
+import PAI.domain.programme.Programme;
 import PAI.factory.ISchoolYearFactory;
 import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,5 +57,14 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         }catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<SchoolYearID> getAllSchoolYearsIDs() {
+        List<SchoolYearID> schoolYearIDs = new ArrayList<>();
+        for (SchoolYear schoolYear : schoolYearRepository.findAll()) {
+            schoolYearIDs.add(schoolYear.identity());
+        }
+        return schoolYearIDs;
     }
 }
