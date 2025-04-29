@@ -13,6 +13,7 @@ actor "Administrator" as Administrator #LightBlue/White
 participant ":UI" as UI #LightBlue/white
 participant ":US05_RegisterADepartmentInTheSystem\nController" as Controller #LightBlue/white
 participant ":IDepartment\nService" as Service #LightBlue/white
+participant "dID1: DepartmentID" as DepartmentID #LightYellow/white
 participant ":IDepartment\nRepository" as DepartmentRepository #LightBlue/white
 participant ":IDepartment\nFactory" as DepartmentFactory #LightBlue/white
 participant "d1:Department" as Department #LightYellow/white
@@ -39,16 +40,18 @@ end ref
 Controller -> Service: registerDepartment\n(acronymVO, nameVO)
 activate Service
 
+Service ->  DepartmentID**: new DepartmentID
 
-Service -> DepartmentFactory: createDepartment\n(acronymVO, nameVO)
-activate DepartmentFactory
-DepartmentFactory -> Department **: createDepartment\n(acronymVO, nameVO)
-deactivate DepartmentFactory
 
-Service -> DepartmentRepository: isDepartmentRegistered(d1)
+Service -> DepartmentRepository: containsOfIdentity(dID1)
 activate DepartmentRepository
 DepartmentRepository -> Service: false
 deactivate DepartmentRepository
+
+Service -> DepartmentFactory: newDepartment\n(acronymVO, nameVO)
+activate DepartmentFactory
+DepartmentFactory -> Department **: newDepartment\n(acronymVO, nameVO)
+deactivate DepartmentFactory
 
 Service -> DepartmentRepository: register department(d1)
 activate DepartmentRepository

@@ -6,9 +6,11 @@ import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.factory.ProgrammeEnrolmentFactoryImpl;
 import PAI.mapper.accessMethod.AccessMethodIDMapperImpl;
 import PAI.mapper.accessMethod.IAccessMethodIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -42,8 +44,8 @@ class ProgrammeEnrolmentMapperTest {
     private void createDoubles() {
         _peFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
         _peIDMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
-        _programmeIDMapperDouble = mock(ProgrammeIDMapper.class);
-        _studentIDMapperDouble = mock(StudentIDMapper.class);
+        _programmeIDMapperDouble = mock(ProgrammeIDMapperImpl.class);
+        _studentIDMapperDouble = mock(StudentIDMapperImpl.class);
         _amIDMapperDouble = mock(AccessMethodIDMapperImpl.class);
         _peIDDouble = mock(ProgrammeEnrolmentID.class);
         _peIDDataModelDouble = mock(ProgrammeEnrolmentIDDataModel.class);

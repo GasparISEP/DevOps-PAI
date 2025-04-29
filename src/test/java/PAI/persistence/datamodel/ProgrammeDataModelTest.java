@@ -2,6 +2,8 @@ package PAI.persistence.datamodel;
 
 import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;

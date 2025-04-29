@@ -1,0 +1,42 @@
+@startuml
+
+title US26 Reference SD: CheckingIfSchoolYearExistsInSpringDataRepository
+autonumber
+skinparam sequence {
+   LifelineBorderColor Black
+   LifelineBackgroundColor LightBlue
+ }
+
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":ISchoolYearService" as ISchoolYearService #LightBlue/White
+participant ":ISchoolYearRepository" as ISchoolYearRepository #LightBlue/White
+participant ":SchoolYearRepositorySpringDataImpl" as SchoolYearRepositorySpringDataImpl #LightBlue/White
+
+
+activate Controller
+Controller -> ISchoolYearService: schoolYearExistsById (SchoolYearID)
+
+activate ISchoolYearService
+ISchoolYearService -> ISchoolYearRepository: containsOfIdentity (SchoolYearID)
+activate ISchoolYearRepository
+ISchoolYearRepository -> SchoolYearRepositorySpringDataImpl: containsOfIdentity (SchoolYearID)
+activate SchoolYearRepositorySpringDataImpl
+participant ":ISchoolYearIDMapper" as ISchoolYearIDMapper #LightBlue/White
+SchoolYearRepositorySpringDataImpl -> ISchoolYearIDMapper: toDataModel(SchoolYearID)
+activate ISchoolYearIDMapper
+ISchoolYearIDMapper --> SchoolYearRepositorySpringDataImpl: SchoolYearIDDataModel
+deactivate ISchoolYearIDMapper
+participant ":ISchoolYearRepositorySpringData" as ISchoolYearRepositorySpringData #LightBlue/White
+
+SchoolYearRepositorySpringDataImpl -> ISchoolYearRepositorySpringData: existsById(SchoolYearIDDataModel)
+activate ISchoolYearRepositorySpringData
+ISchoolYearRepositorySpringData --> SchoolYearRepositorySpringDataImpl: True
+deactivate ISchoolYearRepositorySpringData
+SchoolYearRepositorySpringDataImpl --> ISchoolYearRepository: True
+deactivate SchoolYearRepositorySpringDataImpl
+ISchoolYearRepository --> ISchoolYearService: True
+deactivate ISchoolYearRepository
+ISchoolYearService --> Controller: True
+deactivate ISchoolYearService
+deactivate Controller
+@enduml

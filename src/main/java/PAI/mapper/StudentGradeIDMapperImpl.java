@@ -10,24 +10,24 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 public class StudentGradeIDMapperImpl {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
-    private final StudentIDMapper studentIDMapper;
+    private final StudentIDMapperImpl studentIDMapperImpl;
 
-    public StudentGradeIDMapperImpl(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapper studentIDMapper) {
+    public StudentGradeIDMapperImpl(CourseEditionIDMapperImpl courseEditionIDMapper, StudentIDMapperImpl studentIDMapperImpl) {
         this.courseEditionIDMapper = courseEditionIDMapper;
-        this.studentIDMapper = studentIDMapper;
+        this.studentIDMapperImpl = studentIDMapperImpl;
     }
 
     public StudentGradeIDDataModel toDataModel (StudentGradeID studentGradeID) throws Exception{
 
         StudentID studentID = studentGradeID.get_studentID();
         CourseEditionID courseEditionID = studentGradeID.get_courseEdition();
-        return new StudentGradeIDDataModel(studentIDMapper.domainToDataModel(studentID),courseEditionIDMapper.toDataModel(courseEditionID));
+        return new StudentGradeIDDataModel(studentIDMapperImpl.domainToDataModel(studentID),courseEditionIDMapper.toDataModel(courseEditionID));
     }
 
     public StudentGradeID toDomain (StudentGradeIDDataModel studentGradeIDDataModel) throws Exception{
 
         CourseEditionIDDataModel courseEditionIDDataModel = studentGradeIDDataModel.get_courseEditionIDDataModel();
         StudentIDDataModel studentIDDataModel = studentGradeIDDataModel.get_studentIDDataModel();
-        return new StudentGradeID(studentIDMapper.dataModelToDomain(studentIDDataModel),courseEditionIDMapper.toDomain(courseEditionIDDataModel));
+        return new StudentGradeID(studentIDMapperImpl.dataModelToDomain(studentIDDataModel),courseEditionIDMapper.toDomain(courseEditionIDDataModel));
     }
 }

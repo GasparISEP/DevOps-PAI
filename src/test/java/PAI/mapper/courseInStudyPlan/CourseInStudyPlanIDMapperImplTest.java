@@ -2,10 +2,10 @@ package PAI.mapper.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.mapper.courseID.CourseIDMapperImpl;
-import PAI.mapper.ProgrammeIDMapper;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ public class CourseInStudyPlanIDMapperImplTest {
     void setUp() {
         // Instancia os mappers necessários
         mapper = new CourseInStudyPlanIDMapperImpl(
-                new StudyPlanIDMapperImpl(new ProgrammeIDMapper()),
+                new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                 new CourseIDMapperImpl()
         );
     }
@@ -41,7 +41,7 @@ public class CourseInStudyPlanIDMapperImplTest {
     void constructorShouldThrowWhenCourseIDMapperIsNull() {
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
-                () -> new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapper()), null)
+                () -> new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), null)
         );
         assertEquals("CourseIDMapper cannot be null", ex.getMessage());
     }

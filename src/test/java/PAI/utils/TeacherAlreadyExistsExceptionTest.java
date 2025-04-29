@@ -3,6 +3,7 @@ package PAI.utils;
 import PAI.VOs.Country;
 import PAI.VOs.NIF;
 import PAI.VOs.TeacherAcronym;
+import PAI.exception.TeacherAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

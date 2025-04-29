@@ -1,24 +1,22 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.programme.IProgrammeService;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class US11_RegisterProgrammeInTheSystemController {
 
-    IProgrammeRepository _programmeDDDList;
+    private final IProgrammeService programmeService;
 
-    public US11_RegisterProgrammeInTheSystemController(IProgrammeRepository programmeDDDList) throws Exception {
-
-        if (programmeDDDList == null) {
-            throw new Exception("Programme Repository cannot be null.");
+    public US11_RegisterProgrammeInTheSystemController(IProgrammeService programmeService) throws Exception {
+        if (programmeService == null) {
+            throw new Exception("Programme Service cannot be null.");
         }
-
-        _programmeDDDList = programmeDDDList;
+        this.programmeService = programmeService;
     }
 
-    public boolean registerAProgrammeDDDInTheSystem(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
-
-        _programmeDDDList.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
-        return true;
+    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+        return programmeService.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
     }
 }

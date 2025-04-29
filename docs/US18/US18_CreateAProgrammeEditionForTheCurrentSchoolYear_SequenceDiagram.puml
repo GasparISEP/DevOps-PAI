@@ -47,9 +47,10 @@ CPEC -> SYS ++ #application : getCurrentSchoolYear()
 SYS -> SYR ++ #application : getCurrentSchoolYear()
 ref over SYR
     convert DataModel to Domain
-    toDomain(schoolYearIDDataModel)
+    toDomain(schoolYearDataModel)
 end ref
-SYR --> SYS -- : Optional.of(schoolYearID)
+SYR --> SYS -- : Optional.of(schoolYear)
+SYS --> SYS : Optional.of(schoolYearID)
 SYS --> CPEC -- : schoolYearID
 '''''''''''''''''''''''''''
 

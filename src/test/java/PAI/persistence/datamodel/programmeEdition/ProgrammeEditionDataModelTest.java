@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.programmeEdition;
 
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 

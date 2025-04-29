@@ -1,17 +1,11 @@
 package PAI.persistence.datamodel.programmeEdition;
 
-import PAI.VOs.*;
-import PAI.domain.SchoolYear;
-import PAI.domain.programme.Programme;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ProgrammeEditionIdDataModelTest {
 

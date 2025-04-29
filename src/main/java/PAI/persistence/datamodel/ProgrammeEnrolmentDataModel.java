@@ -1,6 +1,7 @@
 package PAI.persistence.datamodel;
 
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

@@ -21,17 +21,26 @@ class CourseEditionEnrolmentServiceImpl {
 }
 
 class CourseEditionEnrolmentRepositoryImpl {
-    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
-    courseEditionEnrolmentListFactory: ICourseEditionEnrolmentListFactory)
-    +enrolStudentInACourseEdition (studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +CourseEditionEnrolmentRepository (springDataRepository: ICourseEditionEnrolmentRepositorySpringData,
+    mapper: ICourseEditionEnrolmentMapper, idMapper: ICourseEditionEnrolmentIDMapper, iStudentIDMapper: IStudentIDMapper,
+    iCourseEditionIDMapper: ICourseEditionIDMapper)
+    +enrolStudentInACourseEdition (courseEditionEnrolment: CourseEditionEnrolment): boolean
     +isStudentEnrolledInCourseEdition(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
 }
 
 class CourseEditionEnrolmentRepositorySpringDataJPAImpl {
-    +CourseEditionEnrolmentRepository (courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
+    +CourseEditionEnrolmentRepository\n(courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory,
     courseEditionEnrolmentSpringDataJPAInterface: ICourseEditionEnrolmentRepositorySpringDataJPA)
-    +enrolStudentInACourseEdition (courseEditionEnrolment: CourseEditionEnrolment): boolean
-    +isStudentEnrolledInCourseEdition(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
+    +enrolStudentInACourseEdition\n(courseEditionEnrolment: CourseEditionEnrolment): boolean
+    +isStudentEnrolledInCourseEdition\n(studentId: StudentID, (courseEditionID: CourseEditionID)): boolean
+    +findByStudentAndEdition\n(studentId: StudentID, courseEditionId: CourseEditionID): Optional<CourseEditionEnrolment>
+    +numberOfStudentsEnrolledInCourseEdition\n(courseEditionId: CourseEditionID): int
+    +removeEnrolment\n(studentId: StudentID, courseEditionID: CourseEditionID): boolean
+    +enrolStudentInProgrammeCourseEditions\n(studentId: StudentID, courseEditions: List<CourseEditionID>)
+    +save\n(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +ofIdentity\n(id CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
+    +containsOfIdentity\n(id: CourseEditionEnrolmentID): boolean
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl {
@@ -78,6 +87,9 @@ interface ICourseEditionEnrolmentRepository {
 }
 
 interface ICourseEditionEnrolmentRepositorySpringDataJPA {
+    +existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue\n(studentId: StudentIDDataModel, courseEditionId: CourseEditionIDDataModel): boolean
+    +countById_CourseEditionIDAndIsActiveIsTrue(courseEditionId: CourseEditionID): long
+    +findById_StudentIDAndId_CourseEditionID(): Optional<CourseEditionEnrolmentDataModel>
 }
 
 interface IProgrammeEditionEnrolmentRepository {

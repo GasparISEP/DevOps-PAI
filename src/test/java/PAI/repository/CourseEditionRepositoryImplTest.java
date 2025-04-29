@@ -34,7 +34,7 @@ class CourseEditionRepositoryImplTest {
 
         CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
-        when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble))
+        when(courseEditionFactoryDouble.createCourseEditionToDomain(courseInStudyPlanIDDouble, programmeEditionIDDouble))
                 .thenReturn(courseEditionDouble);
 
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
@@ -159,7 +159,7 @@ class CourseEditionRepositoryImplTest {
 
         CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
-        when(courseEditionFactoryDouble.newCourseEdition_2(courseInStudyPlanIDDouble, programmeEditionIDDouble)).thenReturn(courseEditionDouble);
+        when(courseEditionFactoryDouble.createCourseEditionToDomain(courseInStudyPlanIDDouble, programmeEditionIDDouble)).thenReturn(courseEditionDouble);
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
         when(courseEditionsDouble.contains(courseEditionIDDouble)).thenReturn(true);
 
@@ -390,9 +390,9 @@ class CourseEditionRepositoryImplTest {
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
 
 
-        when(doubleCourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
+        when(doubleCourseEditionFactory.createCourseEditionToDomain(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
         when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
-        when(doubleCourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
+        when(doubleCourseEditionFactory.createCourseEditionToDomain(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
         when(doubleCourseEdition2.identity()).thenReturn(doubleCourseEditionId2);
@@ -425,8 +425,8 @@ class CourseEditionRepositoryImplTest {
         CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
 
-        when(doubleCourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
-        when(doubleCourseEditionFactory.newCourseEdition_2(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
+        when(doubleCourseEditionFactory.createCourseEditionToDomain(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition1);
+        when(doubleCourseEditionFactory.createCourseEditionToDomain(courseInStudyPlanIDDouble2, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition2);
         when(doubleCourseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble1);
         when(doubleCourseEdition1.identity()).thenReturn(doubleCourseEditionId1);
@@ -460,7 +460,7 @@ class CourseEditionRepositoryImplTest {
 
         CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(doubleCourseEditionFactoryImpl, courseEditionListFactoryImplDouble);
 
-        when(doubleCourseEditionFactoryImpl.newCourseEdition_2(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
+        when(doubleCourseEditionFactoryImpl.createCourseEditionToDomain(courseInStudyPlanIDDouble1, programmeEditionIDDouble1)).thenReturn(doubleCourseEdition);
 
         repository.createAndSaveCourseEdition(courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
 

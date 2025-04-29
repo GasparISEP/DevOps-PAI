@@ -14,6 +14,8 @@ import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -116,6 +118,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -137,9 +140,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         // Act
         List<NameWithNumbersAndSpecialChars> listToTest = controller.getAllProgrammeNames();
@@ -187,6 +190,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -208,9 +212,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
@@ -238,6 +242,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -260,9 +265,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeRepository.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeRepository.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
