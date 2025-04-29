@@ -30,7 +30,7 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
         //act
-        ProgrammeRepositorySpringDataImpl result = new ProgrammeRepositorySpringDataImpl(iProgMapper,iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl result = new ProgrammeRepositorySpringDataImpl(iProgMapper,iProgRepo);
 
         //assert
         assertNotNull(result);
@@ -40,11 +40,10 @@ class ProgrammeRepositorySpringDataImplTest {
     void shouldNotCreateProgrammeRepoSpringDataWhenIProgRepoSpringDataIsNull() {
         //arrange
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
 
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeRepositorySpringDataImpl(iProgMapper,null, iProgIdMapper);
+            new ProgrammeRepositorySpringDataImpl(iProgMapper,null);
         });
     }
 
@@ -52,20 +51,9 @@ class ProgrammeRepositorySpringDataImplTest {
     void shouldNotCreateProgrammeRepoSpringDataWhenIProgMapperIsNull() {
         //arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
         //act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeRepositorySpringDataImpl(null,iProgRepo, iProgIdMapper);
-        });
-    }
-
-    void shouldNotCreateProgrammeRepoSpringDataWhenIProgIdMapperIsNull() {
-        //arrange
-        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
-        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeRepositorySpringDataImpl(iProgMapper,iProgRepo, null);
+            new ProgrammeRepositorySpringDataImpl(null,iProgRepo);
         });
     }
 
@@ -79,7 +67,7 @@ class ProgrammeRepositorySpringDataImplTest {
         Programme prog = mock(Programme.class);
         ProgrammeDataModel progDM = mock(ProgrammeDataModel.class);
 
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         //act
         when(iProgMapper.toData(prog)).thenReturn(progDM);
@@ -96,7 +84,7 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
 
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         //act + assert
         assertNull(progRepo.save(null));
@@ -108,7 +96,7 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
         Programme prog = mock(Programme.class);
@@ -133,7 +121,7 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
 
@@ -148,11 +136,9 @@ class ProgrammeRepositorySpringDataImplTest {
     @Test
     void shouldThrowWhenProgrammeIDDoesNotExist() {
         // Arrange
-        IProgrammeFactory iProgFactory = mock(IProgrammeFactory.class);
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"), new Acronym("MIEIC"));
         Programme prog = mock(Programme.class);
@@ -169,8 +155,7 @@ class ProgrammeRepositorySpringDataImplTest {
         // Arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeDataModel dataModel1 = mock(ProgrammeDataModel.class);
         ProgrammeDataModel dataModel2 = mock(ProgrammeDataModel.class);
@@ -196,8 +181,7 @@ class ProgrammeRepositorySpringDataImplTest {
         // Arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"),
@@ -222,8 +206,7 @@ class ProgrammeRepositorySpringDataImplTest {
         // Arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("Non-existing Programme"),
@@ -244,8 +227,7 @@ class ProgrammeRepositorySpringDataImplTest {
         // Arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("Existing Programme"),
@@ -266,8 +248,7 @@ class ProgrammeRepositorySpringDataImplTest {
         // Arrange
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
-        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
-        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo);
 
         ProgrammeID id = new ProgrammeID(
                 new NameWithNumbersAndSpecialChars("Non-existing Programme"),

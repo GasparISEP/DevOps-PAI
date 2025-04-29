@@ -752,7 +752,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -807,7 +807,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
@@ -867,7 +867,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        ProgrammeRepositoryImpl programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+        ProgrammeRepositoryImpl programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
         ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
         ICourseEditionListFactory ICourseEditionListFactory = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(ICourseEditionFactory, ICourseEditionListFactory);
@@ -944,7 +944,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
         ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
@@ -1181,7 +1181,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
         ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
@@ -1243,7 +1243,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentFactory, programmeEditionEnrolmentListFactory);
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
         ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
         ICourseEditionRepository courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);

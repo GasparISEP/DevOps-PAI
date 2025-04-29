@@ -21,21 +21,16 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
-    private final IProgrammeIDMapper _iProgIdMapper;
 
-    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIdMapper) {
+    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }
         if(iProgMapper == null) {
             throw new IllegalArgumentException("iProgrammedMapper must not be null");
         }
-        if (iProgIdMapper == null) {
-            throw new IllegalArgumentException("iProgrammeIDMapper must not be null");
-        }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
-        _iProgIdMapper = iProgIdMapper;
     }
 
     public Programme save(Programme prog) {

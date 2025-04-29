@@ -55,9 +55,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanRepo() throws Exception {
         //arrange
-        IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
-        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeDDDRepoListFactory);
 
         IDegreeTypeFactory factoryDegreeType = mock(IDegreeTypeFactory.class);
         IDegreeTypeListFactory listFactoryDegreeType= mock(IDegreeTypeListFactory.class);
@@ -75,9 +74,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullDegreeTypeRepo() throws Exception {
         //arrange
-        IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
-        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeDDDRepoListFactory);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
         IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);
@@ -95,9 +93,8 @@ class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     @Test
     void registerProgrammeInTheSystemControllerCorrectly() throws Exception {
         //arrange
-        IProgrammeFactory iProgrammeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory iProgrammeDDDRepoListFactory = mock(IProgrammeRepositoryListFactory.class);
-        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeDDDRepoListFactory);
+        ProgrammeRepositoryImpl programmeDDDRepositoryImpl = new ProgrammeRepositoryImpl(iProgrammeDDDRepoListFactory);
 
         IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
         IStudyPlanListFactory listFactory = mock(IStudyPlanListFactory.class);

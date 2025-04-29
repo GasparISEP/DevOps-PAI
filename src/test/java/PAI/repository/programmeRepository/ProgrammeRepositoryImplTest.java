@@ -20,12 +20,11 @@ class ProgrammeRepositoryImplTest {
     void testSaveAddsProgramme() {
         Programme programme1 = mock(Programme.class);
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> ProgrammeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(ProgrammeList);
 
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         ProgrammeID id = mock(ProgrammeID.class);
         when(programme1.identity()).thenReturn(id);
 
@@ -40,12 +39,11 @@ class ProgrammeRepositoryImplTest {
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
 
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
 
         repository.save(programme1);
         repository.save(programme2);
@@ -63,12 +61,11 @@ class ProgrammeRepositoryImplTest {
         Programme programme1 = mock(Programme.class);
 
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
 
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         ProgrammeID id = mock(ProgrammeID.class);
         when(programme1.identity()).thenReturn(id);
 
@@ -83,11 +80,11 @@ class ProgrammeRepositoryImplTest {
     @Test
     void testOfIdentityReturnsEmptyWhenNotFound() {
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         ProgrammeID id = mock(ProgrammeID.class);
 
         Optional<Programme> found = repository.ofIdentity(id);
@@ -99,12 +96,11 @@ class ProgrammeRepositoryImplTest {
     void testContainsOfIdentityReturnsTrueWhenExists() {
         Programme programme1 = mock(Programme.class);
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
 
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         ProgrammeID id = mock(ProgrammeID.class);
         when(programme1.identity()).thenReturn(id);
 
@@ -116,11 +112,10 @@ class ProgrammeRepositoryImplTest {
     @Test
     void testContainsOfIdentityReturnsFalseWhenNotExists() {
 
-        IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
         when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
-        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(factory, listFactory);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         ProgrammeID id = mock(ProgrammeID.class);
 
         boolean result = repository.containsOfIdentity(id);
