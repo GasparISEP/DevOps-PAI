@@ -9,10 +9,12 @@ import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgrammeEditionEnrolmentRepository {
 
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
