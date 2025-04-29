@@ -76,7 +76,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
 
-        IProgrammeService programmeService = new ProgrammeService(programmeFactory, programmeRepository, null);
+        IProgrammeService programmeService = new ProgrammeService(programmeFactory, programmeRepository);
 
 
         US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(programmeService);
