@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.factory.IStudentFactory;
 import PAI.factory.StudentFactoryImpl;
-import PAI.persistence.springdata.StudentRepositorySpringData;
+import PAI.persistence.springdata.StudentRepositorySpringDataImpl;
 import PAI.repository.IStudentRepository;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
@@ -18,24 +18,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class StudentServiceTest {
+class StudentServiceImplTest {
 
     @Test
     void shouldCreateStudentService() {
         //arrange
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
 
         //act
-        StudentService studentService = new StudentService(studentFactoryDouble, studentRepositoryDouble);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
         //assert
-        assertNotNull(studentService);
+        assertNotNull(studentServiceImpl);
     }
 
     static Stream<Arguments> testNullInputs() {
         return Streams.of(
-                Arguments.of(null, mock(StudentRepositorySpringData.class), "Student Factory cannot be null!"),
+                Arguments.of(null, mock(StudentRepositorySpringDataImpl.class), "Student Factory cannot be null!"),
                 Arguments.of(mock(StudentFactoryImpl.class), null, "Student Repository cannot be null!")
         );
     }
@@ -46,7 +46,7 @@ class StudentServiceTest {
         //arrange
 
         //act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new StudentService(studentFactoryDouble, studentRepositoryDouble));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble));
 
         //assert
         assertEquals(expectedMessage, exception.getMessage());
@@ -58,9 +58,9 @@ class StudentServiceTest {
 
         //serviceParameters
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
 
-        StudentService studentService = new StudentService(studentFactoryDouble, studentRepositoryDouble);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
         //parameters to register Student
         StudentID studentIDDouble = mock(StudentID.class);
@@ -82,7 +82,7 @@ class StudentServiceTest {
 
 
         //act
-        Student result = studentService.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+        Student result = studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
                 streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble);
 
         //assert
@@ -110,14 +110,14 @@ class StudentServiceTest {
     void shouldThrowExceptionWhenParametersToCreateStudentAreNotValid(StudentID studentID, Name name, NIF nif, PhoneNumber phoneNumber, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail studentAcademicEmail, String expectedMessage) throws Exception {
         //arrange
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
 
-        StudentService studentService = new StudentService(studentFactoryDouble, studentRepositoryDouble);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
         when(studentFactoryDouble.newStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, studentAcademicEmail)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         //act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> studentService.registerStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, studentAcademicEmail));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> studentServiceImpl.registerStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, studentAcademicEmail));
 
         //assert
         assertEquals(expectedMessage, exception.getMessage());
@@ -128,9 +128,9 @@ class StudentServiceTest {
     void shouldThrowExceptionWhenStudentCannotBeSavedOnDataBase() throws Exception {
         //arrange
         IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringData.class);
+        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
 
-        StudentService studentService = new StudentService(studentFactoryDouble, studentRepositoryDouble);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
         StudentID studentIDDouble = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
@@ -150,7 +150,7 @@ class StudentServiceTest {
         when(studentRepositoryDouble.save(studentDouble)).thenThrow(new RuntimeException());
 
         //act + assert
-        assertThrows(RuntimeException.class, () -> studentService.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble));
+        assertThrows(RuntimeException.class, () -> studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble));
     }
 
 

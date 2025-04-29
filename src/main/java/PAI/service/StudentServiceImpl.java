@@ -7,12 +7,12 @@ import PAI.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentService implements IStudentService{
+public class StudentServiceImpl implements IStudentService{
 
     private IStudentFactory _studentFactory;
     private IStudentRepository _studentRepository;
 
-    public StudentService(IStudentFactory studentFactory, IStudentRepository studentRepository) {
+    public StudentServiceImpl(IStudentFactory studentFactory, IStudentRepository studentRepository) {
 
         if(studentFactory == null)
             throw new IllegalArgumentException("Student Factory cannot be null!");

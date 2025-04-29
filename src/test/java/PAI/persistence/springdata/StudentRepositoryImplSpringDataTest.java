@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.mapper.NIFMapper;
 import PAI.mapper.StudentIDMapper;
-import PAI.mapper.StudentMapper;
+import PAI.mapper.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.StudentDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
@@ -16,14 +16,14 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class StudentRepositorySpringDataTest {
+public class StudentRepositoryImplSpringDataTest {
 
     private IStudentRepositorySpringData repoMock;
-    private StudentMapper studentMapper;
+    private StudentMapperImpl studentMapperImpl;
     private StudentIDMapper studentIDMapper;
     private NIFMapper nifMapper;
 
-    private StudentRepositorySpringData repository;
+    private StudentRepositorySpringDataImpl repository;
 
     private Student student;
     private StudentDataModel dataModel;
@@ -35,11 +35,11 @@ public class StudentRepositorySpringDataTest {
     @BeforeEach
     public void setup() {
         repoMock = mock(IStudentRepositorySpringData.class);
-        studentMapper = mock(StudentMapper.class);
+        studentMapperImpl = mock(StudentMapperImpl.class);
         studentIDMapper = mock(StudentIDMapper.class);
         nifMapper = mock(NIFMapper.class);
 
-        repository = new StudentRepositorySpringData(repoMock, studentMapper, studentIDMapper, nifMapper);
+        repository = new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, nifMapper);
 
         studentID = mock(StudentID.class);
         when(studentID.getUniqueNumber()).thenReturn(1234567);
@@ -57,10 +57,10 @@ public class StudentRepositorySpringDataTest {
         // No need for specific mocks for this test.
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(null, studentMapper, studentIDMapper, nifMapper));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(repoMock, null, studentIDMapper, nifMapper));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(repoMock, studentMapper, null, nifMapper));
-        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringData(repoMock, studentMapper, studentIDMapper, null));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapper, nifMapper));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapper, nifMapper));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, null, nifMapper));
+        assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapper, null));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class StudentRepositorySpringDataTest {
         // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
-        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenReturn(student);
 
         // Act
         Optional<Student> result = repository.ofIdentity(studentID);
@@ -81,9 +81,9 @@ public class StudentRepositorySpringDataTest {
     @Test
     public void testSaveReturnsMappedStudent() throws Exception {
         // Arrange
-        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
+        when(studentMapperImpl.domainToDataModel(student)).thenReturn(dataModel);
         when(repoMock.save(dataModel)).thenReturn(dataModel);
-        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenReturn(student);
 
         // Act
         Student result = repository.save(student);
@@ -96,9 +96,9 @@ public class StudentRepositorySpringDataTest {
     @Test
     public void testSaveThrowsRuntimeExceptionOnMappingFailure() throws Exception {
         // Arrange
-        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
+        when(studentMapperImpl.domainToDataModel(student)).thenReturn(dataModel);
         when(repoMock.save(dataModel)).thenReturn(dataModel);
-        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Could not save student"));
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Could not save student"));
 
         // Act & Assert
         RuntimeException ex = assertThrows(RuntimeException.class, () -> repository.save(student));
@@ -110,7 +110,7 @@ public class StudentRepositorySpringDataTest {
         // Arrange
         List<StudentDataModel> dataModels = Arrays.asList(dataModel, dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
-        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenReturn(student);
 
         // Act
         Iterable<Student> result = repository.findAll();
@@ -123,7 +123,7 @@ public class StudentRepositorySpringDataTest {
     @Test
     public void testOfIdentityDelegatesToGetStudentByID() {
         // Arrange
-        StudentRepositorySpringData spyRepo = spy(repository);
+        StudentRepositorySpringDataImpl spyRepo = spy(repository);
         doReturn(Optional.of(student)).when(spyRepo).ofIdentity(studentID);
 
         // Act
@@ -192,7 +192,7 @@ public class StudentRepositorySpringDataTest {
         // Arrange
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(repoMock.findById(studentIDDataModel)).thenReturn(Optional.of(dataModel));
-        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Failed to retrieve and map Student by ID"));
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Failed to retrieve and map Student by ID"));
 
         // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
@@ -206,7 +206,7 @@ public class StudentRepositorySpringDataTest {
         // Arrange
         List<StudentDataModel> dataModels = Collections.singletonList(dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
-        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping fail"));
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping fail"));
 
         // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
@@ -218,7 +218,7 @@ public class StudentRepositorySpringDataTest {
     @Test
     public void testSaveThrowsRuntimeExceptionOnRepositoryFailure() {
         // Arrange
-        when(studentMapper.domainToDataModel(student)).thenReturn(dataModel);
+        when(studentMapperImpl.domainToDataModel(student)).thenReturn(dataModel);
         doThrow(new RuntimeException("Could not save student")).when(repoMock).save(dataModel);
 
         // Act & Assert
@@ -261,7 +261,7 @@ public class StudentRepositorySpringDataTest {
         List<StudentDataModel> dataModels = List.of(dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
 
-        when(studentMapper.dataModelToDomain(dataModel)).thenReturn(student);
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenReturn(student);
 
         // Act
         List<Student> result = repository.findAll();
@@ -279,7 +279,7 @@ public class StudentRepositorySpringDataTest {
         List<StudentDataModel> dataModels = List.of(dataModel);
         when(repoMock.findAll()).thenReturn(dataModels);
 
-        when(studentMapper.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping error"));
+        when(studentMapperImpl.dataModelToDomain(dataModel)).thenThrow(new RuntimeException("Mapping error"));
 
         //Act
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
