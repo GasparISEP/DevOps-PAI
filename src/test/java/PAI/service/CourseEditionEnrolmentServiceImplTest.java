@@ -201,7 +201,7 @@ class CourseEditionEnrolmentServiceImplTest {
 
         when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenReturn(doubleCEE);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
@@ -232,10 +232,10 @@ class CourseEditionEnrolmentServiceImplTest {
 
         when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID)).thenReturn(false);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE1)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
         service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE2)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID);
@@ -267,10 +267,10 @@ class CourseEditionEnrolmentServiceImplTest {
 
         when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID1)).thenReturn(false);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE1)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
         service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE2)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID2);
@@ -301,10 +301,10 @@ class CourseEditionEnrolmentServiceImplTest {
 
         when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID1)).thenReturn(false);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE1)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
         service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1);
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE2)).thenReturn(true);
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID2);
@@ -333,7 +333,36 @@ class CourseEditionEnrolmentServiceImplTest {
         when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
 
 
-        when(doubleCeeRepositoryInterface.enrolStudentInACourseEdition(doubleCEE)).thenReturn(false);
+        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenThrow();
+
+        //act
+        boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCourseEditionEnrolmentSavedIsNull() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
+
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenReturn(null);
 
         //act
         boolean result = service.enrolStudentInACourseEdition(doubleStudentID, doubleCEID);
