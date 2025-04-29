@@ -68,6 +68,20 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentID, ProgrammeEditionID programmeEditionID) {
+        if (studentID == null || programmeEditionID == null) {
+            return Optional.empty();
+        }
+
+        for (ProgrammeEditionEnrolment enrolment : _programmeEditionEnrolments) {
+            if (enrolment.hasSameStudent(studentID) &&
+                    enrolment.hasSameProgrammeEdition(programmeEditionID)) {
+                return Optional.of(enrolment);
+            }
+        }
+        return Optional.empty();
+    }
 
 
     @Override
