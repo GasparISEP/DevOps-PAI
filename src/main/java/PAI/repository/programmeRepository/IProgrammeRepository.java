@@ -24,7 +24,5 @@ public interface IProgrammeRepository extends IRepository <ProgrammeID, Programm
 
     Programme getProgrammeByAcronym(Acronym acronym);
 
-    List<NameWithNumbersAndSpecialChars> getAllProgrammeNames();
-
     List<ProgrammeID> getAllProgrammesIDs();
 }
