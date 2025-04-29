@@ -30,18 +30,27 @@ UI -> ASC --  : Which Programme?
 
 ASC -> UI ++ #application : Licenciatura Engenharia Informática
 UI -> CPEC ++ #application : createAProgrammeEditionForTheCurrentSchoolYear(programme)
+
+'get programmeID
+CPEC -> PS ++ #application : findProgrammeIDByProgramme(programme)
+PS -> PR ++ #application : findProgrammeIDByProgramme(programme)
+ref over PR
+    convert DataModel to Domain
+    toDomain(programmeIDDataModel)
+end ref
+PR --> PS -- : Optional.of(programmeID)
+PS --> CPEC -- : programmeID
 '''''''''''''''''''''''''''''
 
 'get current School Year
-CPEC -> SYS ++ #application : getCurrentSchoolYear()
+CPEC -> SYS ++ #application : getCurrentSchoolYearId()
 SYS -> SYR ++ #application : getCurrentSchoolYear()
 ref over SYR
     convert DataModel to Domain
     toDomain(schoolYearDataModel)
 end ref
 SYR --> SYS -- : Optional.of(schoolYear)
-SYS --> SYS : Optional.of(schoolYearID)
-SYS --> CPEC -- : schoolYearID
+SYS --> CPEC -- : Optional.of(schoolYearID)
 '''''''''''''''''''''''''''
 
 'create programmeEdition for current School Year

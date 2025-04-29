@@ -200,14 +200,16 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DegreeTypeID id1 = mock(DegreeTypeID.class);
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(List.of(programme1,programme2));
+        when(doubleRepo.findAll()).thenReturn(List.of(programme1,programme2));
+        when(programme1.getDegreeTypeID()).thenReturn(id1);
+        when(programme2.getDegreeTypeID()).thenReturn(id1);
 
         //Act
-        List<Programme> result = service.getProgrammesByDegreeTypeID(degreeTypeID);
+        List<Programme> result = service.getProgrammesByDegreeTypeID(id1);
 
         //Assert
         assertEquals(2,result.size());
@@ -241,9 +243,11 @@ class ProgrammeServiceImplTest {
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
         Programme programme1 = mock(Programme.class);
-        ProgrammeID programme2 = mock(ProgrammeID.class);
+        ProgrammeID id1 = mock(ProgrammeID.class);
 
-        when(doubleRepo.findProgrammeIdByProgramme(programme1)).thenReturn(Optional.of(programme2));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.sameAs(programme1)).thenReturn(true);
+        when(programme1.identity()).thenReturn(id1);
 
         //Act
         Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(programme1);
@@ -270,43 +274,6 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldGetAllProgrammes() throws IllegalArgumentException {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        Programme programme1 = mock(Programme.class);
-        Programme programme2 = mock(Programme.class);
-
-        when(doubleRepo.getAllProgrammes()).thenReturn(List.of(programme1,programme2));
-
-        //Act
-        List<Programme> result = service.getAllProgrammes();
-
-        //Assert
-        assertEquals(2,result.size());
-
-    }
-
-    @Test
-    void shouldNotGetAllProgrammes() throws IllegalArgumentException {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        //Act
-        List<Programme> result = service.getAllProgrammes();
-
-        //Assert
-        assertTrue(result.isEmpty());
-
-    }
-
-    @Test
     void shouldFindProgrammeByName() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
@@ -317,7 +284,8 @@ class ProgrammeServiceImplTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammeByName(name)).thenReturn(Optional.of(programme1));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.hasThisProgrammeName(name)).thenReturn(true);
 
         //Act
         Optional<Programme> result = service.getProgrammeByName(name);
@@ -354,7 +322,8 @@ class ProgrammeServiceImplTest {
         Acronym acronym = mock(Acronym.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammeByAcronym(acronym)).thenReturn(programme1);
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.getAcronym()).thenReturn(acronym);
 
         //Act
         Programme result = service.getProgrammeByAcronym(acronym);

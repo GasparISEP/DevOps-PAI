@@ -67,23 +67,39 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(id);
+        List <Programme> programmeList = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getDegreeTypeID().equals(id))
+                programmeList.add(programme);
+        }
+        return programmeList;
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
-        return _programmeRepository.findProgrammeIdByProgramme(prog);
-    }
-
-    public List<Programme> getAllProgrammes() {
-        return _programmeRepository.getAllProgrammes();
+        for (Programme existingProgramme : _programmeRepository.findAll()) {
+            if (existingProgramme.sameAs(prog)) {
+                return Optional.of(prog.identity());
+            }
+        }
+        return Optional.empty();
     }
 
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        return  _programmeRepository.getProgrammeByName(name);
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisProgrammeName(name)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
     }
 
     public Programme getProgrammeByAcronym(Acronym acronym) {
-        return _programmeRepository.getProgrammeByAcronym(acronym);
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getAcronym().equals(acronym)) {
+                return programme;
+            }
+        }
+        return null;
     }
 
     public List<ProgrammeID> getAllProgrammeIDs() {

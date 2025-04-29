@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.persistence.datamodel.*;
 import java.util.UUID;
 
-public class TeacherCareerProgressionIDMapper implements ITeacherCareerProgressionIDMapper {
+public class TeacherCareerProgressionIDImplMapper implements ITeacherCareerProgressionIDMapper {
 
     public TeacherCareerProgressionIDDataModel domainToDataModel(TeacherCareerProgressionID teacherCareerProgressionID) {
 

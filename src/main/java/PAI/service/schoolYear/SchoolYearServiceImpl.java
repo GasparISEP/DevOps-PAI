@@ -2,10 +2,13 @@ package PAI.service.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.factory.ISchoolYearFactory;
 import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class SchoolYearServiceImpl implements ISchoolYearService {
@@ -37,5 +40,18 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
             throw new IllegalArgumentException(name + " cannot be null");
         }
         return dependency;
+    }
+
+    @Override
+    public Optional<SchoolYearID> getCurrentSchoolYearID() {
+        try{
+            Optional<SchoolYear> schoolYear = schoolYearRepository.getCurrentSchoolYear();
+            if (schoolYear.isPresent()) {
+                return Optional.of(schoolYear.get().identity());
+            }
+            return Optional.empty();
+        }catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

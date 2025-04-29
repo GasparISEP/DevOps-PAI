@@ -8,12 +8,12 @@ import PAI.factory.IProgrammeEnrolmentListFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class ProgrammeEnrolmentRepository implements IProgrammeEnrolmentRepository {
+public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepository {
 
     private List<ProgrammeEnrolment> _programmeEnrolmentList;
     private IProgrammeEnrolmentFactory _programmeEnrolmentFactory;
 
-    public ProgrammeEnrolmentRepository(IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentListFactory programmeEnrolmentList){
+    public ProgrammeEnrolmentRepositoryImpl(IProgrammeEnrolmentFactory programmeEnrolmentFactory, IProgrammeEnrolmentListFactory programmeEnrolmentList){
 
         if(programmeEnrolmentFactory == null || programmeEnrolmentList == null)
             throw new IllegalArgumentException("Factory cannot be null!");
