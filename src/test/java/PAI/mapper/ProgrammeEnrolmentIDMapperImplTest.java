@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeEnrolmentIDMapperTest {
+class ProgrammeEnrolmentIDMapperImplTest {
 
     @Test
     public void shouldReturnNullWhenDomainIsNull() {
         // Arrange
         IStudentIDMapper studentIDMapperDouble = mock(IStudentIDMapper.class);
         IProgrammeIDMapper programmeIDMapperDouble = mock(IProgrammeIDMapper.class);
-        ProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapper(studentIDMapperDouble, programmeIDMapperDouble);
+        ProgrammeEnrolmentIDMapperImpl mapper = new ProgrammeEnrolmentIDMapperImpl(studentIDMapperDouble, programmeIDMapperDouble);
 
         // Act
         ProgrammeEnrolmentIDDataModel result = mapper.domainToDataModel(null);
@@ -32,7 +32,7 @@ class ProgrammeEnrolmentIDMapperTest {
         // Arrange
         IStudentIDMapper studentIDMapperDouble = mock(IStudentIDMapper.class);
         IProgrammeIDMapper programmeIDMapperDouble = mock(IProgrammeIDMapper.class);
-        ProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapper(studentIDMapperDouble, programmeIDMapperDouble);
+        ProgrammeEnrolmentIDMapperImpl mapper = new ProgrammeEnrolmentIDMapperImpl(studentIDMapperDouble, programmeIDMapperDouble);
 
         // Act
         ProgrammeEnrolmentID result = mapper.dataModelToDomain(null);
@@ -74,7 +74,7 @@ class ProgrammeEnrolmentIDMapperTest {
         when(programmeEnrolmentIDDouble.getStudentID()).thenReturn(studentIDDouble);
         when(programmeEnrolmentIDDouble.getProgrammeID()).thenReturn(programmeIDDouble);
 
-        IProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapper(studentIDMapperDouble, programmeIDMapperDouble);
+        IProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapperImpl(studentIDMapperDouble, programmeIDMapperDouble);
 
         // Act
         ProgrammeEnrolmentIDDataModel dataModel = mapper.domainToDataModel(programmeEnrolmentIDDouble);
@@ -119,7 +119,7 @@ class ProgrammeEnrolmentIDMapperTest {
         when(programmeEnrolmentIDDataModelDouble.getStudentID()).thenReturn(studentIDDataModelDouble);
         when(programmeEnrolmentIDDataModelDouble.getProgrammeID()).thenReturn(programmeIDDataModelDouble);
 
-        IProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapper(studentIDMapperDouble, programmeIDMapperDouble);
+        IProgrammeEnrolmentIDMapper mapper = new ProgrammeEnrolmentIDMapperImpl(studentIDMapperDouble, programmeIDMapperDouble);
 
         // Act
         ProgrammeEnrolmentID domain = mapper.dataModelToDomain(programmeEnrolmentIDDataModelDouble);

@@ -16,7 +16,6 @@ skinparam sequenceLifeLineBackgroundColor #application
 Service-> Repository++: findAll()
 Service ++
 Repository-> DT ++: findAll()
-
 |||
 DT --> Repository --: listDataModel
 |||

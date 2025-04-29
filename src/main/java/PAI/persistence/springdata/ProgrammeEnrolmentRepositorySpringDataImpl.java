@@ -14,13 +14,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class ProgrammeEnrolmentRepositorySpringData implements IProgrammeEnrolmentRepository {
+public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnrolmentRepository {
 
     private final IProgrammeEnrolmentRepositorySpringData jpaRepo;
     private final IProgrammeEnrolmentIDMapper idMapper;
     private final IProgrammeEnrolmentMapper programmeEnrolmentMapper;
 
-    public ProgrammeEnrolmentRepositorySpringData(
+    public ProgrammeEnrolmentRepositorySpringDataImpl(
             IProgrammeEnrolmentRepositorySpringData jpaRepo,
             IProgrammeEnrolmentIDMapper idMapper,
             IProgrammeEnrolmentMapper programmeEnrolmentMapper) {
