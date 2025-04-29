@@ -70,4 +70,8 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public List<Programme> getAllProgrammes() {
         return _programmeRepository.getAllProgrammes();
     }
+
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
+        return  _programmeRepository.getProgrammeByName(name);
+    }
 }
