@@ -55,4 +55,8 @@ public class CourseEditionEnrolmentDataModel {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
 }
