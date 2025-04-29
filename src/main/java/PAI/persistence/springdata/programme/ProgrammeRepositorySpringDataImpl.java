@@ -1,13 +1,12 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.programme;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
-import PAI.mapper.IProgrammeIDMapper;
-import PAI.mapper.IProgrammeMapper;
-import PAI.persistence.datamodel.ProgrammeDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.mapper.programme.IProgrammeIDMapper;
+import PAI.mapper.programme.IProgrammeMapper;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,13 @@ import java.util.Optional;
 
 
 //Should Implement IProgrammeRepository
-public class ProgrammeRepositorySpringData {
+public class ProgrammeRepositorySpringDataImpl {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
     private final IProgrammeIDMapper _iProgIdMapper;
 
-    public ProgrammeRepositorySpringData (IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIdMapper) {
+    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIdMapper) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }

@@ -5,10 +5,12 @@ import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.DegreeType.DegreeTypeIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
+import PAI.mapper.programme.ProgrammeMapperImpl;
 import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.persistence.datamodel.ProgrammeDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -18,19 +20,19 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ProgrammeMapperTest {
+public class ProgrammeMapperImplTest {
 
     @Test
     void shouldMakeANotNullConstructor() {
         //arrange
-        ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
+        ProgrammeIDMapperImpl programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
         TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
 
         //act
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
+        ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         //assert
         assertNotNull(programmeMapper);
@@ -41,7 +43,7 @@ public class ProgrammeMapperTest {
         // Arrange
         Programme programme = mock(Programme.class);
 
-        ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
+        ProgrammeIDMapperImpl programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
         TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
@@ -58,7 +60,7 @@ public class ProgrammeMapperTest {
         TeacherID progDirectorID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
 
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
+        ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         when(programme.getProgrammeName()).thenReturn(name);
         when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
@@ -100,13 +102,13 @@ public class ProgrammeMapperTest {
         // Arrange
         ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
 
-        ProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapper.class);
+        ProgrammeIDMapperImpl programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
         TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
         DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
         DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
 
-        ProgrammeMapper programmeMapper = new ProgrammeMapper(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
+        ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
 

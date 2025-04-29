@@ -7,8 +7,8 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
-import PAI.service.IProgrammeService;
-import PAI.service.ProgrammeService;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,7 +76,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
 
 
-        IProgrammeService programmeService = new ProgrammeService(programmeFactory, programmeRepository);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
 
         US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(programmeService);

@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.programme;
 
 import jakarta.persistence.Embeddable;
 

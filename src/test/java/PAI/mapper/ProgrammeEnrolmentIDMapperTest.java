@@ -1,8 +1,9 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import org.junit.jupiter.api.Test;
 

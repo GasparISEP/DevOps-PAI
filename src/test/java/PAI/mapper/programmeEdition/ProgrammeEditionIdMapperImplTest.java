@@ -1,9 +1,9 @@
 package PAI.mapper.programmeEdition;
 
 import PAI.VOs.*;
-import PAI.mapper.IProgrammeIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.programme;
 
-import PAI.persistence.datamodel.ProgrammeDataModel;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

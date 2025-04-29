@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.programme;
 
 import PAI.VOs.*;
 

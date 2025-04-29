@@ -1,10 +1,10 @@
 package PAI.mapper.studyPlan;
 
 import PAI.VOs.*;
-import PAI.mapper.IProgrammeIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
 

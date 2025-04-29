@@ -1,23 +1,26 @@
-package PAI.mapper;
+package PAI.mapper.programme;
 
 import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.DegreeType.DegreeTypeIDMapper;
+import PAI.mapper.TeacherIDMapperImpl;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.persistence.datamodel.*;
 import PAI.VOs.*;
 import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 
-public class ProgrammeMapper implements IProgrammeMapper {
+public class ProgrammeMapperImpl implements IProgrammeMapper {
 
-    private final ProgrammeIDMapper _progIDMapper;
+    private final ProgrammeIDMapperImpl _progIDMapper;
     private final TeacherIDMapperImpl _teacherIDMapper;
     private final DepartmentIDMapperImpl _departmentIDMapper;
     private final DegreeTypeIDMapper _degreeTypeIDMapper;
     private final IProgrammeFactory _factory;
 
-    public ProgrammeMapper (ProgrammeIDMapper progIDMapper, TeacherIDMapperImpl teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper, DegreeTypeIDMapper degreeTypeIDMapper, IProgrammeFactory factory) {
+    public ProgrammeMapperImpl(ProgrammeIDMapperImpl progIDMapper, TeacherIDMapperImpl teacherIDMapper, DepartmentIDMapperImpl departmentIDMapper, DegreeTypeIDMapper degreeTypeIDMapper, IProgrammeFactory factory) {
         _progIDMapper = progIDMapper;
         _teacherIDMapper = teacherIDMapper;
         _departmentIDMapper = departmentIDMapper;

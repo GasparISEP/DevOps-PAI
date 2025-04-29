@@ -6,7 +6,7 @@ import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.mapper.courseID.ICourseIDMapper;
 import PAI.mapper.courseID.CourseIDMapperImpl;
-import PAI.mapper.ProgrammeIDMapper;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
@@ -29,7 +29,7 @@ class CourseInStudyPlanMapperImplImplTest {
     @BeforeEach
     void setUp() throws Exception {
         courseIDMapper = new CourseIDMapperImpl();
-        studyPlanIDMapper = new StudyPlanIDMapperImpl(new ProgrammeIDMapper());
+        studyPlanIDMapper = new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl());
         // Passar sempre o StudyPlanIDMapper e o CourseIDMapper ao construtor
         courseInStudyPlanIDMapper = new CourseInStudyPlanIDMapperImpl(
                 studyPlanIDMapper,
@@ -51,7 +51,7 @@ class CourseInStudyPlanMapperImplImplTest {
                 () -> new CourseInStudyPlanMapperImpl(
                         new CourseIDMapperImpl(),
                         null,
-                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapper()), new CourseIDMapperImpl()),
+                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         new CourseInStudyPlanFactoryImpl()
                 )
         );
@@ -64,8 +64,8 @@ class CourseInStudyPlanMapperImplImplTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanMapperImpl(
                         null,
-                        new StudyPlanIDMapperImpl(new ProgrammeIDMapper()),
-                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapper()), new CourseIDMapperImpl()),
+                        new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
+                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         new CourseInStudyPlanFactoryImpl()
                 )
         );
@@ -78,7 +78,7 @@ class CourseInStudyPlanMapperImplImplTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanMapperImpl(
                         new CourseIDMapperImpl(),
-                        new StudyPlanIDMapperImpl(new ProgrammeIDMapper()),
+                        new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                         null,
                         new CourseInStudyPlanFactoryImpl()
                 )
@@ -92,8 +92,8 @@ class CourseInStudyPlanMapperImplImplTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanMapperImpl(
                         new CourseIDMapperImpl(),
-                        new StudyPlanIDMapperImpl(new ProgrammeIDMapper()),
-                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapper()), new CourseIDMapperImpl()),
+                        new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
+                        new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         null
                 )
         );

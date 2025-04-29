@@ -1,7 +1,7 @@
-package PAI.mapper;
+package PAI.mapper.programme;
 
 import PAI.domain.programme.Programme;
-import PAI.persistence.datamodel.ProgrammeDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 
 public interface IProgrammeMapper {
 

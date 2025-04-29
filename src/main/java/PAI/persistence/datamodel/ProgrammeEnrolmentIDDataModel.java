@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;

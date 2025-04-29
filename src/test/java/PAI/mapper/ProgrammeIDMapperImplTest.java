@@ -3,7 +3,8 @@ package PAI.mapper;
 import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,12 +12,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class ProgrammeIDMapperTest {
+class ProgrammeIDMapperImplTest {
 
     @Test
     void shouldConvertToDomain() {
         //arrange
-        ProgrammeIDMapper mapper = new ProgrammeIDMapper();
+        ProgrammeIDMapperImpl mapper = new ProgrammeIDMapperImpl();
 
         ProgrammeIDDataModel dataModel = mock(ProgrammeIDDataModel.class);
 
@@ -34,7 +35,7 @@ class ProgrammeIDMapperTest {
     @Test
     void shouldCovertToData() {
         //arrange
-        ProgrammeIDMapper mapper = new ProgrammeIDMapper();
+        ProgrammeIDMapperImpl mapper = new ProgrammeIDMapperImpl();
 
         Acronym acronym = mock(Acronym.class);
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);

@@ -2,21 +2,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
-import PAI.factory.ProgrammeFactoryImpl;
-import PAI.factory.ITeacherFactory;
-import PAI.factory.ITeacherListFactory;
-import PAI.factory.TeacherFactoryImpl;
-import PAI.factory.TeacherListFactoryImpl;
-import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
-import PAI.repository.ITeacherRepository;
-import PAI.repository.TeacherRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
-import PAI.service.IProgrammeService;
+import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;
 
 

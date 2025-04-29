@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.studyPlan;
 
-import PAI.persistence.datamodel.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeFactory;
-import PAI.repository.ITeacherRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeServiceTest {
+class ProgrammeServiceImplTest {
 
     @Test
     void shouldCreateProgrammeService() {
@@ -23,7 +23,7 @@ class ProgrammeServiceTest {
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
 
         //Act
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         //Assert
         assertNotNull(service);
@@ -36,7 +36,7 @@ class ProgrammeServiceTest {
         IProgrammeRepository programmeRepository = null;
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository));
+        assertThrows(Exception.class, () -> new ProgrammeServiceImpl(programmeFactory, programmeRepository));
     }
 
     @Test
@@ -47,7 +47,7 @@ class ProgrammeServiceTest {
 
 
         //Act+Assert
-        assertThrows(Exception.class, () -> new ProgrammeService(programmeFactory, programmeRepository));
+        assertThrows(Exception.class, () -> new ProgrammeServiceImpl(programmeFactory, programmeRepository));
     }
 
     @Test
@@ -67,7 +67,7 @@ class ProgrammeServiceTest {
         when(programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenReturn(programme);
         when(programmeRepository.save(programme)).thenReturn(programme);
 
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         //Act
         boolean result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
@@ -81,7 +81,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         Programme programme = mock(Programme.class);
         Teacher teacher = mock(Teacher.class);
@@ -104,7 +104,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ProgrammeID programmeID = null;
         TeacherID teacherID  = mock(TeacherID.class);
@@ -118,7 +118,7 @@ class ProgrammeServiceTest {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        ProgrammeService service = new ProgrammeService(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ProgrammeID programmeID  = mock(ProgrammeID.class);
         TeacherID teacherID = null;
