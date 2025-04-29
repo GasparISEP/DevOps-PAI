@@ -1,13 +1,15 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
+import PAI.domain.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
-import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
 import PAI.service.DegreeType.IDegreeTypeService;
 import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
@@ -38,17 +40,20 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         _degreeTypeService = degreeTypeService;
     }
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
 
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(name);
         Acronym programmeAcronym = new Acronym(acronym);
         QuantEcts programmeQuantityOfEcts = new QuantEcts(quantityOfEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
+        DegreeTypeID degreeTypeID = degreeType.identity();
+        DepartmentID departmentID = department.identity();
+        TeacherID programmeDirectorID = programmeDirector.identity();
 
         return _programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
     }
 
-    public boolean createStudyPlan(ProgrammeID programmeID, Date implementationDate) throws Exception {
+    public boolean createStudyPlan(ProgrammeID programmeID, LocalDate date) throws Exception {
 
         Programme programme;
 
@@ -68,6 +73,8 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         } catch (IllegalArgumentException e) {
             return false;
         }
+
+        Date implementationDate = new Date(date);
 
         int quantSemester = programme.getQuantSemesters().getQuantityOfSemesters();
         DurationInYears durationInYears = new DurationInYears(quantSemester);
