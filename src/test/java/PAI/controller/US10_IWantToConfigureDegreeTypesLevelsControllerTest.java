@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.service.DegreeTypeService;
+import PAI.service.DegreeType.DegreeTypeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

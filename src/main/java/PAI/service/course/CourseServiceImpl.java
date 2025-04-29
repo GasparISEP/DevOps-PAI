@@ -29,7 +29,7 @@ public class CourseServiceImpl implements ICourseService {
             throw new IllegalArgumentException("Course Repository cannot be null.");
     }
 
-    public Course newCourse (Name name, Acronym acronym) throws Exception {
+    public Course createAndSaveCourse (Name name, Acronym acronym) throws Exception {
         Course course = this.courseFactory.createCourse(name, acronym);
         return this.courseRepository.save(course);
     }

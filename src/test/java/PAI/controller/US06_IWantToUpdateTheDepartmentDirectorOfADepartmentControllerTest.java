@@ -11,7 +11,6 @@ import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
 import PAI.repository.DepartmentRepositoryImpl;
 import PAI.repository.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
-import PAI.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 
 
