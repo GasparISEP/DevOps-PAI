@@ -1,9 +1,9 @@
 package PAI.persistence.springdata;
 
 import PAI.VOs.Acronym;
+import PAI.VOs.DepartmentID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
-import PAI.factory.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
@@ -300,5 +300,92 @@ class ProgrammeRepositorySpringDataImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnListOfProgrammeIDsWhenAllInputsAreValidUsingDoubles(){
+
+        //Arrange
+        DepartmentID departmentID=mock(DepartmentID.class);
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        ProgrammeDataModel dataModel1 = mock(ProgrammeDataModel.class);
+        ProgrammeDataModel dataModel2 = mock(ProgrammeDataModel.class);
+        when(iProgRepo.findAll()).thenReturn(List.of(dataModel1,dataModel2));
+        when(iProgMapper.toDomain(dataModel1)).thenReturn(programme1);
+        when(iProgMapper.toDomain(dataModel2)).thenReturn(programme2);
+        when(programme1.isInDepartment(departmentID)).thenReturn(true);
+        when(programme2.isInDepartment(departmentID)).thenReturn(true);
+        when(programme1.identity()).thenReturn(programmeID1);
+        when(programme2.identity()).thenReturn(programmeID2);
+
+        //Act
+        List<ProgrammeID> programmesWithDepartment= progRepo.findProgrammeByDepartment(departmentID);
+
+        //Assert
+        assertTrue(programmesWithDepartment.size()==2);
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammesAreAssociatedToDepartment(){
+
+        //Arrange
+        DepartmentID departmentID=mock(DepartmentID.class);
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        ProgrammeDataModel dataModel1 = mock(ProgrammeDataModel.class);
+        ProgrammeDataModel dataModel2 = mock(ProgrammeDataModel.class);
+        when(iProgRepo.findAll()).thenReturn(List.of(dataModel1,dataModel2));
+        when(iProgMapper.toDomain(dataModel1)).thenReturn(programme1);
+        when(iProgMapper.toDomain(dataModel2)).thenReturn(programme2);
+        when(programme1.isInDepartment(departmentID)).thenReturn(false);
+        when(programme2.isInDepartment(departmentID)).thenReturn(false);
+        when(programme1.identity()).thenReturn(programmeID1);
+        when(programme2.identity()).thenReturn(programmeID2);
+
+        //Act
+        List<ProgrammeID> programmesWithDepartment= progRepo.findProgrammeByDepartment(departmentID);
+
+        //Assert
+        assertTrue(programmesWithDepartment.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfThereAreNoProgrammesInDatabase(){
+
+        //Arrange
+        DepartmentID departmentID=mock(DepartmentID.class);
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper iProgMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper iProgIdMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo, iProgIdMapper);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        when(iProgRepo.findAll()).thenReturn(List.of());
+        when(programme1.isInDepartment(departmentID)).thenReturn(true);
+        when(programme2.isInDepartment(departmentID)).thenReturn(true);
+        when(programme1.identity()).thenReturn(programmeID1);
+        when(programme2.identity()).thenReturn(programmeID2);
+
+        //Act
+        List<ProgrammeID> programmesWithDepartment= progRepo.findProgrammeByDepartment(departmentID);
+
+        //Assert
+        assertTrue(programmesWithDepartment.isEmpty());
+    }
+
 
 }

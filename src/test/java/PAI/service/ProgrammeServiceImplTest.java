@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeServiceImplTest {
 
@@ -158,12 +159,10 @@ class ProgrammeServiceImplTest {
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
         DepartmentID departmentID = mock(DepartmentID.class);
-        Programme programme1 = mock(Programme.class);
-        Programme programme2 = mock(Programme.class);
+        ProgrammeID programme1 = mock(ProgrammeID.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
 
-        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1,programme2));
-        when(programme1.isInDepartment(departmentID)).thenReturn(true);
-        when(programme2.isInDepartment(departmentID)).thenReturn(true);
+        when(doubleRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programme1,programme2));
 
         //Act
         List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
@@ -243,7 +242,6 @@ class ProgrammeServiceImplTest {
 
         Programme programme1 = mock(Programme.class);
         ProgrammeID id1 = mock(ProgrammeID.class);
-
         when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
         when(programme1.sameAs(programme1)).thenReturn(true);
         when(programme1.identity()).thenReturn(id1);

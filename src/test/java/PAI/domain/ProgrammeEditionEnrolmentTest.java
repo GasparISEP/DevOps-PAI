@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -217,49 +216,6 @@ class ProgrammeEditionEnrolmentTest {
         // Assert
         assertEquals(studentDoubleId, foundStudentId, "The found student should be the same as the mock student.");
     }
-
-    // Test returns true when the department and school year are correctly associated with the enrollment
-//    @Test
-//    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() {
-//        // arrange
-//        StudentID student1DoubleId = mock(StudentID.class);
-//        Department departmentDouble = mock(Department.class);
-//        SchoolYear schoolYearDouble = mock(SchoolYear.class);
-//        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
-//        ProgrammeEditionID peDoubleID = mock(ProgrammeEditionID.class);
-//
-//        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble)).thenReturn(true);
-//
-//        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1DoubleId, peDoubleID);
-//
-//        // act
-//        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
-//
-//        // assert
-//        assertTrue(result);
-//    }
-//
-//    // Test returns false when department and school year are not associated with the enrollment
-//    @Test
-//    void shouldReturnFalseWhenDepartmentAndSchoolYearAreNotAssociatedWithTheEnrolment() {
-//        // arrange
-//        StudentID student1DoubleId = mock(StudentID.class);
-//        Department departmentDouble = mock(Department.class);
-//        SchoolYear schoolYearDouble = mock(SchoolYear.class);
-//        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
-//        ProgrammeEditionID editionDoubleId = mock(ProgrammeEditionID.class);
-//
-//
-//        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble)).thenReturn(false);
-//
-//        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1DoubleId, editionDoubleId);
-//
-//        // act
-//        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
-//
-//        // assert
-//        assertFalse(result);
-//    }
 
     @Test
     void shouldReturnStudentUniqueNumber() {

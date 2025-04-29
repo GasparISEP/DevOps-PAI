@@ -56,14 +56,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return true;
     }
 
-    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
-        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        for (Programme programme : _programmeRepository.findAll()) {
-            if(programme.isInDepartment(id)){
-                programmesWithDepartment.add(programme.identity());
-            }
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID) {
+        List<ProgrammeID> programmeIDs;
+        if (departmentID == null) {
+            programmeIDs = List.of();
+        } else {
+            programmeIDs = _programmeRepository.findProgrammeByDepartment(departmentID);
         }
-        return programmesWithDepartment;
+        return programmeIDs;
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {

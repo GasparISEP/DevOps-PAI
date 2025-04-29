@@ -1,17 +1,13 @@
 package PAI.persistence.springdata;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
-import PAI.mapper.ProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionEnrolmentRepositorySpringDataTest {
 
@@ -331,6 +328,108 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         List<ProgrammeEditionEnrolment> result = repository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
         // assert
         assertEquals(List.of(), result);
+    }
+
+    @Test
+    void shouldReturnCountWhenAllFieldsAreValidWithDoubles() {
+
+        // arrange
+
+        IProgrammeEditionEnrolmentRepositorySpringData iProgrammeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDS = List.of(programmeID1, programmeID2);
+        SchoolYearID schoolYear = mock(SchoolYearID.class);
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        List<ProgrammeEditionEnrolmentDataModel> repo = List.of(peeDataModel1, peeDataModel2);
+        when(iProgrammeEditionEnrolmentRepositorySpringData.findAll()).thenReturn(repo);
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel1)).thenReturn(Optional.of(pee1));
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel2)).thenReturn(Optional.of(pee2));
+        when(pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(true);
+        when(pee2.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(true);
+        when(pee1.findStudentInProgrammeEdition()).thenReturn(studentID1);
+        when(pee2.findStudentInProgrammeEdition()).thenReturn(studentID2);
+        // act
+        int result = programmeEditionEnrolmentRepositorySpringData.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear, programmeIDS);
+        // assert
+        assertEquals(2, result);
+    }
+
+    @Test
+    void shouldReturn0IfNoProgrammeEditionEnrolmentsAreFound(){
+
+        // arrange
+
+        IProgrammeEditionEnrolmentRepositorySpringData iProgrammeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDS = List.of(programmeID1, programmeID2);
+        SchoolYearID schoolYear = mock(SchoolYearID.class);
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        List<ProgrammeEditionEnrolmentDataModel> repo = List.of();
+        when(iProgrammeEditionEnrolmentRepositorySpringData.findAll()).thenReturn(repo);
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel1)).thenReturn(Optional.of(pee1));
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel2)).thenReturn(Optional.of(pee2));
+        when(pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(true);
+        when(pee2.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(true);
+        when(pee1.findStudentInProgrammeEdition()).thenReturn(studentID1);
+        when(pee2.findStudentInProgrammeEdition()).thenReturn(studentID2);
+        // act
+        int result = programmeEditionEnrolmentRepositorySpringData.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear, programmeIDS);
+        // assert
+        assertEquals(0, result);
+    }
+
+    @Test
+    void shouldReturn0IfEnrolmentIsNotAssociatedToProgrammeAndSchoolYear(){
+
+        // arrange
+
+        IProgrammeEditionEnrolmentRepositorySpringData iProgrammeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolmentDataModel peeDataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDS = List.of(programmeID1, programmeID2);
+        SchoolYearID schoolYear = mock(SchoolYearID.class);
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        List<ProgrammeEditionEnrolmentDataModel> repo = List.of(peeDataModel1, peeDataModel2);
+        when(iProgrammeEditionEnrolmentRepositorySpringData.findAll()).thenReturn(repo);
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel1)).thenReturn(Optional.of(pee1));
+        when(iProgrammeEditionEnrolmentMapper.toDomain(peeDataModel2)).thenReturn(Optional.of(pee2));
+        when(pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(false);
+        when(pee2.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)).thenReturn(false);
+        when(pee1.findStudentInProgrammeEdition()).thenReturn(studentID1);
+        when(pee2.findStudentInProgrammeEdition()).thenReturn(studentID2);
+        // act
+        int result = programmeEditionEnrolmentRepositorySpringData.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYear, programmeIDS);
+        // assert
+        assertEquals(0, result);
     }
 
 }

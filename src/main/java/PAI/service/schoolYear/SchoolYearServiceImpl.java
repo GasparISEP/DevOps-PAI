@@ -2,10 +2,8 @@ package PAI.service.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
-import PAI.domain.programme.Programme;
 import PAI.factory.ISchoolYearFactory;
 import PAI.repository.ISchoolYearRepository;
 import org.springframework.stereotype.Service;
@@ -67,4 +65,15 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         }
         return schoolYearIDs;
     }
+
+    public boolean schoolYearExistsById(SchoolYearID schoolYearID) {
+        boolean result;
+        if (schoolYearID == null) {
+            result = false;
+        } else {
+            result = schoolYearRepository.containsOfIdentity(schoolYearID);
+        }
+        return result;
+    }
+
 }

@@ -97,14 +97,12 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
 
     @Override
     public List<SchoolYearID> getAllSchoolYearsIDs() {
-        return List.of();
+        List<SchoolYearID> schoolYearIDs = new ArrayList<>();
+        for (SchoolYear schoolYear : findAll()) {
+            schoolYearIDs.add(schoolYear.identity());
+        }
+        return schoolYearIDs;
     }
-
-    @Override
-    public boolean schoolYearExistsByID(SchoolYearID schoolYear) {
-        return false;
-    }
-
 
     //US18
     @Override

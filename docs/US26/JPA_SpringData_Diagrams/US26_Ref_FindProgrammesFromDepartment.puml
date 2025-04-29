@@ -1,6 +1,6 @@
 @startuml
 
- title US26 Reference SD: FindProgrammesFromDepartment
+ title US26 Reference SD: Find Programmes From Department
  autonumber
  skinparam sequence {
     LifelineBorderColor Black

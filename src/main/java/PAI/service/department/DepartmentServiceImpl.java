@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
+
+
 @Service
 public class DepartmentServiceImpl implements IDepartmentService {
 
@@ -53,5 +56,19 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
     public Iterable<Department> findAll() {
         return _departmentRepo.findAll();
+    }
+
+    public boolean departmentExists(DepartmentID id) {
+        boolean result;
+        if(id==null){
+            result = false;
+        }else{
+           result= _departmentRepo.containsOfIdentity(id);
+        }
+        return result;
+    }
+
+    public Set<DepartmentID> getDepartmentIDs (){
+        return _departmentRepo.getDepartmentIDs();
     }
 }

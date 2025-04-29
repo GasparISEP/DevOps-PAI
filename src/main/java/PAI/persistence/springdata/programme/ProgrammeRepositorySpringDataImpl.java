@@ -1,6 +1,6 @@
 package PAI.persistence.springdata.programme;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
@@ -9,6 +9,7 @@ import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -84,5 +85,16 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     public boolean containsOfIdentity(ProgrammeID id) {
         ProgrammeIDDataModel idDM = _iProgIDMapper.toData(id);
         return _iProgRepo.existsById(idDM);
+    }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        List<Programme> allProgrammes=findAll();
+        for (Programme programme : allProgrammes) {
+            if(programme.isInDepartment(departmentID)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 }

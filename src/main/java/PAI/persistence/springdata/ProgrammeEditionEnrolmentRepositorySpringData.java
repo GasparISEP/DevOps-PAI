@@ -76,10 +76,17 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
     }
 
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
-
-
-        return 0;
+        Set<StudentID> studentIDs = new HashSet<>();
+        List<ProgrammeEditionEnrolment> enrollmentList = findAll();
+        for (ProgrammeEditionEnrolment enrollment : enrollmentList) {
+            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)) {
+                StudentID studentID = enrollment.findStudentInProgrammeEdition();
+                studentIDs.add(studentID);
+            }
+        }
+        return studentIDs.size();
     }
+
 
     public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
@@ -91,8 +98,6 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         }
         return allProgrammeEditionEnrolments;
     }
-
-
 
 
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment enrolment) {

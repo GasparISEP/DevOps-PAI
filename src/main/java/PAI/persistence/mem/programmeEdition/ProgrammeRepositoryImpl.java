@@ -1,7 +1,7 @@
 package PAI.persistence.mem.programmeEdition;
 
-import PAI.VOs.*;
-import PAI.factory.IProgrammeFactory;
+import PAI.VOs.DepartmentID;
+import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 
@@ -42,6 +42,16 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
     @Override
     public boolean containsOfIdentity(ProgrammeID id) {
         return ofIdentity(id).isPresent();
+    }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        for (Programme programme : _programmeRepo) {
+            if(programme.isInDepartment(departmentID)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 
 }

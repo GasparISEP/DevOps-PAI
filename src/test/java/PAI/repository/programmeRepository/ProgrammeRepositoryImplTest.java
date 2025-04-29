@@ -1,18 +1,20 @@
 package PAI.repository.programmeRepository;
 
-import PAI.VOs.*;
-import PAI.factory.IProgrammeFactory;
+import PAI.VOs.DepartmentID;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeRepositoryImplTest {
 
@@ -121,5 +123,141 @@ class ProgrammeRepositoryImplTest {
         boolean result = repository.containsOfIdentity(id);
 
         assertFalse(result);
+    }
+
+
+    @Test
+    void shouldReturnListOfProgrammesIfDepartmentIsValidAndHasProgrammesAssociated() throws Exception {
+        // Arrange
+        IProgrammeRepositoryListFactory programmeListFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(programmeListFactory);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Programme programme = mock(Programme.class);
+        when(programme.isInDepartment(departmentID)).thenReturn(true);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programme.identity()).thenReturn(programmeID);
+
+        repository.save(programme);
+        // Act
+
+        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+
+        // Assert
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        assertTrue(result.contains(programmeID));
+    }
+
+    @Test
+    void shouldReturnListWith2ProgrammeBelongingToDepartment() throws Exception {
+        // Arrange
+        IProgrammeRepositoryListFactory programmeListFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(programmeListFactory);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Programme programme = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        when(programme.isInDepartment(departmentID)).thenReturn(true);
+        when(programme2.isInDepartment(departmentID)).thenReturn(true);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+
+        when(programme.identity()).thenReturn(programmeID);
+        when(programme2.identity()).thenReturn(programmeID2);
+
+        repository.save(programme);
+        repository.save(programme2);
+        // Act
+        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(programmeID) && result.contains(programmeID2));
+    }
+
+    @Test
+    void shouldReturnEmptyListIfDepartmentIsNull() throws Exception {
+
+        // Arrange
+        IProgrammeRepositoryListFactory programmeListFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(programmeListFactory);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Programme programme = mock(Programme.class);
+        when(programme.isInDepartment(departmentID)).thenReturn(true);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        when(programme.identity()).thenReturn(programmeID);
+
+
+repository.save(programme);
+        // Act
+        List<ProgrammeID> result = repository.findProgrammeByDepartment(null);
+
+        // Assert
+        assertFalse(result.contains(programmeID));
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    void shouldReturnEmptyListIfProgrammeDoesNotBelongToDepartment() throws Exception {
+
+        // Arrange
+        IProgrammeRepositoryListFactory programmeListFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(programmeListFactory);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Programme programme = mock(Programme.class);
+        when(programme.isInDepartment(departmentID)).thenReturn(false);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        when(programme.identity()).thenReturn(programmeID);
+
+
+repository.save(programme);
+        // Act
+        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+
+        // Assert
+        assertFalse(result.contains(programmeID));
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammesAreRegisteredInRepo() throws Exception {
+
+        // Arrange
+        IProgrammeRepositoryListFactory programmeListFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(programmeListFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(programmeListFactory);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Programme programme = mock(Programme.class);
+        when(programme.isInDepartment(departmentID)).thenReturn(false);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        when(programme.identity()).thenReturn(programmeID);
+        // Act
+        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+
+        // Assert
+        assertFalse(result.contains(programmeID));
+        assertTrue(result.isEmpty());
     }
 }

@@ -123,4 +123,13 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         }
         return instance;
     }
+
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYearID,List<ProgrammeID> programmeIDs){
+        int result;
+        if(schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty()){
+            result=0;
+        }else{
+            result=programmeEditionEnrolmentRepository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
+        } return result;
+    }
 }

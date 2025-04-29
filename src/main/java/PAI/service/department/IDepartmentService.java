@@ -6,6 +6,8 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 
+import java.util.Set;
+
 public interface IDepartmentService {
      boolean registerDepartment(DepartmentAcronym acronym, Name name) throws Exception;
 
@@ -14,4 +16,6 @@ public interface IDepartmentService {
      boolean containsOfIdentity(DepartmentID id);
 
      Iterable<Department> findAll();
+     boolean departmentExists(DepartmentID id);
+     Set<DepartmentID> getDepartmentIDs();
 }
