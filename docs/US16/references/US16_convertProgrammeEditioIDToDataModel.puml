@@ -1,0 +1,22 @@
+@startuml
+title Convert ProgrammeEditionID to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEditionRepository" as ceRepository
+
+participant ":IProgrammeEditionIDMapper" as peIDMapper
+
+ceRepository -> peIDMapper: toDataModel (programmeEditionID)
+activate peIDMapper #E1F5FE
+peIDMapper --> ceRepository: programmeEditionIDDataModel
+deactivate peIDMapper
+
+@enduml
