@@ -52,15 +52,22 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         return _programmeService.findAll();
     }
 
-    public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme) throws Exception {
+    protected SchoolYearID getCurrentSchoolYear(){
+
+        Optional<SchoolYearID> currentSchoolYear = _schoolYearService.getCurrentSchoolYearID();
+        if(currentSchoolYear.isEmpty()){
+            return null;
+        }
+        return currentSchoolYear.get();
+    }
+
+    public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme, SchoolYearID sYID) throws Exception {
+
+        if(sYID == null){
+            throw new Exception("School Year ID cannot be null");
+        }
 
         ProgrammeID pID = programme.identity();
-
-        Optional<SchoolYear> currentSchoolYear =_schoolYearRepository.getCurrentSchoolYear();
-        if(currentSchoolYear.isEmpty())
-            return false;
-
-        SchoolYearID sYID = currentSchoolYear.get().identity();
 
         try {
             ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(pID, sYID);
