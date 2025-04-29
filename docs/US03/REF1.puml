@@ -1,24 +1,69 @@
 @startuml
-title "REF 1 | FindAll() ProgrammeDataModel"
+title <size:30>"REF 1 | FindAll() ProgrammeDataModel"</size>
+|||
+participant ":Programme\nService" as Service
+participant ":ProgrammeRepository\nSpringData" as Repository
+database "Database" as DT #application
+participant ":Programme\nMapper" as PM
+participant ":Programme\nIDMapper" as PIM
+participant ":DegreeType\nIDMapper" as DTIDM
+participant ":Department\nIDMapper" as DIDM
+participant ":Teacher\nIDMapper" as TIDM
+participant ":Programme\nFactory" as F
 
-participant ":ServiceProgramme" as Service
-participant "ProgrammeRepositorySpringData" as Repository
-participant "Mapper" as PDM
 skinparam sequenceLifeLineBackgroundColor #application
 |||
-
 Service-> Repository++: findAll()
 Service ++
+Repository-> DT ++: findAll()
 |||
-Repository --> Service --: List<ProgrammeDataModel>
+DT --> Repository --: listDataModel
 |||
-Service -> PDM ++: toDomain(_factoryProgramme, lstProgrammeDataModelSaved)
+Repository -> PM ++: toDomain(listDataModel)
+create "listDomain\n:Iterable<Programme>" as DomainList #application
+PM -> DomainList : listDomain = newArrayList<>
+
+group#application <size:18>toDomain(programmeDataModel) </size>
 |||
-PDM --> Service --: Iterable<Programme>
+PM -> PIM ++: toDomain(programmeDataModel.identity())
+PIM --> PM --: programmeID
+PM -> DTIDM ++: toDomain(programmeDataModel.getDegreeTypeID())
+DTIDM--> PM --: degreeTypeID
+PM -> DIDM ++: toDomain(programmeDataModel.getDepartmentID())
+DIDM --> PM --: departmentID
+PM -> TIDM ++: toDomain(programmeDataModel.getProgrammeDirectorID())
+TIDM --> PM --: teacherID
+create "name\n:Name" as NM
+PM -> NM ++: <create>(programmeDataModel.getName())
+NM --> PM --: name
+create "acronym\n:Acronym" as AC
+PM -> AC ++: <create>(programmeDataModel.getAcronym())
+AC --> PM --: acronym
+create "quantEcts\n:QuantEcts" as QE
+PM -> QE ++: <create>(programmeDataModel.getQuantEcts())
+QE --> PM --: quantEcts
+create "quantSemesters\n:QuantSemesters" as QS
+PM -> QS ++: <create>(programmeDataModel.getQuantSemesters())
+QS --> PM --: quantSemesters
+|||
+PM -> F ++: registerProgramme(programmeID,name, acronym,quantEcts,\nquantSemesters,degreeTypeID,departmentID,teacherID)
+create "programmeDomain\n:Programme" as programmeDomain
+F -> programmeDomain :<create>(programmeID,name, acronym,quantEcts,\nquantSemesters,degreeTypeID,departmentID,teacherID)
+F --> PM --: programmeDomain
+PM -> DomainList ++:listDomain.add(programmeDomain)
+DomainList -->PM --:listDomain
+|||
+end
+|||
+PM --> Repository --: listDomain
+Repository --> Service --: listDomain
+
+
+
 Service --
 |||
 
 
-participant "listDomain : Iterable<Programme>" as DomainList #application
+
 
 @enduml

@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeEnrolmentMapperTest {
+class ProgrammeEnrolmentMapperImplTest {
 
     private IProgrammeEnrolmentFactory _peFactoryDouble;
     private IProgrammeEnrolmentIDMapper _peIDMapperDouble;
@@ -43,7 +43,7 @@ class ProgrammeEnrolmentMapperTest {
 
     private void createDoubles() {
         _peFactoryDouble = mock(ProgrammeEnrolmentFactoryImpl.class);
-        _peIDMapperDouble = mock(ProgrammeEnrolmentIDMapper.class);
+        _peIDMapperDouble = mock(ProgrammeEnrolmentIDMapperImpl.class);
         _programmeIDMapperDouble = mock(ProgrammeIDMapperImpl.class);
         _studentIDMapperDouble = mock(StudentIDMapperImpl.class);
         _amIDMapperDouble = mock(AccessMethodIDMapperImpl.class);
@@ -67,7 +67,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act
-        ProgrammeEnrolmentMapper peMapper = new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
+        ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
         //Assert
         assertNotNull(peMapper);
@@ -79,7 +79,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapper(null, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapperImpl(null, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble));
     }
 
     @Test
@@ -88,7 +88,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapper(_peFactoryDouble, null, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, null, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble));
     }
 
     @Test
@@ -97,7 +97,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, null, _studentIDMapperDouble, _amIDMapperDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, null, _studentIDMapperDouble, _amIDMapperDouble));
     }
 
     @Test
@@ -106,7 +106,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, null, _amIDMapperDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, null, _amIDMapperDouble));
     }
 
     @Test
@@ -115,7 +115,7 @@ class ProgrammeEnrolmentMapperTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, null));
     }
 
     @Test
@@ -123,7 +123,7 @@ class ProgrammeEnrolmentMapperTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolmentMapper peMapper = new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
+        ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> peMapper.toDomain(null));
@@ -134,7 +134,7 @@ class ProgrammeEnrolmentMapperTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolmentMapper peMapper = new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
+        ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
         when(_peDMDouble.getStudentID()).thenReturn(_studentIDDataModelDouble);
         when(_studentIDMapperDouble.dataModelToDomain(_studentIDDataModelDouble)).thenReturn(_studentIDDouble);
@@ -161,7 +161,7 @@ class ProgrammeEnrolmentMapperTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolmentMapper peMapper = new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
+        ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> peMapper.toDataModel(null));
@@ -172,7 +172,7 @@ class ProgrammeEnrolmentMapperTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolmentMapper peMapper = new ProgrammeEnrolmentMapper(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
+        ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
         when(_peDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
         when(_peIDMapperDouble.domainToDataModel(_peIDDouble)).thenReturn(_peIDDataModelDouble);

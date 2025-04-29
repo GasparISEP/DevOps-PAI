@@ -1,20 +1,53 @@
 @startuml
-title "REF 1 | FindAll() CourseDataModel"
 
-participant ":ServiceCourse" as Service
-participant "CourseRepositorySpringData" as Repository
-participant "Mapper" as PDM
+title <size:30>"REF 2 | FindAll() CourseDataModel"</size>
+|||
+participant ":Service\nCourse" as Service
+participant "CourseRepository\nSpringData" as Repository
+database "Database" as DT #application
+participant "Course\nMapper" as CM
+participant ":Course\nIDMapper" as CIM
+participant ":Course\nFactory" as F
+
 skinparam sequenceLifeLineBackgroundColor #application
 |||
-
 Service-> Repository++: findAll()
 Service ++
 |||
-Repository --> Service --: List<CourseDataModel>
+Repository-> DT ++: findAll()
 |||
-Service -> PDM ++: toDomain(_factoryCourse, lstCourseDataModelSaved)
+DT --> Repository --: listDataModel
 |||
-PDM --> Service --: Iterable<Course>
+Repository -> CM ++: toDomain(listCourseDataModel)
+
+create "listDomain\n:Iterable<Course>" as DomainList #application
+CM -> DomainList : listDomain = newArrayList<>
+
+
+group#application <size:18>toDomain(courseDataModel) </size>
+|||
+CM -> CIM ++: toDomain(courseDataModel.getCourseID())
+CIM --> CM --: courseID
+create "name\n:Name" as NM
+CM -> NM ++: <create>(courseDataModel.getName())
+NM --> CM --: name
+create "acronym\n:Acronym" as AC
+CM -> AC ++: <create>(courseDataModel.getAcronym())
+AC --> CM --: acronym
+|||
+CM -> F ++: registerCourse(courseID,name, acronym)
+create "courseDomain\n:Course" as CD
+F -> CD :<create>(courseID,name, acronym)
+F --> CM --: courseDomain
+|||
+|||
+CM -> DomainList ++:listDomain.add(courseDomain)
+DomainList -->CM --:listDomain
+|||
+end
+|||
+CM --> Repository --: listDomain
+Repository --> Service --: listDomain
 Service --
 |||
 

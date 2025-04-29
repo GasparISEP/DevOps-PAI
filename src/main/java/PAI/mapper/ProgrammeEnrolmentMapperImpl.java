@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper {
+public class ProgrammeEnrolmentMapperImpl implements IProgrammeEnrolmentMapper {
 
     private IProgrammeEnrolmentFactory _peFactory;
     private IProgrammeEnrolmentIDMapper _peIDMapper;
@@ -24,7 +24,7 @@ public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper {
     private IStudentIDMapper _studentIDMapper;
     private IAccessMethodIDMapper _amIDMapper;
 
-    public ProgrammeEnrolmentMapper(IProgrammeEnrolmentFactory peFactory, IProgrammeEnrolmentIDMapper peIDMapper, IProgrammeIDMapper programmeIDMapper, IStudentIDMapper studentIDMapper, IAccessMethodIDMapper amIDMapper) {
+    public ProgrammeEnrolmentMapperImpl(IProgrammeEnrolmentFactory peFactory, IProgrammeEnrolmentIDMapper peIDMapper, IProgrammeIDMapper programmeIDMapper, IStudentIDMapper studentIDMapper, IAccessMethodIDMapper amIDMapper) {
         if (peFactory == null || peIDMapper == null || programmeIDMapper == null || studentIDMapper == null || amIDMapper == null)
             throw new IllegalArgumentException("Parameter cannot be null.");
 

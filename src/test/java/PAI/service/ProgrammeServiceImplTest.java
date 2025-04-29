@@ -8,6 +8,7 @@ import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,14 +156,15 @@ class ProgrammeServiceImplTest {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
         DepartmentID departmentID = mock(DepartmentID.class);
-        ProgrammeID programme1 = mock(ProgrammeID.class);
-        ProgrammeID programme2 = mock(ProgrammeID.class);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
 
-        when(doubleRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programme1,programme2));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1,programme2));
+        when(programme1.isInDepartment(departmentID)).thenReturn(true);
+        when(programme2.isInDepartment(departmentID)).thenReturn(true);
 
         //Act
         List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
@@ -298,6 +300,117 @@ class ProgrammeServiceImplTest {
 
         //Act
         List<Programme> result = service.getAllProgrammes();
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    void shouldFindProgrammeByName() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Programme programme1 = mock(Programme.class);
+
+        when(doubleRepo.getProgrammeByName(name)).thenReturn(Optional.of(programme1));
+
+        //Act
+        Optional<Programme> result = service.getProgrammeByName(name);
+
+        //Assert
+        assertNotNull(Optional.of(result));
+
+    }
+
+    @Test
+    void shouldNotFindProgrammeByName() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        Optional<Programme> result = service.getProgrammeByName(null);
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    void shouldGetProgrammeByAcronym() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        Acronym acronym = mock(Acronym.class);
+        Programme programme1 = mock(Programme.class);
+
+        when(doubleRepo.getProgrammeByAcronym(acronym)).thenReturn(programme1);
+
+        //Act
+        Programme result = service.getProgrammeByAcronym(acronym);
+
+        //Assert
+        assertNotNull(result);
+
+    }
+
+    @Test
+    void shouldNotGetProgrammeByAcronym() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        Programme result = service.getProgrammeByAcronym(null);
+
+        //Assert
+        assertNull(result);
+
+    }
+
+    @Test
+    void shouldGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        ProgrammeID programme1 = mock(ProgrammeID.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
+
+        when(doubleRepo.getAllProgrammesIDs()).thenReturn(List.of(programme1 ,programme2));
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
+
+        //Assert
+        assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldNotGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
 
         //Assert
         assertTrue(result.isEmpty());

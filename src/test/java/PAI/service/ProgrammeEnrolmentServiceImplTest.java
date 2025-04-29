@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeEnrolmentServiceTest {
+class ProgrammeEnrolmentServiceImplTest {
 
     private IProgrammeEnrolmentFactory _peFactoryDouble;
     private IProgrammeEnrolmentRepository _peRepositoryDouble;
@@ -39,7 +39,7 @@ class ProgrammeEnrolmentServiceTest {
         createDoubles();
 
         //Act
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
         //Assert
         assertNotNull(peService);
 
@@ -51,7 +51,7 @@ class ProgrammeEnrolmentServiceTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentService(null, _peRepositoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(null, _peRepositoryDouble));
     }
 
     @Test
@@ -60,14 +60,14 @@ class ProgrammeEnrolmentServiceTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentService(_peFactoryDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, null));
     }
 
     @Test
     void shouldCreateNewProgrammeEnrolmentAndPersist(){
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         when(_peFactoryDouble.createProgrammeEnrolment(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble)).thenReturn(_peDouble);
         when(_peRepositoryDouble.save(_peDouble)).thenReturn(_peDouble);
@@ -83,7 +83,7 @@ class ProgrammeEnrolmentServiceTest {
     void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfStudentIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         //Act
         boolean result = peService.enrolStudentInProgramme(null, _amIDDouble, _programmeIDDouble, _dateDouble);
@@ -96,7 +96,7 @@ class ProgrammeEnrolmentServiceTest {
     void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfAccessMethodIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         //Act
         boolean result = peService.enrolStudentInProgramme(_studentIDDouble, null, _programmeIDDouble, _dateDouble);
@@ -109,7 +109,7 @@ class ProgrammeEnrolmentServiceTest {
     void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfProgrammeIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         //Act
         boolean result = peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, null, _dateDouble);
@@ -122,7 +122,7 @@ class ProgrammeEnrolmentServiceTest {
     void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfDateIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentService peService = new ProgrammeEnrolmentService(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         //Act
         boolean result = peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, _programmeIDDouble, null);
