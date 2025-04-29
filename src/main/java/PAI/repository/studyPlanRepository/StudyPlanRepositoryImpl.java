@@ -20,9 +20,9 @@ public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
 
     }
 
-    public boolean createStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {
+    public boolean createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {
 
-        StudyPlan studyPlan_DDD = _studyPlanFactory_2.newStudyPlan_2(programmeID, implementationDate, durationInYears, quantityOfEcts);
+        StudyPlan studyPlan_DDD = _studyPlanFactory_2.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts);
 
         if (_studyPlanList_2.contains(studyPlan_DDD))
             return false;
@@ -31,7 +31,7 @@ public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
         return true;
     }
 
-    public List<StudyPlan> getAllStudyPlans_2() {
+    public List<StudyPlan> getAllStudyPlans() {
         return this._studyPlanList_2;
     }
 
