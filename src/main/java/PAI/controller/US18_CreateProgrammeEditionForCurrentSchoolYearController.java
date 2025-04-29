@@ -19,21 +19,19 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     private final IProgrammeEditionFactory _programmeEditionFactory;
     private final ISchoolYearRepository _schoolYearRepository;
-    private final IProgrammeRepository _programmeRepository;
     private final IProgrammeService _programmeService;
 
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeService programmeService, IProgrammeEditionFactory programmeEditionFactory, ISchoolYearRepository schoolYearRepository, IProgrammeRepository programmeRepository) throws Exception {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeService programmeService, IProgrammeEditionFactory programmeEditionFactory, ISchoolYearRepository schoolYearRepository) throws Exception {
 
         if (programmeEditionFactory == null)
             throw new Exception("Programme Edition Repository cannot be null");
         if (schoolYearRepository == null)
             throw new Exception("School Year Repository cannot be null");
-        if (programmeRepository == null)
-            throw new Exception("Programme Repository cannot be null");
+        if (programmeService == null)
+            throw new Exception("Programme Service cannot be null");
 
         _programmeEditionFactory = programmeEditionFactory;
         _schoolYearRepository = schoolYearRepository;
-        _programmeRepository = programmeRepository;
         _programmeService = programmeService;
     }
 

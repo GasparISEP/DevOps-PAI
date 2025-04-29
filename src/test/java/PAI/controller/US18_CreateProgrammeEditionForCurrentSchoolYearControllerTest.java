@@ -48,7 +48,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository);
 
         // Assert
         assertNotNull(controller);
@@ -69,7 +69,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository, programmeRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService ,programmeEditionFactory, schoolYearRepository);});
 
         // Assert
         assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
@@ -90,14 +90,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = null;
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository);});
 
         // Assert
         assertEquals("School Year Repository cannot be null", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeRepositoryIsNull() throws Exception {
+    void shouldThrowExceptionWhenProgrammeServiceIsNull() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionRepositoryListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
@@ -106,17 +106,16 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeFactory, programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, null);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeEditionFactory, schoolYearRepository);});
 
         // Assert
-        assertEquals("Programme Repository cannot be null", exception.getMessage());
+        assertEquals("Programme Service cannot be null", exception.getMessage());
     }
 
     @Test
@@ -135,7 +134,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -180,7 +179,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService, programmeEditionFactory, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService, programmeEditionFactory, schoolYearRepository);
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -207,7 +206,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository, programmeRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeService,programmeEditionFactory, schoolYearRepository);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
