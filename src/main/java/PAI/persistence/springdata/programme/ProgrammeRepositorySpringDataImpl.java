@@ -80,14 +80,4 @@ public class ProgrammeRepositorySpringDataImpl {
     public boolean containsOfIdentity(ProgrammeID id) {
         return _iProgRepo.existsById(id.toString());
     }
-
-
-    public Optional<ProgrammeID> getProgrammeIDByName (NameWithNumbersAndSpecialChars programmeName){
-        String programmeNameToSearch = programmeName.toString();
-
-        Optional<ProgrammeIDDataModel> programmeIDDataModel = _iProgRepo.findProgrammeIDByName(programmeNameToSearch);
-
-        //If present return Optional com ProgrammeID, else return Empty
-        return programmeIDDataModel.map(_iProgIdMapper::toDomain);
-    }
 }
