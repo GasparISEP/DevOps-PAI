@@ -304,4 +304,42 @@ class ProgrammeServiceImplTest {
 
     }
 
+    @Test
+    void shouldFindProgrammeByName() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Programme programme1 = mock(Programme.class);
+
+        when(doubleRepo.getProgrammeByName(name)).thenReturn(Optional.of(programme1));
+
+        //Act
+        Optional<Programme> result = service.getProgrammeByName(name);
+
+        //Assert
+        assertNotNull(Optional.of(result));
+
+    }
+
+    @Test
+    void shouldNotFindProgrammeByName() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        Optional<Programme> result = service.getProgrammeByName(null);
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
+
+
 }
