@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DegreeTypeService {
+public class DegreeTypeService implements IDegreeTypeService {
 
     private final IDegreeTypeRepository repository;
     private final IDegreeTypeFactory factory;
@@ -22,6 +22,7 @@ public class DegreeTypeService {
         this.factory = factory;
     }
 
+    @Override
     public boolean registerDegreeType(Name name, MaxEcts maxEcts) throws Exception {
         DegreeType degreeType = factory.create(name, maxEcts);
         return repository.registerDegreeType(
@@ -31,10 +32,12 @@ public class DegreeTypeService {
         );
     }
 
+    @Override
     public Optional<DegreeType> getDegreeTypeById(DegreeTypeID id) {
         return repository.ofIdentity(id);
     }
 
+    @Override
     public List<DegreeType> getAllDegreeTypes() {
         return repository.getAllDegreeTypes();
     }
