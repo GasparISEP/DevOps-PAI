@@ -109,4 +109,8 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return programmeIDs;
     }
+
+    public Iterable<Programme> findAll() {
+        return _programmeRepository.findAll();
+    }
 }

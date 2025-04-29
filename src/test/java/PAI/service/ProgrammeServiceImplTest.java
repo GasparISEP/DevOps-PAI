@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ProgrammeServiceImplTest {
 
@@ -79,7 +78,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenItsNull() throws Exception {
+    void shouldNotRegisterProgrammeWhenItsNull() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
@@ -390,4 +389,37 @@ class ProgrammeServiceImplTest {
 
     }
 
+    @Test
+    void shouldFindAll() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+        Programme programme1 = mock(Programme.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        when(doubleRepo.findAll()).thenReturn(List.of(programme1));
+
+        //act
+        Iterable<Programme> all = service.findAll();
+
+        //assert
+        assertNotNull(all);
+        assertTrue(all.iterator().hasNext());
+    }
+
+    @Test
+    void shouldNotFindAll() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //act
+        Iterable<Programme> all = service.findAll();
+
+        //assert
+        assertFalse(all.iterator().hasNext());
+    }
 }
