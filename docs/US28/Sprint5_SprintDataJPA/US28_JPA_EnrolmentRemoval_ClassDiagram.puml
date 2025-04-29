@@ -197,6 +197,9 @@ class ProgrammeEditionEnrolment <<Root>> <<Entity>>{
     -enrolmentDate: Date <<VO>>
     +ProgrammeEditionEnrolment(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID)
     +deactivateEnrolment(): void
+    +hasSameStudent(): boolean
+    +hasSameProgrammeEdition(): boolean
+
 }
 }
 
