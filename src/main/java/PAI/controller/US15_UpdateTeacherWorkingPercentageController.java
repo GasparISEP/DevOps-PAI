@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
 
 public class US15_UpdateTeacherWorkingPercentageController {
