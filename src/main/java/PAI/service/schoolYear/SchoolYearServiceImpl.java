@@ -42,6 +42,7 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         return dependency;
     }
 
+    @Override
     public Optional<SchoolYearID> getCurrentSchoolYearID() {
         try{
             Optional<SchoolYear> schoolYear = schoolYearRepository.getCurrentSchoolYear();

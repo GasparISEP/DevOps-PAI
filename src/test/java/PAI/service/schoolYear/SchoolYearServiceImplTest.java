@@ -156,7 +156,7 @@ class SchoolYearServiceImplTest {
     }
 
     @Test
-    void shouldReturnOptionalSchoolYearIdWhenSchoolYearExists() throws Exception {
+    void shouldReturnOptionalSchoolYearIdWhenSchoolYearExists() {
         //arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
@@ -171,5 +171,21 @@ class SchoolYearServiceImplTest {
         //assert
         assertTrue(result.isPresent());
         assertEquals(schoolYearID1,result.get());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenSchoolYearDoesNotExist() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isEmpty());
     }
 }
