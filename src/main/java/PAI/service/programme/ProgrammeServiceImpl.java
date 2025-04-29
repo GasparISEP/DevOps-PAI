@@ -85,7 +85,12 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        return  _programmeRepository.getProgrammeByName(name);
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisProgrammeName(name)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
     }
 
     public Programme getProgrammeByAcronym(Acronym acronym) {

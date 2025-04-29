@@ -284,7 +284,8 @@ class ProgrammeServiceImplTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.getProgrammeByName(name)).thenReturn(Optional.of(programme1));
+        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(programme1.hasThisProgrammeName(name)).thenReturn(true);
 
         //Act
         Optional<Programme> result = service.getProgrammeByName(name);
