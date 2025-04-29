@@ -23,48 +23,6 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         _programmeRepoListFactory = programmeLisListFactory;
     }
 
-    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
-
-        Programme programme_DDD = _I_programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
-
-        if (_programmeRepo.contains(programme_DDD))
-            return false;
-
-        _programmeRepo.add(programme_DDD);
-        return true;
-    }
-
-    // Change ProgrammeDirector
-    public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID newDirectorID) throws Exception {
-        Optional<Programme> programmeDDD = ofIdentity(programmeID);
-        if (programmeDDD.isPresent()) {
-            return programmeDDD.get().newProgrammeDirector(newDirectorID);
-        }
-        return false;
-    }
-
-    public List<Programme> getAllProgrammes() {
-        return _programmeRepoListFactory.copyProgrammeArrayList(_programmeRepo);
-    }
-
-    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        for (Programme programme : _programmeRepo) {
-            if (programme.hasThisProgrammeName(name)) {
-                return Optional.of(programme);
-            }
-        }
-        return Optional.empty();
-    }
-
-    public Programme getProgrammeByAcronym(Acronym acronym) {
-        for (Programme programme : _programmeRepo) {
-            if (programme.getAcronym().equals(acronym)) {
-                return programme;
-            }
-        }
-        return null;
-    }
-
     @Override
     public Programme save(Programme entity) {
         _programmeRepo.add(entity);
@@ -91,30 +49,4 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         return ofIdentity(id).isPresent();
     }
 
-    public Optional<ProgrammeID> findProgrammeIdByProgramme (Programme programme) {
-        for (Programme existingProgramme : _programmeRepo) {
-            if (existingProgramme.sameAs(programme)) {
-                return Optional.of(programme.identity());
-            }
-        }
-        return Optional.empty();
-    }
-
-    public List<ProgrammeID> getAllProgrammesIDs() {
-        List<ProgrammeID> programmeIDs = new ArrayList<>();
-        for (Programme programme : _programmeRepo) {
-            programmeIDs.add(programme.getProgrammeID());
-        }
-        return programmeIDs;
-    }
-
-    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
-        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        for (Programme programme : _programmeRepo) {
-            if(programme.isInDepartment(departmentID)){
-                programmesWithDepartment.add(programme.identity());
-            }
-        }
-        return programmesWithDepartment;
-    }
 }
