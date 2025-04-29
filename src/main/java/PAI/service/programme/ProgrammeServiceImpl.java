@@ -78,4 +78,8 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public Programme getProgrammeByAcronym(Acronym acronym) {
         return _programmeRepository.getProgrammeByAcronym(acronym);
     }
+
+    public List<ProgrammeID> getAllProgrammeIDs() {
+        return _programmeRepository.getAllProgrammesIDs();
+    }
 }

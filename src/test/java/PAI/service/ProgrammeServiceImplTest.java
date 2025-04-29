@@ -378,5 +378,41 @@ class ProgrammeServiceImplTest {
 
     }
 
+    @Test
+    void shouldGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        ProgrammeID programme1 = mock(ProgrammeID.class);
+        ProgrammeID programme2 = mock(ProgrammeID.class);
+
+        when(doubleRepo.getAllProgrammesIDs()).thenReturn(List.of(programme1 ,programme2));
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
+
+        //Assert
+        assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldNotGetAllProgrammeIDs() throws IllegalArgumentException {
+        //Arrange
+        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
+
+        //Act
+        List<ProgrammeID> result = service.getAllProgrammeIDs();
+
+        //Assert
+        assertTrue(result.isEmpty());
+
+    }
 
 }
