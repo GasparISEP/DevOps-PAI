@@ -58,15 +58,14 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition
     @Override
-    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId){
-        int numberOfStudents = 0;
+    public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId){
+        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = new ArrayList<>();
 
         for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments)
             if(programmeEditionEnrolment.findProgrammeEditionInEnrolment().equals(programmeEditionId)){
-                numberOfStudents++;
+                allProgrammeEditionEnrolments.add(programmeEditionEnrolment);
             }
-
-        return numberOfStudents;
+        return allProgrammeEditionEnrolments;
     }
 
     @Override

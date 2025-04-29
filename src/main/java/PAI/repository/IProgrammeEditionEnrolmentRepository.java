@@ -12,7 +12,7 @@ public interface IProgrammeEditionEnrolmentRepository  extends IRepository <Prog
 
     boolean isStudentEnrolledInThisProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionId);
 
-    int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId);
+    List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception;
 
     List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId);
 

@@ -6,14 +6,13 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -847,6 +846,73 @@ class ProgrammeEditionEnrolmentServiceImplTest {
                     null
             );
         });
+    }
+
+    @Test
+    void shouldGetTotalOfProgrammeEditionEnrolmentsInSpecificProgrammeEdition() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        IProgrammeEditionEnrolmentRepository mockProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository mockProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository mockCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository mockCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository mockSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository mockProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository mockProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                mockProgrammeEditionEnrolmentRepository,
+                mockProgrammeEditionRepository,
+                mockCourseEditionEnrolmentRepository,
+                mockCourseEditionRepository,
+                mockSchoolYearRepository,
+                mockProgrammeEnrolmentRepository,
+                mockProgrammeRepository,
+                mockProgrammeEditionEnrolmentFactory
+        );
+        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+        List<ProgrammeEditionEnrolment> programmeEditionEnrolments = List.of(programmeEditionEnrolment);
+        when(mockProgrammeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID)).thenReturn(programmeEditionEnrolments);
+        // Act
+        int result = programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEditionID);
+
+        // Assert
+        assertEquals(1, result);
+    }
+
+    @Test
+    void shouldReturnZeroIfProgrammeEditionIdNotFoundInAnyProgrammeEditionEnrollment() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        IProgrammeEditionEnrolmentRepository mockProgrammeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionRepository mockProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionEnrolmentRepository mockCourseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository mockCourseEditionRepository = mock(ICourseEditionRepository.class);
+        ISchoolYearRepository mockSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEnrolmentRepository mockProgrammeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeRepository mockProgrammeRepository = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentFactory mockProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+
+        ProgrammeEditionEnrolmentServiceImpl programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                mockProgrammeEditionEnrolmentRepository,
+                mockProgrammeEditionRepository,
+                mockCourseEditionEnrolmentRepository,
+                mockCourseEditionRepository,
+                mockSchoolYearRepository,
+                mockProgrammeEnrolmentRepository,
+                mockProgrammeRepository,
+                mockProgrammeEditionEnrolmentFactory
+        );
+        List<ProgrammeEditionEnrolment> programmeEditionEnrolments = List.of();
+        when(mockProgrammeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID)).thenReturn(programmeEditionEnrolments);
+        // Act
+        int result = programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEditionID);
+
+        // Assert
+        assertEquals(0, result);
     }
 
 }

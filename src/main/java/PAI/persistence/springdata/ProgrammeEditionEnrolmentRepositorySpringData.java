@@ -4,8 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
+import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 
 import java.util.*;
@@ -16,19 +18,22 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
     private final IProgrammeEditionEnrolmentMapper _peeMapper;
     private final IProgrammeEditionEnrolmentIDMapper _peeIDMapper;
+    private final IProgrammeEditionIdMapper programmeEditionIdMapper;
 
     public ProgrammeEditionEnrolmentRepositorySpringData(
             IProgrammeEditionEnrolmentRepositorySpringData peeRepositorySpringData,
             IProgrammeEditionEnrolmentMapper peeMapper,
-            IProgrammeEditionEnrolmentIDMapper peeIDMapper) {
-
+            IProgrammeEditionEnrolmentIDMapper peeIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper) {
         if (peeRepositorySpringData == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepositorySpringData cannot be null");
         if (peeMapper == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentMapper cannot be null");
         if (peeIDMapper == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentIDMapper cannot be null");
-
+        if (programmeEditionIdMapper == null) {
+            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
+        }
+        this.programmeEditionIdMapper = programmeEditionIdMapper;
         this._peeRepositorySpringData = peeRepositorySpringData;
         this._peeMapper = peeMapper;
         this._peeIDMapper = peeIDMapper;
@@ -86,11 +91,15 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         return 0;
     }
 
-    //US21 - Get The Number Of Students Enrolled In A Programme Edition
-    public int getTheNumberOfStudentsEnrolledInAProgrammeEdition(ProgrammeEditionID programmeEditionId){
-
-
-        return 0;
+    public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
+        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
+        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = new ArrayList<>();
+        for (ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel : allProgrammeEditionEnrolmentsDataModel) {
+            Optional<ProgrammeEditionEnrolment> programmeEditionEnrolment = _peeMapper.toDomain(programmeEditionEnrolmentDataModel);
+            programmeEditionEnrolment.ifPresent(allProgrammeEditionEnrolments::add);
+        }
+        return allProgrammeEditionEnrolments;
     }
 
 
