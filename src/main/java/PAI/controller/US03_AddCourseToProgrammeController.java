@@ -5,9 +5,6 @@ import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.repository.courseRepository.ICourseRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -15,32 +12,32 @@ import PAI.service.programme.IProgrammeService;
 
 public class US03_AddCourseToProgrammeController {
 
-    private final IProgrammeService iProgrammeService;
-    private final ICourseService iCourseService;
-    //private final IStudyPlanService iStudyPlanService;
-    private final ICourseInStudyPlanService iCourseInStudyPlanService;
+    private final IProgrammeService programmeService;
+    private final ICourseService courseService;
+    //private final IStudyPlanService studyPlanService;
+    private final ICourseInStudyPlanService courseInStudyPlanService;
 
-    public US03_AddCourseToProgrammeController(IProgrammeService iProgrammeService,ICourseService iCourseService,ICourseInStudyPlanService iCourseInStudyPlanService) {
-        if (iProgrammeService == null) {
+    public US03_AddCourseToProgrammeController(IProgrammeService programmeService, ICourseService courseService, ICourseInStudyPlanService courseInStudyPlanService) {
+        if (programmeService == null) {
             throw new IllegalArgumentException("Programme Service cannot be null.");
         }
-        if (iCourseService == null) {
+        if (courseService == null) {
             throw new IllegalArgumentException("Course Service cannot be null.");
         }
-        if (iCourseInStudyPlanService == null) {
+        if (courseInStudyPlanService == null) {
             throw new IllegalArgumentException("Course In Study Plan Service cannot be null.");
         }
-        this.iProgrammeService = iProgrammeService;
-        this.iCourseService = iCourseService;
-        this.iCourseInStudyPlanService = iCourseInStudyPlanService;
+        this.programmeService = programmeService;
+        this.courseService = courseService;
+        this.courseInStudyPlanService = courseInStudyPlanService;
     }
 
-//    public Iterable<Programme> getAllProgrammes() {
-//        return iProgrammeService.findAll();
-//    }
+    public Iterable<Programme> getAllProgrammes() {
+        return programmeService.findAll();
+    }
 
     public Iterable<Course> getAllCourses() {
-        return iCourseService.findAll();
+        return courseService.findAll();
     }
 
 //    public Iterable<StudyPlan> getAllStudyPlansByProgrammeId(ProgrammeID programmeID) {
@@ -65,7 +62,7 @@ public class US03_AddCourseToProgrammeController {
             DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(duration);
             CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(quantEcts);
 
-            return iCourseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
+            return courseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
         }
         catch (Exception e) {
             throw new Exception("Error adding course to programme: " + e.getMessage());
