@@ -63,7 +63,7 @@ class StudyPlanMapperImplTest {
         DurationInYears durationInYears = new DurationInYears(4);
         MaxEcts maxEcts = new MaxEcts(30);
         StudyPlanID spID = new StudyPlanID(progID, date);
-        StudyPlan studyPlan = new StudyPlan(progID, date, durationInYears, maxEcts);
+        StudyPlan studyPlan = new StudyPlan(progID, date, durationInYears, maxEcts, spID);
 
         ProgrammeIDMapperImpl progIDMapper = new ProgrammeIDMapperImpl();
         IStudyPlanIDMapper spIDmapper = new StudyPlanIDMapperImpl(progIDMapper);

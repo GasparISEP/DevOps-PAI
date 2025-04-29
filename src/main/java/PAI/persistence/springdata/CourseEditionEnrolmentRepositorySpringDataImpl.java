@@ -48,21 +48,6 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
     }
 
     @Override
-    public boolean enrolStudentInACourseEdition(CourseEditionEnrolment courseEditionEnrolment) throws Exception {
-
-        if (courseEditionEnrolment == null) return false;
-
-        CourseEditionEnrolmentID ceeID = courseEditionEnrolment.identity();
-        if (containsOfIdentity(ceeID)) {
-            return false;
-        }
-
-        CourseEditionEnrolmentDataModel ceeDataModel = iCEEMapper.toDataModel(courseEditionEnrolment).orElseThrow();
-        iCEERepoSpringData.save(ceeDataModel);
-        return true;
-    }
-
-    @Override
     public boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
 
         StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);

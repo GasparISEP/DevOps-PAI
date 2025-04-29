@@ -1,5 +1,6 @@
 package PAI.factory;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
@@ -24,8 +25,8 @@ class DegreeTypeListFactoryImplTest {
 
     @Test
     void testCreateFromExistingList() {
-        DegreeType d1 = DegreeType.create(new Name("Engenharia Informática"), new MaxEcts(180));
-        DegreeType d2 = DegreeType.create(new Name("Ciências Biomédicas"), new MaxEcts(180));
+        DegreeType d1 = new DegreeType(new DegreeTypeID(), new Name("Engenharia Informática"), new MaxEcts(180));
+        DegreeType d2 = new DegreeType(new DegreeTypeID(), new Name("Ciências Biomédicas"), new MaxEcts(180));
 
         List<DegreeType> existing = List.of(d1, d2);
         List<DegreeType> result = factory.createFromExisting(existing);

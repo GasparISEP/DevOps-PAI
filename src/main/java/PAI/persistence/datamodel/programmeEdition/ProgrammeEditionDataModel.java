@@ -5,19 +5,16 @@ import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Programme Edition")
+@Table(name = "Programme_Edition")
 public class ProgrammeEditionDataModel {
 
     @EmbeddedId
-    @Column(name = "ID")
     private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
 
     @Embedded
-    @Column(name = "Programme")
     private ProgrammeIDDataModel _programmeIDDataModel;
 
     @Embedded
-    @Column(name = "School Year")
     private SchoolYearIDDataModel _schoolYearIDDataModel;
 
     protected ProgrammeEditionDataModel() {}

@@ -11,4 +11,11 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
         return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
     }
+
+    public CourseInStudyPlan newCourseInStudyPlanFromDataModel(CourseInStudyPlanID courseInStudyPlanID, Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
+                                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+
+        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+
+    }
 }

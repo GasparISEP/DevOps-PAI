@@ -6,12 +6,12 @@ autonumber
 actor HRC
 participant ":UI" as UI
 participant "ctrl:UpdateTeacherWorkingPercentageController" as Controller #lightgreen
-participant "service1:TeacherCareerProgressionService" as service #lightblue
-participant "teacherRepo:TeacherRepository" as TRepo #lightyellow
+participant "service1:TeacherCareerProgressionServiceImpl" as service #lightblue
+participant "teacherRepo:TeacherRepositoryImpl" as TRepo #lightyellow
 participant "ITeacherRepoSpringData" as teacherSpringData #lightpink
 participant "teacherIdVO1:TeacherIdVO" as teacherIdVO1 #orange
 participant "workingPercentageVO1:WorkingPercentageVO" as wpVO1 #orange
-participant "tcpRepo: TeacherCareerProgressionRepository" as TCPRepo #lightblue
+participant "tcpRepo: TeacherCareerProgressionRepositoryImpl" as TCPRepo #lightblue
 participant "ITeacherCareerProgressionRepoSpringData" as TCPRepoSpringData #lightpink
 participant "lastTCP:TeacherCareerProgression" as TCP #lightpink
 participant "tcpF:ITCPfactory" as TCPf #burlywood

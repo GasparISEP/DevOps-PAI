@@ -2,9 +2,12 @@ package PAI.mapper.TeacherCareerProgression;
 
 import PAI.VOs.*;
 import PAI.persistence.datamodel.*;
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
-public class TeacherCareerProgressionIDMapper implements ITeacherCareerProgressionIDMapper {
+@Component
+public class TeacherCareerProgressionIDMapperImpl implements ITeacherCareerProgressionIDMapper {
 
     public TeacherCareerProgressionIDDataModel domainToDataModel(TeacherCareerProgressionID teacherCareerProgressionID) {
 

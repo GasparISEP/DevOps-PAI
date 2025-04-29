@@ -9,12 +9,12 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class TeacherCareerProgressionIDMapperTest {
+class TeacherCareerProgressionIDMapperImplTest {
 
     @Test
     void shouldReturnTeacherCareerProgressionIDDataModelWhenDomainToDataModelIsCalled(){
         // Arrange
-        TeacherCareerProgressionIDMapper mapper = new TeacherCareerProgressionIDMapper();
+        TeacherCareerProgressionIDMapperImpl mapper = new TeacherCareerProgressionIDMapperImpl();
         TeacherCareerProgressionID domainIDDouble = mock(TeacherCareerProgressionID.class);
         UUID idDouble = mock(UUID.class);
         when(domainIDDouble.getIDValue()).thenReturn(idDouble);
@@ -38,7 +38,7 @@ class TeacherCareerProgressionIDMapperTest {
     @Test
     void shouldThrowNullPointerExceptionWhenConstructorFailsInDomainToDataModel() {
         // Arrange
-        TeacherCareerProgressionIDMapper mapper = new TeacherCareerProgressionIDMapper();
+        TeacherCareerProgressionIDMapperImpl mapper = new TeacherCareerProgressionIDMapperImpl();
         TeacherCareerProgressionID domainIDDouble = mock(TeacherCareerProgressionID.class);
         when(domainIDDouble.getIDValue()).thenReturn(null);
 
@@ -49,7 +49,7 @@ class TeacherCareerProgressionIDMapperTest {
     @Test
     void shouldReturnTeacherCareerProgressionIDWhenDataModelToDomainIsCalled() {
         // Arrange
-        TeacherCareerProgressionIDMapper mapper = new TeacherCareerProgressionIDMapper();
+        TeacherCareerProgressionIDMapperImpl mapper = new TeacherCareerProgressionIDMapperImpl();
         TeacherCareerProgressionIDDataModel dataModelIdDouble = mock(TeacherCareerProgressionIDDataModel.class);
         UUID idDouble = mock(UUID.class);
 
@@ -74,7 +74,7 @@ class TeacherCareerProgressionIDMapperTest {
     @Test
     void shouldThrowNullPointerExceptionWhenConstructorFailsInDataModelToDomain() {
         // Arrange
-        TeacherCareerProgressionIDMapper mapper = new TeacherCareerProgressionIDMapper();
+        TeacherCareerProgressionIDMapperImpl mapper = new TeacherCareerProgressionIDMapperImpl();
         TeacherCareerProgressionIDDataModel dataModelIdDouble = mock(TeacherCareerProgressionIDDataModel.class);
         when(dataModelIdDouble.getIDValue()).thenReturn(null);
 

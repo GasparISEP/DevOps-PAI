@@ -50,19 +50,24 @@ public class DegreeTypeRepoSpringData implements IDegreeTypeRepository {
     }
 
     @Override
-    public boolean registerDegreeType(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
-        DegreeTypeIDDataModel idDataModel = new DegreeTypeIDDataModel(degreeTypeID.getDTID());
-
-        if (dtRepoJPA.existsById(idDataModel))
-            return false;
-
-        DegreeTypeDataModel dm = new DegreeTypeDataModel(idDataModel, name.getName(), maxEcts.getMaxEcts());
-        dtRepoJPA.save(dm);
-        return true;
-    }
-
-    @Override
     public List<DegreeType> getAllDegreeTypes() {
         return findAll();
+    }
+
+    public boolean registerDegreeType(DegreeTypeID id, Name name, MaxEcts maxEcts) {
+        DegreeTypeIDDataModel idModel = new DegreeTypeIDDataModel(id.getDTID());
+
+        if (dtRepoJPA.existsById(idModel)) {
+            return false;
+        }
+
+        DegreeTypeDataModel newDataModel = new DegreeTypeDataModel(
+                idModel,
+                name.getName(),
+                maxEcts.getMaxEcts()
+        );
+
+        dtRepoJPA.save(newDataModel);
+        return true;
     }
 }

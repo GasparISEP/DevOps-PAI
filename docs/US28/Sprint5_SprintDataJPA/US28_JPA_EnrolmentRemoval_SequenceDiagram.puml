@@ -1,6 +1,6 @@
 @startuml
 
-title As an ASC, I want to remove the enrolment of a student in a course edition \n Sequence Diagram \n Sprint 5 - Spring Data JPA
+title As an ASC, I want to remove the enrolment of a student in a course edition \n Sequence Diagram \n Sprint 5 - Spring Data JPA (with alternatives)
 autonumber
 skinparam {
   ActivityPadding 2
@@ -14,76 +14,173 @@ actor ASC #Orange/White
 participant ":UI" as UI #E1F5FE
 participant ":US28_EnrolmentRemoval\nController" as Controller #E1F5FE
 participant ":ICourseEditionEnrolment\nService" as Service #E1F5FE
-participant ":ICourseEditionEnrolment\nRepository" as Repository #E1F5FE
-participant ":ICourseEditionEnrolment\nRepositorySpringData" as SpringDataRepo #E1F5FE
-participant "cee:CourseEditionEnrolment" as Enrolment #E1F5FE
+participant ":ICourseEditionEnrolment\nRepository" as CEERepo #E1F5FE
+participant ":ICourseEditionEnrolment\nRepositorySpringData" as CEESpringRepo #E1F5FE
+participant ":IProgrammeEditionEnrolment\nRepository" as PEERepo #E1F5FE
+participant ":IProgrammeEditionEnrolment\nRepositorySpringData" as PEESpringRepo #E1F5FE
+participant "cee:CourseEditionEnrolment" as CEE #E1F5FE
+participant "pee:ProgrammeEditionEnrolment" as PEE #E1F5FE
 participant "status:EnrolmentStatus" as Status #E1F5FE
-participant "ceeMapper:CourseEditionEnrolment\nMapperImpl" as Mapper #E1F5FE
+participant "ceeMapper:CourseEdition\nEnrolmentMapperImpl" as CEEMapper #E1F5FE
+participant "peeMapper:ProgrammeEdition\nEnrolmentMapperImpl" as PEEMapper #E1F5FE
+participant "ceID: CourseEditionID" as courseEditionID #E1F5FE
 
-' Step 1: ASC triggers removal
-ASC -> UI : I want to remove the enrolment\n of a student in a course edition
-activate UI #HoneyDew
-UI --> ASC : What is the student ID?
-deactivate UI
-ASC -> UI : Student ID!
-activate UI #HoneyDew
-UI --> ASC : What is the course edition ID?
-deactivate UI
-ASC -> UI : Course edition ID!
-activate UI #HoneyDew
-UI -> Controller: removeStudentEnrolment\n(studentID, courseEditionID)
-activate Controller #HoneyDew
+' Step 1: User initiates the request to remove enrolment
+ASC -> UI : I want to remove the enrolment\nof a student in a course edition
+activate UI
+UI -> Controller: removeCourseEditionEnrolment\n(studentID, courseEditionID)
+activate Controller
+Controller -> Service: removeCourseEditionEnrolment\n(studentID, courseEditionID)
+activate Service
 
-' Step 2: Delegate to service
-Controller -> Service: removeStudentEnrolment\n(studentID, courseEditionID)
-activate Service #HoneyDew
+' Step 2: Service retrieves enrolment from repository
+group Deactivate Course Edition Enrolment: removeCourseEditionEnrolment
+Service -> CEERepo: findByStudentAndEdition(studentID, courseEditionID)
+activate CEERepo
+ref over CEERepo
+SD  cee:findByStudentAndCourseEdition(studentID, courseEditionID)
+end ref
+CEERepo --> Service: CourseEditionEnrolment
+deactivate CEESpringRepo
+deactivate CEERepo
 
-' Step 3: Check if enrolment exists
-Service -> Repository: removeEnrolment\n(studentID, courseEditionID)
-activate Repository #HoneyDew
-Repository -> SpringDataRepo: findByStudentAndEdition\n(studentID, courseEditionID)
-activate SpringDataRepo #HoneyDew
-SpringDataRepo --> Repository: CourseEditionEnrolment
-deactivate SpringDataRepo
+' Step 3: Check if enrolment is active
+Service -> CEE: isEnrolmentActive()
+activate CEE
+CEE --> Service: true
+deactivate CEE
 
-' Step 4: Deactivate Enrolment
-Repository -> Enrolment : isEnrolmentActive()
-activate Enrolment #HoneyDew
-Enrolment --> Repository : true
-deactivate Enrolment
-Repository -> Enrolment : deactivateEnrolment()
-activate Enrolment #HoneyDew
-Enrolment -> Status : new EnrolmentStatus(false)
-activate Status #HoneyDew
-Status --> Enrolment : EnrolmentStatus(false)
+' Step 4: Deactivate the enrolment if active
+Service -> CEE: deactivateEnrolment()
+activate CEE
+CEE -> Status: new EnrolmentStatus(false)
+activate Status
+Status --> CEE: EnrolmentStatus(false)
 deactivate Status
-Enrolment --> Repository : Enrolment status set to inactive
-deactivate Enrolment
-Repository --> Service : Enrolment status set to inactive
-deactivate Repository
+CEE --> Service: Enrolment Status set to inactive
+deactivate CEE
 
-' Step 5: Persist updated enrolment
-Service -> Repository: save(courseEditionEnrolment)
-activate Repository #HoneyDew
-Repository -> Mapper: toDataModel(courseEditionEnrolment)
-activate Mapper #HoneyDew
-create "ceeDataModel: \nCourseEditionEnrolment\nDataModel" as DataModel #E1F5FE
-Mapper -> DataModel :create (ceeDM)
-deactivate Mapper
-Repository -> SpringDataRepo: save(CourseEditionEnrolmentDataModel)
-activate SpringDataRepo #HoneyDew
-SpringDataRepo --> Repository: saved
-deactivate SpringDataRepo
-Repository --> Service: saved
-deactivate Repository
+' Step 5: Save the updated enrolment in the repository
+Service -> CEERepo: save(CourseEditionEnrolment)
+activate CEERepo
+CEERepo -> CEEMapper: toDataModel(CourseEditionEnrolment)
+activate CEEMapper
+CEEMapper --> CEERepo: CourseEditionEnrolmentDataModel
+deactivate CEEMapper
+CEERepo -> CEESpringRepo: save(CourseEditionEnrolmentDataModel)
+activate CEESpringRepo
+CEESpringRepo --> CEERepo: saved
+deactivate CEESpringRepo
+CEERepo -> CEEMapper: toDomain(CourseEditionEnrolmentDataModel)
+activate CEEMapper
+CEEMapper --> CEERepo: CourseEditionEnrolment
+deactivate CEEMapper
+CEERepo --> Service: CourseEditionEnrolment
+deactivate CEERepo
 
-' Step 6: Response flow back
-Service --> Controller: true
-deactivate Service
+
+' Step 6: Checking for other active course enrolments
+group Checking other active course edition enrolments: hasOtherActiveCourseEditionEnrolments
+Service -> CEERepo: findAll()
+activate CEERepo
+CEERepo -> CEESpringRepo: findAll()
+activate CEESpringRepo
+CEESpringRepo --> CEERepo: List<CourseEditionEnrolmentDataModel>
+deactivate CEESpringRepo
+CEERepo -> CEEMapper: toDomain(List)
+activate CEEMapper
+CEEMapper --> CEERepo: List<CourseEditionEnrolment>
+deactivate CEEMapper
+CEERepo --> Service: List<CourseEditionEnrolment>
+deactivate CEESpringRepo
+deactivate CEERepo
+loop for each enrolment
+  ' Step 6.1: Check if the enrolment belongs to the student
+  Service -> CEE: hasStudent()
+  activate CEE
+  CEE --> Service: studentID
+  deactivate CEE
+  Service -> Service: equals(studentID, inputStudentID)
+
+  ' Step 6.2: Check if the enrolment is active
+  Service -> CEE: isEnrolmentActive()
+  activate CEE
+  CEE --> Service: true
+  deactivate CEE
+
+  ' Step 6.3: Retrieve course edition ID
+  Service -> CEE: knowCourseEdition()
+  activate CEE
+  CEE --> Service: courseEditionID
+  deactivate CEE
+
+  ' Step 6.4: Retrieve programme edition ID from course edition
+  Service -> courseEditionID: getProgrammeEditionID()
+  activate courseEditionID
+  courseEditionID --> Service: programmeEditionID
+  deactivate courseEditionID
+
+  Service -> Service: equals(programmeEditionID, inputProgrammeEditionID)
+
+  alt [1] match found: Has other active course edition enrolments
+    Service --> Controller: true (only course enrolment deactivated)
+  end
+end
+end
+else
+' After loop
+group Deactivate Programme Edition Enrolment: deactivateProgrammeEditionEnrolment
+alt [2] No more active course edition enrolments
+Service --> Service: No active course edition enrolments found
+    ' Step 7.1: Retrieve programme edition enrolment from repository
+    Service -> PEERepo: findByStudentAndProgrammeEdition(studentID, programmeEditionID)
+    activate PEERepo
+    ref over PEERepo
+    SD  pee:findByStudentAndProgrammeEdition(studentID, programmeEditionID)
+    end ref
+    PEERepo --> Service: ProgrammeEditionEnrolment
+    deactivate PEESpringRepo
+    deactivate PEERepo
+
+    ' Step 7.2: Deactivate programme edition enrolment
+    Service -> PEE: deactivateEnrolment()
+    activate PEE
+    PEE -> Status: new EnrolmentStatus(false)
+    activate Status
+    Status --> PEE: EnrolmentStatus(false)
+    deactivate Status
+    PEE --> Service: Enrolment Status set to inactive
+    deactivate PEE
+
+    ' Step 7.3: Save the updated programme enrolment in the repository
+    Service -> PEERepo: save(ProgrammeEditionEnrolment)
+    activate PEERepo
+    PEERepo -> PEEMapper: toDataModel(ProgrammeEditionEnrolment)
+    activate PEEMapper
+    PEEMapper --> PEERepo: ProgrammeEditionEnrolmentDataModel
+    deactivate PEEMapper
+    PEERepo -> PEESpringRepo: save(ProgrammeEditionEnrolmentDataModel)
+    activate PEESpringRepo
+    PEESpringRepo --> PEERepo: saved
+    deactivate PEESpringRepo
+    PEERepo -> PEEMapper: toDomain(ProgrammeEditionEnrolmentDataModel)
+    activate PEEMapper
+    PEEMapper --> PEERepo: ProgrammeEditionEnrolment
+    deactivate PEEMapper
+    PEERepo --> Service: ProgrammeEditionEnrolment
+    deactivate PEERepo
+
+    ' Step 7.4: Return success to the controller
+    Service --> Controller: true (course and programme enrolment deactivated)
+    deactivate Service
+end
+end
+end
+
+' Step 8: Return success message to the user
 Controller --> UI: true
 deactivate Controller
-UI --> ASC: Enrolment successfully\n removed!
+UI --> ASC: Enrolment successfully updated!
 deactivate UI
-
 
 @enduml

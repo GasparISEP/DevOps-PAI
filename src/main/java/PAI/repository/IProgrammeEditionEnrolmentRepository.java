@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface IProgrammeEditionEnrolmentRepository  extends IRepository <ProgrammeEditionEnrolmentID, ProgrammeEditionEnrolment>{
 
-    boolean enrolStudentInProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionID);
-
     boolean isStudentEnrolledInThisProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionId);
 
     List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception;

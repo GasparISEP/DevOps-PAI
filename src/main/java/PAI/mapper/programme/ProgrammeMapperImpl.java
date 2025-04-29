@@ -11,7 +11,9 @@ import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeMapperImpl implements IProgrammeMapper {
 
     private final ProgrammeIDMapperImpl _progIDMapper;
@@ -52,7 +54,9 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
 
         TeacherID teacherID = _teacherIDMapper.toDomain(programmeDataModel.getProgrammeDirectorID());
 
-        return _factory.registerProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID);
+        ProgrammeID programmeID = _progIDMapper.toDomain(programmeDataModel.getProgID());
+
+        return _factory.reregisterProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID,programmeID);
     }
 
 }

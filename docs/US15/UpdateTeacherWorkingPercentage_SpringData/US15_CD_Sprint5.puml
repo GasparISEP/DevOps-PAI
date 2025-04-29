@@ -9,8 +9,8 @@ class US15_UpdateTeacherWorkingPercentageController {
     +updateWorkingPercentageInTeacherCareerProgression(date: String, workingPercentage: int, acronym: String, NIF : String, country: String)
 }
 
-class TeacherCareerProgressionService {
-    +TeacherCareerProgressionService(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
+class TeacherCareerProgressionServiceImpl {
+    +TeacherCareerProgressionServiceImpl(teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, teacherRepository: ITeacherRepository)
     +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
 }
 
@@ -52,9 +52,10 @@ package "TeacherCareerProgression Aggregate" {
               -workingPercentage: int
    }
 
-class TeacherCareerProgressionRepository {
-    +TeacherCareerProgressionRepository(teacherCareerProgressionFactory : TeacherCareerProgressionFactory, teacherCareerProgressionMapper : TeacherCareerProgressionMapper)
+class TeacherCareerProgressionRepoSpringDataImpl {
+    +TeacherCareerProgressionRepoSpringDataImpl(teacherCareerProgressionFactory : TeacherCareerProgressionFactory, teacherCareerProgressionMapper : TeacherCareerProgressionMapperImpl)
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
+    +save()
 }
 
 class TeacherRepository {
@@ -90,7 +91,7 @@ interface ITeacherCareerProgressionFactory {
                                         teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
-class TeacherCareerProgressionMapper {
+class TeacherCareerProgressionMapperImpl {
     +toDomain(teacherCareerProgressionFactory : ITeacherCareerProgressionFactory, teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel)
     +toDataModel(teacherCareerProgression :TeacherCareerProgression)
 }
@@ -120,20 +121,19 @@ interface ITeacherService {
 }
 
 interface ITeacherCareerProgressionRepositorySpringData {
-    +save()
     +findTopByTeacherIDOrderByDateDesc()
 }
 
 US15_UpdateTeacherWorkingPercentageController "1" --> "_TeacherService \n 1" ITeacherService
 US15_UpdateTeacherWorkingPercentageController "1" --> "_TeacherCareerProgressionService \n 1" ITeacherCareerProgressionService
 ITeacherService "1" <|.. "1" TeacherService
-ITeacherCareerProgressionService "1" <|.. "1" TeacherCareerProgressionService
+ITeacherCareerProgressionService "1" <|.. "1" TeacherCareerProgressionServiceImpl
 ITeacherService "1" --> "_teacherRepository \n 1" ITeacherRepository
 ITeacherCareerProgressionService "1" --> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
 "<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <---- "1" ITeacherRepository
-TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
-TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
-ITeacherCareerProgressionMapper "1" <|.. "1" TeacherCareerProgressionMapper
+TeacherCareerProgressionRepoSpringDataImpl "1" --> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+TeacherCareerProgressionRepoSpringDataImpl "1" --> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
+ITeacherCareerProgressionMapper "1" <|.. "1" TeacherCareerProgressionMapperImpl
 ITeacherCareerProgressionMapper "1" ..> "1" TeacherCareerProgressionDataModel
 ITeacherCareerProgressionMapper "1" ..> "1" ITeacherCareerProgressionFactory
 "<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
@@ -145,7 +145,7 @@ TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n WorkingPercentageVO"
 "<<Root>>\n <<Entity>>\nTeacherCareerProgression" "1" --> "1" "<<Value Object>>\n TeacherCategoryIDVO"
 "<<Value Object>>\n TeacherCategoryIDVO" "1" <-u- "1" "<<Root>>\n <<Entity>>\nTeacherCategory"
-ITeacherCareerProgressionRepository "1" <|.. "1"  TeacherCareerProgressionRepository
+ITeacherCareerProgressionRepository "1" <|.. "1"  TeacherCareerProgressionRepoSpringDataImpl
 ITeacherRepository "1"  <|.. "1" TeacherRepository
-ITeacherCareerProgressionRepositorySpringData "1" <.. "1" TeacherCareerProgressionRepository
+ITeacherCareerProgressionRepositorySpringData "1" <.. "1" TeacherCareerProgressionRepoSpringDataImpl
 @enduml

@@ -18,14 +18,6 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
         _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();
     }
 
-    public boolean enrolStudentInACourseEdition(CourseEditionEnrolment cee1) {
-
-        if (cee1 == null) {
-            return false;
-        }
-        return _courseEditionEnrolments.add(cee1);
-
-    }
 
     public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
@@ -78,13 +70,15 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
 
-//        for (CourseEditionID courseEditionId : courseEditions) {
-//            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
-//            if (existingEnrollment.isPresent()) {
-//                throw new IllegalStateException("This course edition enrolment is already in the list.");
-//            }
-//            enrolStudentInACourseEdition(studentId, courseEditionId);
-//        }
+        for (CourseEditionID courseEditionId : courseEditions) {
+            Optional<CourseEditionEnrolment> existingEnrollment = findByStudentAndEdition(studentId, courseEditionId);
+            if (existingEnrollment.isPresent()) {
+                throw new IllegalStateException("This course edition enrolment is already in the list.");
+            }
+
+            CourseEditionEnrolment newEnrolment = new CourseEditionEnrolment(studentId, courseEditionId);
+            save(newEnrolment);
+        }
     }
 
     @Override
@@ -93,7 +87,12 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
         if (entity == null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
-        _courseEditionEnrolments.add(entity);
+        boolean isCourseEditionEnrolmentSaved = _courseEditionEnrolments.add(entity);
+
+        if (!isCourseEditionEnrolmentSaved){
+            throw new IllegalStateException("This course edition enrolment is already in the list.");
+        }
+
         return entity;
     }
 

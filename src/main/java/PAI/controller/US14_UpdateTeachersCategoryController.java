@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
-import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
 

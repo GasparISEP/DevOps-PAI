@@ -74,13 +74,14 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         PostalCode postalCode = new PostalCode("4450-234");
         Location  location = new Location("Algures");
         Address address = new Address(street,postalCode,location,country);
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
 
 
         Teacher teacher2 = new Teacher(teacherAcronym2,name,email,nif,phoneNumber,academicBackground,address,departmentID);
 
 
 
-        Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID);
+        Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID, programmeID);
         IProgrammeService programmeService = mock(IProgrammeService.class);
 
 

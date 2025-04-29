@@ -13,7 +13,7 @@ class DegreeTypeTest {
     void shouldCreateValidDegreeType() {
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);
-        DegreeType degreeType = DegreeType.create(name, maxEcts);
+        DegreeType degreeType = new DegreeType(new DegreeTypeID(), name, maxEcts);
 
         assertNotNull(degreeType);
         assertNotNull(degreeType.getId());
@@ -26,8 +26,8 @@ class DegreeTypeTest {
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);
 
-        DegreeType degreeType1 = DegreeType.create(name, maxEcts);
-        DegreeType degreeType2 = DegreeType.create(name, maxEcts);
+        DegreeType degreeType1 = new DegreeType(new DegreeTypeID(), name, maxEcts);
+        DegreeType degreeType2 = new DegreeType(new DegreeTypeID(), name, maxEcts);
 
         assertNotEquals(degreeType1.getId(), degreeType2.getId(), "IDs devem ser únicos mesmo com os mesmos valores");
     }
@@ -37,24 +37,25 @@ class DegreeTypeTest {
         Name validName = new Name("Bachelor");
         MaxEcts validMaxEcts = new MaxEcts(180);
 
-        assertThrows(NullPointerException.class, () -> DegreeType.create(null, validMaxEcts));
-        assertThrows(NullPointerException.class, () -> DegreeType.create(validName, null));
+        assertThrows(NullPointerException.class, () -> new DegreeType(new DegreeTypeID(), null, validMaxEcts));
+        assertThrows(NullPointerException.class, () -> new DegreeType(new DegreeTypeID(), validName, null));
     }
 
     @Test
     void testIdentityReturnsCorrectDegreeTypeID() {
         Name name = new Name("Licenciatura");
         MaxEcts ects = new MaxEcts(180);
+        DegreeTypeID id = new DegreeTypeID();
 
-        DegreeType degreeType = DegreeType.create(name, ects);
-        assertEquals(degreeType.identity().getDTID(), degreeType.getId());
+        DegreeType degreeType = new DegreeType(id, name, ects);
+        assertEquals(id.getDTID(), degreeType.identity().getDTID());
     }
 
     @Test
     void testSameAsWithSameInstanceReturnsTrue() {
         Name nome = new Name("Mestrado");
         MaxEcts ects = new MaxEcts(120);
-        DegreeType degreeType = DegreeType.create(nome, ects);
+        DegreeType degreeType = new DegreeType(new DegreeTypeID(), nome, ects);
 
         assertTrue(degreeType.sameAs(degreeType), "sameAs deve retornar true para a mesma instância");
     }
@@ -64,21 +65,21 @@ class DegreeTypeTest {
         Name name = new Name("Licenciatura");
         MaxEcts ects = new MaxEcts(180);
 
-        DegreeType d1 = DegreeType.create(name, ects);
-        DegreeType d2 = DegreeType.create(name, ects);
+        DegreeType d1 = new DegreeType(new DegreeTypeID(), name, ects);
+        DegreeType d2 = new DegreeType(new DegreeTypeID(), name, ects);
 
         assertFalse(d1.sameAs(d2), "sameAs deve retornar false para objetos com IDs diferentes");
     }
 
     @Test
     void testSameAsWithNullReturnsFalse() {
-        DegreeType degreeType = DegreeType.create(new Name("Licenciatura"), new MaxEcts(180));
+        DegreeType degreeType = new DegreeType(new DegreeTypeID(), new Name("Licenciatura"), new MaxEcts(180));
         assertFalse(degreeType.sameAs(null));
     }
 
     @Test
     void testSameAsWithDifferentTypeReturnsFalse() {
-        DegreeType degreeType = DegreeType.create(new Name("Licenciatura"), new MaxEcts(180));
+        DegreeType degreeType = new DegreeType(new DegreeTypeID(), new Name("Licenciatura"), new MaxEcts(180));
         String outroObjeto = "Objeto qualquer";
 
         assertFalse(degreeType.sameAs(outroObjeto));
@@ -86,7 +87,6 @@ class DegreeTypeTest {
 
     @Test
     void testEqualsAndHashCodeWithSameID() {
-        // Criar um ID comum para os dois DegreeType
         DegreeTypeID sharedID = new DegreeTypeID();
         Name name = new Name("Bachelor");
         MaxEcts maxEcts = new MaxEcts(180);

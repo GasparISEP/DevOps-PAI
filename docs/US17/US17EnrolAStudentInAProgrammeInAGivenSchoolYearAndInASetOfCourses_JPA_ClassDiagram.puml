@@ -193,6 +193,7 @@ package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
     +hasSameStudent(studentId:StudentID) : StudentID
     +equals (obj: Object) : boolean
     +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition) : ProgrammeEditionID
+    +isEnrolmentActive : boolean
     }
 }
 
@@ -548,6 +549,7 @@ SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
 ProgrammeEditionEnrolment"1" --> "1" StudentID
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
+ProgrammeEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
 
 SchoolYear "1" --> "1" SchoolYearID
 SchoolYear "1" --> "1" Description

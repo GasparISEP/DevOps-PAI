@@ -1,0 +1,69 @@
+@startuml
+title <size:30>"REF 3 | FindLast() StudyPlanID"</size>
+|||
+participant ":StudyPlan\nService" as Service
+participant ":StudyPlanRepository\nSpringData" as Repository
+database "Database" as DT #application
+participant ":StudyPlan\nMapper" as PM
+participant ":StudyPlan\nIDMapper" as PIM
+participant ":DegreeType\nIDMapper" as DTIDM
+participant ":Department\nIDMapper" as DIDM
+participant ":Teacher\nIDMapper" as TIDM
+participant ":StudyPlan\nFactory" as F
+
+skinparam sequenceLifeLineBackgroundColor #application
+|||
+Service-> Repository++: findAll()
+Service ++
+Repository-> DT ++: findAll()
+|||
+DT --> Repository --: listDataModel
+|||
+Repository -> PM ++: toDomain(listDataModel)
+create "listDomain\n:Iterable<Programme>" as DomainList #application
+PM -> DomainList : listDomain = newArrayList<>
+
+group#application <size:18>toDomain(programmeDataModel) </size>
+|||
+PM -> PIM ++: toDomain(programmeDataModel.identity())
+PIM --> PM --: programmeID
+PM -> DTIDM ++: toDomain(programmeDataModel.getDegreeTypeID())
+DTIDM--> PM --: degreeTypeID
+PM -> DIDM ++: toDomain(programmeDataModel.getDepartmentID())
+DIDM --> PM --: departmentID
+PM -> TIDM ++: toDomain(programmeDataModel.getProgrammeDirectorID())
+TIDM --> PM --: teacherID
+create "name\n:Name" as NM
+PM -> NM ++: <create>(programmeDataModel.getName())
+NM --> PM --: name
+create "acronym\n:Acronym" as AC
+PM -> AC ++: <create>(programmeDataModel.getAcronym())
+AC --> PM --: acronym
+create "quantEcts\n:QuantEcts" as QE
+PM -> QE ++: <create>(programmeDataModel.getQuantEcts())
+QE --> PM --: quantEcts
+create "quantSemesters\n:QuantSemesters" as QS
+PM -> QS ++: <create>(programmeDataModel.getQuantSemesters())
+QS --> PM --: quantSemesters
+|||
+PM -> F ++: registerProgramme(programmeID,name, acronym,quantEcts,\nquantSemesters,degreeTypeID,departmentID,teacherID)
+create "programmeDomain\n:Programme" as programmeDomain
+F -> programmeDomain :<create>(programmeID,name, acronym,quantEcts,\nquantSemesters,degreeTypeID,departmentID,teacherID)
+F --> PM --: programmeDomain
+PM -> DomainList ++:listDomain.add(programmeDomain)
+DomainList -->PM --:listDomain
+|||
+end
+|||
+PM --> Repository --: listDomain
+Repository --> Service --: listDomain
+
+
+
+Service --
+|||
+
+
+
+
+@enduml
