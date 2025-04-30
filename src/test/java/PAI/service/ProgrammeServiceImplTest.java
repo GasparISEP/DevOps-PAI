@@ -394,10 +394,8 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
-        DepartmentID departmentID = mock(DepartmentID.class);
-
         //Act
-        List<ProgrammeID> result = service.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> result = service.findProgrammeByDepartment(null);
 
         //Assert
         assertTrue(result.isEmpty());
