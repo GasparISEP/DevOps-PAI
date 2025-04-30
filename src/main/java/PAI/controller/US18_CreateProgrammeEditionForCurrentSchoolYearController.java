@@ -79,7 +79,6 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
                 return true;
             }
             return false;
-//            return programmeEdition != null;
         } catch (Exception e) {
             return false;
         }

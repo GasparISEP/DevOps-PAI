@@ -199,4 +199,20 @@ class ProgrammeEditionServiceTest {
         assertTrue(result.contains(programmeEdition1));
         assertTrue(result.contains(programmeEdition2));
     }
+
+    @Test
+    void shouldReturnEmptyListWithProgrammeEditions() throws Exception {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+
+        when(programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID1)).thenReturn(List.of());
+        //act
+        List<ProgrammeEdition> result = programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID1);
+        //assert
+        assertTrue(result.isEmpty());
+    }
 }

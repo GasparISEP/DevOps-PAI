@@ -34,7 +34,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
@@ -570,7 +572,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     }
 
     @Test
-        void shouldReturnFalseIfAlreadyExistAProgrammeEditionInTheCurrentSchoolYearWithProgrammeNameGiven() throws Exception {
+        void shouldReturnFalseIfAlreadyExistTheSameProgrammeEditionInTheCurrentSchoolYear() throws Exception {
             // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
@@ -655,4 +657,54 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 //            assertEquals(3, list.size());
             assertFalse(result);
         }
+
+    @Test
+    void shouldReturnFalseWhenServiceThrowsException() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
+                programmeEditionService,
+                programmeService,
+                schoolYearService,
+                programmeEditionFactory,
+                schoolYearRepository);
+
+        // Create a programme
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
+        Acronym programmeAcronym = new Acronym("TP");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
+        TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
+
+        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Programme programme = programmeRepository.getProgrammeByName(programmeName).get();
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        // Mock the service to throw an exception
+        when(programmeEditionService.createProgrammeEdition(any(), any()))
+                .thenThrow(new RuntimeException("Simulated error"));
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programme, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
 }
