@@ -130,6 +130,24 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         }
     }
 
+    @Override
+    public Set<ProgrammeEditionEnrolment> getInternalSet() {
+        Set<ProgrammeEditionEnrolment> internalSet = new HashSet<>();
+
+        try {
+            Iterable<ProgrammeEditionEnrolmentDataModel> dataModels = _peeRepositorySpringData.findAll();
+
+            for (ProgrammeEditionEnrolmentDataModel dataModel : dataModels) {
+                Optional<ProgrammeEditionEnrolment> domainEntity = _peeMapper.toDomain(dataModel);
+                domainEntity.ifPresent(internalSet::add);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving the set of programme edition enrolments", e);
+        }
+
+        return internalSet;
+    }
+
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment enrolment) {
         if (enrolment == null) {
             throw new IllegalArgumentException("ProgrammeEditionEnrolment cannot be null");

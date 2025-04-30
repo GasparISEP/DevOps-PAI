@@ -10,6 +10,7 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -139,6 +140,11 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
             // Possible future consideration/alternative: rather than automatically auto-deactivating the enrolment,
             // we might introduce an "IRREGULAR" status (e.g., peEnrolment.markAsIrregular()).
             // This would involve changing the status from a boolean to an enum: ACTIVE, INACTIVE or IRREGULAR.
+
+            // 4. Remove the old version from the internal set (workaround for Set behavior)
+            if (_peeRepositoryInterface instanceof ProgrammeEditionEnrolmentRepositoryImpl repoImpl) {
+                repoImpl.getInternalSet().remove(peEnrolment);
+            }
 
             _peeRepositoryInterface.save(peEnrolment);
         }
