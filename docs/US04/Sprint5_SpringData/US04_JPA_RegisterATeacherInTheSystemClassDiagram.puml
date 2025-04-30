@@ -6,29 +6,40 @@ skinparam linetype ortho
 skinparam classBackgroundColor #E1F5FE
 
 title US04:As an Administrator, i want to register a Teacher in the System.
-
+package "Controller Aggregates" {
 class US04_IWantToRegisterATeacherInTheSystemController #lightblue{
     +US04_IWantToRegisterATeacherInTheSystemController\n(iTeacherRepository:ITeacherRepository,\n iDepartmentRepository:IDepartmentRepository)
     +registerATeacherInTheSystem\n(acronym:TeacherAcronym, name:Name, email:Email,\n nif:NIF, phoneNumber:PhoneNumber,\n academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentID:DepartmentID)
 }
-note right of US04_IWantToRegisterATeacherInTheSystemController
-This is a simplified version of the class diagram of Us04,
-following the DDD principles as such in this diagram
- the Value Objects are represented as Attributes.
-end note
+}
+package "Factory"{
 class TeacherFactoryImpl #lightblue{
     +createTeacher(TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n teacherCategory:TeacherCategory,\n department:Department):Teacher
     +createAddress(street:Street,\n postalCode:PostalCode,\n location:Location, country:Country)
 }
-class TeacherServiceImpl{
-   +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
-   + DepartmentExists(department:Department)
-   +FindDepartmentByID(departementID:DepartmentID):Optional <Department>
+interface ITeacherFactory #lightblue{
+    +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n \n departmentAcronym:DepartmentAcronym):Optional<Teacher>
 }
-class TeacherMapper{
+}
+package "Service"{
+class TeacherServiceImpl{
+   +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):Optional<Teacher>
+ }
+ interface ITeacherService{
+    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
+ }
+ }
+ package "Mapper Aggregates" {
+class TeacherMapperImpl{
 + ToDomain(teacherDataModel:TeacherDataModel)Teacher
 +toDataModel(teacher:Teacher)TeacherDataModel
 }
+interface ITeacherMapper{
++ ToDomain(teacherDataModel:TeacherDataModel)Teacher
++toDataModel(teacher:Teacher)TeacherDataModel
+}
+}
+package "DataModel" {
 class TeacherDataModel{
 -_acronym:TeacherAcronym
         -_name:String
@@ -42,13 +53,11 @@ class TeacherDataModel{
         -_academicBackground:AcademicBackground
         -_departmentID:DepartmentID
 }
+}
+package "Repository"{
 class TeacherRepositorySpringDataImpl{
 +addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
 
-}
-
-interface ITeacherFactory #lightblue{
-    +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n \n departmentAcronym:DepartmentAcronym):Teacher
 }
 
 interface IDepartmentRepository #lightblue{
@@ -57,17 +66,16 @@ interface IDepartmentRepository #lightblue{
 }
 
 interface ITeacherRepository #lightblue{
-    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
-
-}
-interface ITeacherService{
-   +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
-}
-interface ITeacherRepositorySpringData{
-+addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
+    +save(teacher: Teacher):teacher
 
 }
 interface JPARepository{}
+
+interface ITeacherRepositorySpringData{
++save(teacher: Teacher)teacher
++existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) boolean
+}
+}
 package "Teacher Aggregates" #CornflowerBlue {
     entity "<<Root>>Teacher" #lightblue{
         -_acronym:TeacherAcronym
@@ -99,8 +107,11 @@ TeacherRepositorySpringDataImpl "1"..|> ITeacherRepositorySpringData
 ITeacherRepositorySpringData <|.. ITeacherRepository
 
 TeacherRepositorySpringDataImpl"1" ->"*" TeacherDataModel
-TeacherMapper "1"..> "1"TeacherRepositorySpringDataImpl
-TeacherMapper ..> ITeacherFactory
+ITeacherMapper "1"<.. "1"TeacherRepositorySpringDataImpl
+ITeacherMapper ..> ITeacherFactory
+TeacherMapperImpl ..|> ITeacherMapper
+TeacherMapperImpl..>"maps to" TeacherDataModel
+TeacherMapperImpl..>"maps to""<<Root>>Teacher"
 
 
 

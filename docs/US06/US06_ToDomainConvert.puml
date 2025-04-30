@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title Convert from DepartmentDataModel to Department
+participant DepartmentMapper as ":DepartmentMapper"
+DepartmentMapper -> "t1:Department"**: **toDomain**(DepartmentDataModel)
+@enduml

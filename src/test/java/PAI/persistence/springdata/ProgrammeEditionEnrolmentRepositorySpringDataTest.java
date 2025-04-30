@@ -612,6 +612,74 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void getInternalSet_shouldReturnMappedEnrolments() {
+        // Arrange
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolmentDataModel dataModel = mock(ProgrammeEditionEnrolmentDataModel.class);
+
+        IProgrammeEditionEnrolmentRepositorySpringData springDataRepo = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        when(springDataRepo.findAll()).thenReturn(List.of(dataModel));
+
+        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        when(mapper.toDomain(dataModel)).thenReturn(Optional.of(enrolment));
+
+        ProgrammeEditionEnrolmentRepositorySpringData repo = new ProgrammeEditionEnrolmentRepositorySpringData(
+                springDataRepo, mapper, mock(IProgrammeEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class), mock(IProgrammeEditionIdMapper.class)
+        );
+
+        // Act
+        Set<ProgrammeEditionEnrolment> result = repo.getInternalSet();
+
+        // Assert
+        assertEquals(1, result.size());
+        assertTrue(result.contains(enrolment));
+    }
+
+    @Test
+    void getInternalSet_shouldIgnoreUnmappableDataModels() {
+        // Arrange
+        ProgrammeEditionEnrolmentDataModel dataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolmentDataModel dataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        IProgrammeEditionEnrolmentRepositorySpringData springDataRepo = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        when(springDataRepo.findAll()).thenReturn(List.of(dataModel1, dataModel2));
+
+        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        when(mapper.toDomain(dataModel1)).thenReturn(Optional.empty());
+        when(mapper.toDomain(dataModel2)).thenReturn(Optional.of(enrolment));
+
+        ProgrammeEditionEnrolmentRepositorySpringData repo = new ProgrammeEditionEnrolmentRepositorySpringData(
+                springDataRepo, mapper, mock(IProgrammeEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class), mock(IProgrammeEditionIdMapper.class)
+        );
+
+        // Act
+        Set<ProgrammeEditionEnrolment> result = repo.getInternalSet();
+
+        // Assert
+        assertEquals(1, result.size());
+        assertTrue(result.contains(enrolment));
+    }
+
+    @Test
+    void getInternalSet_shouldThrowRuntimeExceptionOnFailure() {
+        // Arrange
+        IProgrammeEditionEnrolmentRepositorySpringData springDataRepo = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        when(springDataRepo.findAll()).thenThrow(new RuntimeException("Simulated DB error"));
+
+        ProgrammeEditionEnrolmentRepositorySpringData repo = new ProgrammeEditionEnrolmentRepositorySpringData(
+                springDataRepo, mock(IProgrammeEditionEnrolmentMapper.class),
+                mock(IProgrammeEditionEnrolmentIDMapper.class), mock(IStudentIDMapper.class),
+                mock(IProgrammeEditionIdMapper.class)
+        );
+
+        // Act & Assert
+        RuntimeException thrown = assertThrows(RuntimeException.class, repo::getInternalSet);
+        assertEquals("Error retrieving the set of programme edition enrolments", thrown.getMessage());
+    }
 
 
 }

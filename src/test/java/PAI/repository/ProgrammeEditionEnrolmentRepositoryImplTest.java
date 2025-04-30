@@ -2,7 +2,10 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.factory.*;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 
@@ -742,6 +745,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
     @Test
     void shouldReturnEmptyWhenStudentIdOrProgrammeEditionIdIsNull() {
+        // Arrange
         IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
 
@@ -749,12 +753,14 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
 
+        // Act & Assert
         assertTrue(repository.findByStudentAndProgrammeEdition(null, mock(ProgrammeEditionID.class)).isEmpty());
         assertTrue(repository.findByStudentAndProgrammeEdition(mock(StudentID.class), null).isEmpty());
     }
 
     @Test
     void shouldReturnEmptyWhenNoEnrolmentMatches() {
+        // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -770,13 +776,16 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
 
+        // Act
         Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnEnrolmentWhenMatchFound() {
+        // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -793,10 +802,65 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
 
+        // Act
         Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
 
+        // Assert
         assertTrue(result.isPresent());
         assertEquals(enrolment, result.get());
+    }
+
+    @Test
+    void testGetInternalSet_returnsSameInstance() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory mockFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> mockSet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(mockSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockFactory, mockListFactory);
+
+        // Act & Assert
+        assertSame(mockSet, repo.getInternalSet());
+    }
+
+    @Test
+    void testGetInternalSet_reflectsModifications() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory mockFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> mockSet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(mockSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockFactory, mockListFactory);
+
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        // Act
+        repo.getInternalSet().add(enrolment);
+
+        // Assert
+        assertTrue(repo.getInternalSet().contains(enrolment));
+    }
+
+    @Test
+    void testGetInternalSet_isInitiallyEmpty() {
+        // Arrange
+        IProgrammeEditionEnrolmentFactory mockFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> emptySet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(emptySet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockFactory, mockListFactory);
+
+        // Act & Assert
+        assertTrue(repo.getInternalSet().isEmpty());
     }
 
 }

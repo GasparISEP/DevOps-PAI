@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 
@@ -83,6 +84,10 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
         return Optional.empty();
     }
 
+    @Override
+    public Set<ProgrammeEditionEnrolment> getInternalSet() {
+        return this._programmeEditionEnrolments;
+    }
 
     @Override
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment entity) {
