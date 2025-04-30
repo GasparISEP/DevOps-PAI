@@ -2,25 +2,24 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.repository.IProgrammeEnrolmentRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedConstruction;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
 class ProgrammeEnrolmentFactoryImplTest {
 
+    private IProgrammeEnrolmentRepository _peRepositoryDouble;
     private StudentID _studentIDDouble;
     private AccessMethodID _accessMethodIDDouble;
     private ProgrammeID _programmeIDDouble;
     private Date _dateDouble;
+    private ProgrammeEnrolment _peDouble;
+    private ProgrammeEnrolmentID _peIDDouble;
 
     // Method to create doubles for tests with isolation
     private void createDoublesForTestsWithIsolation() {
@@ -28,36 +27,60 @@ class ProgrammeEnrolmentFactoryImplTest {
         _accessMethodIDDouble = mock(AccessMethodID.class);
         _programmeIDDouble = mock(ProgrammeID.class);
         _dateDouble = mock(Date.class);
+        _peRepositoryDouble = mock(IProgrammeEnrolmentRepository.class);
+        _peDouble = mock(ProgrammeEnrolment.class);
+        _peIDDouble = mock(ProgrammeEnrolmentID.class);
     }
 
+    @Test
+    void shouldConstructFactory(){
+        //Arrange
+        createDoublesForTestsWithIsolation();
+
+        //Act
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
+
+        //Assert
+        assertNotNull(peFactory);
+    }
+
+    @Test
+    void shouldNotConstructFactoryAndThrowExceptionIfRepositoryIsNull(){
+        //Arrange
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentFactoryImpl(null));
+
+    }
 
     @Test
     void shouldCreateProgrammeEnrolmentWithIsolation() throws IllegalArgumentException {
         //Arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-
                 })) {
 
+        when(_peDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
+        when(_peRepositoryDouble.containsOfIdentity(_peIDDouble)).thenReturn(false);
+
         //Act
-            ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment result = peFactory.createProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
 
         //Assert
-            //
-            List<ProgrammeEnrolment> constructed = programmeEnrolmentDouble.constructed();
-            ProgrammeEnrolment created = (constructed).get(0);
-            assertEquals(created, result);
+        List<ProgrammeEnrolment> constructed = programmeEnrolmentDouble.constructed();
+        ProgrammeEnrolment created = (constructed).get(0);
+        assertEquals(created, result);
         }
     }
 
     @Test
-    void nullStudentDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+    void shouldThrowExceptionAndNotCreateObjectIfStudentIDNullWithIsolation() {
         //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -70,18 +93,17 @@ class ProgrammeEnrolmentFactoryImplTest {
             }
             catch (Exception e)
             {
-                //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
+            //Assert
+            assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
 
     @Test
-    void nullAccessMethodDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+    void shouldThrowExceptionAndNotCreateObjectIfAccessMethodIDNullWithIsolation() {
         //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
-
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -94,17 +116,17 @@ class ProgrammeEnrolmentFactoryImplTest {
             }
             catch (Exception e)
             {
-                //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
+            //Assert
+            assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
 
     @Test
-    void nullProgrammeDoesNotCreateObjectAndThrowsExceptionWithIsolation() {
+    void shouldThrowExceptionAndNotCreateObjectIfProgrammeIDNullWithIsolation() {
         //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -117,17 +139,17 @@ class ProgrammeEnrolmentFactoryImplTest {
             }
             catch (Exception e)
             {
-                //Assert
-                assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
+            //Assert
+            assertTrue(e.getCause().getMessage().contains("Argument cannot be null"));
             }
         }
     }
 
     @Test
-    void shouldReturnExceptionIfDateIsNullOrBlankWithIsolation() {
+    void shouldThrowExceptionAndNotCreateObjectIfDateNullWithIsolation() {
         //Arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
@@ -141,43 +163,28 @@ class ProgrammeEnrolmentFactoryImplTest {
             catch (Exception e)
             {
             //Assert
-                assertTrue(e.getCause().getMessage().contains("Date cannot be empty!"));
+            assertTrue(e.getCause().getMessage().contains("Date cannot be empty!"));
             }
         }
     }
 
-    public static Stream<Arguments> provideInvalidDateForTestWithIsolation() {
-        return Stream.of(
-                arguments("2024-12-10"),
-                arguments("10/12/2024"),
-                arguments("10 de dezembro de 2024"),
-                arguments("32-01-2024"),
-                arguments("30-100-2024"),
-                arguments("340-100-2024")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideInvalidDateForTestWithIsolation")
-    void invalidDateDoesNotCreateObjectAndThrowsExceptionWithIsolation(String date) {
-        //arrange
-        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl();
+    @Test
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfAlreadyExistsWithIsolation() throws IllegalArgumentException {
+        //Arrange
         createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentFactoryImpl peFactory = new ProgrammeEnrolmentFactoryImpl(_peRepositoryDouble);
 
         try (
                 MockedConstruction<ProgrammeEnrolment> programmeEnrolmentDouble = mockConstruction(ProgrammeEnrolment.class, (mock, context) -> {
-                    throw new RuntimeException(new InstantiationException("Invalid date format. Please use dd-MM-yyyy."));
+
+                    when(mock.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
+
                 })) {
-            //Act
-            try {
-                peFactory.createProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-                fail("Expected exception not thrown");
-            }
-            catch (Exception e)
-            {
-                //Assert
-                assertTrue(e.getCause().getMessage().contains("Invalid date format. Please use dd-MM-yyyy."));
-            }
+
+            when(_peRepositoryDouble.containsOfIdentity(_peIDDouble)).thenReturn(true);
+
+            //Act + Assert
+            assertThrows(IllegalArgumentException.class, () -> peFactory.createProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble));
         }
     }
 }
