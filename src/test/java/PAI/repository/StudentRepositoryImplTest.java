@@ -177,7 +177,7 @@ class StudentRepositoryImplTest {
         // Arrange
         List<Student> studentList = new ArrayList<>();
         when(student.identity()).thenReturn(mock(StudentID.class));
-        when(student.getStudentNIF()).thenReturn(studentNIF);
+        when(student.hasNIF(studentNIF)).thenReturn(true);
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
         studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
