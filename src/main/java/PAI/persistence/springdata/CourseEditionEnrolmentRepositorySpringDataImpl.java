@@ -13,6 +13,7 @@ import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
+@Primary
 public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEditionEnrolmentRepository {
 
     private final ICourseEditionEnrolmentRepositorySpringData iCEERepoSpringData;
