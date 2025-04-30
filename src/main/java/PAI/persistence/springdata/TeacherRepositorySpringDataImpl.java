@@ -87,7 +87,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
         NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
 
-        if (iTeacherRepositorySpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel))
+        if (iTeacherRepositorySpringData.existsByIdOrNif(teacherIDDataModel, nifDataModel))
             return true;
 
         return false;

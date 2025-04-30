@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ITeacherRepositorySpringData extends JpaRepository<TeacherDataModel, TeacherIDDataModel> {
 
-    boolean existsByIDorNIF (TeacherIDDataModel teacherIDDataModel, NIFDataModel nifDataModel);
+    boolean existsByIdOrNif (TeacherIDDataModel teacherId, NIFDataModel nif);
 }
