@@ -83,7 +83,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
     }
 
     @Override
-    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+    public boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
         NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
 

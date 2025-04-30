@@ -11,7 +11,6 @@ public interface IProgrammeService {
     boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception;
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID id);
     List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception;
-    Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception;
     Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name);
     Programme getProgrammeByAcronym(Acronym acronym);
     List<ProgrammeID> getAllProgrammeIDs();

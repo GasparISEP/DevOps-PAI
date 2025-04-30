@@ -9,7 +9,6 @@ import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -306,14 +305,14 @@ class TeacherRepositorySpringDataImplTest {
         when(iTeacherRepoSpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel)).thenReturn(false);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherID, nif);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void shouldReturnTrueIfExistsByIDorNIF () {
+    void shouldReturnTrueIfExistsByTeacherIdOrNif() {
         // Arrange
 
         TeacherID teacherID = mock(TeacherID.class);
@@ -326,38 +325,38 @@ class TeacherRepositorySpringDataImplTest {
         when(iTeacherRepoSpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel)).thenReturn(true);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherID, nif);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void existsByIDorNIFShouldReturnFalseWhenTeacherIDIsNull() {
+    void existsByTeacherIdOrNifShouldReturnFalseWhenTeacherIDIsNull() {
         // Arrange
         NIF nif = mock(NIF.class);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(null, nif);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(null, nif);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void existsByIDorNIFShouldReturnFalseWhenNIFIsNull() {
+    void existsByTeacherIdOrNifIsNull() {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherID, null);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, null);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void existsByIDorNIFShouldFailToConvertTeacherIDWithMapper () {
+    void existsByTeacherIdOrNifShouldFailToConvertTeacherIDWithMapper() {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
         NIF nif = mock(NIF.class);
@@ -366,11 +365,11 @@ class TeacherRepositorySpringDataImplTest {
         when(nifMapper.domainToDataModel(nif)).thenReturn(mock(NIFDataModel.class));
 
         // Assert
-        assertFalse(teacherRepository.existsByIDorNIF(teacherID, nif));
+        assertFalse(teacherRepository.existsByTeacherIdOrNif(teacherID, nif));
     }
 
     @Test
-    void existsByIDorNIFShouldFailToConvertNIFWithMapper () {
+    void existsByTeacherIdOrNifWithMapper() {
         TeacherID teacherID = mock(TeacherID.class);
         NIF nif = mock(NIF.class);
 
@@ -378,6 +377,6 @@ class TeacherRepositorySpringDataImplTest {
         when(nifMapper.domainToDataModel(nif)).thenReturn(null);
 
         // Assert
-        assertFalse(teacherRepository.existsByIDorNIF(teacherID, nif));
+        assertFalse(teacherRepository.existsByTeacherIdOrNif(teacherID, nif));
     }
 }
