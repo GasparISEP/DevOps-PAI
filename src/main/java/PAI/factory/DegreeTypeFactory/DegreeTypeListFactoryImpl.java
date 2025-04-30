@@ -16,6 +16,6 @@ public class DegreeTypeListFactoryImpl implements IDegreeTypeListFactory {
 
     @Override
     public List<DegreeType> createFromExisting(List<DegreeType> existing) {
-        return new ArrayList<>(existing); // cópia mutável
+        return new ArrayList<>(existing);
     }
 }
