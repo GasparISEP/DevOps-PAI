@@ -30,6 +30,9 @@ public class StudentServiceImpl implements IStudentService{
 
         Student student = _studentFactory.newStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, academicEmail);
 
+        if(_studentRepository.existsByStudentIDOrNIF(studentID, nif))
+            throw new Exception ("Student with this information is already registered!");
+
         return _studentRepository.save(student);
     }
 }
