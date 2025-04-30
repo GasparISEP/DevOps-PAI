@@ -452,7 +452,8 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+        IProgrammeEnrolmentRepository peRepository = mock(IProgrammeEnrolmentRepository.class);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl(peRepository);
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory,programmeEnrolmentList);
 

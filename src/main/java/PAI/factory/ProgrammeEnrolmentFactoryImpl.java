@@ -1,17 +1,33 @@
 package PAI.factory;
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
+import PAI.repository.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProgrammeEnrolmentFactoryImpl implements IProgrammeEnrolmentFactory {
 
+    private IProgrammeEnrolmentRepository programmeEnrolmentRepository;
+
+    public ProgrammeEnrolmentFactoryImpl(IProgrammeEnrolmentRepository peRepository){
+        if (peRepository == null){
+            throw new IllegalArgumentException("Repository cannot be null.");
+        }
+
+        programmeEnrolmentRepository = peRepository;
+    }
+
     public ProgrammeEnrolment createProgrammeEnrolment (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws IllegalArgumentException {
 
-        return new ProgrammeEnrolment(studentID, accessMethodID, programmeID, date);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, date);
+
+        ProgrammeEnrolmentID programmeEnrolmentID = programmeEnrolment.getProgrammeEnrolmentID();
+
+        if(programmeEnrolmentRepository.containsOfIdentity(programmeEnrolmentID)){
+            throw new IllegalArgumentException("Programme Enrolment already exists.");
+        }
+
+        return programmeEnrolment;
     }
 }

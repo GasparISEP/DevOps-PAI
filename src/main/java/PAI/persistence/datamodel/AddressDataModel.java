@@ -6,13 +6,13 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class AddressDataModel {
 
-    @Column(name = "Street")
+    @Column(name = "Street", nullable = false)
     private String street;
-    @Column(name = "PostalCode")
+    @Column(name = "PostalCode", nullable = false)
     private String postalCode;
-    @Column(name = "Location")
+    @Column(name = "Location", nullable = false)
     private String location;
-    @Column(name = "Country")
+    @Column(name = "Country", nullable = false)
     private String country;
 
     public AddressDataModel () {}
