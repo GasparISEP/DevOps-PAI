@@ -7,10 +7,8 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
-import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,10 +16,10 @@ import java.util.Optional;
 @Component
 public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
-    private IProgrammeEditionFactory _programmeEditionFactory;
-    private IProgrammeEditionIdMapper _programmeEditionIDMapper;
-    private IProgrammeIDMapper _programmeIDMapper;
-    private ISchoolYearIDMapper _schoolYearIDMapper;
+    private IProgrammeEditionFactory programmeEditionFactory;
+    private IProgrammeEditionIdMapper programmeEditionIDMapper;
+    private IProgrammeIDMapper programmeIDMapper;
+    private ISchoolYearIDMapper schoolYearIDMapper;
 
     public ProgrammeEditionMapperImpl(IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionIdMapper programmeEditionIDMapper,
                                       IProgrammeIDMapper programmeIDMapper, ISchoolYearIDMapper schoolYearIDMapper){
@@ -37,10 +35,10 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
         if(schoolYearIDMapper == null){
             throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
         }
-        this._programmeEditionFactory = programmeEditionFactory;
-        this._programmeEditionIDMapper = programmeEditionIDMapper;
-        this._programmeIDMapper = programmeIDMapper;
-        this._schoolYearIDMapper = schoolYearIDMapper;
+        this.programmeEditionFactory = programmeEditionFactory;
+        this.programmeEditionIDMapper = programmeEditionIDMapper;
+        this.programmeIDMapper = programmeIDMapper;
+        this.schoolYearIDMapper = schoolYearIDMapper;
     }
 
     @Override
@@ -48,11 +46,9 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
         if(programmeEdition == null) {
             return Optional.empty();
         }
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIDMapper.toDataModel(programmeEdition.identity());
-        ProgrammeIDDataModel programmeIDDataModel = _programmeIDMapper.toData(programmeEdition.findProgrammeIDInProgrammeEdition());
-        SchoolYearIDDataModel schoolYearIDDataModel = _schoolYearIDMapper.toDataModel(programmeEdition.findSchoolYearIDInProgrammeEdition());
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDMapper.toDataModel(programmeEdition.identity());
 
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel);
         return Optional.of(programmeEditionDataModel);
     }
 
@@ -61,11 +57,11 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
         if(programmeEditionDataModel == null) {
             return Optional.empty();
         }
-        ProgrammeEditionID programmeEditionID = _programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
-        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeIDDataModel());
-        SchoolYearID schoolYearID = _schoolYearIDMapper.toDomain(programmeEditionDataModel.getSchoolYearIDDataModel());
+        ProgrammeEditionID programmeEditionID = programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
+        ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel());
+        SchoolYearID schoolYearID = schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel());
 
-        ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
         return Optional.of(programmeEdition);
     }
 }

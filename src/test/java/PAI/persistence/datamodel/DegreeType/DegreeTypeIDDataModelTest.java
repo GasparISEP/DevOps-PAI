@@ -2,6 +2,8 @@ package PAI.persistence.datamodel.DegreeType;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DegreeTypeIDDataModelTest {
@@ -51,5 +53,13 @@ class DegreeTypeIDDataModelTest {
     void testEqualsWithNull() {
         DegreeTypeIDDataModel id = new DegreeTypeIDDataModel("abc-123");
         assertNotEquals(id, null);
+    }
+
+    @Test
+    void testHashCodeExactValue() {
+        DegreeTypeIDDataModel id = new DegreeTypeIDDataModel("abc-123");
+        int expectedHash = Objects.hash("abc-123");
+
+        assertEquals(expectedHash, id.hashCode(), "HashCode should match calculated value");
     }
 }

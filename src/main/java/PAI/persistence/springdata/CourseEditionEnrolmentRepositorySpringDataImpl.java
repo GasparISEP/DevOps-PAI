@@ -15,8 +15,10 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -74,6 +76,24 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
         }
     }
 
+
+    @Override
+    public Set<CourseEditionEnrolment> getInternalSet() {
+        Set<CourseEditionEnrolment> internalSet = new HashSet<>();
+
+        try {
+            Iterable<CourseEditionEnrolmentDataModel> dataModels = iCEERepoSpringData.findAll();
+
+            for (CourseEditionEnrolmentDataModel dataModel : dataModels) {
+                Optional<CourseEditionEnrolment> domainEntity = iCEEMapper.toDomain(dataModel);
+                domainEntity.ifPresent(internalSet::add);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving the set of course edition enrolments", e);
+        }
+
+        return internalSet;
+    }
 
 
     @Override

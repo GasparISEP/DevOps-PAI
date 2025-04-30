@@ -22,11 +22,11 @@ import java.util.Optional;
 @Repository
 public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditionRepository {
 
-    private final IProgrammeEditionRepositorySpringData _iProgrammeEditionRepositorySpringData;
-    private final IProgrammeEditionMapper _iProgrammeEditionMapper;
-    private final IProgrammeEditionIdMapper _iProgrammeEditionIdMapper;
-    private final IProgrammeIDMapper _iProgrammeIDMapper;
-    private final ISchoolYearIDMapper _iSchoolYearIDMapper;
+    private final IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData;
+    private final IProgrammeEditionMapper iProgrammeEditionMapper;
+    private final IProgrammeEditionIdMapper iProgrammeEditionIdMapper;
+    private final IProgrammeIDMapper iProgrammeIDMapper;
+    private final ISchoolYearIDMapper iSchoolYearIDMapper;
 
     public ProgrammeEditionRepositorySpringDataImpl(
             IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData, IProgrammeEditionMapper iProgrammeEditionMapper,
@@ -47,11 +47,11 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         if(iSchoolYearIDMapper == null) {
             throw new IllegalArgumentException("SchoolYearIDMapper cannot be null");
         }
-        this._iProgrammeEditionRepositorySpringData = iProgrammeEditionRepositorySpringData;
-        this._iProgrammeEditionMapper = iProgrammeEditionMapper;
-        this._iProgrammeEditionIdMapper = iProgrammeEditionIdMapper;
-        this._iProgrammeIDMapper = iProgrammeIDMapper;
-        this._iSchoolYearIDMapper = iSchoolYearIDMapper;
+        this.iProgrammeEditionRepositorySpringData = iProgrammeEditionRepositorySpringData;
+        this.iProgrammeEditionMapper = iProgrammeEditionMapper;
+        this.iProgrammeEditionIdMapper = iProgrammeEditionIdMapper;
+        this.iProgrammeIDMapper = iProgrammeIDMapper;
+        this.iSchoolYearIDMapper = iSchoolYearIDMapper;
     }
 
     @Override
@@ -62,13 +62,13 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         if(schoolYearid == null) {
             return Optional.empty();
         }
-        ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
-        SchoolYearIDDataModel schoolYearIDDataModel = _iSchoolYearIDMapper.toDataModel(schoolYearid);
+        ProgrammeIDDataModel programmeIDDataModel = iProgrammeIDMapper.toData(programmeid);
+        SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearid);
         Optional<ProgrammeEditionIdDataModel> programmeEditionIDDataModelOptional =
-                _iProgrammeEditionRepositorySpringData.findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDatasModels(programmeIDDataModel, schoolYearIDDataModel);
+                iProgrammeEditionRepositorySpringData.findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDatasModels(programmeIDDataModel, schoolYearIDDataModel);
         if(programmeEditionIDDataModelOptional.isPresent()) {
             ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDDataModelOptional.get();
-            return Optional.of(_iProgrammeEditionIdMapper.toDomain(programmeEditionIdDataModel));
+            return Optional.of(iProgrammeEditionIdMapper.toDomain(programmeEditionIdDataModel));
         }
         return Optional.empty();
     }
@@ -79,10 +79,10 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             return null;
         }
         try {
-            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(entity);
+            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = iProgrammeEditionMapper.toDataModel(entity);
             if (programmeEditionDataModel.isPresent()) {
-                _iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel.get());
-                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
+                iProgrammeEditionRepositorySpringData.save(programmeEditionDataModel.get());
+                Optional<ProgrammeEdition> programmeEdition = iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
                 if(programmeEdition.isPresent()) {
                     return programmeEdition.get();
                 }
@@ -96,10 +96,10 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     @Override
     public Iterable<ProgrammeEdition> findAll() {
         List<ProgrammeEdition> programmeEditions = new ArrayList<>();
-        List<ProgrammeEditionDataModel> programmeEditionDataModels = _iProgrammeEditionRepositorySpringData.findAll();
+        List<ProgrammeEditionDataModel> programmeEditionDataModels = iProgrammeEditionRepositorySpringData.findAll();
         for(ProgrammeEditionDataModel programmeEditionDataModel : programmeEditionDataModels) {
             try {
-                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
+                Optional<ProgrammeEdition> programmeEdition = iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
                 programmeEdition.ifPresent(programmeEditions::add);
             } catch (Exception e) {
                 return null;
@@ -114,10 +114,10 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             return Optional.empty();
         }
         try {
-            ProgrammeEditionIdDataModel programmeEditionIdDataModel = _iProgrammeEditionIdMapper.toDataModel(id);
-            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionRepositorySpringData.findById(programmeEditionIdDataModel);
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = iProgrammeEditionIdMapper.toDataModel(id);
+            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = iProgrammeEditionRepositorySpringData.findById(programmeEditionIdDataModel);
             if(programmeEditionDataModel.isPresent()) {
-                return _iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
+                return iProgrammeEditionMapper.toDomain(programmeEditionDataModel.get());
             }
         } catch (Exception e) {
             return Optional.empty();
@@ -131,7 +131,7 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             return false;
         }
         try {
-            return _iProgrammeEditionRepositorySpringData.existsById(_iProgrammeEditionIdMapper.toDataModel(id));
+            return iProgrammeEditionRepositorySpringData.existsById(iProgrammeEditionIdMapper.toDataModel(id));
         } catch (Exception e) {
             return false;
         }
@@ -144,34 +144,16 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         }
 
         try {
-            ProgrammeIDDataModel programmeIDDataModel = _iProgrammeIDMapper.toData(programmeid);
+            ProgrammeIDDataModel programmeIDDataModel = iProgrammeIDMapper.toData(programmeid);
             List<ProgrammeEditionDataModel> programmeEditionDataModels =
-                    _iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel);
+                    iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(programmeIDDataModel);
 
             List<ProgrammeEdition> programmeEditions = new ArrayList<>();
             for (ProgrammeEditionDataModel programmeEditionDataModel : programmeEditionDataModels) {
-                Optional<ProgrammeEdition> programmeEdition = _iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
+                Optional<ProgrammeEdition> programmeEdition = iProgrammeEditionMapper.toDomain(programmeEditionDataModel);
                 programmeEdition.ifPresent(programmeEditions::add);
             }
             return programmeEditions;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
-    public SchoolYearID getSchoolYearIDByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        if (programmeEdition == null) {
-            return null;
-        }
-
-        try {
-            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(programmeEdition);
-            if (programmeEditionDataModel.isPresent()) {
-                SchoolYearIDDataModel schoolYearIDDataModel = programmeEditionDataModel.get().getSchoolYearIDDataModel();
-                return _iSchoolYearIDMapper.toDomain(schoolYearIDDataModel);
-            }
-            return null;
         } catch (Exception e) {
             return null;
         }

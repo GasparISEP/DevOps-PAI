@@ -71,7 +71,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) {
         List <Programme> programmeList = new ArrayList<>();
         for (Programme programme : _programmeRepository.findAll()) {
-            if (programme.getDegreeTypeID().equals(id))
+            if (programme.hasThisDegreeTypeID(id))
                 programmeList.add(programme);
         }
         return programmeList;
@@ -86,13 +86,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return Optional.empty();
     }
 
-    public Programme getProgrammeByAcronym(Acronym acronym) {
+    public Optional<Programme> getProgrammeByAcronym(Acronym acronym) {
         for (Programme programme : _programmeRepository.findAll()) {
             if (programme.getAcronym().equals(acronym)) {
-                return programme;
+                return Optional.of(programme);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<ProgrammeID> getAllProgrammeIDs() {
@@ -122,12 +122,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             return false;
         }
         for (Programme existingProgramme : _programmeRepository.findAll()) {
-            if (existingProgramme.identity().getName().equals(name) || existingProgramme.identity().getAcronym().equals(acronym)) {
+            if (existingProgramme.identity().hasThisName(name) || existingProgramme.identity().hasThisAcronym(acronym)) {
                 return true;
             }
         }
         return false;
     }
+
 
 
 

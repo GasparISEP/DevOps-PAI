@@ -79,9 +79,14 @@ class DegreeTypeRepositoryImplTest {
 
     @Test
     void testOfIdentity_WhenNotExists() {
-        DegreeTypeID id = new DegreeTypeID("NON_EXISTENT");
 
-        Optional<DegreeType> found = repository.ofIdentity(id);
+        DegreeTypeID existingId = new DegreeTypeID("EXISTENT");
+        DegreeType existing = new DegreeType(existingId, new Name("Licenciatura"), new MaxEcts(180));
+        repository.save(existing);
+
+
+        DegreeTypeID nonExistentId = new DegreeTypeID("NON_EXISTENT");
+        Optional<DegreeType> found = repository.ofIdentity(nonExistentId);
 
         assertTrue(found.isEmpty());
     }

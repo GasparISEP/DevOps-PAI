@@ -300,7 +300,7 @@ class TeacherRepositorySpringDataImplTest {
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(teacherIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
-        when(iTeacherRepoSpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel)).thenReturn(false);
+        when(iTeacherRepoSpringData.existsByIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(false);
 
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);
@@ -320,7 +320,7 @@ class TeacherRepositorySpringDataImplTest {
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(teacherIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
-        when(iTeacherRepoSpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel)).thenReturn(true);
+        when(iTeacherRepoSpringData.existsByIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(true);
 
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);

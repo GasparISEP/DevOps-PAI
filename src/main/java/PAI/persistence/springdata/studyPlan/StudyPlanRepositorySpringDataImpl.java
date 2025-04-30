@@ -7,11 +7,13 @@ import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class StudyPlanRepositorySpringDataImpl implements IStudyPlanRepository {
 
     private final IStudyPlanRepositorySpringData iStudyPlanRepositorySpringData;

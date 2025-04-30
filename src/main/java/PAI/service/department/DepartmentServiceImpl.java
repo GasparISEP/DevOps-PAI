@@ -7,10 +7,7 @@ import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
-
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -46,8 +43,20 @@ public class DepartmentServiceImpl implements IDepartmentService {
         return true;
     }
 
-    public boolean updateOfDepartmentDirector(DepartmentID departmentID, TeacherID furtherDirectorID) {
-        return _departmentRepo.updateOfDepartmentDirector(departmentID,furtherDirectorID);
+    public boolean updateOfDepartmentDirector(DepartmentID departmentID, TeacherID furtherDirectorID) throws Exception {
+        if(furtherDirectorID == null){
+            throw new IllegalArgumentException("Teacher ID cannot be null.");
+        }
+        if(departmentID == null){
+            throw new IllegalArgumentException("Department ID cannot be null.");
+        }
+        Optional<Department> opDepartment = _departmentRepo.findDepartmentByID(departmentID);
+        if (opDepartment.isEmpty()) {
+            return false;
+        }
+        Department department = opDepartment.get();
+        _departmentRepo.save(department);
+        return true;
     }
 
     public boolean containsOfIdentity(DepartmentID id) {

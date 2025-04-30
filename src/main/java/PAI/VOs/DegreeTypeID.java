@@ -9,12 +9,10 @@ public class DegreeTypeID implements DomainId {
 
     private final String _dtID;
 
-    // Construtor que gera automaticamente um UUID
     public DegreeTypeID() {
         this._dtID = UUID.randomUUID().toString();
     }
 
-    // Construtor que aceita um ID explícito (por ex., ao reconstruir do repositório)
     public DegreeTypeID(String dtID) {
         if (dtID == null || dtID.isBlank()) {
             throw new IllegalArgumentException("ID cannot be null or blank.");
