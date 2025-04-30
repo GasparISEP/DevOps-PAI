@@ -63,6 +63,9 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
     public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme, SchoolYearID sYID) throws Exception {
 
+        if(programme == null){
+            throw new Exception("Programme cannot be null");
+        }
         if(sYID == null){
             throw new Exception("School Year ID cannot be null");
         }
