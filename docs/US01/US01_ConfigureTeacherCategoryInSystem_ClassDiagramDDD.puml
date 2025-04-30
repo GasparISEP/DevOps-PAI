@@ -1,131 +1,116 @@
 @startuml
-
 skinparam ranksep 180
 skinparam linetype ortho
 skinparam nodesep 180
+'================================================================
+' DDD Base Interfaces
+'================================================================
+package PAI.ddd {
+  interface "AggregateRoot<T>" <<DDD>>
+  interface "ValueObject"     <<DDD>>
+  interface "DomainId"        <<DDD>>
+  interface "IRepository<ID, T>" <<DDD>>
+}
 
-package "PAI" {
-
-  ' ======= DDD Base Interfaces =======
-  interface "<<DDD>>\nAggregateRoot<ID>" as IAggregateRoot
-  interface "<<DDD>>\nDomainEntity<ID>" as IDomainEntity
-  interface "<<DDD>>\nValueObject" as IValueObject
-  interface "<<DDD>>\nDomainId" as IDomainId
-  interface "<<DDD>>\nIRepository<ID, T>" as IRepository
-
-  ' ======= AGGREGATE =======
-  package "domain" {
-    entity "<<Root>>\n<<Aggregate>>\nTeacherCategory" as TCA {
-      + TeacherCategory(id: TeacherCategoryID, name: Name)
-      + getId(): TeacherCategoryID
-      + getName(): Name
-      + getIdValue(): UUID
-      + getNameValue(): String
-      + identity(): TeacherCategoryID
-      + sameAs(Object obj): boolean
-      + equals(Object obj): boolean
-      + hashCode(): int
-    }
+'================================================================
+' Value Objects
+'================================================================
+package PAI.VOs {
+  class "Name" <<ValueObject>> {
+    - _name: String
+    + Name(name: String)
+    + getName(): String
+    + equals(o: Object): boolean
+    + hashCode(): int
   }
 
-  ' ======= VALUE OBJECTS =======
-  package "VOs" {
-    class "<<Value Object>>\nName" as VOName {
-      - _name: String
-      + Name(String name)
-      + getName(): String
-      + equals(Object obj): boolean
-      + hashCode(): int
-    }
-
-    class "<<Value Object>>\nTeacherCategoryID" as VOId {
-      - value: UUID
-      + TeacherCategoryID(UUID value)
-      + getValue(): UUID
-      + equals(Object obj): boolean
-      + hashCode(): int
-    }
-
-    VOId ..|> IDomainId
-    VOId ..|> IValueObject
-    VOName ..|> IValueObject
-  }
-
-  ' Associations
-  TCA "1" --> "1" VOName : uses
-  TCA "1" --> "1" VOId : uses
-  TCA ..|> IAggregateRoot
-  TCA ..|> IDomainEntity
-
-  ' ======= FACTORY =======
-  package "factory" {
-    interface "<<Factory>>\nITeacherCategoryFactory" as IFactory {
-      + createTeacherCategory(name: Name): TeacherCategory
-    }
-
-    class "TeacherCategoryFactoryImpl" as FactoryImpl {
-      + createTeacherCategory(name: Name): TeacherCategory
-    }
-
-    IFactory <|.. FactoryImpl
-    FactoryImpl --> TCA : creates
-    FactoryImpl --> VOName : uses
-    FactoryImpl --> VOId : generates
-
-    interface "<<List Factory>>\nITeacherCategoryListFactory" as IListFactory {
-      + getTeacherCategoryList(): List<TeacherCategory>
-    }
-
-    class "TeacherCategoryListFactoryImpl" as ListFactoryImpl {
-      + getTeacherCategoryList(): List<TeacherCategory>
-    }
-
-    IListFactory <|.. ListFactoryImpl
-  }
-
-  ' ======= REPOSITORY =======
-  package "repository" {
-    interface "<<Repository>>\nITeacherCategoryRepository" as IRepo {
-      + save(category: TeacherCategory): TeacherCategory
-      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
-      + containsOfIdentity(id: TeacherCategoryID): boolean
-      + findAll(): Iterable<TeacherCategory>
-      + existsByName(name: Name): boolean
-      + registerTeacherCategory(name: Name): boolean
-      + getTeacherCategoryList(): List<TeacherCategory>
-      + findByName(name: Name): Optional<TeacherCategory>
-      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
-    }
-
-    class "TeacherCategoryRepositoryImpl" as RepoImpl {
-      + save(category: TeacherCategory): TeacherCategory
-      + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
-      + containsOfIdentity(id: TeacherCategoryID): boolean
-      + findAll(): Iterable<TeacherCategory>
-      + existsByName(name: Name): boolean
-      + registerTeacherCategory(name: Name): boolean
-      + getTeacherCategoryList(): List<TeacherCategory>
-      + findByName(name: Name): Optional<TeacherCategory>
-      + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
-    }
-
-    IRepository <|.. IRepo
-    IRepo <|.. RepoImpl
-
-    RepoImpl --> TCA : stores
-    RepoImpl --> VOId : looks up
-    RepoImpl --> IFactory : uses
-    RepoImpl --> IListFactory : uses
-  }
-
-  ' ======= CONTROLLER =======
-  package "controller" {
-    class "US01_ConfigureTeacherCategoryController" as Controller {
-      + configureTeacherCategory(categoryName: String): boolean
-    }
-
-    Controller --> IRepo : registerTeacherCategory(name)
+  class "TeacherCategoryID" <<ValueObject>> <<DomainId>> {
+    - value: UUID
+    + TeacherCategoryID()
+    + TeacherCategoryID(value: UUID)
+    + getValue(): UUID
+    + equals(o: Object): boolean
+    + hashCode(): int
   }
 }
 
+'================================================================
+' Domain Aggregate
+'================================================================
+package PAI.domain {
+  class "TeacherCategory" <<Aggregate>> <<Root>> {
+    - id: TeacherCategoryID
+    - name: Name
+    + TeacherCategory(id: TeacherCategoryID, name: Name)
+    + getId(): TeacherCategoryID
+    + getName(): Name
+    + getIdValue(): UUID
+    + getNameValue(): String
+    + identity(): TeacherCategoryID
+    + sameAs(o: Object): boolean
+    + equals(o: Object): boolean
+    + hashCode(): int
+    + toString(): String
+  }
+
+  TeacherCategory ..|> AggregateRoot
+  TeacherCategory "1" --> "1" Name
+  TeacherCategory "1" --> "1" TeacherCategoryID
+}
+
+'================================================================
+' Factory
+'================================================================
+package PAI.factory {
+  interface "ITeacherCategoryFactory" <<Factory>> {
+    + createTeacherCategory(name: Name): TeacherCategory
+  }
+
+  class "TeacherCategoryFactoryImpl" {
+    + createTeacherCategory(name: Name): TeacherCategory
+  }
+
+  ITeacherCategoryFactory <|.. TeacherCategoryFactoryImpl
+  TeacherCategoryFactoryImpl --> TeacherCategory
+  TeacherCategoryFactoryImpl --> Name
+  TeacherCategoryFactoryImpl --> TeacherCategoryID
+}
+
+'================================================================
+' Repository
+'================================================================
+package PAI.repository {
+  interface "ITeacherCategoryRepository" <<Repository>> {
+    + registerTeacherCategory(name: Name): boolean
+    + existsByName(name: Name): boolean
+    + save(category: TeacherCategory): TeacherCategory
+  }
+
+  class "TeacherCategoryRepositoryImpl" {
+    - factory: ITeacherCategoryFactory
+    + TeacherCategoryRepositoryImpl(factory: ITeacherCategoryFactory)
+    + registerTeacherCategory(name: Name): boolean
+    + existsByName(name: Name): boolean
+    + save(category: TeacherCategory): TeacherCategory
+  }
+
+  IRepository <|.. ITeacherCategoryRepository
+  ITeacherCategoryRepository <|.. TeacherCategoryRepositoryImpl
+  TeacherCategoryRepositoryImpl --> ITeacherCategoryFactory
+  TeacherCategoryRepositoryImpl --> TeacherCategory
+  TeacherCategoryRepositoryImpl --> TeacherCategoryID
+}
+
+'================================================================
+' Controller
+'================================================================
+package PAI.controller {
+  class "US01_ConfigureTeacherCategoryController" {
+    - repository: ITeacherCategoryRepository
+    + US01_ConfigureTeacherCategoryController(repository: ITeacherCategoryRepository)
+    + configureTeacherCategory(categoryName: String): boolean
+  }
+
+  US01_ConfigureTeacherCategoryController --> ITeacherCategoryRepository
+}
 @enduml
