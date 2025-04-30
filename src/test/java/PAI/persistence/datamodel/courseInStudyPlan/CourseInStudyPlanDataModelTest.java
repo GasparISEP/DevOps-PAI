@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.courseInStudyPlan;
 
+import PAI.VOs.CourseID;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -158,4 +159,25 @@ class CourseInStudyPlanDataModelTest {
         );
     }
 
+    @Test
+    void hashCodeShouldDifferForDifferentEmbeddedId() {
+
+        CourseIDDataModel courseIDDataModel1 = mock(CourseIDDataModel.class);
+        StudyPlanIDDataModel studyPlanIDDataModel1 = mock(StudyPlanIDDataModel.class);
+
+        CourseIDDataModel courseIDDataModel2 = mock(CourseIDDataModel.class);
+        StudyPlanIDDataModel studyPlanIDDataModel2 = mock(StudyPlanIDDataModel.class);
+
+        CourseInStudyPlanIDDataModel id1 = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel1, courseIDDataModel1);
+        CourseInStudyPlanIDDataModel id2 = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel2, courseIDDataModel2);
+
+        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
+                id1, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
+        );
+        CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
+                id2, mock(StudyPlanIDDataModel.class), mock(CourseIDDataModel.class), 1, 1, 1, 1.0
+        );
+
+        assertNotEquals(m1.hashCode(), m2.hashCode());
+    }
 }
