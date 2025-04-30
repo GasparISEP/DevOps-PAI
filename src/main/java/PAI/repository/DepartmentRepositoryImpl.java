@@ -12,11 +12,9 @@ import PAI.factory.IDepartmentListFactory;
 public class DepartmentRepositoryImpl implements IDepartmentRepository{
 
     private final Set<Department> _departments;
-    private final IDepartmentFactory _departmentFactory;
 
     //constructor
-    public DepartmentRepositoryImpl(IDepartmentFactory iDepartmentFactory, IDepartmentListFactory iDepartmentListFactory) {
-        _departmentFactory = iDepartmentFactory;
+    public DepartmentRepositoryImpl(IDepartmentListFactory iDepartmentListFactory) {
         _departments = iDepartmentListFactory.newDepartmentList();
     }
 
