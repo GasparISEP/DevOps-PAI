@@ -1,16 +1,18 @@
 @startuml
-participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
-activate Controller
 participant ":IProgrammeEditionRepository" as ProgrammeEditionRepository
-Controller -> ProgrammeEditionRepository : findProgrammeEditionIDProgrammeIDAndSchoolYearID(programmeID, schoolYearID)
-activate ProgrammeEditionRepository
-participant ":ProgrammeEdition" as ProgrammeEdition
-loop for each "pe[i]:ProgrammeEditionRepository" as ProgrammeEditionRepository
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findProgrammeIDInProgrammeEdition(programmeID)
-ProgrammeEditionRepository -> ProgrammeEdition : programmeEditionID : findSchoolYearIDInProgrammeEdition(schoolYearID)
-ProgrammeEdition --> ProgrammeEditionRepository : peID
+participant ":IProgrammeEditionRepositorySpringData" as ProgrammeEditionRepositorySpringData
+
+
+ProgrammeEditionRepository -> ProgrammeEditionRepositorySpringData : findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearID\nDatasModels(programmeIDDataModel, schoolYearIDDataModel)
+activate ProgrammeEditionRepositorySpringData
+ProgrammeEditionRepositorySpringData --> ProgrammeEditionRepository : ProgrammeEditionIDDataModel
+deactivate ProgrammeEditionRepositorySpringData
+
+alt ID found
+    ProgrammeEditionRepository -> ProgrammeEditionIDDataModel : map(programmeEditionIdDataModel)
+    activate ProgrammeEditionIDDataModel
+    ProgrammeEditionIDDataModel --> ProgrammeEditionRepository : ProgrammeEditionID
+    deactivate ProgrammeEditionIDDataModel
+
 end
-ProgrammeEditionRepository --> Controller :  peID
-deactivate ProgrammeEditionRepository
-deactivate Controller
 @enduml
