@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.persistence.mem.department;
 import PAI.VOs.DepartmentID;
 import PAI.ddd.IRepository;
 import PAI.domain.Department;

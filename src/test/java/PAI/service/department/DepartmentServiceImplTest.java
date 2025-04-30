@@ -6,7 +6,7 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
 import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
-import PAI.repository.IDepartmentRepository;
+import PAI.persistence.mem.department.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

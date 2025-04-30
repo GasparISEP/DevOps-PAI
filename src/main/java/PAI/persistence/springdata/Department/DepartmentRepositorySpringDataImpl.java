@@ -7,8 +7,7 @@ import PAI.mapper.department.IDepartmentMapper;
 
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.repository.IDepartmentRepository;
-import jakarta.transaction.Transactional;
+import PAI.persistence.mem.department.IDepartmentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -27,7 +26,6 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
         this.departmentMapper = departmentMapper;
     }
     @Override
-    @Transactional
     public Department save(Department department) {
         try {
             DepartmentDataModel departmentDataModel = departmentMapper.toDataModel(department);

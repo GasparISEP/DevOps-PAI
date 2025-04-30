@@ -1,9 +1,8 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.IDepartmentRepository;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.IDepartmentRepository;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import org.junit.jupiter.api.Test;
@@ -138,17 +137,7 @@ void shouldReturnTrueIfUpdateOfDirectorSucessfull () throws Exception {
 
     TeacherAcronym tAcronym = new TeacherAcronym("POB");
     TeacherID teacherID = new TeacherID(tAcronym);
-    Name name = new Name("John Doe");
-    Email email = new Email("john@doe.com");
-    PAI.VOs.Location location = new PAI.VOs.Location("Porto");
-    Street street = new Street("123 street");
-    PostalCode postalCode = new PostalCode("12345");
-    Country country = new Country("Portugal");
-    Address address = new Address(street, postalCode,location,country);
-
-    NIF nif = new NIF("123431123",country);
-    PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
-    AcademicBackground  academicBackground= new AcademicBackground("Doctor");
+    Name name = new Name("Department");
 
     DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
     DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();

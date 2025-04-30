@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.persistence.mem.department;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
 import PAI.domain.Department;
@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import PAI.factory.IDepartmentFactory;
+
 import PAI.factory.IDepartmentListFactory;
 
 public class DepartmentRepositoryImpl implements IDepartmentRepository{
@@ -51,7 +51,7 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository{
         }
 
         Optional<Department> departmentOptional = ofIdentity(departmentID);
-        if (!departmentOptional.isPresent()) {
+        if (departmentOptional.isEmpty()) {
             return false;
         }
 

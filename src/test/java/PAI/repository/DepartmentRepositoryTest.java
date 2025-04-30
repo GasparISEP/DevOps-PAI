@@ -3,6 +3,7 @@ import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.factory.IDepartmentListFactory;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -112,7 +113,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentIsNull() {
         // Arrange
-        IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
         DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
 
@@ -126,7 +126,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnTrueIfUpdateDepartmentDirector() {
         // Arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -152,7 +151,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfTeacherIDIsNull() {
         //arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -176,7 +174,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentIDIsNull() {
         //arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -202,7 +199,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfUpdateNotSuccessful() {
         //arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -228,7 +224,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseWhenDepartmentDoesNotExist() {
         // Arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -290,7 +285,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldFindDepartmentsByIdentity() {
         //arrange
-        IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
         DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
@@ -310,7 +304,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldCheckIfRepositoryContainsDepartmentByIdentity() {
         //arrange
-        IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
         DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
@@ -327,7 +320,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnEmptyOptionalIfDepartmentListIsEmpty() {
         // Arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -346,7 +338,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnEmptyOptionalIfDepartmentIDIsNull() {
         // Arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
@@ -364,7 +355,6 @@ class DepartmentRepositoryTest {
     @Test
     void shouldReturnFalseIfDepartmentListIsEmptyInContainsOfIdentity() {
         // Arrange
-        IDepartmentFactory factoryDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryDouble = mock(IDepartmentListFactory.class);
         Set<Department> departmentSet = new HashSet<>();
 
