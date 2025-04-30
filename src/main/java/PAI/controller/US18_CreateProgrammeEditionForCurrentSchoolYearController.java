@@ -73,8 +73,12 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         ProgrammeID pID = programme.identity();
 
         try {
-            ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(pID, sYID);
-            return programmeEdition != null;
+            ProgrammeEdition programmeEdition = _programmeEditionService.createProgrammeEdition(pID, sYID);
+            Optional<ProgrammeEdition> programmeEditionOptional = _programmeEditionService.saveProgrammeEdition(programmeEdition);
+            if(programmeEditionOptional.isPresent()){
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             return false;
         }

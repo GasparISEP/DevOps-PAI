@@ -9,6 +9,7 @@ import PAI.domain.CourseEdition;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
 import PAI.service.IStudentGradeService;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 

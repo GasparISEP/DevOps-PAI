@@ -44,4 +44,9 @@ public class ProgrammeEditionIdDataModel implements Serializable {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return this._programmeIDDataModel.hashCode() + this._schoolYearIDDataModel.hashCode();
+    }
 }

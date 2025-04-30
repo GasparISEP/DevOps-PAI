@@ -163,4 +163,27 @@ class StudyPlanDataModelTest {
 
     }
 
+    @Test
+    void testDifferentHashCode() throws Exception {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel1 = new ProgrammeIDDataModel("TROLHA", "TRO");
+        LocalDate date1 = LocalDate.of(2000, 3, 21);
+        StudyPlanIDDataModel id1 = new StudyPlanIDDataModel(programmeIDDataModel1, date1);
+
+        ProgrammeIDDataModel programmeIDDataModel2 = new ProgrammeIDDataModel("AJUDANTE", "AJU");
+        LocalDate date2 = LocalDate.of(1991, 3, 21);
+        StudyPlanIDDataModel id2 = new StudyPlanIDDataModel(programmeIDDataModel2, date2);
+
+        MaxEcts ects1 = new MaxEcts(180);
+        MaxEcts ects2 = new MaxEcts(200);
+
+        DurationInYears duration1 = new DurationInYears(3);
+        DurationInYears duration2 = new DurationInYears(4);
+
+        StudyPlanDataModel model1 = new StudyPlanDataModel(id1, ects1, duration1);
+        StudyPlanDataModel model2 = new StudyPlanDataModel(id2, ects2, duration2);
+
+        //act + assert
+        assertNotEquals(model1.hashCode(), model2.hashCode());
+    }
 }

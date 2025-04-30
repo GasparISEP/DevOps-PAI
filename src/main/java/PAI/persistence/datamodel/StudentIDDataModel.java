@@ -9,7 +9,6 @@ import java.util.Objects;
 @Embeddable
 public class StudentIDDataModel implements Serializable {
 
-    @Column(name = "StudentID")
     private int uniqueNumber;
 
     public StudentIDDataModel() {}
