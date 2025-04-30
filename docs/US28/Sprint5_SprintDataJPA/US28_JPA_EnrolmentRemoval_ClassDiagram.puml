@@ -71,16 +71,19 @@ interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
 interface IProgrammeEditionEnrolmentRepository <<Interface>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl <<Memory>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 class ProgrammeEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID):\n Optional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 interface IProgrammeEditionEnrolment\nRepositorySpringData <<Interface>> {
