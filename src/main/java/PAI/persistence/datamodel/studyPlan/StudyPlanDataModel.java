@@ -2,10 +2,7 @@ package PAI.persistence.datamodel.studyPlan;
 
 import PAI.VOs.DurationInYears;
 import PAI.VOs.MaxEcts;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,6 +12,10 @@ import java.util.Objects;
 public class StudyPlanDataModel {
 
     @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "programmeName", column = @Column(name = "programme_name", nullable = false)),
+            @AttributeOverride(name = "programmeAcronym", column = @Column(name = "programme_acronym", nullable = false))
+    })
     private StudyPlanIDDataModel _studyPlanIDDataModel;
 
     @Column(name = "maxECTS", nullable = false)
