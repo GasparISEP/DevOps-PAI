@@ -18,37 +18,21 @@ class TeacherAcademicEmailDataModelTest {
     @Test
     void testConstructor () {
         // Arrange + Act
-        String emailDomain = "@isep.ipp.pt";
         String teacherAcademicEmail = "jorgecarvalho95";
 
-        TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = new TeacherAcademicEmailDataModel(emailDomain, teacherAcademicEmail);
+        TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = new TeacherAcademicEmailDataModel(teacherAcademicEmail);
 
         // Assert
         assertNotNull(teacherAcademicEmailDataModel);
     }
 
-    @Test
-    void testGetEmailDomain() {
-        // Arrange
-        String emailDomain = "@isep.ipp.pt";
-        String teacherAcademicEmail = "jorgecarvalho95";
-
-        TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = new TeacherAcademicEmailDataModel(emailDomain, teacherAcademicEmail);
-
-        // Act
-        String result = teacherAcademicEmailDataModel.getEmailDomain();
-
-        // Assert
-        assertEquals("@isep.ipp.pt", result);
-    }
 
     @Test
     void testGetTeacherAcademicEmailDataModel() {
         // Arrange
-        String emailDomain = "@isep.ipp.pt";
         String teacherAcademicEmail = "jorgecarvalho95";
 
-        TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = new TeacherAcademicEmailDataModel(emailDomain, teacherAcademicEmail);
+        TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = new TeacherAcademicEmailDataModel(teacherAcademicEmail);
 
         // Act
         String result = teacherAcademicEmailDataModel.getTeacherAcademicEmail();

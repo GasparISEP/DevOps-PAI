@@ -27,14 +27,13 @@ class TeacherAcademicEmailMapperImplTest {
         //Arrange
         TeacherAcademicEmail teacherAcademicEmail = mock(TeacherAcademicEmail.class);
 
-        when(teacherAcademicEmail.getEmailDomain()).thenReturn("isep.ipp.pt");
+
         when(teacherAcademicEmail.getTeacherAcademicEmail()).thenReturn("abc@isep.ipp.pt");
 
         //Act
         TeacherAcademicEmailDataModel result = new TeacherAcademicEmailMapperImpl().toDataModel(teacherAcademicEmail);
 
         //Assert
-        assertEquals("isep.ipp.pt", result.getEmailDomain());
         assertEquals("abc@isep.ipp.pt", result.getTeacherAcademicEmail());
     }
 
@@ -56,7 +55,6 @@ class TeacherAcademicEmailMapperImplTest {
         TeacherAcademicEmailMapperImpl mapper = new TeacherAcademicEmailMapperImpl();
         TeacherAcademicEmailDataModel teacherAcademicEmailDataModelDouble = mock(TeacherAcademicEmailDataModel.class);
 
-        when(teacherAcademicEmailDataModelDouble.getEmailDomain()).thenReturn("isep.ipp.pt");
         when(teacherAcademicEmailDataModelDouble.getTeacherAcademicEmail()).thenReturn("ABC@isep.ipp.pt");
 
         TeacherAcronym teacherAcronymDouble = mock(TeacherAcronym.class);
@@ -66,7 +64,6 @@ class TeacherAcademicEmailMapperImplTest {
         TeacherAcademicEmail result = mapper.toDomain(teacherAcademicEmailDataModelDouble);
 
         //Assert
-        assertEquals("isep.ipp.pt", result.getEmailDomain());
         assertEquals("ABC@isep.ipp.pt", result.getTeacherAcademicEmail());
     }
 

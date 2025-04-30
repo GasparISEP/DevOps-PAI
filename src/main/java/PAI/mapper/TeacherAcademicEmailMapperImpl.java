@@ -12,10 +12,9 @@ public class TeacherAcademicEmailMapperImpl implements ITeacherAcademicEmailMapp
 
         if (teacherAcademicEmail == null) { return null; }
 
-        String domainEmail = teacherAcademicEmail.getEmailDomain();
         String AcademicEmail = teacherAcademicEmail.getTeacherAcademicEmail();
 
-        return new TeacherAcademicEmailDataModel(domainEmail, AcademicEmail);
+        return new TeacherAcademicEmailDataModel(AcademicEmail);
     }
 
     public TeacherAcademicEmail toDomain(TeacherAcademicEmailDataModel teacherAcademicEmailDataModel) throws IllegalArgumentException {

@@ -3,10 +3,11 @@ package PAI.persistence.datamodel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class TeacherIDDataModel {
+public class TeacherIDDataModel implements Serializable {
 
     @Column (name = "TeacherAcronym") // Does not need "nullable = false" because @EmbeddedId implies it cannot be null
     private String teacherAcronym;
