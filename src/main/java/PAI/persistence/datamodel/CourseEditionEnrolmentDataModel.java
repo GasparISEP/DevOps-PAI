@@ -56,7 +56,4 @@ public class CourseEditionEnrolmentDataModel {
         return Objects.hash(id);
     }
 
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
 }

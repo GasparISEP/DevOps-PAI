@@ -257,18 +257,5 @@ class CourseEditionEnrolmentDataModelTest {
         assertNotEquals(courseEditionEnrolmentDataModel2.hashCode(), result);
     }
 
-    @Test
-    void should_update_active_status_in_data_model() {
-        // arrange
-        CourseEditionEnrolmentIDDataModel id = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2024, 3, 10);
-        CourseEditionEnrolmentDataModel dataModel = new CourseEditionEnrolmentDataModel(id, enrolmentDate, true);
-
-        // act
-        dataModel.setActive(false);
-
-        // assert
-        assertFalse(dataModel.isActive());
-    }
 
 }
