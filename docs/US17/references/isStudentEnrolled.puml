@@ -1,18 +1,13 @@
 @startuml
-participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
-activate Controller
 participant ":IProgrammeEnrolmentRepository" as ProgrammeEnrolmentRepository
+participant ":ProgrammeEnrolment" as ProgrammeEnrolment
 
-'' Is Student Enrolled
+ProgrammeEnrolmentRepository -> ProgrammeEnrolmentRepository : findAll()
+ProgrammeEnrolmentRepository <-- ProgrammeEnrolmentRepository : EnrolmentList
 
-Controller -> ProgrammeEnrolmentRepository : isStudentEnrolled(studentID, programmeID)
-activate ProgrammeEnrolmentRepository
-participant "e[i]:ProgrammeEnrolment" as Enrolment
-loop for each "e[i]:ProgrammeEnrolment" as Enrolment
-ProgrammeEnrolmentRepository -> Enrolment : StudentID: hasSameStudent()
-ProgrammeEnrolmentRepository -> Enrolment : ProgrammeID: hasSameProgramme()
+loop for each ProgrammeEnrolment
+    ProgrammeEnrolmentRepository -> ProgrammeEnrolment : hasSameStudent(studentID)
+
+    ProgrammeEnrolmentRepository -> ProgrammeEnrolment : hasSameProgramme(programmeID)
 end
-deactivate Enrolment
-ProgrammeEnrolmentRepository --> Controller : True
-deactivate Controller
 @enduml
