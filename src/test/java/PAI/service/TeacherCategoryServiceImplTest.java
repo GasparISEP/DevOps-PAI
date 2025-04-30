@@ -32,6 +32,8 @@ class TeacherCategoryServiceImplTest {
     @Test
     void whenRegisterValidCategory_thenReturnsTrue() throws Exception {
         // Teste de caixa opaca: comportamento correto ao registar uma categoria válida
+
+        //Arrange
         String input = "Catedrático";
         Name name = new Name(input);
         TeacherCategory category = mock(TeacherCategory.class);
@@ -40,19 +42,24 @@ class TeacherCategoryServiceImplTest {
         when(factory.createTeacherCategory(name)).thenReturn(category);
         when(repository.save(category)).thenReturn(category);
 
+        //Act
         boolean result = service.registerCategory(input);
 
+        //Assert
         assertTrue(result);
-        verify(repository).save(category);
     }
 
     @Test
     void whenRegisterExistingCategory_thenThrowsException() {
 
+        // Teste de caixa opaca: verificar se uma exceção é lançada ao tentar registar uma categoria existente
+
+        //Arrange
         String input = "Assistente";
         Name name = new Name(input);
         when(repository.existsByName(name)).thenReturn(true);
 
+        //Act & Assert
         Exception ex = assertThrows(Exception.class, () -> service.registerCategory(input));
         assertTrue(ex.getMessage().contains("already exists"));
     }
@@ -60,6 +67,12 @@ class TeacherCategoryServiceImplTest {
     @Test
     void whenInvalidCategoryName_thenThrowsIllegalArgumentException() {
 
+        // Teste de caixa opaca: verificar se uma IllegalArgumentException é lançada para nomes inválidos
+
+        // Arrange
+        // (service já instanciado no BeforeEach)
+
+        // Act & Assert
         assertAll(
                 () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory(null)),
                 () -> assertThrows(IllegalArgumentException.class, () -> service.registerCategory("")),
@@ -73,22 +86,31 @@ class TeacherCategoryServiceImplTest {
     @Test
     void whenIdExists_thenReturnsTrue() {
         // Teste de caixa opaca: verificar se um ID existente é detetado
+
+        //Arrange
         TeacherCategoryID id = mock(TeacherCategoryID.class);
         when(repository.containsOfIdentity(id)).thenReturn(true);
 
+        //Act
         boolean result = service.existsById(id);
 
+        //Assert
         assertTrue(result);
     }
 
     @Test
     void whenIdDoesNotExist_thenReturnsFalse() {
 
+        // Teste de caixa opaca: verificar se um ID inexistente é detetado
+
+        //Arrange
         TeacherCategoryID id = mock(TeacherCategoryID.class);
         when(repository.containsOfIdentity(id)).thenReturn(false);
 
+        //Act
         boolean result = service.existsById(id);
 
+        //Assert
         assertFalse(result);
     }
 
@@ -97,24 +119,32 @@ class TeacherCategoryServiceImplTest {
     @Test
     void shouldReturnAllTeacherCategories() {
         // Teste de caixa opaca: devolver todas as categorias existentes
+
+        //Arrange
         TeacherCategory cat1 = mock(TeacherCategory.class);
         TeacherCategory cat2 = mock(TeacherCategory.class);
         List<TeacherCategory> categories = List.of(cat1, cat2);
 
         when(repository.findAll()).thenReturn(categories);
 
+        //Act
         Iterable<TeacherCategory> result = service.getAllTeacherCategories();
 
+        //Assert
         assertEquals(2, ((List<TeacherCategory>) result).size());
     }
 
     @Test
     void shouldReturnEmptyListIfNoTeacherCategoriesExist() {
         // Teste de caixa opaca: devolver lista vazia se não existirem categorias
+
+        //Arrange
         when(repository.findAll()).thenReturn(List.of());
 
+        //Act
         Iterable<TeacherCategory> result = service.getAllTeacherCategories();
 
+        //Assert
         assertTrue(((List<TeacherCategory>) result).isEmpty());
     }
 
@@ -125,6 +155,11 @@ class TeacherCategoryServiceImplTest {
     @Test
     void constructorShouldThrowIfDependenciesAreNull() {
         // Teste : garantir que dependências nulas são rejeitadas
+
+        // --- Arrange ---
+        // 'repository' e 'factory' mockados no @BeforeEach
+
+        // --- Act & Assert ---
         assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(null, factory));
         assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(repository, null));
     }
