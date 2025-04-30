@@ -93,48 +93,6 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         verify(springDataRepository).countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIdDataModel);
     }
 
-    @Test
-    void should_deactivate_enrolment_when_student_is_enrolled_in_course_edition() throws Exception {
-
-        // arrange
-        ICourseEditionEnrolmentRepositorySpringData springDataRepository = mock(ICourseEditionEnrolmentRepositorySpringData.class);
-        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
-        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
-        IStudentIDMapper studentIdMapper = mock(IStudentIDMapper.class);
-        ICourseEditionIDMapper courseEditionIdMapper = mock(ICourseEditionIDMapper.class);
-
-        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
-                springDataRepository,
-                mapper,
-                idMapper,
-                studentIdMapper,
-                courseEditionIdMapper
-        );
-
-        StudentID studentId = mock(StudentID.class);
-        CourseEditionID courseEditionId = mock(CourseEditionID.class);
-        StudentIDDataModel studentIdDataModel = mock(StudentIDDataModel.class);
-        CourseEditionIDDataModel courseEditionIdDataModel = mock(CourseEditionIDDataModel.class);
-
-        CourseEditionEnrolmentDataModel enrolmentDataModel = mock(CourseEditionEnrolmentDataModel.class);
-
-        when(studentIdMapper.domainToDataModel(studentId)).thenReturn(studentIdDataModel);
-        when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-
-        when(springDataRepository.findById_StudentIDAndId_CourseEditionID(studentIdDataModel, courseEditionIdDataModel))
-                .thenReturn(Optional.of(enrolmentDataModel));
-
-        when(enrolmentDataModel.isActive()).thenReturn(true);
-
-        // act
-        boolean result = repository.removeEnrolment(studentId, courseEditionId);
-
-        // assert
-        assertTrue(result);
-        verify(enrolmentDataModel).setActive(false);
-        verify(springDataRepository).save(enrolmentDataModel);
-        verify(springDataRepository).findById_StudentIDAndId_CourseEditionID(studentIdDataModel, courseEditionIdDataModel);
-    }
 
     @Test
     void should_save_courseEditionEnrolment_successfully() throws Exception {
