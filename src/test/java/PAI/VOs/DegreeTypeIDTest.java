@@ -2,6 +2,8 @@ package PAI.VOs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DegreeTypeIDTest {
@@ -87,5 +89,56 @@ class DegreeTypeIDTest {
         String str = id.toString();
         assertTrue(str.contains("visible-id"), "toString should include the ID");
         assertTrue(str.contains("DegreeTypeID"), "toString should contain class name");
+    }
+
+    @Test
+    void sameAsShouldReturnTrueForSameID() {
+        DegreeTypeID id1 = new DegreeTypeID("abc");
+        DegreeTypeID id2 = new DegreeTypeID("abc");
+
+        assertTrue(id1.sameAs(id2));
+    }
+
+    @Test
+    void sameAsShouldReturnFalseForDifferentIDs() {
+        DegreeTypeID id1 = new DegreeTypeID("abc");
+        DegreeTypeID id2 = new DegreeTypeID("xyz");
+
+        assertFalse(id1.sameAs(id2));
+    }
+
+    @Test
+    void sameAsShouldReturnFalseWhenOtherIsNull() {
+        DegreeTypeID id = new DegreeTypeID("abc");
+
+        assertFalse(id.sameAs(null));
+    }
+
+    @Test
+    void equalsShouldReturnFalseForDifferentType() {
+        DegreeTypeID id = new DegreeTypeID("abc");
+        assertNotEquals(id, "abc");
+    }
+
+    @Test
+    void hashCodeShouldMatchExpected() {
+        DegreeTypeID id = new DegreeTypeID("abc");
+        int expected = Objects.hash("abc");
+        assertEquals(expected, id.hashCode());
+    }
+
+    @Test
+    void toStringShouldReturnExpectedFormat() {
+        DegreeTypeID id = new DegreeTypeID("abc");
+        String result = id.toString();
+
+        assertTrue(result.contains("abc"));
+        assertTrue(result.contains("DegreeTypeID"));
+    }
+
+    @Test
+    void shouldReturnTrueWhenComparingSameInstance() {
+        DegreeTypeID id = new DegreeTypeID("same");
+        assertEquals(id, id, "equals should return true when comparing the same instance");
     }
 }

@@ -27,14 +27,11 @@ class DegreeTypeMapperTest {
     }
 
     @Test
-    void testToDataModel_withMocks() {
-        DegreeType degreeType = mock(DegreeType.class);
-        DegreeTypeID id = mock(DegreeTypeID.class);
+    void testToDataModel_withRealObjects() {
+        DegreeTypeID id = new DegreeTypeID("mock-id-123");
+        DegreeType degreeType = new DegreeType(id, new Name("MockName"), new MaxEcts(60));
 
-        when(degreeType.identity()).thenReturn(id);
         when(idMapper.toDataModel(id)).thenReturn(new DegreeTypeIDDataModel("mock-id-123"));
-        when(degreeType.getName()).thenReturn("MockName");
-        when(degreeType.getMaxEcts()).thenReturn(60);
 
         DegreeTypeDataModel result = mapper.toDataModel(degreeType);
 
@@ -45,22 +42,38 @@ class DegreeTypeMapperTest {
     }
 
     @Test
-    void testToDomainModel_withMocks() {
-        DegreeTypeDataModel dm = mock(DegreeTypeDataModel.class);
-
+    void testToDomainModel_withRealObjects() {
+        // Arrange
         DegreeTypeIDDataModel idDataModel = new DegreeTypeIDDataModel("mock-id-456");
+        DegreeTypeDataModel dm = new DegreeTypeDataModel(idDataModel, "AnotherMock", 90);
+
         DegreeTypeID domainID = new DegreeTypeID("mock-id-456");
-        DegreeType domain = mock(DegreeType.class);
+        Name name = new Name("AnotherMock");
+        MaxEcts ects = new MaxEcts(90);
+        DegreeType expected = new DegreeType(domainID, name, ects);
 
-        when(dm.getId()).thenReturn(idDataModel);
-        when(dm.getName()).thenReturn("AnotherMock");
-        when(dm.getMaxEcts()).thenReturn(90);
-        when(idMapper.toDomain(idDataModel)).thenReturn(domainID);
-        when(factory.recreate(eq(domainID), any(Name.class), any(MaxEcts.class))).thenReturn(domain);
+        IDegreeTypeIDMapper realIdMapper = new DegreeTypeIDMapper();
+        IDegreeTypeFactory realFactory = new IDegreeTypeFactory() {
+            @Override
+            public DegreeType create(Name name, MaxEcts maxEcts) {
+                return new DegreeType(new DegreeTypeID(), name, maxEcts);
+            }
 
+            @Override
+            public DegreeType recreate(DegreeTypeID id, Name name, MaxEcts maxEcts) {
+                return new DegreeType(id, name, maxEcts);
+            }
+        };
+
+        DegreeTypeMapper mapper = new DegreeTypeMapper(realIdMapper, realFactory);
+
+        // Act
         DegreeType result = mapper.toDomainModel(dm);
 
+        // Assert
         assertNotNull(result);
-        assertEquals(domain, result);
+        assertEquals("mock-id-456", result.identity().getDTID());
+        assertEquals("AnotherMock", result.getName());
+        assertEquals(90, result.getMaxEcts());
     }
 }

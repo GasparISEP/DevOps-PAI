@@ -20,4 +20,16 @@ class DegreeTypeIDMapperTest {
         DegreeTypeID idBack = mapper.toDomain(dataModel);
         assertEquals(id, idBack);
     }
+
+    @Test
+    void testToDataModel_NullInput_ThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mapper.toDataModel(null));
+        assertEquals("DegreeTypeID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void testToDomain_NullInput_ThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mapper.toDomain(null));
+        assertEquals("DegreeTypeIDDataModel cannot be null", exception.getMessage());
+    }
 }
