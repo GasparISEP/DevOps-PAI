@@ -55,25 +55,6 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     }
 
     @Override
-    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception {
-        if(programmeid == null) {
-            return Optional.empty();
-        }
-        if(schoolYearid == null) {
-            return Optional.empty();
-        }
-        ProgrammeIDDataModel programmeIDDataModel = iProgrammeIDMapper.toData(programmeid);
-        SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearid);
-        Optional<ProgrammeEditionIdDataModel> programmeEditionIDDataModelOptional =
-                iProgrammeEditionRepositorySpringData.findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDatasModels(programmeIDDataModel, schoolYearIDDataModel);
-        if(programmeEditionIDDataModelOptional.isPresent()) {
-            ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDDataModelOptional.get();
-            return Optional.of(iProgrammeEditionIdMapper.toDomain(programmeEditionIdDataModel));
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public ProgrammeEdition save(ProgrammeEdition entity) {
         if (entity == null) {
             return null;
@@ -135,6 +116,26 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception {
+        if(programmeid == null) {
+            return Optional.empty();
+        }
+        if(schoolYearid == null) {
+            return Optional.empty();
+        }
+        ProgrammeIDDataModel programmeIDDataModel = iProgrammeIDMapper.toData(programmeid);
+        SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearid);
+        Optional<ProgrammeEditionDataModel> programmeEditionDataModelOptional =
+                iProgrammeEditionRepositorySpringData.findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        if(programmeEditionDataModelOptional.isPresent()) {
+            ProgrammeEditionDataModel programmeEditionDataModel = programmeEditionDataModelOptional.get();
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionDataModel.getProgrammeEditionIDDataModel();
+            return Optional.of(iProgrammeEditionIdMapper.toDomain(programmeEditionIdDataModel));
+        }
+        return Optional.empty();
     }
 
     @Override
