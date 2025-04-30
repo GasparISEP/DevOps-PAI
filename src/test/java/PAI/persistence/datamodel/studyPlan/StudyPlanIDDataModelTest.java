@@ -113,4 +113,33 @@ class StudyPlanIDDataModelTest {
         assertEquals(dm1, dm2);
         assertEquals(dm1.hashCode(), dm2.hashCode());
     }
+
+    @Test
+    void DifferentHashCode() {
+        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("PED", "DEP");
+        LocalDate date = LocalDate.of(2020, 1, 1);
+
+        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel("DEP", "PED");
+        LocalDate date2 = LocalDate.of(2023, 3, 3);
+
+        StudyPlanIDDataModel dm1 = new StudyPlanIDDataModel(programmeID, date);
+        StudyPlanIDDataModel dm2 = new StudyPlanIDDataModel(programmeID2, date2);
+
+        assertNotEquals(dm1.hashCode(), dm2.hashCode());
+    }
+
+    @Test
+    void hashCodeMustBeDifferentFromSubtractedComponents() {
+        ProgrammeIDDataModel pid = new ProgrammeIDDataModel("ENG", "ENG");
+        LocalDate date = LocalDate.of(2024, 4, 29);
+
+        StudyPlanIDDataModel id = new StudyPlanIDDataModel(pid, date);
+
+        int expected = pid.hashCode() + date.hashCode();
+        int alternative = pid.hashCode() - date.hashCode();
+
+        assertNotEquals(expected, alternative, "hashCode() não pode ser igual a soma invertida");
+        assertEquals(expected, id.hashCode(), "hashCode() deve usar soma dos componentes");
+    }
+
 }
