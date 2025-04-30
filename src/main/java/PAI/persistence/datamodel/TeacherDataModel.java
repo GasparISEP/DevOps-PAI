@@ -1,35 +1,37 @@
 package PAI.persistence.datamodel;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Teacher")
 public class TeacherDataModel {
 
-    @Id
+    @EmbeddedId
     private TeacherIDDataModel teacherIDDataModel;
 
-    private String teacherName;
-    private String teacherEmail;
+    @Column (name = "Name", nullable = false)
+    private String name;
+
+    @Column (name = "Email", nullable = false)
+    private String email;
 
     @Embedded
-    private NIFDataModel teacherNIF;
+    private NIFDataModel nif;
 
     @Embedded
-    private PhoneNumberDataModel teacherPhoneNumber;
+    private PhoneNumberDataModel phoneNumber;
 
-    private String teacherAcademicBackground;
-
-    @Embedded
-    private AddressDataModel teacherAddress;
-
-    private String teacherDepartmentAcronym;
+    @Column (name = "AcademicBackground", nullable = false)
+    private String academicBackground;
 
     @Embedded
-    private TeacherAcademicEmailDataModel teacherAcademicEmail;
+    private AddressDataModel address;
+
+    @Column (name = "DepartmentAcronym", nullable = false)
+    private String departmentAcronym;
+
+    @Embedded
+    private TeacherAcademicEmailDataModel academicEmail;
 
 
     public TeacherDataModel () {}
@@ -37,14 +39,14 @@ public class TeacherDataModel {
     public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
 
         this.teacherIDDataModel = teacherIDDataModel;
-        this.teacherName = name;
-        this.teacherEmail = email;
-        this.teacherNIF = nif;
-        this.teacherPhoneNumber = phoneNumber;
-        this.teacherAcademicBackground = academicBackground;
-        this.teacherAddress = address;
-        this.teacherAcademicEmail = teacherAcademicEmail;
-        this.teacherDepartmentAcronym = dptAcronym;
+        this.name = name;
+        this.email = email;
+        this.nif = nif;
+        this.phoneNumber = phoneNumber;
+        this.academicBackground = academicBackground;
+        this.address = address;
+        this.academicEmail = teacherAcademicEmail;
+        this.departmentAcronym = dptAcronym;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
@@ -52,34 +54,34 @@ public class TeacherDataModel {
     }
 
     public String getName() {
-        return teacherName;
+        return name;
     }
 
     public String getEmail() {
-        return teacherEmail;
+        return email;
     }
 
     public NIFDataModel getNif() {
-        return teacherNIF;
+        return nif;
     }
 
     public PhoneNumberDataModel getPhoneNumber() {
-        return teacherPhoneNumber;
+        return phoneNumber;
     }
 
     public String getAcademicBackground() {
-        return teacherAcademicBackground;
+        return academicBackground;
     }
 
     public AddressDataModel getAddress() {
-        return teacherAddress;
+        return address;
     }
 
     public String getDptAcronym() {
-        return teacherDepartmentAcronym;
+        return departmentAcronym;
     }
 
     public TeacherAcademicEmailDataModel getTeacherAcademicEmail() {
-        return teacherAcademicEmail;
+        return academicEmail;
     }
 }
