@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionIdDataModelTest {
 
@@ -69,5 +70,15 @@ class ProgrammeEditionIdDataModelTest {
         SchoolYearIDDataModel result = programmeEditionIdDataModel.get_schoolYearIDDataModel();
         //assert
         assertEquals(schoolYearIDDataModel, result);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIdDataModelIsComparedToItself() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        //act
+        boolean result = programmeIDDataModel.equals(programmeIDDataModel);
+        //assert
+        assertTrue(result);
     }
 }

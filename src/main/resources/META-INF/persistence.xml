@@ -13,6 +13,8 @@
     <class>PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel</class>
     <class>PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel</class>
     <class>PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel</class>
+    <class>PAI.persistence.datamodel.courseEdition.CourseEditionDataModel</class>
+    <class>PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel</class>
     <class>PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel</class>
@@ -22,7 +24,6 @@
     <class>PAI.persistence.datamodel.ProgrammeEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel</class>
-    <class>PAI.persistence.datamodel.StudentDataModel</class>
     <class>PAI.persistence.datamodel.StudentGradeDM</class>
     <class>PAI.persistence.datamodel.TeacherCategoryDataModel</class>
     <class>PAI.persistence.datamodel.TeacherCategoryIDDataModel</class>
