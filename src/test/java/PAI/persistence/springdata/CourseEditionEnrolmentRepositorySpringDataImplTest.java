@@ -4,18 +4,18 @@ import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.mapper.*;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -48,7 +48,7 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
         when(studentIdMapper.domainToDataModel(studentId)).thenReturn(studentIdDataModel);
         when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-        when(springDataRepository.existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIdDataModel, courseEditionIdDataModel)).thenReturn(true);
+        when(springDataRepository.existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIdDataModel, courseEditionIdDataModel)).thenReturn(true);
 
         // act
         boolean result = repository.isStudentEnrolledInCourseEdition(studentId, courseEditionId);
@@ -57,7 +57,7 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         assertTrue(result);
         verify(studentIdMapper).domainToDataModel(studentId);
         verify(courseEditionIdMapper).toDataModel(courseEditionId);
-        verify(springDataRepository).existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIdDataModel, courseEditionIdDataModel);
+        verify(springDataRepository).existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIdDataModel, courseEditionIdDataModel);
     }
 
 
@@ -83,14 +83,14 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionIDDataModel courseEditionIdDataModel = mock(CourseEditionIDDataModel.class);
 
         when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-        when(springDataRepository.countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIdDataModel)).thenReturn(5L);
+        when(springDataRepository.countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel)).thenReturn(5L);
 
         // act
         int result = repository.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
 
         // assert
         assertEquals(5, result);
-        verify(springDataRepository).countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIdDataModel);
+        verify(springDataRepository).countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel);
     }
 
 
@@ -316,6 +316,106 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         // assert
         assertTrue(result.isPresent());
         assertEquals(cee, result.get());
+    }
+
+    @Test
+    void testGetInternalSet_returnsMappedSet() throws Exception {
+        // Arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepoMock = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapperMock = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapperMock = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapperMock = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapperMock = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentDataModel dataModel1 = mock(CourseEditionEnrolmentDataModel.class);
+        CourseEditionEnrolmentDataModel dataModel2 = mock(CourseEditionEnrolmentDataModel.class);
+
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
+
+        List<CourseEditionEnrolmentDataModel> dataModels = List.of(dataModel1, dataModel2);
+        when(springDataRepoMock.findAll()).thenReturn(dataModels);
+
+        when(mapperMock.toDomain(dataModel1)).thenReturn(Optional.of(enrolment1));
+        when(mapperMock.toDomain(dataModel2)).thenReturn(Optional.of(enrolment2));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository =
+                new CourseEditionEnrolmentRepositorySpringDataImpl(
+                        springDataRepoMock,
+                        mapperMock,
+                        idMapperMock,
+                        studentIDMapperMock,
+                        courseEditionIDMapperMock
+                );
+
+        // Act
+        Set<CourseEditionEnrolment> result = repository.getInternalSet();
+
+        // Assert
+        assertEquals(2, result.size(), "Expected two enrolments in the internal set");
+        assertTrue(result.contains(enrolment1), "Result should contain enrolment1");
+        assertTrue(result.contains(enrolment2), "Result should contain enrolment2");
+    }
+
+    @Test
+    void testGetInternalSet_mapperReturnsEmpty_doesNotIncludeInSet() throws Exception {
+        // Arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepoMock = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapperMock = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapperMock = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapperMock = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapperMock = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentDataModel dataModel1 = mock(CourseEditionEnrolmentDataModel.class);
+        CourseEditionEnrolmentDataModel dataModel2 = mock(CourseEditionEnrolmentDataModel.class);
+
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+
+        List<CourseEditionEnrolmentDataModel> dataModels = List.of(dataModel1, dataModel2);
+        when(springDataRepoMock.findAll()).thenReturn(dataModels);
+        when(mapperMock.toDomain(dataModel1)).thenReturn(Optional.of(enrolment1));
+        when(mapperMock.toDomain(dataModel2)).thenReturn(Optional.empty());  // este será ignorado
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository =
+                new CourseEditionEnrolmentRepositorySpringDataImpl(
+                        springDataRepoMock,
+                        mapperMock,
+                        idMapperMock,
+                        studentIDMapperMock,
+                        courseEditionIDMapperMock
+                );
+
+        // Act
+        Set<CourseEditionEnrolment> result = repository.getInternalSet();
+
+        // Assert
+        assertEquals(1, result.size(), "Expected only one valid enrolment in the set");
+        assertTrue(result.contains(enrolment1));
+    }
+
+    @Test
+    void testGetInternalSet_handlesExceptionGracefully() {
+        // Arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepoMock = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapperMock = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapperMock = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapperMock = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapperMock = mock(ICourseEditionIDMapper.class);
+
+        when(springDataRepoMock.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository =
+                new CourseEditionEnrolmentRepositorySpringDataImpl(
+                        springDataRepoMock,
+                        mapperMock,
+                        idMapperMock,
+                        studentIDMapperMock,
+                        courseEditionIDMapperMock
+                );
+
+        // Act & Assert
+        RuntimeException thrown = assertThrows(RuntimeException.class, repository::getInternalSet);
+        assertTrue(thrown.getMessage().contains("Error retrieving the set"), "Should throw with appropriate message");
     }
 
 }

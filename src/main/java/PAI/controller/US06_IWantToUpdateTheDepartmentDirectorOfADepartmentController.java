@@ -2,9 +2,9 @@ package PAI.controller;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
 import PAI.service.department.IDepartmentService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
 public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
     private final IDepartmentService _departmentService;
@@ -15,7 +15,7 @@ public class US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController {
 
         this._departmentService = departmentService;
     }
-    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID teacherId) {
+    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID teacherId) throws Exception {
        return _departmentService.updateOfDepartmentDirector(departmentId, teacherId);
     }
 

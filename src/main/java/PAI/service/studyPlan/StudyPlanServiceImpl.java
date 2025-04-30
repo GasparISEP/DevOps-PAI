@@ -1,14 +1,16 @@
-package PAI.service.StudyPlan;
+package PAI.service.studyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StudyPlanServiceImpl implements IStudyPlanService {
 
     private final IStudyPlanRepository _repository;

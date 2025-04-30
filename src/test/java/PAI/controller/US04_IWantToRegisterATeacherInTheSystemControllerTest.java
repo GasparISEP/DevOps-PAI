@@ -218,7 +218,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     private TeacherServiceImpl createTeacherService() {
         ITeacherRepository teacherRepository= createTeacherRepo();
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepository);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
         return new TeacherServiceImpl(teacherFactory,teacherRepository);
     }
 

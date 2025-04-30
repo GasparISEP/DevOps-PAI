@@ -2,12 +2,8 @@ package PAI.persistence.datamodel.studyPlan;
 
 import PAI.VOs.DurationInYears;
 import PAI.VOs.MaxEcts;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -15,13 +11,17 @@ import java.util.Objects;
 public class StudyPlanDataModel {
 
     @EmbeddedId
-    private StudyPlanIDDataModel _studyPlanIDDataModel;
+    @AttributeOverrides({
+            @AttributeOverride(name = "programmeIDDataModel.programmeName", column = @Column(name = "programme_name", nullable = false)),
+            @AttributeOverride(name = "programmeIDDataModel.programmeAcronym", column = @Column(name = "programme_acronym", nullable = false))
+    })
+    private StudyPlanIDDataModel studyPlanIDDataModel;
 
     @Column(name = "maxECTS", nullable = false)
-    private int _maxECTS;
+    private int maxECTS;
 
     @Column(name = "durationInYears", nullable = false)
-    private int _durationInYears;
+    private int durationInYears;
 
     protected StudyPlanDataModel() {}
 
@@ -30,17 +30,17 @@ public class StudyPlanDataModel {
         if (studyPlanIDDataModel == null) {
             throw new IllegalArgumentException("StudyPlanIDDataModel cannot be null");
         }
-        this._studyPlanIDDataModel = studyPlanIDDataModel;
+        this.studyPlanIDDataModel = studyPlanIDDataModel;
 
         if (quantityofECTS == null) {
             throw new IllegalArgumentException("MaxECTS cannot be null");
         }
-        this._maxECTS = quantityofECTS.getMaxEcts();
+        this.maxECTS = quantityofECTS.getMaxEcts();
 
         if (durationInYears == null) {
             throw new IllegalArgumentException("DurationInYears cannot be null");
         }
-        this._durationInYears = durationInYears.getDurationInYears();
+        this.durationInYears = durationInYears.getDurationInYears();
     }
 
     @Override
@@ -48,23 +48,23 @@ public class StudyPlanDataModel {
         if (this == other) return true;
         if (!(other instanceof StudyPlanDataModel)) return false;
         StudyPlanDataModel otherStudyPlanDataModel = (StudyPlanDataModel) other;
-        return _studyPlanIDDataModel == otherStudyPlanDataModel._studyPlanIDDataModel;
+        return studyPlanIDDataModel == otherStudyPlanDataModel.studyPlanIDDataModel;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_studyPlanIDDataModel);
+        return Objects.hash(studyPlanIDDataModel);
     }
 
     public StudyPlanIDDataModel getStudyPlanIDDataModel() {
-        return _studyPlanIDDataModel;
+        return studyPlanIDDataModel;
     }
 
     public int getMaxECTS() {
-        return _maxECTS;
+        return maxECTS;
     }
 
     public int getDurationInYears() {
-        return _durationInYears;
+        return durationInYears;
     }
 }

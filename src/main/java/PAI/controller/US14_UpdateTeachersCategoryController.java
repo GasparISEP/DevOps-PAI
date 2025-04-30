@@ -6,10 +6,12 @@ import PAI.domain.TeacherCategory;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Component
 public class US14_UpdateTeachersCategoryController {
 
     private ITeacherService _teacherService;

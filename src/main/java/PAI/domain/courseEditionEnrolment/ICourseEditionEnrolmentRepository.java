@@ -7,6 +7,7 @@ import PAI.ddd.IRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEditionEnrolmentID, CourseEditionEnrolment> {
 
@@ -18,4 +19,5 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception;
 
+    Set<CourseEditionEnrolment> getInternalSet() throws Exception;
 }

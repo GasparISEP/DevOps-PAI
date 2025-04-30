@@ -349,6 +349,60 @@ class StudentGradeFactoryImplTest {
     }
 
     @Test
+    public void shouldReturnFalseWhenStudentHasExistingGradeForCourseEdition() throws Exception {
+        // Arrange
+        ICourseEditionRepository      courseEditionRepo     = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository   programmeEditionRepo  = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository         schoolYearRepo        = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository       studentGradeRepo      = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepo, programmeEditionRepo, schoolYearRepo, studentGradeRepo);
+
+        StudentID       aluno       = mock(StudentID.class);
+        CourseEditionID edicao      = mock(CourseEditionID.class);
+
+        StudentGrade notaExistente = mock(StudentGrade.class);
+        when(notaExistente.hasThisStudentID(aluno)).thenReturn(true);
+        when(notaExistente.hasThisCourseEditionID(edicao)).thenReturn(false);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(notaExistente));
+
+        // Act
+        boolean resultado = factory.hasStudentAlreadyGradeAtThisCourseEdition(aluno, edicao);
+
+        // Assert
+        assertFalse(resultado);
+
+    }
+
+    @Test
+    public void shouldReturnFalseWhenStudentHasExistingGradeForCourseEdition_() throws Exception {
+        // Arrange
+        ICourseEditionRepository      courseEditionRepo     = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository   programmeEditionRepo  = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository         schoolYearRepo        = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository       studentGradeRepo      = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepo, programmeEditionRepo, schoolYearRepo, studentGradeRepo);
+
+        StudentID       aluno       = mock(StudentID.class);
+        CourseEditionID edicao      = mock(CourseEditionID.class);
+
+        StudentGrade notaExistente = mock(StudentGrade.class);
+        when(notaExistente.hasThisStudentID(aluno)).thenReturn(false);
+        when(notaExistente.hasThisCourseEditionID(edicao)).thenReturn(true);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(notaExistente));
+
+        // Act
+        boolean resultado = factory.hasStudentAlreadyGradeAtThisCourseEdition(aluno, edicao);
+
+        // Assert
+        assertFalse(resultado);
+
+    }
+
+    @Test
     void shouldReturnStudentGradeFromDataModel() throws Exception{
 
         //arrange
@@ -367,7 +421,44 @@ class StudentGradeFactoryImplTest {
 
         //act
         StudentGrade result = studentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID);
-    }
 
+        //assert
+        assertNotNull(result);
+    }
+    @Test
+    void shouldThrowExceptionWhenStudentHasAlreadyGradeAndDateIsInRange() throws Exception {
+
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(courseEditionRepository, programmeEditionRepository, schoolYearRepository, studentGradeRepository);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        LocalDate localDate = LocalDate.of(2024, 4, 30);
+        when(date.getLocalDate()).thenReturn(localDate);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        when(schoolYear.getStartDate()).thenReturn(new Date(LocalDate.of(2024, 1, 1)));
+        when(schoolYear.getEndDate()).thenReturn(new Date(LocalDate.of(2024, 12, 31)));
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(programmeEditionRepository.ofIdentity(programmeEditionID)).thenReturn(Optional.of(programmeEdition));
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
+        when(schoolYearRepository.ofIdentity(schoolYearID)).thenReturn(Optional.of(schoolYear));
+        StudentGrade existingGrade = mock(StudentGrade.class);
+        when(existingGrade.hasThisStudentID(studentID)).thenReturn(true);
+        when(existingGrade.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGradeRepository.findAll()).thenReturn(Arrays.asList(existingGrade));
+
+        // assert
+        assertThrows(IllegalArgumentException.class, () -> factory.newGradeStudent(grade, date, studentID, courseEditionID));
+    }
 }
 

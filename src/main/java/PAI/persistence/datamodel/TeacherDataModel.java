@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class TeacherDataModel {
 
     @EmbeddedId
-    private TeacherIDDataModel teacherIDDataModel;
+    private TeacherIDDataModel teacherId;
 
     @Column (name = "Name", nullable = false)
     private String name;
@@ -36,9 +36,9 @@ public class TeacherDataModel {
 
     public TeacherDataModel () {}
 
-    public TeacherDataModel (TeacherIDDataModel teacherIDDataModel, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
+    public TeacherDataModel (TeacherIDDataModel teacherId, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
 
-        this.teacherIDDataModel = teacherIDDataModel;
+        this.teacherId = teacherId;
         this.name = name;
         this.email = email;
         this.nif = nif;
@@ -50,7 +50,7 @@ public class TeacherDataModel {
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
-        return teacherIDDataModel;
+        return teacherId;
     }
 
     public String getName() {

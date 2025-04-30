@@ -68,6 +68,12 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
     }
 
     @Override
+    public Set<CourseEditionEnrolment> getInternalSet() {
+        return this._courseEditionEnrolments;
+    }
+
+
+    @Override
     public CourseEditionEnrolment save(CourseEditionEnrolment entity) {
 
         if (entity == null) {

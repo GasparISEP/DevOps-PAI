@@ -4,9 +4,9 @@ import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.service.ITeacherService;
 import PAI.service.department.IDepartmentService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
 public class US04_IWantToRegisterATeacherInTheSystemController {
 
     private final ITeacherService _teacherService;

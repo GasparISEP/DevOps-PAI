@@ -25,16 +25,16 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
                                        ITeacherIDMapper teacherIDMapper, INIFMapper nifMapper) {
 
         if (teacherRepositorySpringData == null) {
-            throw new IllegalArgumentException("teacherRepositorySpringData must not be null");
+            throw new IllegalArgumentException("TeacherRepositorySpringData must not be null.");
         }
         if (teacherMapper == null) {
-            throw new IllegalArgumentException("teacherMapper must not be null");
+            throw new IllegalArgumentException("TeacherMapper must not be null.");
         }
         if (teacherIDMapper == null) {
-            throw new IllegalArgumentException("teacherIDMapper must not be null");
+            throw new IllegalArgumentException("TeacherIDMapper must not be null.");
         }
         if (nifMapper == null) {
-            throw new IllegalArgumentException("nifMapper must not be null");
+            throw new IllegalArgumentException("NIFMapper must not be null.");
         }
 
         iTeacherRepositorySpringData = teacherRepositorySpringData;
@@ -83,7 +83,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
     }
 
     @Override
-    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+    public boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
         NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
 

@@ -9,11 +9,10 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmentService {
@@ -101,10 +100,15 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         // 3. Deactivate enrolment
         enrolment.deactivateEnrolment();
 
-        // 4. Save changes
+        // 4. Remove the old version from the internal set (workaround for Set behavior)
+        if (_ceeRepositoryInterface instanceof CourseEditionEnrolmentRepositoryImpl repoImpl) {
+            repoImpl.getInternalSet().remove(enrolment);
+        }
+
+        // 5. Save changes
         _ceeRepositoryInterface.save(enrolment);
 
-        // 5. Check if the student still has active enrolments in this programme
+        // 6. Check if the student still has active enrolments in this programme
         if (!hasOtherActiveCourseEditionEnrolments(studentID, courseEditionID.getProgrammeEditionID())) {
             // If not, also remove the ProgrammeEditionEnrolment
             removeProgrammeEditionEnrolment(studentID, courseEditionID.getProgrammeEditionID());

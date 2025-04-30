@@ -14,9 +14,14 @@ public class ProgrammeEnrolmentDataModel {
     private ProgrammeEnrolmentIDDataModel programmeEnrolmentID;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "programmeName", column = @Column(name = "peProgrammeName")),
+            @AttributeOverride(name = "programmeAcronym", column = @Column(name = "peProgrammeAcronym"))
+    })
     private ProgrammeIDDataModel programmeID;
 
     @Embedded
+    @AttributeOverride(name = "uniqueNumber", column = @Column(name = "peStudentUniqueNumber"))
     private StudentIDDataModel studentID;
 
     @Embedded

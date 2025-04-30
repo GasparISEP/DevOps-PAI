@@ -7,9 +7,12 @@ import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
 import PAI.service.ITeacherService;
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class US13_RegisterTeacherAndRelevantDataController {
 
     private ITeacherCategoryService _teacherCategoryService;

@@ -90,7 +90,7 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
         if (courseName == null) {
             return false;
         }
-        return _iCourseRepository.existsBy_name(courseName.getName());
+        return _iCourseRepository.existsByName(courseName.getName());
     }
 
     @Override
@@ -98,6 +98,6 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
         if (courseAcronym == null) {
             return false;
         }
-        return _iCourseRepository.existsBy_acronym(courseAcronym.getAcronym());
+        return _iCourseRepository.existsByAcronym(courseAcronym.getAcronym());
     }
 }

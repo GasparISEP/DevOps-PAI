@@ -691,4 +691,103 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertEquals(enrolment2,idExists.get());
     }
 
+    @Test
+    void testGetInternalSet_emptyRepository() {
+        // Arrange
+        ICourseEditionEnrolmentListFactory listFactoryMock = mock(ICourseEditionEnrolmentListFactory.class);
+        Set<CourseEditionEnrolment> emptySet = new HashSet<>();
+        when(listFactoryMock.getCourseEditionEnrolmentList()).thenReturn(emptySet);
+
+        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(listFactoryMock);
+
+        // Act
+        Set<CourseEditionEnrolment> result = courseEditionEnrolmentRepository.getInternalSet();
+
+        // Assert
+        assertTrue(result.isEmpty(), "The internal set should be empty when no enrolments are added.");
+    }
+
+    @Test
+    void testGetInternalSet_withOneEnrolment() {
+        // Arrange
+        StudentID studentID1 = mock(StudentID.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        when(enrolment1.knowStudent()).thenReturn(studentID1);
+        when(enrolment1.knowCourseEdition()).thenReturn(courseEditionID1);
+
+        ICourseEditionEnrolmentListFactory listFactoryMock = mock(ICourseEditionEnrolmentListFactory.class);
+        Set<CourseEditionEnrolment> enrolmentSet = new HashSet<>();
+        enrolmentSet.add(enrolment1);
+        when(listFactoryMock.getCourseEditionEnrolmentList()).thenReturn(enrolmentSet);
+
+        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(listFactoryMock);
+
+        // Act
+        Set<CourseEditionEnrolment> result = courseEditionEnrolmentRepository.getInternalSet();
+
+        // Assert
+        assertFalse(result.isEmpty(), "The internal set should not be empty when there is one enrolment.");
+        assertTrue(result.contains(enrolment1), "The internal set should contain the first enrolment.");
+    }
+
+    @Test
+    void testGetInternalSet_withMultipleEnrolments() {
+        // Arrange
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID2 = mock(CourseEditionID.class);
+
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
+        when(enrolment1.knowStudent()).thenReturn(studentID1);
+        when(enrolment1.knowCourseEdition()).thenReturn(courseEditionID1);
+        when(enrolment2.knowStudent()).thenReturn(studentID2);
+        when(enrolment2.knowCourseEdition()).thenReturn(courseEditionID2);
+
+        ICourseEditionEnrolmentListFactory listFactoryMock = mock(ICourseEditionEnrolmentListFactory.class);
+        Set<CourseEditionEnrolment> enrolmentSet = new HashSet<>();
+        enrolmentSet.add(enrolment1);
+        enrolmentSet.add(enrolment2);
+        when(listFactoryMock.getCourseEditionEnrolmentList()).thenReturn(enrolmentSet);
+
+        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(listFactoryMock);
+
+        // Act
+        Set<CourseEditionEnrolment> result = courseEditionEnrolmentRepository.getInternalSet();
+
+        // Assert
+        assertFalse(result.isEmpty(), "The internal set should not be empty when there are multiple enrolments.");
+        assertTrue(result.contains(enrolment1), "The internal set should contain the first enrolment.");
+        assertTrue(result.contains(enrolment2), "The internal set should contain the second enrolment.");
+    }
+
+    @Test
+    void testGetInternalSet_afterAddingEnrolment() {
+        // Arrange
+        StudentID studentID1 = mock(StudentID.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        when(enrolment1.knowStudent()).thenReturn(studentID1);
+        when(enrolment1.knowCourseEdition()).thenReturn(courseEditionID1);
+
+        ICourseEditionEnrolmentListFactory listFactoryMock = mock(ICourseEditionEnrolmentListFactory.class);
+        Set<CourseEditionEnrolment> enrolmentSet = new HashSet<>();
+        enrolmentSet.add(enrolment1);
+        when(listFactoryMock.getCourseEditionEnrolmentList()).thenReturn(enrolmentSet);
+
+        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(listFactoryMock);
+
+        // Act
+        Set<CourseEditionEnrolment> result = courseEditionEnrolmentRepository.getInternalSet();
+
+        // Assert
+        assertFalse(result.isEmpty(), "The internal set should not be empty after adding an enrolment.");
+        assertTrue(result.contains(enrolment1), "The internal set should contain the added enrolment.");
+    }
+
+
 }

@@ -4,7 +4,9 @@ import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class US15_UpdateTeacherWorkingPercentageController {
 
     private ITeacherService _teacherService;

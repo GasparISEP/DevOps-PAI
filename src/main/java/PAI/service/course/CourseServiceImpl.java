@@ -5,6 +5,7 @@ import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.repository.courseRepository.ICourseRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,14 @@ public class CourseServiceImpl implements ICourseService {
 
     public Course createAndSaveCourse (Name name, Acronym acronym) throws Exception {
         Course course = this.courseFactory.createCourse(name, acronym);
+
+        if (courseRepository.existsCourseByName(name)) {
+            throw new BusinessRuleViolationException("A course with this name already exists.");
+        }
+
+        if (courseRepository.existsCourseByAcronym(acronym)) {
+            throw new BusinessRuleViolationException ("A course with this acronym already exists.");
+        }
         return this.courseRepository.save(course);
     }
 

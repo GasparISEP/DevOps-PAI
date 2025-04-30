@@ -90,6 +90,8 @@ public class Programme implements AggregateRoot<ProgrammeID> {
 
     public boolean hasThisProgrammeName(NameWithNumbersAndSpecialChars name) {return _name.equals(name);}
 
+    public boolean hasThisProgrammeAcronym(Acronym acronym) {return _acronym.equals(acronym);}
+
     public Acronym getAcronym() {
         return _acronym;
     }
