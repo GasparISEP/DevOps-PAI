@@ -205,7 +205,7 @@ class US19_CreateCourseEditionControllerTest {
 
     //-----getProgrammesByDegreeTypeID Tests-----
     @Test
-    void shouldReturnNullWhenGetProgrammesByDegreeTypeIDMethodIsCalled() throws Exception {
+    void shouldReturnAListWithAllProgrammesInTheSystemThatHaveTheDegreeTypeGiven() throws Exception {
         // SUT = Controller
         // Arrange
         IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
@@ -217,12 +217,67 @@ class US19_CreateCourseEditionControllerTest {
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
 
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+        Programme programme3 = mock(Programme.class);
+        List<Programme> programmes = List.of(programme1, programme2, programme3);
+        when(programmeService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
 
         // Act
         List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeID);
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertTrue(result.contains(programme1));
+        assertTrue(result.contains(programme2));
+        assertTrue(result.contains(programme3));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfTheSystemHasNoProgrammeWithTheTheDegreeTypeGiven() throws Exception {
+        // SUT = Controller
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        List<Programme> programmes = List.of();
+        when(programmeService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
+
+        // Act
+        List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfTheTheDegreeTypeIDGivenIsNull() throws Exception {
+        // SUT = Controller
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        DegreeTypeID degreeTypeID = null;
+
+        // Act
+        List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
     }
 
     //-----getCoursesInStudyPlanByProgrammeID Tests-----
