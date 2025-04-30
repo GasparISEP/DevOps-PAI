@@ -9,6 +9,7 @@ import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -93,14 +94,17 @@ class DepartmentServiceImplTest {
         assertFalse(result);
     }
     @Test
-    void shouldReturnTrueWhenUpdateDirector(){
+    void shouldReturnTrueWhenUpdateDirector() throws Exception {
         // Arrange
         IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
         TeacherID directorID = mock(TeacherID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
-        when(departmentRepoDouble.updateOfDepartmentDirector(departmentID, directorID)).thenReturn(true);
+        Department department = mock(Department.class);
+
+
+        when(departmentRepoDouble.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
 
         // Act
         boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
@@ -109,36 +113,33 @@ class DepartmentServiceImplTest {
         assertTrue(result);
     }
     @Test
-    void shouldReturnFalseWhenUpdateDirectorWhenDepartmentDoesNotExist(){
+    void shouldReturnFalseWhenUpdateDirectorWhenDepartmentIDIsNull() throws Exception {
         // Arrange
         IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
         TeacherID directorID = mock(TeacherID.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        when(departmentRepoDouble.updateOfDepartmentDirector(null, directorID)).thenReturn(false);
+
 
         // Act
-        boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
+       Exception exception = assertThrows(Exception.class, () -> {departmentService.updateOfDepartmentDirector(null,directorID);});
 
         // Assert
-        assertFalse(result);
+        assertEquals("Department ID cannot be null.", exception.getMessage());
     }
     @Test
-    void shouldReturnFalseWhenUpdateDirectorWhenDirectorDoesNotExist(){
+    void shouldReturnFalseWhenUpdateDirectorWhenDirectorIDIsNUll() throws Exception {
         // Arrange
         IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
-        TeacherID directorID = mock(TeacherID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
-        when(departmentRepoDouble.updateOfDepartmentDirector(departmentID, null)).thenReturn(false);
 
-        // Act
-        boolean result = departmentService.updateOfDepartmentDirector(departmentID,directorID);
+        //act
+        Exception exception = assertThrows(Exception.class, () -> {departmentService.updateOfDepartmentDirector(departmentID,null);});
 
         // Assert
-        assertFalse(result);
+        assertEquals("Teacher ID cannot be null.", exception.getMessage());
     }
     @Test
     void shouldReturnTrueWhenContainsIdentity(){
