@@ -9,103 +9,43 @@ participant ":DepartmentServiceImpl" as DepartmentServiceImpl
 participant ":IDepartmentRepository" as IDepartmentRepository
 participant ":DepartmentRepositorySpringData" as DepartmentRepositorySpringData
 
-participant ":ITeacherService" as ITeacherService
-participant ":TeacherServiceImpl" as TeacherServiceImpl
-participant ":ITeacherRepositorySpringData" as ITeacherRepositorySpringData
-participant ":TeacherRepositorySpringDataImpl" as TeacherRepositorySpringDataImpl
-
-
 activate Administrator #ddfada
 Administrator -> UI: I want to update the Department Director of a Department!
 activate UI #ddfada
 
-UI -> Controller: getAllDepartmentID ()
+UI -> Controller: UpdateDepartmentDirector(DepartmentID,directorID)
 activate Controller #ddfada
 
 ref over Controller
     Convert departmentID to VO
 end ref
 
-Controller -> IDepartmentService: getDepartmentIDs()
+Controller -> IDepartmentService: UpdateDepartmentDirector(DepartmentID,directorID)
 activate IDepartmentService #ddfada
 ref over DepartmentServiceImpl
 Domain to DataModel
 end ref
-IDepartmentService->DepartmentServiceImpl :getDepartmentIDs()
+IDepartmentService->DepartmentServiceImpl :UpdateDepartmentDirector(DepartmentID,directorID)
 activate DepartmentServiceImpl #ddfada
-DepartmentServiceImpl -> IDepartmentRepository :getDepartmentIDs()
+DepartmentServiceImpl -> IDepartmentRepository :findDepartmentByID(departmentID)
 activate IDepartmentRepository #ddfada
-IDepartmentRepository -> DepartmentRepositorySpringData :getDepartmentIDs()
+IDepartmentRepository -> DepartmentRepositorySpringData :findDepartmentByID(departmentID)
 activate DepartmentRepositorySpringData #ddfada
-DepartmentRepositorySpringData -> IDepartmentRepository  :Set<DepartmentID>
+DepartmentRepositorySpringData --> IDepartmentRepository  :Optional<Department> opDep
+IDepartmentRepository -->DepartmentServiceImpl :Optional<Department> opDep
+DepartmentServiceImpl -> IDepartmentRepository:save(department:Department)
+IDepartmentRepository->DepartmentRepositorySpringData:save(department:Department)
+DepartmentRepositorySpringData-->IDepartmentRepository:department:Department
 deactivate DepartmentRepositorySpringData #ddfada
-IDepartmentRepository ->DepartmentServiceImpl :Set<DepartmentID>
+IDepartmentRepository-->DepartmentServiceImpl:department:Department
 deactivate IDepartmentRepository #ddfada
-DepartmentServiceImpl -> IDepartmentService :Set<DepartmentID>
-deactivate DepartmentServiceImpl #ddfada
+DepartmentServiceImpl-->IDepartmentService:department:Department
 ref over DepartmentServiceImpl
 DataModel to Domain
 end ref
-IDepartmentService --> Controller: Set<DepartmentID>
-deactivate IDepartmentService #ddfada
-
-Controller --> UI: Set<DepartmentID>
-deactivate Controller #ddfada
-
-
-UI --> Administrator: Choose Department?
-Administrator -> UI: Department selected!
-UI --> Administrator: What Teacher?
-Administrator -> UI: Enter the Teacher!
-UI --> Administrator: Sure?
-Administrator -> UI: Yes!
-
-UI -> Controller :  updateOfDepartmentDirector (departmentID, teacherID)
-activate Controller #ddfada
-
-ref over Controller
-    Convert departmentID and teacherID to VO
-end ref
-   Controller -> ITeacherService: IsTeacherInDepartment(teacherID)
-   activate ITeacherService #ddfada
-   ITeacherService -> TeacherServiceImpl: IsTeacherInDepartment(teacherID)
-   activate TeacherServiceImpl #ddfada
-   TeacherServiceImpl -> ITeacherRepositorySpringData : IsTeacherInDepartment(teacherID)
-   activate ITeacherRepositorySpringData #ddfada
-   ITeacherRepositorySpringData -> TeacherRepositorySpringDataImpl : IsTeacherInDepartment(teacherID)
-   activate TeacherRepositorySpringDataImpl #ddfada
-   TeacherRepositorySpringDataImpl --> ITeacherRepositorySpringData : True
-   deactivate TeacherRepositorySpringDataImpl
-   ITeacherRepositorySpringData --> TeacherServiceImpl : True
-      deactivate ITeacherRepositorySpringData
-   TeacherServiceImpl --> ITeacherService : True
-      deactivate TeacherServiceImpl
-   ITeacherService --> Controller : True
-            deactivate ITeacherService
-
-Controller -> IDepartmentService: updateOfDepartmentDirector(departmentID, teacherID)
-activate IDepartmentService #ddfada
-ref over DepartmentServiceImpl
-Domain to DataModel
-end ref
-IDepartmentService -> DepartmentServiceImpl : updateOfDepartmentDirector(departmentID, teacherID)
-activate DepartmentServiceImpl #ddfada
-DepartmentServiceImpl -> IDepartmentRepository: updateOfDepartmentDirector(departmentID, teacherID)
-activate IDepartmentRepository  #ddfada
-IDepartmentRepository -> DepartmentRepositorySpringData :changeDirector (teacherID)
-activate DepartmentRepositorySpringData #ddfada
-DepartmentRepositorySpringData --> IDepartmentRepository : True
-deactivate DepartmentRepositorySpringData #ddfada
-IDepartmentRepository --> DepartmentServiceImpl :True
-deactivate IDepartmentRepository #ddfada
-DepartmentServiceImpl --> IDepartmentService: True
 deactivate DepartmentServiceImpl #ddfada
-ref over DepartmentServiceImpl
-Domain to DataModel
-end ref
-IDepartmentService--> Controller: True
-deactivate IDepartmentService #ddfada
-
+IDepartmentService-->Controller:True
+deactivate IDepartmentService
 Controller --> UI: True
 deactivate Controller #ddfada
 
