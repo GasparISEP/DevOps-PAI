@@ -7,7 +7,7 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 
 
-public class StudentGradeIDMapperImpl {
+public class StudentGradeIDMapperImpl implements IStudentGradeIDMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapperImpl studentIDMapperImpl;
