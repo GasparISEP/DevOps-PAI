@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class TeacherRepositorySpringDataImplTest {
@@ -185,6 +184,18 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
+    void shouldReturnFalseWhenTeacherIDIsNull() {
+        // Arrange
+
+        // Act
+        boolean result = teacherRepository.containsOfIdentity(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+
+    @Test
     void shouldReturnOfIdentity() {
         // Arrange
         TeacherID teacherID = mock(TeacherID.class);
@@ -204,7 +215,41 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnFalseIfDoesNotExistsByIDorNIF () {
+    void ofIdentityShouldReturnEmptyWhenNotFound() {
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
+
+        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
+        when(iTeacherRepoSpringData.findById(idDataModel)).thenReturn(Optional.empty());
+
+        Optional<Teacher> result = teacherRepository.ofIdentity(teacherID);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void ofIdentityShouldThrowWhenDomainConversionFailure() {
+        // Arrange
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherIDDataModel idDataModel = mock(TeacherIDDataModel.class);
+        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
+
+        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
+        when(iTeacherRepoSpringData.findById(idDataModel)).thenReturn(Optional.of(teacherDataModel));
+        when(teacherMapper.toDomain(teacherDataModel)).thenThrow(new RuntimeException("Could not convert Teacher Data Model to Teacher Domain Object."));
+
+        // Act + Assert
+        assertThrows(RuntimeException.class, () -> teacherRepository.ofIdentity(teacherID));
+    }
+
+    @Test
+    void ofIdentityShouldReturnEmptyWhenTeacherIDIsNull() {
+        Optional<Teacher> result = teacherRepository.ofIdentity(null);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnFalseIfDoesNotExistByIDorNIF () {
         // Arrange
 
         TeacherID teacherID = mock(TeacherID.class);
@@ -243,23 +288,52 @@ class TeacherRepositorySpringDataImplTest {
         assertTrue(result);
     }
 
-//    @Test
-//    void existsByIDorNIFShouldFailToConvertIDWithMapper () {
-//        // Arrange
-//
-//        // Act
-//
-//        // Assert
-//
-//    }
+    @Test
+    void existsByIDorNIFShouldReturnFalseWhenTeacherIDIsNull() {
+        // Arrange
+        NIF nif = mock(NIF.class);
 
-//    @Test
-//    void existsByIDorNIFShouldFailToConvertNIFWithMapper () {
-//        // Arrange
-//
-//        // Act
-//
-//        // Assert
-//
-//    }
+        // Act
+        boolean result = teacherRepository.existsByIDorNIF(null, nif);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByIDorNIFShouldReturnFalseWhenNIFIsNull() {
+        // Arrange
+        TeacherID teacherID = mock(TeacherID.class);
+
+        // Act
+        boolean result = teacherRepository.existsByIDorNIF(teacherID, null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByIDorNIFShouldFailToConvertTeacherIDWithMapper () {
+        // Arrange
+        TeacherID teacherID = mock(TeacherID.class);
+        NIF nif = mock(NIF.class);
+
+        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(null);
+        when(nifMapper.domainToDataModel(nif)).thenReturn(mock(NIFDataModel.class));
+
+        // Assert
+        assertFalse(teacherRepository.existsByIDorNIF(teacherID, nif));
+    }
+
+    @Test
+    void existsByIDorNIFShouldFailToConvertNIFWithMapper () {
+        TeacherID teacherID = mock(TeacherID.class);
+        NIF nif = mock(NIF.class);
+
+        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(mock(TeacherIDDataModel.class));
+        when(nifMapper.domainToDataModel(nif)).thenReturn(null);
+
+        // Assert
+        assertFalse(teacherRepository.existsByIDorNIF(teacherID, nif));
+    }
 }

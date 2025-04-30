@@ -70,4 +70,8 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
     }
         throw new IllegalArgumentException("Date is out of Range");
         }
+
+    public StudentGrade newGradeStudentFromDataModel (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID, StudentGradeID studentGradeID) throws Exception {
+        return new StudentGrade(grade, date, student, courseEditionID, studentGradeID);
+    }
 }
