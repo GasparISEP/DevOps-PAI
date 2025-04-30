@@ -6,7 +6,7 @@
 2. [Updated Feature Description](#updated-feature-description)
 3. [Functional Requirements](#functional-requirements)
 4. [Non-Functional Requirements](#non-functional-requirements)
-5. [Test Cases](#test-cases)
+5. [Acceptance Criteria](#acceptance-criteria)
 6. [Event Flow](#event-flow)
 7. [Conclusion](#conclusion)
 
@@ -49,42 +49,43 @@ The previous version of this feature simply marked a student's enrolment in a **
 
 ---
 
-## Test Cases
+## Acceptance Criteria
+The acceptance criteria define the expected behaviour of the system for both **successful** enrolment removal and **failure** scenarios.
 
 
 #### **Simple Tests**
 
-| Test | Description |
-|------|-------------|
-| **T1: Remove Active Enrolment from a Course Edition** | Removing an active enrolment from a **Course Edition** should deactivate only the specific course enrolment. |
-| **T2: Remove Last Active Course Edition Enrolment** | When the last active **Course Edition Enrolment** is removed, the system should also deactivate the student’s **Programme Edition Enrolment**. |
-| **T3: Enrolment Already Inactive** | If an enrolment is already marked as inactive, the system should prevent its removal. |
+| Test                                                 | Description |
+|------------------------------------------------------|-------------|
+| **T1: Remove Active Enrolment from a Course Edition ✅** | Removing an active enrolment from a **Course Edition** should deactivate only the specific course enrolment. |
+| **T2: Remove Last Active Course Edition Enrolment ✅** | When the last active **Course Edition Enrolment** is removed, the system should also deactivate the student’s **Programme Edition Enrolment**. |
+| **T3: Enrolment Already Inactive ❌**                 | If an enrolment is already marked as inactive, the system should prevent its removal. |
 
 #### **Multiple Removals of the Same Student**
 
-| Test | Description |
-|------|-------------|
-| **M1: Attempt to Remove the Same Enrolment Multiple Times** | If the ASC tries to remove the same enrolment for a student multiple times, the operation should succeed only on the first attempt, and subsequent attempts should be rejected. |
-| **M2: Remove a Student from Two Course Editions, But Leave Other Active Enrolments** | When a student is removed from two **Course Editions**, but still has other active enrolments, only the courses being removed should be deactivated, while the student remains enrolled in other active courses. |
-| **M3: Remove Last Two Active Course Editions for a Student** | When the last two active **Course Edition Enrolments** are removed for a student, both the **Course Editions** and the **Programme Edition** should be deactivated. |
-| **M4: Mixed Sequence of Removals for a Student (Active and Inactive Enrolments)** | A mixed sequence of removal operations (both active and inactive enrolments) should be handled correctly, with only active enrolments being deactivated. |
+| Test                                                                                   | Description |
+|----------------------------------------------------------------------------------------|-------------|
+| **M1: Attempt to Remove the Same Enrolment Multiple Times ✅❌**                         | If the ASC tries to remove the same enrolment for a student multiple times, the operation should succeed only on the first attempt, and subsequent attempts should be rejected. |
+| **M2: Remove a Student from Two Course Editions, But Leave Other Active Enrolments ✅** | When a student is removed from two **Course Editions**, but still has other active enrolments, only the courses being removed should be deactivated, while the student remains enrolled in other active courses. |
+| **M3: Remove Last Two Active Course Editions for a Student ✅**                         | When the last two active **Course Edition Enrolments** are removed for a student, both the **Course Editions** and the **Programme Edition** should be deactivated. |
+| **M4: Mixed Sequence of Removals for a Student (Active and Inactive Enrolments) ✅❌**     | A mixed sequence of removal operations (both active and inactive enrolments) should be handled correctly, with only active enrolments being deactivated. |
 
 #### **Multiple Removals for Several Students**
 
-| Test                                                                                            | Description |
-|-------------------------------------------------------------------------------------------------|-------------|
-| **M5: Remove Multiple Enrolments of Students in a Course Edition**                              | Multiple students can be removed from the same **Course Edition** without affecting their **Programme Edition Enrolment** (as long as they are still enrolled in other active courses in the same programme). |
-| **M6: Remove Multiple Students Enrolments, One Student Loses All Active Course Editions** | When removing multiple students from a **Course Edition**, if one of the students no longer has any active **Course Edition Enrolments** within the same **Programme Edition**, the system should also deactivate that student’s **Programme Edition Enrolment**, while keeping the others unchanged. |
-| **M7: Remove Enrolments of Multiple Students with Mixed Statuses (Active and Inactive)**        | The system should correctly process the removal of multiple students with a mix of active and inactive enrolments, deactivating only the active ones. |
-| **M8: Remove All Students from a Programme Edition**                                            | When all students are removed from a **Programme Edition**, the system should deactivate the **Programme Edition** for all students, as they are no longer enrolled in any active course edition. |
+| Test                                                                                        | Description |
+|---------------------------------------------------------------------------------------------|-------------|
+| **M5: Remove Multiple Enrolments of Students in a Course Edition ✅**                        | Multiple students can be removed from the same **Course Edition** without affecting their **Programme Edition Enrolment** (as long as they are still enrolled in other active courses in the same programme). |
+| **M6: Remove Multiple Students Enrolments, One Student Loses All Active Course Editions ✅** | When removing multiple students from a **Course Edition**, if one of the students no longer has any active **Course Edition Enrolments** within the same **Programme Edition**, the system should also deactivate that student’s **Programme Edition Enrolment**, while keeping the others unchanged. |
+| **M7: Remove Enrolments of Multiple Students with Mixed Statuses (Active and Inactive) ✅❌** | The system should correctly process the removal of multiple students with a mix of active and inactive enrolments, deactivating only the active ones. |
+| **M8: Remove All Students from a Programme Edition ✅**                                       | When all students are removed from a **Programme Edition**, the system should deactivate the **Programme Edition** for all students, as they are no longer enrolled in any active course edition. |
 
 #### **Null Tests**
 
-| Test | Description |
-|------|-------------|
-| **N1: Null Student** | If the student is null, the system should reject the removal operation. |
-| **N2: Null Course Edition** | If the Course Edition is null, the system should reject the removal operation. |
-| **N3: Enrolment Does Not Exist** | If the enrolment does not exist, the system should reject the removal operation. |
+| Test                              | Description |
+|-----------------------------------|-------------|
+| **N1: Null Student ❌**            | If the student is null, the system should reject the removal operation. |
+| **N2: Null Course Edition ❌**     | If the Course Edition is null, the system should reject the removal operation. |
+| **N3: Enrolment Does Not Exist ❌** | If the enrolment does not exist, the system should reject the removal operation. |
 
 ---
 
