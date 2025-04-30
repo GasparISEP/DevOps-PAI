@@ -1,4 +1,4 @@
-package PAI.mapper.studyPlanID;
+package PAI.mapper.studyPlan;
 
 import PAI.VOs.StudyPlanID;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;

@@ -52,14 +52,30 @@ public class StudentRepositoryImplSpringDataTest {
     }
 
     @Test
-    public void testConstructorThrowsOnNulls() {
-        // Arrange
-        // No need for specific mocks for this test.
+    public void testConstructorThrowsOnNullsIfStudentRepositorySpringDataIsNull() {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(null, studentMapperImpl, studentIDMapperImpl, nifMapperImpl));
+    }
+
+    @Test
+    public void testConstructorThrowsOnNullsIfStudentMapperIsNull() {
+
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, null, studentIDMapperImpl, nifMapperImpl));
+    }
+
+    @Test
+    public void testConstructorThrowsOnNullsIfStudentIDMapperImplIsNull() {
+
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, null, nifMapperImpl));
+    }
+
+    @Test
+    public void testConstructorThrowsOnNullsIfNifMapperImplIsNull() {
+
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> new StudentRepositorySpringDataImpl(repoMock, studentMapperImpl, studentIDMapperImpl, null));
     }
 
@@ -74,8 +90,7 @@ public class StudentRepositoryImplSpringDataTest {
         Optional<Student> result = repository.ofIdentity(studentID);
 
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals(student, result.get());
+        assertEquals(Optional.of(student), result);
     }
 
     @Test
@@ -89,7 +104,6 @@ public class StudentRepositoryImplSpringDataTest {
         Student result = repository.save(student);
 
         // Assert
-        assertNotNull(result);
         assertEquals(student, result);
     }
 
@@ -267,9 +281,7 @@ public class StudentRepositoryImplSpringDataTest {
         List<Student> result = repository.findAll();
 
         // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(student, result.get(0));
+        assertEquals(List.of(student), result);
     }
 
     @Test

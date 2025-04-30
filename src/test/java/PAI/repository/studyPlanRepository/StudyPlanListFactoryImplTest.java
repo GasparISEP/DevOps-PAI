@@ -1,6 +1,8 @@
 package PAI.repository.studyPlanRepository;
 
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.persistence.mem.studyPlan.IStudyPlanListFactory;
+import PAI.persistence.mem.studyPlan.StudyPlanListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
