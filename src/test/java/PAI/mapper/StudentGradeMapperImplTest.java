@@ -59,7 +59,7 @@ public class StudentGradeMapperImplTest {
 
         // Assert
         assertEquals(1000001, dataModel.getStudentId().getUniqueNumber());
-        assertEquals(studentIDDM,       idDM.get_studentIDDataModel());
+        assertEquals(studentIDDM,       idDM.getStudentIDDataModel());
         assertEquals(17.5, dataModel.getGrade(), 0.01);
         assertEquals(LocalDate.of(2024, 6, 1), dataModel.getDate());
         assertEquals(courseEditionIDDataModel, dataModel.getCourseEditionID());
