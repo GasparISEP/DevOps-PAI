@@ -71,7 +71,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) {
         List <Programme> programmeList = new ArrayList<>();
         for (Programme programme : _programmeRepository.findAll()) {
-            if (programme.getDegreeTypeID().equals(id))
+            if (programme.hasThisDegreeTypeID(id))
                 programmeList.add(programme);
         }
         return programmeList;
