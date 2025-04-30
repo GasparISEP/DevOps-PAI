@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class StudentGradeServiceImpl {
+public class StudentGradeServiceImpl implements IStudentGradeService {
 
     private final IStudentGradeFactory studentGradeFactory;
     private final IStudentGradeRepository studentGradeRepository;
