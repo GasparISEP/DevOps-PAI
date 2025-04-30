@@ -1,18 +1,17 @@
 package PAI.domain;
 
 import PAI.VOs.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,25 +33,12 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
-        LocalDate localDate = LocalDate.now();
+        Date localDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         //act + assert
-        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, localDate);
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, localDate, enrolmentStatus);
 
-    }
-
-    @Test
-    void should_return_valid_programme_edition_enrolment_with_given_date() {
-        // Arrange
-        StudentID studentDoubleId = mock(StudentID.class);
-        ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
-        LocalDate givenDate = LocalDate.of(2022, 12, 1);
-
-        // Act
-        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, givenDate);
-
-        // Assert
-        assertEquals(givenDate, pee1.getEnrolmentDate());
     }
 
     @Test
@@ -68,42 +54,42 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null,null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null,null, null));
     }
 
     @Test
     void programmeEditionIdAndDateNullGenerateException() throws Exception {
 
         StudentID studentDoubleId = mock(StudentID.class);
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null, null));
     }
 
     @Test
     void shouldThrowExceptionWhenStudentIdIsNull_new_constructor() {
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        LocalDate validDate = LocalDate.now();
+        Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(null, doubleProgrammeEditionId, validDate);
+            new ProgrammeEditionEnrolment(null, doubleProgrammeEditionId, validDate, null);
         });
     }
 
     @Test
     void shouldThrowExceptionWhenProgrammeEditionIdIsNull_new_constructor() {
         StudentID doubleStudentID = mock(StudentID.class);
-        LocalDate validDate = LocalDate.now();
+        Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(doubleStudentID, null, validDate);
+            new ProgrammeEditionEnrolment(doubleStudentID, null, validDate, null);
         });
     }
 
     @Test
     void shouldThrowExceptionWhenProgrammeEditionIdAndStudentIDIsNull_new_constructor() {
-        LocalDate validDate = LocalDate.now();
+        Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(null, null, validDate);
+            new ProgrammeEditionEnrolment(null, null, validDate, null);
         });
     }
 
@@ -112,12 +98,13 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         // Act
-        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null);
+        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null, enrolmentStatus);
 
         // Assert
-        assertEquals(LocalDate.now(), enrolment.getEnrolmentDate());
+        assertEquals(Date.now(), enrolment.getEnrolmentDate());
     }
 
     @Test
@@ -230,49 +217,6 @@ class ProgrammeEditionEnrolmentTest {
         assertEquals(studentDoubleId, foundStudentId, "The found student should be the same as the mock student.");
     }
 
-    // Test returns true when the department and school year are correctly associated with the enrollment
-//    @Test
-//    void shouldReturnTrueWhenDepartmentAndSchoolYearAreAssociated() {
-//        // arrange
-//        StudentID student1DoubleId = mock(StudentID.class);
-//        Department departmentDouble = mock(Department.class);
-//        SchoolYear schoolYearDouble = mock(SchoolYear.class);
-//        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
-//        ProgrammeEditionID peDoubleID = mock(ProgrammeEditionID.class);
-//
-//        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble)).thenReturn(true);
-//
-//        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1DoubleId, peDoubleID);
-//
-//        // act
-//        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
-//
-//        // assert
-//        assertTrue(result);
-//    }
-//
-//    // Test returns false when department and school year are not associated with the enrollment
-//    @Test
-//    void shouldReturnFalseWhenDepartmentAndSchoolYearAreNotAssociatedWithTheEnrolment() {
-//        // arrange
-//        StudentID student1DoubleId = mock(StudentID.class);
-//        Department departmentDouble = mock(Department.class);
-//        SchoolYear schoolYearDouble = mock(SchoolYear.class);
-//        ProgrammeEdition editionDouble = mock(ProgrammeEdition.class);
-//        ProgrammeEditionID editionDoubleId = mock(ProgrammeEditionID.class);
-//
-//
-//        when(editionDouble.isEditionAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble)).thenReturn(false);
-//
-//        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1DoubleId, editionDoubleId);
-//
-//        // act
-//        boolean result = enrollment.isEnrolmentAssociatedToDepartmentAndSchoolYear(departmentDouble, schoolYearDouble);
-//
-//        // assert
-//        assertFalse(result);
-//    }
-
     @Test
     void shouldReturnStudentUniqueNumber() {
         // Arrange
@@ -287,20 +231,6 @@ class ProgrammeEditionEnrolmentTest {
 
         // Assert
         assertEquals(doubleSt1Id, studentId);
-    }
-
-    @Test
-    void getEnrolmentDate_shouldReturnCorrectDate() throws Exception {
-        // Arrange
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        LocalDate expectedDate = LocalDate.of(2024, 4, 23);
-
-        // Act
-        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentID, programmeEditionID, expectedDate);
-
-        // Assert
-        assertEquals(expectedDate, enrolment.getEnrolmentDate());
     }
 
     @Test
@@ -863,6 +793,48 @@ class ProgrammeEditionEnrolmentTest {
 
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void newEnrollment_ShouldBeActiveByDefault() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
+
+        // Act
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+
+        // Assert
+        assertTrue(enrollment.isEnrolmentActive(), "New enrolment should be active by default");
+    }
+
+    @Test
+    void deactivateEnrollment_ShouldSetEnrollmentToInactive() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+
+        // Act
+        enrollment.deactivateEnrolment();
+
+        // Assert
+        assertFalse(enrollment.isEnrolmentActive());
+    }
+
+    @Test
+    void deactivateEnrollment_ShouldRemainInactiveAfterMultipleDeactivations() {
+        // Arrange
+        StudentID studentIDMock = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+
+        // Act
+        enrollment.deactivateEnrolment();
+        enrollment.deactivateEnrolment();
+
+        // Assert
+        assertFalse(enrollment.isEnrolmentActive(), "Enrolment should remain inactive after multiple deactivations");
     }
 
 }

@@ -1,5 +1,6 @@
 package PAI.mapper;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
@@ -71,7 +72,7 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         when(pEEID.getStudentiD()).thenReturn(mock(StudentID.class));
         when(pEEID.getProgrammeEditionId()).thenReturn(mock(ProgrammeEditionID.class));
         when(dataModel.getEnrolmentDate()).thenReturn(LocalDate.now());
-        when(mockProgrammeEditionEnrolmentFactory.createWithEnrolmentDate(any(), any(), any()))
+        when(mockProgrammeEditionEnrolmentFactory.createWithEnrolmentDate(any(), any(), any(), any()))
                 .thenReturn(mock(ProgrammeEditionEnrolment.class));
 
         // Act
@@ -110,7 +111,7 @@ class ProgrammeEditionEnrolmentMapperImplTest {
         ProgrammeEditionEnrolment domain = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolmentID pEEID = mock(ProgrammeEditionEnrolmentID.class);
         when(domain.identity()).thenReturn(pEEID);
-        when(domain.getEnrolmentDate()).thenReturn(LocalDate.now());
+        when(domain.getEnrolmentDate()).thenReturn(Date.now());
 
         ProgrammeEditionEnrolmentIDDataModel idDataModel = mock(ProgrammeEditionEnrolmentIDDataModel.class);
         when(mockProgrammeEditionEnrolmentIDMapper.toDataModel(pEEID)).thenReturn(Optional.ofNullable(idDataModel));

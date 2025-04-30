@@ -4,5 +4,7 @@ import PAI.VOs.*;
 
 public interface IStudyPlanFactory {
 
-    StudyPlan newStudyPlan_2(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts);
+    StudyPlan createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts);
+
+    StudyPlan createStudyPlanFromDataModel(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID);
 }

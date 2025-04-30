@@ -4,9 +4,9 @@ import PAI.VOs.Date;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.Teacher;
-import PAI.service.ITeacherCareerProgressionService;
+import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherService;
-import PAI.service.TeacherCareerProgressionService;
+import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,7 +27,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
 
         //Arrange
         ITeacherService teacherServiceDouble = mock(ITeacherService.class);
-        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionServiceImpl.class);
 
         //Act
         new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
@@ -37,7 +37,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void testConstructorWithNullTeacherRepository() {
         // Arrange
         ITeacherService teacherServiceDouble = null;
-        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionServiceImpl.class);
 
 
         // Act & Assert
@@ -63,7 +63,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void shouldReturnListOfTeachers() throws Exception {
         //arrange
         ITeacherService teacherServiceDouble = mock(ITeacherService.class);
-        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionServiceImpl.class);
         List<Teacher> listDouble = mock(List.class);
 
         US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
@@ -81,7 +81,7 @@ class US15_UpdateTeacherWorkingPercentageControllerTest {
     void successfullyUpdatesWorkingPercentageInTeacherCareerProgression() throws Exception {
         //arrange
         ITeacherService teacherServiceDouble = mock(ITeacherService.class);
-        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionService.class);
+        ITeacherCareerProgressionService teacherCareerProgressionServiceDouble = mock(TeacherCareerProgressionServiceImpl.class);
 
         US15_UpdateTeacherWorkingPercentageController controller = new US15_UpdateTeacherWorkingPercentageController(teacherServiceDouble, teacherCareerProgressionServiceDouble);
 

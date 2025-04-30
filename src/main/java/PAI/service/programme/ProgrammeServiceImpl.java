@@ -56,37 +56,71 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return true;
     }
 
-    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID id) {
-        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        for (Programme programme : _programmeRepository.findAll()) {
-            if(programme.isInDepartment(id)){
-                programmesWithDepartment.add(programme.identity());
-            }
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID) {
+        List<ProgrammeID> programmeIDs;
+        if (departmentID == null) {
+            programmeIDs = List.of();
+        } else {
+            programmeIDs = _programmeRepository.findProgrammeByDepartment(departmentID);
         }
-        return programmesWithDepartment;
+        return programmeIDs;
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
-        return _programmeRepository.getProgrammesByDegreeTypeID(id);
+        List <Programme> programmeList = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getDegreeTypeID().equals(id))
+                programmeList.add(programme);
+        }
+        return programmeList;
     }
 
     public Optional<ProgrammeID> findProgrammeIdByProgramme(Programme prog) throws Exception {
-        return _programmeRepository.findProgrammeIdByProgramme(prog);
-    }
-
-    public List<Programme> getAllProgrammes() {
-        return _programmeRepository.getAllProgrammes();
+        for (Programme existingProgramme : _programmeRepository.findAll()) {
+            if (existingProgramme.sameAs(prog)) {
+                return Optional.of(prog.identity());
+            }
+        }
+        return Optional.empty();
     }
 
     public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        return  _programmeRepository.getProgrammeByName(name);
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisProgrammeName(name)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
     }
 
     public Programme getProgrammeByAcronym(Acronym acronym) {
-        return _programmeRepository.getProgrammeByAcronym(acronym);
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.getAcronym().equals(acronym)) {
+                return programme;
+            }
+        }
+        return null;
     }
 
     public List<ProgrammeID> getAllProgrammeIDs() {
-        return _programmeRepository.getAllProgrammesIDs();
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            programmeIDs.add(programme.getProgrammeID());
+        }
+        return programmeIDs;
+    }
+
+    public Iterable<Programme> findAll() {
+        return _programmeRepository.findAll();
+    }
+
+    @Override
+    public Optional<Programme> getProgrammeByID(ProgrammeID id) {
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.identity().equals(id)) {
+                return Optional.of(programme);
+            }
+        }
+        return Optional.empty();
     }
 }

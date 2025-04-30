@@ -1,12 +1,13 @@
 package PAI.factory;
 
+import PAI.VOs.Date;
+import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.Student;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
+@Component
 public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEnrolmentFactory {
 
     public ProgrammeEditionEnrolment newProgrammeEditionEnrolment(
@@ -24,7 +25,7 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
     }
 
     @Override
-    public ProgrammeEditionEnrolment createWithEnrolmentDate(StudentID studentId, ProgrammeEditionID programmeEditionId, LocalDate enrolmentDate) {
+    public ProgrammeEditionEnrolment createWithEnrolmentDate(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive) {
 
         if (studentId == null) {
             throw new IllegalArgumentException("Student cannot be null.");
@@ -34,6 +35,6 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
             throw new IllegalArgumentException("ProgrammeEdition cannot be null.");
         }
 
-        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, enrolmentDate);
+        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, enrolmentDate, isActive);
     }
 }

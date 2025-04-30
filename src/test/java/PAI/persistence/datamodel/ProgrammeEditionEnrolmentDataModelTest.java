@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,9 @@ class ProgrammeEditionEnrolmentDataModelTest {
         StudentIDDataModel studentIdDataModel = mock(StudentIDDataModel.class);
         ProgrammeEditionEnrolmentIDDataModel id = new ProgrammeEditionEnrolmentIDDataModel(studentIdDataModel, programmeEditionID);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
         // Act
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate, enrolmentStatus.isEnrolmentActive());
 
         // Assert
         assertNotNull(model);
@@ -48,7 +50,8 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel expectedId =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(expectedId, enrolmentDate);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(expectedId, enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act
         ProgrammeEditionEnrolmentIDDataModel actualId = model.getProgrammeEditionEnrolmentIDDataModel();
@@ -62,7 +65,8 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate expectedDate = LocalDate.of(2025, 5, 1);
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id, expectedDate);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id, expectedDate,enrolmentStatus.isEnrolmentActive());
 
         // Act
         LocalDate actualDate = model.getEnrolmentDate();
@@ -79,11 +83,12 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id =
                 mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
         ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id, enrolmentDate);
+                new ProgrammeEditionEnrolmentDataModel(id, enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act & Assert
-        assertEquals(enrolment, enrolment); // mesmo objeto
+        assertEquals(enrolment, enrolment);
     }
 
     @Test
@@ -94,9 +99,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id2 =
                 mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
-        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1, enrolmentDate);
-        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2, enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel e1 = new ProgrammeEditionEnrolmentDataModel(id1, enrolmentDate,enrolmentStatus.isEnrolmentActive());
+        ProgrammeEditionEnrolmentDataModel e2 = new ProgrammeEditionEnrolmentDataModel(id2, enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act & Assert
         assertNotEquals(e1, e2);
@@ -109,9 +115,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id =
                 mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act & Assert
         assertNotEquals(enrolment, null);
@@ -123,9 +130,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id =
                 mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentDataModel enrolment =
-                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+                new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act & Assert
         assertNotEquals(enrolment, "string");
@@ -138,9 +146,10 @@ class ProgrammeEditionEnrolmentDataModelTest {
         // Arrange
         ProgrammeEditionEnrolmentIDDataModel id =  mock(ProgrammeEditionEnrolmentIDDataModel.class);
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate,enrolmentStatus.isEnrolmentActive());
+        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act
         int hash1 = model1.hashCode();
@@ -156,7 +165,8 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
-        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentDataModel model = new ProgrammeEditionEnrolmentDataModel(id,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // act
         int hash = model.hashCode();
@@ -172,8 +182,9 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id2 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
-        ProgrammeEditionEnrolmentDataModel obj1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate);
-        ProgrammeEditionEnrolmentDataModel obj2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentDataModel obj1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate,enrolmentStatus.isEnrolmentActive());
+        ProgrammeEditionEnrolmentDataModel obj2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // act & assert
         assertNotEquals(obj1.hashCode(), obj2.hashCode());
@@ -186,8 +197,9 @@ class ProgrammeEditionEnrolmentDataModelTest {
         ProgrammeEditionEnrolmentIDDataModel id2 = mock(ProgrammeEditionEnrolmentIDDataModel.class);
 
         LocalDate enrolmentDate = LocalDate.of(2025, 4, 21);
-        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate);
-        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentDataModel model1 = new ProgrammeEditionEnrolmentDataModel(id1,enrolmentDate,enrolmentStatus.isEnrolmentActive());
+        ProgrammeEditionEnrolmentDataModel model2 = new ProgrammeEditionEnrolmentDataModel(id2,enrolmentDate,enrolmentStatus.isEnrolmentActive());
 
         // Act
         int hash1 = model1.hashCode();

@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.teacherCareerProgression;
 
 import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;
@@ -7,16 +7,18 @@ import PAI.VOs.WorkingPercentage;
 import PAI.domain.TeacherCareerProgression;
 import PAI.factory.ITeacherCareerProgressionFactory;
 import PAI.repository.ITeacherCareerProgressionRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class TeacherCareerProgressionService implements ITeacherCareerProgressionService {
+@Service
+public class TeacherCareerProgressionServiceImpl implements ITeacherCareerProgressionService {
 
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
 
-    public TeacherCareerProgressionService(ITeacherCareerProgressionRepository teacherCareerProgressionRepo, ITeacherCareerProgressionFactory teacherCareerProgressionFactory) {
+    public TeacherCareerProgressionServiceImpl(ITeacherCareerProgressionRepository teacherCareerProgressionRepo, ITeacherCareerProgressionFactory teacherCareerProgressionFactory) {
         this._TCPrepository = Objects.requireNonNull(teacherCareerProgressionRepo, "Teacher Career Progression Repository cannot be null!");
         this._TCPfactory = Objects.requireNonNull(teacherCareerProgressionFactory, "Teacher Career Progression Factory cannot be null!");
     }

@@ -8,6 +8,7 @@ import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditionEnrolmentRepository {
 
@@ -21,16 +22,7 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
         _iProgrammeEditionEnrolmentFactory = iProgrammeEditionEnrolmentFactory;
         _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
     }
-    @Override
-    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
-            if (programmeEditionId == null || studentId == null) {
-                throw new IllegalArgumentException("ProgrammeEdition and Student cannot be null.");
-            }
 
-            ProgrammeEditionEnrolment programmeEditionEnrol = _iProgrammeEditionEnrolmentFactory.newProgrammeEditionEnrolment(studentId, programmeEditionId);
-
-            return _programmeEditionEnrolments.add(programmeEditionEnrol);
-    }
     @Override
     public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
         if(studentId == null || programmeEditionId == null) {
@@ -70,15 +62,25 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
 
     @Override
     public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId){
-        List<ProgrammeEditionID> list = new ArrayList<>();
+        return _programmeEditionEnrolments.stream()
+                .filter(enrolment -> enrolment.findStudentInProgrammeEdition().equals(studentId))
+                .map(ProgrammeEditionEnrolment::findProgrammeEditionInEnrolment)
+                .collect(Collectors.toList());
+    }
 
-        for(ProgrammeEditionEnrolment programmeEditionEnrolment : _programmeEditionEnrolments){
-            if(programmeEditionEnrolment.findStudentInProgrammeEdition().equals(studentId)){
-                ProgrammeEditionID programmeEditionId = programmeEditionEnrolment.findProgrammeEditionInEnrolment();
-                list.add(programmeEditionId);
+    @Override
+    public Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentID, ProgrammeEditionID programmeEditionID) {
+        if (studentID == null || programmeEditionID == null) {
+            return Optional.empty();
+        }
+
+        for (ProgrammeEditionEnrolment enrolment : _programmeEditionEnrolments) {
+            if (enrolment.hasSameStudent(studentID) &&
+                    enrolment.hasSameProgrammeEdition(programmeEditionID)) {
+                return Optional.of(enrolment);
             }
         }
-        return list;
+        return Optional.empty();
     }
 
 

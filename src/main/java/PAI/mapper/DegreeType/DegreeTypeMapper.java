@@ -3,6 +3,7 @@ package PAI.mapper.DegreeType;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
+import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
 import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Component;
 public class DegreeTypeMapper implements IDegreeTypeMapper {
 
     private final IDegreeTypeIDMapper idMapper;
+    private final IDegreeTypeFactory factory;
 
-    public DegreeTypeMapper(IDegreeTypeIDMapper idMapper) {
+    public DegreeTypeMapper(IDegreeTypeIDMapper idMapper,  IDegreeTypeFactory factory) {
         this.idMapper = idMapper;
+        this.factory = factory;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class DegreeTypeMapper implements IDegreeTypeMapper {
 
     @Override
     public DegreeType toDomainModel(DegreeTypeDataModel dm) {
-        return new DegreeType(
+        return factory.recreate(
                 idMapper.toDomain(dm.getId()),
                 new Name(dm.getName()),
                 new MaxEcts(dm.getMaxEcts())

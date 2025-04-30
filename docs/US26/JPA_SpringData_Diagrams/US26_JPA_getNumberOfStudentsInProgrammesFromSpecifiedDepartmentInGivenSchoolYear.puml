@@ -1,0 +1,169 @@
+@startuml
+
+title US26: Get number of students enrolled in programmes from specified department in a given school year
+autonumber
+skinparam sequence {
+   LifelineBorderColor Black
+   LifelineBackgroundColor LightBlue
+ }
+
+actor "Department Director" as DepartmentDir #White
+participant ":UI" as UI #LightBlue/White
+participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+participant ":IDepartmentService" as IDepartmentService #LightBlue/White
+participant ":ISchoolYearService" as ISchoolYearService #LightBlue/White
+participant ":IProgrammeService" as IProgrammeService #LightBlue/White
+
+
+
+activate DepartmentDir
+DepartmentDir -> UI: I want to get number of students \n enrolled in programmes from my \n department in a given school year
+activate UI
+
+UI -> Controller: getAllDepartmentID ()
+activate Controller
+Controller -> IDepartmentService: getDepartmentIDs ()
+activate IDepartmentService
+ref over IDepartmentService
+Get all Department IDs
+end ref
+IDepartmentService --> Controller: Set<DepartmentID>
+
+
+Controller --> UI: Set<DepartmentID>
+UI -> Controller: getAllSchoolYearsIDs ()
+Controller -> ISchoolYearService: getAllSchoolYearsIDs ()
+activate ISchoolYearService
+ref over ISchoolYearService
+Get all SchoolYear IDs
+end ref
+ISchoolYearService --> Controller: List<SchoolYearID>
+Controller --> UI: List<SchoolYearID>
+
+
+UI-->DepartmentDir: Choose Department
+DepartmentDir ->UI: Department selected
+UI --> DepartmentDir: Choose SchoolYear
+DepartmentDir ->UI: School Year selected
+
+UI-> Controller: countStudentsInProgrammesFromDepartmentInSchoolYear(departmentID, schoolYearID)
+
+ref over Controller
+Convert Strings departmentID and schoolYearID to VOs
+end ref
+
+
+Controller -> ISchoolYearService: schoolYearExistsByID(schoolYearID)
+ref over ISchoolYearService
+Checking If SchoolYear Exists in SpringData Repository
+end ref
+ISchoolYearService --> Controller: true
+
+deactivate ISchoolYearService
+
+Controller -> IDepartmentService: departmentExists(departmentID)
+ref over IDepartmentService
+Checking If Department Exists in SpringData Repository
+end ref
+IDepartmentService-->Controller: true
+deactivate IDepartmentService
+
+Controller -> IProgrammeService: findProgrammeByDepartment(departmentID)
+activate IProgrammeService
+ref over IProgrammeService
+Find Programmes From Department
+end ref
+
+IProgrammeService --> Controller: List <ProgrammeID> programmesWithDepartment
+deactivate IProgrammeService
+participant ":IProgrammeEditionEnrolmentService" as IProgrammeEditionEnrolmentService #LightBlue/White
+participant ":IProgrammeEditionEnrolmentRepository" as IProgrammeEditionEnrolmentRepository #LightBlue/White
+participant ":ProgrammeEditionEnrolmentRepositorySpringDataImpl" as ProgrammeEditionEnrolmentRepositorySpringDataImpl #LightBlue/White
+participant ":IProgrammeEditionEnrolmentRepositorySpringData" as IProgrammeEditionEnrolmentRepositorySpringData #LightBlue/White
+
+
+Controller -> IProgrammeEditionEnrolmentService: countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID, programmesWithDepartment)
+activate IProgrammeEditionEnrolmentService
+IProgrammeEditionEnrolmentService -> IProgrammeEditionEnrolmentRepository: countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID, programmesWithDepartment)
+activate IProgrammeEditionEnrolmentRepository
+IProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolmentRepositorySpringDataImpl: countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID, programmesWithDepartment)
+activate ProgrammeEditionEnrolmentRepositorySpringDataImpl
+
+ProgrammeEditionEnrolmentRepositorySpringDataImpl -> IProgrammeEditionEnrolmentRepositorySpringData: findAll()
+activate IProgrammeEditionEnrolmentRepositorySpringData
+create "pee[i]: EnrollmentList" #LightBlue/White
+IProgrammeEditionEnrolmentRepositorySpringData -> "pee[i]: EnrollmentList"** : findAll()
+deactivate IProgrammeEditionEnrolmentRepositorySpringData
+
+activate "pee[i]: EnrollmentList"
+
+loop for each ProgrammeEditionEnrolmentDataModel in "peeDM[i]: PEEDataModelList"
+ deactivate "pee[i]: EnrollmentList"
+ participant ":IProgrammeEditionEnrolmentMapper" as IProgrammeEditionEnrolmentMapper #LightBlue/White
+
+ ProgrammeEditionEnrolmentRepositorySpringDataImpl -> IProgrammeEditionEnrolmentMapper: toDomain(ProgrammeEditionEnrolmentDataModel)
+ activate IProgrammeEditionEnrolmentMapper
+ participant ":IProgrammeEditionEnrolmentFactory" as IProgrammeEditionEnrolmentFactory #LightBlue/White
+
+ IProgrammeEditionEnrolmentMapper -> IProgrammeEditionEnrolmentFactory: createWithEnrolmentDate()
+ activate IProgrammeEditionEnrolmentFactory
+ create "pee1: ProgrammeEditionEnrolment" #LightBlue/White
+ IProgrammeEditionEnrolmentFactory ->  "pee1: ProgrammeEditionEnrolment"** : new ProgrammeEditionEnrolment()
+ activate "pee1: ProgrammeEditionEnrolment"
+ "pee1: ProgrammeEditionEnrolment" --> IProgrammeEditionEnrolmentFactory: pee1: ProgrammeEditionEnrolment
+ IProgrammeEditionEnrolmentFactory --> IProgrammeEditionEnrolmentMapper: pee1: ProgrammeEditionEnrolment
+ deactivate IProgrammeEditionEnrolmentFactory
+ IProgrammeEditionEnrolmentMapper --> ProgrammeEditionEnrolmentRepositorySpringDataImpl: pee1: ProgrammeEditionEnrolment
+
+ deactivate IProgrammeEditionEnrolmentMapper
+ ProgrammeEditionEnrolmentRepositorySpringDataImpl -> "pee[i]: EnrollmentList": add (pee1)
+ end
+"pee[i]: EnrollmentList" --> ProgrammeEditionEnrolmentRepositorySpringDataImpl: pee[i]:EnrollmentList
+participant ":ProgrammeEditionID" as ProgrammeEditionID #LightBlue/White
+create ":StudentIDs" #LightBlue/White
+ProgrammeEditionEnrolmentRepositorySpringDataImpl -> ":StudentIDs"** : new HashSet<>()
+activate ":StudentIDs"
+
+
+loop for each ProgrammeEditionEnrolment in pee[i]: EnrollmentList
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ->"pee1: ProgrammeEditionEnrolment" :isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID, programmesWithDepartment)
+
+loop for each ProgrammeID[i] in :ProgrammesWithDepartment
+"pee1: ProgrammeEditionEnrolment" -> ProgrammeEditionID: isSameProgrammeEdition(ProgrammeID, schoolYearID)
+activate ProgrammeEditionID
+ProgrammeEditionID --> "pee1: ProgrammeEditionEnrolment": True
+deactivate ProgrammeEditionID
+"pee1: ProgrammeEditionEnrolment" --> "pee[i]: EnrollmentList": True
+
+deactivate "pee1: ProgrammeEditionEnrolment"
+end
+
+"pee[i]: EnrollmentList" --> ProgrammeEditionEnrolmentRepositorySpringDataImpl:True
+
+
+alt isEnrolmentAssociatedToProgrammeAndSchoolYear
+ProgrammeEditionEnrolmentRepositorySpringDataImpl -> "pee[i]: EnrollmentList": findStudentInProgrammeEdition ()
+"pee[i]: EnrollmentList" --> ProgrammeEditionEnrolmentRepositorySpringDataImpl: studentID
+deactivate "pee[i]: EnrollmentList"
+ProgrammeEditionEnrolmentRepositorySpringDataImpl -> ":StudentIDs": add(studentID)
+end
+end
+
+":StudentIDs" --> ProgrammeEditionEnrolmentRepositorySpringDataImpl: studentIDs.size()
+deactivate ":StudentIDs"
+ProgrammeEditionEnrolmentRepositorySpringDataImpl --> IProgrammeEditionEnrolmentRepository: studentIDs.size()
+
+deactivate ProgrammeEditionEnrolmentRepositorySpringDataImpl
+IProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService: studentIDs.size()
+deactivate IProgrammeEditionEnrolmentRepository
+IProgrammeEditionEnrolmentService -->Controller: studentIDs.size()
+deactivate IProgrammeEditionEnrolmentService
+
+Controller --> UI:  studentIDs.size()
+deactivate Controller
+UI-->DepartmentDir: studentIDs.size()
+deactivate DepartmentDir
+deactivate UI
+
+
+@enduml

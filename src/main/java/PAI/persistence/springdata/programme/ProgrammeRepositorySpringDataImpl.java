@@ -1,38 +1,42 @@
 package PAI.persistence.springdata.programme;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import PAI.repository.programmeRepository.IProgrammeRepository;
 import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
-//Should Implement IProgrammeRepository
-public class ProgrammeRepositorySpringDataImpl {
+@Repository
+public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
 
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
-    private final IProgrammeIDMapper _iProgIdMapper;
+    private final IProgrammeIDMapper _iProgIDMapper;
 
-    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIdMapper) {
+    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }
         if(iProgMapper == null) {
             throw new IllegalArgumentException("iProgrammedMapper must not be null");
         }
-        if (iProgIdMapper == null) {
-            throw new IllegalArgumentException("iProgrammeIDMapper must not be null");
+        if(iProgIDMapper == null) {
+            throw new IllegalArgumentException("iProgrammedIDMapper must not be null");
         }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
-        _iProgIdMapper = iProgIdMapper;
+        _iProgIDMapper = iProgIDMapper;
     }
 
     public Programme save(Programme prog) {
@@ -44,8 +48,8 @@ public class ProgrammeRepositorySpringDataImpl {
         return null;
     }
 
-    public Programme update(ProgrammeID id,Programme prog) {
-        if(!_iProgRepo.existsById(id.toString()))
+    public Programme update(ProgrammeIDDataModel id,Programme prog) {
+        if(!_iProgRepo.existsById(id))
             throw new EntityNotFoundException("Programme not found!");
 
         ProgrammeDataModel programmeDataModel = _iProgMapper.toData(prog);
@@ -67,7 +71,8 @@ public class ProgrammeRepositorySpringDataImpl {
     }
 
     public Optional<Programme> ofIdentity(ProgrammeID id) {
-        Optional<ProgrammeDataModel> dataModelOptional = _iProgRepo.findById(id.toString());
+        ProgrammeIDDataModel idDM = _iProgIDMapper.toData(id);
+        Optional<ProgrammeDataModel> dataModelOptional = _iProgRepo.findById(idDM);
 
         if (dataModelOptional.isPresent()) {
             Programme programme = _iProgMapper.toDomain(dataModelOptional.get());
@@ -78,6 +83,18 @@ public class ProgrammeRepositorySpringDataImpl {
     }
 
     public boolean containsOfIdentity(ProgrammeID id) {
-        return _iProgRepo.existsById(id.toString());
+        ProgrammeIDDataModel idDM = _iProgIDMapper.toData(id);
+        return _iProgRepo.existsById(idDM);
+    }
+
+    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
+        List<Programme> allProgrammes=findAll();
+        for (Programme programme : allProgrammes) {
+            if(programme.isInDepartment(departmentID)){
+                programmesWithDepartment.add(programme.identity());
+            }
+        }
+        return programmesWithDepartment;
     }
 }

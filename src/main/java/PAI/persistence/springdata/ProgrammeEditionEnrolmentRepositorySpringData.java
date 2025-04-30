@@ -2,40 +2,53 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
+import PAI.mapper.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
+import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgrammeEditionEnrolmentRepository {
 
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
     private final IProgrammeEditionEnrolmentMapper _peeMapper;
     private final IProgrammeEditionEnrolmentIDMapper _peeIDMapper;
+    private final IStudentIDMapper studentIdMapper;
     private final IProgrammeEditionIdMapper programmeEditionIdMapper;
 
     public ProgrammeEditionEnrolmentRepositorySpringData(
             IProgrammeEditionEnrolmentRepositorySpringData peeRepositorySpringData,
             IProgrammeEditionEnrolmentMapper peeMapper,
-            IProgrammeEditionEnrolmentIDMapper peeIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper) {
+            IProgrammeEditionEnrolmentIDMapper peeIDMapper,
+            IStudentIDMapper studentIdMapper,
+            IProgrammeEditionIdMapper programmeEditionIdMapper) {
         if (peeRepositorySpringData == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepositorySpringData cannot be null");
         if (peeMapper == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentMapper cannot be null");
         if (peeIDMapper == null)
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentIDMapper cannot be null");
+        if (studentIdMapper == null)
+            throw new IllegalArgumentException("StudentIDMapper cannot be null!");
         if (programmeEditionIdMapper == null) {
             throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
         }
         this.programmeEditionIdMapper = programmeEditionIdMapper;
         this._peeRepositorySpringData = peeRepositorySpringData;
         this._peeMapper = peeMapper;
+        this.studentIdMapper = studentIdMapper;
         this._peeIDMapper = peeIDMapper;
     }
 
@@ -75,21 +88,18 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         return ProgrammeEditionsThatStudentIsEnrolled;
     }
 
-
-
-
-    public boolean enrolStudentInProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
-
-
-
-        return false;
-    }
-
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
-
-
-        return 0;
+        Set<StudentID> studentIDs = new HashSet<>();
+        List<ProgrammeEditionEnrolment> enrollmentList = findAll();
+        for (ProgrammeEditionEnrolment enrollment : enrollmentList) {
+            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)) {
+                StudentID studentID = enrollment.findStudentInProgrammeEdition();
+                studentIDs.add(studentID);
+            }
+        }
+        return studentIDs.size();
     }
+
 
     public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
@@ -102,8 +112,23 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
         return allProgrammeEditionEnrolments;
     }
 
+    @Override
+    public Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+        try {
+            StudentIDDataModel studentIDDataModel = studentIdMapper.domainToDataModel(studentId);
+            ProgrammeEditionIdDataModel programmeEditionIDDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
 
+            Optional<ProgrammeEditionEnrolmentDataModel> dataModel =
+                    _peeRepositorySpringData.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIDDataModel);
 
+            if (dataModel.isEmpty()) return Optional.empty();
+
+            return _peeMapper.toDomain(dataModel.get());
+
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment enrolment) {
         if (enrolment == null) {

@@ -23,8 +23,8 @@ class StudentServiceImplTest {
     @Test
     void shouldCreateStudentService() {
         //arrange
-        IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
 
         //act
         StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
@@ -35,8 +35,8 @@ class StudentServiceImplTest {
 
     static Stream<Arguments> testNullInputs() {
         return Streams.of(
-                Arguments.of(null, mock(StudentRepositorySpringDataImpl.class), "Student Factory cannot be null!"),
-                Arguments.of(mock(StudentFactoryImpl.class), null, "Student Repository cannot be null!")
+                Arguments.of(null, mock(IStudentRepository.class), "Student Factory cannot be null!"),
+                Arguments.of(mock(IStudentFactory.class), null, "Student Repository cannot be null!")
         );
     }
 
@@ -57,8 +57,8 @@ class StudentServiceImplTest {
         //arrange
 
         //serviceParameters
-        IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
 
         StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
@@ -109,8 +109,8 @@ class StudentServiceImplTest {
     @MethodSource("parametersToCreateStudentAreInvalid")
     void shouldThrowExceptionWhenParametersToCreateStudentAreNotValid(StudentID studentID, Name name, NIF nif, PhoneNumber phoneNumber, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail studentAcademicEmail, String expectedMessage) throws Exception {
         //arrange
-        IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
 
         StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
@@ -127,8 +127,8 @@ class StudentServiceImplTest {
     @Test
     void shouldThrowExceptionWhenStudentCannotBeSavedOnDataBase() throws Exception {
         //arrange
-        IStudentFactory studentFactoryDouble = mock(StudentFactoryImpl.class);
-        IStudentRepository studentRepositoryDouble = mock(StudentRepositorySpringDataImpl.class);
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
 
         StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 

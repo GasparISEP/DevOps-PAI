@@ -34,16 +34,31 @@ CourseEditionEnrolmentService -> ProgrammeEditionEnrolmentRepository: findProgra
 activate ProgrammeEditionEnrolmentRepository #E1F5FE
 
 participant ":IProgrammeEditionEnrolmentSpringDataJPA" as IPEESpringDataJPA
-ProgrammeEditionEnrolmentRepository -> IPEESpringDataJPA: findByStudentId (studentID.toString())
+ProgrammeEditionEnrolmentRepository -> IPEESpringDataJPA: findAll ()
 activate IPEESpringDataJPA #E1F5FE
-IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEditionDataModel>
+IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEditionEnrolmentDataModel>
 deactivate IPEESpringDataJPA
 
+create ":ArrayList"
+ProgrammeEditionEnrolmentRepository -> ":ArrayList": create
+
+loop for each peeDataModel in List<ProgrammeEditionEnrolmentDataModel>
 
 ref over ProgrammeEditionEnrolmentRepository
-    SD Convert List<ProgrammeEditionDataModel>
-    to List<ProgrammeEditionID>
+    SD Convert ProgrammeEditionEnrolmentDataModel to Domain
 end ref
+
+participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: findStudentInProgrammeEdition()
+activate ProgrammeEditionEnrolment #E1F5FE
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository: programmeEditionID
+deactivate ProgrammeEditionEnrolment #E1F5FE
+
+ProgrammeEditionEnrolmentRepository -> ":ArrayList": add (programmeEditionID)
+activate ":ArrayList" #E1F5FE
+":ArrayList" --> ProgrammeEditionEnrolmentRepository: True
+deactivate ":ArrayList" #E1F5FE
+end
 
 ProgrammeEditionEnrolmentRepository --> CourseEditionEnrolmentService: List<ProgrammeEditionID>
 deactivate ProgrammeEditionEnrolmentRepository
@@ -73,14 +88,18 @@ CourseEditionEnrolmentService -> CourseEditionRepository: findCourseEditionsByPr
 activate CourseEditionRepository #E1F5FE
 
 participant ":ICourseEditionSpringDataJPA" as ceJPAInterface
-CourseEditionRepository -> ceJPAInterface : findCourseEditionsByProgrammeEdition \n (programmeEditionID)
+
+ref over CourseEditionRepository
+    SD Convert ProgrammeEditionID to DataModel
+end ref
+
+CourseEditionRepository -> ceJPAInterface : findCourseEditionIDByProgrammeEditionIDDataModel \n (programmeEditionIDDataModel)
 activate ceJPAInterface #E1F5FE
-ceJPAInterface --> CourseEditionRepository : List<CourseEditionDataModel>
+ceJPAInterface --> CourseEditionRepository : List<CourseEditionIDDataModel>
 deactivate ceJPAInterface
 
 ref over CourseEditionRepository
-    SD Convert List<CourseEditionDataModel>
-    to List<CourseEditionID>
+    SD Convert List<CourseEditionIDDataModel> to Domain
 end ref
 
 CourseEditionRepository --> CourseEditionEnrolmentService: List<CourseEditionID>
@@ -145,11 +164,15 @@ CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isStudentEnr
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
 ref over ICourseEditionEnrolmentRepository
-    SD isStudentEnrolledInCourseEdition (studentID, courseEditionID)
+    SD Convert StudentID and CourseEditionID to DataModel
 end ref
 
 participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
 
+ICourseEditionEnrolmentRepository -> ceeJPAInterface: existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIDDataModel, courseEditionIDDataModel)
+activate ceeJPAInterface #E1F5FE
+ceeJPAInterface --> ICourseEditionEnrolmentRepository: False
+deactivate ceeJPAInterface
 
 ICourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: False
 deactivate ICourseEditionEnrolmentRepository

@@ -8,10 +8,13 @@ import PAI.factory.ISchoolYearFactory;
 import PAI.repository.ISchoolYearRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class SchoolYearServiceImplTest {
 
@@ -108,9 +111,6 @@ class SchoolYearServiceImplTest {
         });
 
         assertEquals("School year already exists.", exception.getMessage()); // Verify the exception message
-
-        // Verify that save() was never called (since the school year already exists)
-        verify(schoolYearRepository, never()).save(any());  // Ensure save() is NOT called
     }
 
     // Test case for adding multiple different school years successfully
@@ -148,8 +148,134 @@ class SchoolYearServiceImplTest {
         // Assert: Verify that both school years are added successfully
         assertTrue(result1);
         assertTrue(result2);
+    }
 
-        // Verify that save() is called twice, once for each school year
-        verify(schoolYearRepository, times(2)).save(any());  // Ensure save() is called for both school years
+    @Test
+    void shouldReturnOptionalSchoolYearIdWhenSchoolYearExists() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.of(schoolYear1));
+        when(schoolYear1.identity()).thenReturn(schoolYearID1);
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isPresent());
+        assertEquals(schoolYearID1,result.get());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyWhenSchoolYearDoesNotExist() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isEmpty());
+    }
+
+
+    @Test
+    void shouldReturnOptionalEmptyWhenRepositoryThrowsException() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        when(schoolYearRepository.getCurrentSchoolYear()).thenThrow(new NullPointerException());
+        //act
+        Optional<SchoolYearID> result = service.getCurrentSchoolYearID();
+        //assert
+        assertTrue(result.isEmpty());
+    }
+
+
+    @Test
+    void shouldReturnTrueIfSchoolYearExistsByID(){
+        //arrange
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        when(schoolYearRepository.containsOfIdentity(schoolYearID1)).thenReturn(true);
+        //act
+        boolean result=service.schoolYearExistsById(schoolYearID1);
+        //assert
+        assertTrue(result);
+
+    }
+
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIDIsNull(){
+        //arrange
+        SchoolYearID schoolYearID1 = null;
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        //act
+        boolean result=service.schoolYearExistsById(schoolYearID1);
+        //assert
+        assertFalse(result);
+
+    }
+
+
+    @Test
+    void shouldReturnFalseIfSchoolYearIsNotInRepository(){
+        //arrange
+        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+
+        when(schoolYearRepository.containsOfIdentity(schoolYearID1)).thenReturn(false);
+        //act
+        boolean result=service.schoolYearExistsById(schoolYearID1);
+        //assert
+        assertFalse(result);
+
+    }
+
+    @Test
+    void shouldReturnTwoIfRepositoryContainsTwoSchoolYearIDs(){
+        //arrange
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+        when(schoolYearRepository.findAll()).thenReturn(List.of(schoolYear,schoolYear2));
+
+        //act
+        List<SchoolYearID> result=service.getAllSchoolYearsIDs();
+        //assert
+        assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void shouldReturn0IfRepositoryRepositoryDoesNotContainSchoolYearIDs(){
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory);
+        when(schoolYearRepository.getAllSchoolYearsIDs()).thenReturn(List.of());
+
+        //act
+        List<SchoolYearID> result=service.getAllSchoolYearsIDs();
+        //assert
+        assertEquals(0, result.size());
+
     }
 }

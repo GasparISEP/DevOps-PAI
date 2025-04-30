@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ProgrammeFactoryImplTest {
-    @Test
 
-    void shouldCreatNewProgramme() throws Exception {
+    @Test
+    void shouldCreatNewProgramme() throws IllegalArgumentException {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -34,4 +34,34 @@ class ProgrammeFactoryImplTest {
         assertEquals(department, programme.getDepartment());
         assertEquals(programmeDirectorID, programme.getProgrammeDirectorID());
     }
+
+    @Test
+    void shouldReCreatNewProgramme() throws IllegalArgumentException {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID department = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        //act
+        ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
+        Programme programme = factory.reregisterProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID, programmeID);
+
+        //assert
+        assertNotNull(programme);
+        assertEquals(name, programme.getProgrammeName());
+        assertEquals(acronym, programme.getAcronym());
+        assertEquals(quantityOfEcts, programme.getQuantEcts());
+        assertEquals(quantityOfSemesters, programme.getQuantSemesters());
+        assertEquals(degreeTypeID, programme.getDegreeTypeID());
+        assertEquals(department, programme.getDepartment());
+        assertEquals(programmeDirectorID, programme.getProgrammeDirectorID());
+        assertEquals(programmeID, programme.getProgrammeID());
+    }
+
+
 }

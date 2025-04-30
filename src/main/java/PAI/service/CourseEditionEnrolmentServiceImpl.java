@@ -62,11 +62,17 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         try {
             CourseEditionEnrolment cee = createCourseEditionEnrolment(studentId, courseEditionId);
 
+            if(cee == null){
+                return false;
+            }
+
             if (_ceeRepositoryInterface.isStudentEnrolledInCourseEdition(studentId, courseEditionId)) {
                 return false;
             }
 
-            return _ceeRepositoryInterface.enrolStudentInACourseEdition(cee);
+            _ceeRepositoryInterface.save (cee);
+
+            return true;
 
         } catch (Exception e) {
             return false;

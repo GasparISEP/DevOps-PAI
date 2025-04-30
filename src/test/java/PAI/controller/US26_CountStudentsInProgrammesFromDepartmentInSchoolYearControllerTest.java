@@ -1,12 +1,33 @@
 package PAI.controller;
 
-import PAI.VOs.DepartmentID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.SchoolYearID;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.VOs.*;
+import PAI.domain.Department;
+import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.SchoolYear;
+import PAI.domain.Student;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
+import PAI.domain.programme.Programme;
+import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.factory.*;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.*;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
+import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
+import PAI.service.department.DepartmentServiceImpl;
+import PAI.service.department.IDepartmentService;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.programme.ProgrammeServiceImpl;
+import PAI.service.schoolYear.ISchoolYearService;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,26 +43,28 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldCreateControllerWhenRepositoriesAreValid() {
         // arrange
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository ProgrammeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         // Act & Assert
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, ProgrammeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
     }
 
     //test when ProgrammeDDDRepository is null
     @Test
     void shouldThrowExceptionWhenProgrammeDDDRepositoryIsNull() {
         // arrange
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, null)
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, null)
         );
         assertEquals("Repositories cannot be null.", exception.getMessage());
     }
@@ -50,13 +73,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenPEERepoIsNull() {
         // arrange
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = null;
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(null, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository)
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService)
         );
         assertEquals("Repositories cannot be null.", exception.getMessage());
     }
@@ -65,13 +89,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenSchoolYearRepoIsNull() {
         // arrange
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = null;
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, null, departmentRepoDouble, programmeDDDRepository)
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService)
         );
         assertEquals("Repositories cannot be null.", exception.getMessage());
     }
@@ -80,13 +105,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentRepoIsNull() {
         // arrange
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = null;
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, null, programmeDDDRepository)
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService)
         );
         assertEquals("Repositories cannot be null.", exception.getMessage());
     }
@@ -95,23 +121,23 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndInSchoolYear() {
         // Arrange
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
         DepartmentID departmentDouble = mock(DepartmentID.class);
         SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+        when(schoolYearServiceDouble.schoolYearExistsById(schoolYearDouble)).thenReturn(true);
+        when(departmentServiceDouble.departmentExists(departmentDouble)).thenReturn(true);
+        when(programmeService.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+        when(pEEServiceDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
-
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
         // Act
         int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(departmentDouble, schoolYearDouble);
 
@@ -124,13 +150,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // arrange
         SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -145,13 +171,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
     void shouldThrowExceptionWhenSchoolYearIsNull() {
         // arrange
         DepartmentID departmentID = mock(DepartmentID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -166,20 +192,20 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Arrange
         DepartmentID departmentDouble = mock(DepartmentID.class);
         SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(false);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(true);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+        when(schoolYearServiceDouble.schoolYearExistsById(schoolYearDouble)).thenReturn(false);
+        when(departmentServiceDouble.departmentExists(departmentDouble)).thenReturn(true);
+        when(programmeService.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+        when(pEEServiceDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -194,20 +220,20 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Arrange
         DepartmentID departmentDouble = mock(DepartmentID.class);
         SchoolYearID schoolYearDouble = mock(SchoolYearID.class);
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
         List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
 
-        when(schoolYearRepoDouble.schoolYearExistsByID(schoolYearDouble)).thenReturn(true);
-        when(departmentRepoDouble.containsOfIdentity(departmentDouble)).thenReturn(false);
-        when(programmeDDDRepository.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
+        when(schoolYearServiceDouble.schoolYearExistsById(schoolYearDouble)).thenReturn(true);
+        when(departmentServiceDouble.departmentExists(departmentDouble)).thenReturn(false);
+        when(programmeService.findProgrammeByDepartment(departmentDouble)).thenReturn(programmeIDs);
 
-        when(PEERepoDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
+        when(pEEServiceDouble.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearDouble, programmeIDs)).thenReturn(3);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -219,13 +245,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllSchoolYears_NotNull() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         List<SchoolYearID> doubleSchoolYears = controller.getAllSchoolYearsIDs();
@@ -236,17 +262,17 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllSchoolYears_IsNotEmptyList() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         SchoolYearID doubleSchoolYear1 = mock(SchoolYearID.class);
         SchoolYearID doubleSchoolYear2 = mock(SchoolYearID.class);
-        when(schoolYearRepoDouble.getAllSchoolYearsIDs()).thenReturn(List.of(doubleSchoolYear1, doubleSchoolYear2));
+        when(schoolYearServiceDouble.getAllSchoolYearsIDs()).thenReturn(List.of(doubleSchoolYear1, doubleSchoolYear2));
         // Act
         List<SchoolYearID> doubleSchoolYears = controller.getAllSchoolYearsIDs();
 
@@ -256,13 +282,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllSchoolYears_EmptyList() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         List<SchoolYearID> doubleSchoolYears = controller.getAllSchoolYearsIDs();
@@ -273,13 +299,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllDepartments_NotNull() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Set<DepartmentID> doubleDepartment = controller.getAllDepartmentID();
@@ -290,13 +316,13 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllDepartments_EmptyList() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         // Act
         Set<DepartmentID> doubleDepartment = controller.getAllDepartmentID();
@@ -307,16 +333,16 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
     @Test
     void testGetAllDepartments_IsNotEmptyList() {
-        IProgrammeEditionEnrolmentRepository PEERepoDouble = mock(ProgrammeEditionEnrolmentRepositoryImpl.class);
-        ISchoolYearRepository schoolYearRepoDouble = mock(SchoolYearRepositoryImpl.class);
-        IDepartmentRepository departmentRepoDouble = mock(DepartmentRepositoryImpl.class);
-        IProgrammeRepository programmeDDDRepository = mock(ProgrammeRepositoryImpl.class);
+        IProgrammeEditionEnrolmentService pEEServiceDouble = mock(ProgrammeEditionEnrolmentServiceImpl.class);
+        ISchoolYearService schoolYearServiceDouble = mock(SchoolYearServiceImpl.class);
+        IDepartmentService departmentServiceDouble = mock(DepartmentServiceImpl.class);
+        IProgrammeService programmeService = mock(ProgrammeServiceImpl.class);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller =
-                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(PEERepoDouble, schoolYearRepoDouble, departmentRepoDouble, programmeDDDRepository);
+                new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEEServiceDouble, schoolYearServiceDouble, departmentServiceDouble, programmeService);
 
         DepartmentID dp1 = mock(DepartmentID.class);
         DepartmentID dp2 = mock(DepartmentID.class);
-        when(departmentRepoDouble.getDepartmentIDs()).thenReturn(Set.of(dp1, dp2));
+        when(departmentServiceDouble.getDepartmentIDs()).thenReturn(Set.of(dp1, dp2));
 
         // Act
         Set<DepartmentID> doubleDepartment = controller.getAllDepartmentID();
@@ -324,27 +350,20 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         // Assert
         assertTrue(doubleDepartment.size() == 2);
     }
-}
 
-    /*
-    //Integration Tests
-     */
-    //test that ensures that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
-    /*@Test
+
+
+    //Integration Tests using Spring Data
+
+//test that confirms that the method returns a positive int when there are students enrolled in Programmes from specified department and school year
+    @Test
     void shouldReturnCorrectCountWhenStudentsAreEnrolledInDepartmentAndSchoolYear() throws Exception {
         // arrange
-        Department department = new Department(new DepartmentAcronym("CSE"),new Name("Computer Science Engineer"),new TeacherID(new TeacherAcronym("PP")))
-        Date date = new Date("25-12-2024");
-        TeacherCategoryID tcID = new TeacherCategoryID();
-        WorkingPercentage wp = new WorkingPercentage(100);
-        TeacherID teacherID = new TeacherFactoryImpl().createTeacher(new TeacherAcronym("pp"),n)
-        TeacherCareerProgressionFactoryImpl teacherCareerProgressionFactoryImpl = new TeacherCareerProgressionFactoryImpl();
-        ITeacherCareerProgressionListFactory teacherCareerProgressionListFactoryImpl = new TeacherCareerProgressionListFactoryImpl();
-        IAddressFactory addressFactory = new AddressFactoryImpl();
-        Teacher teacher = new Teacher("ABC", "Joe Doe", "abc@isep.ipp.pt", "123456789", "+351 912 345 678",
-                "Doutoramento em Engenharia Informatica, 2005, ISEP", "Rua São Tomé Porto", "4249-015",
-                "Porto", "Portugal", addressFactory, date, tcID, wp, teacherID, department,
-                teacherCareerProgressionFactoryImpl, teacherCareerProgressionListFactoryImpl);
+        Department department = new Department(new DepartmentAcronym("CSE"),new Name("Computer Science Engineer"),new TeacherID(new TeacherAcronym("PPP")));
+
+        TeacherAcronym teacherAcronym = new TeacherAcronym("AAA");
+        TeacherID teacherID =  new TeacherID(teacherAcronym);
+        DepartmentID departmentID = department.identity();
 
         Description description1 = new Description("School Year 25/26");
         Description description2 = new Description("School Year 22/23");
@@ -355,19 +374,21 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         SchoolYear schoolYear1 = new SchoolYear(description1, startDate1, endDate1);
         SchoolYear schoolYear2 = new SchoolYear(description2, startDate2, endDate2);
 
-        DegreeType master = new DegreeType("Master", 240);
-        Programme programme1 = new Programme("Licenciatura Engenharia Informática", "LEI", 25, 6, master, department, teacher, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
-                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
-        Programme programme2 = new Programme("Licenciatura Engenharia de Computação", "LEC", 30, 6, master, department, teacher, new ProgrammeCourseListFactoryImpl(), new CourseInStudyPlanFactoryImpl(),
-                new StudyPlanListFactoryImpl(), new StudyPlanFactoryImpl(), new CourseFactoryImpl());
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+       Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
+               new Acronym("APP"),new QuantEcts(30),new QuantSemesters(30),new DegreeTypeID(),
+               departmentID,teacherID);
+        Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
+                new Acronym("APP2"),new QuantEcts(30),new QuantSemesters(30),new DegreeTypeID(),
+                departmentID,teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(programme1, schoolYear1);
-        ProgrammeEdition edition2 = new ProgrammeEdition(programme2, schoolYear1);
-        ProgrammeEdition edition3 = new ProgrammeEdition(programme2, schoolYear2);
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(),schoolYear1.identity()),programme1.identity(),schoolYear1.identity());
+        ProgrammeEdition edition2 =  new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(),schoolYear1.identity()),programme2.identity(),schoolYear1.identity());
+        ProgrammeEdition edition3 =  new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(),schoolYear2.identity()),programme2.identity(),schoolYear2.identity());
 
-        Address address1 = new Address("Rua do Caminho", "4554-565", "Porto", "Portugal");
-        Address address2 = new Address("Rua do Lumiar", "4554-566", "Porto", "Portugal");
-        Address address3 = new Address("Rua da Pedra", "4556-575", "Porto", "Portugal");
+        Address address1 = new Address(new Street("Street1"),new PostalCode("4444-441"),new Location("Porto"),new Country("PT"));
+        Address address2 = new Address(new Street("Street2"),new PostalCode("4444-442"),new Location("Braga"),new Country("PT"));
+        Address address3 = new Address(new Street("Street3"),new PostalCode("4444-443"),new Location("Gaia"),new Country("PT"));
 
         StudentID studentID1 = new StudentID(1234567);
         StudentID studentID2 = new StudentID(1345678);
@@ -392,9 +413,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Email email2 = new Email("rita123@gmail.com");
         Email email3 = new Email("ana123@gmail.com");
 
-        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1);
-        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2);
-        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3);
+
+        StudentAcademicEmail academicEmail1 = new StudentAcademicEmail(studentID1.getUniqueNumber());
+        StudentAcademicEmail academicEmail2 = new StudentAcademicEmail(studentID2.getUniqueNumber());
+        StudentAcademicEmail academicEmail3 = new StudentAcademicEmail(studentID3.getUniqueNumber());
 
         Student student1 = new Student(studentID1, name1, nif1, phone1, email1, address1, academicEmail1);
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
@@ -402,31 +424,70 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        ProgrammeEditionEnrolmentRepository pEERepo = new ProgrammeEditionEnrolmentRepository(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-
-        pEERepo.enrolStudentInProgrammeEdition(student1, edition1);
-        pEERepo.enrolStudentInProgrammeEdition(student2, edition2);
-        pEERepo.enrolStudentInProgrammeEdition(student3, edition3);
+        ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
         SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
-        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.save(schoolYear1);
+        schoolYearRepository.save(schoolYear2);
+
+        CourseEditionEnrolmentListFactoryImpl courseEditionEnrolmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
+        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrolmentListFactory);
+
+        ICourseEditionFactory courseEditionFactory =  new CourseEditionFactoryImpl();
+        ICourseEditionListFactory courseEditionListFactory =  new CourseEditionListFactoryImpl();
+
+        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory,courseEditionListFactory);
+
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeRepositoryListFactory programmeLisListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+       programmeEditionRepository.save(edition1);
+        programmeEditionRepository.save(edition2);
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
+        programmeRepository.save(programme1);
+        programmeRepository.save(programme2);
+        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
+        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
+        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory,programmeEnrolmentList);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
-        DepartmentRepository departmentRepository = new DepartmentRepository(departmentFactoryImpl, departmentListFactoryImpl);
-        departmentRepository.registerDepartment("CSE", "Computer Science Engineer");
 
-        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(pEERepo, schoolYearRepository, departmentRepository);
+        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactoryImpl, departmentListFactoryImpl);
+        departmentRepository.save(department);
+
+
+        IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+        ProgrammeEditionEnrolmentServiceImpl programmeEditionEnrolmentService =
+                new ProgrammeEditionEnrolmentServiceImpl(programmeEditionEnrolmentRepository,
+                         programmeEditionRepository,
+                         courseEditionEnrolmentRepository,
+                         courseEditionRepository,
+                         schoolYearRepository,
+                         programmeEnrolmentRepository,
+                         programmeRepository,
+                        programmeEditionEnrolmentFactory);
+
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
+
+        US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
         // act
-        int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department, schoolYear1);
+        int result = controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department.identity(), schoolYear1.identity());
 
         // assert
         assertEquals(2, result);
     }
-
+}
+    /*
     //test that ensures that the method throws an exception when School Year is not present in the School Year Repository
     @Test
     void shouldThrowExceptionWhenSchoolYearDoesntExist() throws Exception {

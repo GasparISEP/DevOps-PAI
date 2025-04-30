@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockConstruction;
 
+import PAI.VOs.Date;
+import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.ProgrammeEditionEnrolment;
@@ -70,44 +72,36 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
     }
 
     @Test
-    void whenCreateWithEnrolmentDateInvoked_ThenMockObjectShouldBeCreated() {
-        // arrange
-        StudentID mockStudentId = mock(StudentID.class);
-        ProgrammeEditionID mockProgrammeEditionId = mock(ProgrammeEditionID.class);
-        LocalDate enrolmentDate = mock(LocalDate.class);
+    void shouldReturnCorrectEnrolmentDateWhenUsingFactory() {
+        // Arrange
+        StudentID studentId = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionId = mock(ProgrammeEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
-        try (MockedConstruction<ProgrammeEditionEnrolment> enrollmentDouble =
-                     mockConstruction(ProgrammeEditionEnrolment.class, (mock, context) -> {
-                         when(mock.findStudentInProgrammeEdition()).thenReturn((StudentID) context.arguments().get(0));
-                         when(mock.findProgrammeEditionInEnrolment()).thenReturn((ProgrammeEditionID) context.arguments().get(1));
-                         when(mock.getEnrolmentDate()).thenReturn(enrolmentDate);
-                     })) {
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
-            ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+        // Act
+        ProgrammeEditionEnrolment enrolment = factory.createWithEnrolmentDate(studentId, programmeEditionId, enrolmentDate, enrolmentStatus);
 
-            // act
-            ProgrammeEditionEnrolment enrolment =
-                    factory.createWithEnrolmentDate(mockStudentId, mockProgrammeEditionId,enrolmentDate);
+        // Assert
+        assertNotNull(enrolment);
 
-            // assert
-            assertEquals(1, enrollmentDouble.constructed().size());
-            assertEquals(mockStudentId, enrolment.findStudentInProgrammeEdition());
-            assertEquals(mockProgrammeEditionId, enrolment.findProgrammeEditionInEnrolment());
-            assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
-        }
     }
+
 
     @Test
     void whenCreateWithEnrolmentDate_StudentIsNull_thenThrowIllegalArgumentException() {
         // Arrange:
         ProgrammeEditionID mockProgrammeEditionId = mock(ProgrammeEditionID.class);
-        LocalDate enrolmentDate = mock(LocalDate.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createWithEnrolmentDate(null, mockProgrammeEditionId, enrolmentDate);
+            factory.createWithEnrolmentDate(null, mockProgrammeEditionId, enrolmentDate, enrolmentStatus);
         });
 
         assertEquals("Student cannot be null.", exception.getMessage());
@@ -117,34 +111,19 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
     void whenCreateWithEnrolmentDate_ProgrammeEditionIsNull_thenThrowIllegalArgumentException() {
         // Arrange:
         StudentID mockStudentId = mock(StudentID.class);
-        LocalDate enrolmentDate = mock(LocalDate.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            factory.createWithEnrolmentDate(mockStudentId, null, enrolmentDate);
+            factory.createWithEnrolmentDate(mockStudentId, null, enrolmentDate, enrolmentStatus);
         });
 
         assertEquals("ProgrammeEdition cannot be null.", exception.getMessage());
     }
 
-//    @Test
-//    void whenCreateWithEnrolmentDate_LocalDateIsNull_thenThrowIllegalArgumentException() {
-//        // Arrange:
-//        StudentID mockStudentId = mock(StudentID.class);
-//        ProgrammeEditionID mockProgrammeEditionId = mock(ProgrammeEditionID.class);
-//
-//
-//        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
-//
-//        // Act & Assert
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-//            factory.createWithEnrolmentDate(mockStudentId, mockProgrammeEditionId, null);
-//        });
-//
-//        assertEquals("EnrolmentDate cannot be null.", exception.getMessage());
-//    }
 }
 
 

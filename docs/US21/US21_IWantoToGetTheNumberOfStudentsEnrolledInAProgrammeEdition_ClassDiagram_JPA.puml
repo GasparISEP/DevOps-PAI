@@ -2,7 +2,6 @@
 
 title Domain Model - US21: Get the Number of Students Enrolled in a Programme Edition
 
-package "Domain" {
 
   ' === CONTROLLER ===
   class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {

@@ -24,7 +24,7 @@ interface IProgrammeEditionEnrolmentService{
     +getAllSchoolYearsIDs(): List<SchoolYearID>
     }
 
-'Repository Interfaces
+' Repository Interfaces
 interface IProgrammeEditionEnrolmentRepository {
     +enrolStudentInProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
     +isStudentEnrolledInThisProgrammeEdition(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : boolean
@@ -58,6 +58,7 @@ interface IProgrammeEnrolmentRepository {
 
 interface IProgrammeEditionEnrolmentFactory{
     +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID) : ProgrammeEditionEnrolment
+    +createWithEnrolmentDate(studentId: StudentID, programmeEditionId: ProgrammeEditionID,\n enrolmentDate: Date, isActive: EnrolmentStatus) : ProgrammeEditionEnrolment
 }
 
 interface IProgrammeEditionEnrolmentListFactory{
@@ -189,10 +190,12 @@ package "CourseEditionEnrolment Aggregate" #Lightblue {
 
 package "ProgrammeEditionEnrolment Aggregate" #Lightblue {
     class ProgrammeEditionEnrolment <<Root>> <<Entity>> {
-    +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
-    +hasSameStudent(studentId:StudentID) : StudentID
-    +equals (obj: Object) : boolean
-    +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition) : ProgrammeEditionID
+        +ProgrammeEditionEnrolment(studentId:StudentID, programmeEditionId: ProgrammeEditionID)
+        +ProgrammeEditionEnrolment(studentId:StudentID,
+                 programmeEditionId: ProgrammeEditionID, enrolmentDate: Date, isActive: EnrolmentStatus)
+        +hasSameStudent(studentId:StudentID): StudentID
+        +equals (obj: Object) : boolean
+        +hasSameProgrammeEdition (programmeEdition: ProgrammeEdition) : ProgrammeEditionID
     }
 }
 
@@ -246,7 +249,7 @@ class ProgrammeEditionEnrolmentIDDataModel {
       - _studentId: String
       - _programmeEditionId: ProgrammeEditionID
       + ProgrammeEditionEnrolmentIDDataModel()
-      + ProgrammeEditionEnrolmentIDDataModel(studentId: String, programmeEditionId: ProgrammeEditionID)
+      + ProgrammeEditionEnrolmentIDDataModel(studentId: String, \nprogrammeEditionId: ProgrammeEditionID, enrolmentDate: LocalDate, isActive: boolean)
       + equals(obj: Object): boolean
       + hashCode(): int
 }
@@ -255,8 +258,11 @@ class ProgrammeEditionEnrolmentDataModel{
       - _id: ProgrammeEditionEnrolmentIDDataModel
       - enrolmentDate: LocalDate
       - version: Long
+      - isActive : boolean
       + ProgrammeEditionEnrolmentDataModel()
-      + ProgrammeEditionEnrolmentDataModel(programmeEditionId: ProgrammeEditionID, enrolmentDate: LocalDate)
+      + ProgrammeEditionEnrolmentDataModel(programmeEditionId: ProgrammeEditionID, enrolmentDate: LocalDate, isActive: boolean)
+      +getProgrammeEditionEnrolmentIDDataModel(): ProgrammeEditionEnrolmentIDDataModel
+      +getEnrolmentDate() : LocalDate
       }
 
 'Mapper
@@ -436,6 +442,7 @@ class DegreeTypeID <<Value Object>> {
 'Factory
 class ProgrammeEditionEnrolmentFactoryImpl {
     +newProgrammeEditionEnrolment(studentId: StudentID, programmeEditionId: ProgrammeEditionID)
+    +createWithEnrolmentDate(studentId: StudentID, programmeEditionId: ProgrammeEditionID,\n enrolmentDate: Date, isActive: EnrolmentStatus) : ProgrammeEditionEnrolment
 }
 
 class ProgrammeEditionEnrolmentListFactoryImpl{
@@ -548,6 +555,7 @@ SchoolYearArrayList "1" --> " _schoolYear *" SchoolYear
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionID
 ProgrammeEditionEnrolment"1" --> "1" StudentID
 ProgrammeEditionEnrolment "1"--> "1" ProgrammeEditionEnrolmentID
+ProgrammeEditionEnrolment  "1" --> "1 _status" EnrolmentStatus
 
 SchoolYear "1" --> "1" SchoolYearID
 SchoolYear "1" --> "1" Description

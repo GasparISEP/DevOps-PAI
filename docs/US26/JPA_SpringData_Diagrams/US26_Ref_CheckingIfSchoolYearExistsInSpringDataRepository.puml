@@ -1,6 +1,6 @@
 @startuml
 
-title US26 Reference SD: CheckingIfSchoolYearExistsInSpringDataRepository
+title US26 Reference SD: Checking If School Year Exists In Spring Data Repository
 autonumber
 skinparam sequence {
    LifelineBorderColor Black

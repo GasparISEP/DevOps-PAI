@@ -13,13 +13,13 @@ skinparam rectangle {
   RoundCorner 20
 }
 skinparam classBorderColor Black
-
+left to right direction
 
 ' ========== CONTROLLER LAYER ==========
 package Controller #F5EEF8{
 class US28_EnrolmentRemovalController <<Controller>> {
     +US28_EnrolmentRemovalController (ceeService: ICourseEditionEnrolmentService)
-    +removeStudentEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+    +removeCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
 }
 }
 
@@ -27,67 +27,63 @@ class US28_EnrolmentRemovalController <<Controller>> {
 ' ========== SERVICE LAYER ==========
 package Service {
 interface ICourseEditionEnrolmentService <<Interface>> {
-    +removeStudentEnrolment (studentID: StudentID,\n courseEditionID: CourseEditionID) : boolean
-    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
-    +findAll(): Iterable<CourseEditionEnrolment>
-    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
-    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
+    +removeCourseEditionEnrolment (studentID: StudentID,\n courseEditionID: CourseEditionID) : boolean
 }
 
 class CourseEditionEnrolmentServiceImpl {
-    +removeStudentEnrolment (studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
-    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
-    +findAll(): Iterable<CourseEditionEnrolment>
-    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
-    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
+    -courseEditionEnrolmentFactory:\n ICourseEditionEnrolmentFactory
+    -programmeEditionEnrolmentFactory:\n IProgrammeEditionEnrolmentFactory
+    +removeCourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID) : boolean
+    +hasOtherActiveCourseEditionEnrolments(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): boolean
+    +deactivateProgrammeEditionEnrolment(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): boolean
 }
 }
 
 
 ' ========== REPOSITORY LAYER ==========
 package Repository {
+
 interface ICourseEditionEnrolmentRepository <<Interface>> {
-    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
-    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+    +findByStudentAndCourseEdition (studentID: StudentID, \ncourseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
-    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
-    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentRepositoryImpl {
-    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
-    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+class CourseEditionEnrolmentRepositoryImpl <<Memory>>{
+    +findByStudentAndEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
-    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
-    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
-class CourseEditionEnrolmentRepositorySpringDataImpl {
-    +findByStudentAndEdition (studentID: StudentID, courseEditionID: CourseEditionID)\n : Optional <CourseEditionEnrolment>
-    +removeEnrolment (studentID: StudentID, courseEditionID: CourseEditionID) : boolean
+class CourseEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
+    +findByStudentAndEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
-    +ofIdentity(id: CourseEditionEnrolmentID): Optional<CourseEditionEnrolment>
-    +containsOfIdentity(id: CourseEditionEnrolmentID): boolean
 }
 
 interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
 }
+
+interface IProgrammeEditionEnrolmentRepository <<Interface>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
 }
 
-
-' ========== FACTORY LAYER ==========
-package Factory {
-interface ICourseEditionEnrolmentFactory <<Interface>> {
-    +createCourseEditionEnrolment(studentID: StudentID,\n courseEditionID: CourseEditionID)
+class ProgrammeEditionEnrolmentRepositoryImpl <<Memory>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
 }
 
-class CourseEditionEnrolmentFactoryImpl {
-    +createCourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID)
+class ProgrammeEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID):\n Optional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
 }
+
+interface IProgrammeEditionEnrolment\nRepositorySpringData <<Interface>> {
 }
+
+}
+
 
 
 ' ========== MAPPING LAYER ==========
@@ -98,6 +94,7 @@ interface ICourseEditionEnrolmentMapper <<Interface>> {
 }
 
 class CourseEditionEnrolmentMapperImpl {
+    -courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory
     +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
     +toDomain(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
 }
@@ -108,8 +105,33 @@ interface ICourseEditionEnrolmentIDMapper <<Interface>> {
 }
 
 class CourseEditionEnrolmentIDMapperImpl {
+    -studentIDMapper: IStudentIDMapper
+    -courseEditionIDMapper: ICourseEditionIDMapper
     + toDataModel(id: CourseEditionEnrolmentID): \nCourseEditionEnrolmentIDDataModel
     + toDomain(idDataModel: CourseEditionEnrolmentIDDataModel): \nCourseEditionEnrolmentID
+}
+
+interface IProgrammeEditionEnrolmentMapper {
+    + toDataModel(programmeEditionEnrolment:\n ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    + toDomain(programmeEditionEnrolmentDataModel:\n ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentMapperImpl  {
+    -programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory
+    + toDataModel(programmeEditionEnrolment:\n ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    + toDomain(programmeEditionEnrolmentDataModel:\n ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+}
+
+interface IProgrammeEditionEnrolmentIDMapper <<Interface>> {
+    + toDataModel(id: ProgrammeEditionEnrolmentID): \nProgrammeEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: ProgrammeEditionEnrolmentIDDataModel): \nProgrammeEditionEnrolmentID
+}
+
+class ProgrammeEditionEnrolmentIDMapperImpl {
+    -studentIDMapper: IStudentIDMapper
+    -programmeEditionIDMapper: IProgrammeEditionIDMapper
+    + toDataModel(id: ProgrammeEditionEnrolmentID): \nProgrammeEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: ProgrammeEditionEnrolmentIDDataModel): \nProgrammeEditionEnrolmentID
 }
 }
 
@@ -117,78 +139,83 @@ class CourseEditionEnrolmentIDMapperImpl {
 ' ========== DATA MODEL ==========
 package "Data Model" {
 class CourseEditionEnrolmentDataModel {
-    -studentID: int
-    -courseEditionID: int
     -enrolmentDate: localDate
     -isActive: boolean
 }
 
-class CourseEditionEnrolmentIDDataModel <<Embedded Id>> {
+class CourseEditionEnrolmentIDDataModel  {
     - studentID: int
     - courseEditionID: int
 }
+
+class ProgrammeEditionEnrolmentDataModel {
+    -enrolmentDate: LocalDate
+    -isActive: boolean
 }
 
+class ProgrammeEditionEnrolmentIDDataModel {
+    -studentID: int
+    -programmeEditionID: int
+}
+
+}
+
+
+' ========== DOMAIN: ENROLMENT STATUS ==========
+class EnrolmentStatus <<Value Object>>{
+    -_isActive: boolean
+    + EnrolmentStatus(isActive: boolean)
+    + isEnrolmentActive(): boolean
+    }
 
 ' ========== DOMAIN: COURSE ENROLMENT AGGREGATE ==========
 package "CourseEditionEnrolment Aggregate" #LightYellow{
 class CourseEditionEnrolment <<Root>> <<Entity>>{
     -enrolmentDate: Date <<VO>>
-    -isActive: EnrolmentStatus <<VO>>
-    +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
-    +hasStudent() : boolean
-    +hasCourseEdition() : boolean
+    +CourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID)
+    +knowStudent(): StudentID
+    +knowCourseEdition(): CourseEditionID
+    +hasStudent(): boolean
     +isEnrolmentActive(): boolean
     +deactivateEnrolment(): void
 }
 }
 
 class CourseEditionEnrolmentID <<Value Object>> {
+    -studentID: StudentID
+    -courseEditionID: CourseEditionID
     + CourseEditionEnrolmentID\n(id : int)
     + equals(object: Object) : boolean
 }
 
 
-' ========== DOMAIN: STUDENT AGGREGATE ==========
-package "Student Aggregate" #LightYellow{
-class Student <<Root>> <<Entity>>{
-    -_name:Name
-    -_NIF:NIF
-    -_phone:PhoneNumber
-    -_email:Email
-    -_address:AddressVO
-    -_studentAcademicEmail:StudentAcademicEmail
-    + Student(uniqueNumber: StudentID, name: Name, \n NIF: NIF, phone: PhoneNumber, email: Email, \n address: AddressVO, studentAcademicEmail: StudentAcademicEmail)
+
+
+' ========== DOMAIN: PROGRAMME ENROLMENT AGGREGATE ==========
+package "ProgrammeEditionEnrolment Aggregate" #LightYellow{
+class ProgrammeEditionEnrolment <<Root>> <<Entity>>{
+    -enrolmentDate: Date <<VO>>
+    +ProgrammeEditionEnrolment(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID)
+    +deactivateEnrolment(): void
+    +hasSameStudent(): boolean
+    +hasSameProgrammeEdition(): boolean
+
 }
 }
 
-class StudentID <<Value Object>> {
-    -_uniqueNumber : int
-    + StudentID(uniqueNumber : int)
-    + isUniqueNumberValid(uniqueNumber: int): boolean
+class ProgrammeEditionEnrolmentID <<Value Object>> {
+    -studentID: StudentID
+    -programmeEditionID: ProgrammeEditionID
+    + ProgrammeEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
 }
-
-
-' ========== DOMAIN: COURSE EDITION AGGREGATE ==========
-package "CourseEdition Aggregate" #LightYellow{
-class CourseEdition <<Root>> <<Entity>>{
-    -_courseInStudyPlanID: CourseInStudyPlanID
-    -_programmeEditionID: ProgrammeEditionID
-}
-}
-
-class CourseEditionID <<Value Object>> {
-    -_courseInStudyPlanID: CourseInStudyPlanID
-    -_programmeEditionID: ProgrammeEditionID
-    + CourseEditionID(programmeEditionID: ProgrammeEditionID, \ncourseInStudyPlanID: CourseInStudyPlanID)
-}
-
 
 ' ========== RELATIONSHIPS ==========
 US28_EnrolmentRemovalController ..> ICourseEditionEnrolmentService
 ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
+
 CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentRepository
 
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
 ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
@@ -199,24 +226,36 @@ CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentIDMapp
 CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolment : maps to
 CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolmentDataModel : maps to
 CourseEditionEnrolmentMapperImpl ..|> ICourseEditionEnrolmentMapper
-CourseEditionEnrolmentMapperImpl ..> ICourseEditionEnrolmentFactory
 CourseEditionEnrolmentIDMapperImpl ..|> ICourseEditionEnrolmentIDMapper
 CourseEditionEnrolmentMapperImpl ..> ICourseEditionEnrolmentIDMapper
 CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentID : maps to
 CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentIDDataModel : maps to
+
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> IProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolment : maps to
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolmentDataModel : maps to
+ProgrammeEditionEnrolmentMapperImpl ..|> IProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentIDMapperImpl ..|> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentMapperImpl ..> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentIDMapperImpl ..> ProgrammeEditionEnrolmentID : maps to
+ProgrammeEditionEnrolmentIDMapperImpl ..> ProgrammeEditionEnrolmentIDDataModel : maps to
+
 CourseEditionEnrolmentDataModel "1" --> "1" CourseEditionEnrolmentIDDataModel
+ProgrammeEditionEnrolmentDataModel "1" --> "1" ProgrammeEditionEnrolmentIDDataModel
 CourseEditionEnrolmentRepositorySpringDataImpl ..|> ICourseEditionEnrolment\nRepositorySpringData
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositorySpringDataImpl
 
-CourseEditionEnrolment "*" --> "_studentID 1" StudentID
-CourseEditionEnrolment "*" --> "_courseEditionID 1" CourseEditionID
-StudentID "_studentID 1" <-- "1" Student
-CourseEditionID "_courseEditionID 1" <-- "1" CourseEdition
+IProgrammeEditionEnrolment\nRepositorySpringData <|.. ProgrammeEditionEnrolmentRepositorySpringDataImpl
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> ProgrammeEditionEnrolment
+
 CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
-StudentID "_studentID 1" <-- "*" CourseEditionEnrolmentID
-CourseEditionID "_courseEditionID 1" <-- "*" CourseEditionEnrolmentID
+ProgrammeEditionEnrolmentID "_programmeEditionEnrolmentID 1" <-- "1" ProgrammeEditionEnrolment
 CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" ProgrammeEditionEnrolment
 
-ICourseEditionEnrolmentFactory <|.. CourseEditionEnrolmentFactoryImpl
-ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
+
 
 @enduml

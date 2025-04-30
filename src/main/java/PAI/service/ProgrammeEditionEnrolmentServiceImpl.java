@@ -87,7 +87,9 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             return false;
         }
 
-        programmeEditionEnrolmentRepository.enrolStudentInProgrammeEdition(studentID, programmeEditionId);
+        ProgrammeEditionEnrolment enrolment = programmeEditionEnrolmentFactory.newProgrammeEditionEnrolment(studentID, programmeEditionId);
+
+        programmeEditionEnrolmentRepository.save(enrolment);
 
         List<CourseEditionID> courseEditions =
                 courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionId);
@@ -97,11 +99,11 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         return true;
     }
 
-    @Override
-    public List<ProgrammeID> getAllProgrammesIDs() {
-
-        return programmeRepository.getAllProgrammesIDs();
-    }
+//    @Override
+//    public List<ProgrammeID> getAllProgrammesIDs() {
+//
+//        return programmeRepository.getAllProgrammesIDs();
+//    }
 
     @Override
     public List<SchoolYearID> getAllSchoolYearIDs() {
@@ -120,5 +122,14 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             throw new IllegalArgumentException(name + " cannot be null.");
         }
         return instance;
+    }
+
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYearID,List<ProgrammeID> programmeIDs){
+        int result;
+        if(schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty()){
+            result=0;
+        }else{
+            result=programmeEditionEnrolmentRepository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
+        } return result;
     }
 }

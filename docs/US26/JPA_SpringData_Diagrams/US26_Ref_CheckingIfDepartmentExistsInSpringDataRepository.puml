@@ -1,6 +1,6 @@
 @startuml
 
-title US26 Reference SD: CheckingIfDepartmentExistsInSpringDataRepository
+title US26 Reference SD: Checking If Department Exists In Spring Data Repository
 autonumber
 skinparam sequence {
    LifelineBorderColor Black

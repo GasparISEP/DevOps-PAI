@@ -41,7 +41,6 @@ class CourseServiceImplTest {
     void should_throw_exception_when_repository_is_null() {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
-        ICourseRepository repository = null;
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(factory, null));
@@ -63,7 +62,7 @@ class CourseServiceImplTest {
         when(repository.save(course)).thenReturn(course);
 
         //Act
-        Course result = service.newCourse(name, acronym);
+        Course result = service.createAndSaveCourse(name, acronym);
 
         //Assert
         assertNotNull(result);

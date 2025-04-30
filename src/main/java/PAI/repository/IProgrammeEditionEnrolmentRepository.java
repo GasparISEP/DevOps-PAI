@@ -3,12 +3,12 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
 import PAI.domain.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProgrammeEditionEnrolmentRepository  extends IRepository <ProgrammeEditionEnrolmentID, ProgrammeEditionEnrolment>{
-
-    boolean enrolStudentInProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionID);
 
     boolean isStudentEnrolledInThisProgrammeEdition (StudentID studentId, ProgrammeEditionID programmeEditionId);
 
@@ -18,4 +18,5 @@ public interface IProgrammeEditionEnrolmentRepository  extends IRepository <Prog
 
     int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS);
 
+    Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId);
 }

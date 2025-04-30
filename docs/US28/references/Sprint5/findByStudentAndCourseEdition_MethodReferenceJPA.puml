@@ -1,0 +1,45 @@
+@startuml
+
+title findByStudentAndCourseEdition \n detailed visualization of method behaviour
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEdition\nEnrolmentService" as ICourseEditionEnrolmentService #E1F5FE
+participant ":ICourseEdition\nEnrolmentRepository" as ICourseEditionEnrolmentRepository #E1F5FE
+participant ":IStudentIDMapper" as StudentMapper #E1F5FE
+participant ":ICourseEditionIDMapper" as CourseMapper #E1F5FE
+participant ":ICourseEditionEnrolment\nRepoSpringData" as Repo #E1F5FE
+participant ":ICourseEdition\nEnrolmentMapper" as EnrolmentMapper #E1F5FE
+
+ICourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository : findByStudentAndEdition\n(studentID, courseEditionID)
+activate ICourseEditionEnrolmentRepository
+
+
+ICourseEditionEnrolmentRepository -> StudentMapper : toDataModel(studentId)
+activate StudentMapper
+StudentMapper --> ICourseEditionEnrolmentRepository : studentIDDataModel
+deactivate StudentMapper
+
+ICourseEditionEnrolmentRepository -> CourseMapper : toDataModel(courseEditionId)
+activate CourseMapper
+CourseMapper --> ICourseEditionEnrolmentRepository : courseEditionIDDataModel
+deactivate CourseMapper
+
+ICourseEditionEnrolmentRepository -> Repo : findByStudentIDAndCourseEditionID\n(studentIDDataModel, courseEditionIDDataModel)
+activate Repo
+Repo --> ICourseEditionEnrolmentRepository : Optional<CourseEditionEnrolmentDataModel>
+deactivate Repo
+
+    ICourseEditionEnrolmentRepository -> EnrolmentMapper : toDomain(dataModel.get())
+    activate EnrolmentMapper
+    EnrolmentMapper --> ICourseEditionEnrolmentRepository : Optional.of(CourseEditionEnrolment)
+    deactivate EnrolmentMapper
+ICourseEditionEnrolmentRepository --> ICourseEditionEnrolmentService : CourseEditionEnrolment
+deactivate ICourseEditionEnrolmentRepository
+@enduml

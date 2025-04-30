@@ -1,4 +1,5 @@
 package PAI.service.department;
+
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
@@ -7,6 +8,9 @@ import PAI.domain.Department;
 import PAI.factory.IDepartmentFactory;
 import PAI.repository.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -165,5 +169,101 @@ class DepartmentServiceImplTest {
 
         // Assert
         assertFalse(result);
+    }
+    @Test
+    void shouldReturnDepartmentIterableWhenFindAll() {
+        // Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+
+        // Act
+        Iterable<Department> departmentIterable = departmentService.findAll();
+
+        //Assert
+        assertNotNull(departmentIterable);
+    }
+
+
+    @Test
+    void shouldReturnTrueIfDepartmentExistsInRepo(){
+        //Arrange
+        DepartmentID departmentID = mock(DepartmentID.class);
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        when(departmentRepoDouble.containsOfIdentity(departmentID)).thenReturn(true);
+        // Act
+       boolean result=departmentService.departmentExists(departmentID);
+
+        //Assert
+        assertTrue(result);
+
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentDoesNotExistInRepo(){
+        //Arrange
+        DepartmentID departmentID = mock(DepartmentID.class);
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        when(departmentRepoDouble.containsOfIdentity(departmentID)).thenReturn(false);
+        // Act
+        boolean result=departmentService.departmentExists(departmentID);
+
+        //Assert
+        assertFalse(result);
+
+    }
+
+    @Test
+    void shouldReturnFalseIfDepartmentIDisNull(){
+        //Arrange
+        DepartmentID departmentID = null;
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+
+        // Act
+        boolean result=departmentService.departmentExists(departmentID);
+
+        //Assert
+        assertFalse(result);
+
+    }
+
+
+    @Test
+    void shouldReturn2IfRepoContainsTwoDepartmentIDs(){
+        //Arrange
+        DepartmentID departmentID1 = mock(DepartmentID.class);
+        DepartmentID departmentID2 = mock(DepartmentID.class);
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+when(departmentRepoDouble.getDepartmentIDs()).thenReturn(Set.of(departmentID1,departmentID2));
+        // Act
+        Set<DepartmentID> result=departmentService.getDepartmentIDs();
+
+        //Assert
+        assertEquals(2, result.size());
+
+    }
+
+
+    @Test
+    void shouldReturn0IfRepoDoesNotContainDepartmentIDs(){
+        //Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+        when(departmentRepoDouble.getDepartmentIDs()).thenReturn(Set.of());
+        // Act
+        Set<DepartmentID> result=departmentService.getDepartmentIDs();
+
+        //Assert
+        assertEquals(0, result.size());
+
     }
 }

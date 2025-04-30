@@ -1,0 +1,35 @@
+@startuml
+
+title Convert List<CourseEditionIDDataModel> to Domain
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICourseEditionRepository" as ceRepository
+
+create ":ArrayList"
+
+ceRepository -> ":ArrayList": create
+loop for each courseEditionIDDataModel in List<CourseEditionIDDataModel>
+
+participant "ICourseEditionIDMapper" as ceIDMapper
+
+ceRepository -> ceIDMapper: toDomain (courseEditionID)
+activate ceIDMapper #E1F5FE
+ceIDMapper --> ceRepository: courseEditionID
+deactivate ceIDMapper
+
+ceRepository -> ":ArrayList" : add (courseEditionID)
+activate ":ArrayList" #E1F5FE
+":ArrayList" --> ceRepository: True
+deactivate ":ArrayList"
+
+end
+
+@enduml
