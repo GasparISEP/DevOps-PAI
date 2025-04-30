@@ -34,7 +34,10 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
 
         try {
             CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
-            return courseEditionRepository.save(courseEdition);
+            CourseEdition courseEditionSaved = null;
+            if (!courseEditionRepository.containsOfIdentity(courseEdition.identity()))
+                courseEditionSaved = courseEditionRepository.save(courseEdition);
+            return courseEditionSaved;
         } catch (Exception e) {
             return null;
         }
