@@ -3,20 +3,21 @@ package PAI.controller;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.service.ICourseEditionEnrolmentService;
 
 public class US28_RemoveTheEnrolmentOfAStudentInACourseEditionController {
 
-    private final ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
+    private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
 
-    public US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
+    public US28_RemoveTheEnrolmentOfAStudentInACourseEditionController(ICourseEditionEnrolmentService courseEditionEnrolmentService) {
 
-        this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
+        this.courseEditionEnrolmentService = courseEditionEnrolmentService;
     }
-    public boolean removeStudentEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
+    public boolean removeCourseEditionEnrolment(StudentID studentId, CourseEditionID courseEditionId) throws Exception {
         if (studentId == null || courseEditionId == null) {
             return false; // Returns false immediately if any ID is null
         }
 
-        return courseEditionEnrolmentRepository.removeEnrolment(studentId, courseEditionId);
+        return courseEditionEnrolmentService.removeCourseEditionEnrolment(studentId, courseEditionId);
     }
 }

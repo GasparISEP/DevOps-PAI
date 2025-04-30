@@ -50,13 +50,13 @@ interface ICourseEditionEnrolmentRepository <<Interface>> {
 }
 
 class CourseEditionEnrolmentRepositoryImpl <<Memory>>{
-    +findByStudentAndEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
-    +findByStudentAndEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
 }

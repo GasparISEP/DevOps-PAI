@@ -435,7 +435,7 @@ class CourseEditionEnrolmentServiceImplTest {
     }
 
 
-//---------------Enrolment Removal Tests--------------
+    //---------------Enrolment Removal Tests--------------
 
 // ==============================
 // Simple Tests
