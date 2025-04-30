@@ -1,0 +1,139 @@
+@startuml
+
+!pragma layout smetana
+
+
+    class US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController {
+        +US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController()
+        +getNumberOfStudentsEnrolled(courseEditionID : CourseEditionId)
+    }
+
+    interface ICourseEditionEnrolmentService {
+        +findProgrammeEditionIDsThatStudentIsEnrolled(studentID : StudentId) List<ProgrammeEditionID>
+        +findCourseEditionIDsByProgrammeEdition(programmeEditionID : ProgrammeEditionID) List<CourseEditionID>
+        +enrolStudentInACourseEdition(studentID : StudentId, courseEditionID : CourseEditionId) boolean
+        +removeCourseEditionEnrolment(studentID : StudentId, courseEditionID : CourseEditionId) boolean
+        +numberOfStudentsEnrolledInCourseEdition(courseEditionID : CourseEditionId)
+    }
+
+    class CourseEditionEnrolmentServiceImpl {
+            +findProgrammeEditionIDsThatStudentIsEnrolled(studentID : StudentId) List<ProgrammeEditionID>
+            +findCourseEditionIDsByProgrammeEdition(programmeEditionID : ProgrammeEditionID) List<CourseEditionID>
+            +enrolStudentInACourseEdition(studentID : StudentId, courseEditionID : CourseEditionId) boolean
+            +removeCourseEditionEnrolment(studentID : StudentId, courseEditionID : CourseEditionId) boolean
+            +numberOfStudentsEnrolledInCourseEdition(courseEditionID : CourseEditionId)
+        }
+
+    class "CourseEditionEnrolmentRepositoryImpl" as CourseEditionEnrolmentRepository {
+        -_courseEditionEnrolments: List<CourseEditionEnrolment>
+        +CourseEditionEnrolmentRepository()
+        +numberOfStudentsEnrolledInCourseEdition(courseEditionID : CourseEditionId)
+    }
+
+
+package "CourseEditionEnrolmentAggr" {
+    entity "<<root>>\nCourseEditionEnrolment" as CourseEditionEnrolment {
+        +CourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID)
+                 +equals (obj: Object): boolean
+                 +knowCourseEdition(): CourseEditionID
+    }
+}
+
+    class "<<ValueObject>>\nEnrolmentDate" as EnrolmentDate {
+        -_enrolmentDate: LocalDate
+        }
+
+    class "<<ValueObject>>\nStudentId" as StudentId {
+        -_studentID: int
+        }
+
+    class "<<ValueObject>>\nCourseEditionId" as CourseEditionId {
+        -_courseEditionID: int
+        }
+
+    class "<<ValueObject>>\nCourseEditionEnrolmentId" as CourseEditionEnrolmentId {
+        -_courseEditionEnrolmentID: int
+            }
+
+class CourseEditionEnrolmentFactoryImpl {
+        +createEnrolment(StudentID studentID, CourseEditionID courseEditionID, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+    }
+
+interface ICourseEditionEnrolmentFactory {
+        +createEnrolment(StudentID studentID, CourseEditionID courseEditionID, EnrolmentDate enrolmentDate): CourseEditionEnrolment
+    }
+
+interface IRepository <<Interface>> {
+    + save(object : Object)
+    + findAll()
+    + ofIdentity(object : Object)
+    + containsOfIdentity(object : Object)
+}
+
+class "CourseEditionEnrolmentRepositoryJPA" {
+    + boolean isStudentEnrolledInCourseEdition(StudentID, CourseEditionID)
+    + Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID, CourseEditionID)
+    + int numberOfStudentsEnrolledInCourseEdition(CourseEditionID)
+    + void enrolStudentInProgrammeCourseEditions(StudentID, List<CourseEditionID>)
+    + CourseEditionEnrolment save(CourseEditionEnrolment)
+    + Iterable<CourseEditionEnrolment> findAll()
+    + Optional<CourseEditionEnrolment> ofIdentity(CourseEditionEnrolmentID)
+    + boolean containsOfIdentity(CourseEditionEnrolmentID)
+}
+
+interface "ICourseEditionEnrolmentRepositoryJPA" {
+     + boolean isStudentEnrolledInCourseEdition(StudentID, CourseEditionID)
+     + Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID, CourseEditionID)
+     + int numberOfStudentsEnrolledInCourseEdition(CourseEditionID)
+     + void enrolStudentInProgrammeCourseEditions(StudentID, List<CourseEditionID>)
+     + CourseEditionEnrolment save(CourseEditionEnrolment)
+     + Iterable<CourseEditionEnrolment> findAll()
+     + Optional<CourseEditionEnrolment> ofIdentity(CourseEditionEnrolmentID)
+     + boolean containsOfIdentity(CourseEditionEnrolmentID)
+}
+
+interface ICourseEditionEnrolmentMapper {
+    + domainToDataModel(courseEditionEnrolment : CourseEditionEnrolment) : CourseEditionEnrolmentDataModel
+    + dataModelToDomain(courseEditionEnrolmentDataModel : CourseEditionEnrolmentDataModel) : CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentMapper {
+    + domainToDataModel(courseEditionEnrolment : CourseEditionEnrolment) : CourseEditionEnrolmentDataModel
+    + dataModelToDomain(courseEditionEnrolmentDataModel : CourseEditionEnrolmentDataModel) : CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentDataModel {
+    -id : CourseEditionEnrolmentIDDataModel
+    -enrolmentdate : LocalDate
+    -isActive : boolean
+}
+
+interface ICourseEditionEnrolmentRepository {
+    + save(object : Object)
+    + findAll()
+    + ofIdentity(object : Object)
+    + containsOfIdentity(object : Object)
+}
+
+
+US24_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController "1" ---> "1" ICourseEditionEnrolmentService
+CourseEditionEnrolmentServiceImpl ..|> ICourseEditionEnrolmentService
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
+ICourseEditionEnrolmentRepository ..|> IRepository
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentRepositoryJPA <.. CourseEditionEnrolmentFactoryImpl
+CourseEditionEnrolmentRepositoryJPA ..|> ICourseEditionEnrolmentRepositoryJPA
+CourseEditionEnrolmentRepository "List<CourseEditionEnrolment>          " -----> "1..*" CourseEditionEnrolment
+CourseEditionEnrolmentFactoryImpl ...|> ICourseEditionEnrolmentFactory
+CourseEditionEnrolment "\n creates" <...... CourseEditionEnrolmentFactoryImpl
+ICourseEditionEnrolmentFactory ..> CourseEditionEnrolment
+CourseEditionEnrolment "\n *" ---> "1          " CourseEditionId
+CourseEditionEnrolment "\n *" -----> "1   " StudentId
+CourseEditionEnrolment "\n *" ---> "1" EnrolmentDate
+CourseEditionEnrolment "\n *" ---> "1     " CourseEditionEnrolmentId
+CourseEditionEnrolmentRepositoryJPA ..> ICourseEditionEnrolmentMapper
+ICourseEditionEnrolmentMapper <|.. CourseEditionEnrolmentMapper
+CourseEditionEnrolmentMapper ..> CourseEditionEnrolmentDataModel
+
+CourseEditionEnrolmentRepository ---> "1  " CourseEditionEnrolmentId
+@enduml
