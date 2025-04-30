@@ -49,10 +49,8 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
             return Optional.empty();
         }
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIDMapper.toDataModel(programmeEdition.identity());
-        ProgrammeIDDataModel programmeIDDataModel = _programmeIDMapper.toData(programmeEdition.findProgrammeIDInProgrammeEdition());
-        SchoolYearIDDataModel schoolYearIDDataModel = _schoolYearIDMapper.toDataModel(programmeEdition.findSchoolYearIDInProgrammeEdition());
 
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
+        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel);
         return Optional.of(programmeEditionDataModel);
     }
 
