@@ -157,4 +157,9 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
             throw new IllegalArgumentException(name + " cannot be null!");
         }
     }
+
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
+
+        return _ceeRepositoryInterface.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
+    }
 }
