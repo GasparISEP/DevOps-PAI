@@ -1,7 +1,5 @@
 package PAI.persistence.datamodel.programmeEdition;
 
-import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
-import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,7 +7,7 @@ import jakarta.persistence.*;
 public class ProgrammeEditionDataModel {
 
     @EmbeddedId
-    private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
+    private ProgrammeEditionIdDataModel programmeEditionIdDataModel;
 
     protected ProgrammeEditionDataModel() {}
 
@@ -17,11 +15,11 @@ public class ProgrammeEditionDataModel {
         if(programmeEditionIdDataModel == null) {
             throw new IllegalArgumentException("programmeEditionID cannot be null");
         }
-        this._programmeEditionIdDataModel = programmeEditionIdDataModel;
+        this.programmeEditionIdDataModel = programmeEditionIdDataModel;
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
-        return _programmeEditionIdDataModel;
+        return programmeEditionIdDataModel;
     }
 
     @Override
@@ -29,11 +27,11 @@ public class ProgrammeEditionDataModel {
         if (this == obj) return true;
         if (obj == null || !(obj instanceof ProgrammeEditionDataModel)) return false;
         ProgrammeEditionDataModel other = (ProgrammeEditionDataModel) obj;
-        return _programmeEditionIdDataModel.equals(other._programmeEditionIdDataModel);
+        return programmeEditionIdDataModel.equals(other.programmeEditionIdDataModel);
     }
 
     @Override
     public int hashCode() {
-        return _programmeEditionIdDataModel.hashCode();
+        return programmeEditionIdDataModel.hashCode();
     }
 }
