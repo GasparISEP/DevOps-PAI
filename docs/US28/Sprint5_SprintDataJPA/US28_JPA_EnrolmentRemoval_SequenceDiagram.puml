@@ -60,6 +60,16 @@ deactivate Status
 CEE --> Service: Enrolment Status set to inactive
 deactivate CEE
 
+' Remove the enrolment from the internal set of the repository
+Service -> CEERepo: getInternalSet()
+activate CEERepo
+CEERepo --> Service: Set<CourseEditionEnrolment>
+deactivate CEERepo
+Service -> CEERepo: remove(CourseEditionEnrolment)
+activate CEERepo
+CEERepo --> Service: true (Enrolment removed from internal set)
+deactivate CEERepo
+
 ' Step 5: Save the updated enrolment in the repository
 Service -> CEERepo: save(CourseEditionEnrolment)
 activate CEERepo
