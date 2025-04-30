@@ -162,6 +162,16 @@ Service --> Service: No active course edition enrolments found
     PEE --> Service: Enrolment Status set to inactive
     deactivate PEE
 
+' Remove the enrolment from the internal set of the repository
+Service -> PEERepo: getInternalSet()
+activate PEERepo
+PEERepo --> Service: Set<ProgrammeEditionEnrolment>
+deactivate PEERepo
+Service -> PEERepo: remove(ProgrammeEditionEnrolment)
+activate PEERepo
+PEERepo --> Service: true (Enrolment removed from internal set)
+deactivate PEERepo
+
     ' Step 7.3: Save the updated programme enrolment in the repository
     Service -> PEERepo: save(ProgrammeEditionEnrolment)
     activate PEERepo
