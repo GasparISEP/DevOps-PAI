@@ -111,4 +111,19 @@ class CourseInStudyPlanIDDataModelTest {
         assertEquals(dm1, dm2);
         assertEquals(dm1.hashCode(), dm2.hashCode());
     }
+
+    @Test
+    void hashCodeShouldUseSumOfComponentHashCodes() {
+        // Arrange
+        StudyPlanIDDataModel sp = mock(StudyPlanIDDataModel.class);
+        CourseIDDataModel c = mock(CourseIDDataModel.class);
+
+        // Hash codes reais
+        int expected = sp.hashCode() + c.hashCode();
+
+        CourseInStudyPlanIDDataModel id = new CourseInStudyPlanIDDataModel(sp, c);
+
+        // Assert
+        assertEquals(expected, id.hashCode());
+    }
 }

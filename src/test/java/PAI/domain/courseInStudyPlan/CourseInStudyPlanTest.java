@@ -147,7 +147,6 @@ class CourseInStudyPlanTest {
     @Test
     void ConstructionOfCourseInStudyPlanShouldThrowExceptionWhenCourseInStudyPlanIDIsNull() throws Exception {
         // arrange
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         CourseID courseID = mock(CourseID.class);
         Semester semester = mock(Semester.class);
         CurricularYear curricularYear = mock(CurricularYear.class);
@@ -501,5 +500,29 @@ class CourseInStudyPlanTest {
         assertFalse(course1.sameAs(course2));
     }
 
+    @Test
+    void testEqualsWithDifferentCourseInStudyPlanIDShouldReturnFalse() {
+        // arrange
+        StudyPlanID studyPlanID1 = mock(StudyPlanID.class);
+        CourseID courseID1 = mock(CourseID.class);
 
+        CourseID courseID2 = mock(CourseID.class);
+        StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
+
+        CourseInStudyPlanID id1 = new CourseInStudyPlanID(courseID1, studyPlanID1);
+        CourseInStudyPlanID id2 = new CourseInStudyPlanID(courseID2, studyPlanID2);
+
+        // mocks normais para os restantes
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+
+        // act
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID1, studyPlanID1, id1, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID2, id2, durationOfCourse, quantityOfCreditsEcts);
+
+        // assert
+        assertNotEquals(course1, course2);
+    }
 }
