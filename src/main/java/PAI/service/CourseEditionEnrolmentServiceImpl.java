@@ -132,6 +132,10 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         if (peEnrolmentOpt.isPresent()) {
             ProgrammeEditionEnrolment peEnrolment = peEnrolmentOpt.get();
             peEnrolment.deactivateEnrolment();
+            // Possible future consideration/alternative: rather than automatically auto-deactivating the enrolment,
+            // we might introduce an "IRREGULAR" status (e.g., peEnrolment.markAsIrregular()).
+            // This would involve changing the status from a boolean to an enum: ACTIVE, INACTIVE or IRREGULAR.
+
             _peeRepositoryInterface.save(peEnrolment);
         }
     }
