@@ -435,7 +435,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(repository.findByStudentAndEdition(doubleStudent, doubleCourseEdition1).isPresent());
     }
 
-    @Test //Teste de Fernando
+    @Test
     void shouldThrowExceptionWhenStudentAlreadyEnrolled() {
         // Arrange
         ICourseEditionEnrolmentFactory doubleFactory = mock(ICourseEditionEnrolmentFactory.class);
@@ -461,9 +461,9 @@ class CourseEditionEnrolmentRepositoryImplTest {
         when(doubleEnrollment1.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
 
         when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
+        repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
 
         //act
-        repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
         });

@@ -79,7 +79,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
             ProgrammeEditionEnrolment enrolment = _peeMapper.toDomain(dataModel)
                     .orElseThrow(() -> new IllegalStateException("Could not map data model to domain"));
 
-            if (enrolment.findStudentInProgrammeEdition().equals(studentId)) {
+            if (enrolment.findStudentInProgrammeEdition().equals(studentId) && enrolment.isEnrolmentActive()) {
                 ProgrammeEditionID programmeEditionId = enrolment.findProgrammeEditionInEnrolment();
                 ProgrammeEditionsThatStudentIsEnrolled.add(programmeEditionId);
             }
