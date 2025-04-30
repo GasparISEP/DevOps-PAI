@@ -441,6 +441,7 @@ class CourseEditionEnrolmentServiceImplTest {
 // Simple Tests
 // ==============================
 
+    // Removing an Active Enrolment from a Course Edition should deactivate the specific course edition enrolment
     @Test
     void shouldRemoveActiveCourseEditionEnrolment() throws Exception {
         // Arrange
@@ -472,6 +473,7 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(ceeRepository, times(1)).save(enrolment);
     }
 
+    // When the last active Course Edition Enrolment is removed, should also deactivate the student's Programme Edition Enrolment
     @Test
     void shouldRemoveLastActiveCourseEditionEnrolmentAndDeactivateProgrammeEdition() throws Exception {
         // Arrange
@@ -504,6 +506,7 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(peeRepository, times(1)).save(any(ProgrammeEditionEnrolment.class));
     }
 
+    // If an enrolment is already marked as inactive, system should prevent its removal
     @Test
     void shouldNotRemoveInactiveEnrolment() throws Exception {
         // Arrange
@@ -535,6 +538,7 @@ class CourseEditionEnrolmentServiceImplTest {
 // Null Tests
 // ==============================
 
+    // If the student is null, the system should reject the removal operation
     @Test
     void shouldReturnFalseForNullStudent() throws Exception {
         // Arrange
@@ -553,6 +557,7 @@ class CourseEditionEnrolmentServiceImplTest {
         assertFalse(result);
     }
 
+    // If the Course Edition is null, the system should reject the removal operation
     @Test
     void shouldReturnFalseForNullCourseEdition() throws Exception {
         // Arrange
@@ -571,6 +576,7 @@ class CourseEditionEnrolmentServiceImplTest {
         assertFalse(result);
     }
 
+    // If the enrolment does not exist, the system should reject the removal operation
     @Test
     void shouldReturnFalseForNonExistentEnrolment() throws Exception {
         // Arrange
@@ -598,6 +604,7 @@ class CourseEditionEnrolmentServiceImplTest {
 // Multiple Removals of the Same Student
 // ==============================
 
+    // Confirms that removing the same enrolment multiple times should only succeed on the first attempt, while subsequent attempts should be denied
     @Test
     void removeSameEnrolmentTwice_ShouldReturnFalseOnSecondAttempt() throws Exception {
         // Arrange
@@ -638,6 +645,7 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(ceeRepository, times(1)).save(enrolment); // Should not be called again, only once
     }
 
+    // When student is removed from two course editions, but still has other active course enrolments, only the course enrolments should be deactivated
     @Test
     void removeStudentFromTwoCourseEditionsButLeaveOtherActiveEnrolments_ShouldNotDeactivateProgrammeEdition() throws Exception {
         // Arrange
@@ -692,6 +700,7 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(peeRepository, never()).save(programmeEnrolment); // Programme Enrolment should not be saved
     }
 
+    // When the last two active Course Edition Enrolments are removed for a student, both the Course Editions and the Programme Edition Enrolments should be deactivated
     @Test
     void shouldRemoveTwoActiveCourseEditionsForStudentAndDeactivateProgrammeEdition() throws Exception {
         // Arrange
@@ -749,6 +758,7 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(peeRepository, times(2)).save(any(ProgrammeEditionEnrolment.class));
     }
 
+    // Mixed sequence of removal operations (both active and inactive enrolments) should be handled correctly, with only active enrolments being deactivated
     @Test
     void shouldCorrectlyHandleMixedSequenceOfActiveAndInactiveRemovals() throws Exception {
         // Arrange
@@ -786,6 +796,7 @@ class CourseEditionEnrolmentServiceImplTest {
 // Multiple Removals for Several Students
 // ==============================
 
+    // Multiple students can be removed from the same Course Edition without affecting their Programme Edition Enrolment
     @Test
     void shouldRemoveMultipleStudentsFromCourseEditionWithoutAffectingProgrammeEdition() throws Exception {
         // Arrange
@@ -845,7 +856,47 @@ class CourseEditionEnrolmentServiceImplTest {
         verify(peeRepository, times(0)).save(programmeEnrolment); // No need to save ProgrammeEditionEnrolment, it shouldn't be affected
     }
 
+    // The system should correctly procces the removal of multiple students with a mix of active and inactive enrolments, deactivating only the active ones
+    @Test
+    void removeMultipleStudentsWithMixedEnrolmentStatuses_ShouldDeactivateOnlyActiveEnrolments() throws Exception {
+        // Arrange
+        ICourseEditionEnrolmentRepository ceeRepository = mock(ICourseEditionEnrolmentRepository.class);
+        IProgrammeEditionEnrolmentRepository peeRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
 
+        CourseEditionEnrolment enrolment1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment enrolment2 = mock(CourseEditionEnrolment.class);
+        StudentID studentID1 = mock(StudentID.class);
+        StudentID studentID2 = mock(StudentID.class);
+        CourseEditionID courseEditionID1 = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID2 = mock(CourseEditionID.class);
 
+        // Simulate repository behavior for enrolments
+        when(ceeRepository.findByStudentAndEdition(studentID1, courseEditionID1)).thenReturn(Optional.of(enrolment1));
+        when(ceeRepository.findByStudentAndEdition(studentID2, courseEditionID2)).thenReturn(Optional.of(enrolment2));
+
+        // Enrolment 1 is active, enrolment 2 is inactive
+        when(enrolment1.isEnrolmentActive()).thenReturn(true);
+        when(enrolment2.isEnrolmentActive()).thenReturn(false);
+
+        // Create service instance
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                factory, ceeRepository, peeRepository, courseEditionRepository);
+
+        // Act - Remove both students
+        boolean result1 = service.removeCourseEditionEnrolment(studentID1, courseEditionID1); // Active
+        boolean result2 = service.removeCourseEditionEnrolment(studentID2, courseEditionID2); // Inactive
+
+        // Assert - Active removal (should return true)
+        assertTrue(result1);
+
+        // Assert - Inactive removal (should return false)
+        assertFalse(result2);
+
+        // Verify that only the active enrolment was deactivated
+        verify(ceeRepository, times(1)).save(enrolment1);
+        verify(ceeRepository, never()).save(enrolment2);
+    }
 
 }
