@@ -47,18 +47,22 @@ interface ICourseEditionEnrolmentRepository <<Interface>> {
     +findByStudentAndCourseEdition (studentID: StudentID, \ncourseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
+
 }
 
 class CourseEditionEnrolmentRepositoryImpl <<Memory>>{
     +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
     +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
 }
 
 interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
