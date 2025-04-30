@@ -342,7 +342,46 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfSchoolYearNull() throws Exception {
+    void shouldThrowExceptionIfParameterProgrammeNull() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+
+        Description description1 = new Description("2023/2024");
+        Date startDate1 = new Date("01-09-2023");
+        Date endDate1 = new Date("31-08-2024");
+        Description description3 = new Description("2025/2026");
+        Date startDate3 = new Date("01-09-2025");
+        Date endDate3 = new Date("31-08-2026");
+        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+        Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
+        Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
+        SchoolYear schoolYear = schoolYearIterator.next();
+        SchoolYearID schoolYearID = schoolYear.identity();
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(null,schoolYearID);});
+    }
+
+    @Test
+    void shouldThrowExceptionIfParameterSchoolYearIDNull() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();

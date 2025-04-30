@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudyPlanTest {
 
@@ -24,7 +25,7 @@ class StudyPlanTest {
         assertNotNull(studyPlan);
     }
 
-    /*@Test
+    @Test
     void testGetStudyPlanIDNotNull() throws Exception {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
@@ -39,7 +40,7 @@ class StudyPlanTest {
 
         // Assert
         assertNotNull(studyPlanID);
-    }*/
+    }
 
     @Test
     void testUniqueStudyPlanIDForDifferentInstancesOfProgrammeID() {
@@ -265,4 +266,43 @@ class StudyPlanTest {
         });
     }
 
+    @Test
+    void testEqualsReturnsTrueForSameStudyPlanID() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+
+        StudyPlan plan1 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+        StudyPlan plan2 = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+
+        assertEquals(plan1, plan2);
+    }
+
+    @Test
+    void testEqualsReturnsFalseForNull() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+
+        StudyPlan plan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+
+        assertNotEquals(plan, null);
+    }
+
+    @Test
+    void testEqualsReturnsFalseForDifferentClass() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        DurationInYears durationInYears = mock(DurationInYears.class);
+        MaxEcts quantityOfEcts = mock(MaxEcts.class);
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+
+        StudyPlan plan = new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+
+        assertNotEquals(plan, new Object());
+    }
 }

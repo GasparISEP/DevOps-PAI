@@ -223,9 +223,8 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     }
 
     private DepartmentRepositoryImpl createDepartmentRepo() throws Exception {
-        IDepartmentFactory departmentFactory = new DepartmentFactoryImpl();
         IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentFactory, departmentListFactory);
+        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
         departmentRepository.save(createDepartment());
         return departmentRepository;
     }

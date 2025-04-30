@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionIdDataModelTest {
 
@@ -69,5 +70,37 @@ class ProgrammeEditionIdDataModelTest {
         SchoolYearIDDataModel result = programmeEditionIdDataModel.get_schoolYearIDDataModel();
         //assert
         assertEquals(schoolYearIDDataModel, result);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIdDataModelIsComparedToItself() {
+        //arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(programmeEditionIdDataModel);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToAnotherClass() {
+        //arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        String test  = "test";
+        //act
+        boolean result = programmeEditionIdDataModel.equals(test);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToOtherProgrammeEditionIdDataModel() {
+        //arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel1 = mock(ProgrammeEditionIdDataModel.class);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(programmeEditionIdDataModel1);
+        //assert
+        assertFalse(result);
     }
 }

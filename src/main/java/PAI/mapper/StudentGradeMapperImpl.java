@@ -8,9 +8,10 @@ import PAI.persistence.datamodel.StudentGradeDM;
 import PAI.persistence.datamodel.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class StudentGradeMapperImpl implements IStudentGradeMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;

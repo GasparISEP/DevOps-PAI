@@ -1,10 +1,8 @@
-package PAI.repository;
+package PAI.persistence.mem;
 
 import PAI.VOs.*;
 import PAI.VOs.Date;
-import PAI.domain.course.Course;
 import PAI.domain.courseEditionEnrolment.*;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -436,43 +434,44 @@ class CourseEditionEnrolmentRepositoryImplTest {
         // Assert
         assertTrue(repository.findByStudentAndEdition(doubleStudent, doubleCourseEdition1).isPresent());
     }
-//    @Test //Teste de Fernando
-//    void shouldThrowExceptionWhenStudentAlreadyEnrolled() {
-//        // Arrange
-//        ICourseEditionEnrolmentFactory doubleFactory = mock(ICourseEditionEnrolmentFactory.class);
-//        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
-//        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
-//
-//        StudentID doubleStudent = mock(StudentID.class);
-//        CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
-//        CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
-//        List<CourseEditionID> courseEditions = List.of(doubleCourseEdition1, doubleCourseEdition2);
-//
-//        CourseEditionEnrolment doubleEnrollment1 = mock(CourseEditionEnrolment.class);
-//        CourseEditionEnrolment doubleEnrollment2 = mock(CourseEditionEnrolment.class);
-//
-//        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment1);
-//
-//        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
-//
-//        when(doubleEnrollment1.hasStudent(doubleStudent)).thenReturn(true);
-//
-//        when(doubleEnrollment2.hasStudent(doubleStudent)).thenReturn(true);
-//
-//        when(doubleEnrollment1.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
-//
-//        when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
-//
-//        //act
-//        repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
-//        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-//            repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
-//        });
-//
-//        //assert
-//        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
 
-//    }
+    @Test //Teste de Fernando
+    void shouldThrowExceptionWhenStudentAlreadyEnrolled() {
+        // Arrange
+        ICourseEditionEnrolmentFactory doubleFactory = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionEnrolmentListFactory CeeListFactory = mock(CourseEditionEnrolmentListFactoryImpl.class);
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(CeeListFactory);
+
+        StudentID doubleStudent = mock(StudentID.class);
+        CourseEditionID doubleCourseEdition1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCourseEdition2 = mock(CourseEditionID.class);
+        List<CourseEditionID> courseEditions = List.of(doubleCourseEdition1, doubleCourseEdition2);
+
+        CourseEditionEnrolment doubleEnrollment1 = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolment doubleEnrollment2 = mock(CourseEditionEnrolment.class);
+
+        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition1)).thenReturn(doubleEnrollment1);
+
+        when(doubleFactory.createCourseEditionEnrolment(doubleStudent, doubleCourseEdition2)).thenReturn(doubleEnrollment2);
+
+        when(doubleEnrollment1.hasStudent(doubleStudent)).thenReturn(true);
+
+        when(doubleEnrollment2.hasStudent(doubleStudent)).thenReturn(true);
+
+        when(doubleEnrollment1.hasCourseEdition(doubleCourseEdition1)).thenReturn(true);
+
+        when(doubleEnrollment2.hasCourseEdition(doubleCourseEdition2)).thenReturn(true);
+
+        //act
+        repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            repository.enrolStudentInProgrammeCourseEditions(doubleStudent, courseEditions);
+        });
+
+        //assert
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
+
+    }
 
     @Test
     void shouldReturnZeroWhenThereAreNoEnrollmentsInCourseEdition() throws Exception {

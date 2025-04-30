@@ -17,7 +17,7 @@ class DepartmentRepositoryTest {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -32,7 +32,7 @@ class DepartmentRepositoryTest {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
 
         Department department1Double = mock(Department.class);
         Department department2Double = mock(Department.class);
@@ -65,7 +65,7 @@ class DepartmentRepositoryTest {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
         DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
         Department department1Double = mock(Department.class);
         Name name = mock(Name.class);
@@ -88,7 +88,7 @@ class DepartmentRepositoryTest {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
         DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
         Name name = mock(Name.class);
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -114,7 +114,7 @@ class DepartmentRepositoryTest {
         // Arrange
         IDepartmentFactory factoryInterfaceDouble = mock(IDepartmentFactory.class);
         IDepartmentListFactory listFactoryInterfaceDouble = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryInterfaceDouble, listFactoryInterfaceDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryInterfaceDouble);
 
         // Act
         boolean result = repository.departmentExists(null);
@@ -132,7 +132,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         Department departmentDouble = mock(Department.class);
         DepartmentID departmentIDDouble = mock(DepartmentID.class);
         TeacherID furtherDirectorIDDouble = mock(TeacherID.class);
@@ -158,7 +158,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         Department departmentDouble = mock(Department.class);
         DepartmentID departmentIDDouble = mock(DepartmentID.class);
 
@@ -182,7 +182,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         Department departmentDouble = mock(Department.class);
         DepartmentID departmentIDDouble = mock(DepartmentID.class);
         TeacherID furtherDirectorIDDouble = mock(TeacherID.class);
@@ -208,7 +208,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         Department departmentDouble = mock(Department.class);
         DepartmentID departmentIDDouble = mock(DepartmentID.class);
         TeacherID furtherDirectorIDDouble = mock(TeacherID.class);
@@ -234,7 +234,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         DepartmentID nonExistingDepartmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
 
@@ -248,9 +248,8 @@ class DepartmentRepositoryTest {
     @Test
     void shouldSaveDepartment() {
         //arrange
-        IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDF, doubleIDLF);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         Department department = mock(Department.class);
@@ -271,7 +270,7 @@ class DepartmentRepositoryTest {
         //arrange
         IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDF, doubleIDLF);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
 
@@ -293,7 +292,7 @@ class DepartmentRepositoryTest {
         //arrange
         IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDF, doubleIDLF);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
         DepartmentID departmentID = mock(DepartmentID.class);
 
@@ -313,7 +312,7 @@ class DepartmentRepositoryTest {
         //arrange
         IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDF, doubleIDLF);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
         DepartmentID departmentID = mock(DepartmentID.class);
 
@@ -334,7 +333,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         DepartmentID departmentID = mock(DepartmentID.class);
 
         // Act
@@ -353,7 +352,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
 
         // Act
         Optional<Department> result = repository.ofIdentity(null);
@@ -371,7 +370,7 @@ class DepartmentRepositoryTest {
 
         when(listFactoryDouble.newDepartmentList()).thenReturn(departmentSet);
 
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(factoryDouble, listFactoryDouble);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(listFactoryDouble);
         DepartmentID departmentID = mock(DepartmentID.class);
 
         // Act
@@ -386,7 +385,7 @@ class DepartmentRepositoryTest {
         //arrange
         IDepartmentFactory doubleIDF = mock(IDepartmentFactory.class);
         IDepartmentListFactory doubleIDLF = mock(IDepartmentListFactory.class);
-        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDF, doubleIDLF);
+        DepartmentRepositoryImpl repository = new DepartmentRepositoryImpl(doubleIDLF);
         Department department1 = mock(Department.class);
         DepartmentID departmentID1 = mock(DepartmentID.class);
         Department department2= mock(Department.class);
