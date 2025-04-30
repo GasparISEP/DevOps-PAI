@@ -12,7 +12,7 @@ public interface IProgrammeService {
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID id);
     List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception;
     Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name);
-    Programme getProgrammeByAcronym(Acronym acronym);
+    Optional<Programme> getProgrammeByAcronym(Acronym acronym);
     List<ProgrammeID> getAllProgrammeIDs();
     Iterable<Programme> findAll();
     Optional <Programme> getProgrammeByID(ProgrammeID id);

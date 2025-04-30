@@ -86,13 +86,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return Optional.empty();
     }
 
-    public Programme getProgrammeByAcronym(Acronym acronym) {
+    public Optional<Programme> getProgrammeByAcronym(Acronym acronym) {
         for (Programme programme : _programmeRepository.findAll()) {
             if (programme.getAcronym().equals(acronym)) {
-                return programme;
+                return Optional.of(programme);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<ProgrammeID> getAllProgrammeIDs() {
@@ -128,6 +128,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return false;
     }
+
 
 
 

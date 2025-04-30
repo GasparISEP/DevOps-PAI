@@ -394,28 +394,39 @@ class ProgrammeServiceImplTest {
 
         when(doubleRepo.findAll()).thenReturn(List.of(programme1));
         when(programme1.getAcronym()).thenReturn(acronym);
+        when(programme1.hasThisProgrammeAcronym(acronym)).thenReturn(true);
 
         //Act
-        Programme result = service.getProgrammeByAcronym(acronym);
+        Optional<Programme> result = service.getProgrammeByAcronym(acronym);
 
         //Assert
-        assertNotNull(result);
+        assertNotNull(Optional.of(result));
 
     }
+
 
     @Test
     void shouldNotGetProgrammeByAcronym() {
         //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+        IProgrammeFactory doubleFactory = mock(ProgrammeFactoryImpl.class);
+        IProgrammeRepository doubleRepo = mock(ProgrammeRepositoryImpl.class);
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
+        Programme prog1 = mock(Programme.class);
+
+        Acronym acronym = mock(Acronym.class);
+        Acronym acronym1 = mock(Acronym.class);
+
+        when(doubleRepo.findAll()).thenReturn(List.of(prog1));
+        when(prog1.getAcronym()).thenReturn(acronym);
+        when(prog1.hasThisProgrammeAcronym(acronym1)).thenReturn(false);
+
         //Act
-        Programme result = service.getProgrammeByAcronym(null);
+        Optional<Programme> result = service.getProgrammeByAcronym(acronym1);
 
         //Assert
-        assertNull(result);
+        assertTrue(result.isEmpty());
 
     }
 
