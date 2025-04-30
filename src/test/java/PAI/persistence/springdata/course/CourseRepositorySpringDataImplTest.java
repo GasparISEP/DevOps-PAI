@@ -361,11 +361,11 @@ class CourseRepositorySpringDataImplTest {
 
         Name name = new Name("Software Development");
 
-        when(springDataRepoMock.existsBy_name(name.getName())).thenReturn(true);
+        when(springDataRepoMock.existsByName(name.getName())).thenReturn(true);
 
         // Act & Assert
         assertTrue(courseRepository.existsCourseByName(name));
-        verify(springDataRepoMock, times(1)).existsBy_name(name.getName());
+        verify(springDataRepoMock, times(1)).existsByName(name.getName());
     }
 
     @Test
@@ -379,11 +379,11 @@ class CourseRepositorySpringDataImplTest {
 
         Name name = new Name("Software Development");
 
-        when(springDataRepoMock.existsBy_name(name.getName())).thenReturn(false);
+        when(springDataRepoMock.existsByName(name.getName())).thenReturn(false);
 
         // Act & Assert
         assertFalse(courseRepository.existsCourseByName(name));
-        verify(springDataRepoMock, times(1)).existsBy_name(name.getName());
+        verify(springDataRepoMock, times(1)).existsByName(name.getName());
     }
 
     @Test
@@ -427,11 +427,11 @@ class CourseRepositorySpringDataImplTest {
 
         Acronym acronym = new Acronym("DSOFT");
 
-        when(springDataRepoMock.existsBy_acronym(acronym.getAcronym())).thenReturn(true);
+        when(springDataRepoMock.existsByAcronym(acronym.getAcronym())).thenReturn(true);
 
         // Act & Assert
         assertTrue(courseRepository.existsCourseByAcronym(acronym));
-        verify(springDataRepoMock, times(1)).existsBy_acronym(acronym.getAcronym());
+        verify(springDataRepoMock, times(1)).existsByAcronym(acronym.getAcronym());
     }
 
     @Test
@@ -445,10 +445,10 @@ class CourseRepositorySpringDataImplTest {
 
         Acronym acronym = new Acronym("DSOFT");
 
-        when(springDataRepoMock.existsBy_acronym(acronym.getAcronym())).thenReturn(false);
+        when(springDataRepoMock.existsByAcronym(acronym.getAcronym())).thenReturn(false);
 
         // Act & Assert
         assertFalse(courseRepository.existsCourseByAcronym(acronym));
-        verify(springDataRepoMock, times(1)).existsBy_acronym(acronym.getAcronym());
+        verify(springDataRepoMock, times(1)).existsByAcronym(acronym.getAcronym());
     }
 }
