@@ -1,7 +1,9 @@
 package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
     public CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,

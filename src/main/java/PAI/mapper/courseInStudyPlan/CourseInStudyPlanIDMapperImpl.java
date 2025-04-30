@@ -8,7 +8,9 @@ import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseInStudyPlanIDMapperImpl implements ICourseInStudyPlanIDMapper {
 
     private final ICourseIDMapper _courseIDMapper;
