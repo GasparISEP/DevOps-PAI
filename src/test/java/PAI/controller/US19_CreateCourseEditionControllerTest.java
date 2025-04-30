@@ -151,7 +151,7 @@ class US19_CreateCourseEditionControllerTest {
 
     //-----getAllDegreeTypes Tests-----
     @Test
-    void shouldReturnNullWhenGetAllDegreeTypesMethodIsCalled() {
+    void shouldReturnAListWithAllDegreeTypesInTheSystem() {
         // SUT = Controller
         // Arrange
         IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
@@ -162,11 +162,45 @@ class US19_CreateCourseEditionControllerTest {
         ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
 
+        DegreeType degreeType1 = mock(DegreeType.class);
+        DegreeType degreeType2 = mock(DegreeType.class);
+        DegreeType degreeType3 = mock(DegreeType.class);
+
+        List<DegreeType> degreeTypes = List.of(degreeType1, degreeType2, degreeType3);
+        when(degreeTypeService.getAllDegreeTypes()).thenReturn(degreeTypes);
+
         // Act
         List<DegreeType> result = us19Controller.getAllDegreeTypes();
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertTrue(result.contains(degreeType1));
+        assertTrue(result.contains(degreeType2));
+        assertTrue(result.contains(degreeType3));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfTheSystemHasNoDegreeTypes() {
+        // SUT = Controller
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        List<DegreeType> degreeTypes = List.of();
+        when(degreeTypeService.getAllDegreeTypes()).thenReturn(degreeTypes);
+
+        // Act
+        List<DegreeType> result = us19Controller.getAllDegreeTypes();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
     }
 
     //-----getProgrammesByDegreeTypeID Tests-----

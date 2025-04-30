@@ -55,7 +55,7 @@ public class US19_CreateCourseEditionController {
     }
 
     public List<DegreeType> getAllDegreeTypes() {
-        return null;
+        return degreeTypeService.getAllDegreeTypes();
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
