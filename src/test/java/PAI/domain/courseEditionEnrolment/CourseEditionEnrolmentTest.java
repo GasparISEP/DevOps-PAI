@@ -1,9 +1,8 @@
-package PAI.domain;
+package PAI.domain.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
