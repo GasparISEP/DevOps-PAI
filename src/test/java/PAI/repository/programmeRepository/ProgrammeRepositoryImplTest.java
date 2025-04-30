@@ -4,8 +4,8 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

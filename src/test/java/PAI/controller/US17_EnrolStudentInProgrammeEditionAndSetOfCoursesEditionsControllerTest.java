@@ -2,34 +2,14 @@ package PAI.controller;
 
 
 import PAI.VOs.*;
-import PAI.domain.courseEditionEnrolment.*;
-import PAI.domain.programmeEdition.IProgrammeEditionFactory;
-import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
-import PAI.factory.*;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
-import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import PAI.service.*;
-import PAI.service.courseEdition.CourseEditionServiceImpl;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.programme.IProgrammeService;
-import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
-import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

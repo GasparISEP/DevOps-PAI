@@ -1,12 +1,11 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;

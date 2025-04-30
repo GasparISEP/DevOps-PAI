@@ -11,7 +11,7 @@ import PAI.repository.CourseEditionRepositoryImpl;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
