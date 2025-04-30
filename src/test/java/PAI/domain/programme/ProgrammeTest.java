@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 class ProgrammeTest {
 
     @Test
-    void createAProgramme() throws IllegalArgumentException {
+    void createAProgramme() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -28,7 +28,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnFalseWhenProgrammeIsNotInDepartment() throws IllegalArgumentException {
+    void shouldReturnFalseWhenProgrammeIsNotInDepartment() {
         // arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -47,7 +47,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnTrueWhenProgrammeIsInDepartment() throws IllegalArgumentException {
+    void shouldReturnTrueWhenProgrammeIsInDepartment() {
         // arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -66,7 +66,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfNameIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfNameIsNull() {
         //arrange
         Acronym acronym = mock(Acronym.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
@@ -84,7 +84,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfAcronymIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfAcronymIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         QuantEcts qtyEcts = mock(QuantEcts.class);
@@ -102,7 +102,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfQtyEctsIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfQtyEctsIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -120,7 +120,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfQtySemestersIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfQtySemestersIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -138,7 +138,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfDegreeTypeIDIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfDegreeTypeIDIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -156,7 +156,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfDepartmentIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfDepartmentIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -174,7 +174,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfDirectorIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfDirectorIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -192,7 +192,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldNotCreateProgrammeIfProgrammeIDIsNull() throws IllegalArgumentException {
+    void shouldNotCreateProgrammeIfProgrammeIDIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -212,7 +212,7 @@ class ProgrammeTest {
     //equals
 
     @Test
-    void equalsProgrammeReturnTrue() throws IllegalArgumentException {
+    void equalsProgrammeReturnTrue() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -231,7 +231,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void equalsProgrammeReturnFalseWhenProgrammeIsDifferent() throws IllegalArgumentException {
+    void equalsProgrammeReturnFalseWhenProgrammeIsDifferent() {
         //arrange
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
@@ -243,7 +243,6 @@ class ProgrammeTest {
         DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
         DegreeTypeID degreeTypeID2 = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
-        Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
@@ -256,20 +255,14 @@ class ProgrammeTest {
     }
 
     @Test
-    void equalsProgrammeReturnFalseWhenProgrammeIsNull() throws IllegalArgumentException {
+    void equalsProgrammeReturnFalseWhenProgrammeIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
-        Acronym acronym2 = mock(Acronym.class);
         QuantEcts qtyEcts1 = mock(QuantEcts.class);
-        QuantEcts qtyEcts2 = mock(QuantEcts.class);
         QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
-        QuantSemesters qtySemesters2 = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
-        DegreeTypeID degreeTypeID2 = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
-        Department department2 = mock(Department.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Programme CE = new Programme(name1, acronym1, qtyEcts1, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID);
@@ -281,7 +274,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void isEqualsReturnTrue() throws IllegalArgumentException {
+    void isEqualsReturnTrue() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -299,7 +292,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void isEqualsReturnFalse() throws IllegalArgumentException {
+    void isEqualsReturnFalse() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
@@ -359,7 +352,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnQtyEcts() throws Exception {
+    void shouldReturnQtyEcts() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -370,7 +363,6 @@ class ProgrammeTest {
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        TeacherID teacher1 = mock(TeacherID.class);
         //act
         QuantEcts result = CE.getQuantEcts();
         //assert
@@ -378,7 +370,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnQtySemesters() throws Exception {
+    void shouldReturnQtySemesters() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -389,7 +381,6 @@ class ProgrammeTest {
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        TeacherID teacher1 = mock(TeacherID.class);
         //act
         QuantSemesters result = CE.getQuantSemesters();
         //assert
@@ -397,7 +388,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnTrueIfNameIsIdentical() throws Exception {
+    void shouldReturnTrueIfNameIsIdentical() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -416,7 +407,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnFalseIfNameIsNotIdentical() throws Exception {
+    void shouldReturnFalseIfNameIsNotIdentical() {
         //arrenge
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
@@ -436,7 +427,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnAcronym() throws Exception {
+    void shouldReturnAcronym() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -454,7 +445,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnDegreeTypeID() throws Exception {
+    void shouldReturnDegreeTypeID() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -472,7 +463,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnDepartment() throws Exception {
+    void shouldReturnDepartment() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -490,7 +481,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnProgrammeDirectorID() throws Exception {
+    void shouldReturnProgrammeDirectorID() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -652,7 +643,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnTrueIfAcronymIsIdentical() throws Exception {
+    void shouldReturnTrueIfAcronymIsIdentical() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
@@ -671,7 +662,7 @@ class ProgrammeTest {
     }
 
     @Test
-    void shouldReturnFalseIfAcronymIsNotIdentical() throws Exception {
+    void shouldReturnFalseIfAcronymIsNotIdentical() {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
@@ -689,4 +680,45 @@ class ProgrammeTest {
         //assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnTrueIfDegreeTypeIDIsIdentical() {
+        //arrange
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID department1 = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        //act
+        boolean result = CE.hasThisDegreeTypeID(CEE.getDegreeTypeID());
+        //assert
+        assertTrue(result);
+    }
+
+
+    @Test
+    void shouldReturnFalseIfDegreeTypeIDIsNotIdentical() {
+        //arrenge
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym1 = mock(Acronym.class);
+        QuantEcts qtyEcts = mock(QuantEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
+        DepartmentID department1 = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Programme CE = new Programme(name, acronym1, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym1, qtyEcts, qtySemesters, degreeTypeID1, department1, programmeDirectorID, programmeID);
+        //act
+        boolean result = CE.hasThisDegreeTypeID(CEE.getDegreeTypeID());
+        //assert
+        assertFalse(result);
+    }
+
 }

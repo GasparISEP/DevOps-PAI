@@ -92,6 +92,10 @@ public class Programme implements AggregateRoot<ProgrammeID> {
 
     public boolean hasThisProgrammeAcronym(Acronym acronym) {return _acronym.equals(acronym);}
 
+    public boolean hasThisDegreeTypeID(DegreeTypeID degreeTypeID) {
+        return _degreeTypeID.equals(degreeTypeID);
+    }
+
     public Acronym getAcronym() {
         return _acronym;
     }
