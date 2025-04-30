@@ -115,31 +115,35 @@ class CourseFactoryImplTest {
     }
 
     @Test
-    void shouldThrowBusinessRuleViolationExceptionWhenCourseNameAlreadyExists() {
+    void shouldThrowExceptionWhenNameAndAcronymAreNull() {
         // Arrange
         ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
-        Name name = mock(Name.class);
-        Acronym acronym = mock(Acronym.class);
-
-        when(courseRepositoryDouble.existsCourseByName(name)).thenReturn(true);
 
         // Act & Assert
-        assertThrows(BusinessRuleViolationException.class, () -> courseFactoryImpl.createCourse(name, acronym));
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(null, null));
     }
 
     @Test
-    void shouldThrowBusinessRuleViolationExceptionWhenCourseAcronymAlreadyExists() {
+    void shouldThrowExceptionWhenNameIsNullAndAcronymIsNotNull() {
+        // Arrange
+        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        Acronym acronym = mock(Acronym.class);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(null, acronym));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAcronymIsNullAndNameIsNotNull() {
         // Arrange
         ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
         Name name = mock(Name.class);
-        Acronym acronym = mock(Acronym.class);
-
-        when(courseRepositoryDouble.existsCourseByAcronym(acronym)).thenReturn(true);
 
         // Act & Assert
-        assertThrows(BusinessRuleViolationException.class, () -> courseFactoryImpl.createCourse(name, acronym));
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(name, null));
     }
 
 }

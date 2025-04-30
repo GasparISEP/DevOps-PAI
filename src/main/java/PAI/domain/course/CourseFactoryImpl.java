@@ -23,14 +23,6 @@ public class CourseFactoryImpl implements ICourseFactory {
             throw new IllegalArgumentException ("Name and Acronym must not be null");
         }
 
-        if (_courseRepository.existsCourseByName(name)) {
-            throw new BusinessRuleViolationException ("A course with this name already exists.");
-        }
-
-        if (_courseRepository.existsCourseByAcronym(acronym)) {
-            throw new BusinessRuleViolationException ("A course with this acronym already exists.");
-        }
-
         CourseID courseID = new CourseID(acronym, name);
         return new Course(courseID, name, acronym);
     }
