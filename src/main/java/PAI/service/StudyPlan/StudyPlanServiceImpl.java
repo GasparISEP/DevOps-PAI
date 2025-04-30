@@ -58,9 +58,10 @@ public class StudyPlanServiceImpl implements IStudyPlanService {
 
     public StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID) {
         List<StudyPlan> list = getStudyPlansByProgrammeID(programmeID);
-        StudyPlanID studyPlanID = list.getLast().identity();
-
-        return studyPlanID;
+        if (list.isEmpty()) {
+            throw new IllegalArgumentException("No study plans found for given ProgrammeID");
+        }
+        return list.getLast().identity();
     }
 
     public Optional<StudyPlan> findByID(StudyPlanID id) {

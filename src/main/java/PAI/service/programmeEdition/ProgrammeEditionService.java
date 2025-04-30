@@ -7,6 +7,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,14 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) {
+        if (programmeID == null) {
+            return List.of();
+        }
+
+        return _programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID);
     }
 }

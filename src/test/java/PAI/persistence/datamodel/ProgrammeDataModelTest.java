@@ -27,6 +27,98 @@ public class ProgrammeDataModelTest {
     }
 
     @Test
+    void shouldNotCreateProgrammeDataModelWithNullName() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, null, "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWithNullAcronym() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", null, 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWithNullDegreetypeID() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, null, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWithNullDepartmentID() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, null, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWithNullTeacherID() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, null));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWithNullProgID() {
+        //arrange
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(null,"name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWith0QuantSemesters() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", "ACR", 0, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeDataModelWith0QuantEcts() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        //act + assert
+        assertThrows (Exception.class, () -> new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 0, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel));
+    }
+
+    @Test
     void defaultConstructorInitializesFieldsToDefaults() {
         ProgrammeDataModel dataModel = new ProgrammeDataModel();
         assertNotNull(dataModel);
