@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ICourseInStudyPlanRepository extends IRepository<CourseInStudyPlanID, CourseInStudyPlan> {
 
+    double getTotalCreditsEctsInStudyPlanSoFar (
+            StudyPlanID studyPlanID, Semester semester, CurricularYear curricularYear, DurationCourseInCurricularYear duration);
 }

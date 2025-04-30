@@ -1,11 +1,13 @@
 package PAI.persistence.springdata.courseInStudyPlan;
 
-import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanMapper;
+import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 
 import java.util.ArrayList;
@@ -17,8 +19,9 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
     private final ICourseInStudyPlanRepositorySpringData iCourseInStudyPlanRepositorySpringData;
     private final ICourseInStudyPlanMapper iCourseInStudyPlanMapper;
     private final ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper;
+    private final IStudyPlanIDMapper iStudyPlanIDMapper;
 
-    public CourseInStudyPlanRepositorySpringDataImpl(ICourseInStudyPlanMapper courseInStudyPlanMapper, ICourseInStudyPlanRepositorySpringData courseInStudyPlanRepositorySpringData, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper) {
+    public CourseInStudyPlanRepositorySpringDataImpl(ICourseInStudyPlanMapper courseInStudyPlanMapper, ICourseInStudyPlanRepositorySpringData courseInStudyPlanRepositorySpringData, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, IStudyPlanIDMapper iStudyPlanIDMapper) {
 
         if (courseInStudyPlanMapper == null) {
             throw new IllegalArgumentException("iCourseInStudyPlanMapper cannot be null");
@@ -34,6 +37,11 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
             throw new IllegalArgumentException("iCourseInStudyPlanIDMapper cannot be null");
         }
         this.iCourseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
+
+        if (iStudyPlanIDMapper == null) {
+            throw new IllegalArgumentException("iStudyPlanIDMapper cannot be null");
+        }
+        this.iStudyPlanIDMapper = iStudyPlanIDMapper;
     }
 
     @Override
@@ -94,5 +102,15 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
         CourseInStudyPlanIDDataModel idDataModel =
                 iCourseInStudyPlanIDMapper.toDataModel(id);
         return iCourseInStudyPlanRepositorySpringData.existsById(idDataModel);
+    }
+
+    @Override
+    public double getTotalCreditsEctsInStudyPlanSoFar(StudyPlanID studyPlanID, Semester semester, CurricularYear curricularYear, DurationCourseInCurricularYear duration) {
+        if (studyPlanID == null || semester == null || curricularYear == null || duration == null) {
+            throw new IllegalArgumentException("Parameters cannot be null");
+        }
+        StudyPlanIDDataModel studyPlanIDDataModel = iStudyPlanIDMapper.toDataModel(studyPlanID);
+
+        return iCourseInStudyPlanRepositorySpringData.sumCombinedCredits(studyPlanIDDataModel, semester.toInt(), curricularYear.toInt());
     }
 }

@@ -29,6 +29,9 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
             if (_repository.containsOfIdentity(courseInStudyPlanID)) {
                 return false;
             }
+            if (_repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse) + quantityOfCreditsEcts.getQuantity() > 30) {
+                return false;
+            }
 
             _repository.save(courseInStudyPlan);
             return true;
