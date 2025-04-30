@@ -64,11 +64,11 @@ deactivate Mapper
 DepartmentRepository -> departmentRepoSpringData: save (ddm1)
 activate departmentRepoSpringData
 
-departmentRepoSpringData -> DepartmentRepository: true
+departmentRepoSpringData --> DepartmentRepository: true
 deactivate departmentRepoSpringData
 
 
-DepartmentRepository -> Service: true
+DepartmentRepository --> Service: true
 deactivate DepartmentRepository
 
 

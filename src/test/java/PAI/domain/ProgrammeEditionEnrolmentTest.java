@@ -314,9 +314,8 @@ class ProgrammeEditionEnrolmentTest {
     void should_return_correct_ID_when_several_exists() {
 
         //arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
@@ -345,71 +344,18 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void testEqualsReflexivity() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act + Assert
         assertEquals(repository, repository);
     }
 
     @Test
-    void testEqualsSymmetry() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1, repo2);
-    }
-
-    @Test
-    void testEqualsTransitivity() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF3 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF3 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo3 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF3, doubleIPEELF3);
-
-        //Act + Assert
-        assertNotEquals(repo1, repo2);
-        assertNotEquals(repo2, repo3);
-        assertNotEquals(repo1, repo3);
-    }
-
-    @Test
-    void testEqualsConsistency() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1, repo2);
-    }
-
-    @Test
     void testEqualsNull() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act+Assert
         assertNotEquals(repo1, null);
@@ -418,9 +364,8 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void testEqualsDifferentClass() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act
         String differentClassObject = "string";
@@ -432,9 +377,8 @@ class ProgrammeEditionEnrolmentTest {
     @Test
     void testHashCodeConsistency() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act
         int hash1 = repo1.hashCode();
@@ -445,30 +389,13 @@ class ProgrammeEditionEnrolmentTest {
     }
 
     @Test
-    void testHashCodeEquality() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1.hashCode(), repo2.hashCode());
-    }
-
-    @Test
     void testHashCodeInHashSet() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2, doubleIPEELF2);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF2);
 
         //Act
         HashSet<ProgrammeEditionEnrolmentRepositoryImpl> set = new HashSet<>();

@@ -15,4 +15,6 @@ public interface ICourseEditionEnrolmentService {
     boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId);
 
     boolean removeCourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID) throws Exception;
+
+    int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
 }

@@ -29,7 +29,7 @@ public class AccessMethodMapper implements  IAccessMethodMapper{
         }
         UUID uuid = accessMethod.identity().getAccessMethodID();
         NameWithNumbersAndSpecialChars name = accessMethod.getAccessMethodName();
-        String nameToString = name.toString();
+        String nameToString = name.getnameWithNumbersAndSpecialChars();
         AccessMethodDataModel accessMethodDataModel = new AccessMethodDataModel(uuid, nameToString);
         return Optional.of(accessMethodDataModel);
     }

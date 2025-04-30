@@ -20,6 +20,7 @@ class AccessMethodMapperTest {
     @Test
     void shouldMapAccessMethodToAccessMethodDataModel() {
         // arrange
+        String name = "accessMethodName";
         IAccessMethodFactory accessMethodFactory = mock(IAccessMethodFactory.class);
         AccessMethod accessMethod = mock(AccessMethod.class);
         AccessMethodID accessMethodId = mock(AccessMethodID.class);
@@ -27,9 +28,11 @@ class AccessMethodMapperTest {
         NameWithNumbersAndSpecialChars accessMethodName = mock(NameWithNumbersAndSpecialChars.class);
         AccessMethodMapper accessMethodMapper = new AccessMethodMapper(accessMethodFactory);
 
+
         when(accessMethod.identity()).thenReturn(accessMethodId);
         when(accessMethod.identity().getAccessMethodID()).thenReturn(uuid);
         when(accessMethod.getAccessMethodName()).thenReturn(accessMethodName);
+        when(accessMethodName.getnameWithNumbersAndSpecialChars()).thenReturn(name);
         // act
         Optional<AccessMethodDataModel> result = accessMethodMapper.toDataModel(accessMethod);
         // assert
