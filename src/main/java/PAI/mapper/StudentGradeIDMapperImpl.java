@@ -26,8 +26,8 @@ public class StudentGradeIDMapperImpl {
 
     public StudentGradeID toDomain (StudentGradeIDDataModel studentGradeIDDataModel) throws Exception{
 
-        CourseEditionIDDataModel courseEditionIDDataModel = studentGradeIDDataModel.get_courseEditionIDDataModel();
-        StudentIDDataModel studentIDDataModel = studentGradeIDDataModel.get_studentIDDataModel();
+        CourseEditionIDDataModel courseEditionIDDataModel = studentGradeIDDataModel.getCourseEditionIDDataModel();
+        StudentIDDataModel studentIDDataModel = studentGradeIDDataModel.getStudentIDDataModel();
         return new StudentGradeID(studentIDMapperImpl.dataModelToDomain(studentIDDataModel),courseEditionIDMapper.toDomain(courseEditionIDDataModel));
     }
 }

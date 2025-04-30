@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEditionIdDataModelTest {
 
@@ -69,5 +70,70 @@ class ProgrammeEditionIdDataModelTest {
         SchoolYearIDDataModel result = programmeEditionIdDataModel.get_schoolYearIDDataModel();
         //assert
         assertEquals(schoolYearIDDataModel, result);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIdDataModelIsComparedToItself() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(programmeEditionIdDataModel);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToAnotherClass() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        String test  = "test";
+        //act
+        boolean result = programmeEditionIdDataModel.equals(test);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToOtherProgrammeEditionIdDataModel() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+
+        ProgrammeIDDataModel otherProgrammeIdDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel otherSchoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel otherProgrammeEditionIdDataModel = new ProgrammeEditionIdDataModel(otherProgrammeIdDataModel, otherSchoolYearIDDataModel);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(otherProgrammeEditionIdDataModel);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfProgrammeEditionIdDataModelIsComparedToOtherWithSameContent(){
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+
+        ProgrammeEditionIdDataModel otherProgrammeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(otherProgrammeEditionIdDataModel);
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionIdDataModelHashCode(){
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        //act
+        int result = programmeIDDataModel.hashCode();
+        //assert
+        assertEquals(programmeIDDataModel.hashCode(), result);
     }
 }

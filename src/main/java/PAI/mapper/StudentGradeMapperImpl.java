@@ -9,7 +9,6 @@ import PAI.persistence.datamodel.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class StudentGradeMapperImpl implements IStudentGradeMapper {
@@ -41,8 +40,8 @@ public class StudentGradeMapperImpl implements IStudentGradeMapper {
 
     public StudentGrade toDomain( StudentGradeDM studentGradeDM ) throws Exception {
 
-        Grade grade = new Grade(studentGradeDM.get_grade());
-        Date date = new Date(studentGradeDM.get_date());
+        Grade grade = new Grade(studentGradeDM.getGrade());
+        Date date = new Date(studentGradeDM.getDate());
 
         StudentID studentID = studentIDMapperImpl.dataModelToDomain(studentGradeDM.getStudentId());
 

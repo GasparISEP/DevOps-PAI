@@ -43,17 +43,16 @@ activate s1
 s1 --> SF: s1
 deactivate s1
 
-SF -> SR: existsByStudentIDOrNIF(studentIDVO, NIFVO)
+SF --> service: s1
+deactivate SF
+service -> SR: existsByStudentIDOrNIF(studentIDVO, NIFVO)
 activate SR
 ref over SR
     Verify duplicates
     Check if any student already exists with same StudentID or NIF
 end ref
-SR --> SF: False
+SR --> service: False
 deactivate SR
-SF --> service: s1
-deactivate SF
-
 service -> SR: save(s1)
 activate SR
 ref over SR

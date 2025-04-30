@@ -13,7 +13,6 @@ import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
         CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
 
-        return iCEERepoSpringData.existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIDDataModel, courseEditionIDDataModel);
+        return iCEERepoSpringData.existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIDDataModel, courseEditionIDDataModel);
     }
 
     @Override
@@ -80,35 +79,7 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
     @Override
     public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
         CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
-        return (int) iCEERepoSpringData.countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIDDataModel);
-    }
-
-
-    @Override
-    @Transactional
-    public boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
-        try {
-            StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);
-            CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
-
-            Optional<CourseEditionEnrolmentDataModel> optionalEnrolment =
-                    iCEERepoSpringData.findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel);
-
-            if (optionalEnrolment.isPresent()) {
-                CourseEditionEnrolmentDataModel enrolment = optionalEnrolment.get();
-
-                if (enrolment.isActive()) {
-                    enrolment.setActive(false);
-                    iCEERepoSpringData.save(enrolment);
-                    return true;
-                }
-            }
-
-        } catch (Exception exception) {
-            return false;
-        }
-
-        return false;
+        return (int) iCEERepoSpringData.countById_CourseEditionIDAndActiveIsTrue(courseEditionIDDataModel);
     }
 
 

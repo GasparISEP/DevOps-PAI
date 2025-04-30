@@ -40,7 +40,7 @@ IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEdition
 deactivate IPEESpringDataJPA
 
 create ":ArrayList"
-ProgrammeEditionEnrolmentRepository -> ":ArrayList": create
+ProgrammeEditionEnrolmentRepository -> ":ArrayList": create ()
 
 loop for each peeDataModel in List<ProgrammeEditionEnrolmentDataModel>
 
@@ -51,6 +51,7 @@ end ref
 participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: findStudentInProgrammeEdition()
 activate ProgrammeEditionEnrolment #E1F5FE
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: isEnrolmentActive()
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository: programmeEditionID
 deactivate ProgrammeEditionEnrolment #E1F5FE
 

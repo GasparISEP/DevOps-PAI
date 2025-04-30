@@ -305,4 +305,23 @@ class StudyPlanTest {
 
         assertNotEquals(plan, new Object());
     }
+
+    @Test
+    void testEqualsReturnsFalseForDifferentStudyPlanID() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Date implementationDate = mock(Date.class);
+        ProgrammeID otherProgrammeID = mock(ProgrammeID.class);
+        Date otherImplementationDate = mock(Date.class);
+
+        DurationInYears duration = mock(DurationInYears.class);
+        MaxEcts ects = mock(MaxEcts.class);
+
+        StudyPlanID id1 = new StudyPlanID(programmeID, implementationDate);
+        StudyPlanID id2 = new StudyPlanID(otherProgrammeID, otherImplementationDate);
+
+        StudyPlan plan1 = new StudyPlan(programmeID, implementationDate, duration, ects, id1);
+        StudyPlan plan2 = new StudyPlan(otherProgrammeID, otherImplementationDate, duration, ects, id2);
+
+        assertNotEquals(plan1, plan2);
+    }
 }

@@ -34,4 +34,19 @@ public class ProgrammeEditionIdDataModel implements Serializable {
     public SchoolYearIDDataModel get_schoolYearIDDataModel() {
         return this._schoolYearIDDataModel;
     }
+
+    @Override
+    public boolean equals(Object objectToCompare) {
+        if (this==objectToCompare) return true;
+
+        if (objectToCompare instanceof ProgrammeEditionIdDataModel oProgrammeEditionIdDataModel) {
+            return this._programmeIDDataModel.equals(oProgrammeEditionIdDataModel._programmeIDDataModel) && (this._schoolYearIDDataModel.equals(oProgrammeEditionIdDataModel._schoolYearIDDataModel));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this._programmeIDDataModel.hashCode() + this._schoolYearIDDataModel.hashCode();
+    }
 }

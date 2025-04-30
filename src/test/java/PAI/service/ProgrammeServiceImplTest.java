@@ -79,7 +79,107 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenItsNull() throws IllegalArgumentException {
+    void returnsFalseWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(name, acronym);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void returnsTrueWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        Programme prog = mock(Programme.class);
+        ProgrammeID progID = mock(ProgrammeID.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(prog));
+        when(prog.identity()).thenReturn(progID);
+        when(progID.getAcronym()).thenReturn(acronym);
+        when(progID.getName()).thenReturn(name);
+
+        boolean res = service.doesProgrammeExist(name, acronym);
+
+        //Act + Assert
+        assertTrue(res);
+
+    }
+
+    @Test
+    void returnsFalseWhenNameIsNull() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        Acronym acronym = mock(Acronym.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(null, acronym);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void returnsFalseWhenAcronymIsNull() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(name, null);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        Programme prog = mock(Programme.class);
+        ProgrammeID progID = mock(ProgrammeID.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(prog));
+        when(prog.identity()).thenReturn(progID);
+        when(progID.getAcronym()).thenReturn(acronym);
+        when(progID.getName()).thenReturn(name);
+
+        //act + assert
+        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
+
+    }
+
+    @Test
+    void shouldNotRegisterProgrammeWhenItsNull() {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);

@@ -4,14 +4,12 @@ import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.mapper.*;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -48,7 +46,7 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
         when(studentIdMapper.domainToDataModel(studentId)).thenReturn(studentIdDataModel);
         when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-        when(springDataRepository.existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIdDataModel, courseEditionIdDataModel)).thenReturn(true);
+        when(springDataRepository.existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIdDataModel, courseEditionIdDataModel)).thenReturn(true);
 
         // act
         boolean result = repository.isStudentEnrolledInCourseEdition(studentId, courseEditionId);
@@ -57,7 +55,7 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         assertTrue(result);
         verify(studentIdMapper).domainToDataModel(studentId);
         verify(courseEditionIdMapper).toDataModel(courseEditionId);
-        verify(springDataRepository).existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIdDataModel, courseEditionIdDataModel);
+        verify(springDataRepository).existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIdDataModel, courseEditionIdDataModel);
     }
 
 
@@ -83,58 +81,16 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionIDDataModel courseEditionIdDataModel = mock(CourseEditionIDDataModel.class);
 
         when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-        when(springDataRepository.countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIdDataModel)).thenReturn(5L);
+        when(springDataRepository.countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel)).thenReturn(5L);
 
         // act
         int result = repository.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
 
         // assert
         assertEquals(5, result);
-        verify(springDataRepository).countById_CourseEditionIDAndIsActiveIsTrue(courseEditionIdDataModel);
+        verify(springDataRepository).countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel);
     }
 
-    @Test
-    void should_deactivate_enrolment_when_student_is_enrolled_in_course_edition() throws Exception {
-
-        // arrange
-        ICourseEditionEnrolmentRepositorySpringData springDataRepository = mock(ICourseEditionEnrolmentRepositorySpringData.class);
-        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
-        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
-        IStudentIDMapper studentIdMapper = mock(IStudentIDMapper.class);
-        ICourseEditionIDMapper courseEditionIdMapper = mock(ICourseEditionIDMapper.class);
-
-        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
-                springDataRepository,
-                mapper,
-                idMapper,
-                studentIdMapper,
-                courseEditionIdMapper
-        );
-
-        StudentID studentId = mock(StudentID.class);
-        CourseEditionID courseEditionId = mock(CourseEditionID.class);
-        StudentIDDataModel studentIdDataModel = mock(StudentIDDataModel.class);
-        CourseEditionIDDataModel courseEditionIdDataModel = mock(CourseEditionIDDataModel.class);
-
-        CourseEditionEnrolmentDataModel enrolmentDataModel = mock(CourseEditionEnrolmentDataModel.class);
-
-        when(studentIdMapper.domainToDataModel(studentId)).thenReturn(studentIdDataModel);
-        when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-
-        when(springDataRepository.findById_StudentIDAndId_CourseEditionID(studentIdDataModel, courseEditionIdDataModel))
-                .thenReturn(Optional.of(enrolmentDataModel));
-
-        when(enrolmentDataModel.isActive()).thenReturn(true);
-
-        // act
-        boolean result = repository.removeEnrolment(studentId, courseEditionId);
-
-        // assert
-        assertTrue(result);
-        verify(enrolmentDataModel).setActive(false);
-        verify(springDataRepository).save(enrolmentDataModel);
-        verify(springDataRepository).findById_StudentIDAndId_CourseEditionID(studentIdDataModel, courseEditionIdDataModel);
-    }
 
     @Test
     void should_save_courseEditionEnrolment_successfully() throws Exception {

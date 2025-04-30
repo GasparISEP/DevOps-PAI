@@ -5,6 +5,8 @@ import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Programme")
 public class ProgrammeDataModel {
@@ -39,6 +41,14 @@ public class ProgrammeDataModel {
 
     public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
+        if (name == null || acronym == null || degreeTypeID == null || departmentID == null || progDirectorID == null || progID == null) {
+            throw new IllegalArgumentException("Attributes cannot be null");
+        }
+
+        if (quantEcts <= 0 || quantSemesters <= 0) {
+            throw new IllegalArgumentException("Attributes must be above 0");
+        }
+
         this.programmeID = progID;
         this.name = name;
         this.acronym = acronym;
@@ -47,6 +57,19 @@ public class ProgrammeDataModel {
         this.degreeTypeID = degreeTypeID;
         this.departmentID = departmentID;
         this.programmeDirectorID = progDirectorID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProgrammeDataModel that = (ProgrammeDataModel) o;
+        return Objects.equals(programmeID, that.programmeID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(programmeID);
     }
 
     public String getName(){

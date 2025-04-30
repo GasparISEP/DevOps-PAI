@@ -50,8 +50,8 @@ class StudentGradeIDMapperImplTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         StudentID studentID = mock(StudentID.class);
 
-        when(studentGradeIDDataModel.get_courseEditionIDDataModel()).thenReturn(courseEditionIDDataModel);
-        when(studentGradeIDDataModel.get_studentIDDataModel()).thenReturn(studentIDDataModel);
+        when(studentGradeIDDataModel.getCourseEditionIDDataModel()).thenReturn(courseEditionIDDataModel);
+        when(studentGradeIDDataModel.getStudentIDDataModel()).thenReturn(studentIDDataModel);
         when(courseEditionIDMapper.toDomain(courseEditionIDDataModel)).thenReturn(courseEditionID);
         when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         // act

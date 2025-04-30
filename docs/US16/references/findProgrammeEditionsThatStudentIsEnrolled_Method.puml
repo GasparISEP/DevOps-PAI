@@ -12,10 +12,12 @@ participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolment
 activate ProgrammeEditionEnrolmentRepository #E1F5FE
 create ":ArrayList"
 ProgrammeEditionEnrolmentRepository -> ":ArrayList": create ()
+
 loop for each "pee[i]:ProgrammeEditionEnrolment" in ProgrammeEditionEnrolmentRepository
 participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : findStudentInProgrammeEdition (studentID)
 activate ProgrammeEditionEnrolment #E1F5FE
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment : isEnrolmentActive ()
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository : pee1
 deactivate ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment :  findProgrammeEditionInEnrolment()

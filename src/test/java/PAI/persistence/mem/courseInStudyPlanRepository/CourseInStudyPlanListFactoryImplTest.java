@@ -1,4 +1,4 @@
-package PAI.repository.courseInStudyPlanRepository;
+package PAI.persistence.mem.courseInStudyPlanRepository;
 
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanListFactoryImpl;

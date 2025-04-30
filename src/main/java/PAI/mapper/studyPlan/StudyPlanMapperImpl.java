@@ -3,7 +3,6 @@ package PAI.mapper.studyPlan;
 import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 

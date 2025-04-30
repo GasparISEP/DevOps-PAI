@@ -1,16 +1,24 @@
 @startuml
-participant ":US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController" as Controller
 participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
-Controller -> ProgrammeEditionEnrolmentRepository : isStudentEnrolledInThisProgrammeEdition(studentID, peID)
-activate ProgrammeEditionEnrolmentRepository
-participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
-loop for each "pee[i]:ProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
-participant ":Student" as Student
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameProgrammeEdition(programmeEditionID)
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: ProgrammeEditionEnrolment: hasSameStudent(studentID)
-participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+participant ":IProgrammeEditionEnrolmentRepositorySpringData" as ProgrammeEditionEnrolmentRepositorySpringData
+participant ":ProgrammeEditionEnrolmentDataModel" as DataModel
+participant ":ProgrammeEditionEnrolment" as Enrolment
+
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolmentRepositorySpringData : findAll()
+activate ProgrammeEditionEnrolmentRepositorySpringData
+ProgrammeEditionEnrolmentRepositorySpringData --> ProgrammeEditionEnrolmentRepository : peeList
+deactivate ProgrammeEditionEnrolmentRepositorySpringData
+
+loop for each peeDataModel
+    ProgrammeEditionEnrolmentRepository -> DataModel : toDomain(peeDataModel)
+    activate DataModel
+    DataModel --> ProgrammeEditionEnrolmentRepository : peeID
+    deactivate DataModel
+
+    ProgrammeEditionEnrolmentRepository -> Enrolment : hasSameStudent(studentId)
+
+    ProgrammeEditionEnrolmentRepository -> Enrolment : hasSameProgrammeEdition(programmeEditionId)
+
 end
-ProgrammeEditionEnrolmentRepository --> Controller : False
-deactivate "ProgrammeEditionEnrolmentRepository"
-deactivate Controller
+
 @enduml
