@@ -1,6 +1,7 @@
 package PAI.service;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeFactory;
@@ -232,43 +233,6 @@ class ProgrammeServiceImplTest {
 
     }
 
-    @Test
-    void shouldFindProgrammeIDByProgramme() throws Exception {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        Programme programme1 = mock(Programme.class);
-        ProgrammeID id1 = mock(ProgrammeID.class);
-        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
-        when(programme1.sameAs(programme1)).thenReturn(true);
-        when(programme1.identity()).thenReturn(id1);
-
-        //Act
-        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(programme1);
-
-        //Assert
-        assertNotNull(Optional.of(result));
-
-    }
-
-    @Test
-    void shouldNotFindProgrammeIDByProgramme() throws Exception {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        //Act
-        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(null);
-
-        //Assert
-        assertTrue(result.isEmpty());
-
-    }
 
     @Test
     void shouldFindProgrammeByName() throws IllegalArgumentException {
@@ -490,4 +454,43 @@ class ProgrammeServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void shouldThrowExceptionWhenProgrammeNotFound() {
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        TeacherID directorID = mock(TeacherID.class);
+
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.empty());
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.changeProgrammeDirector(programmeID, directorID);
+        });
+
+        assertEquals("Programme not found", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnProgrammeWhenNameMatches() {
+        //arrange
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
+
+        Programme programme = mock(Programme.class);
+        when(programme.hasThisProgrammeName(name)).thenReturn(true);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(programme));
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        //act
+        Optional<Programme> result = service.getProgrammeByName(name);
+        //assert
+        assertTrue(result.isPresent());
+        assertEquals(programme, result.get());
+    }
 }
