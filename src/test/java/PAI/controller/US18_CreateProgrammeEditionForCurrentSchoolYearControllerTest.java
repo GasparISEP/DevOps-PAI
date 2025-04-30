@@ -58,7 +58,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Assert
         assertNotNull(controller);
@@ -81,7 +81,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService,programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService);});
 
         // Assert
         assertEquals("Programme Edition Service cannot be null", exception.getMessage());
@@ -108,7 +108,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService, programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService);});
 
         // Assert
         assertEquals("Programme Service cannot be null", exception.getMessage());
@@ -135,67 +135,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null, programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null);});
 
         // Assert
         assertEquals("School Year Service cannot be null", exception.getMessage());
     }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeEditionFactoryIsNull() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
-
-
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
-
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,null, schoolYearRepository);});
-
-        // Assert
-        assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenSchoolYearRepositoryIsNull() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
-
-
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
-
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,programmeEditionFactory, null);});
-
-        // Assert
-        assertEquals("School Year Repository cannot be null", exception.getMessage());
-    }
-
-
 
     @Test
     void shouldReturnListOfNamesOfAllExistingProgrammes() throws Exception {
@@ -217,7 +161,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -266,7 +210,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -305,7 +249,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYear schoolYear = schoolYearIterator.next();
         SchoolYearID expectedID = schoolYear.identity();
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         SchoolYearID result = controller.getCurrentSchoolYear();
@@ -333,7 +277,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         SchoolYearID result = controller.getCurrentSchoolYear();
@@ -362,7 +306,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
@@ -401,7 +345,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -463,7 +407,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -525,11 +469,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService,
-                programmeService,
-                schoolYearService,
-                programmeEditionFactory,
-                schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
@@ -586,7 +526,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
             NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
             Acronym programmeAcronym1 = new Acronym("LEI");
@@ -661,11 +601,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService,
-                programmeService,
-                schoolYearService,
-                programmeEditionFactory,
-                schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
