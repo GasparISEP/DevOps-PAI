@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title Convert Teacher To TeacherDataModel
+participant TeacherMapperImpl as ":TeacherMapperImpl"
+TeacherMapperImpl -> "tdm:TeacherDataModel"**: **toDataModel**(Teacher)
+@enduml

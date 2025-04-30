@@ -8,14 +8,19 @@ title US04: Register a Teacher in the System
 actor Administrator #LightBlue/White
 participant ": UI" as UI #LightBlue/White
 participant ":US04_IWantToRegisterATeacherInTheSystemController" as Controller #LightBlue/White
-participant "ITeacherService" as ITeacherService #LightBlue/White
-participant "TeacherServiceImpl" as TeacherServiceImpl #LightBlue/White
-participant ": ITeacherRepository" as ITeacherRepository #LightBlue/White
-participant ": ITeacherRepositorySpringData" as ITeacherRepositorySpringData #LightBlue/White
-participant ": TeacherRepositorySpringDataImpl" as TeacherRepositorySpringDataImpl #LightBlue/White
+participant "IDepartmentService" as IDepartmentService #LightBlue/White
+participant "DepartmentServiceImpl" as DepartmentServiceImpl #LightBlue/White
 participant ": IDepartmentRepository" as IDepartmentRepository #LightBlue/White
 participant ": IDepartmentRepositorySpringData" as IDepartmentRepositorySpringData #LightBlue/White
 participant ": DepartmentRepositorySpringDataImpl" as DepartmentRepositorySpringDataImpl #LightBlue/White
+participant "ITeacherService" as ITeacherService #LightBlue/White
+participant "TeacherServiceImpl" as TeacherServiceImpl #LightBlue/White
+participant "ITeacherFactory" as ITeacherFactory #LightBlue/White
+participant "TeacherFactoryImpl" as TeacherFactoryImpl #LightBlue/White
+participant ": ITeacherRepository" as ITeacherRepository #LightBlue/White
+participant ": ITeacherRepositorySpringData" as ITeacherRepositorySpringData #LightBlue/White
+participant ": TeacherRepositorySpringDataImpl" as TeacherRepositorySpringDataImpl #LightBlue/White
+
 Administrator -> UI : I want to register a teacher in the system.
 activate UI #ddfada
 
@@ -28,6 +33,34 @@ ref over Controller
 end ref
 UI -> Controller : registerATeacherInTheSystem( teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID)
 activate Controller #ddfada
+Controller -> IDepartmentService:isDepartmentInDepartmentRepository(departmentID)
+activate IDepartmentService
+IDepartmentService-> DepartmentServiceImpl:isDepartmentInDepartmentRepository(departmentID)
+activate DepartmentServiceImpl
+ref over DepartmentServiceImpl
+    Convert Domain to DataModel
+end ref
+DepartmentServiceImpl -> IDepartmentRepository:containsOfIdentity(DepartmentID id)
+activate IDepartmentRepository
+IDepartmentRepository -> IDepartmentRepositorySpringData:containsOfIdentity(DepartmentID)
+activate IDepartmentRepositorySpringData
+IDepartmentRepositorySpringData -> DepartmentRepositorySpringDataImpl:containsOfIdentity(DepartmentID)
+activate DepartmentRepositorySpringDataImpl
+DepartmentRepositorySpringDataImpl --> IDepartmentRepositorySpringData:True
+deactivate DepartmentRepositorySpringDataImpl
+IDepartmentRepositorySpringData --> IDepartmentRepository:True
+deactivate IDepartmentRepositorySpringData
+IDepartmentRepository --> DepartmentServiceImpl:True
+deactivate IDepartmentRepository
+DepartmentServiceImpl --> IDepartmentService:True
+deactivate DepartmentServiceImpl
+IDepartmentService-->Controller:True
+deactivate IDepartmentService
+
+
+
+
+
 Controller -> ITeacherService : registerTeacher()
 activate ITeacherService #ddfada
 ref over TeacherServiceImpl
@@ -35,35 +68,27 @@ ref over TeacherServiceImpl
 end ref
 ITeacherService -> TeacherServiceImpl : registerTeacher()
 activate TeacherServiceImpl #ddfada
-TeacherServiceImpl -> IDepartmentRepository: IsDepartmentInRepository(DepartmentID)
-activate IDepartmentRepository #ddfada
-IDepartmentRepository -> IDepartmentRepositorySpringData: IsDepartmentInRepository(DepartmentID)
-activate IDepartmentRepositorySpringData #ddfada
-IDepartmentRepositorySpringData -> DepartmentRepositorySpringDataImpl: IsDepartmentInRepository(DepartmentID)
-activate DepartmentRepositorySpringDataImpl #ddfada
-
-IDepartmentRepositorySpringData <-- DepartmentRepositorySpringDataImpl: true
-deactivate DepartmentRepositorySpringDataImpl #ddfada
-IDepartmentRepository <-- IDepartmentRepositorySpringData: true
-deactivate IDepartmentRepositorySpringData #ddfada
-TeacherServiceImpl <-- IDepartmentRepository: true
-deactivate IDepartmentRepository #ddfada
-
-
-
+TeacherServiceImpl -> ITeacherFactory:createTeacher()
+activate ITeacherFactory
+ITeacherFactory->TeacherFactoryImpl:createTeacher()
+activate TeacherFactoryImpl
+TeacherFactoryImpl --> ITeacherFactory:teacher
+deactivate TeacherFactoryImpl
+ITeacherFactory --> TeacherServiceImpl:teacher
+deactivate ITeacherFactory
 TeacherServiceImpl -> ITeacherRepository :RegisterTeacher()
 activate ITeacherRepository #ddfada
 ITeacherRepository -> ITeacherRepositorySpringData :saveTeacher()
 activate ITeacherRepositorySpringData #ddfada
 ITeacherRepositorySpringData -> TeacherRepositorySpringDataImpl :saveTeacher()
 activate TeacherRepositorySpringDataImpl #ddfada
-TeacherRepositorySpringDataImpl --> ITeacherRepositorySpringData: true
+TeacherRepositorySpringDataImpl --> ITeacherRepositorySpringData: teacherSaved
 deactivate TeacherRepositorySpringDataImpl
-ITeacherRepositorySpringData --> ITeacherRepository: true
+ITeacherRepositorySpringData --> ITeacherRepository: teacherSaved
 deactivate ITeacherRepositorySpringData
-ITeacherRepository -->TeacherServiceImpl: true
+ITeacherRepository -->TeacherServiceImpl: teacherID
 deactivate ITeacherRepository
-TeacherServiceImpl -->ITeacherService: true
+TeacherServiceImpl -->ITeacherService: teacherID
 deactivate TeacherServiceImpl
 ref over TeacherServiceImpl
 Convert DataModel to Domain
