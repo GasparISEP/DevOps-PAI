@@ -4,10 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.*;
 import PAI.service.IProgrammeEditionEnrolmentService;
-import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -274,31 +274,135 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         assertEquals(1, result);
     }
 
+    // testing find Programme Edition ID's that student is enrolled (active status)
+
     @Test
-    void should_return_a_list_of_programmeEditions_that_student_is_enrolled (){
+    void should_return_a_list_of_programmeEditionIDs_that_student_is_enrolled (){
         // arrange
         IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        Set<ProgrammeEditionEnrolment> fakeSet = new HashSet<>();
-        when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(fakeSet);
+        Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
+        when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
 
         ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
 
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrolmentMock = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment doublePeeEnrolment = mock(ProgrammeEditionEnrolment.class);
 
-        when(enrolmentMock.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
-        when(enrolmentMock.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId);
+        when(doublePeeEnrolment.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
+        when(doublePeeEnrolment.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId);
+        when(doublePeeEnrolment.isEnrolmentActive()).thenReturn(true);
 
-        repository.save(enrolmentMock);
+        when(doubleSet.add(doublePeeEnrolment)).thenReturn(true);
+        when(doubleSet.stream()).thenReturn(Stream.of(doublePeeEnrolment));
+
+        repository.save(doublePeeEnrolment);
 
         // act
         List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
 
         // assert
         assertEquals(1, result.size());
-        assertTrue(result.contains(doubleProgrammeEditionId));
+    }
+
+    @Test
+    void should_return_a_empty_list_when_student_is_not_enrolled_in_any_programmeEdition (){
+        // arrange
+        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
+        when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+
+        StudentID doubleStudentId1 = mock(StudentID.class);
+        StudentID doubleStudentId2 = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment doublePeeEnrolment = mock(ProgrammeEditionEnrolment.class);
+
+        when(doublePeeEnrolment.findStudentInProgrammeEdition()).thenReturn(doubleStudentId1);
+        when(doublePeeEnrolment.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId);
+        when(doublePeeEnrolment.isEnrolmentActive()).thenReturn(true);
+
+        when(doubleSet.add(doublePeeEnrolment)).thenReturn(true);
+        when(doubleSet.stream()).thenReturn(Stream.of(doublePeeEnrolment));
+
+        repository.save(doublePeeEnrolment);
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId2);
+
+        // assert
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void should_return_a_empty_list_when_student_is_enrolled_in_programmeEdition_with_inactive_status (){
+        // arrange
+        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
+        when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+
+        StudentID doubleStudentId1 = mock(StudentID.class);
+        StudentID doubleStudentId2 = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment doublePeeEnrolment = mock(ProgrammeEditionEnrolment.class);
+
+        when(doublePeeEnrolment.findStudentInProgrammeEdition()).thenReturn(doubleStudentId1);
+        when(doublePeeEnrolment.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId);
+        when(doublePeeEnrolment.isEnrolmentActive()).thenReturn(false);
+
+        when(doubleSet.add(doublePeeEnrolment)).thenReturn(true);
+        when(doubleSet.stream()).thenReturn(Stream.of(doublePeeEnrolment));
+
+        repository.save(doublePeeEnrolment);
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId2);
+
+        // assert
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void should_return_a_list_of_two_programmeEditionIDs_that_student_is_enrolled (){
+        // arrange
+        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
+        when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+
+        StudentID doubleStudentId1 = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doubleProgrammeEditionId2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolment doublePeEnrolment1 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment doublePeEnrolment2 = mock(ProgrammeEditionEnrolment.class);
+
+        when(doublePeEnrolment1.findStudentInProgrammeEdition()).thenReturn(doubleStudentId1);
+        when(doublePeEnrolment2.findStudentInProgrammeEdition()).thenReturn(doubleStudentId1);
+        when(doublePeEnrolment1.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId1);
+        when(doublePeEnrolment2.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId2);
+        when(doublePeEnrolment1.isEnrolmentActive()).thenReturn(true);
+        when(doublePeEnrolment2.isEnrolmentActive()).thenReturn(true);
+
+        when(doubleSet.add(doublePeEnrolment1)).thenReturn(true);
+        when(doubleSet.add(doublePeEnrolment2)).thenReturn(true);
+        when(doubleSet.stream()).thenReturn(Stream.of(doublePeEnrolment1, doublePeEnrolment2));
+
+        repository.save(doublePeEnrolment1);
+        repository.save(doublePeEnrolment2);
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId1);
+
+        // assert
+        assertEquals(2, result.size());
     }
 
     @Test

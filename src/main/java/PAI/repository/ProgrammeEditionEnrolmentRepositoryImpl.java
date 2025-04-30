@@ -63,7 +63,7 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
     @Override
     public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId){
         return _programmeEditionEnrolments.stream()
-                .filter(enrolment -> enrolment.findStudentInProgrammeEdition().equals(studentId))
+                .filter(enrolment -> enrolment.findStudentInProgrammeEdition().equals(studentId) && enrolment.isEnrolmentActive())
                 .map(ProgrammeEditionEnrolment::findProgrammeEditionInEnrolment)
                 .collect(Collectors.toList());
     }
