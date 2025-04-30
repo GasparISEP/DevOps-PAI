@@ -52,10 +52,11 @@ import java.util.Optional;
         @Override
         public boolean existsByStudentIDOrNIF(StudentID studentID, NIF nif) {
             for (Student student : _students) {
-                if (student.identity().equals(studentID) || student.getStudentNIF().equals(nif)) {
+                if (student.identity().equals(studentID) || student.hasNIF(nif)) {
                     return true;
                 }
             }
             return false;
         }
+
 }

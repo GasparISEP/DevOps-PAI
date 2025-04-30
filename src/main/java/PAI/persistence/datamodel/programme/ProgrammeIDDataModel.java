@@ -3,6 +3,7 @@ package PAI.persistence.datamodel.programme;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class ProgrammeIDDataModel implements Serializable {
@@ -32,9 +33,7 @@ public class ProgrammeIDDataModel implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return programmeAcronym.hashCode() + programmeName.hashCode();
-    }
+    public int hashCode() {return Objects.hash(programmeAcronym, programmeName);}
 
     public String getName() {
         return programmeName;

@@ -499,4 +499,18 @@ class NIFTest {
         // Assert
         assertEquals("123456789", result);
     }
+
+    @Test
+    void shouldReturnFalseWhenComparedWithNonNIFObject() {
+        // Arrange
+        Country country = new Country("Portugal");
+        NIF nif1 = new NIF("123456789", country);
+        Object nonNIFObject = new Object();
+
+        // Act
+        boolean result = nif1.equals(nonNIFObject);
+
+        // Assert
+        assertFalse(result);
+    }
 }

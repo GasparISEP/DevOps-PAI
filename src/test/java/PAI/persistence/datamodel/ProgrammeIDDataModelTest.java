@@ -1,6 +1,9 @@
 package PAI.persistence.datamodel;
 
 import PAI.VOs.*;
+import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.Test;
 
@@ -170,5 +173,18 @@ public class ProgrammeIDDataModelTest {
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    public void shouldReturnConsistentHashCode() {
+        ProgrammeIDDataModel programmeIDDM = mock(ProgrammeIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        ProgrammeDataModel p1 = new ProgrammeDataModel(programmeIDDM, "Engenharia", "ENG", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
+        ProgrammeDataModel p2 = new ProgrammeDataModel(programmeIDDM, "Engenharia", "ENG", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
+
+        assertEquals(p1.hashCode(), p2.hashCode());
     }
 }

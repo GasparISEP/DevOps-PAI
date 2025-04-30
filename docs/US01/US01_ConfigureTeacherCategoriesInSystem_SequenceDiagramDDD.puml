@@ -3,54 +3,54 @@ actor admin
 autonumber
 title US01 - Configure TeacherCategory (DDD) V2
 
-participant ":UI" as UI <<application>>
-participant US01_ConfigureTeacherCategoryController as Controller <<application>>
-participant ITeacherCategoryRepository as Repository <<domain/infrastructure>>
-participant Name as VOName <<domain>>
-participant TeacherCategoryFactoryImpl as Factory <<domain>>
-participant TeacherCategory as TC <<domain>>
+participant UI <<application>>
+participant US01_ConfigureTeacherCategoryController <<application>>
+participant ITeacherCategoryRepository <<domain>><<infrastructure>>
+participant Name <<domain>>
+participant TeacherCategoryFactoryImpl <<domain>>
+participant TeacherCategory <<domain>>
 
 ' Step 1: Admin interacts with UI
 admin -> UI : I want to configure a new Teacher Category
 UI --> admin : Please provide category name
 
-admin -> UI : (categoryName)
-UI -> Controller : configureTeacherCategory(categoryName)
+admin -> UI : categoryName
+UI -> US01_ConfigureTeacherCategoryController : configureTeacherCategory(categoryName)
 
-' Step 2: Controller delegates VO creation & persistence to Repository
-activate Controller
-Controller -> Repository : registerTeacherCategory(categoryName : String)
-deactivate Controller
+' Step 2.1: Controller cria o Value Object
+activate US01_ConfigureTeacherCategoryController
+US01_ConfigureTeacherCategoryController -> Name : new Name(categoryName)
+Name --> US01_ConfigureTeacherCategoryController : nameVO
+deactivate US01_ConfigureTeacherCategoryController
 
-' Step 3: Repository creates Name VO
-activate Repository
-Repository -> VOName : new Name(categoryName)
-VOName --> Repository : nameVO
+' Step 2.2: Controller chama o Repositório
 
-' Step 4: Repository checks duplicates
-Repository -> Repository : existsByName(nameVO)
+US01_ConfigureTeacherCategoryController -> ITeacherCategoryRepository : registerTeacherCategory(nameVO)
+deactivate US01_ConfigureTeacherCategoryController
+
+' Step 3–6: Lógica dentro do Repository
+activate ITeacherCategoryRepository
+ITeacherCategoryRepository -> ITeacherCategoryRepository : existsByName(nameVO)
 alt not exists
-    ' Step 5: Repository creates aggregate via Factory
-    Repository -> Factory : createTeacherCategory(nameVO)
-    activate Factory
-    Factory -> TC : «create»(TeacherCategoryID, nameVO)
-    Factory --> Repository : TeacherCategory
-    deactivate Factory
+    ITeacherCategoryRepository -> TeacherCategoryFactoryImpl : createTeacherCategory(nameVO)
+    activate TeacherCategoryFactoryImpl
+    TeacherCategoryFactoryImpl -> TeacherCategory : create(TeacherCategoryID, nameVO)
+    TeacherCategory --> TeacherCategoryFactoryImpl : instance
+    deactivate TeacherCategoryFactoryImpl
 
-    ' Step 6: Repository saves the aggregate
-    Repository -> Repository : save(TeacherCategory)
-    Repository --> Controller : true
+    ITeacherCategoryRepository -> ITeacherCategoryRepository : save(TeacherCategory)
+    ITeacherCategoryRepository --> US01_ConfigureTeacherCategoryController : true
 else exists
-    Repository --> Controller : false
+    ITeacherCategoryRepository --> US01_ConfigureTeacherCategoryController : false
 end
-deactivate Repository
+deactivate ITeacherCategoryRepository
 
-' Step 7: Controller handles result
-activate Controller
+' Step 7: Controller trata o resultado
+activate US01_ConfigureTeacherCategoryController
 alt false
-    Controller --> UI : throw Exception("Category already exists…")
+    US01_ConfigureTeacherCategoryController --> UI : throw Exception("Category already exists…")
 else true
-    Controller --> UI : return true
+    US01_ConfigureTeacherCategoryController --> UI : return true
 end
-deactivate Controller
+deactivate US01_ConfigureTeacherCategoryController
 @enduml

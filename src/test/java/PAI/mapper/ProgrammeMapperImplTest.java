@@ -60,6 +60,14 @@ public class ProgrammeMapperImplTest {
         TeacherID progDirectorID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
 
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+
         ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         when(programme.getProgrammeName()).thenReturn(name);
@@ -76,14 +84,29 @@ public class ProgrammeMapperImplTest {
 
         when(programme.getProgrammeID()).thenReturn(programmeID);
         when(programmeID.getName()).thenReturn(name);
+        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
         when(programmeID.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("OLA");
+
+        when(degreeTypeIDMapper.toDataModel(degreeTypeID)).thenReturn(degreeTypeIDDataModel);
+        when(degreeTypeIDDataModel.getDegreeTypeID()).thenReturn("id");
 
         when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
         when(degreeTypeID.getDTID()).thenReturn("id");
 
+        when(departmentIDMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
+        when(departmentIDDataModel.getDepartmentID()).thenReturn("id");
+
         when(programme.getDepartment()).thenReturn(departmentID);
         when(departmentID.getAcronym()).thenReturn(departmentAcronym);
         when(departmentAcronym.getAcronym()).thenReturn("LEI");
+
+        when(teacherIDMapper.toDataModel(progDirectorID)).thenReturn(teacherIDDataModel);
+        when(teacherIDDataModel.getTeacherAcronym()).thenReturn("PSN");
+
+        when(programmeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+        when(programmeIDDataModel.getName()).thenReturn("id");
+        when(programmeIDDataModel.getAcronym()).thenReturn("PSN");
 
         when(programme.getProgrammeDirectorID()).thenReturn(progDirectorID);
         when(progDirectorID.getTeacherAcronym()).thenReturn(teacherAcronym);

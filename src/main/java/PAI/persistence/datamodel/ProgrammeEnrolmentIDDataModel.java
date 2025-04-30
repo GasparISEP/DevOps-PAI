@@ -31,9 +31,7 @@ public class ProgrammeEnrolmentIDDataModel implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
 
-        if (!(obj instanceof ProgrammeEnrolmentIDDataModel)) return false;
-
-        ProgrammeEnrolmentIDDataModel other = (ProgrammeEnrolmentIDDataModel) obj;
+        if (!(obj instanceof ProgrammeEnrolmentIDDataModel other)) return false;
 
         return Objects.equals(this.peStudentID, other.peStudentID) &&
                 Objects.equals(this.peProgrammeID, other.peProgrammeID);

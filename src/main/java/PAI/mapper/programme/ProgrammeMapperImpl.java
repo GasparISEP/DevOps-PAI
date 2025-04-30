@@ -47,7 +47,6 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
         QuantSemesters quantSemesters = new QuantSemesters(programmeDataModel.getQuantSemesters());
         QuantEcts quantEcts = new QuantEcts(programmeDataModel.getQuantEcts());
 
-        //Para alterar quando tivermos o Mapper
         DegreeTypeID degreeTypeID = _degreeTypeIDMapper.toDomain(programmeDataModel.getDegreeTypeID());
 
         DepartmentID departID = _departmentIDMapper.toDomainModel(programmeDataModel.getDepartmentID());

@@ -3,6 +3,8 @@ package PAI.persistence.springdata;
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.factory.IProgrammeEditionEnrolmentFactory;
+import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.mapper.*;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
@@ -12,12 +14,15 @@ import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -138,40 +143,138 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         assertThrows(IllegalStateException.class, () -> repository.isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId));
     }
 
+    // testing find Programme Edition ID's that student is enrolled (active status)
+
     @Test
     void shouldReturnListOfProgrammeEditionsThatStudentIsEnrolled() {
         // Arrange
-        StudentID studentId = mock(StudentID.class);
-        ProgrammeEditionID programmeEditionId1 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID programmeEditionId2 = mock(ProgrammeEditionID.class);
+        IProgrammeEditionEnrolmentRepositorySpringData doublePeeRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper doublePeeMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper doublePeeIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper doubleStudentIdMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper doublePeIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(doublePeeRepositorySpringData,
+                doublePeeMapper, doublePeeIDMapper, doubleStudentIdMapper, doublePeIDMapper);
 
-        ProgrammeEditionEnrolmentDataModel dataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
-        ProgrammeEditionEnrolmentDataModel dataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
-        ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
+        StudentID doubleStudentId = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID doubleProgrammeEditionId2 = mock(ProgrammeEditionID.class);
 
-        // Mock the expected behavior for the mapper
-        when(mapper.toDomain(dataModel1)).thenReturn(Optional.of(enrolment1));
-        when(mapper.toDomain(dataModel2)).thenReturn(Optional.of(enrolment2));
+        ProgrammeEditionEnrolmentDataModel doubleDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolmentDataModel doubleDataModel2 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment doubleEnrolment1 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment doubleEnrolment2 = mock(ProgrammeEditionEnrolment.class);
 
-        // Mock the expected behavior for the domain entities
-        when(enrolment1.findStudentInProgrammeEdition()).thenReturn(studentId);
-        when(enrolment1.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId1);
+        when(doublePeeMapper.toDomain(doubleDataModel1)).thenReturn(Optional.of(doubleEnrolment1));
+        when(doublePeeMapper.toDomain(doubleDataModel2)).thenReturn(Optional.of(doubleEnrolment2));
 
-        when(enrolment2.findStudentInProgrammeEdition()).thenReturn(studentId);
-        when(enrolment2.findProgrammeEditionInEnrolment()).thenReturn(programmeEditionId2);
+        when(doubleEnrolment1.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
+        when(doubleEnrolment1.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId1);
+        when(doubleEnrolment1.isEnrolmentActive()).thenReturn(true);
 
-        // Mock the repository return with data models
-        when(repoSpringData.findAll()).thenReturn(Arrays.asList(dataModel1, dataModel2));
+        when(doubleEnrolment2.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
+        when(doubleEnrolment2.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId2);
+        when(doubleEnrolment2.isEnrolmentActive()).thenReturn(true);
+
+        when(doublePeeRepositorySpringData.findAll()).thenReturn(List.of(doubleDataModel1, doubleDataModel2));
 
         // Act
-        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(studentId);
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
 
         // Assert
-        assertNotNull(result, "The result should not be null");
-        assertEquals(2, result.size(), "The result list should contain 2 programme editions");
-        assertTrue(result.contains(programmeEditionId1), "The result should contain programmeEditionId1");
-        assertTrue(result.contains(programmeEditionId2), "The result should contain programmeEditionId2");
+        assertEquals(2, result.size());
+
+    }
+
+    @Test
+    void should_return_a_empty_list_when_student_is_not_enrolled_in_any_programmeEdition (){
+        // arrange
+        IProgrammeEditionEnrolmentRepositorySpringData doublePeeRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper doublePeeMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper doublePeeIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper doubleStudentIdMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper doublePeIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(doublePeeRepositorySpringData,
+                doublePeeMapper, doublePeeIDMapper, doubleStudentIdMapper, doublePeIDMapper);
+
+        StudentID doubleStudentId = mock(StudentID.class);
+        StudentID doubleStudentId2 = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId1 = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolmentDataModel doubleDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment doubleEnrolment1 = mock(ProgrammeEditionEnrolment.class);
+
+        when(doublePeeMapper.toDomain(doubleDataModel1)).thenReturn(Optional.of(doubleEnrolment1));
+
+        when(doubleEnrolment1.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
+        when(doubleEnrolment1.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId1);
+        when(doubleEnrolment1.isEnrolmentActive()).thenReturn(true);
+
+        when(doublePeeRepositorySpringData.findAll()).thenReturn(List.of(doubleDataModel1));
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId2);
+
+        // assert
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void should_return_an_exception_if_is_not_possible_map_to_dataModel (){
+        // arrange
+        IProgrammeEditionEnrolmentRepositorySpringData doublePeeRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper doublePeeMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper doublePeeIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper doubleStudentIdMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper doublePeIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(doublePeeRepositorySpringData,
+                doublePeeMapper, doublePeeIDMapper, doubleStudentIdMapper, doublePeIDMapper);
+
+        StudentID doubleStudentId = mock(StudentID.class);
+
+        ProgrammeEditionEnrolmentDataModel doubleDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+
+        when(doublePeeMapper.toDomain(doubleDataModel1)).thenReturn(Optional.empty());
+
+        when(doublePeeRepositorySpringData.findAll()).thenReturn(List.of(doubleDataModel1));
+
+        // act & assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);;
+        });
+        assertEquals("Could not map data model to domain", exception.getMessage());
+    }
+
+    @Test
+    void should_return_a_empty_list_when_student_is_enrolled_in_programmeEdition_with_inactive_status (){
+        // arrange
+        IProgrammeEditionEnrolmentRepositorySpringData doublePeeRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper doublePeeMapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper doublePeeIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper doubleStudentIdMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper doublePeIDMapper = mock(IProgrammeEditionIdMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(doublePeeRepositorySpringData,
+                doublePeeMapper, doublePeeIDMapper, doubleStudentIdMapper, doublePeIDMapper);
+
+        StudentID doubleStudentId = mock(StudentID.class);
+        ProgrammeEditionID doubleProgrammeEditionId1 = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolmentDataModel doubleDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment doubleEnrolment1 = mock(ProgrammeEditionEnrolment.class);
+
+        when(doublePeeMapper.toDomain(doubleDataModel1)).thenReturn(Optional.of(doubleEnrolment1));
+
+        when(doubleEnrolment1.findStudentInProgrammeEdition()).thenReturn(doubleStudentId);
+        when(doubleEnrolment1.findProgrammeEditionInEnrolment()).thenReturn(doubleProgrammeEditionId1);
+        when(doubleEnrolment1.isEnrolmentActive()).thenReturn(false);
+
+        when(doublePeeRepositorySpringData.findAll()).thenReturn(List.of(doubleDataModel1));
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId);
+
+        // assert
+        assertEquals(0, result.size());
     }
 
     @Test

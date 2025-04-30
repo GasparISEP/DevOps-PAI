@@ -178,7 +178,7 @@ interface IStudentMapper {
 }
 
 
-IStudentRepositorySpringData <|.. StudentRepositoryJPA
+StudentRepositoryJPA ..|> IStudentRepositorySpringData
 US08_IWantToRegisterAStudentInTheSystemController "1" ..> "1" IStudentService
 IStudentService <|.. StudentService
 StudentService "1" ..> "1" IStudentFactory

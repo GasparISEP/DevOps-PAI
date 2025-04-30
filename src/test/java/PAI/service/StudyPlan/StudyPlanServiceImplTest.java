@@ -125,5 +125,57 @@ class StudyPlanServiceImplTest {
         assertFalse(opt.isPresent());
     }
 
+    @Test
+    void constructorThrowsWhenRepositoryIsNull() {
+        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
 
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudyPlanServiceImpl(null, factory);
+        });
+
+        assertEquals("Repository cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void constructorThrowsWhenFactoryIsNull() {
+        IStudyPlanRepository repository = mock(IStudyPlanRepository.class);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudyPlanServiceImpl(repository, null);
+        });
+
+        assertEquals("Factory cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void getLatestStudyPlanIDByProgrammeID_ReturnsLastStudyPlanID() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        StudyPlan sp1 = mock(StudyPlan.class);
+        StudyPlan sp2 = mock(StudyPlan.class);
+
+        StudyPlanID id1 = mock(StudyPlanID.class);
+        StudyPlanID id2 = mock(StudyPlanID.class);
+
+        when(sp1.identity()).thenReturn(id1);
+        when(sp2.identity()).thenReturn(id2);
+        when(sp1.identity().getProgrammeID()).thenReturn(programmeID);
+        when(sp2.identity().getProgrammeID()).thenReturn(programmeID);
+
+        when(repository.findAll()).thenReturn(List.of(sp1, sp2));
+
+        StudyPlanID result = service.getLatestStudyPlanIDByProgrammeID(programmeID);
+
+        assertEquals(id2, result);
+    }
+
+    @Test
+    void getLatestStudyPlanIDByProgrammeID_ThrowsIllegalArgumentIfEmpty() {
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(repository.findAll()).thenReturn(List.of());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.getLatestStudyPlanIDByProgrammeID(programmeID);
+        });
+    }
 }

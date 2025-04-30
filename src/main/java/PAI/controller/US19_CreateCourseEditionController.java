@@ -55,20 +55,30 @@ public class US19_CreateCourseEditionController {
     }
 
     public List<DegreeType> getAllDegreeTypes() {
-        return null;
+        return degreeTypeService.getAllDegreeTypes();
     }
 
     public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID degreeTypeID) throws Exception {
-        return null;
+        if (degreeTypeID == null)
+            return List.of();
+        return programmeService.getProgrammesByDegreeTypeID(degreeTypeID);
     }
 
     public List<CourseInStudyPlan> getCoursesInStudyPlanByProgrammeID (ProgrammeID programmeID) throws Exception {
-        return null;
+        if (programmeID == null)
+            return List.of();
+        StudyPlanID studyPlanID = studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID);
+        if (studyPlanID == null)
+            return List.of();
+        return courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID);
     }
 
-    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {
-        return null;
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception{
+        if (programmeID == null)
+            return List.of();
+        return programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID);
     }
+
 
     public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return false;
