@@ -122,7 +122,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             return false;
         }
         for (Programme existingProgramme : _programmeRepository.findAll()) {
-            if (existingProgramme.identity().getName().equals(name) || existingProgramme.identity().getAcronym().equals(acronym)) {
+            if (existingProgramme.identity().hasThisName(name) || existingProgramme.identity().hasThisAcronym(acronym)) {
                 return true;
             }
         }
