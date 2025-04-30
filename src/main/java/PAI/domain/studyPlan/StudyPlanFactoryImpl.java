@@ -1,7 +1,9 @@
 package PAI.domain.studyPlan;
 
 import PAI.VOs.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StudyPlanFactoryImpl implements IStudyPlanFactory {
 
     public StudyPlan createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {

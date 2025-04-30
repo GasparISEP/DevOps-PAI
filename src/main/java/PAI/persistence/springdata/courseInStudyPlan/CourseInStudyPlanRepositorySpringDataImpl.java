@@ -7,11 +7,13 @@ import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudyPlanRepository {
 
     private final ICourseInStudyPlanRepositorySpringData iCourseInStudyPlanRepositorySpringData;

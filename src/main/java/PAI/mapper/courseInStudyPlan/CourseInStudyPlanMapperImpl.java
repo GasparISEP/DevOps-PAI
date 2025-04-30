@@ -9,13 +9,16 @@ import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
     private final ICourseIDMapper _courseIDMapper;
     private final IStudyPlanIDMapper _studyPlanIDMapper;
     private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
     private final ICourseInStudyPlanFactory _courseInStudyPlanFactory;
+
 
     public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseInStudyPlanFactory courseInStudyPlanFactory) throws Exception {
         if (studyPlanIDMapper == null)
