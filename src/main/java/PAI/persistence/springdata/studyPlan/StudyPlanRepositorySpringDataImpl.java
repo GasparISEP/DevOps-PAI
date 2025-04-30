@@ -3,7 +3,7 @@ package PAI.persistence.springdata.studyPlan;
 import PAI.VOs.*;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.mapper.studyPlan.IStudyPlanMapper;
-import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
+import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import PAI.repository.studyPlanRepository.IStudyPlanRepository;

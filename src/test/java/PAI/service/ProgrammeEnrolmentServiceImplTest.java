@@ -1,9 +1,6 @@
 package PAI.service;
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.repository.IProgrammeEnrolmentRepository;
@@ -22,6 +19,7 @@ class ProgrammeEnrolmentServiceImplTest {
     private ProgrammeID _programmeIDDouble;
     private Date _dateDouble;
     private ProgrammeEnrolment _peDouble;
+    private ProgrammeEnrolmentID _peIDDouble;
 
     private void createDoubles() {
         _peFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
@@ -31,6 +29,7 @@ class ProgrammeEnrolmentServiceImplTest {
         _programmeIDDouble = mock(ProgrammeID.class);
         _dateDouble = mock(Date.class);
         _peDouble = mock(ProgrammeEnrolment.class);
+        _peIDDouble = mock(ProgrammeEnrolmentID.class);
     }
 
     @Test
@@ -70,17 +69,19 @@ class ProgrammeEnrolmentServiceImplTest {
         ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         when(_peFactoryDouble.createProgrammeEnrolment(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble)).thenReturn(_peDouble);
+        when(_peDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
+        when(_peRepositoryDouble.containsOfIdentity(_peIDDouble)).thenReturn(false);
         when(_peRepositoryDouble.save(_peDouble)).thenReturn(_peDouble);
 
         //Act
         boolean result = peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble);
 
-        //Arrange
+        //Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfStudentIDNull() {
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfStudentIDNull() {
         //Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
@@ -93,7 +94,7 @@ class ProgrammeEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfAccessMethodIDNull() {
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfAccessMethodIDNull() {
         //Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
@@ -106,7 +107,7 @@ class ProgrammeEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfProgrammeIDNull() {
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfProgrammeIDNull() {
         //Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
@@ -119,7 +120,7 @@ class ProgrammeEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionAndNotSaveProgrammeEnrolmentIfDateIDNull() {
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfDateIDNull() {
         //Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
@@ -129,5 +130,19 @@ class ProgrammeEnrolmentServiceImplTest {
 
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotPersistProgrammeEnrolment(){
+        //Arrange
+        createDoubles();
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+
+        when(_peFactoryDouble.createProgrammeEnrolment(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble)).thenReturn(_peDouble);
+        when(_peDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
+        when(_peRepositoryDouble.containsOfIdentity(_peIDDouble)).thenReturn(true);
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble));
     }
 }

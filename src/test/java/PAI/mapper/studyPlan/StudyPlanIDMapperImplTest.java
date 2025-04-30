@@ -2,8 +2,6 @@ package PAI.mapper.studyPlan;
 
 import PAI.VOs.*;
 import PAI.mapper.programme.IProgrammeIDMapper;
-import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
-import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -60,5 +58,10 @@ class StudyPlanIDMapperImplTest {
 
         //assert
         assertNotNull(studyPlanID);
+    }
+
+    @Test
+    void constructorShouldThrowWhenProgrammeIDMapperIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> new StudyPlanIDMapperImpl(null));
     }
 }

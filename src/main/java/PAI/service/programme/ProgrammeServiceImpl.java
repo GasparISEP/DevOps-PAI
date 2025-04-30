@@ -29,9 +29,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     }
 
     public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+        if (doesProgrammeExist(name, acronym)) {
+            throw new IllegalArgumentException("Programme already exists");
+        }
         Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
         Programme savedProgramme = _programmeRepository.save(programme);
-
         if (savedProgramme == null) {
             throw new IllegalArgumentException("Failed to save Programme.");
         }
@@ -66,7 +68,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return programmeIDs;
     }
 
-    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception {
+    public List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) {
         List <Programme> programmeList = new ArrayList<>();
         for (Programme programme : _programmeRepository.findAll()) {
             if (programme.getDegreeTypeID().equals(id))
@@ -105,7 +107,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return _programmeRepository.findAll();
     }
 
-    @Override
+
     public Optional<Programme> getProgrammeByID(ProgrammeID id) {
         for (Programme programme : _programmeRepository.findAll()) {
             if (programme.identity().equals(id)) {
@@ -114,4 +116,18 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return Optional.empty();
     }
+
+    public boolean doesProgrammeExist(NameWithNumbersAndSpecialChars name, Acronym acronym) {
+        if (name == null || acronym == null) {
+            return false;
+        }
+        for (Programme existingProgramme : _programmeRepository.findAll()) {
+            if (existingProgramme.identity().getName().equals(name) || existingProgramme.identity().getAcronym().equals(acronym)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

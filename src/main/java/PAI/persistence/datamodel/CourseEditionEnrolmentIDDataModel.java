@@ -16,11 +16,11 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
     @AttributeOverrides({
             @AttributeOverride(
                     name = "_programmeEditionIdDataModel._programmeIDDataModel.programmeAcronym",
-                    column = @Column(name = "course_programme_acronym")
+                    column = @Column(name = "cee_programme_acronym")
             ),
             @AttributeOverride(
                     name = "_programmeEditionIdDataModel._programmeIDDataModel.programmeName",
-                    column = @Column(name = "course_programme_name")
+                    column = @Column(name = "cee_programme_name")
             )
     })
     private CourseEditionIDDataModel courseEditionID;

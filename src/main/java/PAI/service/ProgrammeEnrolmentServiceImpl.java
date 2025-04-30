@@ -1,9 +1,6 @@
 package PAI.service;
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.factory.IProgrammeEnrolmentFactory;
 import PAI.repository.IProgrammeEnrolmentRepository;
@@ -29,6 +26,12 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
         }
 
         ProgrammeEnrolment pe = _peFactory.createProgrammeEnrolment(studentID,accessMethodID, programmeID, date);
+
+        ProgrammeEnrolmentID programmeEnrolmentID = pe.getProgrammeEnrolmentID();
+
+        if(_peRepository.containsOfIdentity(programmeEnrolmentID)){
+            throw new IllegalArgumentException("Programme Enrolment already exists.");
+        }
 
         _peRepository.save(pe);
 

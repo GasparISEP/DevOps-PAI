@@ -1,4 +1,4 @@
-package PAI.repository.courseInStudyPlanRepository;
+package PAI.persistence.mem.courseInStudyPlanRepository;
 
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
@@ -7,6 +7,7 @@ import PAI.persistence.mem.courseInStudyPlan.ICourseInStudyPlanListFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -130,5 +131,56 @@ class CourseInStudyPlanRepositoryImpTest {
 
         // act + assert
         assertFalse(repository.containsOfIdentity(id));
+    }
+
+    @Test
+    void testOfIdentityShouldIterateOverMultipleElements() throws Exception {
+        // arrange
+        Acronym acronym1 = new Acronym("CCC");
+        Name names1 = new Name("Course");
+        CourseID courseID1 = new CourseID(acronym1, names1);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars1 = new NameWithNumbersAndSpecialChars("Programme");
+        Acronym programmeAcronym1 = new Acronym("PR");
+        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars1, programmeAcronym1);
+        LocalDate localDate1 = LocalDate.of(2020, 1, 1);
+        Date implementationDate1 = new Date(localDate1);
+
+        StudyPlanID studyPlanID1 = new StudyPlanID(programmeID, implementationDate1);
+        CourseInStudyPlanID courseInStudyPlanIDPresent = new CourseInStudyPlanID(courseID1, studyPlanID1);
+
+        Semester semester1 = new Semester(1);
+        CurricularYear curricularYear1 = new CurricularYear(3);
+        DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(10);
+
+        CourseInStudyPlan courseInStudyPlan1 = new CourseInStudyPlan(semester1, curricularYear1, courseID1, studyPlanID1, courseInStudyPlanIDPresent, durationCourseInCurricularYear, courseQuantityCreditsEcts);
+
+        Acronym acronym2 = new Acronym("CCS");
+        Name names2 = new Name("Courses");
+        CourseID courseID2 = new CourseID(acronym2, names2);
+
+        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Programm");
+        Acronym programmeAcronym2 = new Acronym("PGR");
+        ProgrammeID programmeID2 = new ProgrammeID(nameWithNumbersAndSpecialChars2, programmeAcronym2);
+        LocalDate localDate2 = LocalDate.of(2024, 1, 1);
+        Date implementationDate2 = new Date(localDate2);
+
+        StudyPlanID studyPlanID2 = new StudyPlanID(programmeID2, implementationDate2);
+        CourseInStudyPlanID courseInStudyPlanIDNotPresent = new CourseInStudyPlanID(courseID2, studyPlanID2);
+
+        Semester semester2 = new Semester(1);
+        CurricularYear curricularYear2 = new CurricularYear(3);
+        DurationCourseInCurricularYear durationCourseInCurricularYear2 = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts courseQuantityCreditsEcts2 = new CourseQuantityCreditsEcts(10);
+
+        CourseInStudyPlan courseInStudyPlan2 = new CourseInStudyPlan(semester2, curricularYear2, courseID2, studyPlanID2, courseInStudyPlanIDNotPresent, durationCourseInCurricularYear2, courseQuantityCreditsEcts2);
+
+        repository.save(courseInStudyPlan1);
+
+        Optional<CourseInStudyPlan> result = repository.ofIdentity(courseInStudyPlanIDNotPresent);
+
+        assertFalse(result.isPresent());
+
     }
 }

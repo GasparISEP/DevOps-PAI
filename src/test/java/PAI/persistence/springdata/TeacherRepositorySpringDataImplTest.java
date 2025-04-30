@@ -9,6 +9,7 @@ import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.repository.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,50 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
+    void shouldNotSaveTeacherDueToFailedConversionToDataModel () throws Exception {
+        // Arrange
+        Teacher teacherDouble = mock(Teacher.class);
+
+        when(teacherMapper.toDataModel(null)).thenReturn(null);
+
+        // Act
+        Teacher result = teacherRepository.save(teacherDouble);
+
+        //Assert
+        assertEquals(null, result);
+    }
+
+//    @Test
+//    void shouldNotSaveTeacherDueToJpa_save_NotSaving () throws Exception {
+//        // Arrange
+//        Teacher teacherDouble = mock(Teacher.class);
+//        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
+//
+//        when(teacherMapper.toDataModel(teacherDouble)).thenReturn(teacherDataModel);
+//        when(iTeacherRepoSpringData.save(teacherDataModel)).thenReturn(null);
+//
+//        // Act + Assert
+//        assertThrows(IllegalStateException.class, () -> teacherRepository.save(teacherDouble));
+//    }
+
+    @Test
+    void shouldNotSaveTeacherDueToFailedConversionBackToDomain () throws Exception {
+        // Arrange
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
+
+        when(teacherMapper.toDataModel(teacherDouble)).thenReturn(teacherDataModel);
+        when(iTeacherRepoSpringData.save(teacherDataModel)).thenReturn(teacherDataModel);
+        when(teacherMapper.toDomain(null)).thenReturn(null);
+
+        // Act
+        Teacher result = teacherRepository.save(teacherDouble);
+
+        //Assert
+        assertEquals(null, result);
+    }
+
+    @Test
     void shouldFindAllTeachers() {
         //Arrange
         List<TeacherDataModel> teacherDataModels = List.of(
@@ -122,7 +167,6 @@ class TeacherRepositorySpringDataImplTest {
         Teacher teacherDouble2 = mock(Teacher.class);
 
         TeacherDataModel teacherDMdouble = mock(TeacherDataModel.class);
-        //List<Teacher> teachers = new ArrayList<>();
 
         when(iTeacherRepoSpringData.findAll()).thenReturn(teacherDataModels);
         when(teacherMapper.toDomain(teacherDataModels.get(0))).thenReturn(teacherDouble1);

@@ -1,9 +1,9 @@
 package PAI.repository.studyPlanRepository;
 
 import PAI.VOs.*;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
-import PAI.domain.programme.Programme;
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.persistence.mem.studyPlan.IStudyPlanListFactory;
+import PAI.persistence.mem.studyPlan.StudyPlanRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -48,7 +48,7 @@ class StudentGradeIDDataModelTest {
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
         //act
-        StudentIDDataModel result = studentGradeIDDataModel.get_studentIDDataModel();
+        StudentIDDataModel result = studentGradeIDDataModel.getStudentIDDataModel();
         //assert
         assertEquals(studentIDDataModel,result);
     }
@@ -60,7 +60,7 @@ class StudentGradeIDDataModelTest {
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = new StudentGradeIDDataModel(studentIDDataModel,courseEditionIDDataModel);
         //act
-        CourseEditionIDDataModel result = studentGradeIDDataModel.get_courseEditionIDDataModel();
+        CourseEditionIDDataModel result = studentGradeIDDataModel.getCourseEditionIDDataModel();
         //assert
         assertEquals(courseEditionIDDataModel,result);
     }

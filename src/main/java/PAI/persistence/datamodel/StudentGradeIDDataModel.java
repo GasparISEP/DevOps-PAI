@@ -11,9 +11,9 @@ import java.util.Objects;
 public class StudentGradeIDDataModel implements Serializable {
 
     @Embedded
-    private StudentIDDataModel _studentIDDataModel;
+    private StudentIDDataModel studentIDDataModel;
     @Embedded
-    private CourseEditionIDDataModel _courseEditionIDDataModel;
+    private CourseEditionIDDataModel courseEditionIDDataModel;
 
     protected StudentGradeIDDataModel() {}
 
@@ -21,26 +21,26 @@ public class StudentGradeIDDataModel implements Serializable {
         if (studentIDDataModel == null || courseEditionIDDataModel == null){
             throw new IllegalArgumentException("Cannot be null");
         }
-        _studentIDDataModel = studentIDDataModel;
-        _courseEditionIDDataModel = courseEditionIDDataModel;
+        this.studentIDDataModel = studentIDDataModel;
+        this.courseEditionIDDataModel = courseEditionIDDataModel;
     }
 
-    public StudentIDDataModel get_studentIDDataModel() {
-        return _studentIDDataModel;
+    public StudentIDDataModel getStudentIDDataModel() {
+        return studentIDDataModel;
     }
 
-    public CourseEditionIDDataModel get_courseEditionIDDataModel() {
-        return _courseEditionIDDataModel;
+    public CourseEditionIDDataModel getCourseEditionIDDataModel() {
+        return courseEditionIDDataModel;
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudentGradeIDDataModel that)) return false;
-        return Objects.equals(_studentIDDataModel, that._studentIDDataModel) && Objects.equals(_courseEditionIDDataModel, that._courseEditionIDDataModel);
+        return Objects.equals(studentIDDataModel, that.studentIDDataModel) && Objects.equals(courseEditionIDDataModel, that.courseEditionIDDataModel);
     }
     @Override
     public int hashCode() {
-        return _studentIDDataModel.hashCode() + _courseEditionIDDataModel.hashCode();
+        return studentIDDataModel.hashCode() + courseEditionIDDataModel.hashCode();
     }
 
 }
