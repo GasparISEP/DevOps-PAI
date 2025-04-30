@@ -348,5 +348,26 @@ class StudentGradeFactoryImplTest {
 
     }
 
+    @Test
+    void shouldReturnStudentGradeFromDataModel() throws Exception{
+
+        //arrange
+        ICourseEditionRepository iCourseEditionRepository = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository iSchoolYearRepository = mock(ISchoolYearRepository.class);
+        IStudentGradeRepository iStudentGradeRepository = mock(IStudentGradeRepository.class);
+
+        StudentGradeFactoryImpl studentGradeFactory = new StudentGradeFactoryImpl(iCourseEditionRepository,iProgrammeEditionRepository,iSchoolYearRepository,iStudentGradeRepository);
+
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        StudentGradeID studentGradeID = mock(StudentGradeID.class);
+
+        //act
+        StudentGrade result = studentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID);
+    }
+
 }
 
