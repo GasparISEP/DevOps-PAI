@@ -3,6 +3,7 @@ package PAI.service;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
+import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmentService {
@@ -76,6 +78,61 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
 
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public boolean removeCourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID) throws Exception {
+        // 1. Retrieve the enrolment
+        Optional<CourseEditionEnrolment> enrolmentOpt = _ceeRepositoryInterface.findByStudentAndEdition(studentID, courseEditionID);
+
+        if (enrolmentOpt.isEmpty()) {
+            return false;
+        }
+
+        CourseEditionEnrolment enrolment = enrolmentOpt.get();
+
+        // 2. Check if it's active
+        if (!enrolment.isEnrolmentActive()) {
+            // If already inactive, no need to modify
+            return false;
+        }
+
+        // 3. Deactivate enrolment
+        enrolment.deactivateEnrolment();
+
+        // 4. Save changes
+        _ceeRepositoryInterface.save(enrolment);
+
+        // 5. Check if the student still has active enrolments in this programme
+        if (!hasOtherActiveCourseEditionEnrolments(studentID, courseEditionID.getProgrammeEditionID())) {
+            // If not, also remove the ProgrammeEditionEnrolment
+            removeProgrammeEditionEnrolment(studentID, courseEditionID.getProgrammeEditionID());
+        }
+
+        return true;
+    }
+
+    private boolean hasOtherActiveCourseEditionEnrolments(StudentID studentID, ProgrammeEditionID programmeEditionID) {
+        Iterable<CourseEditionEnrolment> enrolments = _ceeRepositoryInterface.findAll();
+
+        for (CourseEditionEnrolment enrolment : enrolments) {
+            if (enrolment.hasStudent(studentID) &&
+                    enrolment.isEnrolmentActive() &&
+                    enrolment.knowCourseEdition().getProgrammeEditionID().equals(programmeEditionID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void removeProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID) throws Exception {
+        Optional<ProgrammeEditionEnrolment> peEnrolmentOpt = _peeRepositoryInterface.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
+
+        if (peEnrolmentOpt.isPresent()) {
+            ProgrammeEditionEnrolment peEnrolment = peEnrolmentOpt.get();
+            peEnrolment.deactivateEnrolment();
+            _peeRepositoryInterface.save(peEnrolment);
         }
     }
 
