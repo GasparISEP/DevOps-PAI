@@ -16,8 +16,6 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
 
-    boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId);
-
     void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception;
 
 }

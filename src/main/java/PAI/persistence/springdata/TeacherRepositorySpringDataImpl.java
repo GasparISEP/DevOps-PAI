@@ -68,7 +68,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
                     try {
                         return teacherMapper.toDomain(dataModel);
                     } catch (Exception e) {
-                        throw new RuntimeException("Could not convert Teacher Data Model to Teacher domain object.", e);
+                        throw new RuntimeException("Could not convert Teacher Data Model to Teacher Domain Object.", e);
                     }
                 })
         ;

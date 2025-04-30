@@ -11,7 +11,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
     private CourseEditionID _courseEditionID;
     private final StudentGradeID _studentGrade_id;
 
-    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID,StudentGradeID studentGradeID) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
         _grade = grade;
 
@@ -24,7 +24,8 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         if (courseEditionID == null) throw new IllegalArgumentException("Course Edition cannot be null");
         _courseEditionID = courseEditionID;
 
-        this._studentGrade_id = new StudentGradeID(studentID,courseEditionID);
+        if (studentGradeID == null) throw new IllegalArgumentException("StudentGradeID cannot be null");
+        this._studentGrade_id = studentGradeID;
     }
 
     public Grade get_grade() {
