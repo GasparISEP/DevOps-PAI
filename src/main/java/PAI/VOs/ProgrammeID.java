@@ -42,4 +42,8 @@ public class ProgrammeID implements DomainId {
     public Acronym getAcronym() {
         return _acronym;
     }
+
+    public boolean hasThisName(NameWithNumbersAndSpecialChars name) {
+        return _name.equals(name);
+    }
 }
