@@ -75,9 +75,9 @@ class ProgrammeEditionIdDataModelTest {
     @Test
     void shouldReturnTrueIfProgrammeEditionIdDataModelIsComparedToItself() {
         //arrange
-        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         //act
-        boolean result = programmeIDDataModel.equals(programmeIDDataModel);
+        boolean result = programmeEditionIdDataModel.equals(programmeEditionIdDataModel);
         //assert
         assertTrue(result);
     }
@@ -85,10 +85,21 @@ class ProgrammeEditionIdDataModelTest {
     @Test
     void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToAnotherClass() {
         //arrange
-        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         String test  = "test";
         //act
-        boolean result = programmeIDDataModel.equals(test);
+        boolean result = programmeEditionIdDataModel.equals(test);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToOtherProgrammeEditionIdDataModel() {
+        //arrange
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel1 = mock(ProgrammeEditionIdDataModel.class);
+        //act
+        boolean result = programmeEditionIdDataModel.equals(programmeEditionIdDataModel1);
         //assert
         assertFalse(result);
     }
