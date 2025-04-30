@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface IProgrammeEditionService {
     ProgrammeEdition createProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception;
     Optional<ProgrammeEdition> saveProgrammeEdition(ProgrammeEdition programmeEdition) throws Exception;
-    List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID);
+    List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
 }
