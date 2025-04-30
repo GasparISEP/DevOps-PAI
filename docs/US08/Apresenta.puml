@@ -1,0 +1,83 @@
+@startuml
+
+!pragma layout smetana
+skinparam sequenceMessageAlign center
+title US08: I want to register a Student in the system
+
+
+class US08_IWantToRegisterAStudentInTheSystemController {
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
+}
+
+class StudentRepositoryJPA {
+
+    + save(student : Student) : Student
+    + findAll() : Iterable<Student>
+    + ofIdentity(studentID : StudentID) : Optional<Student>
+    + containsOfIdentity(studentID : StudentID) : boolean
+    + existsByStudentIDOrNIF (studentID : StudentID, nif : NIF) : boolean
+}
+
+package "Student Aggregate" {
+    class Student <<Root>> <<Entity>> {
+        + identity() : StudentID
+        + sameAs (object : Object) : boolean
+        + equals(object : Object) : boolean
+        + isEquals(student : Student) : boolean
+        + hasNIF (nif : NIF) : boolean
+    }
+}
+
+class StudentFactoryImpl {
+    + newStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : AddressVO) : Student
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
+}
+
+class StudentService {
+    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country,
+                      institutionalEmail : InstitutionalEmail) : Student
+}
+
+class StudentMapper {
+    + domainToDataModel(student : Student) : StudentDataModel
+    + dataModelToDomain(studentDataModel : StudentDataModel) : Student
+}
+
+class StudentDataModel {
+    - studentID : int
+    - name : String
+    - nif : DataModel
+    - phone : DataModel
+    - email : String
+    - institutionalEmail : DataModel
+    - address : DataModel
+}
+
+interface IStudentRepositorySpringData{
+  + save(student : Student) : Student
+  + findAll() : Iterable<Student>
+  + ofIdentity(studentID : StudentID) : Optional<Student>
+  + containsOfIdentity(studentID : StudentID) : boolean
+  + existsByStudentIDOrNIF (studentID : StudentID, nif : NIF) : boolean
+}
+
+
+StudentRepositoryJPA ..|> IStudentRepositorySpringData
+US08_IWantToRegisterAStudentInTheSystemController "1" ..> "1" StudentService
+
+StudentService "1" ..> "1" StudentFactoryImpl
+StudentRepositoryJPA "1" ..> "1" StudentMapper
+
+
+StudentMapper --> StudentDataModel
+
+
+StudentRepositoryJPA "1" ---> "_students\n*" Student
+
+StudentFactoryImpl ..> StudentRepositoryJPA
+StudentFactoryImpl "1" ..> "1" Student: <<create>>
+
+
+
+
+@enduml
