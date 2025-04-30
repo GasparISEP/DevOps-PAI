@@ -23,5 +23,4 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 
-//    SchoolYearID getSchoolYearIDByProgrammeEdition (ProgrammeEdition programmeEdition);
 }
