@@ -41,6 +41,14 @@ public class ProgrammeDataModel {
 
     public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
+        if (name == null || acronym == null || degreeTypeID == null || departmentID == null || progDirectorID == null || progID == null) {
+            throw new IllegalArgumentException("Cannot be null");
+        }
+
+        if (quantEcts <= 0 || quantSemesters <= 0) {
+            throw new IllegalArgumentException("Must be above 0");
+        }
+
         this.programmeID = progID;
         this.name = name;
         this.acronym = acronym;

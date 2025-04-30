@@ -85,34 +85,6 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
 
     @Override
-    @Transactional
-    public boolean removeEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
-        try {
-            StudentIDDataModel studentIDDataModel = iStudentIDMapper.domainToDataModel(studentId);
-            CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
-
-            Optional<CourseEditionEnrolmentDataModel> optionalEnrolment =
-                    iCEERepoSpringData.findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel);
-
-            if (optionalEnrolment.isPresent()) {
-                CourseEditionEnrolmentDataModel enrolment = optionalEnrolment.get();
-
-                if (enrolment.isActive()) {
-                    enrolment.setActive(false);
-                    iCEERepoSpringData.save(enrolment);
-                    return true;
-                }
-            }
-
-        } catch (Exception exception) {
-            return false;
-        }
-
-        return false;
-    }
-
-
-    @Override
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
     }
 

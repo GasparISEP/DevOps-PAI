@@ -1,9 +1,6 @@
 package PAI.factory;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +31,13 @@ class StudentGradeListFactoryImplTest {
         Date date = mock(Date.class);
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        StudentGradeID studentGradeID = mock(StudentGradeID.class);
 
         // Act
         List<StudentGrade> list = factory.newArrayList();
 
         // Assert
         assertNotNull(list);
-        assertDoesNotThrow(() -> list.add(new StudentGrade(grade,date,studentID,courseEditionID)));
+        assertDoesNotThrow(() -> list.add(new StudentGrade(grade,date,studentID,courseEditionID,studentGradeID)));
     }
 }

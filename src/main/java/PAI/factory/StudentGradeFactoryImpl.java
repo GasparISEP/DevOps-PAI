@@ -51,6 +51,7 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
     }
 
     public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
+        StudentGradeID studentGradeID = new StudentGradeID(student,courseEditionID);
         if (grade == null){
             throw new IllegalArgumentException("Grade cannot be null.");
         }
@@ -65,7 +66,7 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         }
 
         if (isDateGradeInRangeWithSchoolYear(courseEditionID,date) && !hasStudentAlreadyGradeAtThisCourseEdition(student,courseEditionID)){
-        return new StudentGrade(grade, date, student, courseEditionID);
+        return new StudentGrade(grade, date, student, courseEditionID,studentGradeID);
     }
         throw new IllegalArgumentException("Date is out of Range");
         }
