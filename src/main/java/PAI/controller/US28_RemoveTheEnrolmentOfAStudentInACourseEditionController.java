@@ -4,7 +4,10 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.service.ICourseEditionEnrolmentService;
+import org.springframework.stereotype.Controller;
 
+
+@Controller
 public class US28_RemoveTheEnrolmentOfAStudentInACourseEditionController {
 
     private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
