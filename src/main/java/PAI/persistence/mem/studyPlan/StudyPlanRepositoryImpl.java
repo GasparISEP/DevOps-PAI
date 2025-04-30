@@ -1,11 +1,9 @@
-package PAI.repository.studyPlanRepository;
+package PAI.persistence.mem.studyPlan;
 
 import PAI.VOs.*;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.domain.studyPlan.IStudyPlanFactory;
+import PAI.repository.studyPlanRepository.IStudyPlanRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -5,8 +5,6 @@ import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
 import PAI.mapper.programme.ProgrammeIDMapperImpl;
-import PAI.mapper.studyPlanID.IStudyPlanIDMapper;
-import PAI.mapper.studyPlanID.StudyPlanIDMapperImpl;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;

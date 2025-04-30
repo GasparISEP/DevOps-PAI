@@ -126,4 +126,14 @@ class ProgrammeEditionIdDataModelTest {
         //assert
         assertTrue(result);
     }
+
+    @Test
+    void shouldReturnProgrammeEditionIdDataModelHashCode(){
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        //act
+        int result = programmeIDDataModel.hashCode();
+        //assert
+        assertEquals(programmeIDDataModel.hashCode(), result);
+    }
 }
