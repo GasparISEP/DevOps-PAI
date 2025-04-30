@@ -194,6 +194,23 @@ class CourseInStudyPlanRepositorySpringDataImplTest {
         assertFalse(_courseInStudyPlanRepositorySpringDataImpl.containsOfIdentity(null));
     }
 
+    @Test
+    void ofIdentityShouldReturnMappedDomainWhenFound() throws Exception {
+        CourseInStudyPlanID id = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanIDDataModel idDM = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanDataModel dm = mock(CourseInStudyPlanDataModel.class);
+        CourseInStudyPlan domain = mock(CourseInStudyPlan.class);
+
+        when(_iCourseInStudyPlanIDMapper.toDataModel(id)).thenReturn(idDM);
+        when(_iCourseInStudyPlanRepositorySpringData.findById(idDM)).thenReturn(Optional.of(dm));
+        when(_iCourseInStudyPlanMapper.toDomain(dm)).thenReturn(domain);
+
+        Optional<CourseInStudyPlan> result = _courseInStudyPlanRepositorySpringDataImpl.ofIdentity(id);
+
+        assertTrue(result.isPresent());
+        assertEquals(domain, result.get());
+    }
+
     // helper to convert Iterable to List
     private List<CourseInStudyPlan> toList(Iterable<CourseInStudyPlan> it) {
         List<CourseInStudyPlan> list = new java.util.ArrayList<>();

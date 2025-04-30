@@ -59,9 +59,9 @@ public class StudentGradeMapperImplTest {
 
         // Assert
         assertEquals(1000001, dataModel.getStudentId().getUniqueNumber());
-        assertEquals(studentIDDM,       idDM.get_studentIDDataModel());
-        assertEquals(17.5, dataModel.get_grade(), 0.01);
-        assertEquals(LocalDate.of(2024, 6, 1), dataModel.get_date());
+        assertEquals(studentIDDM,       idDM.getStudentIDDataModel());
+        assertEquals(17.5, dataModel.getGrade(), 0.01);
+        assertEquals(LocalDate.of(2024, 6, 1), dataModel.getDate());
         assertEquals(courseEditionIDDataModel, dataModel.getCourseEditionID());
         assertNotNull(idDM);
 
@@ -80,8 +80,8 @@ public class StudentGradeMapperImplTest {
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
         LocalDate dateLM = LocalDate.of(2025, 4, 14);
-        when(dataModel.get_grade()).thenReturn(18.0);
-        when(dataModel.get_date()).thenReturn(dateLM);
+        when(dataModel.getGrade()).thenReturn(18.0);
+        when(dataModel.getDate()).thenReturn(dateLM);
         when(dataModel.getStudentId()).thenReturn(studentIDDataModel);
         when(dataModel.getCourseEditionID()).thenReturn(courseEditionIDDataModel);
 

@@ -2,8 +2,11 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.service.IProgrammeEnrolmentService;
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
+@Component
 public class US09_EnrolStudentInProgrammeController {
 
     private final IProgrammeEnrolmentService _enrolmentService;

@@ -9,25 +9,25 @@ import java.util.Objects;
 public class CourseDataModel
 {
     @EmbeddedId
-    private CourseIDDataModel _courseID;
+    private CourseIDDataModel courseID;
 
     @Column(name = "course_name")
-    private String _name;
+    private String name;
 
     @Column(name = "course_acronym")
-    private String _acronym;
+    private String acronym;
 
     @Column(name = "version")
     @Version
-    private Long _version;
+    private Long version;
 
     public CourseDataModel() {}
 
     public CourseDataModel(CourseIDDataModel courseIDDataModel, String name, String acronym) {
 
-        _courseID = courseIDDataModel;
-        _name = name;
-        _acronym = acronym;
+        courseID = courseIDDataModel;
+        this.name = name;
+        this.acronym = acronym;
     }
 
     @Override
@@ -36,18 +36,18 @@ public class CourseDataModel
         if (objectToCompare== null || !(objectToCompare instanceof CourseDataModel))
             return false;
         CourseDataModel courseDataModel = (CourseDataModel) objectToCompare;
-        return Objects.equals(_courseID, courseDataModel._courseID);
+        return Objects.equals(courseID, courseDataModel.courseID);
     }
     @Override
     public int hashCode() {
-        return _courseID.hashCode();
+        return courseID.hashCode();
     }
 
-    public String getName() {return _name; }
+    public String getName() {return name; }
 
-    public String getAcronym() {return _acronym;}
+    public String getAcronym() {return acronym;}
 
-    public CourseIDDataModel getCourseID() {return _courseID; }
+    public CourseIDDataModel getCourseID() {return courseID; }
 
-    public Long getVersion() { return _version; }
+    public Long getVersion() { return version; }
 }

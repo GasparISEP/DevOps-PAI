@@ -58,7 +58,7 @@ class CourseEditionServiceImplTest {
         assertEquals("courseEditionRepository cannot be null", exception.getMessage());
     }
 
-    //-----createCourseEdition Tests-----
+    //-----createAndSaveCourseEdition Tests-----
     @Test
     void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullCourseInStudyPlanID() {
         // Arrange
@@ -111,7 +111,7 @@ class CourseEditionServiceImplTest {
     }
 
     @Test
-    void shouldReturnAValidCourseEditionWhenCreateCourseEditionMethodCreatesACourseEditionInTheSystem() throws Exception {
+    void shouldReturnASavedCourseEditionWhenCreateAndSaveCourseEditionMethodCreatesACourseEditionInTheSystem() throws Exception {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
@@ -120,8 +120,11 @@ class CourseEditionServiceImplTest {
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
 
         // Act
@@ -133,7 +136,7 @@ class CourseEditionServiceImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenCreateCourseEditionMethodCantSaveACourseEditionInTheSystem() throws Exception {
+    void shouldReturnNullWhenCourseEditionAlreadyExistsInTheSystem() throws Exception {
         // Arrange
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
@@ -142,9 +145,11 @@ class CourseEditionServiceImplTest {
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
-        when(courseEditionRepository.save(courseEdition)).thenReturn(null);
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(true);
 
         // Act
         CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);

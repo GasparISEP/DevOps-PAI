@@ -15,7 +15,7 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
         }
         _iStudentGradeService = iStudentGradeService;
     }
-    public double CalculateApprovalPercentageOfACourseEdition (CourseEditionID courseEditionID){
+    public double CalculateApprovalPercentageOfACourseEdition (CourseEditionID courseEditionID) throws Exception {
         if (courseEditionID == null){
             throw new IllegalArgumentException("CourseEditionID cannot be null");
         }

@@ -3,9 +3,10 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.service.IStudentService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
-@Controller
+@Component
 public class US08_IWantToRegisterAStudentInTheSystemController {
 
     private IStudentService _studentService;

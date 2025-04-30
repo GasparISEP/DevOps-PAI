@@ -2,6 +2,7 @@ package PAI.service;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
+import PAI.exception.TeacherAlreadyExistsException;
 import PAI.factory.ITeacherFactory;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class TeacherServiceImpl implements ITeacherService {
 
         Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
+
+        if (_teacherRepository.existsByTeacherIdOrNif(teacher.identity(), nif))
+            return Optional.empty();
 
         _teacherRepository.save(teacher);
 

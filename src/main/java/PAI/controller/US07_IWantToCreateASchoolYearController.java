@@ -3,9 +3,9 @@ package PAI.controller;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.service.schoolYear.ISchoolYearService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
 public class US07_IWantToCreateASchoolYearController {
 
     private final ISchoolYearService schoolYearService;
