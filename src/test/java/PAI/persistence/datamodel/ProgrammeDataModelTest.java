@@ -151,12 +151,121 @@ public class ProgrammeDataModelTest {
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
         DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
-        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         //act
-        ProgrammeIDDataModel res = programmeDataModel.getProgID();
+        ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
+
 
         //assert
-        assertEquals(res, programmeDataModel.getProgID());
+        assertEquals(programmeIDDM, programmeDataModel.getProgID());
     }
+
+    @Test
+    void shouldReturnTrueWhenProgrammeIDsAreEqual() {
+        // arrange
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("Name1", "ACR1");
+
+        TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
+
+        ProgrammeDataModel p1 = new ProgrammeDataModel(id, "Name1", "ACR1", 6, 30, degreeTypeID, departmentID, teacherID);
+        ProgrammeDataModel p2 = new ProgrammeDataModel(id, "Name2", "ACR2", 4, 20, degreeTypeID, departmentID, teacherID);
+
+        // act + assert
+        assertTrue(p1.equals(p2));
+        assertEquals(p1.hashCode(), p2.hashCode());
+    }
+
+
+    @Test
+    void shouldReturnFalseWhenProgrammeIDsAreDifferent() {
+        // arrange
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("Name1", "ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("Name2", "ACR2");
+
+        TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
+        DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
+        DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
+
+        ProgrammeDataModel p1 = new ProgrammeDataModel(id1, "Name1", "ACR1", 6, 30, degreeTypeID, departmentID, teacherID);
+        ProgrammeDataModel p2 = new ProgrammeDataModel(id2, "Name2", "ACR2", 4, 20, degreeTypeID, departmentID, teacherID);
+
+        // act + assert
+        assertFalse(p1.equals(p2));
+        assertNotEquals(p1.hashCode(), p2.hashCode());
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparedWithNull() {
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeDataModel programme = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+
+        assertFalse(programme.equals(null));
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparedWithDifferentClass() {
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeDataModel programme = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+
+        String differentClassObject = "Different Object";
+
+        assertFalse(programme.equals(differentClassObject));
+    }
+
+    @Test
+    void shouldReturnTrueWhenObjectsAreEqual() {
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeDataModel programme1 = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+        ProgrammeDataModel programme2 = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+
+        assertTrue(programme1.equals(programme2));
+    }
+
+    @Test
+    void shouldReturnFalseWhenObjectsAreNotEqual() {
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("name1", "ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("name2", "ACR2");
+
+        ProgrammeDataModel programme1 = new ProgrammeDataModel(id1, "name1", "ACR1", 6, 30, null, null, null);
+        ProgrammeDataModel programme2 = new ProgrammeDataModel(id2, "name2", "ACR2", 6, 30, null, null, null);
+
+        assertFalse(programme1.equals(programme2));
+    }
+
+    @Test
+    void shouldReturnEqualHashCodesForEqualObjects() {
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeDataModel programme1 = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+        ProgrammeDataModel programme2 = new ProgrammeDataModel(id, "name", "ACR", 6, 30, null, null, null);
+
+        assertEquals(programme1.hashCode(), programme2.hashCode());
+    }
+
+    @Test
+    void shouldReturnDifferentHashCodesForDifferentObjects() {
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("name1", "ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("name2", "ACR2");
+
+        ProgrammeDataModel programme1 = new ProgrammeDataModel(id1, "name1", "ACR1", 6, 30, null, null, null);
+        ProgrammeDataModel programme2 = new ProgrammeDataModel(id2, "name2", "ACR2", 6, 30, null, null, null);
+
+        assertNotEquals(programme1.hashCode(), programme2.hashCode());
+    }
+
+    @Test
+    void shouldReturnTrueWhenComparedWithItself() {
+        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeDataModel programme = new ProgrammeDataModel(programmeID, "name", "ACR", 6, 30, null, null, null);
+
+        assertTrue(programme.equals(programme));
+    }
+
+
+
+
+
+
+
 }
