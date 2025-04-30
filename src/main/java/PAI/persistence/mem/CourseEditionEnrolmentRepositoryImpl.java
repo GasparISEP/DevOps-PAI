@@ -53,20 +53,6 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
         return count;
     }
 
-    // Method to remove (deactivate) an enrolment
-    public boolean removeEnrolment(StudentID studentID, CourseEditionID courseEditionID) {
-        Optional<CourseEditionEnrolment> enrollment = findByStudentAndEdition(studentID, courseEditionID);
-        if (enrollment.isPresent()) {
-            CourseEditionEnrolment cee = enrollment.get();
-            // Deactivate the enrolment if it's active
-            if (cee.isEnrolmentActive()) {  // Only deactivates if the enrolment is currently active
-                cee.deactivateEnrolment();
-                return true; // Returns true indicating that the enrolment was deactivated
-            }
-        }
-        return false; // Returns false if the enrolment was already inactive or did not exist
-    }
-
 
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
 
