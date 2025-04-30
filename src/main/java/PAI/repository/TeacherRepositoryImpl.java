@@ -48,7 +48,7 @@ public class TeacherRepositoryImpl implements ITeacherRepository {
         return false;
     }
 
-    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+    public boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) {
 
         for (Teacher teacher : _teachers) {
             if (teacher.sameAs(teacherID) || teacher.hasThisNIF(nif)) {

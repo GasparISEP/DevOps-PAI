@@ -99,7 +99,7 @@ class TeacherServiceImplTest {
     }
 
     @Test
-    void registerTeacherShouldRegisterTeacher() throws Exception {
+    void registerTeacherShouldRegisterTeacherSuccessfully() throws Exception {
 
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
@@ -110,6 +110,7 @@ class TeacherServiceImplTest {
                 streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble)).thenReturn(teacherDouble);
 
         when(teacherDouble.identity()).thenReturn(teacherIDdouble);
+        when(teacherRepositoryDouble.existsByTeacherIdOrNif(teacherIDdouble, nifDouble)).thenReturn(false);
         when(teacherRepositoryDouble.save(teacherDouble)).thenReturn(teacherDouble);
 
         // Act
@@ -152,6 +153,27 @@ class TeacherServiceImplTest {
 
         // Assert
         assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldNotRegisterTeacherBecauseTeacherWithProvidedIdOrNifAlreadyExists () throws Exception {
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherID teacherIDdouble = mock(TeacherID.class);
+
+        when(teacherFactoryDouble.createTeacher(
+                acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble)).thenReturn(teacherDouble);
+
+        when(teacherDouble.identity()).thenReturn(teacherIDdouble);
+        when(teacherRepositoryDouble.existsByTeacherIdOrNif(teacherIDdouble, nifDouble)).thenReturn(true);
+
+        // Act
+        Optional<TeacherID> result = teacherService.registerTeacher(
+                acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 
     @Test
