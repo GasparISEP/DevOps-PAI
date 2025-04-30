@@ -14,8 +14,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldCreateValidCourse() throws InstantiationException {
         //arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -31,8 +30,7 @@ class CourseFactoryImplTest {
     @Test
     void mockingConstructorThrowingException(){
         //arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         //Use try-with-resources to mock construction and throw an exception
@@ -54,8 +52,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldCreateValidCourseWithParameters() throws InstantiationException {
         //arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
@@ -72,8 +69,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenCourseIDIsNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -84,8 +80,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenNameIsNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseID courseID = mock(CourseID.class);
         Acronym acronym = mock(Acronym.class);
 
@@ -96,8 +91,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenAcronymIsNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
 
@@ -106,19 +100,9 @@ class CourseFactoryImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenCourseRepositoryIsNull() {
-        // Arrange
-        ICourseRepository courseRepositoryDouble = null;
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new CourseFactoryImpl(courseRepositoryDouble));
-    }
-
-    @Test
     void shouldThrowExceptionWhenNameAndAcronymAreNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(null, null));
@@ -127,8 +111,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenNameIsNullAndAcronymIsNotNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Acronym acronym = mock(Acronym.class);
 
         // Act & Assert
@@ -138,8 +121,7 @@ class CourseFactoryImplTest {
     @Test
     void shouldThrowExceptionWhenAcronymIsNullAndNameIsNotNull() {
         // Arrange
-        ICourseRepository courseRepositoryDouble = mock(ICourseRepository.class);
-        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl(courseRepositoryDouble);
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
 
         // Act & Assert

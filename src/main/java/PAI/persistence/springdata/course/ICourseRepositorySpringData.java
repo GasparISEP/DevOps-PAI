@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ICourseRepositorySpringData extends JpaRepository<CourseDataModel, CourseIDDataModel> {
 
-    boolean existsBy_acronym(String courseAcronym);
+    boolean existsByAcronym(String courseAcronym);
 
-    boolean existsBy_name(String courseName);
+    boolean existsByName(String courseName);
 
 }

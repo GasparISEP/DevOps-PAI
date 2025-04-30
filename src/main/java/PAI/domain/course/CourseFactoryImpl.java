@@ -8,15 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CourseFactoryImpl implements ICourseFactory {
 
-    private final ICourseRepository _courseRepository;
-
-    public CourseFactoryImpl(ICourseRepository courseRepository) {
-        if (courseRepository == null) {
-            throw new IllegalArgumentException("CourseRepository must not be null");
-        }
-        _courseRepository = courseRepository;
-    }
-
     @Override
     public Course createCourse(Name name, Acronym acronym) {
         if (name == null || acronym == null) {

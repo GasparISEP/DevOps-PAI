@@ -112,7 +112,7 @@ class TeacherRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldNotSaveTeacherDueToFailedConversionToDataModel () throws Exception {
+    void shouldNotSaveTeacherDueToFailedConversionToDataModel() throws Exception {
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
 
@@ -122,24 +122,24 @@ class TeacherRepositorySpringDataImplTest {
         Teacher result = teacherRepository.save(teacherDouble);
 
         //Assert
-        assertEquals(null, result);
+        assertNull(result);
     }
 
-//    @Test
-//    void shouldNotSaveTeacherDueToJpa_save_NotSaving () throws Exception {
-//        // Arrange
-//        Teacher teacherDouble = mock(Teacher.class);
-//        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
-//
-//        when(teacherMapper.toDataModel(teacherDouble)).thenReturn(teacherDataModel);
-//        when(iTeacherRepoSpringData.save(teacherDataModel)).thenReturn(null);
-//
-//        // Act + Assert
-//        assertThrows(IllegalStateException.class, () -> teacherRepository.save(teacherDouble));
-//    }
+    @Test
+    void shouldNotSaveTeacherDueToJpa_save_NotSaving() {
+        // Arrange
+        Teacher teacherDouble = mock(Teacher.class);
+        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
+
+        when(teacherMapper.toDataModel(teacherDouble)).thenReturn(teacherDataModel);
+        when(iTeacherRepoSpringData.save(teacherDataModel)).thenThrow(new RuntimeException("Database is currently down."));
+
+        // Act + Assert
+        assertThrows(RuntimeException.class, () -> teacherRepository.save(teacherDouble));
+    }
 
     @Test
-    void shouldNotSaveTeacherDueToFailedConversionBackToDomain () throws Exception {
+    void shouldNotSaveTeacherDueToFailedConversionBackToDomain() throws Exception {
         // Arrange
         Teacher teacherDouble = mock(Teacher.class);
         TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
@@ -152,7 +152,7 @@ class TeacherRepositorySpringDataImplTest {
         Teacher result = teacherRepository.save(teacherDouble);
 
         //Assert
-        assertEquals(null, result);
+        assertNull(result);
     }
 
     @Test
@@ -164,8 +164,6 @@ class TeacherRepositorySpringDataImplTest {
 
         Teacher teacherDouble1 = mock(Teacher.class);
         Teacher teacherDouble2 = mock(Teacher.class);
-
-        TeacherDataModel teacherDMdouble = mock(TeacherDataModel.class);
 
         when(iTeacherRepoSpringData.findAll()).thenReturn(teacherDataModels);
         when(teacherMapper.toDomain(teacherDataModels.get(0))).thenReturn(teacherDouble1);
