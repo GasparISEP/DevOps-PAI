@@ -81,4 +81,15 @@ class ProgrammeEditionIdDataModelTest {
         //assert
         assertTrue(result);
     }
+
+    @Test
+    void shouldReturnFalseIfProgrammeEditionIdDataModelIsComparedToAnotherClass() {
+        //arrange
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        String test  = "test";
+        //act
+        boolean result = programmeIDDataModel.equals(test);
+        //assert
+        assertFalse(result);
+    }
 }
