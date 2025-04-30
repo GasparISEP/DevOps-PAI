@@ -753,96 +753,96 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         assertNull(result);
     }
 
-    @Test
-    void shouldReturnSchoolYearIDForThatProgrammeEdition() throws Exception {
-        //arrange
-        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
-        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
-        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
-        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+//    @Test
+//    void shouldReturnSchoolYearIDForThatProgrammeEdition() throws Exception {
+//        //arrange
+//        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+//        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+//        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+//        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+//        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+//        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+//                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+//
+//        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+//
+//        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+//        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
+//
+//        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+//        when(programmeEditionDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+//
+//        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+//        when(iSchoolYearIDMapper.toDomain(schoolYearIDDataModel)).thenReturn(schoolYearID);
+//        //act
+//        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
+//        //assert
+//        assertNotNull(result);
+//    }
 
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+//    @Test
+//    void shouldReturnNullIfProgrammeEditionDataModelNotExists() throws Exception {
+//        //arrange
+//        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+//        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+//        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+//        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+//        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+//        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+//                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+//
+//        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+//
+//        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+//        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.empty());
+//        //act
+//        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
+//        //assert
+//        assertNull(result);
+//    }
 
-        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
-        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
+//    @Test
+//    void shouldReturnNullIfParameterProgrammeEditionNull() throws Exception {
+//        //arrange
+//        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+//        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+//        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+//        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+//        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+//        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+//                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+//
+//        ProgrammeEdition programmeEdition = null;
+//        //act
+//        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
+//        //assert
+//        assertNull(result);
+//    }
 
-        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
-        when(programmeEditionDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
-
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(iSchoolYearIDMapper.toDomain(schoolYearIDDataModel)).thenReturn(schoolYearID);
-        //act
-        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
-        //assert
-        assertNotNull(result);
-    }
-
-    @Test
-    void shouldReturnNullIfProgrammeEditionDataModelNotExists() throws Exception {
-        //arrange
-        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
-        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
-        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
-        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
-
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-
-        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
-        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.empty());
-        //act
-        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
-        //assert
-        assertNull(result);
-    }
-
-    @Test
-    void shouldReturnNullIfParameterProgrammeEditionNull() throws Exception {
-        //arrange
-        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
-        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
-        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
-        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
-
-        ProgrammeEdition programmeEdition = null;
-        //act
-        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
-        //assert
-        assertNull(result);
-    }
-
-    @Test
-    void shouldReturnNullIfSchoolYearIDMapperThrowsException() throws Exception {
-        //arrange
-        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
-        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
-        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
-        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
-
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-
-        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
-        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
-
-        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
-        when(programmeEditionDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
-
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(iSchoolYearIDMapper.toDomain(schoolYearIDDataModel)).thenThrow(IllegalArgumentException.class);
-        //act
-        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
-        //assert
-        assertNull(result);
-    }
+//    @Test
+//    void shouldReturnNullIfSchoolYearIDMapperThrowsException() throws Exception {
+//        //arrange
+//        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+//        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+//        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+//        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+//        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+//        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+//                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+//
+//        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+//
+//        ProgrammeEditionDataModel programmeEditionDataModel = mock(ProgrammeEditionDataModel.class);
+//        when(iProgrammeEditionMapper.toDataModel(programmeEdition)).thenReturn(Optional.of(programmeEditionDataModel));
+//
+//        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+//        when(programmeEditionDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+//
+//        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+//        when(iSchoolYearIDMapper.toDomain(schoolYearIDDataModel)).thenThrow(IllegalArgumentException.class);
+//        //act
+//        SchoolYearID result = programmeEditionRepositorySpringDataImpl.getSchoolYearIDByProgrammeEdition(programmeEdition);
+//        //assert
+//        assertNull(result);
+//    }
 }

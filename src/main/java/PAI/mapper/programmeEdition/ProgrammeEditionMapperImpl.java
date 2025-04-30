@@ -62,10 +62,13 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
             return Optional.empty();
         }
         ProgrammeEditionID programmeEditionID = _programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
-        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeIDDataModel());
-        SchoolYearID schoolYearID = _schoolYearIDMapper.toDomain(programmeEditionDataModel.getSchoolYearIDDataModel());
+//        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeIDDataModel());
+        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel());
+//        SchoolYearID schoolYearID = _schoolYearIDMapper.toDomain(programmeEditionDataModel.getSchoolYearIDDataModel());
+        SchoolYearID schoolYearID = _schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel());
 
         ProgrammeEdition programmeEdition = _programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+//        return Optional.empty();
         return Optional.of(programmeEdition);
     }
 }

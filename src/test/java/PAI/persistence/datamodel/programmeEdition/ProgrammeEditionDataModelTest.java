@@ -86,30 +86,6 @@ class ProgrammeEditionDataModelTest {
     }
 
     @Test
-    void shouldReturnNullWhenTryToGetProgrammeIDDataModelWhenProgrammeEditionDataModelIsCreatedWithEmptyConstructor() {
-        // arrange
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel();
-        // act
-        ProgrammeIDDataModel pIDDataModel = programmeEditionDataModel.getProgrammeIDDataModel();
-        // assert
-        assertNull(pIDDataModel);
-    }
-
-    @Test
-    void shouldReturnProgrammeIDDataModelWhenProgrammeEditionDataModelIsCreatedWithArguments() {
-        // arrange
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
-        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel, schoolYearIDDataModel);
-        // act
-        ProgrammeIDDataModel pIDDataModel = programmeEditionDataModel.getProgrammeIDDataModel();
-        // assert
-        assertNotNull(pIDDataModel);
-        assertEquals(programmeIDDataModel, pIDDataModel);
-    }
-
-    @Test
     void shouldReturnNullWhenTryToGetSchoolYearIDDataModelWhenProgrammeEditionDataModelIsCreatedWithEmptyConstructor() {
         // arrange
         ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel();
@@ -211,23 +187,6 @@ class ProgrammeEditionDataModelTest {
     }
 
     @Test
-    void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithDifferentProgrammeIDDataModel() {
-        // Arrange
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
-        ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
-        ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
-        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
-        ProgrammeEditionDataModel programmeEditionDataModel1 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel1, schoolYearIDDataModel);
-        ProgrammeEditionDataModel programmeEditionDataModel2 = new ProgrammeEditionDataModel(programmeEditionIdDataModel, programmeIDDataModel2, schoolYearIDDataModel);
-
-        // Act
-        boolean result = programmeEditionDataModel1.equals(programmeEditionDataModel2);
-
-        // Assert
-        assertFalse(result);
-    }
-
-    @Test
     void shouldReturnFalseWhenCompareProgrammeEditionDataModelToADifferentProgrammeEditionDataModelInstanceWithDifferentSchoolYearID() {
         // Arrange
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
@@ -275,6 +234,6 @@ class ProgrammeEditionDataModelTest {
         int result = programmeEditionDataModel.hashCode();
 
         // Assert
-        assertEquals(result, programmeEditionIdDataModel.hashCode()+programmeIDDataModel.hashCode()+schoolYearIDDataModel.hashCode());
+        assertEquals(result, programmeEditionIdDataModel.hashCode());
     }
 }

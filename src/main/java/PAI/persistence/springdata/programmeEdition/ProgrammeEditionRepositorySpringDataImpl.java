@@ -159,21 +159,21 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         }
     }
 
-    @Override
-    public SchoolYearID getSchoolYearIDByProgrammeEdition(ProgrammeEdition programmeEdition) {
-        if (programmeEdition == null) {
-            return null;
-        }
-
-        try {
-            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(programmeEdition);
-            if (programmeEditionDataModel.isPresent()) {
-                SchoolYearIDDataModel schoolYearIDDataModel = programmeEditionDataModel.get().getSchoolYearIDDataModel();
-                return _iSchoolYearIDMapper.toDomain(schoolYearIDDataModel);
-            }
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    @Override
+//    public SchoolYearID getSchoolYearIDByProgrammeEdition(ProgrammeEdition programmeEdition) {
+//        if (programmeEdition == null) {
+//            return null;
+//        }
+//        return  null;
+//        try {
+//            Optional<ProgrammeEditionDataModel> programmeEditionDataModel = _iProgrammeEditionMapper.toDataModel(programmeEdition);
+////            if (programmeEditionDataModel.isPresent()) {
+////                SchoolYearIDDataModel schoolYearIDDataModel = programmeEditionDataModel.get().getSchoolYearIDDataModel();
+////                return _iSchoolYearIDMapper.toDomain(schoolYearIDDataModel);
+////            }
+////            return null;
+////        } catch (Exception e) {
+////            return null;
+////        }
+//    }
 }
