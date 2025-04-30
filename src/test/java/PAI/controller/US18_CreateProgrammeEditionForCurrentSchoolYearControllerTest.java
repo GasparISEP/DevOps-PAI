@@ -619,26 +619,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
             schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
             schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
 
-            Optional<Programme> programmeOpt1= programmeRepository.getProgrammeByName(programmeName1);
-            Optional<Programme> programmeOpt2= programmeRepository.getProgrammeByName(programmeName2);
-            Optional<Programme> programmeOpt3= programmeRepository.getProgrammeByName(programmeName3);
+            Iterable<Programme> programmes = programmeRepository.findAll();
+            Iterator<Programme> iterator = programmes.iterator();
+            Programme programme1 = iterator.next();
 
-            Programme programme1 = programmeOpt1.orElse(null);
             ProgrammeID pID1 = programme1.identity();
-
-            Programme programme2 = programmeOpt2.orElse(null);
-            ProgrammeID pID2 = programme2.identity();
-
-            Programme programme3 = programmeOpt3.orElse(null);
-            ProgrammeID pID3 = programme3.identity();
-
-
             SchoolYearID sYID = schoolYearService.getCurrentSchoolYearID().get();
 
             ProgrammeEdition programmeEdition1 = programmeEditionService.createProgrammeEdition(pID1, sYID);
-            programmeEditionService.createProgrammeEdition(pID2, sYID);
-            programmeEditionService.createProgrammeEdition(pID3, sYID);
-
             programmeEditionService.saveProgrammeEdition(programmeEdition1);
 
             // Act
@@ -689,7 +677,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
         programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        Programme programme = programmeRepository.getProgrammeByName(programmeName).get();
+        Iterable<Programme> programmes = programmeRepository.findAll();
+        Iterator<Programme> iterator = programmes.iterator();
+        Programme programme = iterator.next();
+
 
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
 

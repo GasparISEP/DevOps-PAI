@@ -1,8 +1,7 @@
-package PAI.repository.programmeRepository;
+package PAI.persistence.mem.programme;
 
 
 import PAI.domain.programme.Programme;
-import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;

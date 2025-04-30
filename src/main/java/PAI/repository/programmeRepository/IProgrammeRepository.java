@@ -12,5 +12,4 @@ import java.util.Optional;
 
 public interface IProgrammeRepository extends IRepository <ProgrammeID, Programme> {
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID);
-    Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name);
 }
