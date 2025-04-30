@@ -2,11 +2,15 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
-import PAI.mapper.IProgrammeEditionEnrolmentMapper;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.mapper.*;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
+import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +29,7 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
     private IProgrammeEditionEnrolmentMapper mapper;
     private IProgrammeEditionEnrolmentIDMapper idMapper;
     private ProgrammeEditionEnrolmentRepositorySpringData repository;
+    private IStudentIDMapper studentIdMapper;
     private IProgrammeEditionIdMapper programmeEditionIdMapper;
 
     @BeforeEach
@@ -32,17 +37,19 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         repoSpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
         mapper = mock(IProgrammeEditionEnrolmentMapper.class);
         idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        studentIdMapper = mock(IStudentIDMapper.class);
         programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        repository = new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, programmeEditionIdMapper);
+        repository = new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, studentIdMapper, programmeEditionIdMapper);
     }
 
     @Test
     void testConstructorThrowsIfAnyDependencyIsNull() {
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(null, mapper, idMapper, programmeEditionIdMapper));
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, null, idMapper, programmeEditionIdMapper));
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, null, programmeEditionIdMapper));
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(null, mapper, idMapper, studentIdMapper, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, null, idMapper, studentIdMapper, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, null, studentIdMapper, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, null, programmeEditionIdMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentRepositorySpringData(repoSpringData, mapper, idMapper, studentIdMapper, null));
     }
 
     @Test
@@ -339,7 +346,8 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
         IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        IStudentIDMapper iStudentIDMapper = mock(IStudentIDMapper.class);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iStudentIDMapper, iProgrammeEditionIdMapper);
         ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
@@ -372,8 +380,9 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         IProgrammeEditionEnrolmentRepositorySpringData iProgrammeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
         IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
         IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper iStudentIDMapper = mock(IStudentIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iStudentIDMapper, iProgrammeEditionIdMapper);
         ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
@@ -406,8 +415,9 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         IProgrammeEditionEnrolmentRepositorySpringData iProgrammeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
         IProgrammeEditionEnrolmentMapper iProgrammeEditionEnrolmentMapper = mock(IProgrammeEditionEnrolmentMapper.class);
         IProgrammeEditionEnrolmentIDMapper iProgrammeEditionEnrolmentIDMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper istudentIDMapper = mock(IStudentIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, iProgrammeEditionIdMapper);
+        ProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = new ProgrammeEditionEnrolmentRepositorySpringData(iProgrammeEditionEnrolmentRepositorySpringData, iProgrammeEditionEnrolmentMapper, iProgrammeEditionEnrolmentIDMapper, istudentIDMapper, iProgrammeEditionIdMapper);
         ProgrammeEditionEnrolment pee1=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment pee2=mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolmentDataModel peeDataModel1 = mock(ProgrammeEditionEnrolmentDataModel.class);
@@ -431,5 +441,74 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         // assert
         assertEquals(0, result);
     }
+
+    @Test
+    void shouldReturnProgrammeEditionEnrolmentWhenFound() throws Exception{
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+
+        ProgrammeEditionEnrolmentDataModel peeDataModel = mock(ProgrammeEditionEnrolmentDataModel.class);
+        ProgrammeEditionEnrolment pee = mock(ProgrammeEditionEnrolment.class);
+
+        IProgrammeEditionEnrolmentRepositorySpringData springDataRepo = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(
+                springDataRepo, mapper, idMapper, studentIDMapper, programmeEditionIDMapper
+        );
+
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(programmeEditionIDMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
+        when(springDataRepo.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIdDataModel))
+                .thenReturn(Optional.of(peeDataModel));
+        when(mapper.toDomain(peeDataModel)).thenReturn(Optional.of(pee));
+
+        // act
+        Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
+
+        // assert
+        assertTrue(result.isPresent());
+        assertEquals(pee, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenNoProgrammeEditionEnrolmentFound() throws Exception {
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+
+        IProgrammeEditionEnrolmentRepositorySpringData springDataRepo = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
+        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
+        IProgrammeEditionEnrolmentIDMapper idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+
+        ProgrammeEditionEnrolmentRepositorySpringData repository = new ProgrammeEditionEnrolmentRepositorySpringData(
+                springDataRepo, mapper, idMapper, studentIDMapper, programmeEditionIDMapper
+        );
+
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(programmeEditionIDMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
+        when(springDataRepo.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIdDataModel))
+                .thenReturn(Optional.empty());
+
+        // act
+        Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+
 
 }

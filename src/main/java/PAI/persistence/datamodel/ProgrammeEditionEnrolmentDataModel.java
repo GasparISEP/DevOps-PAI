@@ -3,12 +3,13 @@ package PAI.persistence.datamodel;
 import PAI.VOs.EnrolmentStatus;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Programme_edition_enrolments")
-public class ProgrammeEditionEnrolmentDataModel {
+public class ProgrammeEditionEnrolmentDataModel implements Serializable {
 
     @EmbeddedId
     private ProgrammeEditionEnrolmentIDDataModel _id;

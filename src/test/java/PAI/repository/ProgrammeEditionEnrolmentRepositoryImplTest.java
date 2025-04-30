@@ -635,4 +635,64 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         // assert
         assertEquals(0, result.size());
     }
+
+    @Test
+    void shouldReturnEmptyWhenStudentIdOrProgrammeEditionIdIsNull() {
+        IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+
+        assertTrue(repository.findByStudentAndProgrammeEdition(null, mock(ProgrammeEditionID.class)).isEmpty());
+        assertTrue(repository.findByStudentAndProgrammeEdition(mock(StudentID.class), null).isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenNoEnrolmentMatches() {
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        when(enrolment.hasSameStudent(studentID)).thenReturn(false); // força mismatch
+
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>();
+        enrolments.add(enrolment);
+
+        IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+
+        Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEnrolmentWhenMatchFound() {
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+        when(enrolment.hasSameStudent(studentID)).thenReturn(true);
+        when(enrolment.hasSameProgrammeEdition(programmeEditionID)).thenReturn(true);
+
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>();
+        enrolments.add(enrolment);
+
+        IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
+        IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+
+        Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
+
+        assertTrue(result.isPresent());
+        assertEquals(enrolment, result.get());
+    }
+
 }
