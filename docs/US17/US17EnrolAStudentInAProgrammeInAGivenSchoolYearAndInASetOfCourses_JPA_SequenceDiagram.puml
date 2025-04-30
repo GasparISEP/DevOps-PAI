@@ -68,14 +68,14 @@ ASC -> UI : Yes!
 
 activate UI
 UI -> Controller : enrolStudentInProgrammeEditionAndSetOfCourses\nEditions(studentID, programmeID, schoolYearID)
-ref over Controller
-    SD Convert studentID, programmeID and schoolYearID to VO
-end ref
+
 activate Controller
 participant ":IProgrammeEditionEnrolmentService" as IProgrammeEditionEnrolmentService
 Controller -> IProgrammeEditionEnrolmentService : enrolStudentInProgrammeEditionAndSetOfCourses\nEditions(studentID, programmeID, schoolYearID)
 activate IProgrammeEditionEnrolmentService
+
 '' Is Student Enrolled
+
 participant ":IProgrammeEnrolmentRepository" as IProgrammeEnrolmentRepository
 IProgrammeEditionEnrolmentService -> IProgrammeEnrolmentRepository : isStudentEnrolled(studentID, programmeID)
 activate IProgrammeEnrolmentRepository
@@ -84,13 +84,10 @@ ref over IProgrammeEnrolmentRepository
 end ref
 IProgrammeEnrolmentRepository --> IProgrammeEditionEnrolmentService : True
 deactivate IProgrammeEnrolmentRepository
-IProgrammeEditionEnrolmentService --> Controller : True
-deactivate IProgrammeEditionEnrolmentService
 
 '' Find Programme Edition by SchoolYear and Programme
+
 participant ":IProgrammeEditionRepository" as IProgrammeEditionRepository
-Controller -> IProgrammeEditionEnrolmentService
-activate IProgrammeEditionEnrolmentService
 IProgrammeEditionEnrolmentService -> IProgrammeEditionRepository : findProgrammeEditionIDProgrammeIDAnd\nSchoolYearID(programmeID, schoolYearID)
 activate IProgrammeEditionRepository
 ref over IProgrammeEditionRepository
@@ -98,32 +95,21 @@ ref over IProgrammeEditionRepository
 end ref
 IProgrammeEditionRepository --> IProgrammeEditionEnrolmentService :  peID
 deactivate IProgrammeEditionRepository
-IProgrammeEditionEnrolmentService --> Controller : peID
-deactivate IProgrammeEditionEnrolmentService
 
 '' Is Student Enrolled in This Programme Edition
 
 participant ":IProgrammeEditionEnrolmentRepository" as IProgrammeEditionEnrolmentRepository
-Controller -> IProgrammeEditionEnrolmentService : isStudentEnrolledInThis\nProgrammeEdition(studentID, peID)
-activate IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService ->  IProgrammeEditionEnrolmentRepository
+IProgrammeEditionEnrolmentService ->  IProgrammeEditionEnrolmentRepository : isStudentEnrolledInThis\nProgrammeEdition(studentID, peID)
 activate IProgrammeEditionEnrolmentRepository
 ref over IProgrammeEditionEnrolmentRepository
     SD isStudentEnrolledInThisProgrammeEdition (studentID, peID)
 end ref
 IProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService : False
 deactivate IProgrammeEditionEnrolmentRepository
-IProgrammeEditionEnrolmentService --> Controller : False
-deactivate IProgrammeEditionEnrolmentService
 
 '' Enroll Student in Programme Edition
-Controller -> IProgrammeEditionEnrolmentService : enrollStudentInProgramme\nEdition(studentID, peID)
-activate IProgrammeEditionEnrolmentService
 IProgrammeEditionEnrolmentService -> IProgrammeEditionEnrolmentRepository : enrollStudentInProgrammeEdition(studentID, peID)
 activate IProgrammeEditionEnrolmentRepository
-ref over IProgrammeEditionEnrolmentRepository
-    SD Convert ProgrammeEditionEnrolment to DataModel
-end ref
 
 participant ":IProgrammeEditionEnrolmentSpringDataJPA" as peeJPAInterface
 
@@ -140,15 +126,10 @@ deactivate peeJPAInterface
 IProgrammeEditionEnrolmentRepository --> IProgrammeEditionEnrolmentService: True
 deactivate IProgrammeEditionEnrolmentRepository
 
-IProgrammeEditionEnrolmentService --> Controller: True
-deactivate IProgrammeEditionEnrolmentService
-
 
 '' Find Course Edition by Programme Edition
 
 participant ":ICourseEditionRepository" as ICourseEditionRepository
-Controller -> IProgrammeEditionEnrolmentService : findCourseEditionsByProgrammeEdition(peeID)
-activate IProgrammeEditionEnrolmentService
 IProgrammeEditionEnrolmentService -> ICourseEditionRepository : findCourseEditionsByProgrammeEdition(peeID)
 activate ICourseEditionRepository
 ref over ICourseEditionRepository
