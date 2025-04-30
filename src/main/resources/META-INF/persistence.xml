@@ -22,7 +22,6 @@
     <class>PAI.persistence.datamodel.ProgrammeEnrolmentDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearDataModel</class>
     <class>PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel</class>
-    <class>PAI.persistence.datamodel.StudentDataModel</class>
     <class>PAI.persistence.datamodel.StudentGradeDM</class>
     <class>PAI.persistence.datamodel.TeacherCategoryDataModel</class>
     <class>PAI.persistence.datamodel.TeacherCategoryIDDataModel</class>
