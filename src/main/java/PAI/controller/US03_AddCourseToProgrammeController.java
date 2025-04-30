@@ -9,8 +9,9 @@ import PAI.service.StudyPlan.IStudyPlanService;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class US03_AddCourseToProgrammeController {
 
     private final IProgrammeService programmeService;
