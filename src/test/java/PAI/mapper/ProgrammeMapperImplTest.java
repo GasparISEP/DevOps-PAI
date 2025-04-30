@@ -38,66 +38,87 @@ public class ProgrammeMapperImplTest {
         assertNotNull(programmeMapper);
     }
 
-//    @Test
-//    void testToData() {
-//        // Arrange
-//        Programme programme = mock(Programme.class);
-//
-//        ProgrammeIDMapperImpl programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
-//        TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
-//        DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
-//        DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
-//        IProgrammeFactory factory = mock(IProgrammeFactory.class);
-//
-//        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-//        Acronym acronym = mock(Acronym.class);
-//        QuantEcts quantEcts = mock(QuantEcts.class);
-//        QuantSemesters quantSemesters = mock(QuantSemesters.class);
-//        ProgrammeID programmeID = mock(ProgrammeID.class);
-//        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-//        DepartmentID departmentID = mock(DepartmentID.class);
-//        DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
-//        TeacherID progDirectorID = mock(TeacherID.class);
-//        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
-//
-//        ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
-//
-//        when(programme.getProgrammeName()).thenReturn(name);
-//        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
-//
-//        when(programme.getAcronym()).thenReturn(acronym);
-//        when(acronym.getAcronym()).thenReturn("OLA");
-//
-//        when(programme.getQuantEcts()).thenReturn(quantEcts);
-//        when(quantEcts.getQuantEcts()).thenReturn(30);
-//
-//        when(programme.getQuantSemesters()).thenReturn(quantSemesters);
-//        when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
-//
-//        when(programme.getProgrammeID()).thenReturn(programmeID);
-//        when(programmeID.getName()).thenReturn(name);
-//        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
-//        when(programmeID.getAcronym()).thenReturn(acronym);
-//        when(acronym.getAcronym()).thenReturn("OLA");
-//
-//        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
-//        when(degreeTypeID.getDTID()).thenReturn("id");
-//
-//        when(programme.getDepartment()).thenReturn(departmentID);
-//        when(departmentID.getAcronym()).thenReturn(departmentAcronym);
-//        when(departmentAcronym.getAcronym()).thenReturn("LEI");
-//
-//        when(programme.getProgrammeDirectorID()).thenReturn(progDirectorID);
-//        when(progDirectorID.getTeacherAcronym()).thenReturn(teacherAcronym);
-//        when(teacherAcronym.getAcronym()).thenReturn("PTP");
-//
-//        // Act
-//        ProgrammeDataModel res = programmeMapper.toData(programme);
-//
-//        // Assert
-//        assertNotNull(res);
-//
-//    }
+    @Test
+    void testToData() {
+        // Arrange
+        Programme programme = mock(Programme.class);
+
+        ProgrammeIDMapperImpl programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
+        TeacherIDMapperImpl teacherIDMapper = mock(TeacherIDMapperImpl.class);
+        DepartmentIDMapperImpl departmentIDMapper = mock(DepartmentIDMapperImpl.class);
+        DegreeTypeIDMapper degreeTypeIDMapper = mock(DegreeTypeIDMapper.class);
+        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantEcts = mock(QuantEcts.class);
+        QuantSemesters quantSemesters = mock(QuantSemesters.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
+        TeacherID progDirectorID = mock(TeacherID.class);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+
+        DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
+
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+
+        DegreeTypeIDDataModel degreeTypeIDDataModel = mock(DegreeTypeIDDataModel.class);
+
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+
+        ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
+
+        when(programme.getProgrammeName()).thenReturn(name);
+        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
+
+        when(programme.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("OLA");
+
+        when(programme.getQuantEcts()).thenReturn(quantEcts);
+        when(quantEcts.getQuantEcts()).thenReturn(30);
+
+        when(programme.getQuantSemesters()).thenReturn(quantSemesters);
+        when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
+
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+        when(programmeID.getName()).thenReturn(name);
+        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
+        when(programmeID.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("OLA");
+
+        when(degreeTypeIDMapper.toDataModel(degreeTypeID)).thenReturn(degreeTypeIDDataModel);
+        when(degreeTypeIDDataModel.getDegreeTypeID()).thenReturn("id");
+
+        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
+        when(degreeTypeID.getDTID()).thenReturn("id");
+
+        when(departmentIDMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
+        when(departmentIDDataModel.getDepartmentID()).thenReturn("id");
+
+        when(programme.getDepartment()).thenReturn(departmentID);
+        when(departmentID.getAcronym()).thenReturn(departmentAcronym);
+        when(departmentAcronym.getAcronym()).thenReturn("LEI");
+
+        when(teacherIDMapper.toDataModel(progDirectorID)).thenReturn(teacherIDDataModel);
+        when(teacherIDDataModel.getTeacherAcronym()).thenReturn("PSN");
+
+        when(programmeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+        when(programmeIDDataModel.getName()).thenReturn("id");
+        when(programmeIDDataModel.getAcronym()).thenReturn("PSN");
+
+        when(programme.getProgrammeDirectorID()).thenReturn(progDirectorID);
+        when(progDirectorID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("PTP");
+
+        // Act
+        ProgrammeDataModel res = programmeMapper.toData(programme);
+
+        // Assert
+        assertNotNull(res);
+
+    }
 
     @Test
     void testToDomain() {
