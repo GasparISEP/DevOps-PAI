@@ -85,4 +85,45 @@ class StudentAcademicEmailTest {
 
         assertEquals(emailBefore, studentAcademicEmail.getStudentEmail());
     }
+
+    @Test
+    void shouldThrowExceptionWhenUniqueNumberIsTooLow() {
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> new StudentAcademicEmail(1000000));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUniqueNumberIsTooHigh() {
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> new StudentAcademicEmail(2000000));
+    }
+
+    @Test
+    void equalsShouldReturnTrueForSameObject() {
+        // Arrange
+        StudentAcademicEmail email1 = new StudentAcademicEmail(1234567);
+
+        // Act & Assert
+        assertTrue(email1.equals(email1));
+    }
+
+    @Test
+    void equalsShouldReturnFalseForNull() {
+        // Arrange
+        StudentAcademicEmail email1 = new StudentAcademicEmail(1234567);
+
+        // Act & Assert
+        assertFalse(email1.equals(null));
+    }
+
+    @Test
+    void equalsShouldReturnFalseForDifferentClass() {
+        // Arrange
+        StudentAcademicEmail email1 = new StudentAcademicEmail(1234567);
+        Object otherObject = new Object();
+
+        // Act & Assert
+        assertFalse(email1.equals(otherObject));
+    }
 }
+

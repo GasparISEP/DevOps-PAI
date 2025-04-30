@@ -73,9 +73,12 @@ public class US19_CreateCourseEditionController {
         return courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID);
     }
 
-    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID (ProgrammeID programmeID) {
-        return null;
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception{
+        if (programmeID == null)
+            return List.of();
+        return programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID);
     }
+
 
     public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         return false;

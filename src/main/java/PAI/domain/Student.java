@@ -125,4 +125,8 @@ public class Student implements AggregateRoot<StudentID> {
     public StudentAcademicEmail getStudentAcademicEmail() {
         return _institutionalEmail;
     }
+
+    public boolean hasNIF(NIF nif) {
+        return _NIF.equals(nif);
+    }
 }
