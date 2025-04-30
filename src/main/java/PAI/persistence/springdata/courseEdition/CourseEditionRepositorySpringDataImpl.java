@@ -68,14 +68,11 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
             return null;
         try {
             CourseEditionDataModel courseEditionDataModel = courseEditionMapper.toDataModel(entity);
-            if (!courseEditionRepositorySpringData.existsById(courseEditionDataModel.getCourseEditionIDDataModel())) {
-                courseEditionRepositorySpringData.save(courseEditionDataModel);
-                return courseEditionMapper.toDomain(courseEditionDataModel);
-                }
+            courseEditionRepositorySpringData.save(courseEditionDataModel);
+            return courseEditionMapper.toDomain(courseEditionDataModel);
         } catch (Exception e) {
             return null;
         }
-        return null;
     }
 
     @Override
