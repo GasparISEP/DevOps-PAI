@@ -1,4 +1,4 @@
-package PAI.service.StudyPlan;
+package PAI.service.studyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
