@@ -4,8 +4,12 @@ import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.mapper.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEnrolmentMapper;
+import PAI.mapper.IStudentIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
+import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.repository.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,20 +23,29 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
     private final IProgrammeEnrolmentRepositorySpringData jpaRepo;
     private final IProgrammeEnrolmentIDMapper idMapper;
     private final IProgrammeEnrolmentMapper programmeEnrolmentMapper;
+    private final IStudentIDMapper studentIDMapper;
+    private final IProgrammeIDMapper programmeIDMapper;
 
     public ProgrammeEnrolmentRepositorySpringDataImpl(
             IProgrammeEnrolmentRepositorySpringData jpaRepo,
             IProgrammeEnrolmentIDMapper idMapper,
-            IProgrammeEnrolmentMapper programmeEnrolmentMapper) {
+            IProgrammeEnrolmentMapper programmeEnrolmentMapper,
+            IStudentIDMapper studentIDMapper,
+            IProgrammeIDMapper programmeIDMapper) {
 
         if (jpaRepo == null) throw new IllegalArgumentException("jpaRepo must not be null");
         if (idMapper == null) throw new IllegalArgumentException("idMapper must not be null");
         if (programmeEnrolmentMapper == null) throw new IllegalArgumentException("programmeEnrolmentMapper must not be null");
+        if (studentIDMapper == null) throw new IllegalArgumentException("studentIDMapper must not be null");
+        if (programmeIDMapper == null) throw new IllegalArgumentException("programmeIDMapper must not be null");
 
         this.jpaRepo = jpaRepo;
         this.idMapper = idMapper;
         this.programmeEnrolmentMapper = programmeEnrolmentMapper;
+        this.studentIDMapper = studentIDMapper;
+        this.programmeIDMapper = programmeIDMapper;
     }
+
 
     @Override
     public ProgrammeEnrolment save(ProgrammeEnrolment enrolment) {
@@ -72,12 +85,12 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
 
     @Override
     public boolean isStudentEnrolled(StudentID studentID, ProgrammeID programmeID) {
-        return ((List<ProgrammeEnrolment>) findAll())
-                .stream()
-                .anyMatch(enrolment ->
-                        enrolment.hasSameStudent(studentID) &&
-                                enrolment.hasSameProgramme(programmeID));
+        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
+        ProgrammeIDDataModel programmeIDDataModel = programmeIDMapper.toData(programmeID);
+
+        return jpaRepo.isStudentEnrolled(studentIDDataModel, programmeIDDataModel);
     }
+
 }
 
 

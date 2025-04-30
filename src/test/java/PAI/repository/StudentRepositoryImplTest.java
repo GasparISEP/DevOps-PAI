@@ -177,7 +177,7 @@ class StudentRepositoryImplTest {
         // Arrange
         List<Student> studentList = new ArrayList<>();
         when(student.identity()).thenReturn(mock(StudentID.class));
-        when(student.getStudentNIF()).thenReturn(studentNIF);
+        when(student.hasNIF(studentNIF)).thenReturn(true);
         studentList.add(student);
         when(studentListFactory.newArrayList()).thenReturn(studentList);
         studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
@@ -193,6 +193,35 @@ class StudentRepositoryImplTest {
     void shouldReturnFalseWhenStudentDoesNotExist() {
         // Arrange
         List<Student> studentList = new ArrayList<>();
+        when(studentListFactory.newArrayList()).thenReturn(studentList);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
+
+        // Act
+        boolean result = studentRepositoryImpl.existsByStudentIDOrNIF(studentID, studentNIF);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenNoStudentMatchesIDOrNIF() {
+        // Arrange
+        Student otherStudent1 = mock(Student.class);
+        Student otherStudent2 = mock(Student.class);
+
+        StudentID otherID1 = mock(StudentID.class);
+        StudentID otherID2 = mock(StudentID.class);
+
+        when(otherStudent1.identity()).thenReturn(otherID1);
+        when(otherStudent2.identity()).thenReturn(otherID2);
+
+        when(otherStudent1.hasNIF(studentNIF)).thenReturn(false);
+        when(otherStudent2.hasNIF(studentNIF)).thenReturn(false);
+
+        List<Student> studentList = new ArrayList<>();
+        studentList.add(otherStudent1);
+        studentList.add(otherStudent2);
+
         when(studentListFactory.newArrayList()).thenReturn(studentList);
         studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
 

@@ -7,7 +7,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 
 import PAI.service.DegreeType.DegreeTypeService;
-import PAI.service.StudyPlan.IStudyPlanService;
+import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class US27__RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
+class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
 
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {

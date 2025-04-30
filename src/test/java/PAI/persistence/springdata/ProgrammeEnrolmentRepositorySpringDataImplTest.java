@@ -4,8 +4,12 @@ import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.mapper.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEnrolmentMapper;
+import PAI.mapper.IStudentIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
+import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,11 +24,13 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         // Arrange
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper iProgrammeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringDataImpl(
-                    null, idMapperDouble, iProgrammeEnrolmentMapperDouble
+                    null, idMapperDouble, iProgrammeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
             );
         });
         assertEquals("jpaRepo must not be null", thrown.getMessage());
@@ -36,11 +42,13 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringDataImpl(
-                    jpaRepoDouble, null, programmeEnrolmentMapperDouble
+                    jpaRepoDouble, null, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
             );
         });
         assertEquals("idMapper must not be null", thrown.getMessage());
@@ -51,14 +59,51 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         // Act + Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEnrolmentRepositorySpringDataImpl(
-                    jpaRepoDouble, idMapperDouble, null
+                    jpaRepoDouble, idMapperDouble, null, iStudentIDMapperDouble, iProgrammeIDMapperDouble
             );
         });
         assertEquals("programmeEnrolmentMapper must not be null", thrown.getMessage());
+    }
+
+    @Test
+    public void testConstructor_StudentIDMapperNull_ThrowsException() {
+        // Arrange
+        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
+
+        // Act + Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEnrolmentRepositorySpringDataImpl(
+                    jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, null, iProgrammeIDMapperDouble
+            );
+        });
+        assertEquals("studentIDMapper must not be null", thrown.getMessage());
+    }
+
+    @Test
+    public void testConstructor_ProgrammeIDMapperNull_ThrowsException() {
+        // Arrange
+        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+
+        // Act + Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEnrolmentRepositorySpringDataImpl(
+                    jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, null
+            );
+        });
+        assertEquals("programmeIDMapper must not be null", thrown.getMessage());
     }
 
     @Test
@@ -67,9 +112,11 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
         );
 
         ProgrammeEnrolment domainDouble = mock(ProgrammeEnrolment.class);
@@ -94,18 +141,20 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
         ProgrammeEnrolmentIDDataModel dataIDDouble = mock(ProgrammeEnrolmentIDDataModel.class);
 
-        // Mocking idMapper to return a valid DataModel for the given ID
+
         when(idMapperDouble.domainToDataModel(domainIDDouble)).thenReturn(dataIDDouble);
 
-        // Mocking jpaRepo.existsById to return true (indicating the ID exists)
+
         when(jpaRepoDouble.existsById(dataIDDouble)).thenReturn(true);
 
         // Act
@@ -123,18 +172,18 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
         ProgrammeEnrolmentIDDataModel dataIDDouble = mock(ProgrammeEnrolmentIDDataModel.class);
 
-        // Mocking idMapper to return a valid DataModel for the given ID
         when(idMapperDouble.domainToDataModel(domainIDDouble)).thenReturn(dataIDDouble);
 
-        // Mocking jpaRepo.existsById to return false (indicating the ID does not exist)
         when(jpaRepoDouble.existsById(dataIDDouble)).thenReturn(false);
 
         // Act
@@ -152,9 +201,11 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
         );
 
         ProgrammeEnrolment domainDouble = mock(ProgrammeEnrolment.class);
@@ -175,9 +226,11 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
         );
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
@@ -204,9 +257,11 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble);
+                jpaRepoDouble, idMapperDouble, mapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble);
 
         ProgrammeEnrolmentID domainIDDouble = mock(ProgrammeEnrolmentID.class);
         ProgrammeEnrolmentIDDataModel dataIDDouble = mock(ProgrammeEnrolmentIDDataModel.class);
@@ -228,25 +283,23 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble, studentIDMapperDouble, programmeIDMapperDouble
         );
 
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        // Mocking the data model
-        ProgrammeEnrolmentDataModel dataModelDouble = mock(ProgrammeEnrolmentDataModel.class);
-        ProgrammeEnrolment existingEnrolmentDouble = mock(ProgrammeEnrolment.class);
+        StudentIDDataModel studentIDDataModelDouble = mock(StudentIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModelDouble = mock(ProgrammeIDDataModel.class);
 
-        // Setting up the mapper to return the domain object
-        when(mapperDouble.toDomain(dataModelDouble)).thenReturn(existingEnrolmentDouble);
-        when(existingEnrolmentDouble.hasSameStudent(studentIDDouble)).thenReturn(true);
-        when(existingEnrolmentDouble.hasSameProgramme(programmeIDDouble)).thenReturn(true);
+        when(studentIDMapperDouble.domainToDataModel(studentIDDouble)).thenReturn(studentIDDataModelDouble);
+        when(programmeIDMapperDouble.toData(programmeIDDouble)).thenReturn(programmeIDDataModelDouble);
 
-        // Mocking the repository to return a list of data models
-        when(jpaRepoDouble.findAll()).thenReturn(List.of(dataModelDouble));
+        when(jpaRepoDouble.isStudentEnrolled(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(true);
 
         // Act
         boolean result = repository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
@@ -256,21 +309,30 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
     }
 
 
+
     @Test
     public void testIsStudentEnrolled_NotEnrolled() {
         // Arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
         IProgrammeEnrolmentMapper mapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapperDouble = mock(IProgrammeIDMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, mapperDouble
+                jpaRepoDouble, idMapperDouble, mapperDouble, studentIDMapperDouble, programmeIDMapperDouble
         );
 
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
 
-        when(jpaRepoDouble.findAll()).thenReturn(List.of());
+        StudentIDDataModel studentIDDataModelDouble = mock(StudentIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModelDouble = mock(ProgrammeIDDataModel.class);
+
+        when(studentIDMapperDouble.domainToDataModel(studentIDDouble)).thenReturn(studentIDDataModelDouble);
+        when(programmeIDMapperDouble.toData(programmeIDDouble)).thenReturn(programmeIDDataModelDouble);
+
+        when(jpaRepoDouble.isStudentEnrolled(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(false);
 
         // Act
         boolean result = repository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
@@ -278,4 +340,66 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    public void testFindAll() {
+        // Arrange
+        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
+        );
+
+        ProgrammeEnrolmentDataModel dataModel1 = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolmentDataModel dataModel2 = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolment domainEnrolment1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment domainEnrolment2 = mock(ProgrammeEnrolment.class);
+
+
+        when(jpaRepoDouble.findAll()).thenReturn(List.of(dataModel1, dataModel2));
+
+
+        when(programmeEnrolmentMapperDouble.toDomain(dataModel1)).thenReturn(domainEnrolment1);
+        when(programmeEnrolmentMapperDouble.toDomain(dataModel2)).thenReturn(domainEnrolment2);
+
+        // Act
+        Iterable<ProgrammeEnrolment> result = repository.findAll();
+
+        // Assert
+        List<ProgrammeEnrolment> resultList = (List<ProgrammeEnrolment>) result;
+        assertEquals(2, resultList.size());
+        assertTrue(resultList.contains(domainEnrolment1));
+        assertTrue(resultList.contains(domainEnrolment2));
+    }
+
+    @Test
+    public void testEnrolStudents_ReturnsFalse() throws Exception {
+        // Arrange
+        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
+                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
+        );
+
+        StudentID studentIDDouble = mock(StudentID.class);
+        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        Date enrolmentDateDouble = mock(Date.class);
+
+        // Act
+        boolean result = repository.enrolStudents(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+
 }

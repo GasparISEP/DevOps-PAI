@@ -152,7 +152,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl departmentRepository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -181,7 +180,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl departmentRepository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
         DepartmentID departmentID = mock(DepartmentID.class);
         DepartmentIDDataModel departmentIDDataModel = mock(DepartmentIDDataModel.class);
@@ -202,7 +200,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -225,7 +222,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -248,7 +244,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
 
         DepartmentRepositorySpringDataImpl repository =
                 new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
@@ -281,7 +276,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentRepositorySpringDataImpl spyRepo = spy(repository);
@@ -315,7 +309,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData departmentRepository = Mockito.mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = Mockito.mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = Mockito.mock(IDepartmentMapper.class);
-        ITeacherIDMapper teacherIDMapper = Mockito.mock(ITeacherIDMapper.class);
 
         DepartmentRepositorySpringDataImpl departmentRepositorySpringData =
                 new DepartmentRepositorySpringDataImpl(departmentRepository, idMapper, departmentMapper);
@@ -346,7 +339,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData departmentRepository = Mockito.mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = Mockito.mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = Mockito.mock(IDepartmentMapper.class);
-        ITeacherIDMapper teacherIDMapper = Mockito.mock(ITeacherIDMapper.class);
 
         DepartmentRepositorySpringDataImpl departmentRepositorySpringData =
                 new DepartmentRepositorySpringDataImpl(departmentRepository, idMapper, departmentMapper);
@@ -370,7 +362,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData departmentRepository = Mockito.mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = Mockito.mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = Mockito.mock(IDepartmentMapper.class);
-        ITeacherIDMapper teacherIDMapper = Mockito.mock(ITeacherIDMapper.class);
 
         DepartmentRepositorySpringDataImpl departmentRepositorySpringData =
                 new DepartmentRepositorySpringDataImpl(departmentRepository, idMapper, departmentMapper);
@@ -398,7 +389,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -420,7 +410,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -441,7 +430,6 @@ class DepartmentRepositorySpringDataImplTest {
         IDepartmentRepositorySpringData jpaRepo = mock(IDepartmentRepositorySpringData.class);
         IDepartmentIDMapper idMapper = mock(IDepartmentIDMapper.class);
         IDepartmentMapper departmentMapper = mock(IDepartmentMapper.class);
-        ITeacherIDMapper directorIDMapper = mock(ITeacherIDMapper.class);
         DepartmentRepositorySpringDataImpl repository = new DepartmentRepositorySpringDataImpl(jpaRepo, idMapper, departmentMapper);
 
         // Act

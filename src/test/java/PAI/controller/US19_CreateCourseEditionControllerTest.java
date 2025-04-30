@@ -7,7 +7,7 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.service.DegreeType.IDegreeTypeService;
-import PAI.service.StudyPlan.IStudyPlanService;
+import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -409,9 +409,34 @@ class US19_CreateCourseEditionControllerTest {
     }
 
     //-----getProgrammeEditionsByProgrammeID Tests-----
+
     @Test
-    void shouldReturnNullWhenGetProgrammeEditionsByProgrammeIDMethodIsCalled() throws Exception {
+    void shouldReturnAnEmptyListIfProgrammeIdGivenIsNull() throws Exception {
         // SUT = Controller
+
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        ProgrammeID programmeID = null;
+
+        // Act
+        List<ProgrammeEdition> result = us19Controller.getProgrammeEditionsByProgrammeID(programmeID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldReturnAnEmptyListIfTheSystemHasNoProgrammeEditionsWithTheProgrammeGiven() throws Exception {
+        // SUT = Controller
+
         // Arrange
         IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
@@ -422,13 +447,49 @@ class US19_CreateCourseEditionControllerTest {
         US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
+        List<ProgrammeEdition> programmeEditions = List.of();
+        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
 
         // Act
         List<ProgrammeEdition> result = us19Controller.getProgrammeEditionsByProgrammeID(programmeID);
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals(0, result.size());
     }
+
+    @Test
+    void shouldReturnAListWithAllProgrammeEditionsInTheSystemThatHaveTheProgrammeGiven() throws Exception {
+        // SUT = Controller
+
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition2 = mock(ProgrammeEdition.class);
+        ProgrammeEdition programmeEdition3 = mock(ProgrammeEdition.class);
+
+        List<ProgrammeEdition> programmeEditions = List.of(programmeEdition1, programmeEdition2, programmeEdition3);
+        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
+
+        // Act
+        List<ProgrammeEdition> result = us19Controller.getProgrammeEditionsByProgrammeID(programmeID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertTrue(result.contains(programmeEdition1));
+        assertTrue(result.contains(programmeEdition2));
+        assertTrue(result.contains(programmeEdition3));
+    }
+
 
     //-----createCourseEdition Tests-----
 

@@ -16,9 +16,9 @@ import java.util.Optional;
 @Repository
 public class StudentGradeRepositorySpringDataImpl implements IStudentGradeRepository {
 
-    private IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
-    private IStudentGradeMapper studentGradeMapper;
-    private IStudentGradeIDMapper studentGradeIDMapper;
+    private final IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData;
+    private final IStudentGradeMapper studentGradeMapper;
+    private final IStudentGradeIDMapper studentGradeIDMapper;
 
 
     public StudentGradeRepositorySpringDataImpl(IStudentGradeRepositorySpringData iStudentGradeRepositorySpringData, IStudentGradeMapper studentGradeMapper, IStudentGradeIDMapper iStudentGradeIDMapper) {

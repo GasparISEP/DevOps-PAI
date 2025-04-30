@@ -8,27 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CourseFactoryImpl implements ICourseFactory {
 
-    private final ICourseRepository _courseRepository;
-
-    public CourseFactoryImpl(ICourseRepository courseRepository) {
-        if (courseRepository == null) {
-            throw new IllegalArgumentException("CourseRepository must not be null");
-        }
-        _courseRepository = courseRepository;
-    }
-
     @Override
     public Course createCourse(Name name, Acronym acronym) {
         if (name == null || acronym == null) {
             throw new IllegalArgumentException ("Name and Acronym must not be null");
-        }
-
-        if (_courseRepository.existsCourseByName(name)) {
-            throw new BusinessRuleViolationException ("A course with this name already exists.");
-        }
-
-        if (_courseRepository.existsCourseByAcronym(acronym)) {
-            throw new BusinessRuleViolationException ("A course with this acronym already exists.");
         }
 
         CourseID courseID = new CourseID(acronym, name);

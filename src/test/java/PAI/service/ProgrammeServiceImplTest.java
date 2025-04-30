@@ -1,9 +1,12 @@
 package PAI.service;
 
 import PAI.VOs.*;
+import PAI.domain.Department;
 import PAI.domain.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.IProgrammeFactory;
+import PAI.factory.ProgrammeFactoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -79,7 +82,107 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenItsNull() throws IllegalArgumentException {
+    void returnsFalseWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(name, acronym);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void returnsTrueWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        Programme prog = mock(Programme.class);
+        ProgrammeID progID = mock(ProgrammeID.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(prog));
+        when(prog.identity()).thenReturn(progID);
+        when(progID.getAcronym()).thenReturn(acronym);
+        when(progID.getName()).thenReturn(name);
+
+        boolean res = service.doesProgrammeExist(name, acronym);
+
+        //Act + Assert
+        assertTrue(res);
+
+    }
+
+    @Test
+    void returnsFalseWhenNameIsNull() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        Acronym acronym = mock(Acronym.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(null, acronym);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void returnsFalseWhenAcronymIsNull() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        boolean res = service.doesProgrammeExist(name, null);
+
+        //Act + Assert
+        assertFalse(res);
+
+    }
+
+    @Test
+    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExists() {
+        //Arrange
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        Programme prog = mock(Programme.class);
+        ProgrammeID progID = mock(ProgrammeID.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(prog));
+        when(prog.identity()).thenReturn(progID);
+        when(progID.getAcronym()).thenReturn(acronym);
+        when(progID.getName()).thenReturn(name);
+
+        //act + assert
+        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
+
+    }
+
+    @Test
+    void shouldNotRegisterProgrammeWhenItsNull() {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
@@ -191,7 +294,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldFindProgrammeByDegreeTypeID() throws Exception {
+    void shouldFindProgrammeByDegreeTypeID() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -215,7 +318,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotFindProgrammeByDegreeTypeID() throws Exception {
+    void shouldNotFindProgrammeByDegreeTypeID() throws IllegalArgumentException {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -232,46 +335,9 @@ class ProgrammeServiceImplTest {
 
     }
 
-    @Test
-    void shouldFindProgrammeIDByProgramme() throws Exception {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        Programme programme1 = mock(Programme.class);
-        ProgrammeID id1 = mock(ProgrammeID.class);
-        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
-        when(programme1.sameAs(programme1)).thenReturn(true);
-        when(programme1.identity()).thenReturn(id1);
-
-        //Act
-        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(programme1);
-
-        //Assert
-        assertNotNull(Optional.of(result));
-
-    }
 
     @Test
-    void shouldNotFindProgrammeIDByProgramme() throws Exception {
-        //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
-
-        //Act
-        Optional<ProgrammeID> result = service.findProgrammeIdByProgramme(null);
-
-        //Assert
-        assertTrue(result.isEmpty());
-
-    }
-
-    @Test
-    void shouldFindProgrammeByName() throws IllegalArgumentException {
+    void shouldFindProgrammeByName() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -281,7 +347,7 @@ class ProgrammeServiceImplTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(doubleRepo.findAll()).thenReturn(List.of(programme1));
         when(programme1.hasThisProgrammeName(name)).thenReturn(true);
 
         //Act
@@ -293,15 +359,22 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotFindProgrammeByName() throws IllegalArgumentException {
+    void shouldNotFindProgrammeByName() {
         //Arrange
-        IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
+        IProgrammeFactory doubleFactory = mock(ProgrammeFactoryImpl.class);
+        IProgrammeRepository doubleRepo = mock(ProgrammeRepositoryImpl.class);
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(doubleFactory,doubleRepo);
 
+        Programme prog1 = mock(Programme.class);
+
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+
+        when(doubleRepo.findAll()).thenReturn(List.of(prog1));
+        when(prog1.hasThisProgrammeName(name)).thenReturn(false);
+
         //Act
-        Optional<Programme> result = service.getProgrammeByName(null);
+        Optional<Programme> result = service.getProgrammeByName(name);
 
         //Assert
         assertTrue(result.isEmpty());
@@ -309,7 +382,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldGetProgrammeByAcronym() throws IllegalArgumentException {
+    void shouldGetProgrammeByAcronym() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -319,7 +392,7 @@ class ProgrammeServiceImplTest {
         Acronym acronym = mock(Acronym.class);
         Programme programme1 = mock(Programme.class);
 
-        when(doubleRepo.findAll()).thenReturn(Arrays.asList(programme1));
+        when(doubleRepo.findAll()).thenReturn(List.of(programme1));
         when(programme1.getAcronym()).thenReturn(acronym);
 
         //Act
@@ -331,7 +404,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotGetProgrammeByAcronym() throws IllegalArgumentException {
+    void shouldNotGetProgrammeByAcronym() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -347,7 +420,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldGetAllProgrammeIDs() throws IllegalArgumentException {
+    void shouldGetAllProgrammeIDs() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -372,7 +445,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotGetAllProgrammeIDs() throws IllegalArgumentException {
+    void shouldNotGetAllProgrammeIDs() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -388,7 +461,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldFindAll() throws IllegalArgumentException {
+    void shouldFindAll() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -407,7 +480,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotFindAll() throws IllegalArgumentException {
+    void shouldNotFindAll() {
         //Arrange
         IProgrammeFactory doubleFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository doubleRepo = mock(IProgrammeRepository.class);
@@ -422,7 +495,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void getProgrammeByIDFoundShouldReturnProgramme() throws Exception {
+    void getProgrammeByIDFoundShouldReturnProgramme() {
         // Arrange
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
@@ -446,7 +519,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void getProgrammeByIDShouldReturnEmptyOptionalWhenProgrammeNotFound() throws Exception {
+    void getProgrammeByIDShouldReturnEmptyOptionalWhenProgrammeNotFound() {
         // Arrange
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
@@ -490,4 +563,43 @@ class ProgrammeServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void shouldThrowExceptionWhenProgrammeNotFound() {
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        TeacherID directorID = mock(TeacherID.class);
+
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.empty());
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.changeProgrammeDirector(programmeID, directorID);
+        });
+
+        assertEquals("Programme not found", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnProgrammeWhenNameMatches() {
+        //arrange
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
+
+        Programme programme = mock(Programme.class);
+        when(programme.hasThisProgrammeName(name)).thenReturn(true);
+
+        when(programmeRepository.findAll()).thenReturn(List.of(programme));
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        //act
+        Optional<Programme> result = service.getProgrammeByName(name);
+        //assert
+        assertTrue(result.isPresent());
+        assertEquals(programme, result.get());
+    }
 }

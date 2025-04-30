@@ -163,7 +163,7 @@ class TeacherRepositoryTest {
         teacherRepository.save(teacherDouble);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
         assertFalse(result);
@@ -182,7 +182,7 @@ class TeacherRepositoryTest {
         when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(false);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
         assertFalse(result);
@@ -201,7 +201,7 @@ class TeacherRepositoryTest {
         when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(true);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
         assertFalse(result);
@@ -223,7 +223,7 @@ class TeacherRepositoryTest {
         teacherRepository.save(teacherDouble);
 
         // Act
-        boolean result = teacherRepository.existsByIDorNIF(teacherIDDouble, nifDouble);
+        boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
         assertTrue(result);

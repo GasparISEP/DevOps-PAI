@@ -113,7 +113,7 @@ class DepartmentServiceImplTest {
         assertTrue(result);
     }
     @Test
-    void shouldReturnFalseWhenUpdateDirectorWhenDepartmentIDIsNull() throws Exception {
+    void shouldReturnFalseWhenUpdateDirectorWhenDepartmentIDIsNull(){
         // Arrange
         IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
@@ -128,7 +128,7 @@ class DepartmentServiceImplTest {
         assertEquals("Department ID cannot be null.", exception.getMessage());
     }
     @Test
-    void shouldReturnFalseWhenUpdateDirectorWhenDirectorIDIsNUll() throws Exception {
+    void shouldReturnFalseWhenUpdateDirectorWhenDirectorIDIsNUll() {
         // Arrange
         IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);

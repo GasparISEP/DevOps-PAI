@@ -45,7 +45,6 @@ void shouldReturnTrueIfUpdateDepartmentDirector () throws Exception {
 
     DepartmentID departmentIdDouble = mock(DepartmentID.class);
     TeacherID teacherIdDouble = mock(TeacherID.class);
-    Teacher teacherDouble = mock(Teacher.class);
 
     US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
             new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentService);
@@ -150,7 +149,6 @@ void shouldReturnTrueIfUpdateOfDirectorSucessfull () throws Exception {
     NIF nif = new NIF("123431123",country);
     PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
     AcademicBackground  academicBackground= new AcademicBackground("Doctor");
-    Teacher teacher = new Teacher(tAcronym,  name,  email,  nif,  phoneNumber,  academicBackground, address,  departmentID);
 
     DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
     DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();

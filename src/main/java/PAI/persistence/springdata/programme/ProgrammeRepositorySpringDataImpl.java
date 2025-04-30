@@ -1,6 +1,7 @@
 package PAI.persistence.springdata.programme;
 
 import PAI.VOs.DepartmentID;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
@@ -96,5 +97,9 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
             }
         }
         return programmesWithDepartment;
+    }
+
+    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
+        return Optional.empty();
     }
 }

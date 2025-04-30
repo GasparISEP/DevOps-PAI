@@ -2,9 +2,11 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.TeacherCareerProgression;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class TeacherCareerProgressionFactoryImpl implements ITeacherCareerProgressionFactory {
 
     public TeacherCareerProgression createTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage workingPercentage, TeacherID teacherID) {

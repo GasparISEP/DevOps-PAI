@@ -7,7 +7,7 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 
 
-public class StudentGradeIDMapperImpl {
+public class StudentGradeIDMapperImpl implements IStudentGradeIDMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;
     private final StudentIDMapperImpl studentIDMapperImpl;
@@ -26,8 +26,8 @@ public class StudentGradeIDMapperImpl {
 
     public StudentGradeID toDomain (StudentGradeIDDataModel studentGradeIDDataModel) throws Exception{
 
-        CourseEditionIDDataModel courseEditionIDDataModel = studentGradeIDDataModel.get_courseEditionIDDataModel();
-        StudentIDDataModel studentIDDataModel = studentGradeIDDataModel.get_studentIDDataModel();
+        CourseEditionIDDataModel courseEditionIDDataModel = studentGradeIDDataModel.getCourseEditionIDDataModel();
+        StudentIDDataModel studentIDDataModel = studentGradeIDDataModel.getStudentIDDataModel();
         return new StudentGradeID(studentIDMapperImpl.dataModelToDomain(studentIDDataModel),courseEditionIDMapper.toDomain(courseEditionIDDataModel));
     }
 }
