@@ -25,7 +25,7 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
             IProgrammeService programmeService
     ) {
         if (programmeService == null || schoolYearService == null || departmentService == null || programmeEditionEnrolmentService == null){
-            throw new IllegalArgumentException("Repositories cannot be null.");
+            throw new IllegalArgumentException("Services cannot be null.");
         }
         this.programmeService=programmeService;
         this.schoolYearService=schoolYearService;
