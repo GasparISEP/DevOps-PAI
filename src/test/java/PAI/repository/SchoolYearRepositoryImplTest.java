@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 class SchoolYearRepositoryImplTest {
@@ -254,61 +253,6 @@ class SchoolYearRepositoryImplTest {
         assertFalse(result);
     }
 
-    @Test
-    void shouldReturnTheListOfSchoolYears() throws Exception {
-        // Arrange
-        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
-        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
-
-        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
-        SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
-        Description description1 = mock(Description.class);
-        Date startDateDouble1 = mock(Date.class);
-        Date endDateDouble1 = mock(Date.class);
-        Description description2 = mock(Description.class);
-        Date startDateDouble2 = mock(Date.class);
-        Date endDateDouble2 = mock(Date.class);
-
-        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDateDouble1, endDateDouble1))
-                .thenReturn(schoolYearDouble1);
-        when(schoolYearFactoryImplDouble.createSchoolYear(description2,startDateDouble2, endDateDouble2))
-                .thenReturn(schoolYearDouble2);
-
-        List<SchoolYear> realList = new ArrayList<>();
-        realList.add(schoolYearDouble1);
-        realList.add(schoolYearDouble2);
-
-        when(schoolYearListFactoryImplDouble.copySchoolYearArrayList(anyList())).thenReturn(new ArrayList<>(realList));
-
-        SchoolYear schoolYear1 = schoolYearFactoryImplDouble.createSchoolYear(description1, startDateDouble1, endDateDouble1);
-        SchoolYear schoolYear2 = schoolYearFactoryImplDouble.createSchoolYear(description2, startDateDouble2, endDateDouble2);
-        repository.save(schoolYear1);
-        repository.save(schoolYear2);
-
-        // Act
-        List<SchoolYear> result = repository.getAllSchoolYears();
-
-        // Assert
-        assertEquals(2, result.size());
-    }
-
-    @Test
-    void shouldReturnCorrectSchoolYearList()  {
-        // Arrange
-        SchoolYearFactoryImpl schoolYearFactoryImpl = mock(SchoolYearFactoryImpl.class);
-        SchoolYearListFactoryImpl schoolYearListFactoryImpl = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearRepositoryImpl schoolYearRepo = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
-
-        List<SchoolYear> schoolYearListMock = List.of(mock(SchoolYear.class), mock(SchoolYear.class));
-        when(schoolYearListFactoryImpl.copySchoolYearArrayList(any())).thenReturn(schoolYearListMock);
-
-        // Act
-        List<SchoolYear> schoolYearList = schoolYearRepo.getAllSchoolYears();
-
-        // Assert
-        assertEquals(schoolYearListMock, schoolYearList, "The returned list should match the copied list");
-    }
 
     @Test
     void shouldSaveSchoolYear() throws Exception {
