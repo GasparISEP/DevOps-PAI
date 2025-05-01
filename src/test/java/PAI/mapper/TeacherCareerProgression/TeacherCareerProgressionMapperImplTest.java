@@ -71,7 +71,6 @@ class TeacherCareerProgressionMapperImplTest {
         LocalDate date = LocalDate.of(2022, 4, 17);
         String teacherId = "ABC";
 
-        // domain objects
         TeacherCareerProgressionID domainTCPId = new TeacherCareerProgressionID(teacherCareerProgressionID);
         Date domainDate = new Date(date);
         TeacherCategoryID domainTeacherCategoryId = new TeacherCategoryID(teacherCategoryId);
@@ -82,7 +81,6 @@ class TeacherCareerProgressionMapperImplTest {
                 domainWorkingPercentage, domainTeacherID
         );
 
-        // stub the ID‐mapper
         TeacherCareerProgressionIDDataModel mockedTcpID = new TeacherCareerProgressionIDDataModel(teacherCareerProgressionID);
         ITeacherCareerProgressionIDMapper tcpIDMapper   = mock(ITeacherCareerProgressionIDMapper.class);
         when(tcpIDMapper.domainToDataModel(domain.identity()))
@@ -96,7 +94,7 @@ class TeacherCareerProgressionMapperImplTest {
         // act
         TeacherCareerProgressionDataModel dataModel = mapper.toDataModel(domain);
 
-        // assert — field-by-field
+        // assert
         assertNotNull(dataModel);
     }
 
