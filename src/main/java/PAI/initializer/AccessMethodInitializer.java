@@ -17,6 +17,7 @@ public class AccessMethodInitializer {
 
     @PostConstruct
     public void init() {
+        long startTime = System.nanoTime();
         try (InputStream is = getClass().getResourceAsStream("/AccessMethodData.csv");
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
@@ -27,6 +28,9 @@ public class AccessMethodInitializer {
                     controller.configureAccessMethod(name);
                 }
             }
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1_000_000;
+            System.out.printf("Initialization completed in %d ms%n", duration);
         } catch (Exception e) {
             e.printStackTrace();
         }
