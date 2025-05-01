@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnrolmentID, ProgrammeEnrolment> {
 
-    boolean enrolStudents(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date enrolmentDate) throws Exception;
-
     boolean isStudentEnrolled(StudentID studentID, ProgrammeID programmeID);
 
     ProgrammeEnrolment save(ProgrammeEnrolment enrolment);
