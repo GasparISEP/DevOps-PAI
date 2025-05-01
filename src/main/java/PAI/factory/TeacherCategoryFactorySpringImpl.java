@@ -6,7 +6,7 @@ import PAI.domain.TeacherCategory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherCategoryFactorySpring implements ITeacherCategoryFactory {
+public class TeacherCategoryFactorySpringImpl implements ITeacherCategoryFactory {
     @Override
     public TeacherCategory createTeacherCategory(Name name) {
         return new TeacherCategory(new TeacherCategoryID(), name);

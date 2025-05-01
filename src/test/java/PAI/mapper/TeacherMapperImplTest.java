@@ -160,6 +160,7 @@ class TeacherMapperImplTest {
         when(teacherDouble.getAcademicBackground()).thenReturn(_academicBackground);
         when(_addressMapperDouble.toDataModel(teacherDouble.getAddress())).thenReturn(_addressDataModelDouble);
         when(teacherDouble.getDepartmentID()).thenReturn(_departmentIDDouble);
+        when(_departmentIDDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
 
         //Act
         TeacherDataModel result = teacherMapper.toDataModel(teacherDouble);
@@ -169,7 +170,7 @@ class TeacherMapperImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenProvidedTeacherDataModelIsNull() throws Exception {
+    void shouldReturnNullWhenProvidedTeacherDataModelIsNull() {
         //Arrange
         createMapperDoubles();
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
@@ -183,7 +184,7 @@ class TeacherMapperImplTest {
     }
 
     @Test
-    void shouldReturnTeacherWhenTeacherDataModelIsNotNull() throws Exception {
+    void shouldReturnTeacherWhenTeacherDataModelIsNotNull() {
         //Arrange
         createMapperDoubles();
         createTeacherDoubles();
