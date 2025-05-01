@@ -2,16 +2,13 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
 import PAI.mapper.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import org.springframework.stereotype.Repository;
@@ -103,7 +100,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
 
     public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
-        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
+        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllById_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
         List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = new ArrayList<>();
         for (ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel : allProgrammeEditionEnrolmentsDataModel) {
             Optional<ProgrammeEditionEnrolment> programmeEditionEnrolment = _peeMapper.toDomain(programmeEditionEnrolmentDataModel);
@@ -119,7 +116,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
             ProgrammeEditionIdDataModel programmeEditionIDDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
 
             Optional<ProgrammeEditionEnrolmentDataModel> dataModel =
-                    _peeRepositorySpringData.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIDDataModel);
+                    _peeRepositorySpringData.findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(studentIDDataModel, programmeEditionIDDataModel);
 
             if (dataModel.isEmpty()) return Optional.empty();
 
