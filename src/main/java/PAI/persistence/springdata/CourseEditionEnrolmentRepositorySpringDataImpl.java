@@ -81,7 +81,7 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
     @Override
     public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
         CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
-        return (int) iCEERepoSpringData.countById_CourseEditionIDAndActiveIsTrue(courseEditionIDDataModel);
+        return (int) iCEERepoSpringData.countById_CourseEditionIDAndActiveTrue(courseEditionIDDataModel);
     }
 
 

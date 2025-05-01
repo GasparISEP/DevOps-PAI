@@ -11,10 +11,6 @@ import java.util.Objects;
 public class StudyPlanDataModel {
 
     @EmbeddedId
-    @AttributeOverrides({
-            @AttributeOverride(name = "programmeIDDataModel.programmeName", column = @Column(name = "programme_name", nullable = false)),
-            @AttributeOverride(name = "programmeIDDataModel.programmeAcronym", column = @Column(name = "programme_acronym", nullable = false))
-    })
     private StudyPlanIDDataModel studyPlanIDDataModel;
 
     @Column(name = "maxECTS", nullable = false)

@@ -8,30 +8,23 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.factory.*;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.*;
 
-import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.persistence.mem.programmeEdition.IProgrammeEditionListFactory;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.factory.ProgrammeEditionEnrolmentFactoryImpl;
 import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
-import PAI.persistence.springdata.programmeEdition.IProgrammeEditionRepositorySpringData;
-import PAI.persistence.springdata.programmeEdition.ProgrammeEditionRepositorySpringDataImpl;
-import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.service.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -110,10 +103,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         StudentID studentID3 = mock(StudentID.class);
         StudentID studentID4 = mock(StudentID.class);
 
-        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
 
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactoryImpl);
 
 
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
@@ -172,9 +164,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldReturnZeroIfProgrammeEditionHasZeroStudentsEnrolled() throws Exception {
         //Arrange
 
-        IProgrammeEditionEnrolmentFactory programmeEditionEnrollmentFactoryImpl = new ProgrammeEditionEnrolmentFactoryImpl();
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactoryImpl, programmeEditionEnrolmentListFactoryImpl);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactoryImpl);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");

@@ -2,19 +2,12 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 import PAI.mapper.*;
-import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -416,7 +408,7 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
         List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolment = List.of(programmeEditionEnrolmentDataModel);
         when(programmeEditionIdMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
-        when(repoSpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
+        when(repoSpringData.findAllById_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
         when(mapper.toDomain(programmeEditionEnrolmentDataModel)).thenReturn(Optional.of(programmeEditionEnrolment));
 
         // act
@@ -432,7 +424,7 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolment = List.of();
         when(programmeEditionIdMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
-        when(repoSpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
+        when(repoSpringData.findAllById_ProgrammeEditionIdDataModel(programmeEditionIdDataModel)).thenReturn(allProgrammeEditionEnrolment);
 
         // act
         List<ProgrammeEditionEnrolment> result = repository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
@@ -569,7 +561,7 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
 
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(programmeEditionIDMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
-        when(springDataRepo.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIdDataModel))
+        when(springDataRepo.findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(studentIDDataModel, programmeEditionIdDataModel))
                 .thenReturn(Optional.of(peeDataModel));
         when(mapper.toDomain(peeDataModel)).thenReturn(Optional.of(pee));
 
@@ -602,7 +594,7 @@ class ProgrammeEditionEnrolmentRepositorySpringDataTest {
 
         when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
         when(programmeEditionIDMapper.toDataModel(programmeEditionID)).thenReturn(programmeEditionIdDataModel);
-        when(springDataRepo.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIdDataModel))
+        when(springDataRepo.findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(studentIDDataModel, programmeEditionIdDataModel))
                 .thenReturn(Optional.empty());
 
         // act

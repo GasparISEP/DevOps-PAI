@@ -19,20 +19,10 @@ public class StudentGradeDM {
  @Column(name = "Date")
  private LocalDate date;
 
- @Embedded
- @Column(name = "CourseEdition")
- private CourseEditionIDDataModel courseEditionID;
-
- @Embedded
- @Column(name = "Student")
- private StudentIDDataModel StudentId;
-
- public StudentGradeDM(StudentGradeIDDataModel studentGradeIDDataModel, double grade, LocalDate date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
+ public StudentGradeDM(StudentGradeIDDataModel studentGradeIDDataModel, double grade, LocalDate date) {
   this.studentGradeIDDataModel = studentGradeIDDataModel;
   this.grade = grade;
   this.date = date;
-  this.courseEditionID = courseEditionID;
-  this.StudentId = studentId;
  }
 
  public StudentGradeDM() {
@@ -52,10 +42,10 @@ public class StudentGradeDM {
  }
 
  public CourseEditionIDDataModel getCourseEditionID() {
-  return courseEditionID;
+  return studentGradeIDDataModel.getCourseEditionIDDataModel();
  }
 
  public StudentIDDataModel getStudentId() {
-  return StudentId;
+  return studentGradeIDDataModel.getStudentIDDataModel();
  }
 }

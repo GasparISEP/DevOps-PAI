@@ -1,9 +1,8 @@
-package PAI.repository.programmeEditionRepository;
+package PAI.persistence.mem.programmeEdition;
 
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeEditionRepositoryDDDImplTest {
+class ProgrammeEditionRepositoryImplTest {
 
     //Constructor Tests
     @Test

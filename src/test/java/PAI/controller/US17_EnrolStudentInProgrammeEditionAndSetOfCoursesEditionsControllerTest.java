@@ -8,16 +8,16 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.IProgrammeEditionListFactory;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
 import PAI.service.*;
 import PAI.service.courseEdition.CourseEditionServiceImpl;
 import PAI.service.courseEdition.ICourseEditionService;
@@ -26,6 +26,7 @@ import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.schoolYear.ISchoolYearService;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -40,12 +41,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success() throws Exception {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         StudentID studentID = mock(StudentID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
@@ -56,12 +53,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -80,21 +73,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes() {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -114,21 +99,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -148,21 +125,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllProgrammes_ContainsAllProgrammes() {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -184,21 +153,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_NotNull() {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -218,21 +179,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_SizeEqualsTwo()  {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -252,21 +205,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     void testGetAllSchoolYears_ContainsAllSchoolYears()  {
         // Arrange
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
                 new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                        programmeEditionService,
                         programmeService,
-                        courseEditionEnrolmentService,
-                        courseEditionService,
                         schoolYearService,
-                        programmeEnrolmentService,
                         programmeEditionEnrolmentService
                 );
 
@@ -284,41 +229,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfProgrammeEditionServiceIsNull() {
-        // arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-
-        // act
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    null, programmeService, courseEditionEnrolmentService, courseEditionService,
-                    schoolYearService, programmeEnrolmentService, programmeEditionEnrolmentService);
-        });
-
-        // assert
-        assertEquals("Programme edition service cannot be null.", exception.getMessage());
-    }
-
-    @Test
     void shouldReturnExceptionIfProgrammeServiceIsNull() {
         // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
 
         // act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, null, courseEditionEnrolmentService, courseEditionService,
-                    schoolYearService, programmeEnrolmentService, programmeEditionEnrolmentService);
+            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(null, schoolYearService, programmeEditionEnrolmentService);
         });
 
         // assert
@@ -326,62 +244,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfCourseEditionEnrolmentServiceIsNull() {
-        // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-
-        // act
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, programmeService, null, courseEditionService,
-                    schoolYearService, programmeEnrolmentService, programmeEditionEnrolmentService);
-        });
-
-        // assert
-        assertEquals("Course edition enrolment service cannot be null.", exception.getMessage());
-    }
-
-    @Test
-    void shouldReturnExceptionIfCourseEditionServiceIsNull() {
-        // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-
-        // act
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, programmeService, courseEditionEnrolmentService, null,
-                    schoolYearService, programmeEnrolmentService, programmeEditionEnrolmentService);
-        });
-
-        // assert
-        assertEquals("Course edition service cannot be null.", exception.getMessage());
-    }
-
-    @Test
     void shouldReturnExceptionIfSchoolYearServiceIsNull() {
         // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
 
         // act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, programmeService, courseEditionEnrolmentService, courseEditionService,
-                    null, programmeEnrolmentService, programmeEditionEnrolmentService);
+            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController( programmeService,null, programmeEditionEnrolmentService);
         });
 
         // assert
@@ -389,41 +259,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     }
 
     @Test
-    void shouldReturnExceptionIfProgrammeEnrolmentServiceIsNull() {
-        // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-
-        // act
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, programmeService, courseEditionEnrolmentService, courseEditionService,
-                    schoolYearService, null, programmeEditionEnrolmentService);
-        });
-
-        // assert
-        assertEquals("Programme enrolment service cannot be null.", exception.getMessage());
-    }
-
-    @Test
     void shouldReturnExceptionIfProgrammeEditionEnrolmentServiceIsNull() {
         // arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
 
         // act
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-                    programmeEditionService, programmeService, courseEditionEnrolmentService, courseEditionService,
-                    schoolYearService, programmeEnrolmentService, null);
+            new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController( programmeService, schoolYearService, null);
         });
 
         // assert
@@ -439,37 +282,61 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //    @Test
 //    void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_Success_IntegrationTest() throws Exception {
 //        // Arrange
+//
+//        // Programme Edition
 //        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-//        IProgrammeEditionFactory programmeEditionDDDFactory = new ProgrammeEditionFactoryImpl();
-//        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory, programmeEditionDDDFactory);
+//        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+//
+//        // Programme Edition Enrolment
 //        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
 //        ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrollmentFactory, programmeEditionEnrolmentListFactory);
-//        IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
+//        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
+//
+//        // Programme
+//        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
 //        IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeFactory, IProgrammeRepositoryListFactory);
+//        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
+//
+//        // Course Edition
 //        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
 //        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
 //        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
-//        ICourseEditionEnrolmentFactory courseEditionEnrollmentFactory = new CourseEditionEnrolmentFactoryImpl();
+//
+//        // Course Edition Enrolment
 //        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentFactory, courseEditionEnrollmentListFactory);
+//        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
+//
+//        // School Year
 //        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
 //        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
 //        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//
+//        // Programme Enrolment
 //        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
 //        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepository(programmeEnrolmentFactory, programmeEnrolmentList);
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+//
+//        // Services
+//        ProgrammeEditionEnrolmentServiceImpl peeService = new ProgrammeEditionEnrolmentServiceImpl(
+//                programmeEditionEnrolmentRepository,
+//                doubleProgrammeEditionRepository,
+//                courseEditionEnrolmentRepositoryImpl,
+//                courseEditionRepositoryImpl,
+//                schoolYearRepository,
+//                programmeEnrolmentRepository,
+//                programmeRepository,
+//                programmeEditionEnrollmentFactory
+//        );
+//
+//        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(
+//                programmeFactory,
+//                programmeRepository);
+//
+//        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactoryImpl);
 //
 //        US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController controller =
-//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(
-//                        programmeEditionEnrolmentRepository,
-//                        doubleProgrammeEditionRepository,
-//                        programmeRepository,
-//                        courseEditionEnrolmentRepositoryImpl,
-//                        courseEditionRepositoryImpl,
-//                        schoolYearRepository,
-//                        programmeEnrolmentRepository);
+//                new US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeService, schoolYearService, peeService);
+//
 //        Date date = new Date("20-12-2010");
 //
 //        Description description = new Description("School Year 24/25");

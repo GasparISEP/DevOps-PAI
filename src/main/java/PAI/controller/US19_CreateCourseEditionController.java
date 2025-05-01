@@ -1,5 +1,6 @@
 package PAI.controller;
 import PAI.VOs.*;
+import PAI.domain.CourseEdition;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
@@ -81,6 +82,13 @@ public class US19_CreateCourseEditionController {
 
 
     public boolean createCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        return false;
+        if (courseInStudyPlanID == null)
+            return false;
+
+        if (programmeEditionID == null)
+            return false;
+        CourseEdition result = courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+        return result != null;
     }
+
 }

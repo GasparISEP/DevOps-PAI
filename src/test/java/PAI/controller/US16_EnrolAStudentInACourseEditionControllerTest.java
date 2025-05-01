@@ -8,14 +8,14 @@ import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanListFactoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
+import PAI.persistence.mem.programmeEdition.IProgrammeEditionListFactory;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionListFactoryImpl;
+import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.CourseEditionEnrolmentServiceImpl;
 import PAI.service.ICourseEditionEnrolmentService;
@@ -252,9 +252,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest() {
         // arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -280,9 +279,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfProgrammeEditionsThatStudentIsEnrolled_IntegrationTest() throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -315,7 +313,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory);
         ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -351,9 +348,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -417,9 +413,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -483,9 +478,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditions_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -556,9 +550,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditions_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -631,9 +624,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfStudentIsAlreadyEnrolledInCourseEdition_IntegrationTest () throws Exception {
         //arrange
-        ProgrammeEditionEnrolmentFactoryImpl peeFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentListFactoryImpl peeListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeFactory, peeListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl peeRepository = new ProgrammeEditionEnrolmentRepositoryImpl(peeListFactory);
 
         CourseEditionEnrolmentFactoryImpl ceeFactory = new CourseEditionEnrolmentFactoryImpl();
         CourseEditionEnrolmentListFactoryImpl ceeListFactory = new CourseEditionEnrolmentListFactoryImpl();
