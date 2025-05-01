@@ -187,10 +187,10 @@ class CourseEditionMapperImplTest {
         // Arrange
         ICourseEditionIDMapper iCourseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapperapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapperapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
 
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
@@ -200,8 +200,10 @@ class CourseEditionMapperImplTest {
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         when(iCourseEditionIDMapper.toDataModel(courseEdition.identity())).thenReturn(courseEditionIDDataModel);
+        when(courseEditionIDDataModel.getProgrammeEditionIDDataModel()).thenReturn(programmeEditionIdDataModel);
+        when(courseEditionIDDataModel.getCourseInStudyPlanIDDataModel()).thenReturn(courseInStudyPlanIDDataModel);
         when(iProgrammeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID())).thenReturn(programmeEditionIdDataModel);
-        when(iCourseInStudyPlanIDMapperapper.toDataModel(courseEdition.getCourseInStudyPlanID())).thenReturn(courseInStudyPlanIDDataModel);
+        when(iCourseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID())).thenReturn(courseInStudyPlanIDDataModel);
         when(teacherIDMapper.toDataModel(courseEdition.getRuc())).thenReturn(teacherIDDataModel);
 
         // Act

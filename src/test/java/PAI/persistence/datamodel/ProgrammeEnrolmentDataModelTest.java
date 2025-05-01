@@ -133,44 +133,6 @@ class ProgrammeEnrolmentDataModelTest {
     }
 
     @Test
-    void shouldReturnProgrammeID() {
-        //Arrange
-        Object[] doubles = createDoublesForTestsWithIsolation();
-        ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
-        ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
-        StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
-        AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
-        LocalDate dateDouble = (LocalDate) doubles[4];
-
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
-
-        //Act
-        ProgrammeIDDataModel result = programmeEnrolment.getProgrammeID();
-
-        //Assert
-        assertEquals(programmeIDDouble,result);
-    }
-
-    @Test
-    void shouldReturnStudentID() {
-        //Arrange
-        Object[] doubles = createDoublesForTestsWithIsolation();
-        ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
-        ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
-        StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
-        AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
-        LocalDate dateDouble = (LocalDate) doubles[4];
-
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
-
-        //Act
-        StudentIDDataModel result = programmeEnrolment.getStudentID();
-
-        //Assert
-        assertEquals(studentIDDouble,result);
-    }
-
-    @Test
     void shouldReturnAccessMethodID() {
         //Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();

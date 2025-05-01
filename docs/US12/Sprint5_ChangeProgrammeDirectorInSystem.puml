@@ -1,0 +1,136 @@
+@startuml
+actor ACS
+participant ":UI" as UI
+participant ":ProgrammeController" as Controller
+participant ":ProgrammeService" as Service
+participant ":ITeacherRepository" as TR
+participant ":IProgrammeRepository" as PR #lightgreen
+participant ":Programme" as PG #yellow
+participant ":Mapper" as MP #gray
+database "Database" as DB #lightblue
+autonumber
+
+
+ACS -> UI : Show list of Programmes
+activate UI #application
+UI -> Controller : getAllProgrammes()
+activate Controller #application
+Controller -> Service : getAllProgrammes()
+activate Service #application
+Service -> PR : getAllProgrammes()
+activate PR #application
+PR -> DB : SELECT * FROM programmes
+activate DB #application
+DB --> PR : List<Raw Data>
+deactivate DB
+PR -> MP : toDomainModel(List<Raw Data>)
+activate MP #application
+MP --> PR : List<Programme>
+deactivate MP
+PR --> Service : List<Programme>
+deactivate PR
+Service --> Controller : List<Programme>
+deactivate Service
+Controller --> UI : List of Programmes
+deactivate Controller
+UI --> ACS : Display Programmes
+deactivate UI
+
+
+ACS -> UI : Select Programme1ID
+activate UI #application
+UI --> ACS : Programme Selected
+deactivate UI
+
+
+ACS -> UI : Show list of Teachers
+activate UI #application
+UI -> Controller : getAllTeachers()
+activate Controller #application
+Controller -> Service : getAllTeachers()
+activate Service #application
+Service -> TR : getAllTeachers()
+activate TR #application
+TR -> DB : SELECT * FROM teachers
+activate DB #application
+DB --> TR : List<Raw Data>
+deactivate DB
+TR -> MP : toDomainModel(List<Raw Data>)
+activate MP #application
+MP --> TR : List<Teacher>
+deactivate MP
+TR --> Service: List<Teacher>
+deactivate TR
+Service --> Controller : List<Teacher>
+deactivate Service
+Controller --> UI : List of Teachers
+deactivate Controller
+UI --> ACS : Display Teachers
+deactivate UI
+
+
+ACS -> UI : Select Teacher1ID
+activate UI #application
+UI --> ACS : Teacher Selected
+deactivate UI
+
+
+ACS -> UI : Change Programme Director
+activate UI #application
+UI -> Controller : changeProgrammeDirector("Programme1ID", "Teacher1ID")
+activate Controller #application
+Controller -> Service : changeProgrammeDirector("Programme1ID", "Teacher1ID")
+activate Service #application
+
+Service -> PR : findById("Programme1ID")
+activate PR #application
+PR -> DB : SELECT * FROM programmes WHERE id = "Programme1ID"
+activate DB #application
+DB --> PR : Programme Data
+deactivate DB
+PR -> MP : toDomainModel(Programme Data)
+activate MP #application
+MP --> PR : Programme
+deactivate MP
+PR --> Service : Programme
+deactivate PR
+
+Service -> TR : findById("Teacher1ID")
+activate TR #application
+TR -> DB : SELECT * FROM teachers WHERE id = "Teacher1ID"
+activate DB #application
+DB --> TR : Teacher Data
+deactivate DB
+TR -> MP : toDomainModel(Teacher Data)
+activate MP #application
+MP --> TR : Teacher
+deactivate MP
+TR --> Service : Teacher
+deactivate TR
+
+Service -> PG : newProgrammeDirector(Teacher)
+activate PG #application
+PG --> Service : true
+deactivate PG
+
+Service -> PR : save(Programme)
+activate PR #application
+PR -> MP : toDatabaseModel(Programme)
+activate MP #application
+MP --> PR : Mapped Data
+deactivate MP
+PR -> DB : UPDATE Programme
+activate DB #application
+DB --> PR : success
+deactivate DB
+PR --> Service : success
+deactivate PR
+
+Service --> Controller : success
+deactivate Service
+Controller --> UI : Success!
+deactivate Controller
+UI --> ACS : Success!
+deactivate UI
+
+@enduml

@@ -62,7 +62,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
     public boolean containsOfIdentity(DepartmentID id) {
         if (id == null){return false;}
         DepartmentIDDataModel departmentIDDataModel = idMapper.toDataModel(id);
-        return jpaRepo.existsById(departmentIDDataModel.getDepartmentID());
+        return jpaRepo.existsById(departmentIDDataModel);
     }
     @Override
     public Set<DepartmentID> getDepartmentIDs(){
@@ -75,6 +75,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
                 .collect(Collectors.toSet());
     }
 
+
     @Override
     public Optional<Department> findDepartmentByID(DepartmentID departmentID) {
         if (departmentID == null) {
@@ -83,7 +84,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
 
         DepartmentIDDataModel dataModelId = idMapper.toDataModel(departmentID);
 
-        return jpaRepo.findById(dataModelId.getDepartmentID())
+        return jpaRepo.findById(dataModelId)
                 .map(dataModel -> {
                     try {
                         return departmentMapper.toDomain(dataModel);

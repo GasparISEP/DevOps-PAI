@@ -18,31 +18,18 @@ public class CourseEditionDataModel implements Serializable {
     private CourseEditionIDDataModel _courseEditionIDDataModel;
 
     @Embedded
-    private ProgrammeEditionIdDataModel _programmeEditionIDDataModel;
-
-    @Embedded
-    private CourseInStudyPlanIDDataModel _courseInStudyPlanIDDataModel;
-
-    @Embedded
     private TeacherIDDataModel _teacherIDDataModel;
 
     protected CourseEditionDataModel() {}
 
-    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, ProgrammeEditionIdDataModel programmeEditionIDDataModel,
-                                  CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, TeacherIDDataModel teacherIDDataModel) {
+    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, TeacherIDDataModel teacherIDDataModel) {
 
         if (courseEditionIDDataModel == null)
             throw new IllegalArgumentException("courseEditionIDDataModel cannot be null");
-        if (programmeEditionIDDataModel == null)
-            throw new IllegalArgumentException("programmeEditionIDDataModel cannot be null");
-        if (courseInStudyPlanIDDataModel == null)
-            throw new IllegalArgumentException("courseInStudyPlanIDDataModel cannot be null");
         if (teacherIDDataModel == null)
             throw new IllegalArgumentException("teacherIDDataModel cannot be null");
 
         this._courseEditionIDDataModel = courseEditionIDDataModel;
-        this._programmeEditionIDDataModel = programmeEditionIDDataModel;
-        this._courseInStudyPlanIDDataModel = courseInStudyPlanIDDataModel;
         this._teacherIDDataModel = teacherIDDataModel;
     }
 
@@ -51,11 +38,11 @@ public class CourseEditionDataModel implements Serializable {
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
-        return _programmeEditionIDDataModel;
+        return _courseEditionIDDataModel.getProgrammeEditionIDDataModel();
     }
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
-        return _courseInStudyPlanIDDataModel;
+        return _courseEditionIDDataModel.getCourseInStudyPlanIDDataModel();
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {

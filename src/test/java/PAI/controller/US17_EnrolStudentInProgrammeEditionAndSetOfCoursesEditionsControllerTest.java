@@ -2,11 +2,15 @@ package PAI.controller;
 
 
 import PAI.VOs.*;
+import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.SchoolYear;
 import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
+import PAI.mapper.SchoolYear.SchoolYearMapperImpl;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
@@ -284,6 +288,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        // Arrange
 //
 //        // Programme Edition
+//        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
 //        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
 //        ProgrammeEditionRepositoryImpl doubleProgrammeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
 //
@@ -298,9 +303,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
 //
 //        // Course Edition
-//        ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
-//        ICourseEditionListFactory ICourseEditionListFactory_2 = new CourseEditionListFactoryImpl();
-//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(ICourseEditionFactory_2, ICourseEditionListFactory_2);
+//        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
+//        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
+//        ICourseEditionRepository courseEditionRepositoryImpl = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
 //
 //        // Course Edition Enrolment
 //        ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
@@ -309,12 +314,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        // School Year
 //        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
 //        SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
-//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactoryImpl, schoolYearListFactoryImpl);
+//        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
+//        SchoolYearMapperImpl schoolYearMapper = new SchoolYearMapperImpl(schoolYearFactoryImpl);
 //
 //        // Programme Enrolment
 //        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
 //        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentFactory, programmeEnrolmentList);
+//        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 //
 //        // Services
 //        ProgrammeEditionEnrolmentServiceImpl peeService = new ProgrammeEditionEnrolmentServiceImpl(
@@ -342,7 +348,9 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        Description description = new Description("School Year 24/25");
 //        Date startDate = new Date("23-11-2024");
 //        Date endDate = new Date("09-12-2025");
-//        schoolYearRepository.addSchoolYear(description, startDate, endDate);
+//
+//        SchoolYear sy = schoolYearFactoryImpl.createSchoolYear(description, startDate, endDate);
+//        schoolYearRepository.save(sy);
 //
 //        SchoolYearID schoolYearId = new SchoolYearID();
 //
@@ -354,16 +362,22 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
 //
 //        if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
-//            programmeEnrolmentRepository.enrolStudents(studentID, amId, programmeId, date);
+//            programmeEnrolmentRepository.save(programmeEnrolmentFactory.createProgrammeEnrolment(studentID, amId, programmeId, date));
 //        }
+//
+//        ProgrammeEdition pe = programmeEditionFactory.createProgrammeEdition(programmeId, schoolYearId);
+//        doubleProgrammeEditionRepository.save(pe);
+//        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
+//        ProgrammeEditionID pe1 = pe1Opt.get();
+//
+//        ProgrammeEditionEnrolment pee = programmeEditionEnrollmentFactory.newProgrammeEditionEnrolment(studentID, pe1);
+//        programmeEditionEnrolmentRepository.save(pee);
+//
+//
 //        Date date1 = new Date("01-04-2023");
 //        Date date2 = new Date("01-04-2024");
 //        StudyPlanID studyPlanID1 = new StudyPlanID(programmeId, date1);
 //        StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
-//        doubleProgrammeEditionRepository.createProgrammeEdition(programmeId, schoolYearId);
-//        Optional<ProgrammeEditionID> pe1Opt = doubleProgrammeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
-//        ProgrammeEditionID pe1 = pe1Opt.get();
-//
 //        Acronym acronym2 = new Acronym("DSOFT");
 //        Name name2 = new Name("Software Development");
 //        CourseID courseId2 = new CourseID(acronym2, name2);
@@ -376,8 +390,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 //        CourseEditionID courseEditionId1 = new CourseEditionID(programmeEditionId, courseInStudyPlanID1);
 //        CourseEditionID courseEditionId2 = new CourseEditionID(programmeEditionId, courseInStudyPlanID2);
 //
-//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID1, pe1);
-//        courseEditionRepositoryImpl.createAndSaveCourseEdition(courseInStudyPlanID2, pe1);
+//        courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID1, pe1);
+//        courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID2, pe1);
 //
 //        // Act
 //        boolean result = controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID, programmeId, schoolYearId);

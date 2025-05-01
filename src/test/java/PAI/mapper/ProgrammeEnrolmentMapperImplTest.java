@@ -136,13 +136,15 @@ class ProgrammeEnrolmentMapperImplTest {
 
         ProgrammeEnrolmentMapperImpl peMapper = new ProgrammeEnrolmentMapperImpl(_peFactoryDouble, _peIDMapperDouble, _programmeIDMapperDouble, _studentIDMapperDouble, _amIDMapperDouble);
 
-        when(_peDMDouble.getStudentID()).thenReturn(_studentIDDataModelDouble);
+        when(_peIDDataModelDouble.getStudentID()).thenReturn(_studentIDDataModelDouble);
+        when(_peDMDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDataModelDouble);
         when(_studentIDMapperDouble.dataModelToDomain(_studentIDDataModelDouble)).thenReturn(_studentIDDouble);
 
         when(_peDMDouble.getAccessMethodID()).thenReturn(_amIDDataModelDouble);
         when(_amIDMapperDouble.toVO(_amIDDataModelDouble)).thenReturn(Optional.of(_amIDDouble));
 
-        when(_peDMDouble.getProgrammeID()).thenReturn(_programmeIDDataModelDouble);
+        when(_peIDDataModelDouble.getProgrammeID()).thenReturn(_programmeIDDataModelDouble);
+        when(_peDMDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDataModelDouble);
         when(_programmeIDMapperDouble.toDomain(_programmeIDDataModelDouble)).thenReturn(_programmeIDDouble);
 
         when(_peDMDouble.getDate()).thenReturn(_localDateDouble);
@@ -199,8 +201,8 @@ class ProgrammeEnrolmentMapperImplTest {
         //Assert
         assertAll(
                 () -> assertEquals(expected.getProgrammeEnrolmentID(), result.getProgrammeEnrolmentID()),
-                () -> assertEquals(expected.getStudentID(), result.getStudentID()),
-                () -> assertEquals(expected.getProgrammeID(), result.getProgrammeID()),
+                () -> assertEquals(expected.getProgrammeEnrolmentID().getStudentID(), result.getProgrammeEnrolmentID().getStudentID()),
+                () -> assertEquals(expected.getProgrammeEnrolmentID().getProgrammeID(), result.getProgrammeEnrolmentID().getProgrammeID()),
                 () -> assertEquals(expected.getAccessMethodID(), result.getAccessMethodID()),
                 () -> assertEquals(expected.getDate(), result.getDate())
         );

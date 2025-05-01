@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IProgrammeEnrolmentRepositorySpringData extends JpaRepository <ProgrammeEnrolmentDataModel, ProgrammeEnrolmentIDDataModel> {
 
-    boolean isStudentEnrolled(StudentIDDataModel studentID, ProgrammeIDDataModel programmeID);
-
+    boolean existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(StudentIDDataModel studentID, ProgrammeIDDataModel programmeID);
 }
