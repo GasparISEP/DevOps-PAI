@@ -14,9 +14,9 @@ import java.util.Optional;
 @Component
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private final IProgrammeEditionService _programmeEditionService;
-    private final IProgrammeService _programmeService;
-    private final ISchoolYearService _schoolYearService;
+    private final IProgrammeEditionService programmeEditionService;
+    private final IProgrammeService programmeService;
+    private final ISchoolYearService schoolYearService;
 
     public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionService programmeEditionService, IProgrammeService programmeService, ISchoolYearService schoolYearService) throws Exception {
 
@@ -27,19 +27,19 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         if (schoolYearService == null)
             throw new Exception("School Year Service cannot be null");
 
-        this._programmeEditionService = programmeEditionService;
-        this._programmeService = programmeService;
-        this._schoolYearService = schoolYearService;
+        this.programmeEditionService = programmeEditionService;
+        this.programmeService = programmeService;
+        this.schoolYearService = schoolYearService;
     }
 
     public Iterable<Programme> getAllProgrammes(){
 
-        return _programmeService.findAll();
+        return programmeService.findAll();
     }
 
     protected SchoolYearID getCurrentSchoolYear(){
 
-        Optional<SchoolYearID> currentSchoolYear = _schoolYearService.getCurrentSchoolYearID();
+        Optional<SchoolYearID> currentSchoolYear = schoolYearService.getCurrentSchoolYearID();
         if(currentSchoolYear.isEmpty()){
             return null;
         }
@@ -58,8 +58,8 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         ProgrammeID pID = programme.identity();
 
         try {
-            ProgrammeEdition programmeEdition = _programmeEditionService.createProgrammeEdition(pID, sYID);
-            Optional<ProgrammeEdition> programmeEditionOptional = _programmeEditionService.saveProgrammeEdition(programmeEdition);
+            ProgrammeEdition programmeEdition = programmeEditionService.createProgrammeEdition(pID, sYID);
+            Optional<ProgrammeEdition> programmeEditionOptional = programmeEditionService.saveProgrammeEdition(programmeEdition);
             if(programmeEditionOptional.isPresent()){
                 return true;
             }

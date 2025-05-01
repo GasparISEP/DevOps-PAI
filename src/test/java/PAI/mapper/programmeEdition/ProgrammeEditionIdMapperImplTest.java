@@ -55,7 +55,7 @@ class ProgrammeEditionIdMapperImplTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
 
         when(programmeEditionIdDataModel.getProgrammeIdDataModel()).thenReturn(programmeIdDataModel);
-        when(programmeEditionIdDataModel.get_schoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+        when(programmeEditionIdDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -84,7 +84,7 @@ class ProgrammeEditionIdMapperImplTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
 
         when(programmeEditionIdDataModel.getProgrammeIdDataModel()).thenReturn(null);
-        when(programmeEditionIdDataModel.get_schoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+        when(programmeEditionIdDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -107,7 +107,7 @@ class ProgrammeEditionIdMapperImplTest {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
 
         when(programmeEditionIdDataModel.getProgrammeIdDataModel()).thenReturn(programmeIdDataModel);
-        when(programmeEditionIdDataModel.get_schoolYearIDDataModel()).thenReturn(null);
+        when(programmeEditionIdDataModel.getSchoolYearIDDataModel()).thenReturn(null);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -142,7 +142,7 @@ class ProgrammeEditionIdMapperImplTest {
         //assert
         assertNotNull(result);
         assertEquals(programmeIDDataModel, result.getProgrammeIdDataModel());
-        assertEquals(schoolYearIDDataModel, result.get_schoolYearIDDataModel());
+        assertEquals(schoolYearIDDataModel, result.getSchoolYearIDDataModel());
     }
 
     @Test

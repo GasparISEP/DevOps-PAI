@@ -7,9 +7,9 @@ import PAI.ddd.AggregateRoot;
 
 public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
 
-    private final ProgrammeEditionID _programmeEditionID;
-    private final ProgrammeID _programmeID;
-    private final SchoolYearID _schoolYearID;
+    private final ProgrammeEditionID programmeEditionID;
+    private final ProgrammeID programmeID;
+    private final SchoolYearID schoolYearID;
 
     public ProgrammeEdition(ProgrammeEditionID pEID, ProgrammeID pID, SchoolYearID sYID) throws Exception{
 
@@ -20,14 +20,14 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
         if (sYID == null)
             throw new Exception("SchoolYearID cannot be null");
 
-        _programmeEditionID = pEID;
-        _programmeID = pID;
-        _schoolYearID = sYID;
+        programmeEditionID = pEID;
+        programmeID = pID;
+        schoolYearID = sYID;
     }
 
     @Override
     public ProgrammeEditionID identity() {
-        return _programmeEditionID;
+        return programmeEditionID;
     }
 
     @Override
@@ -38,17 +38,17 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
             return false;
 
         ProgrammeEdition that = (ProgrammeEdition) object;
-        if (this._schoolYearID.equals(that._schoolYearID) &&  this._programmeID.equals(that._programmeID))
+        if (this.schoolYearID.equals(that.schoolYearID) &&  this.programmeID.equals(that.programmeID))
             return true;
         return false;
     }
 
     public ProgrammeID findProgrammeIDInProgrammeEdition() {
-        return _programmeID;
+        return programmeID;
     }
 
     public SchoolYearID findSchoolYearIDInProgrammeEdition() {
-        return _schoolYearID;
+        return schoolYearID;
     }
 
     @Override
@@ -58,13 +58,13 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
         if (!(object instanceof ProgrammeEdition))
             return false;
         ProgrammeEdition that = (ProgrammeEdition) object;
-        if (_programmeEditionID.equals(that._programmeEditionID))
+        if (programmeEditionID.equals(that.programmeEditionID))
             return true;
         return false;
     }
 
     @Override
     public int hashCode() {
-        return _programmeEditionID.hashCode();
+        return programmeEditionID.hashCode();
     }
 }

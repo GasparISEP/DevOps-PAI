@@ -16,10 +16,10 @@ import java.util.Optional;
 @Component
 public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
-    private IProgrammeEditionFactory programmeEditionFactory;
-    private IProgrammeEditionIdMapper programmeEditionIDMapper;
-    private IProgrammeIDMapper programmeIDMapper;
-    private ISchoolYearIDMapper schoolYearIDMapper;
+    private final IProgrammeEditionFactory programmeEditionFactory;
+    private final IProgrammeEditionIdMapper programmeEditionIDMapper;
+    private final IProgrammeIDMapper programmeIDMapper;
+    private final ISchoolYearIDMapper schoolYearIDMapper;
 
     public ProgrammeEditionMapperImpl(IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionIdMapper programmeEditionIDMapper,
                                       IProgrammeIDMapper programmeIDMapper, ISchoolYearIDMapper schoolYearIDMapper){
@@ -59,7 +59,7 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
         }
         ProgrammeEditionID programmeEditionID = programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
         ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel());
-        SchoolYearID schoolYearID = schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel());
+        SchoolYearID schoolYearID = schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getSchoolYearIDDataModel());
 
         ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
         return Optional.of(programmeEdition);

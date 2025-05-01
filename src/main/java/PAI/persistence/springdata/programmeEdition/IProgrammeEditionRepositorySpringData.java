@@ -13,12 +13,12 @@ import java.util.Optional;
 
 public interface IProgrammeEditionRepositorySpringData extends JpaRepository<ProgrammeEditionDataModel, ProgrammeEditionIdDataModel> {
 
-    @Query("SELECT pe FROM ProgrammeEditionDataModel pe WHERE pe.programmeEditionIdDataModel._programmeIDDataModel = :programmeId AND pe.programmeEditionIdDataModel._schoolYearIDDataModel = :schoolYearId")
+    @Query("SELECT pe FROM ProgrammeEditionDataModel pe WHERE pe.programmeEditionIdDataModel.programmeIDDataModel = :programmeId AND pe.programmeEditionIdDataModel.schoolYearIDDataModel = :schoolYearId")
     Optional<ProgrammeEditionDataModel> findProgrammeEditionIDDataModelByProgrammeIDAndSchoolYearIDDataModel(
             @Param("programmeId") ProgrammeIDDataModel programmeId,
             @Param("schoolYearId") SchoolYearIDDataModel schoolYearId);
 
-    @Query("SELECT pe FROM ProgrammeEditionDataModel pe WHERE pe.programmeEditionIdDataModel._programmeIDDataModel = :programmeIDDataModel")
+    @Query("SELECT pe FROM ProgrammeEditionDataModel pe WHERE pe.programmeEditionIdDataModel.programmeIDDataModel = :programmeIDDataModel")
     List<ProgrammeEditionDataModel> findProgrammeEditionByProgrammeIDDataModel(
             @Param("programmeIDDataModel") ProgrammeIDDataModel programmeIDDataModel);
 }
