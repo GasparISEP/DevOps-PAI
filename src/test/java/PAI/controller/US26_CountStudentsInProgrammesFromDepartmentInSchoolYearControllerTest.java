@@ -557,14 +557,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
 
-        SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
         SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
         schoolYearRepository.save(schoolYear1);
@@ -589,7 +587,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
 
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
@@ -692,7 +689,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -721,11 +717,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
-        DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
 
         DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentListFactoryImpl);
@@ -825,7 +819,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -838,14 +831,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         schoolYearRepository.save(schoolYear1);
         schoolYearRepository.save(schoolYear2);
 
-        CourseEditionEnrolmentListFactoryImpl courseEditionEnrolmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
-        CourseEditionEnrolmentRepositoryImpl courseEditionEnrolmentRepository = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrolmentListFactory);
-
-        ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
-        ICourseEditionListFactory courseEditionListFactory = new CourseEditionListFactoryImpl();
-
-        CourseEditionRepositoryImpl courseEditionRepository = new CourseEditionRepositoryImpl(courseEditionFactory, courseEditionListFactory);
-
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeRepositoryListFactory programmeLisListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
@@ -854,18 +839,12 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
-        IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
-        IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
         DepartmentFactoryImpl departmentFactoryImpl = new DepartmentFactoryImpl();
         DepartmentListFactoryImpl departmentListFactoryImpl = new DepartmentListFactoryImpl();
 
         DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl(departmentListFactoryImpl);
         departmentRepository.save(department);
-
-
-        IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
 
         ProgrammeEditionEnrolmentServiceImpl programmeEditionEnrolmentService =null;
 
@@ -950,7 +929,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -979,7 +957,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
@@ -1083,7 +1060,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -1112,7 +1088,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
@@ -1217,7 +1192,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -1246,7 +1220,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
@@ -1350,7 +1323,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -1379,7 +1351,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
@@ -1485,7 +1456,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -1514,7 +1484,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
@@ -1620,7 +1589,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
-        ProgrammeEditionEnrolmentFactoryImpl programmeEditionEnrollmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
         programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
@@ -1649,7 +1617,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeLisListFactory);
         programmeRepository.save(programme1);
         programmeRepository.save(programme2);
-        IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
 
