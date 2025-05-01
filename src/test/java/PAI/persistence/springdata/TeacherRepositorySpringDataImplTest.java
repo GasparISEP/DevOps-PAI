@@ -195,14 +195,15 @@ class TeacherRepositorySpringDataImplTest {
     @Test
     void shouldCheckContainsOfIdentity() {
         // Arrange
+        TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
         TeacherIDDataModel teacherIDDataModelDouble = mock(TeacherIDDataModel.class);
-        TeacherID teacherIDdouble = mock(TeacherID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
 
-        when(teacherIDMapper.toDataModel(teacherIDdouble)).thenReturn(teacherIDDataModelDouble);
-        when(iTeacherRepoSpringData.existsById(teacherIDDataModelDouble)).thenReturn(true);
+        when(teacherIDMapper.toDataModel(teacherIDDouble)).thenReturn(teacherIDDataModelDouble);
+        when(iTeacherRepoSpringData.findByTeacherId(teacherIDDataModelDouble)).thenReturn(Optional.of(teacherDataModel));
 
         // Act
-        boolean result = teacherRepository.containsOfIdentity(teacherIDdouble);
+        boolean result = teacherRepository.containsOfIdentity(teacherIDDouble);
 
         // Assert
         assertTrue(result);
@@ -245,7 +246,7 @@ class TeacherRepositorySpringDataImplTest {
         Teacher teacher = mock(Teacher.class);
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel)).thenReturn(Optional.of(teacherDataModel));
+        when(iTeacherRepoSpringData.findByTeacherId(idDataModel)).thenReturn(Optional.of(teacherDataModel));
         when(teacherMapper.toDomain(teacherDataModel)).thenReturn(teacher);
 
         // Act
@@ -276,7 +277,7 @@ class TeacherRepositorySpringDataImplTest {
         TeacherDataModel teacherDataModel = mock(TeacherDataModel.class);
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(idDataModel);
-        when(iTeacherRepoSpringData.findById(idDataModel)).thenReturn(Optional.of(teacherDataModel));
+        when(iTeacherRepoSpringData.findByTeacherId(idDataModel)).thenReturn(Optional.of(teacherDataModel));
         when(teacherMapper.toDomain(teacherDataModel)).thenThrow(new RuntimeException("Could not convert Teacher Data Model to Teacher Domain Object."));
 
         // Act + Assert
@@ -300,7 +301,7 @@ class TeacherRepositorySpringDataImplTest {
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(teacherIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
-        when(iTeacherRepoSpringData.existsByIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(false);
+        when(iTeacherRepoSpringData.existsByTeacherIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(false);
 
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);
@@ -320,7 +321,7 @@ class TeacherRepositorySpringDataImplTest {
 
         when(teacherIDMapper.toDataModel(teacherID)).thenReturn(teacherIDDataModel);
         when(nifMapper.domainToDataModel(nif)).thenReturn(nifDataModel);
-        when(iTeacherRepoSpringData.existsByIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(true);
+        when(iTeacherRepoSpringData.existsByTeacherIdOrNif(teacherIDDataModel, nifDataModel)).thenReturn(true);
 
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherID, nif);

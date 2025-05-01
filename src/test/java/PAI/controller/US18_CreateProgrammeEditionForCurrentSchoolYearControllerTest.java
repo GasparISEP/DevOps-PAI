@@ -7,16 +7,16 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
-import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
-import PAI.repository.ISchoolYearRepository;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import PAI.persistence.mem.programmeEdition.IProgrammeEditionListFactory;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.persistence.mem.programmeEdition.ProgrammeEditionListFactoryImpl;
 import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
+import PAI.repository.ISchoolYearRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -26,7 +26,6 @@ import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,12 +52,12 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Assert
         assertNotNull(controller);
@@ -67,7 +66,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionServiceIsNull() throws Exception {
         // Arrange
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
@@ -76,12 +74,12 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService,programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService);});
 
         // Assert
         assertEquals("Programme Edition Service cannot be null", exception.getMessage());
@@ -96,19 +94,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
 
 
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService, programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService);});
 
         // Assert
         assertEquals("Programme Service cannot be null", exception.getMessage());
@@ -130,72 +123,16 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null, programmeEditionFactory, schoolYearRepository);});
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null);});
 
         // Assert
         assertEquals("School Year Service cannot be null", exception.getMessage());
     }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeEditionFactoryIsNull() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
-
-
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
-
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,null, schoolYearRepository);});
-
-        // Assert
-        assertEquals("Programme Edition Repository cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenSchoolYearRepositoryIsNull() throws Exception {
-        // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
-
-
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
-
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService,programmeEditionFactory, null);});
-
-        // Assert
-        assertEquals("School Year Repository cannot be null", exception.getMessage());
-    }
-
-
 
     @Test
     void shouldReturnListOfNamesOfAllExistingProgrammes() throws Exception {
@@ -213,11 +150,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -262,11 +199,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -292,20 +229,21 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
 
         Description description = new Description("2024/2025");
         Date startDate = new Date("01-09-2024");
         Date endDate = new Date("31-08-2025");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description, startDate, endDate);
+        schoolYearRepository.save(schoolYear1);
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
         SchoolYearID expectedID = schoolYear.identity();
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         SchoolYearID result = controller.getCurrentSchoolYear();
@@ -330,10 +268,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         SchoolYearID result = controller.getCurrentSchoolYear();
@@ -358,11 +296,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
@@ -370,8 +308,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Description description3 = new Description("2025/2026");
         Date startDate3 = new Date("01-09-2025");
         Date endDate3 = new Date("31-08-2026");
-        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.save(schoolYear1);
+        SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
+        schoolYearRepository.save(schoolYear2);
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
@@ -397,11 +337,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -430,8 +370,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Description description3 = new Description("2025/2026");
         Date startDate3 = new Date("01-09-2025");
         Date endDate3 = new Date("31-08-2026");
-        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.save(schoolYear1);
+        SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
+        schoolYearRepository.save(schoolYear2);
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
@@ -459,11 +401,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
@@ -492,8 +434,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Description description3 = new Description("2025/2026");
         Date startDate3 = new Date("01-09-2025");
         Date endDate3 = new Date("31-08-2026");
-        schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.save(schoolYear1);
+        SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
+        schoolYearRepository.save(schoolYear2);
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
@@ -521,15 +465,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService,
-                programmeService,
-                schoolYearService,
-                programmeEditionFactory,
-                schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
@@ -551,7 +491,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Description description = new Description("2023/2024");
         Date startDate = new Date("01-09-2023");
         Date endDate = new Date("31-08-2024");
-        schoolYearRepository.addSchoolYear(description, startDate, endDate);
+
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description, startDate, endDate);
+        schoolYearRepository.save(schoolYear1);
+
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
@@ -582,11 +525,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService, programmeService, schoolYearService, programmeEditionFactory, schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
             NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
             Acronym programmeAcronym1 = new Acronym("LEI");
@@ -615,30 +558,23 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
             Description description3 = new Description("2025/2026");
             Date startDate3 = new Date("01-09-2025");
             Date endDate3 = new Date("31-08-2026");
-            schoolYearRepository.addSchoolYear(description1, startDate1, endDate1);
-            schoolYearRepository.addSchoolYear(description2, startDate2, endDate2);
-            schoolYearRepository.addSchoolYear(description3, startDate3, endDate3);
 
-            Optional<Programme> programmeOpt1= programmeRepository.getProgrammeByName(programmeName1);
-            Optional<Programme> programmeOpt2= programmeRepository.getProgrammeByName(programmeName2);
-            Optional<Programme> programmeOpt3= programmeRepository.getProgrammeByName(programmeName3);
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        schoolYearRepository.save(schoolYear1);
+        SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
+        schoolYearRepository.save(schoolYear2);
+        SchoolYear schoolYear3=schoolYearFactory.createSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.save(schoolYear3);
 
-            Programme programme1 = programmeOpt1.orElse(null);
+
+            Iterable<Programme> programmes = programmeRepository.findAll();
+            Iterator<Programme> iterator = programmes.iterator();
+            Programme programme1 = iterator.next();
+
             ProgrammeID pID1 = programme1.identity();
-
-            Programme programme2 = programmeOpt2.orElse(null);
-            ProgrammeID pID2 = programme2.identity();
-
-            Programme programme3 = programmeOpt3.orElse(null);
-            ProgrammeID pID3 = programme3.identity();
-
-
             SchoolYearID sYID = schoolYearService.getCurrentSchoolYearID().get();
 
             ProgrammeEdition programmeEdition1 = programmeEditionService.createProgrammeEdition(pID1, sYID);
-            programmeEditionService.createProgrammeEdition(pID2, sYID);
-            programmeEditionService.createProgrammeEdition(pID3, sYID);
-
             programmeEditionService.saveProgrammeEdition(programmeEdition1);
 
             // Act
@@ -669,15 +605,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearRepositoryListFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService,
-                programmeService,
-                schoolYearService,
-                programmeEditionFactory,
-                schoolYearRepository);
+                programmeEditionService, programmeService, schoolYearService);
 
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
@@ -689,7 +621,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
         programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        Programme programme = programmeRepository.getProgrammeByName(programmeName).get();
+        Iterable<Programme> programmes = programmeRepository.findAll();
+        Iterator<Programme> iterator = programmes.iterator();
+        Programme programme = iterator.next();
+
 
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
 

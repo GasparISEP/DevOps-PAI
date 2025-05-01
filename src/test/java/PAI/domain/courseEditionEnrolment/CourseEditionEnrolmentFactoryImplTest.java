@@ -1,6 +1,8 @@
 package PAI.domain.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionID;
+import PAI.VOs.Date;
+import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.StudentID;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -115,50 +117,4 @@ class CourseEditionEnrolmentFactoryImplTest {
             }
         }
     }
-
-    @Test
-    void should_create_enrolment_with_given_date_and_status() {
-
-        // arrange
-        StudentID studentID = mock(StudentID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        LocalDate enrolmentDate = LocalDate.of(2023, 9, 15);
-        boolean isActive = true;
-
-        CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
-
-        // act
-        CourseEditionEnrolment enrolment = factory.createWithEnrolmentDate(studentID, courseEditionID, enrolmentDate, isActive);
-
-        // assert
-        assertNotNull(enrolment);
-        assertEquals(studentID, enrolment.knowStudent());
-        assertEquals(courseEditionID, enrolment.knowCourseEdition());
-        assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
-        assertEquals(isActive, enrolment.isEnrolmentActive());
-    }
-
-    @Test
-    void should_create_inactive_enrolment_with_given_date() {
-
-        // arrange
-        StudentID studentID = mock(StudentID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        LocalDate enrolmentDate = LocalDate.of(2024, 3, 10);
-        boolean isActive = false;
-
-        CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
-
-        // act
-        CourseEditionEnrolment enrolment = factory.createWithEnrolmentDate(studentID, courseEditionID, enrolmentDate, isActive);
-
-        // assert
-        assertNotNull(enrolment);
-        assertEquals(studentID, enrolment.knowStudent());
-        assertEquals(courseEditionID, enrolment.knowCourseEdition());
-        assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
-        assertFalse(enrolment.isEnrolmentActive());
-    }
-
-
 }

@@ -7,6 +7,10 @@ skinparam {
   ActivityMargin 2
   BoxPadding 2
 }
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor LightBlue
+}
 skinparam defaultTextAlignment center
 skinparam shadowing true
 

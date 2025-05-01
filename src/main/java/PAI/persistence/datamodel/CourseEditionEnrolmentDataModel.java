@@ -16,7 +16,7 @@ public class CourseEditionEnrolmentDataModel {
     private LocalDate _enrolmentDate;
 
     @Column (name= "status", nullable = false)
-    private boolean isActive;
+    private boolean active;
 
     @Version
     private Long version;
@@ -28,7 +28,7 @@ public class CourseEditionEnrolmentDataModel {
     public CourseEditionEnrolmentDataModel(CourseEditionEnrolmentIDDataModel id, LocalDate enrolmentDate, boolean isActive) {
         this.id = id;
         this._enrolmentDate = enrolmentDate;
-        this.isActive = isActive;
+        this.active = isActive;
     }
 
     public CourseEditionEnrolmentIDDataModel findId() {
@@ -40,7 +40,7 @@ public class CourseEditionEnrolmentDataModel {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     @Override

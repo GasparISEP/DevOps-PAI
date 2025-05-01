@@ -2,16 +2,13 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEditionEnrolmentMapper;
 import PAI.mapper.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import org.springframework.stereotype.Repository;
@@ -20,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgrammeEditionEnrolmentRepository {
+public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgrammeEditionEnrolmentRepository {
 
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
     private final IProgrammeEditionEnrolmentMapper _peeMapper;
@@ -28,28 +25,18 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
     private final IStudentIDMapper studentIdMapper;
     private final IProgrammeEditionIdMapper programmeEditionIdMapper;
 
-    public ProgrammeEditionEnrolmentRepositorySpringData(
+    public ProgrammeEditionEnrolmentRepositorySpringDataImpl(
             IProgrammeEditionEnrolmentRepositorySpringData peeRepositorySpringData,
             IProgrammeEditionEnrolmentMapper peeMapper,
             IProgrammeEditionEnrolmentIDMapper peeIDMapper,
             IStudentIDMapper studentIdMapper,
             IProgrammeEditionIdMapper programmeEditionIdMapper) {
-        if (peeRepositorySpringData == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepositorySpringData cannot be null");
-        if (peeMapper == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentMapper cannot be null");
-        if (peeIDMapper == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentIDMapper cannot be null");
-        if (studentIdMapper == null)
-            throw new IllegalArgumentException("StudentIDMapper cannot be null!");
-        if (programmeEditionIdMapper == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
-        }
-        this.programmeEditionIdMapper = programmeEditionIdMapper;
-        this._peeRepositorySpringData = peeRepositorySpringData;
-        this._peeMapper = peeMapper;
-        this.studentIdMapper = studentIdMapper;
-        this._peeIDMapper = peeIDMapper;
+
+        this._peeRepositorySpringData = validate(peeRepositorySpringData, "ProgrammeEditionEnrolmentRepositorySpringData");
+        this._peeMapper = validate(peeMapper, "ProgrammeEditionEnrolmentMapper");
+        this._peeIDMapper = validate(peeIDMapper, "ProgrammeEditionEnrolmentIDMapper");
+        this.studentIdMapper = validate(studentIdMapper, "StudentIDMapper");
+        this.programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIdMapper");
     }
 
     public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
@@ -103,7 +90,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
 
     public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
-        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllBy_id_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
+        List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllById_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
         List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = new ArrayList<>();
         for (ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel : allProgrammeEditionEnrolmentsDataModel) {
             Optional<ProgrammeEditionEnrolment> programmeEditionEnrolment = _peeMapper.toDomain(programmeEditionEnrolmentDataModel);
@@ -119,7 +106,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
             ProgrammeEditionIdDataModel programmeEditionIDDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
 
             Optional<ProgrammeEditionEnrolmentDataModel> dataModel =
-                    _peeRepositorySpringData.findByStudentIDAndProgrammeEditionID(studentIDDataModel, programmeEditionIDDataModel);
+                    _peeRepositorySpringData.findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(studentIDDataModel, programmeEditionIDDataModel);
 
             if (dataModel.isEmpty()) return Optional.empty();
 
@@ -197,5 +184,13 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
                 .map(this._peeRepositorySpringData::existsById)
                 .orElse(false);
     }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null.");
+        }
+        return instance;
+    }
+
 }
 

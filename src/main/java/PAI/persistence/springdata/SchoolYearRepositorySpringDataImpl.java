@@ -1,8 +1,6 @@
 package PAI.persistence.springdata;
 
 
-import PAI.VOs.Date;
-import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.SchoolYear;
 import PAI.mapper.SchoolYear.ISchoolYearMapper;
@@ -81,18 +79,8 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
     }
 
     @Override
-    public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
-        return false;
-    }
-
-    @Override
     public boolean schoolYearExists(SchoolYear schoolYear) {
         return false;
-    }
-
-    @Override
-    public List<SchoolYear> getAllSchoolYears() {
-        return List.of();
     }
 
     @Override

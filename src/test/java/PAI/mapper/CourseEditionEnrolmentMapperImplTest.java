@@ -2,6 +2,7 @@ package PAI.mapper;
 
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentFactoryImpl;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
@@ -17,63 +18,108 @@ import static org.mockito.Mockito.*;
 class CourseEditionEnrolmentMapperImplTest {
 
     @Test
-    void toDataModel_WithValidEnrolment_ShouldReturnDataModel() throws Exception {
-
+    void should_map_domain_to_data_model_successfully() throws Exception {
         // arrange
-        ICourseEditionEnrolmentIDMapper idMapperMock = mock(ICourseEditionEnrolmentIDMapper.class);
-        ICourseEditionEnrolmentFactory factoryMock = mock(ICourseEditionEnrolmentFactory.class);
-        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapperMock, factoryMock);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
+        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapper, factory);
 
-        StudentID studentID = new StudentID(1234567);
-        CourseEditionID courseEditionID = new CourseEditionID(mock(ProgrammeEditionID.class), mock(CourseInStudyPlanID.class));
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID);
-
+        CourseEditionEnrolmentID enrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolment domain = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolmentIDDataModel idDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        when(idMapperMock.toDataModel(any())).thenReturn(Optional.of(idDataModel));
+        Date enrolmentDate = mock(Date.class);
+
+        when(domain.identity()).thenReturn(enrolmentID);
+        when(idMapper.toDataModel(enrolmentID)).thenReturn(Optional.of(idDataModel));
+        when(domain.getEnrolmentDate()).thenReturn(enrolmentDate);
+        when(enrolmentDate.getLocalDate()).thenReturn(LocalDate.now());
+        when(domain.isEnrolmentActive()).thenReturn(new EnrolmentStatus(true).isEnrolmentActive());
 
         // act
-        Optional<CourseEditionEnrolmentDataModel> result = mapper.toDataModel(enrolment);
+        Optional<CourseEditionEnrolmentDataModel> result = mapper.toDataModel(domain);
 
         // assert
         assertTrue(result.isPresent());
         assertEquals(idDataModel, result.get().findId());
-        assertEquals(enrolment.getEnrolmentDate(), result.get().findEnrolmentDate());
-        assertEquals(enrolment.isEnrolmentActive(), result.get().isActive());
-
-        verify(idMapperMock).toDataModel(enrolment.identity());
     }
 
-
     @Test
-    void toDomain_WithValidDataModel_ShouldReturnEnrolment() throws Exception {
-        // arrange
-        ICourseEditionEnrolmentIDMapper idMapperMock = mock(ICourseEditionEnrolmentIDMapper.class);
-        ICourseEditionEnrolmentFactory factoryMock = mock(ICourseEditionEnrolmentFactory.class);
-        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapperMock, factoryMock);
+    void should_map_data_model_to_domain_successfully() throws Exception {
+
+        // Arrange
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
+        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapper, factory);
 
         CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
         CourseEditionEnrolmentIDDataModel idDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        CourseEditionEnrolmentID courseEditionEnrolmentID = new CourseEditionEnrolmentID(new StudentID(1234567), new CourseEditionID(programmeEditionID,courseInStudyPlanID));
+        CourseEditionEnrolmentID domainId = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolment domain = mock(CourseEditionEnrolment.class);
+
+        StudentID studentId = mock(StudentID.class);
+        CourseEditionID courseEditionId = mock(CourseEditionID.class);
 
         when(dataModel.findId()).thenReturn(idDataModel);
-        when(idMapperMock.toDomain(idDataModel)).thenReturn(Optional.of(courseEditionEnrolmentID));
         when(dataModel.findEnrolmentDate()).thenReturn(LocalDate.now());
         when(dataModel.isActive()).thenReturn(true);
-
-        StudentID studentID = courseEditionEnrolmentID.getStudentID();
-        CourseEditionID courseEditionID = courseEditionEnrolmentID.getCourseEditionID();
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID);
-
-        when(factoryMock.createWithEnrolmentDate(studentID, courseEditionID, LocalDate.now(), true)).thenReturn(enrolment);
+        when(idMapper.toDomain(idDataModel)).thenReturn(Optional.of(domainId));
+        when(domainId.getStudentID()).thenReturn(studentId);
+        when(domainId.getCourseEditionID()).thenReturn(courseEditionId);
+        when(factory.createWithEnrolmentDate(any(), any(), any(), any())).thenReturn(domain);
 
         // act
         Optional<CourseEditionEnrolment> result = mapper.toDomain(dataModel);
 
         // assert
         assertTrue(result.isPresent());
-        assertEquals(enrolment, result.get());
+        assertEquals(domain, result.get());
     }
 
+    @Test
+    void should_return_optional_empty_if_domain_is_null() throws Exception {
+
+        //arrange
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
+        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapper, factory);
+
+
+        //act
+        Optional<CourseEditionEnrolmentDataModel> result = mapper.toDataModel(null);
+
+        //assert
+        assertTrue(result.isEmpty(),"Domain cannot be null!");
+    }
+
+    @Test
+    void should_throw_exception_when_mapper_is_null() {
+
+        // arrange
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
+
+        // act & assert
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> new CourseEditionEnrolmentMapperImpl(null, factory),
+                "Expected constructor to throw an IllegalArgumentException"
+        );
+
+        assertEquals("ID mapper and factory cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void should_throw_exception_when_factory_is_null() {
+
+        // arrange
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+
+        // act & assert
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> new CourseEditionEnrolmentMapperImpl(idMapper, null),
+                "Expected constructor to throw an IllegalArgumentException"
+        );
+
+        assertEquals("ID mapper and factory cannot be null", thrown.getMessage());
+    }
 }

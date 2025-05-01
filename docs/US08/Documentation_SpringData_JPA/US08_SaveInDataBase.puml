@@ -1,13 +1,16 @@
 @startuml
 participant "sr1:StudentRepositorySpringData" as SR #lightcyan
 participant "m1:StudentMapper" as mapper #lightgreen
+participant "sf1:StudentFactory" as factory #implementation
 participant "sDataModel1: StudentDataModel" as sDM #lightblue
 participant "s1:Student" as s1 #strategy
+skinparam sequenceMessageAlign center
+
 
 activate SR
 SR -> mapper: domainToDataModel(s1)
 activate mapper
-mapper -> sDM**: new StudentDataModel(s1)
+mapper -> sDM: new StudentDataModel(s1)
 activate sDM
 sDM --> mapper : sDataModel1
 deactivate sDM
@@ -17,11 +20,15 @@ SR -> : save
 SR <-- :sDataModel1
 SR -> mapper: dataModelToDomain(s1DataModel)
 activate mapper
-mapper -> s1**: newStudent(s1DataModel)
+mapper -> factory : newStudent(studentIDDataModel, nameDataModel, nifDataModel, \n phoneNumberDataModel, email, addressDataModel, studentAcademicEmailDataModel)
+activate factory
+factory -> s1: newStudent(s1DataModel)
 activate s1
-s1 --> mapper: s1
+s1 --> factory: s1
 deactivate s1
-mapper --> SR: s1
+factory --> mapper: s1
+deactivate factory
+mapper --> SR : s1
 deactivate mapper
 deactivate SR
 @enduml

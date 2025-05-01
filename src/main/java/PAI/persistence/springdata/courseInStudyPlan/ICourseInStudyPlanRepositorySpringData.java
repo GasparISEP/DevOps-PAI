@@ -21,7 +21,7 @@ public interface ICourseInStudyPlanRepositorySpringData extends JpaRepository<Co
         END
     )
     FROM CourseInStudyPlanDataModel c
-    WHERE c.CISPstudyPlanIDDataModel = :studyPlanID
+    WHERE c.courseInStudyPlanID = :studyPlanID
     AND c.curricularYear = :curricularYear
     """)
     Double sumCombinedCredits(

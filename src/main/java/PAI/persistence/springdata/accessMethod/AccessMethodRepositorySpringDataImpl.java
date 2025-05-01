@@ -40,7 +40,7 @@ public class AccessMethodRepositorySpringDataImpl implements IRepositoryAccessMe
 
     @Override
     public Optional<AccessMethod> getAccessMethodByName(NameWithNumbersAndSpecialChars accessMethodNameToSearch) {
-        String accessMethodName = accessMethodNameToSearch.toString();
+        String accessMethodName = accessMethodNameToSearch.getnameWithNumbersAndSpecialChars();
         Optional<AccessMethodDataModel> accessMethodDataModelOptional = iAccessMethodRepositorySpringData.findAccessMethodDataModelByName(accessMethodName);
         if(accessMethodDataModelOptional.isPresent()) {
             AccessMethodDataModel accessMethodDataModel = accessMethodDataModelOptional.get();

@@ -98,8 +98,4 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
         }
         return programmesWithDepartment;
     }
-
-    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        return Optional.empty();
-    }
 }

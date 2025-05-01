@@ -14,14 +14,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProgrammeEditionEnrolmentIDMapperTest {
+class ProgrammeEditionEnrolmentIDMapperImplTest {
 
     @Test
     void shouldCreateProgrammeEditionEnrolmentIDMapper() {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
 
-        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
 
         assertNotNull(mapper);
     }
@@ -29,20 +29,20 @@ class ProgrammeEditionEnrolmentIDMapperTest {
     @Test
     void nullProgrammeEditionIdMapperThrowsException() {
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapper(null, studentIDMapper));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapperImpl(null, studentIDMapper));
     }
 
     @Test
     void nullStudentIdMapperThrowsException() {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, null));
     }
 
     @Test
     void shouldMapToDomain() throws Exception {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
 
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
@@ -68,7 +68,7 @@ class ProgrammeEditionEnrolmentIDMapperTest {
     void shouldMapToDomainWhenDataModelIsNull() {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
 
         Optional<ProgrammeEditionEnrolmentID> result = mapper.toDomain(null);
 
@@ -79,7 +79,7 @@ class ProgrammeEditionEnrolmentIDMapperTest {
     void shouldMapToDataModel() throws Exception {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
 
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         StudentID studentID = mock(StudentID.class);
@@ -104,7 +104,7 @@ class ProgrammeEditionEnrolmentIDMapperTest {
     void shouldMapToDataModelWhenDomainIsNull() {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        ProgrammeEditionEnrolmentIDMapper mapper = new ProgrammeEditionEnrolmentIDMapper(programmeEditionIdMapper, studentIDMapper);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
 
         Optional<ProgrammeEditionEnrolmentIDDataModel> result = mapper.toDataModel(null);
 

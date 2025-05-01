@@ -37,6 +37,7 @@ public class ProgrammeDataModel {
     @Column(name = "ProgDirectorID")
     private TeacherIDDataModel programmeDirectorID;
 
+
     public ProgrammeDataModel() {}
 
     public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {

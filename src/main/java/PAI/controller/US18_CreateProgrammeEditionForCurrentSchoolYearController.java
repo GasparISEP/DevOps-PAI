@@ -1,33 +1,24 @@
 package PAI.controller;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.SchoolYear;
 import PAI.domain.programme.Programme;
-import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.ISchoolYearRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.schoolYear.ISchoolYearService;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
+@Component
 public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
 
-    private final IProgrammeEditionService _programmeEditionService;
-    private final IProgrammeService _programmeService;
-    private final ISchoolYearService _schoolYearService;
+    private final IProgrammeEditionService programmeEditionService;
+    private final IProgrammeService programmeService;
+    private final ISchoolYearService schoolYearService;
 
-    private final IProgrammeEditionFactory _programmeEditionFactory;
-    private final ISchoolYearRepository _schoolYearRepository;
-
-
-    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionService programmeEditionService, IProgrammeService programmeService, ISchoolYearService schoolYearService, IProgrammeEditionFactory programmeEditionFactory, ISchoolYearRepository schoolYearRepository) throws Exception {
+    public US18_CreateProgrammeEditionForCurrentSchoolYearController(IProgrammeEditionService programmeEditionService, IProgrammeService programmeService, ISchoolYearService schoolYearService) throws Exception {
 
         if (programmeEditionService == null)
             throw new Exception("Programme Edition Service cannot be null");
@@ -35,26 +26,20 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
             throw new Exception("Programme Service cannot be null");
         if (schoolYearService == null)
             throw new Exception("School Year Service cannot be null");
-        if (programmeEditionFactory == null)
-            throw new Exception("Programme Edition Repository cannot be null");
-        if (schoolYearRepository == null)
-            throw new Exception("School Year Repository cannot be null");
 
-        this._programmeEditionService = programmeEditionService;
-        this._programmeService = programmeService;
-        this._schoolYearService = schoolYearService;
-        this._programmeEditionFactory = programmeEditionFactory;
-        this._schoolYearRepository = schoolYearRepository;
+        this.programmeEditionService = programmeEditionService;
+        this.programmeService = programmeService;
+        this.schoolYearService = schoolYearService;
     }
 
     public Iterable<Programme> getAllProgrammes(){
 
-        return _programmeService.findAll();
+        return programmeService.findAll();
     }
 
     protected SchoolYearID getCurrentSchoolYear(){
 
-        Optional<SchoolYearID> currentSchoolYear = _schoolYearService.getCurrentSchoolYearID();
+        Optional<SchoolYearID> currentSchoolYear = schoolYearService.getCurrentSchoolYearID();
         if(currentSchoolYear.isEmpty()){
             return null;
         }
@@ -73,8 +58,8 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         ProgrammeID pID = programme.identity();
 
         try {
-            ProgrammeEdition programmeEdition = _programmeEditionService.createProgrammeEdition(pID, sYID);
-            Optional<ProgrammeEdition> programmeEditionOptional = _programmeEditionService.saveProgrammeEdition(programmeEdition);
+            ProgrammeEdition programmeEdition = programmeEditionService.createProgrammeEdition(pID, sYID);
+            Optional<ProgrammeEdition> programmeEditionOptional = programmeEditionService.saveProgrammeEdition(programmeEdition);
             if(programmeEditionOptional.isPresent()){
                 return true;
             }

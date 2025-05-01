@@ -5,8 +5,9 @@ import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class StudentGradeIDMapperImpl implements IStudentGradeIDMapper {
 
     private final CourseEditionIDMapperImpl courseEditionIDMapper;

@@ -176,8 +176,6 @@ class CourseInStudyPlanMapperImplTest {
 
         CourseInStudyPlanDataModel dataModel = new CourseInStudyPlanDataModel(
                 compositeIDDataModel,
-                studyPlanIDDataModel,
-                courseIDDataModel,
                 semesterVO.toInt(),
                 yearVO.toInt(),
                 durationOfCourse.getDuration(),

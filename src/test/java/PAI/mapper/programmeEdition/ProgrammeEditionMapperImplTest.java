@@ -12,12 +12,12 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 class ProgrammeEditionMapperImplTest {
@@ -75,6 +75,7 @@ class ProgrammeEditionMapperImplTest {
         assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, null));
     }
 
+    //toDataModel TESTS
     @Test
     void shouldMapProgrammeEditionToProgrammeEditionDataModel() throws Exception {
         // arrange
@@ -111,6 +112,56 @@ class ProgrammeEditionMapperImplTest {
     }
 
     @Test
+    void shouldNotMapProgrammeEditionIfProgrammeEditionIDMapperToDataModelThrowsException() throws Exception {
+        // arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(programmeEdition.identity()).thenReturn(programmeEditionID);
+        when(programmeEditionIDMapper.toDataModel(programmeEdition.identity())).thenThrow(IllegalArgumentException.class);
+
+        // act
+        Optional<ProgrammeEditionDataModel> pEDM = programmeEditionMapper.toDataModel(programmeEdition);
+        // assert
+        assertTrue(pEDM.isEmpty());
+    }
+
+    @Test
+    void shouldNotMapProgrammeEditionIfProgrammeEditionDataModelCreationFails() throws Exception {
+        // arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionMapperImpl programmeEditionMapper = new ProgrammeEditionMapperImpl(programmeEditionFactory, programmeEditionIDMapper, programmeIDMapper, schoolYearIDMapper);
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(programmeEdition.identity()).thenReturn(programmeEditionID);
+        when(programmeEditionIDMapper.toDataModel(programmeEdition.identity())).thenReturn(programmeEditionIdDataModel);
+
+        try (MockedConstruction<ProgrammeEditionDataModel> mocked = mockConstruction(ProgrammeEditionDataModel.class,
+                (mock, context) -> {
+                    throw new RuntimeException("Failed to create ProgrammeEditionDataModel");
+                })) {
+
+        // act
+        Optional<ProgrammeEditionDataModel> result = programmeEditionMapper.toDataModel(programmeEdition);
+
+        // assert
+        assertTrue(result.isEmpty());
+        }
+    }
+
+//    toDomain TESTS
+    @Test
     void shouldMapProgrammeEditionDataModelToProgrammeEdition() throws Exception {
         // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
@@ -134,8 +185,8 @@ class ProgrammeEditionMapperImplTest {
 
         SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
-        when(schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel())).thenReturn(schoolYearID);
+        when(programmeEditionDataModel.getProgrammeEditionIDDataModel().getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+        when(schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getSchoolYearIDDataModel())).thenReturn(schoolYearID);
 
         ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
         when(programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID)).thenReturn(mockProgrammeEdition);

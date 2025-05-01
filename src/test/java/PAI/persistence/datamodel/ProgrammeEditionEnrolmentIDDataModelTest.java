@@ -27,7 +27,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEditionEnrolmentIDDataModel(studentId, programmeEditionId);
         });
-        assertEquals("studentId cannot be null or blank", exception.getMessage());
+        assertEquals("studentId cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -39,7 +39,7 @@ class ProgrammeEditionEnrolmentIDDataModelTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEditionEnrolmentIDDataModel(studentId, null);
         });
-        assertEquals("programmeEditionId cannot be null or blank", exception.getMessage());
+        assertEquals("programmeEditionId cannot be null.", exception.getMessage());
     }
 
     @Test

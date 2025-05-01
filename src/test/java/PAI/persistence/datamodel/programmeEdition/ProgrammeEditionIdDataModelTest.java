@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ProgrammeEditionIdDataModelTest {
 
@@ -67,7 +66,7 @@ class ProgrammeEditionIdDataModelTest {
         SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = new ProgrammeEditionIdDataModel(programmeIDDataModel, schoolYearIDDataModel);
         //act
-        SchoolYearIDDataModel result = programmeEditionIdDataModel.get_schoolYearIDDataModel();
+        SchoolYearIDDataModel result = programmeEditionIdDataModel.getSchoolYearIDDataModel();
         //assert
         assertEquals(schoolYearIDDataModel, result);
     }

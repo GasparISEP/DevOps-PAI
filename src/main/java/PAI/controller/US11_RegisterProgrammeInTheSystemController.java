@@ -2,9 +2,10 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.service.programme.IProgrammeService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
-@Controller
+@Component
 public class US11_RegisterProgrammeInTheSystemController {
 
     private final IProgrammeService programmeService;

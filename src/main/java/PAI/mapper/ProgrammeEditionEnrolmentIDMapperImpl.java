@@ -12,22 +12,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrolmentIDMapper {
+public class ProgrammeEditionEnrolmentIDMapperImpl implements IProgrammeEditionEnrolmentIDMapper {
 
     private final IProgrammeEditionIdMapper _programmeEditionIdMapper;
     private final IStudentIDMapper _studentIdMapper;
 
-    public ProgrammeEditionEnrolmentIDMapper(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
-        if (programmeEditionIdMapper == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIDMapper cannot be null");
-        }
-
-        if (studentIdMapper == null) {
-            throw new IllegalArgumentException("StudentIDMapper cannot be null");
-        }
-
-        this._programmeEditionIdMapper = programmeEditionIdMapper;
-        this._studentIdMapper = studentIdMapper;
+    public ProgrammeEditionEnrolmentIDMapperImpl(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
+        this._programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIDMapper");
+        this._studentIdMapper = validate(studentIdMapper, "StudentIDMapper");
     }
 
     @Override
@@ -62,5 +54,12 @@ public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrol
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null");
+        }
+        return instance;
     }
 }

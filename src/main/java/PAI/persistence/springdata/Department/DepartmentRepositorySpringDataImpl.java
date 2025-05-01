@@ -8,12 +8,14 @@ import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.mem.department.IDepartmentRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@Primary
 public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository{
     private final IDepartmentRepositorySpringData jpaRepo;
     private final IDepartmentIDMapper idMapper;
@@ -60,7 +62,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
     public boolean containsOfIdentity(DepartmentID id) {
         if (id == null){return false;}
         DepartmentIDDataModel departmentIDDataModel = idMapper.toDataModel(id);
-        return jpaRepo.existsById(departmentIDDataModel.getDepartmentID());
+        return jpaRepo.existsById(departmentIDDataModel);
     }
     @Override
     public Set<DepartmentID> getDepartmentIDs(){
@@ -73,6 +75,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
                 .collect(Collectors.toSet());
     }
 
+
     @Override
     public Optional<Department> findDepartmentByID(DepartmentID departmentID) {
         if (departmentID == null) {
@@ -81,7 +84,7 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
 
         DepartmentIDDataModel dataModelId = idMapper.toDataModel(departmentID);
 
-        return jpaRepo.findById(dataModelId.getDepartmentID())
+        return jpaRepo.findById(dataModelId)
                 .map(dataModel -> {
                     try {
                         return departmentMapper.toDomain(dataModel);

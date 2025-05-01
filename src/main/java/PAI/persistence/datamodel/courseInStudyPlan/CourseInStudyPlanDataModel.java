@@ -13,20 +13,6 @@ public class CourseInStudyPlanDataModel {
     @EmbeddedId
     private CourseInStudyPlanIDDataModel courseInStudyPlanID;
 
-    @Embedded
-    @AttributeOverride(
-            name = "ID",
-            column = @Column(name = "studyPlanID", nullable = false)
-    )
-    private StudyPlanIDDataModel CISPstudyPlanIDDataModel;
-
-    @Embedded
-    @AttributeOverride(
-            name = "ID",
-            column = @Column(name = "courseID", nullable = false)
-    )
-    private CourseIDDataModel CISPcourseID;
-
     @Column(name = "semester", nullable = false)
     private int semester;
 
@@ -42,16 +28,8 @@ public class CourseInStudyPlanDataModel {
     protected CourseInStudyPlanDataModel() {
     }
 
-    public CourseInStudyPlanDataModel (CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, StudyPlanIDDataModel studyPlanIDDataModel,
-                                       CourseIDDataModel courseIDDataModel, int semester, int curricularYear, int durationOfCourse, double quantityOfCreditsEcts) {
-
-        if (courseInStudyPlanIDDataModel == null || studyPlanIDDataModel == null || courseIDDataModel == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanIDDataModel, StudyPlanIDDataModel and CourseIDDataModel cannot be null");
-        }
-
+    public CourseInStudyPlanDataModel (CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, int semester, int curricularYear, int durationOfCourse, double quantityOfCreditsEcts) {
         this.courseInStudyPlanID = courseInStudyPlanIDDataModel;
-        this.CISPstudyPlanIDDataModel = studyPlanIDDataModel;
-        this.CISPcourseID = courseIDDataModel;
 
         if (semester < 1 || curricularYear < 1 || durationOfCourse < 1 || quantityOfCreditsEcts < 1) {
             throw new IllegalArgumentException("Semester, CurricularYear, DurationOfCourse or QuantityOfCreditsEcts must be greater than 0");
@@ -81,11 +59,11 @@ public class CourseInStudyPlanDataModel {
     }
 
     public StudyPlanIDDataModel getStudyPlanIDDataModel() {
-        return CISPstudyPlanIDDataModel;
+        return courseInStudyPlanID.getStudyPlanIDDataModel();
     }
 
     public CourseIDDataModel getCourseIDDataModel() {
-        return CISPcourseID;
+        return courseInStudyPlanID.getCourseID();
     }
 
     public int getSemester() {

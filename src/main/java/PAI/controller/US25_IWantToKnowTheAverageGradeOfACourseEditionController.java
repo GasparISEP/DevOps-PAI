@@ -4,7 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.service.IStudentGradeService;
 import org.springframework.stereotype.Component;
 
-
+@Component
 public class US25_IWantToKnowTheAverageGradeOfACourseEditionController {
 
     IStudentGradeService studentGradeService;
