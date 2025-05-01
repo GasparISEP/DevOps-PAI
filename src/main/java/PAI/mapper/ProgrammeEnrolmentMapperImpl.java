@@ -41,9 +41,9 @@ public class ProgrammeEnrolmentMapperImpl implements IProgrammeEnrolmentMapper {
         }
 
         // Mapping DataModels to VO
-        StudentID studentID = _studentIDMapper.dataModelToDomain(programmeEnrolmentDataModel.getStudentID());
+        StudentID studentID = _studentIDMapper.dataModelToDomain(programmeEnrolmentDataModel.getProgrammeEnrolmentID().getStudentID());
         AccessMethodID accessMethodID = _amIDMapper.toVO(programmeEnrolmentDataModel.getAccessMethodID()).get();
-        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEnrolmentDataModel.getProgrammeID());
+        ProgrammeID programmeID = _programmeIDMapper.toDomain(programmeEnrolmentDataModel.getProgrammeEnrolmentID().getProgrammeID());
         Date enrolmentDate = new Date(programmeEnrolmentDataModel.getDate());
 
         // Factory to create Domain object
