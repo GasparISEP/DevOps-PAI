@@ -1,14 +1,20 @@
 package PAI.service;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.domain.CourseEdition;
+import PAI.domain.SchoolYear;
 import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.IStudentGradeRepository;
+import PAI.repository.ICourseEditionRepository;
+import PAI.repository.ISchoolYearRepository;
+import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 
 @Service
@@ -17,8 +23,11 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
     private final IStudentGradeFactory studentGradeFactory;
     private final IStudentGradeRepository studentGradeRepository;
     private final ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
+    private final ICourseEditionRepository courseEditionRepository ;
+    private final IProgrammeEditionRepository programmeEditionRepository;
+    private final ISchoolYearRepository schoolYearRepository;
 
-    public StudentGradeServiceImpl(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository) {
+    public StudentGradeServiceImpl(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, ICourseEditionRepository _courseEditionRepository, IProgrammeEditionRepository _programmeEditionRepository, ISchoolYearRepository _schoolYearRepository) {
         if (studentGradeFactory == null) {
             throw new IllegalArgumentException("Student Grade Factory cannot be null");
         }
@@ -33,6 +42,10 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
             throw new IllegalArgumentException("CourseEditionEnrolment cannot be null");
         }
         this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
+
+        this.courseEditionRepository = _courseEditionRepository;
+        this.programmeEditionRepository = _programmeEditionRepository;
+        this.schoolYearRepository = _schoolYearRepository;
     }
 
     public StudentGrade  newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
@@ -84,4 +97,23 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
         return approvalRate;
     }
 
+    public boolean isDateGradeInRangeWithSchoolYear (CourseEditionID courseEditionID, Date dates) throws Exception{
+        Optional<CourseEdition> courseEdition = courseEditionRepository.ofIdentity(courseEditionID);
+        ProgrammeEditionID programmeEditionID = courseEdition.get().getProgrammeEditionID();
+        Optional<ProgrammeEdition> programmeEdition = programmeEditionRepository.ofIdentity(programmeEditionID);
+        SchoolYearID schoolYearID = programmeEdition.get().findSchoolYearIDInProgrammeEdition();
+        Optional<SchoolYear> schoolYear = schoolYearRepository.ofIdentity(schoolYearID);
+        LocalDate start = schoolYear.get().getStartDate().getLocalDate();
+        LocalDate finalD = schoolYear.get().getEndDate().getLocalDate();
+        LocalDate gradeDate = dates.getLocalDate();
+        if (gradeDate.isBefore(start) || gradeDate.isAfter(finalD)) return false;
+        return true;
+    }
+
+    public boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID) throws Exception {
+        for ( StudentGrade existingGradeStudent : studentGradeRepository.findAll()){
+            if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
+        }
+        return false;
+    }
 }

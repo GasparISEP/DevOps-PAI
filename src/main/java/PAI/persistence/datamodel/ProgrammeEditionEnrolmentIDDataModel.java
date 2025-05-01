@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
 
     @Embedded
-    private StudentIDDataModel _studentIdDataModel;
+    private StudentIDDataModel studentIdDataModel;
 
     @Embedded
     @AttributeOverrides({
@@ -23,7 +23,7 @@ public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
                     column = @Column(name = "pEE_programme_name")
             )
     })
-    private ProgrammeEditionIdDataModel _programmeEditionIdDataModel;
+    private ProgrammeEditionIdDataModel programmeEditionIdDataModel;
 
     public ProgrammeEditionEnrolmentIDDataModel() {
     }
@@ -35,28 +35,28 @@ public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
         if (programmeEditionIdDataModel == null) {
             throw new IllegalArgumentException("programmeEditionId cannot be null or blank");
         }
-        this._studentIdDataModel = studentIdDataModel;
-        this._programmeEditionIdDataModel = programmeEditionIdDataModel;
+        this.studentIdDataModel = studentIdDataModel;
+        this.programmeEditionIdDataModel = programmeEditionIdDataModel;
     }
 
     public StudentIDDataModel getStudentIdDataModel() {
-        return _studentIdDataModel;
+        return studentIdDataModel;
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIdDataModel() {
-        return _programmeEditionIdDataModel;
+        return programmeEditionIdDataModel;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProgrammeEditionEnrolmentIDDataModel that = (ProgrammeEditionEnrolmentIDDataModel) o;
-        return Objects.equals(_studentIdDataModel, that._studentIdDataModel) && Objects.equals(_programmeEditionIdDataModel, that._programmeEditionIdDataModel);
+        return Objects.equals(studentIdDataModel, that.studentIdDataModel) && Objects.equals(programmeEditionIdDataModel, that.programmeEditionIdDataModel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_studentIdDataModel, _programmeEditionIdDataModel);
+        return Objects.hash(studentIdDataModel, programmeEditionIdDataModel);
     }
 }
 
