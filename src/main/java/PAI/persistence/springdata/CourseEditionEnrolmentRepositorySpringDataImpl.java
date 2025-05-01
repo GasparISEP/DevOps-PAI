@@ -101,8 +101,21 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
     @Override
     public Set<CourseEditionEnrolment> getInternalSet() throws Exception {
-        return new HashSet<>();
+
+        try {
+            List<CourseEditionEnrolmentDataModel> dataModels = iCEERepoSpringData.findAll();
+            Set<CourseEditionEnrolment> domainObjects = new HashSet<>();
+
+            for (CourseEditionEnrolmentDataModel dataModel : dataModels) {
+                iCEEMapper.toDomain(dataModel).ifPresent(domainObjects::add);
+            }
+
+            return domainObjects;
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving the set", e);
+        }
     }
+
 
     @Override
     public CourseEditionEnrolment save(CourseEditionEnrolment entity) throws Exception {
