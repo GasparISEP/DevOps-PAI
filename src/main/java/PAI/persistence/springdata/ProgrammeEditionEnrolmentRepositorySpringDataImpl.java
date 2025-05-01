@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgrammeEditionEnrolmentRepository {
+public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgrammeEditionEnrolmentRepository {
 
     private final IProgrammeEditionEnrolmentRepositorySpringData _peeRepositorySpringData;
     private final IProgrammeEditionEnrolmentMapper _peeMapper;
@@ -25,7 +25,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
     private final IStudentIDMapper studentIdMapper;
     private final IProgrammeEditionIdMapper programmeEditionIdMapper;
 
-    public ProgrammeEditionEnrolmentRepositorySpringData(
+    public ProgrammeEditionEnrolmentRepositorySpringDataImpl(
             IProgrammeEditionEnrolmentRepositorySpringData peeRepositorySpringData,
             IProgrammeEditionEnrolmentMapper peeMapper,
             IProgrammeEditionEnrolmentIDMapper peeIDMapper,

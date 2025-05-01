@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrolmentIDMapper {
+public class ProgrammeEditionEnrolmentIDMapperImpl implements IProgrammeEditionEnrolmentIDMapper {
 
     private final IProgrammeEditionIdMapper _programmeEditionIdMapper;
     private final IStudentIDMapper _studentIdMapper;
 
-    public ProgrammeEditionEnrolmentIDMapper(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
+    public ProgrammeEditionEnrolmentIDMapperImpl(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
         this._programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIDMapper");
         this._studentIdMapper = validate(studentIdMapper, "StudentIDMapper");
     }
