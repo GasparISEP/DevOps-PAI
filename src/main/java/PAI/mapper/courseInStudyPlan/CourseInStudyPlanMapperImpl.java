@@ -50,30 +50,26 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         double quantityOfCreditsEcts = courseInStudyPlan.getQuantityOfCreditsEcts().getQuantity();
 
-        StudyPlanIDDataModel studyPlanDM = _studyPlanIDMapper.toDataModel(courseInStudyPlan.getStudyplanID());
-
-        CourseIDDataModel courseDM = _courseIDMapper.toDataModel(courseInStudyPlan.getCourseID());
-
-        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, studyPlanDM, courseDM, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
+        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
     }
 
     public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) {
         try {
-        Semester semester = new Semester(courseInStudyPlanDataModel.getSemester());
+            Semester semester = new Semester(courseInStudyPlanDataModel.getSemester());
 
-        CurricularYear year = new CurricularYear(courseInStudyPlanDataModel.getCurricularYear());
+            CurricularYear year = new CurricularYear(courseInStudyPlanDataModel.getCurricularYear());
 
-        CourseID courseId = _courseIDMapper.toDomain(courseInStudyPlanDataModel.getCourseIDDataModel());
+            CourseID courseId = _courseIDMapper.toDomain(courseInStudyPlanDataModel.getCourseIDDataModel());
 
-        StudyPlanID studyPlanId = _studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
+            StudyPlanID studyPlanId = _studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
 
-        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(courseInStudyPlanDataModel.getDurationOfCourse());
+            DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(courseInStudyPlanDataModel.getDurationOfCourse());
 
-        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
+            CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
 
-        CourseInStudyPlanID courseInStudyPlanId = _courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
+            CourseInStudyPlanID courseInStudyPlanId = _courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
 
-        return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+            return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
 
         } catch (Exception e) {
             throw new RuntimeException("Error trying to map CourseInStudyPlanDataModel back to domain", e);
