@@ -134,36 +134,7 @@ public class StudentGradeServiceImplTest {
         assertThrows(Exception.class, () -> new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository,courseEditionRepository,programmeEditionRepository,null));
     }
 
-    @Test
-    public void shouldAddNewStudentGrade() throws Exception {
-        //arrange
-        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
-        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
-        ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
 
-        StudentGradeServiceImpl studentGradeServiceImpl = new StudentGradeServiceImpl(studentGradeFactory, studentGradeRepository,courseEditionEnrolmentRepository,courseEditionRepository,programmeEditionRepository,schoolYearRepository);
-
-        Grade grade = mock(Grade.class);
-        Date date = mock(Date.class);
-        StudentID studentID = mock(StudentID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-
-        StudentGrade studentGrade = mock(StudentGrade.class);
-        when(courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)).thenReturn(true);
-        when(studentGradeFactory.newGradeStudent(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
-        when(studentGradeRepository.save(studentGrade)).thenReturn(studentGrade);
-
-        //act
-        StudentGrade result = studentGradeServiceImpl.newStudentGrade(grade,date,studentID,courseEditionID);
-
-        //assert
-
-        assertEquals(studentGrade, result);
-
-    }
     @Test
     public void shouldThrowAnExceptionWhenNotEnrolled() throws Exception {
         //arrange
@@ -588,5 +559,189 @@ public class StudentGradeServiceImplTest {
 
         // Assert
         assertFalse(result);
+    }
+
+
+    @Test
+    public void shouldThrowWhenDateNotInRangeInNewStudentGrade_WithoutSpy() throws Exception {
+        // Arrange
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository enrolRepo = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+
+        StudentID student = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+
+
+        when(enrolRepo.isStudentEnrolledInCourseEdition(student, courseEditionID)).thenReturn(true);
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID progId = mock(ProgrammeEditionID.class);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(progId);
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
+        when(programmeEditionRepository.ofIdentity(progId)).thenReturn(Optional.of(programmeEdition));
+
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        LocalDate outside = LocalDate.of(2024,12,31);
+        when(date.getLocalDate()).thenReturn(outside);
+        when(startDate.getLocalDate()).thenReturn(LocalDate.of(2025,1,1));
+        when(endDate.getLocalDate()).thenReturn(LocalDate.of(2025,12,31));
+        when(schoolYear.getStartDate()).thenReturn(startDate);
+        when(schoolYear.getEndDate()).thenReturn(endDate);
+        when(schoolYearRepository.ofIdentity(schoolYearID)).thenReturn(Optional.of(schoolYear));
+
+        StudentGradeServiceImpl service = new StudentGradeServiceImpl(
+                studentGradeFactory,
+                studentGradeRepository,
+                enrolRepo,
+                courseEditionRepository,
+                programmeEditionRepository,
+                schoolYearRepository
+        );
+
+        // Act & Assert
+        Exception ex = assertThrows(Exception.class, () ->
+                service.newStudentGrade(grade, date, student, courseEditionID)
+        );
+        assertEquals("Not possible to addGrade, Grade is not in the correct range", ex.getMessage());
+    }
+
+    @Test
+    public void shouldThrowWhenStudentAlreadyHasGradeInNewStudentGrade_WithoutSpy() throws Exception {
+        // Arrange
+        IStudentGradeFactory studentGradeFactory = mock(IStudentGradeFactory.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository enrolRepo = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+
+        StudentID student = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+
+
+        when(enrolRepo.isStudentEnrolledInCourseEdition(student, courseEditionID)).thenReturn(true);
+
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID progId = mock(ProgrammeEditionID.class);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(progId);
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
+        when(programmeEditionRepository.ofIdentity(progId)).thenReturn(Optional.of(programmeEdition));
+
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        LocalDate inRange = LocalDate.of(2025,6,1);
+        when(date.getLocalDate()).thenReturn(inRange);
+        when(startDate.getLocalDate()).thenReturn(LocalDate.of(2025,1,1));
+        when(endDate.getLocalDate()).thenReturn(LocalDate.of(2025,12,31));
+        when(schoolYear.getStartDate()).thenReturn(startDate);
+        when(schoolYear.getEndDate()).thenReturn(endDate);
+        when(schoolYearRepository.ofIdentity(schoolYearID)).thenReturn(Optional.of(schoolYear));
+
+        when(studentGradeRepository.findAll()).thenReturn(List.of());
+
+        StudentGradeServiceImpl service = new StudentGradeServiceImpl(
+                studentGradeFactory,
+                studentGradeRepository,
+                enrolRepo,
+                courseEditionRepository,
+                programmeEditionRepository,
+                schoolYearRepository
+        );
+
+        // Act & Assert
+        Exception ex = assertThrows(Exception.class, () ->
+                service.newStudentGrade(grade, date, student, courseEditionID)
+        );
+        assertEquals("Not possible to addGrade, Student already has a grade in this course edition", ex.getMessage());
+    }
+
+    @Test
+    public void shouldAddNewStudentGrade() throws Exception {
+        // arrange
+        IStudentGradeFactory studentGradeFactory     = mock(IStudentGradeFactory.class);
+        IStudentGradeRepository studentGradeRepository = mock(IStudentGradeRepository.class);
+        ICourseEditionEnrolmentRepository enrolRepo   = mock(ICourseEditionEnrolmentRepository.class);
+        ICourseEditionRepository courseRepo          = mock(ICourseEditionRepository.class);
+        IProgrammeEditionRepository progRepo         = mock(IProgrammeEditionRepository.class);
+        ISchoolYearRepository schoolYearRepo         = mock(ISchoolYearRepository.class);
+
+        StudentGradeServiceImpl svc = new StudentGradeServiceImpl(
+                studentGradeFactory,
+                studentGradeRepository,
+                enrolRepo,
+                courseRepo,
+                progRepo,
+                schoolYearRepo
+        );
+
+        Grade grade = mock(Grade.class);
+        Date date = mock(Date.class);
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+
+        when(enrolRepo.isStudentEnrolledInCourseEdition(studentID, courseEditionID))
+                .thenReturn(true);
+
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID peId = mock(ProgrammeEditionID.class);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(peId);
+        when(courseRepo.ofIdentity(courseEditionID))
+                .thenReturn(Optional.of(courseEdition));
+
+        ProgrammeEdition progEd = mock(ProgrammeEdition.class);
+        SchoolYearID syId = mock(SchoolYearID.class);
+        when(progEd.findSchoolYearIDInProgrammeEdition()).thenReturn(syId);
+        when(progRepo.ofIdentity(peId))
+                .thenReturn(Optional.of(progEd));
+
+        SchoolYear sy = mock(SchoolYear.class);
+        Date start = mock(Date.class), end = mock(Date.class);
+        when(start.getLocalDate()).thenReturn(LocalDate.of(2025,1,1));
+        when(end.getLocalDate()).thenReturn(LocalDate.of(2025,12,31));
+        when(sy.getStartDate()).thenReturn(start);
+        when(sy.getEndDate()).thenReturn(end);
+        when(schoolYearRepo.ofIdentity(syId)).thenReturn(Optional.of(sy));
+
+        when(date.getLocalDate()).thenReturn(LocalDate.of(2025,6,15));
+
+        StudentGrade existing = mock(StudentGrade.class);
+        when(existing.hasThisStudentID(studentID)).thenReturn(true);
+        when(existing.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGradeRepository.findAll())
+                .thenReturn(List.of(existing));
+
+        StudentGrade toSave = mock(StudentGrade.class);
+        when(studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID))
+                .thenReturn(toSave);
+        when(studentGradeRepository.save(toSave))
+                .thenReturn(toSave);
+
+        // act
+        StudentGrade result = svc.newStudentGrade(grade, date, studentID, courseEditionID);
+
+        // assert
+        assertSame(toSave, result);
     }
 }

@@ -63,6 +63,14 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
         if(!courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)){
             throw new Exception("Not possible to addGrade, Student in not enrolled in this CourseEdition");
         }
+
+        if(!isDateGradeInRangeWithSchoolYear(courseEditionID,date)){
+            throw new Exception("Not possible to addGrade, Grade is not in the correct range");
+        }
+
+        if(!hasStudentAlreadyGradeAtThisCourseEdition(studentID,courseEditionID)){
+            throw new Exception("Not possible to addGrade, Student already has a grade in this course edition");
+        }
         StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
         return studentGradeRepository.save(studentGrade);
     }

@@ -2,24 +2,10 @@
 package PAI.factory;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition;
-import PAI.domain.SchoolYear;
+
 import PAI.domain.StudentGrade;
-import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
-import PAI.repository.CourseEditionRepositoryImpl;
-import PAI.repository.ICourseEditionRepository;
-import PAI.repository.ISchoolYearRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.service.IStudentGradeService;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +28,7 @@ class StudentGradeFactoryImplTest {
                 .thenReturn(false);
 
 
-        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl(studentGradeService);
+        StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
 
         // Act
         StudentGrade result = factory.newGradeStudent(grade, date, studentID, courseEditionID);
