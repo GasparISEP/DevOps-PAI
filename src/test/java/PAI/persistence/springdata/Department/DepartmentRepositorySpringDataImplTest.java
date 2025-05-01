@@ -2,7 +2,6 @@ package PAI.persistence.springdata.Department;
 
 import PAI.VOs.*;
 import PAI.domain.Department;
-import PAI.mapper.ITeacherIDMapper;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
@@ -164,7 +163,7 @@ class DepartmentRepositorySpringDataImplTest {
         when(departmentID.getAcronym()).thenReturn(departmentAcronym);
         when(idMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
         when(departmentIDDataModel.getDepartmentID()).thenReturn(departmentIDString);
-        when(jpaRepo.findById(departmentIDString)).thenReturn(Optional.of(departmentDataModel));
+        when(jpaRepo.findById(departmentIDDataModel)).thenReturn(Optional.of(departmentDataModel));
         when(departmentMapper.toDomain(departmentDataModel)).thenReturn(department);
 
         // Act
@@ -207,7 +206,7 @@ class DepartmentRepositorySpringDataImplTest {
 
         when(idMapper.toDataModel(departmentID)).thenReturn(dataModel);
         when(dataModel.getDepartmentID()).thenReturn("ABC");
-        when(jpaRepo.existsById("ABC")).thenReturn(true);
+        when(jpaRepo.existsById(dataModel)).thenReturn(true);
 
         // Act
         boolean result = repository.containsOfIdentity(departmentID);
@@ -229,7 +228,7 @@ class DepartmentRepositorySpringDataImplTest {
 
         when(idMapper.toDataModel(departmentID)).thenReturn(dataModel);
         when(dataModel.getDepartmentID()).thenReturn("ABC");
-        when(jpaRepo.existsById("ABC")).thenReturn(false);
+        when(jpaRepo.existsById(dataModel)).thenReturn(false);
 
         // Act
         boolean result = repository.containsOfIdentity(departmentID);
@@ -322,7 +321,7 @@ class DepartmentRepositorySpringDataImplTest {
         when(departmentIDDataModel.getDepartmentID()).thenReturn("DEP");
 
         Optional<DepartmentDataModel> optionalDataModel = Optional.of(departmentDataModel);
-        when(departmentRepository.findById("DEP")).thenReturn(optionalDataModel);
+        when(departmentRepository.findById(departmentIDDataModel)).thenReturn(optionalDataModel);
 
         when(departmentMapper.toDomain(departmentDataModel)).thenReturn(department);
 
@@ -348,7 +347,7 @@ class DepartmentRepositorySpringDataImplTest {
 
         when(idMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
         when(departmentIDDataModel.getDepartmentID()).thenReturn("DEP");
-        when(departmentRepository.findById("DEP")).thenReturn(Optional.empty());
+        when(departmentRepository.findById(departmentIDDataModel)).thenReturn(Optional.empty());
 
         // act
         Optional<Department> result = departmentRepositorySpringData.findDepartmentByID(departmentID);
@@ -374,7 +373,7 @@ class DepartmentRepositorySpringDataImplTest {
         when(departmentIDDataModel.getDepartmentID()).thenReturn("DEP");
 
         Optional<DepartmentDataModel> optionalDataModel = Optional.of(departmentDataModel);
-        when(departmentRepository.findById("DEP")).thenReturn(optionalDataModel);
+        when(departmentRepository.findById(departmentIDDataModel)).thenReturn(optionalDataModel);
         when(departmentMapper.toDomain(departmentDataModel)).thenThrow(new RuntimeException("Mapping failed"));
 
         // act & assert
@@ -396,7 +395,7 @@ class DepartmentRepositorySpringDataImplTest {
 
         when(idMapper.toDataModel(departmentID)).thenReturn(departmentIDDataModel);
         when(departmentIDDataModel.getDepartmentID()).thenReturn("DEPT123"); // or any string representing ID
-        when(jpaRepo.existsById("DEPT123")).thenReturn(true);
+        when(jpaRepo.existsById(departmentIDDataModel)).thenReturn(true);
 
         // Act
         boolean result = repository.containsOfIdentity(departmentID);
