@@ -70,7 +70,7 @@ package "PAI" {
       + createTeacherCategory(name: Name): TeacherCategory
     }
 
-    class "TeacherCategoryFactorySpring" as FactoryImpl <<Component>> {
+    class "TeacherCategoryFactorySpringImpl" as FactoryImpl <<Component>> {
       + createTeacherCategory(name: Name): TeacherCategory
     }
 
@@ -94,7 +94,7 @@ package "PAI" {
       + getTeacherCategoryIDFromName(name: Name): Optional<TeacherCategoryID>
     }
 
-    class "TeacherCategoryRepositoryJpaAdapter" as RepoImpl <<Repository>> {
+    class "TeacherCategoryRepositorySpringDataImpl" as RepoImpl <<Repository>> {
       + save(category: TeacherCategory): TeacherCategory
       + ofIdentity(id: TeacherCategoryID): Optional<TeacherCategory>
       + containsOfIdentity(id: TeacherCategoryID): boolean
@@ -116,8 +116,8 @@ package "PAI" {
 
   ' ======= SERVICE =======
   package "service" {
-    interface "<<App Service>>\nITeacherCategoryApplicationService" as IAppService
-    class "TeacherCategoryApplicationService" as AppService <<Service>> {
+    interface "<<App Service>>\nITeacherCategoryService" as IAppService
+    class "TeacherCategoryServiceImpl" as AppService <<Service>> {
       + registerCategory(categoryName: String): boolean
     }
 
