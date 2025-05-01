@@ -1,8 +1,6 @@
 package PAI.domain.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionEnrolmentID;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -491,13 +489,14 @@ class CourseEditionEnrolmentTest {
         // arrange
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        LocalDate expectedDate = LocalDate.of(2024, 5, 20);
+        Date enrolmentDate = Date.now();
+        EnrolmentStatus isActive = mock(EnrolmentStatus.class);
 
         // act
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID, expectedDate, true);
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID, enrolmentDate, isActive);
 
         // assert
-        assertEquals(expectedDate, enrolment.getEnrolmentDate());
+        assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
     }
 
 }

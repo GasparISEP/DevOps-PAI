@@ -13,7 +13,7 @@ import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import org.springframework.context.annotation.Primary;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEditionEnrolmentRepository {
 
     private final ICourseEditionEnrolmentRepositorySpringData iCEERepoSpringData;
@@ -80,25 +79,6 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
 
     @Override
-    public Set<CourseEditionEnrolment> getInternalSet() {
-        Set<CourseEditionEnrolment> internalSet = new HashSet<>();
-
-        try {
-            Iterable<CourseEditionEnrolmentDataModel> dataModels = iCEERepoSpringData.findAll();
-
-            for (CourseEditionEnrolmentDataModel dataModel : dataModels) {
-                Optional<CourseEditionEnrolment> domainEntity = iCEEMapper.toDomain(dataModel);
-                domainEntity.ifPresent(internalSet::add);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving the set of course edition enrolments", e);
-        }
-
-        return internalSet;
-    }
-
-
-    @Override
     public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
         CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
         return (int) iCEERepoSpringData.countById_CourseEditionIDAndActiveIsTrue(courseEditionIDDataModel);
@@ -106,7 +86,22 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
 
     @Override
-    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) {
+    public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception {
+        for (CourseEditionID courseEditionId : courseEditions) {
+            Optional<CourseEditionEnrolment> existingEnrollment = this.findByStudentAndEdition(studentId, courseEditionId);
+
+            if (existingEnrollment.isPresent()) {
+                throw new IllegalStateException("This course edition enrolment is already in the list.");
+            }
+
+            CourseEditionEnrolment newEnrolment = new CourseEditionEnrolment(studentId, courseEditionId);
+            this.save(newEnrolment);
+        }
+    }
+
+    @Override
+    public Set<CourseEditionEnrolment> getInternalSet() throws Exception {
+        return new HashSet<>();
     }
 
     @Override
