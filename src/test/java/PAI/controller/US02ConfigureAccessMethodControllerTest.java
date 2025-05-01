@@ -2,11 +2,18 @@ package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
+import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
+import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
+import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
+import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
+import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.service.accessMethod.AccessMethodServiceImpl;
 import PAI.service.accessMethod.IAccessMethodService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,5 +104,46 @@ class US02ConfigureAccessMethodControllerTest {
 
         // assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldConfigureAccessMethodInMemoryRepository() {
+        // arrange
+        IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
+        IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
+        IAccessMethodFactory factory = new AccessMethodFactoryImpl();
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository);
+        US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
+
+        String accessMethodName = "M23";
+
+        // act
+        boolean result = controller.configureAccessMethod(accessMethodName);
+
+        // assert
+        assertTrue(result);
+        Optional<AccessMethod> stored = repository.getAccessMethodByName(new NameWithNumbersAndSpecialChars(accessMethodName));
+        assertTrue(stored.isPresent());
+        assertEquals(accessMethodName, stored.get().getAccessMethodName().getnameWithNumbersAndSpecialChars());
+    }
+
+    @Test
+    void shouldNotConfigureAccessMethodIfNameAlreadyExists() {
+        // arrange
+        IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
+        IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
+        IAccessMethodFactory factory = new AccessMethodFactoryImpl();
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository);
+        US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
+
+        String accessMethodName = "M23";
+        controller.configureAccessMethod(accessMethodName);
+        // act
+        boolean result = controller.configureAccessMethod(accessMethodName);
+        // assert
+        assertFalse(result);
+        Optional<AccessMethod> stored = repository.getAccessMethodByName(new NameWithNumbersAndSpecialChars(accessMethodName));
+        assertTrue(stored.isPresent());
+        assertEquals(1, ((List<AccessMethod>)repository.findAll()).size());
     }
 }
