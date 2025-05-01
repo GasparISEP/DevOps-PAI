@@ -299,7 +299,7 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         when(studentIDMapperDouble.domainToDataModel(studentIDDouble)).thenReturn(studentIDDataModelDouble);
         when(programmeIDMapperDouble.toData(programmeIDDouble)).thenReturn(programmeIDDataModelDouble);
 
-        when(jpaRepoDouble.isStudentEnrolled(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(true);
+        when(jpaRepoDouble.existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(true);
 
         // Act
         boolean result = repository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
@@ -332,7 +332,7 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         when(studentIDMapperDouble.domainToDataModel(studentIDDouble)).thenReturn(studentIDDataModelDouble);
         when(programmeIDMapperDouble.toData(programmeIDDouble)).thenReturn(programmeIDDataModelDouble);
 
-        when(jpaRepoDouble.isStudentEnrolled(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(false);
+        when(jpaRepoDouble.existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModelDouble, programmeIDDataModelDouble)).thenReturn(false);
 
         // Act
         boolean result = repository.isStudentEnrolled(studentIDDouble, programmeIDDouble);
