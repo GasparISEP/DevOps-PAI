@@ -55,6 +55,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
             return false;
         }
         Department department = opDepartment.get();
+        department.setDirectorID(furtherDirectorID);
         _departmentRepo.save(department);
         return true;
     }

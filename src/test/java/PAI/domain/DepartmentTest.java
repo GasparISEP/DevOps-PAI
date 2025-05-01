@@ -43,6 +43,33 @@ class DepartmentTest {
         );
         assertTrue(exception.getMessage().contains("Acronym and name cannot be null."));
     }
+    @Test
+    void getDepartmentDirectorID () throws Exception {
+        // Arrange
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        TeacherID teacherDirectorDouble = mock(TeacherID.class);
+        Department department = new Department(acronym, name, teacherDirectorDouble);
+        //act
+        TeacherID result = department.getDirectorID();
+        //assert
+        assertEquals(result,teacherDirectorDouble);
+    }
+    @Test
+    void getDepartmentDirectorIDShouldReturnNotEqual () throws Exception {
+        // Arrange
+        //arrange
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name= mock(Name.class);
+        TeacherID teacherDirectorDouble = mock(TeacherID.class);
+        TeacherID teacherDirectorDouble2 = mock(TeacherID.class);
+        Department department = new Department(acronym, name, teacherDirectorDouble);
+        //act
+        TeacherID result = department.getDirectorID();
+        //assert
+        assertNotEquals(result,teacherDirectorDouble2);
+    }
 
     @Test
     void shouldReturnException_whenNameIsNull () {
