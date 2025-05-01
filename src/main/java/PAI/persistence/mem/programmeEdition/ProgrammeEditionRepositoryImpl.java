@@ -13,14 +13,14 @@ import java.util.Set;
 
 public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionRepository {
 
-    private final Set<ProgrammeEdition> _programmeEditions;
+    private final Set<ProgrammeEdition> programmeEditions;
 
     public ProgrammeEditionRepositoryImpl(IProgrammeEditionListFactory programmeEditionDDDListFactory) throws Exception {
 
         if (programmeEditionDDDListFactory == null)
             throw new Exception("Programme Edition ListFactory cannot be null");
 
-        _programmeEditions = programmeEditionDDDListFactory.createProgrammeEditionList();
+        programmeEditions = programmeEditionDDDListFactory.createProgrammeEditionList();
     }
 
     @Override
@@ -28,19 +28,19 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
         if (programmeEdition == null){
             throw new IllegalArgumentException("Programme Edition cannot be null");
         }
-        _programmeEditions.add(programmeEdition);
+        programmeEditions.add(programmeEdition);
 
         return programmeEdition;
     }
 
     @Override
     public Iterable<ProgrammeEdition> findAll() {
-        return _programmeEditions;
+        return programmeEditions;
     }
 
     @Override
     public Optional<ProgrammeEdition> ofIdentity(ProgrammeEditionID id) {
-        for(ProgrammeEdition check : _programmeEditions){
+        for(ProgrammeEdition check : programmeEditions){
             if (check.identity().equals(id))
                 return Optional.of(check);
         }
@@ -49,7 +49,7 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
 
     @Override
     public boolean containsOfIdentity(ProgrammeEditionID id) {
-        for(ProgrammeEdition check : _programmeEditions){
+        for(ProgrammeEdition check : programmeEditions){
             if (check.identity().equals(id))
                 return true;
         }
@@ -58,7 +58,7 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
 
     @Override
     public Optional<ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) {
-        for(ProgrammeEdition check : _programmeEditions) {
+        for(ProgrammeEdition check : programmeEditions) {
             if (check.findProgrammeIDInProgrammeEdition().equals(programmeid) && check.findSchoolYearIDInProgrammeEdition().equals(schoolYearid))
                 return Optional.of(check.identity());
         }
@@ -68,7 +68,7 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
     @Override
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid) {
         List<ProgrammeEdition> programmeEditions = new ArrayList<>();
-        for (ProgrammeEdition programmeEdition : _programmeEditions) {
+        for (ProgrammeEdition programmeEdition : this.programmeEditions) {
             if (programmeEdition.findProgrammeIDInProgrammeEdition().equals(programmeid))
                 programmeEditions.add(programmeEdition);
         }

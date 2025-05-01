@@ -1,6 +1,8 @@
 package PAI.VOs;
 
-public class Email {
+import PAI.ddd.ValueObject;
+
+public class Email implements ValueObject {
     private final String _email;
 
     public Email(String email) throws IllegalArgumentException {
@@ -8,7 +10,6 @@ public class Email {
             throw new IllegalArgumentException("This email is not valid.");
         else
             _email = email;
-
     }
 
     private boolean isEmailInvalid (String email) {

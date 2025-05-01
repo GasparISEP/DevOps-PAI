@@ -1,11 +1,13 @@
 package PAI.persistence.datamodel;
 
 import jakarta.persistence.Embeddable;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
-public class TeacherCareerProgressionIDDataModel {
+public class TeacherCareerProgressionIDDataModel implements Serializable {
 
     private UUID ID;
 

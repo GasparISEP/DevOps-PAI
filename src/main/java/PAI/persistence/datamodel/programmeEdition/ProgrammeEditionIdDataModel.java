@@ -14,13 +14,13 @@ public class ProgrammeEditionIdDataModel implements Serializable {
             @AttributeOverride(name = "programmeAcronym",
                     column = @Column(name = "edition_programme_acronym"))
     })
-    private ProgrammeIDDataModel _programmeIDDataModel;
+    private ProgrammeIDDataModel programmeIDDataModel;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "id",
                     column = @Column(name = "edition_school_year"))
     })
-    private SchoolYearIDDataModel _schoolYearIDDataModel;
+    private SchoolYearIDDataModel schoolYearIDDataModel;
 
     public ProgrammeEditionIdDataModel() {}
 
@@ -28,20 +28,20 @@ public class ProgrammeEditionIdDataModel implements Serializable {
         if(programmeIDDataModel == null) {
             throw new IllegalArgumentException("ProgrammeIDDataModel cannot be null");
         }
-        this._programmeIDDataModel = programmeIDDataModel;
+        this.programmeIDDataModel = programmeIDDataModel;
 
         if(schoolYearIDDataModel == null) {
             throw new IllegalArgumentException("SchoolYearIDDataModel cannot be null");
         }
-        this._schoolYearIDDataModel = schoolYearIDDataModel;
+        this.schoolYearIDDataModel = schoolYearIDDataModel;
     }
 
     //Getters
     public ProgrammeIDDataModel getProgrammeIdDataModel() {
-        return this._programmeIDDataModel;
+        return this.programmeIDDataModel;
     }
-    public SchoolYearIDDataModel get_schoolYearIDDataModel() {
-        return this._schoolYearIDDataModel;
+    public SchoolYearIDDataModel getSchoolYearIDDataModel() {
+        return this.schoolYearIDDataModel;
     }
 
     @Override
@@ -49,13 +49,13 @@ public class ProgrammeEditionIdDataModel implements Serializable {
         if (this==objectToCompare) return true;
 
         if (objectToCompare instanceof ProgrammeEditionIdDataModel oProgrammeEditionIdDataModel) {
-            return this._programmeIDDataModel.equals(oProgrammeEditionIdDataModel._programmeIDDataModel) && (this._schoolYearIDDataModel.equals(oProgrammeEditionIdDataModel._schoolYearIDDataModel));
+            return this.programmeIDDataModel.equals(oProgrammeEditionIdDataModel.programmeIDDataModel) && (this.schoolYearIDDataModel.equals(oProgrammeEditionIdDataModel.schoolYearIDDataModel));
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return this._programmeIDDataModel.hashCode() + this._schoolYearIDDataModel.hashCode();
+        return this.programmeIDDataModel.hashCode() + this.schoolYearIDDataModel.hashCode();
     }
 }

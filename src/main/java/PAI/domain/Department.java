@@ -61,6 +61,9 @@ public class Department implements AggregateRoot <DepartmentID> {
     public DepartmentID getDepartmentID() {return _departmentId;}
 
     public TeacherID getDirectorID() { return _director; }
+    public void setDirectorID(TeacherID director) {
+        _director = director;
+    }
 
     //US06
     public boolean changeDirector(TeacherID furtherDirectorID) {
