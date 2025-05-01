@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ProgrammeEditionEnrolmentDataModel implements Serializable {
 
     @EmbeddedId
-    private ProgrammeEditionEnrolmentIDDataModel _id;
+    private ProgrammeEditionEnrolmentIDDataModel id;
 
     @Column(name = "enrolment_date", nullable = false)
     private LocalDate _enrolmentDate;
@@ -28,13 +28,13 @@ public class ProgrammeEditionEnrolmentDataModel implements Serializable {
 
     public ProgrammeEditionEnrolmentDataModel(ProgrammeEditionEnrolmentIDDataModel id,
                                               LocalDate enrolmentDate, boolean isActive) {
-        this._id = id;
+        this.id = id;
         this._enrolmentDate = enrolmentDate;
         this.isActive = isActive;
     }
 
     public ProgrammeEditionEnrolmentIDDataModel getProgrammeEditionEnrolmentIDDataModel() {
-        return _id;
+        return id;
     }
 
     public LocalDate getEnrolmentDate() {
@@ -49,12 +49,12 @@ public class ProgrammeEditionEnrolmentDataModel implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProgrammeEditionEnrolmentDataModel that = (ProgrammeEditionEnrolmentDataModel) o;
-        return Objects.equals(_id, that._id);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id);
+        return Objects.hash(id);
     }
 
 }
