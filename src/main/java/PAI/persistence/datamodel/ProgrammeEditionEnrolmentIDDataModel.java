@@ -29,14 +29,8 @@ public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
     }
 
     public ProgrammeEditionEnrolmentIDDataModel(StudentIDDataModel studentIdDataModel, ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
-        if (studentIdDataModel == null) {
-            throw new IllegalArgumentException("studentId cannot be null or blank");
-        }
-        if (programmeEditionIdDataModel == null) {
-            throw new IllegalArgumentException("programmeEditionId cannot be null or blank");
-        }
-        this._studentIdDataModel = studentIdDataModel;
-        this._programmeEditionIdDataModel = programmeEditionIdDataModel;
+        this._studentIdDataModel = validate(studentIdDataModel, "studentId");
+        this._programmeEditionIdDataModel = validate(programmeEditionIdDataModel, "programmeEditionId");
     }
 
     public StudentIDDataModel getStudentIdDataModel() {
@@ -57,6 +51,13 @@ public class ProgrammeEditionEnrolmentIDDataModel implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_studentIdDataModel, _programmeEditionIdDataModel);
+    }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null.");
+        }
+        return instance;
     }
 }
 
