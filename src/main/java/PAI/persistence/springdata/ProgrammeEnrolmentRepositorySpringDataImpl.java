@@ -79,11 +79,6 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
     }
 
     @Override
-    public boolean enrolStudents(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date enrolmentDate) throws Exception {
-        return false;
-    }
-
-    @Override
     public boolean isStudentEnrolled(StudentID studentID, ProgrammeID programmeID) {
         StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
         ProgrammeIDDataModel programmeIDDataModel = programmeIDMapper.toData(programmeID);
