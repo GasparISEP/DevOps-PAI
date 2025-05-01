@@ -22,9 +22,9 @@ skinparam linetype ortho
 
 participant UI
 participant "US01_ConfigureTeacherCategoryController" as Controller
-participant "TeacherCategoryApplicationService" as AppService
+participant "TeacherCategoryServiceImpl" as AppService
 participant "Name" as NameVO
-participant "TeacherCategoryFactorySpring" as Factory
+participant "TeacherCategoryFactorySpringImpl" as Factory
 participant "TeacherCategory" as DomainAggregate
 participant "TeacherCategoryMapperImpl" as Mapper
 participant "TeacherCategoryRepositorySpringDataImpl" as Repo

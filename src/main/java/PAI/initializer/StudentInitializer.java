@@ -4,13 +4,11 @@ import PAI.controller.US08_IWantToRegisterAStudentInTheSystemController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 @Configuration
-@Profile("student")
 public class StudentInitializer {
 
     @Bean
@@ -22,6 +20,8 @@ public class StudentInitializer {
 
     private void loadStudents(US08_IWantToRegisterAStudentInTheSystemController controller) {
         String csvFile = "src/main/resources/Student_Data.csv";
+
+        long startTime = System.currentTimeMillis();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
@@ -52,5 +52,10 @@ public class StudentInitializer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+
+        System.out.println("\nStudent data loading time: " + duration + " ms\n");
     }
 }
