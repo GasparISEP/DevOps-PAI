@@ -2,6 +2,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.CourseEdition;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
@@ -494,8 +495,55 @@ class US19_CreateCourseEditionControllerTest {
     //-----createCourseEdition Tests-----
 
     @Test
+    void shouldReturnFalseIfCourseInStudyPlanIsNullWhenCreateCourseEditionMethodIsCalled() throws Exception {
+        // SUT = Controller
+
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        CourseInStudyPlanID courseInStudyPlanID = null;
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        // Act
+        boolean result = us19Controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfProgrammeIsNullWhenCreateCourseEditionMethodIsCalled() throws Exception {
+        // SUT = Controller
+
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        boolean result = us19Controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
     void shouldReturnFalseWhenCreateCourseEditionMethodIsCalled(){
         // SUT = Controller
+
         // Arrange
         IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
@@ -507,11 +555,40 @@ class US19_CreateCourseEditionControllerTest {
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID)).thenReturn(null);
 
         // Act
         boolean result = us19Controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
 
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenCreateCourseEditionMethodIsCalled(){
+        // SUT = Controller
+
+        // Arrange
+        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+
+        // Act
+        boolean result = us19Controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertTrue(result);
     }
 }
