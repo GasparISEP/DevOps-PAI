@@ -12,7 +12,6 @@ import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -83,14 +82,14 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionIDDataModel courseEditionIdDataModel = mock(CourseEditionIDDataModel.class);
 
         when(courseEditionIdMapper.toDataModel(courseEditionId)).thenReturn(courseEditionIdDataModel);
-        when(springDataRepository.countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel)).thenReturn(5L);
+        when(springDataRepository.countById_CourseEditionIDAndActiveTrue(courseEditionIdDataModel)).thenReturn(5L);
 
         // act
         int result = repository.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
 
         // assert
         assertEquals(5, result);
-        verify(springDataRepository).countById_CourseEditionIDAndActiveIsTrue(courseEditionIdDataModel);
+        verify(springDataRepository).countById_CourseEditionIDAndActiveTrue(courseEditionIdDataModel);
     }
 
 
