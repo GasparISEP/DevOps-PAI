@@ -1,7 +1,5 @@
 package PAI.persistence.datamodel;
 
-import PAI.VOs.CourseEditionID;
-import PAI.domain.course.Course;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +19,7 @@ class StudentGradeDMTest {
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
         // Assert
         assertNotNull(studentGrade1);
     }
@@ -47,10 +45,10 @@ class StudentGradeDMTest {
 
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
-        double result = studentGrade1.get_grade();
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        double result = studentGrade1.getGrade();
         // Assert
-        assertEquals(studentGrade1.get_grade(), result);
+        assertEquals(studentGrade1.getGrade(), result);
     }
 
     @Test
@@ -62,7 +60,7 @@ class StudentGradeDMTest {
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
 
         // Assert
         assertEquals(studentGrade1.getId(), studentGradeIDDataModel);
@@ -78,10 +76,10 @@ class StudentGradeDMTest {
 
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
-        LocalDate result = studentGrade1.get_date();
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        LocalDate result = studentGrade1.getDate();
         // Assert
-        assertEquals(studentGrade1.get_date(), result);
+        assertEquals(studentGrade1.getDate(), result);
     }
 
 
@@ -96,7 +94,7 @@ class StudentGradeDMTest {
 
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
         StudentIDDataModel result = studentGrade1.getStudentId();
         // Assert
         assertEquals(studentGrade1.getStudentId(), result);
@@ -112,7 +110,7 @@ class StudentGradeDMTest {
 
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate, courseEditionID,studentIDDataModel);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
         CourseEditionIDDataModel result = studentGrade1.getCourseEditionID();
         // Assert
         assertEquals(studentGrade1.getCourseEditionID(), result);

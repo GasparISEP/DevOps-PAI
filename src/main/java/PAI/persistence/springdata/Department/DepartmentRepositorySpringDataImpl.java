@@ -1,39 +1,33 @@
 package PAI.persistence.springdata.Department;
-import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
-import PAI.VOs.Name;
-import PAI.VOs.TeacherID;
+
 import PAI.domain.Department;
-import PAI.mapper.ITeacherIDMapper;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.department.IDepartmentMapper;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.repository.IDepartmentRepository;
-import jakarta.transaction.Transactional;
+import PAI.persistence.mem.department.IDepartmentRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@Primary
 public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository{
     private final IDepartmentRepositorySpringData jpaRepo;
     private final IDepartmentIDMapper idMapper;
     private final IDepartmentMapper departmentMapper;
-    private final ITeacherIDMapper directorIDMapper;
     public DepartmentRepositorySpringDataImpl(IDepartmentRepositorySpringData departmentRepository,
                                               IDepartmentIDMapper departmentID,
-                                              IDepartmentMapper departmentMapper,
-                                              ITeacherIDMapper teacherIDMapper){
+                                              IDepartmentMapper departmentMapper){
         this.jpaRepo = departmentRepository;
         this.idMapper = departmentID;
         this.departmentMapper = departmentMapper;
-        this.directorIDMapper = teacherIDMapper;
     }
     @Override
-    @Transactional
     public Department save(Department department) {
         try {
             DepartmentDataModel departmentDataModel = departmentMapper.toDataModel(department);
@@ -98,29 +92,4 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
                     }
                 });
     }
-
-    @Override
-    @Transactional
-    public boolean updateOfDepartmentDirector(DepartmentID departmentId, TeacherID teacherId) {
-
-        if(teacherId == null){
-            throw new IllegalArgumentException("Teacher ID cannot be null.");
-        }
-        if(departmentId == null){
-            throw new IllegalArgumentException("Department ID cannot be null.");
-        }
-
-        TeacherIDDataModel teacherIDDataModel = directorIDMapper.toDataModel(teacherId);
-       Optional<Department> opDepartment = findDepartmentByID(departmentId);
-        if (opDepartment.isEmpty()) {
-            return false;
-        }
-        Department department = opDepartment.get();
-
-        DepartmentDataModel departmentDataModel = departmentMapper.toDataModel(department);
-        departmentDataModel.setDirectorId(teacherIDDataModel);
-        jpaRepo.save(departmentDataModel);
-        return true;
-    }
-
 }

@@ -1,4 +1,4 @@
-package PAI.persistence.mem.programmeEdition;
+package PAI.persistence.mem.programme;
 
 import PAI.domain.programme.Programme;
 import org.springframework.stereotype.Component;

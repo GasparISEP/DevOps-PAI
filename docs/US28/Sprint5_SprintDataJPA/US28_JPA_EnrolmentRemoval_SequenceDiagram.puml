@@ -7,6 +7,10 @@ skinparam {
   ActivityMargin 2
   BoxPadding 2
 }
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor LightBlue
+}
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
@@ -59,6 +63,16 @@ Status --> CEE: EnrolmentStatus(false)
 deactivate Status
 CEE --> Service: Enrolment Status set to inactive
 deactivate CEE
+
+' Remove the enrolment from the internal set of the repository
+Service -> CEERepo: getInternalSet()
+activate CEERepo
+CEERepo --> Service: Set<CourseEditionEnrolment>
+deactivate CEERepo
+Service -> CEERepo: remove(CourseEditionEnrolment)
+activate CEERepo
+CEERepo --> Service: true (Enrolment removed from internal set)
+deactivate CEERepo
 
 ' Step 5: Save the updated enrolment in the repository
 Service -> CEERepo: save(CourseEditionEnrolment)
@@ -151,6 +165,16 @@ Service --> Service: No active course edition enrolments found
     deactivate Status
     PEE --> Service: Enrolment Status set to inactive
     deactivate PEE
+
+' Remove the enrolment from the internal set of the repository
+Service -> PEERepo: getInternalSet()
+activate PEERepo
+PEERepo --> Service: Set<ProgrammeEditionEnrolment>
+deactivate PEERepo
+Service -> PEERepo: remove(ProgrammeEditionEnrolment)
+activate PEERepo
+PEERepo --> Service: true (Enrolment removed from internal set)
+deactivate PEERepo
 
     ' Step 7.3: Save the updated programme enrolment in the repository
     Service -> PEERepo: save(ProgrammeEditionEnrolment)

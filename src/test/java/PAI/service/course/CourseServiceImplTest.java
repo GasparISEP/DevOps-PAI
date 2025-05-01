@@ -6,6 +6,7 @@ import PAI.VOs.Name;
 import PAI.domain.course.Course;
 
 import PAI.domain.course.ICourseFactory;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.repository.courseRepository.ICourseRepository;
 import org.junit.jupiter.api.Test;
 
@@ -155,6 +156,42 @@ class CourseServiceImplTest {
 
         //Act + Assert
         assertFalse(service.containsOfIdentity(courseID));
+    }
+
+    @Test
+    void shouldThrowBusinessRuleViolationException_whenCourseNameAlreadyExists() throws Exception {
+        // Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseRepository repository = mock(ICourseRepository.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+
+        Name name = new Name("Programação");
+        Acronym acronym = new Acronym("LEI");
+        Course course = mock(Course.class);
+
+        when(factory.createCourse(name, acronym)).thenReturn(course);
+        when(repository.existsCourseByName(name)).thenReturn(true);
+
+        // Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveCourse(name, acronym));
+    }
+
+    @Test
+    void shouldThrowBusinessRuleViolationException_whenCourseAcronymAlreadyExists() throws Exception {
+        // Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseRepository repository = mock(ICourseRepository.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+
+        Name name = new Name("Programação");
+        Acronym acronym = new Acronym("LEI");
+        Course course = mock(Course.class);
+
+        when(factory.createCourse(name, acronym)).thenReturn(course);
+        when(repository.existsCourseByAcronym(acronym)).thenReturn(true);
+
+        // Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveCourse(name, acronym));
     }
 
 }

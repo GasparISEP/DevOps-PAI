@@ -47,18 +47,22 @@ interface ICourseEditionEnrolmentRepository <<Interface>> {
     +findByStudentAndCourseEdition (studentID: StudentID, \ncourseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
+
 }
 
 class CourseEditionEnrolmentRepositoryImpl <<Memory>>{
     +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
 }
 
 class CourseEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
     +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
     +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
     +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
 }
 
 interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
@@ -67,16 +71,19 @@ interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
 interface IProgrammeEditionEnrolmentRepository <<Interface>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 class ProgrammeEditionEnrolmentRepositoryImpl <<Memory>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 class ProgrammeEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
     +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID):\n Optional<ProgrammeEditionEnrolment>
     +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
 }
 
 interface IProgrammeEditionEnrolment\nRepositorySpringData <<Interface>> {

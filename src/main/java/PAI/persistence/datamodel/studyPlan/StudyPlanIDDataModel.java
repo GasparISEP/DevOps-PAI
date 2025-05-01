@@ -11,22 +11,22 @@ import java.time.LocalDate;
 public class StudyPlanIDDataModel implements Serializable {
 
     @Embedded
-    private ProgrammeIDDataModel _programmeIDDataModel;
-    private LocalDate _implementationDate;
+    private ProgrammeIDDataModel programmeIDDataModel;
+    private LocalDate implementationDate;
 
     protected StudyPlanIDDataModel() {}
 
     public StudyPlanIDDataModel(ProgrammeIDDataModel programmeIDDataModel, LocalDate implementationDate) {
-        this._programmeIDDataModel = programmeIDDataModel;
-        this._implementationDate = implementationDate;
+        this.programmeIDDataModel = programmeIDDataModel;
+        this.implementationDate = implementationDate;
     }
 
     public ProgrammeIDDataModel getProgrammeID() {
-        return _programmeIDDataModel;
+        return programmeIDDataModel;
     }
 
     public LocalDate getImplementationDate() {
-        return _implementationDate;
+        return implementationDate;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class StudyPlanIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof StudyPlanIDDataModel)) return false;
         StudyPlanIDDataModel studyPlanIDDataModel = (StudyPlanIDDataModel) objectToCompare;
-        return _programmeIDDataModel.equals(studyPlanIDDataModel._programmeIDDataModel) &&
-                _implementationDate.equals(studyPlanIDDataModel._implementationDate);
+        return programmeIDDataModel.equals(studyPlanIDDataModel.programmeIDDataModel) &&
+                implementationDate.equals(studyPlanIDDataModel.implementationDate);
     }
 
     @Override
     public int hashCode() {
-        return _programmeIDDataModel.hashCode() + _implementationDate.hashCode();
+        return programmeIDDataModel.hashCode() + implementationDate.hashCode();
     }
 }

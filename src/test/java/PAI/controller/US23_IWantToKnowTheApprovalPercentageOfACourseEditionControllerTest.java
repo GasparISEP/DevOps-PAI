@@ -27,7 +27,7 @@ class US23_IWantToKnowTheApprovalPercentageOfACourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnApprovalPercentage(){
+    void shouldReturnApprovalPercentage() throws Exception {
         IStudentGradeService iStudentGradeService = mock(IStudentGradeService.class);
         US23_IWantToKnowTheApprovalPercentageOfACourseEditionController controller = new US23_IWantToKnowTheApprovalPercentageOfACourseEditionController(iStudentGradeService);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);

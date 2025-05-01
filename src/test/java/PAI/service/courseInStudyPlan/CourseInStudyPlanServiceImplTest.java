@@ -129,4 +129,17 @@ class CourseInStudyPlanServiceImplTest {
 
         assertFalse(opt.isPresent());
     }
+
+    @Test
+    void shouldNotCreateCourseInStudyPlanWhenTotalCreditsExceedsLimit() throws Exception {
+        //arrange
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanId, semester, curricularYear, durationOfCourse)).thenReturn(31.0);
+
+        //act
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+
+        //assert
+        assertFalse(result);
+        verify(repository, never()).save(any());
+    }
 }

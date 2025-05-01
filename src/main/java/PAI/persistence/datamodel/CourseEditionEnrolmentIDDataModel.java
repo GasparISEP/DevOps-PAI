@@ -32,8 +32,6 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
 
         validateStudentID (studentID);
         validateCourseEditionID (courseEditionID);
-
-        this.courseEditionID = courseEditionID;
     }
 
     private void validateStudentID (StudentIDDataModel studentID) {
@@ -47,6 +45,7 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
         if (courseEditionID == null) {
             throw new IllegalArgumentException("Course Edition ID cannot be null!");
         }
+        this.courseEditionID = courseEditionID;
     }
 
     public StudentIDDataModel findStudentID() {

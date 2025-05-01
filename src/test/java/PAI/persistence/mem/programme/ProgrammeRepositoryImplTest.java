@@ -1,11 +1,8 @@
-package PAI.repository.programmeRepository;
+package PAI.persistence.mem.programme;
 
-import PAI.VOs.DepartmentID;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.ProgrammeID;
+import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
+import PAI.factory.IProgrammeFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

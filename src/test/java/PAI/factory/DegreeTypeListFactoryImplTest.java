@@ -21,6 +21,9 @@ class DegreeTypeListFactoryImplTest {
 
         assertNotNull(result, "List should not be null");
         assertTrue(result.isEmpty(), "List should be empty");
+
+        DegreeType dummy = new DegreeType(new DegreeTypeID(), new Name("Dummy"), new MaxEcts(1));
+        assertDoesNotThrow(() -> result.add(dummy), "List should be mutable");
     }
 
     @Test

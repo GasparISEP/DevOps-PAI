@@ -2,7 +2,10 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.factory.*;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +20,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void shouldReturnTrueIfStudentIsEnrolledInProgrammeEdition() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory mockFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(mockFactory, mockListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(mockListFactory);
 
         StudentID stId1 = mock(StudentID.class);
         ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
@@ -39,9 +41,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void shouldReturnFalseIfStudentNullNotEnrolledInProgrammeEdition() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionID peId1 = mock(ProgrammeEditionID.class);
 
@@ -57,9 +58,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void shouldReturnFalseIfProgrammeEditionNull() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         StudentID stId1 = mock(StudentID.class);
 
@@ -76,9 +76,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void shouldReturnFalseIfProgrammeEditionNullAndStudentNull() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         // Act + Assert
         assertFalse(repository.isStudentEnrolledInThisProgrammeEdition(null, null));
@@ -92,7 +91,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         Student mockStudent = mock(Student.class);
         StudentID stId1 = mock(StudentID.class);
@@ -150,7 +149,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(ProgrammeEditionEnrolmentListFactoryImpl.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
         when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(studentId1Double);
@@ -211,7 +210,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
         when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(mockStudentID1);
@@ -249,7 +248,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF, doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolMock1 = mock(ProgrammeEditionEnrolment.class);
         when(enrolMock1.findStudentInProgrammeEdition()).thenReturn(studentID1Double);
@@ -279,12 +278,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void should_return_a_list_of_programmeEditionIDs_that_student_is_enrolled (){
         // arrange
-        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
         when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleListFactory);
 
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
@@ -309,12 +307,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void should_return_a_empty_list_when_student_is_not_enrolled_in_any_programmeEdition (){
         // arrange
-        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
         when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleListFactory);
 
         StudentID doubleStudentId1 = mock(StudentID.class);
         StudentID doubleStudentId2 = mock(StudentID.class);
@@ -340,12 +337,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void should_return_a_empty_list_when_student_is_enrolled_in_programmeEdition_with_inactive_status (){
         // arrange
-        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
         when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleListFactory);
 
         StudentID doubleStudentId1 = mock(StudentID.class);
         StudentID doubleStudentId2 = mock(StudentID.class);
@@ -371,12 +367,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void should_return_a_list_of_two_programmeEditionIDs_that_student_is_enrolled (){
         // arrange
-        IProgrammeEditionEnrolmentFactory doubleFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         Set<ProgrammeEditionEnrolment> doubleSet = mock(Set.class);
         when(doubleListFactory.newListProgrammeEditionEnrolment()).thenReturn(doubleSet);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleFactory, doubleListFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleListFactory);
 
         StudentID doubleStudentId1 = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId1 = mock(ProgrammeEditionID.class);
@@ -408,13 +403,12 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void save_ShouldAddProgrammeEditionEnrolment() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
 
         Set<ProgrammeEditionEnrolment> mockList = new HashSet<>();
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(mockList);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
         ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
 
@@ -431,12 +425,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void findAll_ShouldReturnAllSavedEnrolments() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
         Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
         // Act
         Iterable<ProgrammeEditionEnrolment> result = repository.findAll();
@@ -449,7 +442,6 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void ofIdentity_ShouldReturnEnrolmentIfExists() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
         ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
@@ -457,7 +449,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
         // Act
         Optional<ProgrammeEditionEnrolment> result = repository.ofIdentity(enrolmentID);
@@ -470,7 +462,6 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void containsOfIdentity_ShouldReturnTrueIfEnrolmentExists() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
         ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
@@ -478,7 +469,7 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>(Collections.singletonList(enrolment));
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
         // Act
         boolean exists = repository.containsOfIdentity(enrolmentID);
@@ -490,12 +481,11 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void containsOfIdentity_ShouldReturnFalseIfEnrolmentDoesNotExist() {
         // Arrange
-        IProgrammeEditionEnrolmentFactory enrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(enrolmentFactory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
         // Act
         boolean exists = repository.containsOfIdentity(enrolmentID);
@@ -508,9 +498,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     void should_throw_exception_if_identity_is_null() throws IllegalArgumentException {
 
         //arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //act + assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->{
@@ -524,9 +513,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     void should_return_true_when_ID_exists(){
 
         //arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolmentID enrolmentID = mock(ProgrammeEditionEnrolmentID.class);
         ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
@@ -548,9 +536,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     void should_return_correct_ID_when_several_exists() {
 
         //arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
@@ -579,50 +566,19 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void testEqualsReflexivity() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act + Assert
         assertEquals(repository, repository);
     }
 
-    @Test
-    void testEqualsSymmetry() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2,doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1, repo2);
-    }
-
-    @Test
-    void testEqualsDifferentObjects_ReturnNotEqual() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2,doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1, repo2);
-    }
 
     @Test
     void testEqualsNull() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act+Assert
         assertNotEquals(repo1, null);
@@ -631,9 +587,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void testEqualsDifferentClass() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act
         String differentClassObject = "string";
@@ -645,9 +600,8 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     @Test
     void testHashCodeReturnsSameValueForSameObject() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
         //Act
         int hash1 = repo1.hashCode();
@@ -658,30 +612,13 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
     }
 
     @Test
-    void testDifferentObjectsHaveDifferentHashCodes() {
-        //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
-
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
-        IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2,doubleIPEELF2);
-
-        //Act + Assert
-        assertNotEquals(repo1.hashCode(), repo2.hashCode());
-    }
-
-    @Test
     void testHashCodeInHashSet() {
         //Arrange
-        IProgrammeEditionEnrolmentFactory doubleIPEEF = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF,doubleIPEELF);
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF);
 
-        IProgrammeEditionEnrolmentFactory doubleIPEEF2 = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory doubleIPEELF2 = mock(IProgrammeEditionEnrolmentListFactory.class);
-        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEEF2,doubleIPEELF2);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(doubleIPEELF2);
 
         //Act
         HashSet<ProgrammeEditionEnrolmentRepositoryImpl> set = new HashSet<>();
@@ -702,13 +639,12 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         Set<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = Set.of(programmeEditionEnrolment);
 
-        IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
 
         when(iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment()).thenReturn(allProgrammeEditionEnrolments);
 
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl =
-                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentFactory, iProgrammeEditionEnrolmentListFactory);
+                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentListFactory);
 
         // act
         List<ProgrammeEditionEnrolment> result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
@@ -726,13 +662,12 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
         Set<ProgrammeEditionEnrolment> allProgrammeEditionEnrolments = Set.of();
 
-        IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
 
         when(iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment()).thenReturn(allProgrammeEditionEnrolments);
 
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepositoryImpl =
-                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentFactory, iProgrammeEditionEnrolmentListFactory);
+                new ProgrammeEditionEnrolmentRepositoryImpl(iProgrammeEditionEnrolmentListFactory);
 
         // act
         List<ProgrammeEditionEnrolment> result = programmeEditionEnrolmentRepositoryImpl.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID);
@@ -742,19 +677,21 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
 
     @Test
     void shouldReturnEmptyWhenStudentIdOrProgrammeEditionIdIsNull() {
-        IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
+        // Arrange
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
 
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
+        // Act & Assert
         assertTrue(repository.findByStudentAndProgrammeEdition(null, mock(ProgrammeEditionID.class)).isEmpty());
         assertTrue(repository.findByStudentAndProgrammeEdition(mock(StudentID.class), null).isEmpty());
     }
 
     @Test
     void shouldReturnEmptyWhenNoEnrolmentMatches() {
+        // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -768,15 +705,18 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
+        // Act
         Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnEnrolmentWhenMatchFound() {
+        // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -787,16 +727,158 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>();
         enrolments.add(enrolment);
 
-        IProgrammeEditionEnrolmentFactory factory = mock(IProgrammeEditionEnrolmentFactory.class);
         IProgrammeEditionEnrolmentListFactory listFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
         when(listFactory.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
 
-        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(factory, listFactory);
+        ProgrammeEditionEnrolmentRepositoryImpl repository = new ProgrammeEditionEnrolmentRepositoryImpl(listFactory);
 
+        // Act
         Optional<ProgrammeEditionEnrolment> result = repository.findByStudentAndProgrammeEdition(studentID, programmeEditionID);
 
+        // Assert
         assertTrue(result.isPresent());
         assertEquals(enrolment, result.get());
+    }
+
+    @Test
+    void testGetInternalSet_returnsSameInstance() {
+        // Arrange
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> mockSet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(mockSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockListFactory);
+
+        // Act & Assert
+        assertSame(mockSet, repo.getInternalSet());
+    }
+
+    @Test
+    void testGetInternalSet_reflectsModifications() {
+        // Arrange
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> mockSet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(mockSet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockListFactory);
+
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        // Act
+        repo.getInternalSet().add(enrolment);
+
+        // Assert
+        assertTrue(repo.getInternalSet().contains(enrolment));
+    }
+
+    @Test
+    void testGetInternalSet_isInitiallyEmpty() {
+        // Arrange
+        IProgrammeEditionEnrolmentListFactory mockListFactory = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        Set<ProgrammeEditionEnrolment> emptySet = new HashSet<>();
+        when(mockListFactory.newListProgrammeEditionEnrolment()).thenReturn(emptySet);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo =
+                new ProgrammeEditionEnrolmentRepositoryImpl(mockListFactory);
+
+        // Act & Assert
+        assertTrue(repo.getInternalSet().isEmpty());
+    }
+
+    @Test
+    void testHashCode_IsCalledWithNonEmptySet() {
+        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+
+        Set<ProgrammeEditionEnrolment> set = new HashSet<>();
+        set.add(enrolment);
+
+        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(factory.newListProgrammeEditionEnrolment()).thenReturn(set);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
+
+        int hash = repo.hashCode();
+
+        assertNotEquals(0, hash);
+    }
+
+    @Test
+    void testEquals_SameInstance() {
+        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(factory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
+
+        assertEquals(repo, repo);
+    }
+
+    @Test
+    void testEquals_DifferentInstancesSameContent() {
+        Set<ProgrammeEditionEnrolment> enrolments = new HashSet<>();
+
+        IProgrammeEditionEnrolmentListFactory factory1 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        IProgrammeEditionEnrolmentListFactory factory2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(factory1.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+        when(factory2.newListProgrammeEditionEnrolment()).thenReturn(enrolments);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(factory1);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(factory2);
+
+        assertEquals(repo1, repo2);
+        assertEquals(repo1.hashCode(), repo2.hashCode());
+    }
+
+    @Test
+    void testEquals_DifferentContent() {
+        ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
+        ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
+
+        Set<ProgrammeEditionEnrolment> enrolments1 = new HashSet<>();
+        enrolments1.add(enrolment1);
+
+        Set<ProgrammeEditionEnrolment> enrolments2 = new HashSet<>();
+        enrolments2.add(enrolment2);
+
+        IProgrammeEditionEnrolmentListFactory factory1 = mock(IProgrammeEditionEnrolmentListFactory.class);
+        IProgrammeEditionEnrolmentListFactory factory2 = mock(IProgrammeEditionEnrolmentListFactory.class);
+
+        when(factory1.newListProgrammeEditionEnrolment()).thenReturn(enrolments1);
+        when(factory2.newListProgrammeEditionEnrolment()).thenReturn(enrolments2);
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo1 = new ProgrammeEditionEnrolmentRepositoryImpl(factory1);
+        ProgrammeEditionEnrolmentRepositoryImpl repo2 = new ProgrammeEditionEnrolmentRepositoryImpl(factory2);
+
+        assertNotEquals(repo1, repo2);
+    }
+
+
+    @Test
+    void testEquals_NullAndOtherType() {
+        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(factory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
+
+        assertNotEquals(null, repo);
+        assertNotEquals(repo, "some string");
+    }
+
+    @Test
+    void testHashCode_Consistency() {
+        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
+        when(factory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
+
+        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
+
+        int hash1 = repo.hashCode();
+        int hash2 = repo.hashCode();
+
+        assertEquals(hash1, hash2);
     }
 
 }

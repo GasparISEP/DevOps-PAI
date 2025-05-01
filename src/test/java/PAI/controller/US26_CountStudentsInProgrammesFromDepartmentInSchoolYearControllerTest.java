@@ -1,25 +1,6 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.SchoolYear;
-import PAI.domain.Student;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
-import PAI.domain.programme.Programme;
-import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.factory.*;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
-import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionListFactory;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionListFactoryImpl;
-import PAI.repository.programmeEditionRepository.ProgrammeEditionRepositoryImpl;
-import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
 import PAI.service.department.DepartmentServiceImpl;

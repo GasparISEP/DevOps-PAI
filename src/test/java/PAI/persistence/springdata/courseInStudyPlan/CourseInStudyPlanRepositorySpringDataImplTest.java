@@ -1,11 +1,13 @@
 package PAI.persistence.springdata.courseInStudyPlan;
 
-import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanMapper;
+import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
+import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,35 +24,44 @@ class CourseInStudyPlanRepositorySpringDataImplTest {
     private ICourseInStudyPlanRepositorySpringData _iCourseInStudyPlanRepositorySpringData;
     private CourseInStudyPlanRepositorySpringDataImpl _courseInStudyPlanRepositorySpringDataImpl;
     private ICourseInStudyPlanIDMapper _iCourseInStudyPlanIDMapper;
+    private IStudyPlanIDMapper _iStudyPlanIDMapper;
 
     @BeforeEach
     void setUp() {
         _iCourseInStudyPlanMapper = mock(ICourseInStudyPlanMapper.class);
         _iCourseInStudyPlanRepositorySpringData = mock(ICourseInStudyPlanRepositorySpringData.class);
         _iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        _iStudyPlanIDMapper = mock(IStudyPlanIDMapper.class);
 
-        _courseInStudyPlanRepositorySpringDataImpl = new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper);
+        _courseInStudyPlanRepositorySpringDataImpl = new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper, _iStudyPlanIDMapper);
     }
 
     @Test
     void constructorShouldThrowExceptionWhenMapperIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new CourseInStudyPlanRepositorySpringDataImpl(null, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper));
+                () -> new CourseInStudyPlanRepositorySpringDataImpl(null, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper, _iStudyPlanIDMapper));
         assertEquals("iCourseInStudyPlanMapper cannot be null", ex.getMessage());
     }
 
     @Test
     void constructorShouldThrowWhenExceptionRepositoryIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, null, _iCourseInStudyPlanIDMapper));
+                () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, null, _iCourseInStudyPlanIDMapper, _iStudyPlanIDMapper));
         assertEquals("iCourseInStudyPlanRepositorySpringData cannot be null", ex.getMessage());
     }
 
     @Test
     void constructorShouldThrowWhenExceptionIDMapperIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, null));
+                () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, null, _iStudyPlanIDMapper));
         assertEquals("iCourseInStudyPlanIDMapper cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void constructorShouldThrowWhenStudyPlanIDMapperIsNull() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper, null));
+        assertEquals("iStudyPlanIDMapper cannot be null", ex.getMessage());
     }
 
     @Test
@@ -216,5 +227,70 @@ class CourseInStudyPlanRepositorySpringDataImplTest {
         List<CourseInStudyPlan> list = new java.util.ArrayList<>();
         it.forEach(list::add);
         return list;
+    }
+
+    @Test
+    void shouldReturnTotalCreditsEctsInStudyPlanSoFar() {
+        // arrange
+        StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        when(_iStudyPlanIDMapper.toDataModel(studyPlanID)).thenReturn(studyPlanIDDataModel);
+        Semester semester = mock(Semester.class);
+        when(semester.toInt()).thenReturn(1);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        when(curricularYear.toInt()).thenReturn(1);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        when(durationOfCourse.getDuration()).thenReturn(1);
+
+        when(_iCourseInStudyPlanRepositorySpringData.sumCombinedCredits(studyPlanIDDataModel, semester.toInt(), curricularYear.toInt()))
+                .thenReturn(30.0);
+
+        // act
+        double result = _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse);
+
+        // assert
+        assertEquals(30, result);
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenParametersAreNull() {
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(null, null, null, null));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenStudyPlanIDIsNull() {
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(null, mock(Semester.class), mock(CurricularYear.class), mock(DurationCourseInCurricularYear.class)));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenSemesterIsNull() {
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), null, mock(CurricularYear.class), mock(DurationCourseInCurricularYear.class)));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenCurricularYearIsNull() {
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), mock(Semester.class), null, mock(DurationCourseInCurricularYear.class)));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenDurationCourseInCurricularYearIsNull() {
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), mock(Semester.class), mock(CurricularYear.class), null));
+    }
+
+    @Test
+    void shouldHaveNullDataModelWhenIDIsNull() {
+        // Arrange
+        CourseInStudyPlanID id = null;
+
+        // Act
+        CourseInStudyPlanIDDataModel result = _iCourseInStudyPlanIDMapper.toDataModel(id);
+
+        // Assert
+        assertNull(result, "DataModel should be null when ID is null");
     }
 }

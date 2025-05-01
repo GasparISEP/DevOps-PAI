@@ -1,4 +1,4 @@
-package PAI.persistence.mem.programmeEdition;
+package PAI.persistence.mem.programme;
 
 import PAI.VOs.DepartmentID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
@@ -53,14 +53,5 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
             }
         }
         return programmesWithDepartment;
-    }
-
-    public Optional<Programme> getProgrammeByName(NameWithNumbersAndSpecialChars name) {
-        for (Programme programme : _programmeRepo) {
-            if (programme.hasThisProgrammeName(name)) {
-                return Optional.of(programme);
-            }
-        }
-        return Optional.empty();
     }
 }

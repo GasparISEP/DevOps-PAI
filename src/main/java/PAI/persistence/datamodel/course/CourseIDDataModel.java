@@ -9,21 +9,21 @@ import java.util.Objects;
 public class CourseIDDataModel implements Serializable {
 
     @Column(name = "courseID_acronym")
-    private String _courseIDAcronym;
+    private String courseIDAcronym;
 
     @Column(name = "courseID_name")
-    private String _courseIDName;
+    private String courseIDName;
 
     public CourseIDDataModel() {
     }
 
     public CourseIDDataModel(String acronym, String name) {
-        _courseIDAcronym = acronym;
-        _courseIDName = name;
+        courseIDAcronym = acronym;
+        courseIDName = name;
     }
 
     public String getId() {
-        return _courseIDAcronym + "-" + _courseIDName;
+        return courseIDAcronym + "-" + courseIDName;
     }
 
     @Override
@@ -31,20 +31,20 @@ public class CourseIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof CourseIDDataModel)) return false;
         CourseIDDataModel courseIDDataModel = (CourseIDDataModel) objectToCompare;
-        return _courseIDAcronym.equals(courseIDDataModel._courseIDAcronym) &&
-                _courseIDName.equals(courseIDDataModel._courseIDName);
+        return courseIDAcronym.equals(courseIDDataModel.courseIDAcronym) &&
+                courseIDName.equals(courseIDDataModel.courseIDName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_courseIDAcronym, _courseIDName);
+        return Objects.hash(courseIDAcronym, courseIDName);
     }
 
     public String getAcronym() {
-        return _courseIDAcronym;
+        return courseIDAcronym;
     }
 
     public String getName() {
-        return _courseIDName;
+        return courseIDName;
     }
 }

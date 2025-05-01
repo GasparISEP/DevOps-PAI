@@ -90,15 +90,6 @@ class ProgrammeEditionMapperImplTest {
         when(programmeEdition.identity()).thenReturn(programmeEditionID);
         when(programmeEditionIDMapper.toDataModel(programmeEdition.identity())).thenReturn(programmeEditionIdDataModel);
 
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
-        when(programmeEdition.findProgrammeIDInProgrammeEdition()).thenReturn(programmeID);
-        when(programmeIDMapper.toData(programmeEdition.findProgrammeIDInProgrammeEdition())).thenReturn(programmeIDDataModel);
-
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
-        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
-        when(schoolYearIDMapper.toDataModel(programmeEdition.findSchoolYearIDInProgrammeEdition())).thenReturn(schoolYearIDDataModel);
         // act
         Optional<ProgrammeEditionDataModel> pEDM = programmeEditionMapper.toDataModel(programmeEdition);
         // assert
@@ -136,13 +127,15 @@ class ProgrammeEditionMapperImplTest {
 
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        when(programmeEditionDataModel.getProgrammeIDDataModel()).thenReturn(programmeIDDataModel);
-        when(programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeIDDataModel())).thenReturn(programmeID);
+        when(programmeEditionDataModel.getProgrammeEditionIDDataModel()).thenReturn(programmeEditionIdDataModel);
+        when(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel()).thenReturn(programmeIDDataModel);
+        when(programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel())).thenReturn(programmeID);
+
 
         SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(programmeEditionDataModel.getSchoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
-        when(schoolYearIDMapper.toDomain(programmeEditionDataModel.getSchoolYearIDDataModel())).thenReturn(schoolYearID);
+        when(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel()).thenReturn(schoolYearIDDataModel);
+        when(schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().get_schoolYearIDDataModel())).thenReturn(schoolYearID);
 
         ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
         when(programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID)).thenReturn(mockProgrammeEdition);

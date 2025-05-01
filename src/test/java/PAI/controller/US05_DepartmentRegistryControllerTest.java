@@ -3,7 +3,7 @@ import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.factory.DepartmentFactoryImpl;
 import PAI.factory.DepartmentListFactoryImpl;
-import PAI.repository.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import org.junit.jupiter.api.Test;

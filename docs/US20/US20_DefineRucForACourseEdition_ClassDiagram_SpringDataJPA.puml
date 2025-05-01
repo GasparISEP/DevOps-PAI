@@ -6,42 +6,60 @@ skinparam nodesep 100
 
 ' Presentation Layer
 class US20_DefineRucForCourseEditionController {
-  - service: ICourseEditionApplicationService
-  + getTeachers()
-  + getCourseEditions()
+  - courseService: ICourseEditionService
+  - teacherService: ITeacherService
+  + getAllTeachers()
+  + getAllCourseEditions()
   + defineRucForCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID)
 }
 
 ' Application Layer
-interface ICourseEditionApplicationService {
-  + assignRucToCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID): boolean
-  + getAllTeachers(): Iterable<Teacher>
-  + getAllCourseEditions(): Iterable<CourseEdition>
+interface ICourseEditionService {
+  + assignRucToCourseEdition(teacherID: TeacherID, courseEditionID: CourseEditionID): boolean
+  + findAll(): Iterable<CourseEdition>
+  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
+  + containsOfIdentity(id: CourseEditionID): boolean
 }
 
-class CourseEditionApplicationService {
-  - courseEditionRepository: ICourseEditionRepository
-  - teacherRepository: ITeacherRepository
-  + assignRucToCourseEdition(courseEditionID: CourseEditionID, teacherID: TeacherID): boolean
+interface ITeacherService {
   + getAllTeachers(): Iterable<Teacher>
-  + getAllCourseEditions(): Iterable<CourseEdition>
+  + existsById(teacherID: TeacherID): boolean
+}
+
+class CourseEditionServiceImpl {
+  - repo: ICourseEditionRepository
+  - factory: ICourseEditionFactory
+  + assignRucToCourseEdition(...)
+  + findAll()
+  + ofIdentity(...)
+  + containsOfIdentity(...)
+}
+
+class TeacherServiceImpl {
+  - repo: ITeacherRepository
+  - factory: ITeacherFactory
+  + getAllTeachers()
+  + existsById(...)
 }
 
 ' Domain Layer
 interface ICourseEditionRepository {
-  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
   + save(courseEdition: CourseEdition): CourseEdition
+  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
+  + findAll(): Iterable<CourseEdition>
+  + containsOfIdentity(id: CourseEditionID): boolean
 }
 
 interface ITeacherRepository {
-  + ofIdentity(id: TeacherID): Optional<Teacher>
   + findAll(): Iterable<Teacher>
+  + containsOfIdentity(id: TeacherID): boolean
 }
 
 class CourseEdition {
   - id: CourseEditionID
-  - ruc: Teacher
-  + setRuc(teacher: TeacherID): boolean
+  - ruc: TeacherID
+  + setRuc(teacherID: TeacherID): boolean
+  + getRuc(): TeacherID
 }
 
 class Teacher {
@@ -49,53 +67,58 @@ class Teacher {
 }
 
 ' Infrastructure Layer
-class CourseEditionRepositoryImpl {
-  - springDataRepo: SpringCourseEditionJpaRepository
+class CourseEditionRepositorySpringDataImpl {
+  - springDataRepo: ICourseEditionRepositorySpringData
   - mapper: CourseEditionMapper
   + save(...)
   + ofIdentity(...)
-}
-
-class TeacherRepositoryImpl {
-  - springDataRepo: SpringTeacherJpaRepository
-  - mapper: TeacherMapper
-  + ofIdentity(...)
   + findAll()
+  + containsOfIdentity(...)
 }
 
-interface SpringCourseEditionJpaRepository <<JpaRepository>>
-interface SpringTeacherJpaRepository <<JpaRepository>>
+class TeacherRepositorySpringDataImpl {
+  - springDataRepo: ITeacherRepositorySpringData
+  - mapper: TeacherMapper
+  + findAll()
+  + containsOfIdentity(...)
+}
 
-class CourseEditionJpa <<JPA Entity>>
-class TeacherJpa <<JPA Entity>>
+interface ICourseEditionRepositorySpringData <<JpaRepository>>
+interface ITeacherRepositorySpringData <<JpaRepository>>
+
+class CourseEditionDataModel <<JPA Entity>>
+class TeacherDataModel <<JPA Entity>>
 
 class CourseEditionMapper
 class TeacherMapper
 
 ' Associations
-US20_DefineRucForCourseEditionController --> ICourseEditionApplicationService
-ICourseEditionApplicationService <|.. CourseEditionApplicationService
+US20_DefineRucForCourseEditionController --> ICourseEditionService
+US20_DefineRucForCourseEditionController --> ITeacherService
 
-CourseEditionApplicationService --> ICourseEditionRepository
-CourseEditionApplicationService --> ITeacherRepository
+ICourseEditionService <|.. CourseEditionServiceImpl
+ITeacherService <|.. TeacherServiceImpl
 
-ICourseEditionRepository <|.. CourseEditionRepositoryImpl
-ITeacherRepository <|.. TeacherRepositoryImpl
+CourseEditionServiceImpl --> ICourseEditionRepository
+TeacherServiceImpl --> ITeacherRepository
 
-CourseEditionRepositoryImpl --> CourseEditionMapper
-TeacherRepositoryImpl --> TeacherMapper
+ICourseEditionRepository <|.. CourseEditionRepositorySpringDataImpl
+ITeacherRepository <|.. TeacherRepositorySpringDataImpl
 
-CourseEditionRepositoryImpl --> SpringCourseEditionJpaRepository
-TeacherRepositoryImpl --> SpringTeacherJpaRepository
+CourseEditionRepositorySpringDataImpl --> ICourseEditionRepositorySpringData
+TeacherRepositorySpringDataImpl --> ITeacherRepositorySpringData
 
-SpringCourseEditionJpaRepository --> CourseEditionJpa
-SpringTeacherJpaRepository --> TeacherJpa
+CourseEditionRepositorySpringDataImpl --> CourseEditionMapper
+TeacherRepositorySpringDataImpl --> TeacherMapper
 
-CourseEditionMapper --> CourseEditionJpa
-TeacherMapper --> TeacherJpa
+ICourseEditionRepositorySpringData --> CourseEditionDataModel
+ITeacherRepositorySpringData --> TeacherDataModel
+
+CourseEditionMapper --> CourseEditionDataModel
+TeacherMapper --> TeacherDataModel
 
 ICourseEditionRepository ..> CourseEdition
 ITeacherRepository ..> Teacher
-CourseEdition --> Teacher
+CourseEdition --> TeacherID
 
 @enduml

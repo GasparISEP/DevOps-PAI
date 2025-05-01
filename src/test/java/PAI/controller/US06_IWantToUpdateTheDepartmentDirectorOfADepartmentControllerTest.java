@@ -1,9 +1,8 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.*;
 import PAI.factory.*;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.IDepartmentRepository;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.IDepartmentRepository;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import org.junit.jupiter.api.Test;
@@ -39,13 +38,12 @@ void shouldReturnExceptionIfDepartmentServiceIsNull() {
 }
 
 @Test
-void shouldReturnTrueIfUpdateDepartmentDirector () {
+void shouldReturnTrueIfUpdateDepartmentDirector () throws Exception {
     // Arrange
     IDepartmentService departmentService = mock (IDepartmentService.class);
 
     DepartmentID departmentIdDouble = mock(DepartmentID.class);
     TeacherID teacherIdDouble = mock(TeacherID.class);
-    Teacher teacherDouble = mock(Teacher.class);
 
     US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
             new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentService);
@@ -60,7 +58,7 @@ void shouldReturnTrueIfUpdateDepartmentDirector () {
 }
 
 @Test
-void shouldReturnFalseIfUpdateDepartmentDirectorWasNotSucessful () {
+void shouldReturnFalseIfUpdateDepartmentDirectorWasNotSucessful () throws Exception {
     //arrange
     IDepartmentService departmentService = mock (IDepartmentService.class);
     DepartmentID departmentIdDouble= mock(DepartmentID.class);
@@ -82,7 +80,7 @@ void shouldReturnFalseIfUpdateDepartmentDirectorWasNotSucessful () {
 }
 
 @Test
-void shouldReturnFalseIfDepartmentIDIsNull (){
+void shouldReturnFalseIfDepartmentIDIsNull () throws Exception {
     //arrange
     IDepartmentService departmentService = mock(IDepartmentService.class);
 
@@ -99,7 +97,7 @@ void shouldReturnFalseIfDepartmentIDIsNull (){
 }
 
 @Test
-void shouldReturnFalseIfTeacherIDIsNull (){
+void shouldReturnFalseIfTeacherIDIsNull () throws Exception {
     //arrange
     IDepartmentService departmentService = mock(IDepartmentService.class);
 
@@ -115,7 +113,7 @@ void shouldReturnFalseIfTeacherIDIsNull (){
     assertFalse(result);
 }
     @Test
-    void shouldReturnFalseIfBothAreNull (){
+    void shouldReturnFalseIfBothAreNull () throws Exception {
         //arrange
         IDepartmentService departmentService = mock(IDepartmentService.class);
 
@@ -139,18 +137,7 @@ void shouldReturnTrueIfUpdateOfDirectorSucessfull () throws Exception {
 
     TeacherAcronym tAcronym = new TeacherAcronym("POB");
     TeacherID teacherID = new TeacherID(tAcronym);
-    Name name = new Name("John Doe");
-    Email email = new Email("john@doe.com");
-    PAI.VOs.Location location = new PAI.VOs.Location("Porto");
-    Street street = new Street("123 street");
-    PostalCode postalCode = new PostalCode("12345");
-    Country country = new Country("Portugal");
-    Address address = new Address(street, postalCode,location,country);
-
-    NIF nif = new NIF("123431123",country);
-    PhoneNumber phoneNumber = new PhoneNumber("+351","912123123");
-    AcademicBackground  academicBackground= new AcademicBackground("Doctor");
-    Teacher teacher = new Teacher(tAcronym,  name,  email,  nif,  phoneNumber,  academicBackground, address,  departmentID);
+    Name name = new Name("Department");
 
     DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
     DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
@@ -168,6 +155,30 @@ void shouldReturnTrueIfUpdateOfDirectorSucessfull () throws Exception {
     assertTrue(result);
 
 }
+    @Test
+    void shouldReturnFalseIfDepartmentDoesntExist () throws Exception {
+        // Arrange
+        DepartmentAcronym dAcronym= new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(dAcronym);
+
+        TeacherAcronym tAcronym = new TeacherAcronym("POB");
+        TeacherID teacherID = new TeacherID(tAcronym);
+        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
+        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(listFactory);
+        IDepartmentService departmentService = new DepartmentServiceImpl(factory,departmentRepository);
+
+        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
+                new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentService);
+        departmentService.updateOfDepartmentDirector(departmentID, teacherID);
+
+        // Act
+        boolean result = controller.updateOfDepartmentDirector(departmentID, teacherID);
+
+        // Assert
+        assertFalse(result);
+
+    }
 //
 @Test
 void shouldReturnFalseIfTeacherIdIsNull_IntegrationTest () throws Exception {
@@ -186,10 +197,11 @@ void shouldReturnFalseIfTeacherIdIsNull_IntegrationTest () throws Exception {
     departmentService.registerDepartment(dAcronym,departmentName);
 
     //act
-    boolean result = controller.updateOfDepartmentDirector(departmentID, null);
+    Exception exception = assertThrows(Exception.class, () -> {controller.updateOfDepartmentDirector(departmentID, null);});
+
 
     //assert
-    assertFalse(result);
+    assertEquals("Teacher ID cannot be null.",exception.getMessage());
 }
 
 @Test
@@ -198,6 +210,7 @@ void shouldReturnFalseIfDepartmentIdIsNull_IntegrationTest () throws Exception {
     DepartmentAcronym dAcronym= new DepartmentAcronym("DEI");
     Name departmentName= new Name("DepartmentName");
     TeacherAcronym tAcronym = new TeacherAcronym("POB");
+    DepartmentID departmentID = new DepartmentID(dAcronym);
     TeacherID teacherID = new TeacherID(tAcronym);
 
     DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
@@ -208,30 +221,13 @@ void shouldReturnFalseIfDepartmentIdIsNull_IntegrationTest () throws Exception {
     US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
             new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentService);
     departmentService.registerDepartment(dAcronym,departmentName);
+    departmentService.updateOfDepartmentDirector(departmentID,teacherID);
 
     //act
-    boolean result = controller.updateOfDepartmentDirector(null, teacherID);
+    Exception exception = assertThrows(Exception.class, () -> {controller.updateOfDepartmentDirector(null,teacherID );});
+
 
     //assert
-    assertFalse(result);
-    }
-
-    @Test
-    void shouldReturnFalseIfBothAreNull_IntegrationTest () throws Exception {
-        //arrange
-
-        DepartmentFactoryImpl factory = new DepartmentFactoryImpl();
-        DepartmentListFactoryImpl listFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(listFactory);
-        IDepartmentService departmentService = new DepartmentServiceImpl(factory,departmentRepository);
-
-        US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController controller =
-                new US06_IWantToUpdateTheDepartmentDirectorOfADepartmentController(departmentService);
-
-        //act
-        boolean result = controller.updateOfDepartmentDirector(null, null);
-
-        //assert
-        assertFalse(result);
+    assertEquals("Department ID cannot be null.",exception.getMessage());
     }
 }

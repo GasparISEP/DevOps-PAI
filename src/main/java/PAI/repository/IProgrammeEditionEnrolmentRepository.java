@@ -7,6 +7,7 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface IProgrammeEditionEnrolmentRepository  extends IRepository <ProgrammeEditionEnrolmentID, ProgrammeEditionEnrolment>{
 
@@ -19,4 +20,6 @@ public interface IProgrammeEditionEnrolmentRepository  extends IRepository <Prog
     int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS);
 
     Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId);
+
+    Set<ProgrammeEditionEnrolment> getInternalSet() throws Exception;
 }

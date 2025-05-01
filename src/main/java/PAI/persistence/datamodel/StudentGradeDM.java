@@ -1,7 +1,6 @@
 package PAI.persistence.datamodel;
 
 
-import PAI.VOs.CourseEditionID;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import jakarta.persistence.*;
 
@@ -12,28 +11,18 @@ import java.time.LocalDate;
 public class StudentGradeDM {
 
  @EmbeddedId
- private StudentGradeIDDataModel _studentGradeIDDataModel;
+ private StudentGradeIDDataModel studentGradeIDDataModel;
 
  @Column(name = "Grade")
- private double _grade;
+ private double grade;
 
  @Column(name = "Date")
- private LocalDate _date;
+ private LocalDate date;
 
- @Embedded
- @Column(name = "CourseEdition")
- private CourseEditionIDDataModel courseEditionID;
-
- @Embedded
- @Column(name = "Student")
- private StudentIDDataModel StudentId;
-
- public StudentGradeDM(StudentGradeIDDataModel studentGradeIDDataModel, double _grade, LocalDate _date, CourseEditionIDDataModel courseEditionID, StudentIDDataModel studentId) {
-  this._studentGradeIDDataModel = studentGradeIDDataModel;
-  this._grade = _grade;
-  this._date = _date;
-  this.courseEditionID = courseEditionID;
-  this.StudentId = studentId;
+ public StudentGradeDM(StudentGradeIDDataModel studentGradeIDDataModel, double grade, LocalDate date) {
+  this.studentGradeIDDataModel = studentGradeIDDataModel;
+  this.grade = grade;
+  this.date = date;
  }
 
  public StudentGradeDM() {
@@ -41,22 +30,22 @@ public class StudentGradeDM {
 
 
  public StudentGradeIDDataModel getId() {
-  return _studentGradeIDDataModel;
+  return studentGradeIDDataModel;
  }
 
- public double get_grade() {
-  return _grade;
+ public double getGrade() {
+  return grade;
  }
 
- public LocalDate get_date() {
-  return _date;
+ public LocalDate getDate() {
+  return date;
  }
 
  public CourseEditionIDDataModel getCourseEditionID() {
-  return courseEditionID;
+  return studentGradeIDDataModel.getCourseEditionIDDataModel();
  }
 
  public StudentIDDataModel getStudentId() {
-  return StudentId;
+  return studentGradeIDDataModel.getStudentIDDataModel();
  }
 }

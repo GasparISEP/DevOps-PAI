@@ -2,6 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.factory.IProgrammeEditionEnrolmentListFactory;
 
@@ -14,12 +15,9 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
 
 
     private final Set<ProgrammeEditionEnrolment> _programmeEditionEnrolments;
-    private final IProgrammeEditionEnrolmentFactory _iProgrammeEditionEnrolmentFactory;
 
-    public ProgrammeEditionEnrolmentRepositoryImpl(IProgrammeEditionEnrolmentFactory iProgrammeEditionEnrolmentFactory,
-                                                   IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory) {
+    public ProgrammeEditionEnrolmentRepositoryImpl(IProgrammeEditionEnrolmentListFactory iProgrammeEditionEnrolmentListFactory) {
 
-        _iProgrammeEditionEnrolmentFactory = iProgrammeEditionEnrolmentFactory;
         _programmeEditionEnrolments = iProgrammeEditionEnrolmentListFactory.newListProgrammeEditionEnrolment();
     }
 
@@ -83,6 +81,10 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
         return Optional.empty();
     }
 
+    @Override
+    public Set<ProgrammeEditionEnrolment> getInternalSet() {
+        return this._programmeEditionEnrolments;
+    }
 
     @Override
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment entity) {
@@ -118,11 +120,11 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProgrammeEditionEnrolmentRepositoryImpl that = (ProgrammeEditionEnrolmentRepositoryImpl) o;
-        return Objects.equals(_programmeEditionEnrolments, that._programmeEditionEnrolments) && Objects.equals(_iProgrammeEditionEnrolmentFactory, that._iProgrammeEditionEnrolmentFactory);
+        return Objects.equals(_programmeEditionEnrolments, that._programmeEditionEnrolments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_programmeEditionEnrolments, _iProgrammeEditionEnrolmentFactory);
+        return Objects.hashCode(_programmeEditionEnrolments);
     }
 }

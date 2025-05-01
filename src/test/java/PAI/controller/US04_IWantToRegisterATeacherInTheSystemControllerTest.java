@@ -2,8 +2,8 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Department;
 import PAI.factory.*;
-import PAI.repository.DepartmentRepositoryImpl;
-import PAI.repository.IDepartmentRepository;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepositoryImpl;
 import PAI.service.ITeacherService;
@@ -218,7 +218,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
     private TeacherServiceImpl createTeacherService() {
         ITeacherRepository teacherRepository= createTeacherRepo();
-        ITeacherFactory teacherFactory = new TeacherFactoryImpl(teacherRepository);
+        ITeacherFactory teacherFactory = new TeacherFactoryImpl();
         return new TeacherServiceImpl(teacherFactory,teacherRepository);
     }
 

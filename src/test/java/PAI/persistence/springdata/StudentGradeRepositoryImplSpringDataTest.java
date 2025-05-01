@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.StudentGradeID;
 import PAI.domain.StudentGrade;
+import PAI.domain.course.Course;
 import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
 import PAI.persistence.datamodel.StudentGradeDM;
@@ -13,8 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class StudentGradeRepositoryImplSpringDataTest {
 
@@ -79,6 +79,8 @@ class StudentGradeRepositoryImplSpringDataTest {
         Iterable<StudentGrade> result = studentGradeRepositorySpringDataImpl.findAll();
         //assert
         assertNotNull(result);
+        assertFalse(((List<StudentGrade>) result).isEmpty());
+        assertEquals(1, ((List<StudentGrade>) result).size());
     }
     @Test
     void shouldReturnEmptyListWhen()throws Exception{
@@ -118,7 +120,10 @@ class StudentGradeRepositoryImplSpringDataTest {
         Optional<StudentGrade> result = studentGradeRepositorySpringDataImpl.ofIdentity(studentGradeID);
 
         //assert
+        assertFalse(result.isEmpty());
+        assertEquals(studentGrade, result.get());
         assertNotNull(result);
+        verify(iStudentGradeIDMapper).toDataModel(studentGradeID);
     }
 
     @Test

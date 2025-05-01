@@ -63,7 +63,7 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
 
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
 
-        return iTeacherRepositorySpringData.findById(teacherIDDataModel)
+        return iTeacherRepositorySpringData.findByTeacherId(teacherIDDataModel)
                 .map(dataModel -> {
                     try {
                         return teacherMapper.toDomain(dataModel);
@@ -79,15 +79,17 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
 
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
 
-        return iTeacherRepositorySpringData.existsById(teacherIDDataModel);
+        Optional<TeacherDataModel> result = iTeacherRepositorySpringData.findByTeacherId(teacherIDDataModel);
+
+        return result.isPresent();
     }
 
     @Override
-    public boolean existsByIDorNIF(TeacherID teacherID, NIF nif) {
+    public boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) {
         TeacherIDDataModel teacherIDDataModel = teacherIDMapper.toDataModel(teacherID);
         NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
 
-        if (iTeacherRepositorySpringData.existsByIDorNIF(teacherIDDataModel, nifDataModel))
+        if (iTeacherRepositorySpringData.existsByTeacherIdOrNif(teacherIDDataModel, nifDataModel))
             return true;
 
         return false;

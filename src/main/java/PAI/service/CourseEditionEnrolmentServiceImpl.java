@@ -9,11 +9,11 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmentService {
@@ -101,10 +101,15 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         // 3. Deactivate enrolment
         enrolment.deactivateEnrolment();
 
-        // 4. Save changes
+        // 4. Remove the old version from the internal set (workaround for Set behavior)
+        if (_ceeRepositoryInterface instanceof CourseEditionEnrolmentRepositoryImpl repoImpl) {
+            repoImpl.getInternalSet().remove(enrolment);
+        }
+
+        // 5. Save changes
         _ceeRepositoryInterface.save(enrolment);
 
-        // 5. Check if the student still has active enrolments in this programme
+        // 6. Check if the student still has active enrolments in this programme
         if (!hasOtherActiveCourseEditionEnrolments(studentID, courseEditionID.getProgrammeEditionID())) {
             // If not, also remove the ProgrammeEditionEnrolment
             removeProgrammeEditionEnrolment(studentID, courseEditionID.getProgrammeEditionID());
@@ -136,6 +141,11 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
             // we might introduce an "IRREGULAR" status (e.g., peEnrolment.markAsIrregular()).
             // This would involve changing the status from a boolean to an enum: ACTIVE, INACTIVE or IRREGULAR.
 
+            // 4. Remove the old version from the internal set (workaround for Set behavior)
+            if (_peeRepositoryInterface instanceof ProgrammeEditionEnrolmentRepositoryImpl repoImpl) {
+                repoImpl.getInternalSet().remove(peEnrolment);
+            }
+
             _peeRepositoryInterface.save(peEnrolment);
         }
     }
@@ -146,5 +156,10 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         if (dependency == null) {
             throw new IllegalArgumentException(name + " cannot be null!");
         }
+    }
+
+    public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
+
+        return _ceeRepositoryInterface.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
     }
 }

@@ -6,6 +6,7 @@ import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 public class CourseInStudyPlanRepositoryImpl implements ICourseInStudyPlanRepository {
 
@@ -50,5 +51,31 @@ public class CourseInStudyPlanRepositoryImpl implements ICourseInStudyPlanReposi
             }
         }
         return false;
+    }
+
+    @Override
+    public double getTotalCreditsEctsInStudyPlanSoFar(
+            StudyPlanID studyPlanID,
+            Semester semester,
+            CurricularYear curricularYear,
+            DurationCourseInCurricularYear duration) {
+
+        Iterable<CourseInStudyPlan> allCourses = findAll();
+
+        return StreamSupport.stream(allCourses.spliterator(), false)
+                .filter(c -> c.getStudyplanID().equals(studyPlanID))
+                .filter(c -> c.getCurricularYear().equals(curricularYear))
+                .mapToDouble(c -> {
+                    if (c.getDurationOfCourse().getDuration() == 1
+                            && c.getSemester().equals(semester)) {
+                        return c.getQuantityOfCreditsEcts().getQuantity();
+                    }
+                    if (c.getDurationOfCourse().getDuration() == 2
+                            && c.getSemester().toInt() == 1) {
+                        return c.getQuantityOfCreditsEcts().getQuantity() / 2.0;
+                    }
+                    return 0.0;
+                })
+                .sum();
     }
 }

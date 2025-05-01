@@ -4,7 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.service.IStudentGradeService;
 import org.springframework.stereotype.Component;
 
-
+@Component
 public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
 
     IStudentGradeService _iStudentGradeService;
@@ -15,7 +15,7 @@ public class US23_IWantToKnowTheApprovalPercentageOfACourseEditionController {
         }
         _iStudentGradeService = iStudentGradeService;
     }
-    public double CalculateApprovalPercentageOfACourseEdition (CourseEditionID courseEditionID){
+    public double CalculateApprovalPercentageOfACourseEdition (CourseEditionID courseEditionID) throws Exception {
         if (courseEditionID == null){
             throw new IllegalArgumentException("CourseEditionID cannot be null");
         }

@@ -5,7 +5,9 @@ import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
     private final IStudyPlanIDMapper _studyPlanIDMapper;

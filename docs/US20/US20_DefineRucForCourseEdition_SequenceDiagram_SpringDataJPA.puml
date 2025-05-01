@@ -2,12 +2,13 @@
 
 autonumber
 
-title US20 - Define RUC for a Course Edition (Using ICourseEditionApplicationService)
+title US20 - Define RUC for a Course Edition (Final Architecture with Two Services)
 
 actor PD
 participant UI
 participant Controller
-participant ICourseEditionApplicationService as Service
+participant ITeacherService as TeacherService
+participant ICourseEditionService as CourseService
 participant TeacherRepo
 participant CourseRepo
 participant SpringTeacherRepo
@@ -15,76 +16,82 @@ participant SpringCourseRepo
 participant TeacherMapper
 participant CourseMapper
 participant CourseEdition
-participant Teacher
 
 PD -> UI : I want to define the RUC for a Course Edition
 
 == Load All Teachers ==
 UI -> Controller : getAllTeachers()
 activate Controller
-Controller -> Service : getAllTeachers()
-activate Service
-Service -> TeacherRepo : findAll()
+Controller -> TeacherService : getAllTeachers()
+activate TeacherService
+TeacherService -> TeacherRepo : findAll()
 TeacherRepo -> SpringTeacherRepo : findAll()
 SpringTeacherRepo --> TeacherRepo : List<TeacherJpa>
-TeacherRepo -> TeacherMapper : map to domain
+TeacherRepo -> TeacherMapper : toDomain()
 TeacherMapper --> TeacherRepo : List<Teacher>
-TeacherRepo --> Service : List<Teacher>
-Service --> Controller : List<Teacher>
+TeacherRepo --> TeacherService : List<Teacher>
+TeacherService --> Controller : List<Teacher>
 Controller --> UI : List<Teacher>
-deactivate Service
+deactivate TeacherService
 deactivate Controller
 
 == Load All Course Editions ==
 UI -> Controller : getAllCourseEditions()
 activate Controller
-Controller -> Service : getAllCourseEditions()
-activate Service
-Service -> CourseRepo : findAll()
+Controller -> CourseService : findAll()
+activate CourseService
+CourseService -> CourseRepo : findAll()
 CourseRepo -> SpringCourseRepo : findAll()
 SpringCourseRepo --> CourseRepo : List<CourseEditionJpa>
-CourseRepo -> CourseMapper : map to domain
+CourseRepo -> CourseMapper : toDomain()
 CourseMapper --> CourseRepo : List<CourseEdition>
-CourseRepo --> Service : List<CourseEdition>
-Service --> Controller : List<CourseEdition>
+CourseRepo --> CourseService : List<CourseEdition>
+CourseService --> Controller : List<CourseEdition>
 Controller --> UI : List<CourseEdition>
-deactivate Service
+deactivate CourseService
 deactivate Controller
 
 == Assign RUC to Course Edition ==
 UI -> Controller : defineRucForCourseEdition(courseEditionID, teacherID)
 activate Controller
-Controller -> Service : assignRucToCourseEdition(courseEditionID, teacherID)
-activate Service
+Controller -> CourseService : containsOfIdentity(courseEditionID)
+CourseService -> CourseRepo : containsOfIdentity()
+CourseRepo -> SpringCourseRepo : existsById()
+SpringCourseRepo --> CourseRepo : boolean
+CourseRepo --> CourseService : boolean
+CourseService --> Controller : boolean
 
-Service -> CourseRepo : ofIdentity(courseEditionID)
-CourseRepo -> SpringCourseRepo : findById(courseEditionID)
+Controller -> TeacherService : existsById(teacherID)
+TeacherService -> TeacherRepo : containsOfIdentity()
+TeacherRepo -> SpringTeacherRepo : existsById()
+SpringTeacherRepo --> TeacherRepo : boolean
+TeacherRepo --> TeacherService : boolean
+TeacherService --> Controller : boolean
+
+Controller -> CourseService : assignRucToCourseEdition(teacherID, courseEditionID)
+activate CourseService
+CourseService -> CourseRepo : ofIdentity(courseEditionID)
+CourseRepo -> SpringCourseRepo : findById()
 SpringCourseRepo --> CourseRepo : CourseEditionJpa
 CourseRepo -> CourseMapper : toDomain()
 CourseMapper --> CourseRepo : CourseEdition
-CourseRepo --> Service : CourseEdition
+CourseRepo --> CourseService : CourseEdition
 
-Service -> TeacherRepo : ofIdentity(teacherID)
-TeacherRepo -> SpringTeacherRepo : findById(teacherID)
-SpringTeacherRepo --> TeacherRepo : TeacherJpa
-TeacherRepo -> TeacherMapper : toDomain()
-TeacherMapper --> TeacherRepo : Teacher
-TeacherRepo --> Service : Teacher
+CourseService -> CourseEdition : setRuc(teacherID)
+CourseEdition --> CourseService : success
 
-Service -> CourseEdition : setRuc(TeacherID)
-CourseEdition --> Service : success
-Service -> CourseRepo : save(CourseEdition)
+CourseService -> CourseRepo : save(CourseEdition)
 CourseRepo -> CourseMapper : toJpa()
 CourseMapper --> CourseRepo : CourseEditionJpa
 CourseRepo -> SpringCourseRepo : save(CourseEditionJpa)
 SpringCourseRepo --> CourseRepo : CourseEditionJpa
 CourseRepo -> CourseMapper : toDomain()
 CourseMapper --> CourseRepo : CourseEdition
-CourseRepo --> Service : CourseEdition
+CourseRepo --> CourseService : CourseEdition
 
-Service --> Controller : success
+CourseService --> Controller : success
 Controller --> UI : RUC defined
-deactivate Service
+deactivate CourseService
 deactivate Controller
 
 @enduml

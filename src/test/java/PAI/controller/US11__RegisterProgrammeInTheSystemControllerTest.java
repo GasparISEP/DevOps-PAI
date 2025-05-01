@@ -3,16 +3,15 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.factory.IProgrammeFactory;
 import PAI.factory.ProgrammeFactoryImpl;
-import PAI.persistence.mem.programmeEdition.IProgrammeRepositoryListFactory;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryImpl;
-import PAI.persistence.mem.programmeEdition.ProgrammeRepositoryListFactoryImpl;
+import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
+import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
+import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class US11__RegisterProgrammeInTheSystemControllerTest {
 
