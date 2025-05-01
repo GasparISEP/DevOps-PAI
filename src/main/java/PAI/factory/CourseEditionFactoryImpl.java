@@ -5,7 +5,9 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseEditionFactoryImpl implements ICourseEditionFactory {
 
     public CourseEdition createCourseEditionToDomain(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
