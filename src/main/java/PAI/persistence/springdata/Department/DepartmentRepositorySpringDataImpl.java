@@ -8,12 +8,14 @@ import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.mem.department.IDepartmentRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@Primary
 public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository{
     private final IDepartmentRepositorySpringData jpaRepo;
     private final IDepartmentIDMapper idMapper;
