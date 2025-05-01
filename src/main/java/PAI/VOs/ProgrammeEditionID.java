@@ -4,8 +4,8 @@ import PAI.ddd.DomainId;
 
 public class ProgrammeEditionID implements DomainId {
 
-    private final ProgrammeID _programmeID;
-    private final SchoolYearID _schoolYearID;
+    private final ProgrammeID programmeID;
+    private final SchoolYearID schoolYearID;
 
     public ProgrammeEditionID(ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
         if (programmeID == null)
@@ -13,8 +13,8 @@ public class ProgrammeEditionID implements DomainId {
         if (schoolYearID == null)
             throw new Exception("schoolYearID cannot be null");
 
-        _programmeID = programmeID;
-        _schoolYearID = schoolYearID;
+        this.programmeID = programmeID;
+        this.schoolYearID = schoolYearID;
     }
 
     @Override
@@ -24,30 +24,30 @@ public class ProgrammeEditionID implements DomainId {
         if (o == null || (!(o instanceof ProgrammeEditionID)))
             return false;
         ProgrammeEditionID that = (ProgrammeEditionID) o;
-        if (_programmeID.equals(that._programmeID) && _schoolYearID.equals(that._schoolYearID))
+        if (programmeID.equals(that.programmeID) && schoolYearID.equals(that.schoolYearID))
             return true;
         return false;
     }
 
     @Override
     public String toString() {
-        return _programmeID.toString()+"-"+_schoolYearID.getSchoolYearID().toString();
+        return programmeID.toString()+"-"+ schoolYearID.getSchoolYearID().toString();
     }
 
     @Override
     public int hashCode() {
-        return _programmeID.hashCode() + _schoolYearID.hashCode();
+        return programmeID.hashCode() + schoolYearID.hashCode();
     }
 
     public boolean isSameProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID){
-        return this._programmeID.equals(programmeID) && this._schoolYearID.equals(schoolYearID);
+        return this.programmeID.equals(programmeID) && this.schoolYearID.equals(schoolYearID);
     }
 
     public ProgrammeID getProgrammeID() {
-        return _programmeID;
+        return programmeID;
     }
 
     public SchoolYearID getSchoolYearID() {
-        return _schoolYearID;
+        return schoolYearID;
     }
 }
