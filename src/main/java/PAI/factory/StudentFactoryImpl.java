@@ -2,7 +2,6 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.repository.IStudentRepository;
 import org.springframework.stereotype.Component;
 
 @Component
