@@ -22,12 +22,12 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._isActive= new EnrolmentStatus(true);
     }
 
-    public CourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID, LocalDate enrolmentDate, boolean active) {
+    public CourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
         validateStudent(studentID);
         validateCourseEdition(courseEditionID);
-        this._enrolmentDate = new Date(enrolmentDate);
+        this._enrolmentDate = ((enrolmentDate != null) ? enrolmentDate : Date.now());
         this._courseEditionEnrolmentId = new CourseEditionEnrolmentID(studentID, courseEditionID);
-        this._isActive = new EnrolmentStatus(active);
+        this._isActive = new EnrolmentStatus(active.isEnrolmentActive());
     }
 
 
@@ -97,7 +97,7 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._isActive = new EnrolmentStatus(false);  // Updating the status to inactive
     }
 
-    public LocalDate getEnrolmentDate() {
-        return _enrolmentDate.getLocalDate();
+    public Date getEnrolmentDate() {
+        return _enrolmentDate;
     }
 }

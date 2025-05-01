@@ -31,13 +31,7 @@ public class CourseEditionEnrolmentMapperImpl implements ICourseEditionEnrolment
         Optional<CourseEditionEnrolmentIDDataModel> idDataModel = idMapper.toDataModel(domain.identity());
         if (idDataModel.isEmpty()) return Optional.empty();
 
-        return Optional.of(
-                new CourseEditionEnrolmentDataModel(
-                        idDataModel.get(),
-                        domain.getEnrolmentDate(),
-                        domain.isEnrolmentActive()
-                )
-        );
+        return Optional.of(new CourseEditionEnrolmentDataModel(idDataModel.get(),domain.getEnrolmentDate().getLocalDate(),domain.isEnrolmentActive()));
     }
 
     @Override
@@ -53,14 +47,8 @@ public class CourseEditionEnrolmentMapperImpl implements ICourseEditionEnrolment
         if (studentID == null || courseEditionID == null || dataModel.findEnrolmentDate() == null) {
             return Optional.empty();
         }
-
-        return Optional.of(
-                factory.createWithEnrolmentDate(
-                        studentID,
-                        courseEditionID,
-                        dataModel.findEnrolmentDate(),
-                        dataModel.isActive()
-                )
-        );
+        Date enrolmentDate = new Date(dataModel.findEnrolmentDate());
+        EnrolmentStatus enrolmentStatus = new EnrolmentStatus(dataModel.isActive());
+        return Optional.of(factory.createWithEnrolmentDate(studentID, courseEditionID, enrolmentDate, enrolmentStatus));
     }
 }
