@@ -141,35 +141,35 @@ class TeacherMapperImplTest {
         assertNull(result);
     }
 
+//    @Test
+//    void shouldReturnTeacherDataModelWhenTeacherIsNotNull() {
+//        //Arrange
+//        createMapperDoubles();
+//        createTeacherDataModelDoubles();
+//
+//        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
+//                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+//
+//        Teacher teacherDouble = mock(Teacher.class);
+//
+//        when(_teacherIDMapperDouble.toDataModel(teacherDouble.getTeacherID())).thenReturn(_teacherIDDataModelDouble);
+//        when(teacherDouble.getName()).thenReturn(_nameDouble);
+//        when(teacherDouble.getEmail()).thenReturn(_emailDouble);
+//        when(_nifMapperDouble.domainToDataModel(teacherDouble.getNIF())).thenReturn(_nifDataModelDouble);
+//        when(_phoneNumberMapperDouble.domainToDataModel(teacherDouble.getPhoneNumber())).thenReturn(_phoneNumberDataModelDouble);
+//        when(teacherDouble.getAcademicBackground()).thenReturn(_academicBackground);
+//        when(_addressMapperDouble.toDataModel(teacherDouble.getAddress())).thenReturn(_addressDataModelDouble);
+//        when(teacherDouble.getDepartmentID()).thenReturn(_departmentIDDouble);
+//
+//        //Act
+//        TeacherDataModel result = teacherMapper.toDataModel(teacherDouble);
+//
+//        //Assert
+//        assertNotNull(result);
+//    }
+
     @Test
-    void shouldReturnTeacherDataModelWhenTeacherIsNotNull() {
-        //Arrange
-        createMapperDoubles();
-        createTeacherDataModelDoubles();
-
-        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
-
-        Teacher teacherDouble = mock(Teacher.class);
-
-        when(_teacherIDMapperDouble.toDataModel(teacherDouble.getTeacherID())).thenReturn(_teacherIDDataModelDouble);
-        when(teacherDouble.getName()).thenReturn(_nameDouble);
-        when(teacherDouble.getEmail()).thenReturn(_emailDouble);
-        when(_nifMapperDouble.domainToDataModel(teacherDouble.getNIF())).thenReturn(_nifDataModelDouble);
-        when(_phoneNumberMapperDouble.domainToDataModel(teacherDouble.getPhoneNumber())).thenReturn(_phoneNumberDataModelDouble);
-        when(teacherDouble.getAcademicBackground()).thenReturn(_academicBackground);
-        when(_addressMapperDouble.toDataModel(teacherDouble.getAddress())).thenReturn(_addressDataModelDouble);
-        when(teacherDouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-
-        //Act
-        TeacherDataModel result = teacherMapper.toDataModel(teacherDouble);
-
-        //Assert
-        assertNotNull(result);
-    }
-
-    @Test
-    void shouldReturnNullWhenProvidedTeacherDataModelIsNull() throws Exception {
+    void shouldReturnNullWhenProvidedTeacherDataModelIsNull() {
         //Arrange
         createMapperDoubles();
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,

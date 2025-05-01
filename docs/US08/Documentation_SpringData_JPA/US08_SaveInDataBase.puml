@@ -1,5 +1,5 @@
 @startuml
-participant "sr1:StudentRepositoryJPA" as SR #lightcyan
+participant "sr1:StudentRepositorySpringData" as SR #lightcyan
 participant "m1:StudentMapper" as mapper #lightgreen
 participant "sf1:StudentFactory" as factory #implementation
 participant "sDataModel1: StudentDataModel" as sDM #lightblue

@@ -42,26 +42,34 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
     }
 
     @Override
-    public Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) throws Exception {
+    public Optional<ProgrammeEditionDataModel> toDataModel(ProgrammeEdition programmeEdition) {
         if(programmeEdition == null) {
             return Optional.empty();
         }
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDMapper.toDataModel(programmeEdition.identity());
+        try {
+            ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIDMapper.toDataModel(programmeEdition.identity());
 
-        ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel);
-        return Optional.of(programmeEditionDataModel);
+            ProgrammeEditionDataModel programmeEditionDataModel = new ProgrammeEditionDataModel(programmeEditionIdDataModel);
+            return Optional.of(programmeEditionDataModel);
+        } catch (Exception e){
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel) throws Exception {
+    public Optional<ProgrammeEdition> toDomain(ProgrammeEditionDataModel programmeEditionDataModel){
         if(programmeEditionDataModel == null) {
             return Optional.empty();
         }
-        ProgrammeEditionID programmeEditionID = programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
-        ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel());
-        SchoolYearID schoolYearID = schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getSchoolYearIDDataModel());
+        try {
+            ProgrammeEditionID programmeEditionID = programmeEditionIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel());
+            ProgrammeID programmeID = programmeIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getProgrammeIdDataModel());
+            SchoolYearID schoolYearID = schoolYearIDMapper.toDomain(programmeEditionDataModel.getProgrammeEditionIDDataModel().getSchoolYearIDDataModel());
 
-        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
-        return Optional.of(programmeEdition);
+            ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+            return Optional.of(programmeEdition);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

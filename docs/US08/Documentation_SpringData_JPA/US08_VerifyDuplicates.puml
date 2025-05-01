@@ -1,6 +1,6 @@
 @startuml
 
-participant "SR1:StudentRepository" as SR #lightblue
+participant "SR1:StudentRepositorySpringData" as SR #lightblue
 participant "SIDM1:StudentIDMapper" as SMapper #lightgreen
 participant "sIDDataModel1:StudentIDDataModel" as siddm #lightyellow
 participant "NIFM1:NIFMapper" as NIF #lightgreen
