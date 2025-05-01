@@ -18,16 +18,8 @@ public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrol
     private final IStudentIDMapper _studentIdMapper;
 
     public ProgrammeEditionEnrolmentIDMapper(IProgrammeEditionIdMapper programmeEditionIdMapper, IStudentIDMapper studentIdMapper) {
-        if (programmeEditionIdMapper == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIDMapper cannot be null");
-        }
-
-        if (studentIdMapper == null) {
-            throw new IllegalArgumentException("StudentIDMapper cannot be null");
-        }
-
-        this._programmeEditionIdMapper = programmeEditionIdMapper;
-        this._studentIdMapper = studentIdMapper;
+        this._programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIDMapper");
+        this._studentIdMapper = validate(studentIdMapper, "StudentIDMapper");
     }
 
     @Override
@@ -62,5 +54,12 @@ public class ProgrammeEditionEnrolmentIDMapper implements IProgrammeEditionEnrol
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null");
+        }
+        return instance;
     }
 }
