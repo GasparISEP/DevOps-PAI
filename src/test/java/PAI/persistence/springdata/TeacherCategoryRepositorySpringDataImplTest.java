@@ -157,4 +157,20 @@ class TeacherCategoryRepositorySpringDataImplTest {
         assertEquals(1, result.size());
         assertEquals(teacherCategory, result.get(0));
     }
+
+    @Test
+    void getTeacherCategoryList_shouldReturnListOfTeacherCategories() {
+        // Arrange
+        when(jpaRepository.findAll()).thenReturn(List.of(dataModel));
+        when(mapper.toDomainModel(dataModel)).thenReturn(teacherCategory);
+
+        // Act
+        List<TeacherCategory> result = repository.getTeacherCategoryList();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(teacherCategory, result.get(0));
+    }
+
 }
