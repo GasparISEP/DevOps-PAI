@@ -146,4 +146,28 @@ class CourseInStudyPlanDataModelTest {
 
         assertNotEquals(m1.hashCode(), m2.hashCode());
     }
+
+    @Test
+    void shouldReturnSPIDDataModel() {
+        StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+        CourseInStudyPlanIDDataModel id = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel, courseIDDataModel);
+        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(id, 1, 1, 1, 1.0);
+
+        StudyPlanIDDataModel result = m1.getStudyPlanIDDataModel();
+
+        assertEquals(studyPlanIDDataModel, result);
+    }
+
+    @Test
+    void shouldReturnCourseIDDataModel() {
+        StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+        CourseInStudyPlanIDDataModel id = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel, courseIDDataModel);
+        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(id, 1, 1, 1, 1.0);
+
+        CourseIDDataModel result = m1.getCourseIDDataModel();
+
+        assertEquals(courseIDDataModel, result);
+    }
 }
