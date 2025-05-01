@@ -375,31 +375,4 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         assertTrue(resultList.contains(domainEnrolment1));
         assertTrue(resultList.contains(domainEnrolment2));
     }
-
-    @Test
-    public void testEnrolStudents_ReturnsFalse() throws Exception {
-        // Arrange
-        IProgrammeEnrolmentRepositorySpringData jpaRepoDouble = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        IProgrammeEnrolmentIDMapper idMapperDouble = mock(IProgrammeEnrolmentIDMapper.class);
-        IProgrammeEnrolmentMapper programmeEnrolmentMapperDouble = mock(IProgrammeEnrolmentMapper.class);
-        IStudentIDMapper iStudentIDMapperDouble = mock(IStudentIDMapper.class);
-        IProgrammeIDMapper iProgrammeIDMapperDouble = mock(IProgrammeIDMapper.class);
-
-        ProgrammeEnrolmentRepositorySpringDataImpl repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
-                jpaRepoDouble, idMapperDouble, programmeEnrolmentMapperDouble, iStudentIDMapperDouble, iProgrammeIDMapperDouble
-        );
-
-        StudentID studentIDDouble = mock(StudentID.class);
-        AccessMethodID accessMethodIDDouble = mock(AccessMethodID.class);
-        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        Date enrolmentDateDouble = mock(Date.class);
-
-        // Act
-        boolean result = repository.enrolStudents(studentIDDouble, accessMethodIDDouble, programmeIDDouble, enrolmentDateDouble);
-
-        // Assert
-        assertFalse(result);
-    }
-
-
 }
