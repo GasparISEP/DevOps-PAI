@@ -18,7 +18,7 @@ spring:
       enabled: true
       path: /h2-console
   profiles:
-    active: student
+    active: teacher
 
 server:
   port: 8081

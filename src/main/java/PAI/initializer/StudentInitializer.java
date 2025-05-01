@@ -1,9 +1,6 @@
 package PAI.initializer;
 
-import PAI.VOs.*;
 import PAI.controller.US08_IWantToRegisterAStudentInTheSystemController;
-import PAI.controller.US09_EnrolStudentInProgrammeController;
-import PAI.service.StudentServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
