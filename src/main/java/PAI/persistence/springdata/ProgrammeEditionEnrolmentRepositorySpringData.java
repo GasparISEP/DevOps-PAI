@@ -31,22 +31,12 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
             IProgrammeEditionEnrolmentIDMapper peeIDMapper,
             IStudentIDMapper studentIdMapper,
             IProgrammeEditionIdMapper programmeEditionIdMapper) {
-        if (peeRepositorySpringData == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepositorySpringData cannot be null");
-        if (peeMapper == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentMapper cannot be null");
-        if (peeIDMapper == null)
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentIDMapper cannot be null");
-        if (studentIdMapper == null)
-            throw new IllegalArgumentException("StudentIDMapper cannot be null!");
-        if (programmeEditionIdMapper == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
-        }
-        this.programmeEditionIdMapper = programmeEditionIdMapper;
-        this._peeRepositorySpringData = peeRepositorySpringData;
-        this._peeMapper = peeMapper;
-        this.studentIdMapper = studentIdMapper;
-        this._peeIDMapper = peeIDMapper;
+
+        this._peeRepositorySpringData = validate(peeRepositorySpringData, "ProgrammeEditionEnrolmentRepositorySpringData");
+        this._peeMapper = validate(peeMapper, "ProgrammeEditionEnrolmentMapper");
+        this._peeIDMapper = validate(peeIDMapper, "ProgrammeEditionEnrolmentIDMapper");
+        this.studentIdMapper = validate(studentIdMapper, "StudentIDMapper");
+        this.programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIdMapper");
     }
 
     public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
@@ -194,5 +184,13 @@ public class ProgrammeEditionEnrolmentRepositorySpringData implements IProgramme
                 .map(this._peeRepositorySpringData::existsById)
                 .orElse(false);
     }
+
+    private <T> T validate(T instance, String name) {
+        if (instance == null) {
+            throw new IllegalArgumentException(name + " cannot be null.");
+        }
+        return instance;
+    }
+
 }
 
