@@ -166,7 +166,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange: Create real dependencies
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        SchoolYearRepositoryImpl schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearRepositoryImpl schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearListFactory);
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
@@ -186,7 +186,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange: Create real dependencies
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
@@ -212,7 +212,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearFactory, schoolYearListFactory);
+        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 

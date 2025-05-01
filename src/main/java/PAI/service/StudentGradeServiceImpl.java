@@ -27,7 +27,7 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
     private final IProgrammeEditionRepository programmeEditionRepository;
     private final ISchoolYearRepository schoolYearRepository;
 
-    public StudentGradeServiceImpl(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, ICourseEditionRepository _courseEditionRepository, IProgrammeEditionRepository _programmeEditionRepository, ISchoolYearRepository _schoolYearRepository) {
+    public StudentGradeServiceImpl(IStudentGradeFactory studentGradeFactory, IStudentGradeRepository studentGradeRepository, ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository, ICourseEditionRepository courseEditionRepository, IProgrammeEditionRepository programmeEditionRepository, ISchoolYearRepository schoolYearRepository) {
         if (studentGradeFactory == null) {
             throw new IllegalArgumentException("Student Grade Factory cannot be null");
         }
@@ -43,14 +43,33 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
         }
         this.courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
 
-        this.courseEditionRepository = _courseEditionRepository;
-        this.programmeEditionRepository = _programmeEditionRepository;
-        this.schoolYearRepository = _schoolYearRepository;
+        if(courseEditionRepository == null){
+            throw new IllegalArgumentException("Course Edition cannot be null");
+        }
+        this.courseEditionRepository = courseEditionRepository;
+
+        if(programmeEditionRepository == null){
+            throw new IllegalArgumentException("Programme Edition cannot be null");
+        }
+        this.programmeEditionRepository = programmeEditionRepository;
+
+        if(schoolYearRepository == null){
+            throw new IllegalArgumentException("School Year Repository cannot be null");
+        }
+        this.schoolYearRepository = schoolYearRepository;
     }
 
     public StudentGrade  newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception {
         if(!courseEditionEnrolmentRepository.isStudentEnrolledInCourseEdition(studentID,courseEditionID)){
             throw new Exception("Not possible to addGrade, Student in not enrolled in this CourseEdition");
+        }
+
+        if(!isDateGradeInRangeWithSchoolYear(courseEditionID,date)){
+            throw new Exception("Not possible to addGrade, Grade is not in the correct range");
+        }
+
+        if(!hasStudentAlreadyGradeAtThisCourseEdition(studentID,courseEditionID)){
+            throw new Exception("Not possible to addGrade, Student already has a grade in this course edition");
         }
         StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
         return studentGradeRepository.save(studentGrade);
