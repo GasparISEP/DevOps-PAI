@@ -1,17 +1,11 @@
 package PAI.initializer;
 
 import PAI.controller.US02_ConfigureAccessMethodController;
-import PAI.domain.accessMethod.AccessMethodFactoryImpl;
-import PAI.domain.accessMethod.IAccessMethodFactory;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
-import PAI.service.accessMethod.AccessMethodServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
