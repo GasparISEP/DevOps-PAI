@@ -67,11 +67,9 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
             throw new IllegalArgumentException("courseEdition cannot be null");
 
         CourseEditionIDDataModel courseEditionIDDataModel = _courseEditionIDMapper.toDataModel(courseEdition.identity());
-        ProgrammeEditionIdDataModel programmeEditionIdDataModel = _programmeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID());
-        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID());
         TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(courseEdition.getRuc());
 
-        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, programmeEditionIdDataModel, courseInStudyPlanIDDataModel, teacherIDDataModel);
+        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
         return result;
     }
 }
