@@ -122,4 +122,28 @@ class CourseEditionEnrolmentMapperImplTest {
 
         assertEquals("ID mapper and factory cannot be null", thrown.getMessage());
     }
+    @Test
+    void testToDomain_returnsEmptyWhenStudentIDIsNull() throws Exception {
+
+        // arrange
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentFactory factory = mock(ICourseEditionEnrolmentFactory.class);
+        CourseEditionEnrolmentMapperImpl mapper = new CourseEditionEnrolmentMapperImpl(idMapper, factory);
+
+        CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
+        CourseEditionEnrolmentID idWithNullStudent = mock(CourseEditionEnrolmentID.class);
+
+        when(dataModel.findId()).thenReturn(mock(CourseEditionEnrolmentIDDataModel.class));
+        when(idWithNullStudent.getStudentID()).thenReturn(null);
+        when(idWithNullStudent.getCourseEditionID()).thenReturn(mock(CourseEditionID.class));
+        when(idMapper.toDomain(any())).thenReturn(Optional.of(idWithNullStudent));
+        when(dataModel.findEnrolmentDate()).thenReturn(LocalDate.now());
+
+        // act
+        Optional<CourseEditionEnrolment> result = mapper.toDomain(dataModel);
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
 }

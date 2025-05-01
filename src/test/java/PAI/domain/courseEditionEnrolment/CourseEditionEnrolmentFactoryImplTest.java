@@ -4,6 +4,12 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.StudentID;
+import PAI.mapper.ICourseEditionEnrolmentIDMapper;
+import PAI.mapper.ICourseEditionEnrolmentMapper;
+import PAI.mapper.IStudentIDMapper;
+import PAI.mapper.courseEdition.ICourseEditionIDMapper;
+import PAI.persistence.springdata.CourseEditionEnrolmentRepositorySpringDataImpl;
+import PAI.persistence.springdata.ICourseEditionEnrolmentRepositorySpringData;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -116,5 +122,29 @@ class CourseEditionEnrolmentFactoryImplTest {
                 assertTrue(e.getCause().getMessage().contains("Course Edition ID cannot be null."));
             }
         }
+    }
+
+    @Test
+    void testCreateWithEnrolmentDate_createsCorrectObject() {
+
+        // arrange
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        when(status.isEnrolmentActive()).thenReturn(true);
+
+        CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
+
+        // act
+        CourseEditionEnrolment enrolment = factory.createWithEnrolmentDate(mockStudentID, mockCourseEditionID, enrolmentDate, status);
+
+        // assert
+        assertNotNull(enrolment);
+        assertEquals(mockStudentID, enrolment.knowStudent());
+        assertEquals(mockCourseEditionID, enrolment.knowCourseEdition());
+        assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
+        assertTrue(enrolment.isEnrolmentActive());
     }
 }

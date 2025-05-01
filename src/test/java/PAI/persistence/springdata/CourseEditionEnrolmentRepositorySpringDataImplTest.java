@@ -11,6 +11,7 @@ import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
@@ -415,6 +416,405 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         // Act & Assert
         RuntimeException thrown = assertThrows(RuntimeException.class, repository::getInternalSet);
         assertTrue(thrown.getMessage().contains("Error retrieving the set"), "Should throw with appropriate message");
+    }
+
+    @Test
+    void testEnrolStudentInProgrammeCourseEditions_successfulEnrolment() throws Exception {
+
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID edition1 = mock(CourseEditionID.class);
+        CourseEditionID edition2 = mock(CourseEditionID.class);
+        List<CourseEditionID> courseEditions = List.of(edition1, edition2);
+
+        ICourseEditionEnrolmentRepositorySpringData springRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper editionIDMapper = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                springRepo, mapper, idMapper, studentIDMapper, editionIDMapper
+        );
+
+        when(springRepo.findById_StudentIDAndId_CourseEditionID(any(), any()))
+                .thenReturn(Optional.empty());
+        when(mapper.toDomain(any())).thenReturn(Optional.of(mock(CourseEditionEnrolment.class)));
+        when(mapper.toDataModel(any())).thenReturn(Optional.of(mock(CourseEditionEnrolmentDataModel.class)));
+        when(springRepo.save(any())).thenReturn(mock(CourseEditionEnrolmentDataModel.class));
+
+        // act & assert
+        assertDoesNotThrow(() ->
+                repository.enrolStudentInProgrammeCourseEditions(studentID, courseEditions)
+        );
+    }
+
+    @Test
+    void testEnrolStudentInProgrammeCourseEditions_enrolmentAlreadyExists_throwsException() throws Exception {
+
+        // arrange
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID edition1 = mock(CourseEditionID.class);
+        List<CourseEditionID> courseEditions = List.of(edition1);
+
+        ICourseEditionEnrolmentRepositorySpringData springRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper editionIDMapper = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                springRepo, mapper, idMapper, studentIDMapper, editionIDMapper
+        );
+
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        when(springRepo.findById_StudentIDAndId_CourseEditionID(any(), any()))
+                .thenReturn(Optional.of(mock(CourseEditionEnrolmentDataModel.class)));
+        when(mapper.toDomain(any())).thenReturn(Optional.of(enrolment));
+
+        // act & assert
+        Exception exception = assertThrows(IllegalStateException.class, () ->
+                repository.enrolStudentInProgrammeCourseEditions(studentID, courseEditions)
+        );
+
+        assertEquals("This course edition enrolment is already in the list.", exception.getMessage());
+    }
+
+    @Test
+    void testSave_throwsExceptionWhenEntityIsNull() {
+
+        // arrange
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mock(ICourseEditionEnrolmentMapper.class),
+                mock(ICourseEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // act & assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.save(null);
+        });
+
+        assertEquals("Entity cannot be null!", exception.getMessage());
+    }
+
+    @Test
+    void testSave_throwsExceptionWhenToDataModelReturnsEmpty() throws Exception {
+        // Arrange
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        when(mapper.toDataModel(enrolment)).thenReturn(Optional.empty());
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mapper,
+                mock(ICourseEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.save(enrolment);
+        });
+
+        assertEquals("Entity cannot be empty!", exception.getMessage());
+    }
+
+    @Test
+    void testSave_throwsExceptionWhenToDomainReturnsEmpty() throws Exception {
+
+        // arrange
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
+
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenReturn(Optional.empty());
+
+        ICourseEditionEnrolmentRepositorySpringData repoSpringData = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        when(repoSpringData.save(dataModel)).thenReturn(dataModel);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                repoSpringData,
+                mapper,
+                mock(ICourseEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // act & assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            repository.save(enrolment);
+        });
+
+        assertEquals("Course Edition Enrolment cannot be empty!", exception.getMessage());
+    }
+
+    @Test
+    void testFindAll_whenMapperThrowsException_thenThrowsRuntimeException() throws Exception {
+
+        // arrange
+        ICourseEditionEnrolmentRepositorySpringData repoSpringData = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+
+        CourseEditionEnrolmentDataModel faultyDataModel = mock(CourseEditionEnrolmentDataModel.class);
+        when(repoSpringData.findAll()).thenReturn(List.of(faultyDataModel));
+        when(mapper.toDomain(faultyDataModel)).thenThrow(new Exception("Mapping failed"));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                repoSpringData,
+                mapper,
+                mock(ICourseEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // act & assert
+        RuntimeException exception = assertThrows(RuntimeException.class, repository::findAll);
+        assertTrue(exception.getCause() instanceof Exception);
+        assertEquals("Mapping failed", exception.getCause().getMessage());
+    }
+
+    @Test
+    void testOfIdentity_whenToDataModelReturnsEmpty_thenReturnsEmptyOptional() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        when(idMapper.toDataModel(any())).thenReturn(Optional.empty());
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        Optional<CourseEditionEnrolment> result = repository.ofIdentity(mock(CourseEditionEnrolmentID.class));
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testOfIdentity_whenToDataModelThrowsException_thenThrowsRuntimeException() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        when(idMapper.toDataModel(any())).thenThrow(new RuntimeException("Mapper failed"));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        assertThrows(RuntimeException.class, () -> repository.ofIdentity(mock(CourseEditionEnrolmentID.class)));
+    }
+
+    @Test
+    void testOfIdentity_whenToDomainThrowsException_thenThrowsRuntimeException() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentRepositorySpringData repoSpringData = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+
+        CourseEditionEnrolmentIDDataModel idDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+        CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
+
+        when(idMapper.toDataModel(any())).thenReturn(Optional.of(idDataModel));
+        when(repoSpringData.findById(idDataModel)).thenReturn(Optional.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenThrow(new Exception("Domain mapping error"));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                repoSpringData,
+                mapper,
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        assertThrows(RuntimeException.class, () -> repository.ofIdentity(mock(CourseEditionEnrolmentID.class)));
+    }
+
+    @Test
+    void testContainsOfIdentity_whenToDataModelThrows_thenThrowsRuntimeException() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        when(idMapper.toDataModel(any())).thenThrow(new RuntimeException("Mapping failed"));
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        assertThrows(RuntimeException.class, () -> repository.containsOfIdentity(mock(CourseEditionEnrolmentID.class)));
+    }
+
+    @Test
+    void testContainsOfIdentity_whenToDataModelReturnsEmpty_thenReturnsFalse() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        when(idMapper.toDataModel(any())).thenReturn(Optional.empty());
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                mock(ICourseEditionEnrolmentRepositorySpringData.class),
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        boolean result = repository.containsOfIdentity(mock(CourseEditionEnrolmentID.class));
+        assertFalse(result);
+    }
+
+    @Test
+    void testContainsOfIdentity_whenValidID_thenReturnsExpectedValue() throws Exception {
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentRepositorySpringData springDataRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        CourseEditionEnrolmentIDDataModel idDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(idMapper.toDataModel(any())).thenReturn(Optional.of(idDataModel));
+        when(springDataRepo.existsById(idDataModel)).thenReturn(true);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                springDataRepo,
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        boolean result = repository.containsOfIdentity(mock(CourseEditionEnrolmentID.class));
+        assertTrue(result);
+    }
+
+    @Test
+    void testContainsOfIdentity_whenDataModelIsPresent_thenRepositoryIsCalled() throws Exception {
+
+        // arrange
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentRepositorySpringData springDataRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        CourseEditionEnrolmentIDDataModel idDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(idMapper.toDataModel(any())).thenReturn(Optional.of(idDataModel));
+        when(springDataRepo.existsById(idDataModel)).thenReturn(false);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                springDataRepo,
+                mock(ICourseEditionEnrolmentMapper.class),
+                idMapper,
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // act
+        boolean result = repository.containsOfIdentity(mock(CourseEditionEnrolmentID.class));
+
+        // assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testFindAll_whenMappingFails_throwsIllegalArgumentException() throws Exception {
+
+        // arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+
+        CourseEditionEnrolmentDataModel mockDataModel = mock(CourseEditionEnrolmentDataModel.class);
+        List<CourseEditionEnrolmentDataModel> dataModels = List.of(mockDataModel);
+
+        when(springDataRepo.findAll()).thenReturn(dataModels);
+        when(mapper.toDomain(mockDataModel)).thenReturn(Optional.empty());
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
+                springDataRepo,
+                mapper,
+                mock(ICourseEditionEnrolmentIDMapper.class),
+                mock(IStudentIDMapper.class),
+                mock(ICourseEditionIDMapper.class)
+        );
+
+        // act & assert
+        assertThrows(RuntimeException.class, repository::findAll, "Could not map Course Edition Enrolment.");
+    }
+
+    @Test
+    void testConstructor_throwsException_whenCourseEditionIDMapperIsNull() {
+
+        // arrange
+        ICourseEditionEnrolmentRepositorySpringData repo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = null;
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new CourseEditionEnrolmentRepositorySpringDataImpl(
+                    repo,
+                    mapper,
+                    idMapper,
+                    studentIDMapper,
+                    courseEditionIDMapper
+            );
+        });
+    }
+
+    @Test
+    void testFindByStudentAndEdition_returnsEmpty_whenExceptionIsThrown() {
+
+        // arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository =
+                new CourseEditionEnrolmentRepositorySpringDataImpl(springDataRepo, mapper, idMapper, studentIDMapper, courseEditionIDMapper);
+
+        StudentID studentId = mock(StudentID.class);
+        CourseEditionID courseEditionId = mock(CourseEditionID.class);
+
+        when(studentIDMapper.domainToDataModel(studentId)).thenThrow(new RuntimeException("Simulated Error!"));
+
+        // act
+        Optional<CourseEditionEnrolment> result = repository.findByStudentAndEdition(studentId, courseEditionId);
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testIsStudentEnrolledInCourseEdition_returnsTrueWhenEnrolled() throws Exception {
+
+        // arrange
+        ICourseEditionEnrolmentRepositorySpringData springDataRepo = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ICourseEditionIDMapper courseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+
+        CourseEditionEnrolmentRepositorySpringDataImpl repository =
+                new CourseEditionEnrolmentRepositorySpringDataImpl(springDataRepo, mapper, idMapper, studentIDMapper, courseEditionIDMapper);
+
+        StudentID studentId = mock(StudentID.class);
+        CourseEditionID courseEditionId = mock(CourseEditionID.class);
+        StudentIDDataModel studentDataModel = mock(StudentIDDataModel.class);
+        CourseEditionIDDataModel courseDataModel = mock(CourseEditionIDDataModel.class);
+
+        when(studentIDMapper.domainToDataModel(studentId)).thenReturn(studentDataModel);
+        when(courseEditionIDMapper.toDataModel(courseEditionId)).thenReturn(courseDataModel);
+        when(springDataRepo.existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentDataModel, courseDataModel)).thenReturn(true);
+
+        // act
+        boolean result = repository.isStudentEnrolledInCourseEdition(studentId, courseEditionId);
+
+        // assert
+        assertTrue(result);
     }
 
 }
