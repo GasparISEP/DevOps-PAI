@@ -12,4 +12,5 @@ System --> ASC: What is the Student's information?
 ASC -> System: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
 System --> ASC: OK!
 
+
 @enduml
