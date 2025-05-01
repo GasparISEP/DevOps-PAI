@@ -52,26 +52,27 @@ public class TeacherMapperImpl implements ITeacherMapper {
     }
 
     public TeacherDataModel toDataModel (Teacher teacher) {
-        if (teacher == null) {
+
+        if(teacher == null) {
             return null;
         }
 
         TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(teacher.getTeacherID());
 
-        String name = teacher.getName().toString();
-        String email = teacher.getEmail().toString();
+        String name = teacher.getName().getName();
+        String email = teacher.getEmail().getEmail();
 
         NIFDataModel nifDatamodel = _nifMapper.domainToDataModel(teacher.getNIF());
 
         PhoneNumberDataModel phoneNumberDataModel = _PhoneNumberMapper.domainToDataModel(teacher.getPhoneNumber());
 
-        String academicBackground = teacher.getAcademicBackground().toString();
+        String academicBackground = teacher.getAcademicBackground().getAcademicBackground();
 
         AddressDataModel addressDataModel = _addressMapper.toDataModel(teacher.getAddress());
 
         TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = _teacherAcademicEmailMapper.toDataModel(teacher.getTeacherAcademicEmail());
 
-        String departmentAcronym = teacher.getDepartmentID().toString();
+        String departmentAcronym = teacher.getDepartmentID().getAcronym().getAcronym();
 
         return new TeacherDataModel(teacherIDDataModel, name, email, nifDatamodel,
                 phoneNumberDataModel, academicBackground, addressDataModel,
