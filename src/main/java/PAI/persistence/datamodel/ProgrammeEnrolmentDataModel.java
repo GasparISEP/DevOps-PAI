@@ -14,17 +14,6 @@ public class ProgrammeEnrolmentDataModel {
     private ProgrammeEnrolmentIDDataModel programmeEnrolmentID;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "programmeName", column = @Column(name = "peProgrammeName")),
-            @AttributeOverride(name = "programmeAcronym", column = @Column(name = "peProgrammeAcronym"))
-    })
-    private ProgrammeIDDataModel programmeID;
-
-    @Embedded
-    @AttributeOverride(name = "uniqueNumber", column = @Column(name = "peStudentUniqueNumber"))
-    private StudentIDDataModel studentID;
-
-    @Embedded
     private AccessMethodIDDataModel accessMethodID;
 
     @Column(name = "enrolment_date")
@@ -41,22 +30,12 @@ public class ProgrammeEnrolmentDataModel {
         }
 
         this.programmeEnrolmentID = programmeEnrolmentIDDM;
-        this.programmeID = programmeIDDM;
-        this.studentID = studentIDDM;
         this.accessMethodID = accessMethodIDDM;
         this.date = date;
     }
 
     public ProgrammeEnrolmentIDDataModel getProgrammeEnrolmentID() {
         return programmeEnrolmentID;
-    }
-
-    public ProgrammeIDDataModel getProgrammeID() {
-        return programmeID;
-    }
-
-    public StudentIDDataModel getStudentID() {
-        return studentID;
     }
 
     public AccessMethodIDDataModel getAccessMethodID() {

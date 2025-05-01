@@ -1,8 +1,7 @@
 package PAI.persistence.datamodel;
 
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,8 +10,17 @@ import java.util.Objects;
 public class StudentGradeIDDataModel implements Serializable {
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "uniqueNumber", column = @Column(name = "student_id"))
+    })
     private StudentIDDataModel studentIDDataModel;
+
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "_programmeEditionIdDataModel._programmeIDDataModel.programmeAcronym", column = @Column(name = "course_programme_acronym")),
+            @AttributeOverride(name = "_programmeEditionIdDataModel._programmeIDDataModel.programmeName", column = @Column(name = "course_programme_name")),
+            @AttributeOverride(name = "_courseInStudyPlanIDDataModel.CISPcourseID.courseAcronym", column = @Column(name = "course_id_acronym"))
+    })
     private CourseEditionIDDataModel courseEditionIDDataModel;
 
     protected StudentGradeIDDataModel() {}

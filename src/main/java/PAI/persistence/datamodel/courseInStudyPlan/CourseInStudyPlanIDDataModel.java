@@ -2,8 +2,7 @@ package PAI.persistence.datamodel.courseInStudyPlan;
 
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
@@ -11,10 +10,25 @@ import java.io.Serializable;
 public class CourseInStudyPlanIDDataModel implements Serializable {
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "implementationDate",
+                    column = @Column(name = "local_date")),
+            @AttributeOverride(name = "_programmeIDDataModel.programmeAcronym",
+                    column = @Column(name = "programme_acronym")),
+            @AttributeOverride(name = "_programmeIDDataModel.programmeName",
+                    column = @Column(name = "programme_name")),
+    })
     private StudyPlanIDDataModel CISPstudyPlanIDDataModel;
-    @Embedded
-    private CourseIDDataModel CISPcourseID;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "courseAcronym",
+                    column = @Column(name = "course_ID_acronym")),
+            @AttributeOverride(name = "courseName",
+                    column = @Column(name = "course_ID_name")),
+    })
+
+    private CourseIDDataModel CISPcourseID;
     public CourseInStudyPlanIDDataModel() {}
 
     public CourseInStudyPlanIDDataModel(StudyPlanIDDataModel studyPlanIDDataModel, CourseIDDataModel courseID) {
