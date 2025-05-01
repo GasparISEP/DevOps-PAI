@@ -1,6 +1,8 @@
 package PAI.persistence.datamodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,6 +10,7 @@ import java.util.UUID;
 @Embeddable
 public class TeacherCategoryIDDataModel implements Serializable {
 
+    @Column(name = "teacher_category_id", nullable = false, unique = true)
     private UUID value;
 
     protected TeacherCategoryIDDataModel() {
