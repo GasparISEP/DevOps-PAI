@@ -14,7 +14,6 @@ import java.util.Optional;
 public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
 
     private List<SchoolYear> _schoolYearList;
-    private ISchoolYearListFactory _schoolYearListFactory;
 
     public SchoolYearRepositoryImpl(ISchoolYearListFactory schoolYearListFactory) {
         if (schoolYearListFactory == null) {
@@ -22,7 +21,6 @@ public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
         }
 
         this._schoolYearList = schoolYearListFactory.newArrayList();
-        this._schoolYearListFactory = schoolYearListFactory;
     }
 
     public boolean schoolYearExists(SchoolYear schoolYear){
@@ -64,9 +62,6 @@ public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
         return Optional.empty();
     }
 
-    public List<SchoolYear> getAllSchoolYears() {
-        return _schoolYearListFactory.copySchoolYearArrayList(_schoolYearList);
-    }
 
     @Override
     public SchoolYear save(SchoolYear schoolYear) {

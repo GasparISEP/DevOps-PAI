@@ -84,11 +84,6 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
     }
 
     @Override
-    public List<SchoolYear> getAllSchoolYears() {
-        return List.of();
-    }
-
-    @Override
     public List<SchoolYearID> getAllSchoolYearsIDs() {
         List<SchoolYearID> schoolYearIDs = new ArrayList<>();
         for (SchoolYear schoolYear : findAll()) {
