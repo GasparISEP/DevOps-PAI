@@ -3,7 +3,10 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
+import PAI.mapper.department.DepartmentIDMapperImpl;
+import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.persistence.datamodel.*;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,6 +30,7 @@ class TeacherMapperImplTest {
     private IPhoneNumberMapper _phoneNumberMapperDouble;
     private IAddressMapper _addressMapperDouble;
     private ITeacherAcademicEmailMapper _teacherAcademicEmailMapperDouble;
+    private IDepartmentIDMapper _departmentIDMapper;
 
     //toDomain
     private TeacherIDDataModel _teacherIDDataModelDouble;
@@ -36,7 +40,7 @@ class TeacherMapperImplTest {
     private AcademicBackground _academicBackground;
     private AddressDataModel _addressDataModelDouble;
     private PhoneNumberDataModel _phoneNumberDataModelDouble;
-    private DepartmentID _departmentIDDouble;
+    private DepartmentIDDataModel _departmentIDDataModelDouble;
 
     //toDataModel
     private TeacherID _teacherIDDouble;
@@ -48,6 +52,7 @@ class TeacherMapperImplTest {
     private PostalCode _postalCodeDouble;
     private Location _locationDouble;
     private Country _countryDouble;
+    private DepartmentID _departmentIDDouble;
 
     private void createMapperDoubles() {
         _teacherFactoryDouble = mock(ITeacherFactory.class);
@@ -56,6 +61,7 @@ class TeacherMapperImplTest {
         _phoneNumberMapperDouble = mock(IPhoneNumberMapper.class);
         _addressMapperDouble = mock(IAddressMapper.class);
         _teacherAcademicEmailMapperDouble = mock(ITeacherAcademicEmailMapper.class);
+        _departmentIDMapper = mock(DepartmentIDMapperImpl.class);
     }
 
     private void createTeacherDataModelDoubles() {
@@ -67,6 +73,7 @@ class TeacherMapperImplTest {
         _academicBackground = mock(AcademicBackground.class);
         _departmentIDDouble = mock(DepartmentID.class);
         _addressDataModelDouble = mock(AddressDataModel.class);
+        _departmentIDDataModelDouble = mock(DepartmentIDDataModel.class);
     }
 
     private void createTeacherDoubles() {
@@ -79,6 +86,7 @@ class TeacherMapperImplTest {
         _postalCodeDouble = mock(PostalCode.class);
         _locationDouble = mock(Location.class);
         _countryDouble = mock(Country.class);
+        _departmentIDDouble = mock(DepartmentID.class);
     }
 
     @Test
@@ -87,7 +95,7 @@ class TeacherMapperImplTest {
         createMapperDoubles();
 
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         //Act + Assert
         assertNotNull(teacherMapper);
@@ -118,12 +126,13 @@ class TeacherMapperImplTest {
             case "phoneNumberMapperDouble" -> _phoneNumberMapperDouble = null;
             case "addressMapperDouble" -> _addressMapperDouble = null;
             case "teacherAcademicEmailMapperDouble" -> _teacherAcademicEmailMapperDouble = null;
+            case "departmentIDMapper" -> _departmentIDMapper = null;
         }
 
         //Assert
         assertThrows(IllegalArgumentException.class, () -> {
                 new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                        _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                        _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
         });
     }
 
@@ -132,7 +141,7 @@ class TeacherMapperImplTest {
         //Arrange
         createMapperDoubles();
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         //Act
         TeacherDataModel result = teacherMapper.toDataModel(null);
@@ -146,9 +155,10 @@ class TeacherMapperImplTest {
         //Arrange
         createMapperDoubles();
         createTeacherDataModelDoubles();
+        DepartmentAcronym departmentAcronymDouble = mock(DepartmentAcronym.class);
 
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         Teacher teacherDouble = mock(Teacher.class);
 
@@ -160,7 +170,8 @@ class TeacherMapperImplTest {
         when(teacherDouble.getAcademicBackground()).thenReturn(_academicBackground);
         when(_addressMapperDouble.toDataModel(teacherDouble.getAddress())).thenReturn(_addressDataModelDouble);
         when(teacherDouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_departmentIDDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
+        when(_departmentIDDouble.getAcronym()).thenReturn(departmentAcronymDouble);
+        when(_departmentIDMapper.toDataModel(_departmentIDDouble)).thenReturn(_departmentIDDataModelDouble);
 
         //Act
         TeacherDataModel result = teacherMapper.toDataModel(teacherDouble);
@@ -174,7 +185,7 @@ class TeacherMapperImplTest {
         //Arrange
         createMapperDoubles();
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         //Act
         Teacher result = teacherMapper.toDomain(null);
@@ -190,14 +201,13 @@ class TeacherMapperImplTest {
         createTeacherDoubles();
 
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble);
+                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         TeacherDataModel teacherDataModelDouble = mock(TeacherDataModel.class);
 
         String name = "Henrique";
         String email = "henrique@gmail.com";
         String academicBackground = "PHD";
-        String teacherAcronym = "ABC";
 
         when(_teacherIDMapperDouble.toDomain(teacherDataModelDouble.getTeacherIDDataModel())).thenReturn(_teacherIDDouble);
         when(_teacherIDDouble.getTeacherAcronym()).thenReturn(_teacherAcronymDouble);
@@ -205,7 +215,6 @@ class TeacherMapperImplTest {
         when(teacherDataModelDouble.getName()).thenReturn(name);
         when(teacherDataModelDouble.getEmail()).thenReturn(email);
         when(teacherDataModelDouble.getAcademicBackground()).thenReturn(academicBackground);
-        when(teacherDataModelDouble.getDptAcronym()).thenReturn(teacherAcronym);
 
         when(_nifMapperDouble.dataModelToDomain(teacherDataModelDouble.getNif())).thenReturn(_nifDouble);
         when(_phoneNumberMapperDouble.dataModelToDomain(teacherDataModelDouble.getPhoneNumber())).thenReturn(_phoneNumberDouble);
@@ -214,12 +223,14 @@ class TeacherMapperImplTest {
         when(_addressDouble.getPostalCode()).thenReturn(_postalCodeDouble);
         when(_addressDouble.getLocation()).thenReturn(_locationDouble);
         when(_addressDouble.getCountry()).thenReturn(_countryDouble);
+        when(teacherDataModelDouble.getDepartmentID()).thenReturn(_departmentIDDataModelDouble);
+        when(_departmentIDMapper.toDomainModel(_departmentIDDataModelDouble)).thenReturn(_departmentIDDouble);
 
         Teacher expectedTeacher = mock(Teacher.class);
 
         when(_teacherFactoryDouble.createTeacher(eq(_teacherAcronymDouble), any(Name.class), any(Email.class), eq(_nifDouble),
                 eq(_phoneNumberDouble), any(AcademicBackground.class), eq(_streetDouble), eq(_postalCodeDouble),
-                eq(_locationDouble), eq(_countryDouble), any(DepartmentID.class))).thenReturn(expectedTeacher);
+                eq(_locationDouble), eq(_countryDouble), eq(_departmentIDDouble))).thenReturn(expectedTeacher);
 
         //Act
         Teacher result = teacherMapper.toDomain(teacherDataModelDouble);
