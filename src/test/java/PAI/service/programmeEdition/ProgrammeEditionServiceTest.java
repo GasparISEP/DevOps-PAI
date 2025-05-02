@@ -65,6 +65,32 @@ class ProgrammeEditionServiceTest {
     }
 
     @Test
+    void shouldThrowExceptionIfProgrammeIdIsNull() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeID programmeID = null;
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionService.createProgrammeEdition(programmeID, schoolYearID));
+    }
+
+    @Test
+    void shouldThrowExceptionIfSchoolYearIdIsNull() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = null;
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionService.createProgrammeEdition(programmeID, schoolYearID));
+    }
+
+    @Test
     void shouldThrowExceptionWhenProgrammeIdIsNullAtProgrammeEditionCreationIsolationTest() throws Exception {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);

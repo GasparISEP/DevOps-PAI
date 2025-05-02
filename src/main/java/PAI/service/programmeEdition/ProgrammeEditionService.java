@@ -29,6 +29,12 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
     @Override
     public ProgrammeEdition createProgrammeEdition (ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+        if(programmeID == null){
+            throw new IllegalArgumentException("ProgrammeID cannot be null!");
+        }
+        if(schoolYearID == null){
+            throw new IllegalArgumentException("SchoolYearID cannot be null!");
+        }
         return this.programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
     }
 
