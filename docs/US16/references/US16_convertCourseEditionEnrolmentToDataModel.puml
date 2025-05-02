@@ -1,6 +1,6 @@
 @startuml
 
-title Convert CourseEditionEnrolement to DataModel
+title Convert CourseEditionEnrolment to DataModel
 
 autonumber
 skinparam {

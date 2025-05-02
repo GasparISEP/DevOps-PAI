@@ -1,5 +1,6 @@
 @startuml
 
+title Convert Student ID and Course Edition ID to VO
 autonumber
 skinparam {
   ActivityPadding 2
@@ -7,6 +8,8 @@ skinparam {
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
+skinparam shadowing true
+
 
 
 activate ":US16_EnrolAStudentInACourseEditionController" #E1F5FE

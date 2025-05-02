@@ -1,0 +1,43 @@
+@startuml
+title findProgrammeEditionsThatStudentIsEnrolled Method
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
+participant ":IProgrammeEditionEnrolmentSpringDataJPA" as IPEESpringDataJPA
+ProgrammeEditionEnrolmentRepository -> IPEESpringDataJPA: findAll ()
+activate ProgrammeEditionEnrolmentRepository #E1F5FE
+activate IPEESpringDataJPA #E1F5FE
+IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEditionEnrolmentDataModel>
+deactivate IPEESpringDataJPA
+
+create ":ArrayList"
+ProgrammeEditionEnrolmentRepository -> ":ArrayList": create ()
+
+loop for each peeDataModel in List<ProgrammeEditionEnrolmentDataModel>
+
+ref over ProgrammeEditionEnrolmentRepository
+    SD Convert ProgrammeEditionEnrolmentDataModel to Domain
+end ref
+
+participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: findStudentInProgrammeEdition()
+activate ProgrammeEditionEnrolment #E1F5FE
+ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: isEnrolmentActive()
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository: programmeEditionID
+deactivate ProgrammeEditionEnrolment #E1F5FE
+
+ProgrammeEditionEnrolmentRepository -> ":ArrayList": add (programmeEditionID)
+activate ":ArrayList" #E1F5FE
+":ArrayList" --> ProgrammeEditionEnrolmentRepository: True
+deactivate ":ArrayList" #E1F5FE
+deactivate ProgrammeEditionEnrolmentRepository
+end
+
+@enduml

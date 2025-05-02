@@ -1,15 +1,18 @@
 @startuml
+title Convert VO to List<CourseEditionID>
+autonumber
 skinparam {
   ActivityPadding 2
   ActivityMargin 2
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
-autonumber
+skinparam shadowing true
 
-activate ":Controller" #E1F5FE
+
+activate ":US16_EnrolAStudentInACourseEditionController" #E1F5FE
 create ":List<ProgrammeEditionID>"
-":Controller" -> ":List<ProgrammeEditionID>": create (List<ProgrammeEditionID>)
+":US16_EnrolAStudentInACourseEditionController" -> ":List<ProgrammeEditionID>": create (List<ProgrammeEditionID>)
 
-deactivate ":Controller"
+deactivate ":US16_EnrolAStudentInACourseEditionController"
 @enduml
