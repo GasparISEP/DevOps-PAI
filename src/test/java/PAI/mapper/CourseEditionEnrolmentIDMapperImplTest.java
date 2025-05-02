@@ -57,10 +57,12 @@ class CourseEditionEnrolmentIDMapperImplTest {
 
         IStudentIDMapper doubleStudentIDMapperInterface = mock(IStudentIDMapper.class);
         StudentID doubleStudentID = mock (StudentID.class);
+
         when(doubleStudentIDMapperInterface.dataModelToDomain(doubleStudentIDDataModel)).thenReturn(doubleStudentID);
 
         ICourseEditionIDMapper doubleCourseEditionIDMapperInterface = mock(ICourseEditionIDMapper.class);
         CourseEditionID doubleCourseEditionID = mock(CourseEditionID.class);
+
         when (doubleCourseEditionIDMapperInterface.toDomain(doubleCourseEditionIDDataModel)).thenReturn(doubleCourseEditionID);
 
         CourseEditionEnrolmentIDMapperImpl ceeIDMapper =
@@ -104,10 +106,12 @@ class CourseEditionEnrolmentIDMapperImplTest {
 
         IStudentIDMapper doubleStudentIDMapperInterface = mock(IStudentIDMapper.class);
         StudentIDDataModel doubleStudentIDDataModel = mock(StudentIDDataModel.class);
+
         when(doubleStudentIDMapperInterface.domainToDataModel(doubleStudentID)).thenReturn(doubleStudentIDDataModel);
 
         ICourseEditionIDMapper doubleCourseEditionIDMapperInterface = mock(ICourseEditionIDMapper.class);
         CourseEditionIDDataModel doubleCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
         when(doubleCourseEditionIDMapperInterface.toDataModel(doubleCourseEditionID)).thenReturn(doubleCourseEditionIDDataModel);
 
         CourseEditionEnrolmentIDMapperImpl ceeIDMapper =
