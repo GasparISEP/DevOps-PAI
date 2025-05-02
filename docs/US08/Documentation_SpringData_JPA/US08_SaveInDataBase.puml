@@ -20,9 +20,9 @@ SR -> : save
 SR <-- :sDataModel1
 SR -> mapper: dataModelToDomain(s1DataModel)
 activate mapper
-mapper -> factory : newStudent(studentIDDataModel, nameDataModel, nifDataModel, \n phoneNumberDataModel, email, addressDataModel, studentAcademicEmailDataModel)
+mapper -> factory : newStudentFromDataModel(studentID, name, nif, \n phoneNumber, email, address, studentAcademicEmail)
 activate factory
-factory -> s1**: newStudent(s1DataModel)
+factory -> s1**: newStudent(studentID, name, nif, \n phoneNumber, email, address, studentAcademicEmail)
 activate s1
 s1 --> factory: s1
 deactivate s1
