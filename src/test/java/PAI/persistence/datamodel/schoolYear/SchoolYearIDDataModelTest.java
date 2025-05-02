@@ -73,6 +73,17 @@ class SchoolYearIDDataModelTest {
         SchoolYearIDDataModel schoolYearID2 = new SchoolYearIDDataModel("2024-2025");
 
         // Act & Assert
-        assertTrue(schoolYearID1.getId().equals(schoolYearID2.getId()));
+        assertTrue(schoolYearID1.equals(schoolYearID2));
+    }
+
+    // Test that different instances of objects returns a false
+    @Test
+    void testDifferentTypesOfObjects() {
+        // Arrange
+        String idValue1 = "2024-2025";
+        SchoolYearIDDataModel schoolYearID2 = new SchoolYearIDDataModel("2024-2025");
+
+        // Act & Assert
+        assertFalse(schoolYearID2.equals(idValue1));
     }
 }

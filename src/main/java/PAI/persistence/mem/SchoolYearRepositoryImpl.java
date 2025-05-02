@@ -55,9 +55,9 @@ public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
 
         Date today = Date.now();
 
-        for (int i = 0; i < _schoolYearList.size(); i++) {
-            if (!today.isBefore(_schoolYearList.get(i).getStartDate()) && !today.isAfter(_schoolYearList.get(i).getEndDate()))
-                return Optional.of(_schoolYearList.get(i));
+        for (SchoolYear schoolYear : _schoolYearList) {
+            if (!today.isBefore(schoolYear.getStartDate()) && !today.isAfter(schoolYear.getEndDate()))
+                return Optional.of(schoolYear);
         }
         return Optional.empty();
     }

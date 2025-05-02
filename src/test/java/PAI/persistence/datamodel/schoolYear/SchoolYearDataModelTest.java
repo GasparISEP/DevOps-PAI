@@ -1,10 +1,10 @@
 package PAI.persistence.datamodel.schoolYear;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolYearDataModelTest {
 
@@ -80,5 +80,16 @@ class SchoolYearDataModelTest {
         assertNotEquals(null, schoolYear);
         assertNotEquals("some string", schoolYear);
         assertEquals(schoolYear, schoolYear);
+    }
+
+    // Test that different instances of objects returns a false
+    @Test
+    void testDifferentTypesOfObjects() {
+        // Arrange
+        String idValue1 = "2024-2025";
+        SchoolYearDataModel schoolYear2 = new SchoolYearDataModel();
+
+        // Act & Assert
+        assertFalse(schoolYear2.equals(idValue1));
     }
 }

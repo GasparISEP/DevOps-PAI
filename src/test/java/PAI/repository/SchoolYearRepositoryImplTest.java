@@ -88,6 +88,50 @@ class SchoolYearRepositoryImplTest {
     }
 
     @Test
+    void shouldReturnEmptyIfThereAreNoCurrentNorFutureSchoolYearsInTheRepository() throws Exception {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
+        Description description1 = mock(Description.class);
+        Description description2 = mock(Description.class);
+        Date startDateDouble1 = new Date("01-09-2023");
+        Date endDateDouble1 = new Date("31-08-2024");
+        Date startDateDouble2 = new Date("01-09-2020");
+        Date endDateDouble2 = new Date("31-08-2021");
+
+        when(schoolYearFactoryImplDouble.createSchoolYear(description1, startDateDouble1, endDateDouble1))
+                .thenReturn(schoolYearDouble1);
+        when(schoolYearFactoryImplDouble.createSchoolYear(description2, startDateDouble2,endDateDouble2))
+                .thenReturn(schoolYearDouble2);
+
+        SchoolYear schoolYear1 = schoolYearFactoryImplDouble.createSchoolYear(description1, startDateDouble1, endDateDouble1);
+        SchoolYear schoolYear2 = schoolYearFactoryImplDouble.createSchoolYear(description2, startDateDouble2, endDateDouble2);
+        repository.save(schoolYear1);
+        repository.save(schoolYear2);
+
+        when(schoolYearDouble1.getStartDate()).thenReturn(startDateDouble1);
+        when(schoolYearDouble1.getEndDate()).thenReturn(endDateDouble1);
+        when(schoolYearDouble2.getStartDate()).thenReturn(startDateDouble2);
+        when(schoolYearDouble2.getEndDate()).thenReturn(endDateDouble2);
+
+        ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
+        Iterator<SchoolYear> iterator = mock(Iterator.class);
+
+        when(listDouble.iterator()).thenReturn(iterator);
+        when(iterator.hasNext()).thenReturn(true, true, false);
+        when(iterator.next()).thenReturn(schoolYearDouble1, schoolYearDouble2);
+
+        // Act
+        Optional<SchoolYear> sy1 = repository.getCurrentSchoolYear();
+
+        // Assert
+        assertTrue(sy1.isEmpty());
+    }
+
+    @Test
     void shouldReturnEmptyIfSchoolYearRepositoryDoesNotHaveCurrentSchoolYear() {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
@@ -117,7 +161,6 @@ class SchoolYearRepositoryImplTest {
     void shouldReturnEmptyIfSchoolYearRepositoryIsEmpty() {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
@@ -213,7 +256,6 @@ class SchoolYearRepositoryImplTest {
     void shouldReturnFalseWhenRepositoryIsEmpty() {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
         SchoolYear schoolYearDouble = mock(SchoolYear.class);
 
@@ -237,7 +279,6 @@ class SchoolYearRepositoryImplTest {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
         SchoolYear schoolYear = null;
-        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
 
         ArrayList<SchoolYear> listDouble = mock(ArrayList.class);
@@ -322,7 +363,6 @@ class SchoolYearRepositoryImplTest {
     @Test
     void shouldThrowExceptionWhenListIsEmpty() {
         // Arrange
-        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
         ISchoolYearListFactory ISchoolYearListFactory= mock(ISchoolYearListFactory.class);
 
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
@@ -401,7 +441,6 @@ class SchoolYearRepositoryImplTest {
     @Test
     void shouldReturnFalseWhenIdDoesNotExist() {
         // Arrange
-        ISchoolYearFactory ISchoolYearFactory = mock(ISchoolYearFactory.class);
         ISchoolYearListFactory ISchoolYearListFactory = mock(ISchoolYearListFactory.class);
 
         List<SchoolYear> mockSchoolYearList = spy(new ArrayList<>());
@@ -479,7 +518,6 @@ class SchoolYearRepositoryImplTest {
     void shouldReturnFalseIfSchoolYearRepoIsEmpty() throws Exception {
         // Arrange
         SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
-        SchoolYearFactoryImpl schoolYearFactoryImplDouble = mock(SchoolYearFactoryImpl.class);
         SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
@@ -513,4 +551,38 @@ class SchoolYearRepositoryImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnListOf2SchoolYearIDs() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
+
+        repository.save(schoolYearDouble1);
+        repository.save(schoolYearDouble2);
+
+        // Act
+        List<SchoolYearID> schoolYearIDs = repository.getAllSchoolYearsIDs();
+
+        // Assert
+        assertEquals(2, schoolYearIDs.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListOfSchoolYearIDs() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+        SchoolYear schoolYearDouble2 = mock(SchoolYear.class);
+
+        // Act
+        List<SchoolYearID> schoolYearIDs = repository.getAllSchoolYearsIDs();
+
+        // Assert
+        assertEquals(0, schoolYearIDs.size());
+    }
+
 }
