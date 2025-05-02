@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-@Primary
 public class CourseEditionEnrolmentFactoryImpl implements ICourseEditionEnrolmentFactory {
 
     public CourseEditionEnrolment createCourseEditionEnrolment(StudentID studentId, CourseEditionID courseEditionId) {
