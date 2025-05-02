@@ -9,7 +9,7 @@ public class StudentFactoryImpl implements IStudentFactory {
 
     public Student newStudent(StudentID studentID, Name name, NIF nif, PhoneNumber phone, Email email,
                               Street street, PostalCode postalCode, Location location, Country country,
-                              StudentAcademicEmail academicEmail) throws Exception {
+                              StudentAcademicEmail academicEmail) {
 
         Address address = createAddress(street, postalCode, location, country);
 
@@ -18,7 +18,7 @@ public class StudentFactoryImpl implements IStudentFactory {
         return student;
     }
 
-    public Address createAddress (Street street, PostalCode postalCode, Location location, Country country) {
+    private Address createAddress (Street street, PostalCode postalCode, Location location, Country country) {
 
         return new Address(street, postalCode, location, country);
     }
