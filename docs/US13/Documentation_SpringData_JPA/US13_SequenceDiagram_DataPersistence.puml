@@ -11,16 +11,11 @@ participant ":US13_Controller" as controller #business
 'Ref#2 : get Department's list.
 participant ":ITeacherService" as IteacherService #implementation
 participant ":ITeacherFactory" as IteacherFactory #motivation
-participant "addr:Address" as addr #physical
+participant "addr1:Address" as addr #physical
 participant "t1:Teacher" as t #strategy
 participant "t1ID:TeacherID" as tID #technology
 'Ref#3 : create Teacher Career Progression tcp1.
 participant ":ITeacherRepositorySpringData" as IteacherRepoJPA #skyblue
-participant ":Teacher" as teacher #palegreen
-participant ":TeacherMapperImpl" as tMapper #wheat
-participant ":TeacherID" as teacherID #thistle
-participant "tDM1:TeacherDataModel" as teacherDM #lightgray
-
 
 HRC -> UI : I want to register a Teacher in the System \n Including All Relevant Data
 |||
@@ -34,7 +29,7 @@ UI -> controller : getCategoriesList()
 
 activate controller
 |||
-ref over controller : \t **Interaction Use #1**  \n\n \t\t\t[[./US13_SD_Interaction_Use_#1.puml "get Teacher Category's List"]]
+ref over controller : \t **Interaction Use #1**  \n\n \t\t\t[[./US13_SD_Interaction_Use_#1.puml get Teacher Category's List]]
 controller --> UI : Which Category?
 deactivate controller
 deactivate UI
@@ -46,7 +41,7 @@ activate UI
 activate controller
 
 |||
-ref over controller : \t \t **Interaction Use #2** \n\n  \t\t\t [[./US13_SD_Interaction_Use_#2.puml "get Department's List"]]
+ref over controller : \t \t **Interaction Use #2** \n\n  \t\t\t [[./US13_SD_Interaction_Use_#2.puml get Department's List]]
 
 controller --> UI : Which Department?
 deactivate controller
@@ -67,10 +62,10 @@ IteacherService -> IteacherFactory : createTeacher(teacherAcronym, name, email, 
 activate IteacherFactory
 IteacherFactory -> addr** : createAddress(street, postalCode, location, country)
 activate addr
-addr --> IteacherFactory : addr
+addr --> IteacherFactory : addr1
 deactivate addr
 
-IteacherFactory -> t** : new Teacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, addr, departmentID)
+IteacherFactory -> t** : new Teacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, addr1, departmentID)
 activate t
 t -> tID** : new TeacherID (teacherAcronym, NIF)
 activate tID
@@ -79,26 +74,23 @@ deactivate tID
 t --> IteacherFactory : t1
 deactivate t
 IteacherFactory -> IteacherFactory : t1ID = t1.identity()
-IteacherFactory -> IteacherRepoJPA : containsOfIdentity(t1ID)
+IteacherFactory -> IteacherRepoJPA : existsByTeacherIdOrNif(TeacherID, NIF)
+
 activate IteacherRepoJPA
 |||
-loop for each Teacher in TeacherRepositorySpringDataImpl - compares IDs
-    IteacherRepoJPA -> teacher : identity()
-    activate teacher
-    teacher -> teacherID : equals()
-    activate teacherID
-    teacherID --> teacher : false
-    deactivate teacherID
-end
-    teacher --> IteacherRepoJPA : False
-    deactivate teacher
+ref over IteacherRepoJPA
+\t\t\t\t      **Interaction Use #5**
+
+\t\t\t\t [[./US13_SD_Interaction_Use_5.puml Verify duplicates]]
+end ref
+
 IteacherRepoJPA --> IteacherFactory : false
 deactivate IteacherRepoJPA
 
 
 IteacherFactory --> IteacherService : t1
 |||
-ref over IteacherService : **Interaction Use #4** \n\n  \t\t\t\t [[./US13_SD_Interaction_Use_#4.puml "create Teacher Career Progression (tcp1)"]]
+ref over IteacherService : **Interaction Use #4** \n\n  \t\t\t [[./US13_SD_Interaction_Use_#4.puml create Teacher Career Progression (tcp1)]]
 
 
 deactivate IteacherFactory
@@ -109,7 +101,7 @@ deactivate IteacherService
 IteacherService -> IteacherRepoJPA : save(t1)
 activate IteacherService
 activate IteacherRepoJPA
-ref over IteacherRepoJPA : \t \t **Interaction Use #5** \n \n \t \t \t \t [[./US13_SD_Interaction_Use_#5.puml "toDataModel & save || back toDomain"]]
+ref over IteacherRepoJPA : \t  **Interaction Use #6** \n \n \t \t  \t    [[./US13_SD_Interaction_Use_#6.puml \t toDataModel & save & back toDomain]]
 IteacherRepoJPA --> IteacherService : teacherDomain
 deactivate IteacherRepoJPA
 IteacherService --> controller : true
