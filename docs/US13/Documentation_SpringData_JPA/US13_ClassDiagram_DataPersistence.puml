@@ -50,7 +50,7 @@ interface IDepartmentRepository {
 interface ITeacherRepository {
   +registerTeacher(...): boolean
   +containsOfIdentity(TeacherID): boolean
-  +existsByIDorNIF(...): boolean
+  +existsByTeacherIdOrNif(...): boolean
 }
 
 interface ITeacherRepositorySpringData {
@@ -76,7 +76,7 @@ class DepartmentRepositoryImpl {
 class TeacherRepositorySpringDataImpl {
   +save(Teacher)
   +containsOfIdentity(TeacherID)
-  +existsByIDorNIF(TeacherID, NIF)
+  +existsByTeacherIdOrNif(TeacherID, NIF)
 }
 
 class TeacherCareerProgressionRepositoryImpl {

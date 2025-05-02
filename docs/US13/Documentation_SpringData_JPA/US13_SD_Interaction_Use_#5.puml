@@ -1,40 +1,30 @@
 @startuml
-
-title US13 : Interaction Use #5 - toDataModel & save || back toDomain
+title US13 : Interaction Use #5 - Verify Duplicates
 skinparam sequenceMessageAlign center
 
-participant "tr:ITeacherRepositorySpringData" as IteacherRepoJPA #business
-participant "tm:TeacherMapperImpl" as tMapper #implementation
-participant "tf:ITeacherFactory" as teacherFactory #lightCyan
-participant "tDM1:TeacherDataModel" as teacherDM #motivation
-participant "t2:Teacher" as teacher #technology
+participant "T1:TeacherRepositorySpringData" as T #lightblue
+participant "TIDM1:TeacherIDMapper" as TMapper #lightgreen
+participant "teacherIDDataModel1:TeacherIDDataModel" as tiddm #lightyellow
+participant "NIFM1:NIFMapper" as NIF #lightgreen
+participant "NIFDataModel1:NIFDataModel" as NIFDM #lightyellow
 
-
-activate IteacherRepoJPA
-IteacherRepoJPA -> tMapper : toDataModel(t1)
-activate tMapper
-
-tMapper -> teacherDM** : new Teacher Data Model
-activate teacherDM
-teacherDM --> tMapper : teacherDataModel
-deactivate teacherDM
-
-tMapper --> IteacherRepoJPA : teacherDataModel
-deactivate tMapper
-IteacherRepoJPA ->  : save(teacherDataModel)
-IteacherRepoJPA <-- : teacherDataModel
-
-
-IteacherRepoJPA -> tMapper : toDomain(teacherDataModel)
-activate tMapper
-tMapper -> teacherFactory : createTeacher()
-activate teacherFactory
-teacherFactory -> teacher** : new Teacher
-activate teacher
-teacher --> teacherFactory : teacherDomain
-deactivate teacher
-teacherFactory --> tMapper : teacherDomain
-deactivate teacherFactory
-tMapper --> IteacherRepoJPA : teacherDomain
-
+activate T
+T -> TMapper : domainToDataModel(teacherIDVO)
+activate TMapper
+TMapper -> tiddm**: new TeacherIDDataModel(teacherIDVO)
+activate tiddm
+tiddm --> TMapper : teacherIDDataModel1
+deactivate tiddm
+TMapper --> T: teacherIDDataModel1
+deactivate TMapper
+T -> NIF : domainToDataModel(NIFVO)
+activate NIF
+NIF -> NIFDM**: new NIFDataModel(NIFVO)
+activate NIFDM
+NIFDM --> NIF: NIFDataModel1
+deactivate NIFDM
+NIF --> T: NIFDataModel1
+deactivate NIF
+T -> : existsByTeacherIdOrNif(teacherIDDataModel1, NIFDataModel1)
+T <-- : False
 @enduml

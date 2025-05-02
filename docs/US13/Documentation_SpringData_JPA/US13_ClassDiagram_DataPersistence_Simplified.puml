@@ -1,0 +1,133 @@
+@startuml
+top to bottom direction
+title US13 - Teacher Registration Class Diagram
+skinparam ranksep 150
+skinparam nodesep 100
+
+interface IRepository {
+    save(entity : Entity);
+    findAll();
+    ofIdentity(ID id);
+    containsOfIdentity(ID id);
+}
+
+'=== 1. CONTROLLER ==='
+class US13_RegisterTeacherAndRelevantDataController {
+  +getTeacherCategoryList()
+  +getDepartmentList()
+  +registerTeacher(...)
+}
+
+'=== 2. SERVICES ==='
+class TeacherServiceImpl {
+  +registerTeacher(...): boolean
+}
+interface ITeacherService
+
+'=== 3. REPOSITORY INTERFACES ==='
+interface ITeacherRepository {
+  +registerTeacher(...): boolean
+  +containsOfIdentity(TeacherID): boolean
+  +existsByTeacherIdOrNif(TeacherID, NIF): boolean
+}
+
+interface ITeacherRepositorySpringData {
+    +existsByTeacherIdOrNif(TeacherID, NIF): boolean
+    +findByTeacherID(TeacherIDDataModel): Optional<Teacher>
+
+}
+
+interface JpaRepository {
+}
+
+'=== 4. REPOSITORY IMPLEMENTATIONS ==='
+class TeacherRepositorySpringDataImpl {
+  +save(Teacher)
+  +containsOfIdentity(TeacherID)
+  +existsByTeacherIdOrNif(TeacherID, NIF)
+}
+
+'=== 5. FACTORIES ==='
+interface ITeacherFactory {
+  +createTeacher(...): Teacher
+}
+class TeacherFactoryImpl {
+  +createTeacher(...): Teacher
+}
+
+'=== 6. AGGREGATES ==='
+package "Teacher Aggregate" {
+  class Teacher <<Root>> {
+  }
+}
+
+'=== 7. VALUE OBJECTS ==='
+class TeacherID <<VO>> {}
+class Name <<VO>> {}
+class Email <<VO>> {}
+class NIF <<VO>> {}
+class PhoneNumber <<VO>> {}
+class Address <<VO>> {}
+
+'=== 8. MAPPERS ==='
+class TeacherMapperImpl {
+  +toDomain(teacherDataModel) : Teacher
+  +toDataModel(teacher): TeacherDataModel
+}
+
+class TeacherIDMapperImpl {
+  +toDomain(teacherDataModel) : TeacherID
+  +toDataModel(teacher) : TeacherDataModel
+}
+
+class TeacherDataModel {
+  -_name : String
+  -_email : String
+  +getName()
+  +getEmail()
+}
+
+interface ITeacherMapper
+interface ITeacherIDMapper
+
+'=== 9. CONNECTIONS ==='
+'Controller Layer'
+US13_RegisterTeacherAndRelevantDataController "1" ..> "1" TeacherServiceImpl
+
+'Service Layer'
+TeacherServiceImpl "1" ..|> ITeacherService : <<implements>>
+TeacherServiceImpl "1" --> ITeacherRepository
+TeacherServiceImpl "1" --> ITeacherFactory
+
+'Repository Layer'
+TeacherRepositorySpringDataImpl "1".up.|> ITeacherRepository : <<implements>>
+ITeacherRepository ..|> IRepository : <<extends>>
+JpaRepository "1" <|.. ITeacherRepositorySpringData : <<extends>>
+ITeacherRepositorySpringData <|.. "1" TeacherRepositorySpringDataImpl : <<implements>>
+
+'Repository-Mapper Connections'
+TeacherRepositorySpringDataImpl "1" ..> "_teacherMapper" TeacherMapperImpl
+TeacherRepositorySpringDataImpl "1" ..> "1" TeacherIDMapperImpl
+
+'Mapper Implementations'
+ITeacherMapper <|.. "1" TeacherMapperImpl : <<implements>>
+ITeacherIDMapper <|.. "1" TeacherIDMapperImpl : <<implements>>
+
+'Mapper-Data Model Connections'
+TeacherMapperImpl "1" --> "1" TeacherDataModel
+TeacherMapperImpl "1" --> "1" Teacher
+TeacherMapperImpl "1" ..> "1" TeacherIDMapperImpl
+TeacherIDMapperImpl "1" --> "1" TeacherID
+
+'Factory Creation'
+TeacherFactoryImpl .up.|> ITeacherFactory : <<implements>>
+ITeacherFactory "1" ..> "1" Teacher : <<create>>
+
+'Value Object Composition'
+Teacher "1" --> "_teacherID" TeacherID
+Teacher "1" --> "_name" Name
+Teacher "1" --> "_email" Email
+Teacher "1" --> "_nif" NIF
+Teacher "1" --> "_phoneNumber" PhoneNumber
+Teacher "1" --> "_address" Address
+@enduml

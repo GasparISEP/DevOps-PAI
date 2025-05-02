@@ -8,19 +8,22 @@ title US13: As a HRC, I want to register a new teacher in the system, including 
 actor HRC
 participant ":UI" as UI #Cyan/Silver
 participant ":Controller" as Controller #Cyan/Silver
-participant ":ITeacherCategoryRepository" as TeacherCategoryRepository <<Interface>> #Cyan/Silver
+participant ":ITeacherCategoryRepository" as TeacherCategoryRepository  #Cyan/Silver
 participant "tcList :List<TeacherCategories>" as tcList #Yellow/Silver
-participant ":IDepartmentRepository" as DepartmentRepository <<Interface>> #Cyan/Silver
+participant ":IDepartmentRepository" as DepartmentRepository #Cyan/Silver
 participant "deptSet :Set<Departments>" as dptList #Yellow/Silver
-participant ":ITeacherRepository" as TeacherRepository <<Interface>> #Cyan/Silver
+participant ":ITeacherService" as TService #Green/Silver
 participant ":TeacherFactoryImpl" as TeacherFactory #Yellow/Silver
-participant "t1 :Teacher" as Teacher #Yellow/Silver
+participant ":ITeacherRepository" as TeacherRepository #Cyan/Silver
+participant "t1 :Teacher" as teacher1 #Yellow/Silver
+participant "t2 :Teacher" as Teacher #Yellow/Silver
 participant "addrsVO1 :Address" as Address #Yellow/Silver
 participant "teacherIDVO1 :TeacherID" as TeacherID #Yellow/silver
-participant ":ITeacherCareerProgressionRepository" as TeacherCareerProgressionRepository <<Interface>> #Cyan/Silver
-participant ":TeacherCareerProgressionFactoryImpl" as TeacherCareerProgressionFactory #Yellow/Silver
-participant "tcp1 :TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 participant "TeacherAcademicEmailVO1 : TeacherAcademicEmail" as TeacherAcademicEmail #Yellow/Silver
+participant ":ITeacherCareerProgressionService" as TCPService #Green/Silver
+participant ":TeacherCareerProgressionFactoryImpl" as TeacherCareerProgressionFactory #Yellow/Silver
+participant ":ITeacherCareerProgressionRepository" as TeacherCareerProgressionRepository #Cyan/Silver
+participant "tcp1 :TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
 activate HRC
 HRC -> UI: I want to register a new teacher including\n all relevant data.
@@ -84,19 +87,41 @@ ref over Controller
     \t \t Convert DTO to VO \t
 end ref
 |||
-Controller -> TeacherRepository:\t **registerTeacher**(teacherAcronymVO, nameVO, emailVO, nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO, academicBackgroundVO, departmentIDVO)
-activate TeacherRepository
+Controller -> TService:\t **registerTeacher**(teacherAcronymVO, nameVO, emailVO, nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO, academicBackgroundVO, departmentIDVO)
+activate TService
 
-TeacherRepository -> TeacherFactory: **createTeacher**(teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, departmentIDVO)
+TService -> TeacherFactory: **createTeacher**(teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, streetVO,\n postalCodeVO, locationVO, countryVO,\n academicBackgroundVO, departmentIDVO)
 activate TeacherFactory
 
+
+TeacherFactory -> TeacherRepository: **existsByIdOrNIF(TeacherID, NIF)**
+activate TeacherRepository
+ref over TeacherFactory
+    Check if a teacher is already registered
+end ref
+TeacherRepository -> teacher1**: **sameAs**(TeacherID)
+activate teacher1
+teacher1 --> TeacherRepository: False!
+TeacherRepository -> teacher1: **hasThisNIF**(NIF)
+teacher1 --> TeacherRepository: False!
+deactivate teacher1
+
+
+
+TeacherRepository --> TeacherFactory: False!
+deactivate TeacherRepository
+
 TeacherFactory -> Address **: **createAddress**(streetVO, postalCodeVO, locationVO, countryVO)
+
 activate Address
 |||
 Address --> TeacherFactory:\t addrsVO1
 deactivate Address
 |||
+
 TeacherFactory -> Teacher **: **createTeacher**(teacherAcronymVO, nameVO, emailVO,\n nifVO, phoneNumberVO, addrsVO1,\n academicBackgroundVO, departmentIDVO)
+deactivate TeacherRepository
+
 activate Teacher
 
 Teacher -> TeacherID **: **createTeacherID**(teacherAcronymVO)
@@ -115,21 +140,18 @@ Teacher --> TeacherFactory: \t TeacherAcademicEmailVO1
 deactivate Teacher
 
 TeacherFactory --> TeacherRepository: t1
+
+activate TeacherRepository
 deactivate TeacherFactory
-|||
-activate Teacher
-ref over TeacherRepository, Teacher
-    Check if a teacher is already registered
-end ref
-|||
+
 TeacherRepository -> TeacherRepository: **save** (t1)
-deactivate Teacher
 
 TeacherRepository -> Teacher: **identity()**
 activate Teacher
 |||
 Teacher --> TeacherRepository: teacherIDVO1
 deactivate Teacher
+deactivate TeacherRepository
 
 TeacherRepository --> Controller: teacherIDVO1
 deactivate TeacherRepository
