@@ -28,13 +28,13 @@
  create "p[i]: domainList" #LightBlue/White
  ProgrammeRepositorySpringDataImpl ->  "p[i]: domainList"** : new List <Programme>()
  activate "p[i]: domainList"
- participant ":IProgrammeRepositorySpringDataImpl" as IProgrammeRepositorySpringDataImpl #LightBlue/White
+ participant ":IProgrammeRepositorySpringData" as IProgrammeRepositorySpringData #LightBlue/White
 
- ProgrammeRepositorySpringDataImpl -> IProgrammeRepositorySpringDataImpl: findAll()
- activate IProgrammeRepositorySpringDataImpl
+ ProgrammeRepositorySpringDataImpl -> IProgrammeRepositorySpringData: findAll()
+ activate IProgrammeRepositorySpringData
  create "PDM[i]:ProgrammeDataModel" #LightBlue/White
- IProgrammeRepositorySpringDataImpl -> "PDM[i]:ProgrammeDataModel"** : findAll()
- deactivate IProgrammeRepositorySpringDataImpl
+ IProgrammeRepositorySpringData -> "PDM[i]:ProgrammeDataModel"** : findAll()
+ deactivate IProgrammeRepositorySpringData
  activate "PDM[i]:ProgrammeDataModel"
  "PDM[i]:ProgrammeDataModel" --> ProgrammeRepositorySpringDataImpl: PDM[i]:ProgrammeDataModelList
 
