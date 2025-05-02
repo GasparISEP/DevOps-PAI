@@ -57,7 +57,7 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
         when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
 
         //act
-        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
         assertTrue(result.isPresent());
@@ -84,7 +84,7 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
         when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
 
         //act
-        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
         assertTrue(result.isEmpty());
@@ -110,7 +110,7 @@ class US22_IWantToGradeAStudentInACourseEditionControllerTest {
         when(studentGradeService.newStudentGrade(grade, date, studentID, courseEditionID)).thenReturn(studentGrade);
 
         //act
-        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,student,courseEdition);
+        Optional<StudentGrade> result = controller.registerStudentGrade(grade,date,studentID,courseEditionID);
 
         //assert
         assertTrue(result.isEmpty());

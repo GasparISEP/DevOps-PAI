@@ -25,12 +25,10 @@ public class US22_IWantToGradeAStudentInACourseEditionController {
     }
 
 
-    public Optional <StudentGrade> registerStudentGrade(Grade grade, Date date, Student student, CourseEdition courseEdition_DDD) throws Exception{
-        StudentID studentID = student.identity();
-        CourseEditionID courseEditionID = courseEdition_DDD.identity();
+    public Optional <StudentGrade> registerStudentGrade(Grade grade, Date date, StudentID student, CourseEditionID courseEdition_DDD) throws Exception{
 
-        if (studentID != null && courseEditionID != null){
-            return Optional.of(studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID));
+        if (student != null && courseEdition_DDD != null){
+            return Optional.of(studentGradeService.newStudentGrade(grade,date,student,courseEdition_DDD));
         }
 
         return Optional.empty();
