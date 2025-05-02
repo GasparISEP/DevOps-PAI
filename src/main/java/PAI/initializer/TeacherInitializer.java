@@ -23,6 +23,8 @@ public class TeacherInitializer {
     private void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller) {
         String csvFile = "src/main/resources/Teacher_Data.csv";
 
+        long startTime = System.currentTimeMillis();
+
         try (BufferedReader br2 = new BufferedReader(new FileReader(csvFile))) {
             String line;
             boolean isFirstLine = true;
@@ -56,5 +58,10 @@ public class TeacherInitializer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+
+        System.out.println("\nTeacher data loading time: " + duration + " ms\n");
     }
 }
