@@ -50,8 +50,6 @@ public class CourseEditionEnrolmentInitializer {
                             Acronym courseAcronym = new Acronym(fields[5].trim());
                             Name courseName = new Name(fields[6].trim());
 
-
-                            // Create value objects
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
                             Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,1,1));
                             StudentID studentID = new StudentID(studentNum);
