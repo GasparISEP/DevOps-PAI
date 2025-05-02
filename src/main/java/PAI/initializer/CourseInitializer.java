@@ -19,7 +19,7 @@ public class CourseInitializer {
 
     @PostConstruct
     public void init() {
-        try (InputStream is = getClass().getResourceAsStream("/courseData.csv");
+        try (InputStream is = getClass().getResourceAsStream("/CourseData.csv");
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             // Skip header
