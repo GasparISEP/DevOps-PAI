@@ -15,13 +15,13 @@ import java.util.UUID;
 public class ProgrammeEnrolmentInitializer {
 
     @Bean
-    public CommandLineRunner loadDataRegisterStudent(US09_EnrolStudentInProgrammeController controller) {
+    public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
         return (args) -> {
-            loadStudents(controller);
+            loadProgrammeEnrolment(controller);
         };
     }
 
-    private void loadStudents(US09_EnrolStudentInProgrammeController controller) {
+    private void loadProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
         String csvFile = "src/main/resources/ProgrammeEnrolment_Data.csv";
 
         long startTime = System.currentTimeMillis();
