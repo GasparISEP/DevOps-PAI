@@ -1,22 +1,12 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.*;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
-import PAI.service.ICourseEditionEnrolmentService;
+
 import PAI.service.IProgrammeEditionEnrolmentService;
-import PAI.service.IProgrammeEnrolmentService;
-import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.programme.IProgrammeService;
-import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {

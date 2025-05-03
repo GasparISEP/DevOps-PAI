@@ -7,6 +7,8 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
+import PAI.factory.programme.IProgrammeFactory;
+import PAI.factory.programme.ProgrammeFactoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;

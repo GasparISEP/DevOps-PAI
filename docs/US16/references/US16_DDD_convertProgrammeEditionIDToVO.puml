@@ -1,12 +1,15 @@
 @startuml
+title Convert Programme Edition ID to VO
+
+autonumber
 skinparam {
   ActivityPadding 2
   ActivityMargin 2
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
+skinparam shadowing true
 
-autonumber
 
 activate ":US16_EnrolAStudentInACourseEditionController" #E1F5FE
 create "peID:programmeEditionID"

@@ -267,4 +267,28 @@ when(departmentRepoDouble.getDepartmentIDs()).thenReturn(Set.of(departmentID1,de
         assertEquals(0, result.size());
 
     }
+
+    @Test
+    void shouldSetDirectorIDWhenUpdatingDirector() throws Exception {
+        // Arrange
+        IDepartmentRepository repo = mock(IDepartmentRepository.class);
+        IDepartmentFactory factory = mock(IDepartmentFactory.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+        Name name = mock(Name.class);
+        DepartmentServiceImpl service = new DepartmentServiceImpl(factory, repo);
+
+        Department department = new Department(acronym, name);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+
+        when(repo.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
+
+        // Act
+        boolean result = service.updateOfDepartmentDirector(departmentID, teacherID);
+
+        // Assert
+        assertTrue(result);
+        assertEquals(teacherID, department.getDirectorID());
+    }
+
 }

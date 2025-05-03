@@ -16,9 +16,9 @@ ASC -> UI: I want to register a student in the system
 activate UI
 UI --> ASC: What is the Student's information?
 deactivate UI
-ASC -> UI: uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country
+ASC -> UI: uniqueNumber, name, NIF, countryNIF, countryCode, \n phoneNumber, email, street, postalCode, location, country
 activate UI
-UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, phone, email, \n street, postalCode, location, country)
+UI -> ctrl: I want to register a Student in the system \n (uniqueNumber, name, NIF, countryNIF, countryCode, \n phoneNumber, email, street, postalCode, location, country)
 activate ctrl
 
 ref over ctrl

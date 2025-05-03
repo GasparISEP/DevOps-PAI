@@ -1,12 +1,14 @@
 @startuml
+title findCourseEditionsByProgrammeEdition Method
+autonumber
 skinparam {
   ActivityPadding 2
   ActivityMargin 2
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
+skinparam shadowing true
 
-autonumber
 
 participant ":ICourseEditionRepository" as CourseEditionRepository
 activate CourseEditionRepository #E1F5FE

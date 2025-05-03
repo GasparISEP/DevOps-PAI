@@ -16,54 +16,54 @@ participant "c1:Country" as country #motivation
 participant "aE1:StudentAcademicEmail" as academicEmail #physical
 
 activate Controller
-Controller -> studentID** : create StudentID VO (uniqueNumber)
+Controller -> studentID** : create StudentIDVO (uniqueNumber)
 activate studentID
-studentID --> Controller : studentID VO
+studentID --> Controller : studentIDVO
 deactivate studentID
 
-Controller -> name** : create Name VO (name)
+Controller -> name** : create NameVO (name)
 activate name
-name --> Controller : name VO
+name --> Controller : nameVO
 deactivate name
 
-Controller -> NIF**: create NIF VO (NIF)
+Controller -> NIF**: create NIFVO (NIF, nifCountry)
 activate NIF
-NIF --> Controller: NIF VO
+NIF --> Controller: NIFVO
 deactivate NIF
 
-Controller -> phone** : create Phone VO (phone)
+Controller -> phone** : create PhoneVO (countryCode, phoneNumber)
 activate phone
-phone --> Controller : phone VO
+phone --> Controller : phoneVO
 deactivate phone
 
-Controller -> email** : create Email VO (email)
+Controller -> email** : create EmailVO (email)
 activate email
-email --> Controller : email VO
+email --> Controller : emailVO
 deactivate email
 
-Controller -> street** : create Street VO (street)
+Controller -> street** : create StreetVO (street)
 activate street
-street --> Controller : Street VO
+street --> Controller : StreetVO
 deactivate street
 
-Controller -> postalCode** : create PostalCode VO (postalCode)
+Controller -> postalCode** : create PostalCodeVO (postalCode)
 activate postalCode
-postalCode --> Controller : PostalCode VO
+postalCode --> Controller : PostalCodeVO
 deactivate postalCode
 
-Controller -> location** : create Location VO (location)
+Controller -> location** : create LocationVO (location)
 activate location
-location --> Controller : Location VO
+location --> Controller : LocationVO
 deactivate location
 
-Controller -> country** : create Country VO (country)
+Controller -> country** : create CountryVO (country)
 activate country
-country --> Controller : Country VO
+country --> Controller : CountryVO
 deactivate country
 
-Controller -> academicEmail** : create StudentAcademicEmail VO (uniqueNumber)
+Controller -> academicEmail** : create StudentAcademicEmailVO (uniqueNumber)
 activate academicEmail
-academicEmail --> Controller : StudentAcademicEmail VO
+academicEmail --> Controller : StudentAcademicEmailVO
 deactivate academicEmail
 
 @enduml

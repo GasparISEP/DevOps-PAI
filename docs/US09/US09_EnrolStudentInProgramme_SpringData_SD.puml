@@ -64,13 +64,13 @@ activate ProgrammeEnrolment
 ProgrammeEnrolment --> PEService : peIDDomain
 deactivate ProgrammeEnrolment
 
-PEService -> ProgrammeEnrolmentRepo : existsByID(peIDDomain)
+PEService -> ProgrammeEnrolmentRepo : containsOfIdentity(peIDDomain)
 activate ProgrammeEnrolmentRepo
 ProgrammeEnrolmentRepo -> PEIDMapper : toDomain(peIDDomain)
 activate PEIDMapper
 PEIDMapper -> ProgrammeEnrolmentRepo : peIDDataModel
 deactivate PEIDMapper
-ProgrammeEnrolmentRepo -> IPERepoSpringData : existsByID(peIDDataModel)
+ProgrammeEnrolmentRepo -> IPERepoSpringData : existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModel, programmeIDDataModel)
 activate IPERepoSpringData
 IPERepoSpringData ->
 IPERepoSpringData <--
@@ -143,6 +143,26 @@ IPERepoSpringData <--
 IPERepoSpringData --> ProgrammeEnrolmentRepo : peDataModel
 deactivate IPERepoSpringData
 
+ProgrammeEnrolmentRepo --> PEMapper : toDomain(peDataModel)
+activate PEMapper
+
+PEMapper --> PEDataModel : getProgrammeEnrolmentID()
+activate PEDataModel
+PEDataModel --> PEMapper : peID
+deactivate PEDataModel
+
+PEMapper --> PEDataModel : getAccessMethodID()
+activate PEDataModel
+PEDataModel --> PEMapper : amIDDataModel
+deactivate PEDataModel
+
+PEMapper --> PEDataModel : getDate()
+activate PEDataModel
+PEDataModel --> PEMapper : date
+deactivate PEDataModel
+
+PEMapper --> ProgrammeEnrolmentRepo : pe
+deactivate PEMapper
 
 ProgrammeEnrolmentRepo --> PEService: true
 deactivate ProgrammeEnrolmentRepo

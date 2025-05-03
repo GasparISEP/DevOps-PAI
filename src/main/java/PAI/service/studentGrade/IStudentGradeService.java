@@ -1,9 +1,7 @@
-package PAI.service;
+package PAI.service.studentGrade;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
-
-import java.util.Optional;
 
 public interface IStudentGradeService {
     StudentGrade newStudentGrade (Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID) throws Exception;

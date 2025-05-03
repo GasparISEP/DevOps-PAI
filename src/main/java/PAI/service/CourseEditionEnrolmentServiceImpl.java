@@ -59,7 +59,7 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         return _courseEditionEnrolmentFactoryInterface.createCourseEditionEnrolment (studentId, courseEditionId);
     }
 
-    //enrol a student in a course edition
+    //save course edition enrolment
     public boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
         try {
             CourseEditionEnrolment cee = createCourseEditionEnrolment(studentId, courseEditionId);

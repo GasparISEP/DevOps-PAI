@@ -2,7 +2,6 @@ package PAI.persistence.mem.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.factory.IProgrammeFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

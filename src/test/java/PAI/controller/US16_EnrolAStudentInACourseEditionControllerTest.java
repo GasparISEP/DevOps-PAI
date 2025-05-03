@@ -98,7 +98,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID doubleStudentId = mock(StudentID.class);
 
-
         when(doubleCeeServiceInterface.findProgrammeEditionIDsThatStudentIsEnrolled(doubleStudentId)).
                 thenReturn(List.of());
 
@@ -108,7 +107,6 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         //assert
         assertEquals(0, result.size());
     }
-
 
     //testing find Course Editions by Programme Edition Method
 
@@ -168,6 +166,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID doubleStudentID2 = mock(StudentID.class);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn(true);
+
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID)).thenReturn(true);
@@ -189,10 +188,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
+
         StudentID doubleStudentID2 = mock(StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn(true);
+
         controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID2)).thenReturn(true);
@@ -214,9 +215,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID doubleStID1 = mock(StudentID.class);
         CourseEditionID doubleCeID1 = mock(CourseEditionID.class);
+
         CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn(true);
+
         controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
 
         when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID2)).thenReturn(true);
@@ -248,7 +251,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         assertFalse(result);
     }
 
-    //integration tests
+    //---------------------integration tests--------------------//
 
     @Test
     void shouldReturnOptionalEmptyWhenStudentIsNull_IntegrationTest() {
@@ -270,7 +273,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
-    //act
+        //act
         List<ProgrammeEditionID> result = controller.findProgrammeEditionIDsThatStudentIsEnrolled(null);
 
         //assert
@@ -344,6 +347,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     //testing find Course Editions by Programme Edition Method
+
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition_IntegrationTest() throws Exception {
         //arrange
@@ -409,6 +413,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
     }
 
     //testing enroll a student in a course edition
+
     @Test
     void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEdition_IntegrationTest () throws Exception {
         //arrange

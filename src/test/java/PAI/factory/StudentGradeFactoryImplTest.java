@@ -3,15 +3,10 @@ package PAI.factory;
 
 import PAI.VOs.*;
 
-import PAI.domain.CourseEdition;
-import PAI.domain.SchoolYear;
 import PAI.domain.StudentGrade;
-import PAI.service.IStudentGradeService;
+import PAI.factory.studentGrade.StudentGradeFactoryImpl;
+import PAI.service.studentGrade.IStudentGradeService;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

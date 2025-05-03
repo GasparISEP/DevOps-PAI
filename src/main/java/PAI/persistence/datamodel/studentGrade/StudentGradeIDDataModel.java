@@ -1,5 +1,6 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.studentGrade;
 
+import PAI.persistence.datamodel.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import jakarta.persistence.*;
 
@@ -23,7 +24,7 @@ public class StudentGradeIDDataModel implements Serializable {
     })
     private CourseEditionIDDataModel courseEditionIDDataModel;
 
-    protected StudentGradeIDDataModel() {}
+    public StudentGradeIDDataModel() {}
 
     public StudentGradeIDDataModel (StudentIDDataModel studentIDDataModel, CourseEditionIDDataModel courseEditionIDDataModel){
         if (studentIDDataModel == null || courseEditionIDDataModel == null){

@@ -3,38 +3,13 @@
 skinparam ranksep 100
 skinparam nodesep 100
 
-class "<<VO>>\nProgrammeEnrolmentID" {
--studentID: StudentID
--programmeID: ProgrammeID
-+getStudentID(studentID: StudentID)
-+getProgrammeID(programmeID: ProgrammeID)
-}
-
-class "<<VO>>\nStudentID" {
--uniqueNumber: Integer
--NIF: Integer
-+getStudentID(uniqueNumber: Integer)
-}
-
-class "<<VO>>\nAccessMethodID" {
--amIDVO: UUID
-+getAccessMethodID(uuid: UUID)
-}
-
-class "<<VO>>\nProgrammeID" {
--nameVO: NameWithNumbersAndSpecialCharacters
--acronymVO: Acronym
-+getName(programmeName: NameWithNumbersAndSpecialChars)
-+getAcronym(programmeAcronym: Acronym)
-}
-
-class "<<VO>>\nDate" {
--date: LocalDate
-+getLocalDate(localDate: LocalDate)
-}
-
 package "ProgrammeEnrolment Aggregate" as PE {
 entity "<<root>>\nProgrammeEnrolment" {
+-peID: ProgrammeEnrolmentID
+-studentID: StudentID
+-amID: AccessMethodID
+-programmeID: ProgrammeID
+-date: Date
 +ProgrammeEnrolment(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, dateVO: Date)
 +getProgrammeEnrolmentID(programmeEnrolment: ProgrammeEnrolment)
 +getStudentID(studentIDVO: StudentID)
@@ -46,22 +21,26 @@ entity "<<root>>\nProgrammeEnrolment" {
 
 class US09_EnrolStudentInProgrammeController {
 +US09_EnrolStudentInProgrammeController(programmeEnrolmentService: ProgrammeEnrolmentService)
++enrolStudentInProgramme(uniqueNumber: Integer, accessMethodID: UUID, programmeName: String, acronym: String, date: String)
 }
 
 class ProgrammeEnrolmentService {
 +enrolStudentInProgramme(peFactory: IProgrammeEnrolmentFactory, peRepository: IProgrammeEnrolmentRepository)
-+enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
++enrolStudent(studentID: StudentID, amID: Name, programmeID: ProgrammeID, date: Date)
 }
 
 class ProgrammeEnrolmentSpringDataRepository {
 -programmeEnrolmentFactory: ProgrammeEnrolmentFactory
 -programmeEnrolmentList: ProgrammeEnrolmentListFactory
 +ProgrammeEnrolmentSpringDataRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList)
-+enrolStudents(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, enrolmentDate: Date)
++save(peDataModel: ProgrammeEnrolmentDataModel)
++containsOfIdentity(peID: ProgrammeEnrolmentID)
 }
 
 interface IProgrammeEnrolmentRepository {
-+ save(pe: ProgrammeEnrolment);
++ save(pe: ProgrammeEnrolment)
++containsOfIdentity(peID: ProgrammeEnrolmentID)
+
 }
 
 class ProgrammeEnrolmentFactoryImpl {
@@ -85,10 +64,14 @@ class ProgrammeEnrolmentDataModel {
 -date: LocalDate
 +ProgrammeEnrolmentDataModel(pe: ProgrammeEnrolment)
 +createProgrammeEnrolmentDomain(peDataModel: ProgrammeEnrolmentDataModel)
++getProgrammeEnrolmentID()
++getAccessMethodID()
++getDate()
 }
 
 interface IProgrammeEnrolmentSpringDataRepository {
 +save(peDataModel: ProgrammeEnrolmentDataModel)
++existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModel: StudentIDDataModel, programmeIDDataModel: ProgrammeIDDataModel)
 }
 
 interface IProgrammeEnrolmentMapper {
@@ -102,35 +85,43 @@ interface IProgrammeEnrolmentService {
 }
 
 interface IProgrammeEnrolmentIDMapper {
-+toDataModel(peIDDomain: ProgrammeEnrolmentIDDataModel)
++toDataModel(peIDDomain: ProgrammeEnrolmentID)
++toDomain(peIDDataModel: peIDDataModel
 }
 
 interface IStudentIDMapper {
-+toDataModel(studentIDDomain: StudentIDDataModel)
++toDataModel(studentIDDomain: StudentID)
++toDomain(studentIDDataModel: StudentIDDataModel
 }
 
 interface IProgrammeIDMapper {
-+toDataModel(programmeIDDomain: ProgrammeIDDataModel)
++toDataModel(programmeIDDomain: programmeID)
++toDomain(programmeIDDataModel: ProgrammeIDDataModel))
 }
 
 interface IAccessMethodIDMapper {
-+toDataModel(amIDDomain: AccessMethodIDDataModel)
++toDataModel(amIDDomain: AccessMethodID)
++toDomain(amIDDataModel: AccessMethodIDDataModel)
 }
 
 class ProgrammeEnrolmentIDMapper {
-+toDataModel(peIDDomain: ProgrammeEnrolmentIDDataModel)
++toDataModel(peIDDomain: ProgrammeEnrolmentID)
++toDomain(peIDDataModel: peIDDataModel
 }
 
 class StudentIDMapper {
-+toDataModel(studentIDDomain: StudentIDDataModel)
++toDataModel(studentIDDomain: StudentID)
++toDomain(studentIDDataModel: StudentIDDataModel}
 }
 
 class ProgrammeIDMapper {
-+toDataModel(programmeIDDomain: ProgrammeIDDataModel)
++toDataModel(programmeIDDomain: programmeID)
++toDomain(programmeIDDataModel: ProgrammeIDDataModel))
 }
 
 class AccessMethodIDMapper {
-+toDataModel(amIDDomain: AccessMethodIDDataModel)
++toDataModel(amIDDomain: AccessMethodID)
++toDomain(amIDDataModel: AccessMethodIDDataModel)
 }
 
 US09_EnrolStudentInProgrammeController "1" -l> "1..*" IProgrammeEnrolmentService
@@ -149,12 +140,6 @@ IProgrammeEnrolmentFactory "1..*" .l.> "*\ncreates" "<<root>>\nProgrammeEnrolmen
 
 IProgrammeEnrolmentFactory <|.d. ProgrammeEnrolmentFactoryImpl
 
-"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_programmeEnrolmentID\n1" "<<VO>>\nProgrammeEnrolmentID"
-"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_studentID\n1" "<<VO>>\nStudentID"
-"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_programmeID\n1" "<<VO>>\nProgrammeID"
-"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_accessMethodID\n1" "<<VO>>\nAccessMethodID"
-"<<root>>\nProgrammeEnrolment" "1..*" -d-> "_localDate\n1" "<<VO>>\nDate"
-
 ProgrammeEnrolmentMapper -u.|> IProgrammeEnrolmentMapper
 IProgrammeEnrolmentMapper "1" -l.> "1" ProgrammeEnrolmentDataModel
 IProgrammeEnrolmentMapper "*" -r.> "1" IProgrammeEnrolmentFactory
@@ -164,6 +149,9 @@ ProgrammeEnrolmentMapper "1..*" --d-> "1" IStudentIDMapper
 ProgrammeEnrolmentMapper "1..*" --d-> "1" IProgrammeIDMapper
 ProgrammeEnrolmentMapper "1..*" --r-> "1" IAccessMethodIDMapper
 ProgrammeEnrolmentMapper "1..*" --r-> "_date\n1" "<<root>>\nProgrammeEnrolment"
+
+ProgrammeEnrolmentMapper "1..*" --r-> "*" "<<root>>\nProgrammeEnrolment"
+ProgrammeEnrolmentMapper "1..*" --u-> "*" ProgrammeEnrolmentDataModel
 
 
 ProgrammeEnrolmentIDMapper -d.|> IProgrammeEnrolmentIDMapper

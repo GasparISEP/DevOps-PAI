@@ -6,10 +6,10 @@ title US08: I want to register a Student in the system
 
 
 class US08_IWantToRegisterAStudentInTheSystemController {
-    + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : Address) : boolean
+    + registerStudent(uniqueNumber : int, name : String, NIF : String, nifCountry : String, countryCode : String, phoneNumber : String, email : String, street : String, postalCode : String, location : String, Country : String) : boolean
 }
 
-class StudentRepositoryJPA {
+class StudentRepositorySpringData {
 
     + save(student : Student) : Student
     + findAll() : Iterable<Student>
@@ -113,13 +113,15 @@ class Country <<Value Object>> {
 }
 
 interface IStudentFactory <<Interface>> {
-    + newStudent(StudentID : StudentID, name : Name, NIF : Name, phone : PhoneNumber, email : Email, street : Street, address : AddressVO) : Student
-    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
+    + newStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, studentAcademicEmail : academicEmail, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
+    + newStudentFromDataModel(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) : Student
 }
 
 class StudentFactoryImpl {
-    + newStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, address : AddressVO) : Student
-    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : AddressVO
+    + newStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, studentAcademicEmail : academicEmail, street : Street, postalCode : PostalCode, location : Location, country : Country) : Student
+    + createAddress(street : Street, postalCode : PostalCode, location : Location, country : Country) : Address
+    + newStudentFromDataModel(StudentID studentID, Name name, NIF NIF, PhoneNumber phone, Email email, Address address, StudentAcademicEmail academicEmail) : Student
 }
 
 
@@ -140,7 +142,7 @@ interface IRepository <<Interface>> {
 
 class StudentService {
     + registerStudent(studentID : StudentID, name : Name, NIF : NIF, phone : PhoneNumber, email : Email, street : Street, postalCode : PostalCode, location : Location, country : Country,
-                      institutionalEmail : InstitutionalEmail) : Student
+                      studentAcademicEmail : academicEmail) : Student
 }
 
 class StudentMapper {
@@ -149,20 +151,24 @@ class StudentMapper {
 }
 
 class StudentDataModel {
-    - studentID : int
+    - studentID : StudentIDDataModel
     - name : String
-    - nif : DataModel
-    - phone : DataModel
+    - nif : NIFDataModel
+    - phone : PhoneDataModel
     - email : String
-    - institutionalEmail : DataModel
-    - address : DataModel
+    - academicEmail : StudentAcademicEmailDataModel
+    - address : AddressDataModel
+    + getStudentID()
+    + getName()
+    + getNIF()
+    + getPhone()
+    + getEmail()
+    + getAddress()
+    + getAcademicEmail()
+
 }
 
 interface IStudentRepositorySpringData{
-  + save(student : Student) : Student
-  + findAll() : Iterable<Student>
-  + ofIdentity(studentID : StudentID) : Optional<Student>
-  + containsOfIdentity(studentID : StudentID) : boolean
   + existsByStudentIDOrNIF (studentID : StudentID, nif : NIF) : boolean
 }
 
@@ -178,24 +184,23 @@ interface IStudentMapper {
 }
 
 
-StudentRepositoryJPA ..|> IStudentRepositorySpringData
+StudentRepositorySpringData ..> IStudentRepositorySpringData
 US08_IWantToRegisterAStudentInTheSystemController "1" ..> "1" IStudentService
 IStudentService <|.. StudentService
 StudentService "1" ..> "1" IStudentFactory
 StudentService "1" ..> "1" IStudentRepository
-StudentRepositoryJPA "1" ..> "1" IStudentMapper
+StudentRepositorySpringData "1" ..> "1" IStudentMapper
 IStudentMapper <|.. StudentMapper
-
 StudentMapper --> StudentDataModel
+StudentMapper .u.> IStudentFactory
+
+StudentRepositorySpringData "1" ---> "_students\n*" Student
 
 
-StudentRepositoryJPA "1" ---> "_students\n*" Student
-
-StudentFactoryImpl ..> StudentRepositoryJPA
 Student "1" --> "1" Address
 StudentFactoryImpl "*" ..|> "1     " IStudentFactory
 IStudentFactory "1" ..> "1" Student: <<create>>
-StudentRepositoryJPA ...|> IStudentRepository
+StudentRepositorySpringData ...|> IStudentRepository
 IStudentRepository ..|> IRepository
 Student "*" ----> "_studentID \n 1" StudentID
 Student "*" ----> "_name \n 1" Name

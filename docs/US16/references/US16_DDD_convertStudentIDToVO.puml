@@ -1,15 +1,18 @@
 @startuml
+title Convert Student ID to VO
+autonumber
 skinparam {
   ActivityPadding 2
   ActivityMargin 2
   BoxPadding 2
 }
 skinparam defaultTextAlignment center
-autonumber
+skinparam shadowing true
 
-activate ":Controller" #E1F5FE
+
+activate ":US16_EnrolAStudentInACourseEditionController" #E1F5FE
 create "stID:studentID"
-":Controller" -> "stID:studentID": create (studentID)
+":US16_EnrolAStudentInACourseEditionController" -> "stID:studentID": create (studentID)
 
-deactivate ":Controller"
+deactivate ":US16_EnrolAStudentInACourseEditionController"
 @enduml

@@ -4,10 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.StudentID;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class CourseEditionEnrolmentFactoryImpl implements ICourseEditionEnrolmentFactory {

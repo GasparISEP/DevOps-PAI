@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.service.IStudentGradeService;
+import PAI.service.studentGrade.IStudentGradeService;
 import org.springframework.stereotype.Component;
 
 @Component

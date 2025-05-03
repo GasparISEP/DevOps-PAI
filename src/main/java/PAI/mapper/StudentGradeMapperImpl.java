@@ -4,10 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.StudentGrade;
 import PAI.factory.IStudentGradeFactory;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
-import PAI.persistence.datamodel.StudentGradeDM;
-import PAI.persistence.datamodel.StudentGradeIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
+import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
