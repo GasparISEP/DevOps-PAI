@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.factory.IProgrammeFactory;
+import PAI.factory.programme.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.DegreeType.DegreeTypeIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;

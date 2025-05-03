@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.factory.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;

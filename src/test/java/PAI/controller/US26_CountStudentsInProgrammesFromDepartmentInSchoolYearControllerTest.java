@@ -9,6 +9,8 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.*;
+import PAI.factory.programme.IProgrammeFactory;
+import PAI.factory.programme.ProgrammeFactoryImpl;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;

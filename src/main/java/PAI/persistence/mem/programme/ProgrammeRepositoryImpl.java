@@ -1,7 +1,6 @@
 package PAI.persistence.mem.programme;
 
 import PAI.VOs.DepartmentID;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.repository.programmeRepository.IProgrammeRepository;

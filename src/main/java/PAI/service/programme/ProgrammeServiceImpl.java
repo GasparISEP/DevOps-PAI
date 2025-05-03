@@ -2,7 +2,7 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.factory.IProgrammeFactory;
+import PAI.factory.programme.IProgrammeFactory;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
