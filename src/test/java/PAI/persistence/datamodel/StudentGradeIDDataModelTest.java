@@ -1,6 +1,7 @@
 package PAI.persistence.datamodel;
 
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

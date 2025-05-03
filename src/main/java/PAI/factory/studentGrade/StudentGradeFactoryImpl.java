@@ -1,7 +1,8 @@
-package PAI.factory;
+package PAI.factory.studentGrade;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
+import PAI.factory.IStudentGradeFactory;
 import org.springframework.stereotype.Service;
 
 

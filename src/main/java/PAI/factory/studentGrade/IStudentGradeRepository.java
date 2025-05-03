@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.factory.studentGrade;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;

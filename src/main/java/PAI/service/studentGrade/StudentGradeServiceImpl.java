@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.studentGrade;
 
 import PAI.VOs.*;
 import PAI.domain.CourseEdition;
@@ -7,7 +7,7 @@ import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IStudentGradeFactory;
-import PAI.factory.IStudentGradeRepository;
+import PAI.factory.studentGrade.IStudentGradeRepository;
 import PAI.repository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;

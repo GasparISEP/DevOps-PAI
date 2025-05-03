@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.domain.StudentGrade;
-import PAI.persistence.datamodel.StudentGradeDM;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 
 public interface IStudentGradeMapper {
 

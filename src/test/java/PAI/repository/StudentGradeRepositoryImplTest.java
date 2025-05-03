@@ -3,7 +3,8 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.StudentGrade;
-import PAI.factory.IStudentGradeListFactory;
+import PAI.factory.studentGrade.IStudentGradeListFactory;
+import PAI.repository.studentGradeRepository.StudentGradeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

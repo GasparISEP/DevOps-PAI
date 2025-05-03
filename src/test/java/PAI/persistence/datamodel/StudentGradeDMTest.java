@@ -1,6 +1,8 @@
 package PAI.persistence.datamodel;
 
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
+import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

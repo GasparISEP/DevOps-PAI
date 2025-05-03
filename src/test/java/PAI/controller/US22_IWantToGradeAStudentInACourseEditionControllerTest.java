@@ -9,7 +9,7 @@ import PAI.VOs.StudentID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
-import PAI.service.IStudentGradeService;
+import PAI.service.studentGrade.IStudentGradeService;
 import org.junit.jupiter.api.Test;
 
 

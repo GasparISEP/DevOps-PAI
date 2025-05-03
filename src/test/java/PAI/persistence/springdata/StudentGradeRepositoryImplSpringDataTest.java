@@ -3,11 +3,12 @@ package PAI.persistence.springdata;
 
 import PAI.VOs.StudentGradeID;
 import PAI.domain.StudentGrade;
-import PAI.domain.course.Course;
 import PAI.mapper.IStudentGradeIDMapper;
 import PAI.mapper.IStudentGradeMapper;
-import PAI.persistence.datamodel.StudentGradeDM;
-import PAI.persistence.datamodel.StudentGradeIDDataModel;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
+import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
+import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
+import PAI.persistence.springdata.studentGrade.StudentGradeRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
