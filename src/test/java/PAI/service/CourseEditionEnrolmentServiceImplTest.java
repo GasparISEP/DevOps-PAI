@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 class CourseEditionEnrolmentServiceImplTest {
 
     //testing constructor
+
     @Test
     void shouldReturnExceptionIfCourseEditionEnrollmentFactoryIsNull() {
         //arrange
@@ -86,6 +87,7 @@ class CourseEditionEnrolmentServiceImplTest {
     }
 
     //testing find Programme Editions that Student is Enrolled Method
+
     @Test
     void shouldReturnEmptyListWhenStudentIsNull() {
         //arrange
@@ -144,7 +146,6 @@ class CourseEditionEnrolmentServiceImplTest {
 
         StudentID doubleStudentId = mock(StudentID.class);
 
-
         when(doublePeeRepositoryInterface.findProgrammeEditionsThatStudentIsEnrolled(doubleStudentId)).
                 thenReturn(List.of());
 
@@ -157,6 +158,7 @@ class CourseEditionEnrolmentServiceImplTest {
 
 
     //testing find Course Editions by Programme Edition Method
+
     @Test
     void shouldReturnAListOfCourseEditionsThatBelongsToAProgrammeEdition() {
         //arrange
@@ -181,8 +183,8 @@ class CourseEditionEnrolmentServiceImplTest {
         assertEquals(2, result.size());
     }
 
-
     //testing enroll a student in a course edition method
+
     @Test
     void shouldReturnTrueIfIsAValidCourseEditionEnrollment() throws Exception {
         //arrange
@@ -260,6 +262,7 @@ class CourseEditionEnrolmentServiceImplTest {
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
         StudentID doubleStudentID2 = mock(StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
+
         CourseEditionEnrolment doubleCEE1 = mock (CourseEditionEnrolment.class);
         CourseEditionEnrolment doubleCEE2 = mock (CourseEditionEnrolment.class);
 
@@ -294,6 +297,7 @@ class CourseEditionEnrolmentServiceImplTest {
         StudentID doubleStudentID1 = mock(StudentID.class);
         CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
+
         CourseEditionEnrolment doubleCEE1 = mock (CourseEditionEnrolment.class);
         CourseEditionEnrolment doubleCEE2 = mock (CourseEditionEnrolment.class);
 
@@ -327,6 +331,7 @@ class CourseEditionEnrolmentServiceImplTest {
 
         StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
+
         CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
 
         when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
@@ -345,7 +350,6 @@ class CourseEditionEnrolmentServiceImplTest {
     @Test
     void shouldReturnFalseIfStudentIDIsNull (){
         //arrange
-
         ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -366,7 +370,6 @@ class CourseEditionEnrolmentServiceImplTest {
     @Test
     void shouldReturnFalseIfCourseEditionIDIsNull (){
         //arrange
-
         ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
         ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
         IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
@@ -397,6 +400,7 @@ class CourseEditionEnrolmentServiceImplTest {
 
         StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
+
         CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
 
         when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
@@ -409,7 +413,6 @@ class CourseEditionEnrolmentServiceImplTest {
         //assert
         assertFalse(result);
     }
-
 
     @Test
     void shouldReturnFalseIfIsNotPossibleTheCreationOfCourseEditionEnrolment (){

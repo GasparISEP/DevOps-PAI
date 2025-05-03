@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel;
 
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,8 +28,8 @@ public class TeacherDataModel {
     @Embedded
     private AddressDataModel address;
 
-    @Column (name = "DepartmentAcronym", nullable = false)
-    private String departmentAcronym;
+    @Embedded
+    private DepartmentIDDataModel departmentIDDataModel;
 
     @Embedded
     private TeacherAcademicEmailDataModel academicEmail;
@@ -36,7 +37,7 @@ public class TeacherDataModel {
 
     public TeacherDataModel () {}
 
-    public TeacherDataModel (TeacherIDDataModel teacherId, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, String dptAcronym) {
+    public TeacherDataModel (TeacherIDDataModel teacherId, String name, String email, NIFDataModel nif, PhoneNumberDataModel phoneNumber, String academicBackground, AddressDataModel address, TeacherAcademicEmailDataModel teacherAcademicEmail, DepartmentIDDataModel departmentIDDataModel) {
 
         this.teacherId = teacherId;
         this.name = name;
@@ -46,7 +47,7 @@ public class TeacherDataModel {
         this.academicBackground = academicBackground;
         this.address = address;
         this.academicEmail = teacherAcademicEmail;
-        this.departmentAcronym = dptAcronym;
+        this.departmentIDDataModel = departmentIDDataModel;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
@@ -77,8 +78,8 @@ public class TeacherDataModel {
         return address;
     }
 
-    public String getDptAcronym() {
-        return departmentAcronym;
+    public DepartmentIDDataModel getDepartmentID() {
+        return departmentIDDataModel;
     }
 
     public TeacherAcademicEmailDataModel getTeacherAcademicEmail() {

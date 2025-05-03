@@ -3,7 +3,9 @@ package PAI.mapper;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.ITeacherFactory;
+import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.persistence.datamodel.*;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,10 +17,11 @@ public class TeacherMapperImpl implements ITeacherMapper {
     private IPhoneNumberMapper _PhoneNumberMapper;
     private IAddressMapper _addressMapper;
     private ITeacherAcademicEmailMapper _teacherAcademicEmailMapper;
+    private IDepartmentIDMapper _departmentIDMapper;
 
 
     public TeacherMapperImpl(ITeacherFactory teacherFactory, ITeacherIDMapper teacherIDMapper, INIFMapper inifMapper, IPhoneNumberMapper phoneNumberMapper,
-                         IAddressMapper addressMapper, ITeacherAcademicEmailMapper teacherAcademicEmailMapper) {
+                         IAddressMapper addressMapper, ITeacherAcademicEmailMapper teacherAcademicEmailMapper, IDepartmentIDMapper departmentIDMapper) {
 
         if (teacherFactory == null) {
             throw new IllegalArgumentException("TeacherFactory Mapper cannot be null.");
@@ -49,6 +52,11 @@ public class TeacherMapperImpl implements ITeacherMapper {
             throw new IllegalArgumentException("TeacherAcademicEmail Mapper cannot be null.");
         }
         _teacherAcademicEmailMapper = teacherAcademicEmailMapper;
+
+        if (departmentIDMapper == null)
+            throw new IllegalArgumentException("DepartmentIDMapper cannot be null.");
+
+        _departmentIDMapper = departmentIDMapper;
     }
 
     public TeacherDataModel toDataModel (Teacher teacher) {
@@ -72,11 +80,11 @@ public class TeacherMapperImpl implements ITeacherMapper {
 
         TeacherAcademicEmailDataModel teacherAcademicEmailDataModel = _teacherAcademicEmailMapper.toDataModel(teacher.getTeacherAcademicEmail());
 
-        String departmentAcronym = teacher.getDepartmentID().getAcronym().getAcronym();
+        DepartmentIDDataModel departmentIDDataModel = _departmentIDMapper.toDataModel(teacher.getDepartmentID());
 
         return new TeacherDataModel(teacherIDDataModel, name, email, nifDatamodel,
                 phoneNumberDataModel, academicBackground, addressDataModel,
-                teacherAcademicEmailDataModel, departmentAcronym);
+                teacherAcademicEmailDataModel, departmentIDDataModel);
     }
 
     public Teacher toDomain (TeacherDataModel teacherDataModel) {
@@ -104,8 +112,7 @@ public class TeacherMapperImpl implements ITeacherMapper {
         Location location = address.getLocation();
         Country country = address.getCountry();
 
-        DepartmentAcronym departmentAcronym = new DepartmentAcronym(teacherDataModel.getDptAcronym());
-        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        DepartmentID departmentID = _departmentIDMapper.toDomainModel(teacherDataModel.getDepartmentID());
 
         return _teacherFactory.createTeacher(teacherAcronym, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);

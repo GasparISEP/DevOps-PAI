@@ -110,6 +110,45 @@ class ProgrammeEditionEnrolmentIDMapperImplTest {
 
         assertFalse(result.isPresent());
     }
+
+    @Test
+    void shouldReturnEmptyWhenToDomainThrowsException() throws Exception {
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
+
+        ProgrammeEditionIdDataModel editionDM = mock(ProgrammeEditionIdDataModel.class);
+        StudentIDDataModel studentDM = mock(StudentIDDataModel.class);
+        ProgrammeEditionEnrolmentIDDataModel dataModel = mock(ProgrammeEditionEnrolmentIDDataModel.class);
+
+        when(dataModel.getProgrammeEditionIdDataModel()).thenReturn(editionDM);
+        when(dataModel.getStudentIdDataModel()).thenReturn(studentDM);
+        when(programmeEditionIdMapper.toDomain(editionDM)).thenThrow(new RuntimeException("Simulated failure"));
+
+        Optional<ProgrammeEditionEnrolmentID> result = mapper.toDomain(dataModel);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenToDataModelThrowsException() throws Exception {
+        IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        ProgrammeEditionEnrolmentIDMapperImpl mapper = new ProgrammeEditionEnrolmentIDMapperImpl(programmeEditionIdMapper, studentIDMapper);
+
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionEnrolmentID domain = mock(ProgrammeEditionEnrolmentID.class);
+
+        when(domain.getProgrammeEditionId()).thenReturn(editionID);
+        when(domain.getStudentiD()).thenReturn(studentID);
+        when(programmeEditionIdMapper.toDataModel(editionID)).thenThrow(new RuntimeException("Simulated failure"));
+
+        Optional<ProgrammeEditionEnrolmentIDDataModel> result = mapper.toDataModel(domain);
+
+        assertFalse(result.isPresent());
+    }
+
 }
 
 

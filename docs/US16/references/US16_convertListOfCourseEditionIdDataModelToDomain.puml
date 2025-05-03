@@ -15,12 +15,12 @@ participant ":ICourseEditionRepository" as ceRepository
 
 create ":ArrayList"
 
-ceRepository -> ":ArrayList": create
+ceRepository -> ":ArrayList": create ()
 loop for each courseEditionIDDataModel in List<CourseEditionIDDataModel>
 
-participant "ICourseEditionIDMapper" as ceIDMapper
+participant ":ICourseEditionIDMapper" as ceIDMapper
 
-ceRepository -> ceIDMapper: toDomain (courseEditionID)
+ceRepository -> ceIDMapper: toDomain (courseEditionIDDataModel)
 activate ceIDMapper #E1F5FE
 ceIDMapper --> ceRepository: courseEditionID
 deactivate ceIDMapper

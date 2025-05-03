@@ -23,7 +23,7 @@ activate UI
 UI --> HRC : What are the Teacher's attributes?
 |||
 deactivate UI
-HRC -> UI : acronym, name, email, NIF, phoneNumber, academicBackground, street, postalCode, location, country
+HRC -> UI : acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country
 activate UI
 UI -> controller : getCategoriesList()
 
@@ -67,14 +67,14 @@ deactivate addr
 
 IteacherFactory -> t** : new Teacher (teacherAcronym, name, email, nif, phoneNumber, \n academicBackground, addr1, departmentID)
 activate t
-t -> tID** : new TeacherID (teacherAcronym, NIF)
+t -> tID** : new TeacherID (teacherAcronym)
 activate tID
 tID --> t : t1ID
 deactivate tID
 t --> IteacherFactory : t1
 deactivate t
 IteacherFactory -> IteacherFactory : t1ID = t1.identity()
-IteacherFactory -> IteacherRepoJPA : existsByTeacherIdOrNif(TeacherID, NIF)
+IteacherFactory -> IteacherRepoJPA : existsByTeacherIdOrNif(t1ID, nif)
 
 activate IteacherRepoJPA
 |||

@@ -19,6 +19,8 @@ class CourseEditionEnrolmentDataModelTest {
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel();
     }
 
+    //testing the constructor with parameters
+
     @Test
     void shouldReturnACourseEditionEnrolmentDataModelWithAttributes() {
         //arrange
@@ -256,6 +258,5 @@ class CourseEditionEnrolmentDataModelTest {
         //Assert
         assertNotEquals(courseEditionEnrolmentDataModel2.hashCode(), result);
     }
-
 
 }

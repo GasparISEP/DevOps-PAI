@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table (name = "course_Edition_Enrolments")
+@Table (name = "Course_Edition_Enrolments")
 public class CourseEditionEnrolmentDataModel {
 
     @EmbeddedId

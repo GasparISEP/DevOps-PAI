@@ -33,33 +33,9 @@ participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolment
 CourseEditionEnrolmentService -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled \n (studentID)
 activate ProgrammeEditionEnrolmentRepository #E1F5FE
 
-participant ":IProgrammeEditionEnrolmentSpringDataJPA" as IPEESpringDataJPA
-ProgrammeEditionEnrolmentRepository -> IPEESpringDataJPA: findAll ()
-activate IPEESpringDataJPA #E1F5FE
-IPEESpringDataJPA --> ProgrammeEditionEnrolmentRepository: List<ProgrammeEditionEnrolmentDataModel>
-deactivate IPEESpringDataJPA
-
-create ":ArrayList"
-ProgrammeEditionEnrolmentRepository -> ":ArrayList": create ()
-
-loop for each peeDataModel in List<ProgrammeEditionEnrolmentDataModel>
-
 ref over ProgrammeEditionEnrolmentRepository
-    SD Convert ProgrammeEditionEnrolmentDataModel to Domain
+    SD findProgrammeEditionsThatStudentIsEnrolled Method
 end ref
-
-participant ":ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: findStudentInProgrammeEdition()
-activate ProgrammeEditionEnrolment #E1F5FE
-ProgrammeEditionEnrolmentRepository -> ProgrammeEditionEnrolment: isEnrolmentActive()
-ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentRepository: programmeEditionID
-deactivate ProgrammeEditionEnrolment #E1F5FE
-
-ProgrammeEditionEnrolmentRepository -> ":ArrayList": add (programmeEditionID)
-activate ":ArrayList" #E1F5FE
-":ArrayList" --> ProgrammeEditionEnrolmentRepository: True
-deactivate ":ArrayList" #E1F5FE
-end
 
 ProgrammeEditionEnrolmentRepository --> CourseEditionEnrolmentService: List<ProgrammeEditionID>
 deactivate ProgrammeEditionEnrolmentRepository
@@ -161,7 +137,7 @@ deactivate "cee:CourseEditionEnrolment"
 ' verify if already exists
 
 participant ":ICourseEditionEnrolmentRepository" as ICourseEditionEnrolmentRepository
-CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isStudentEnrolledInCourseEditionEnrolmentAlreadyExists (studentID, courseEditionID)
+CourseEditionEnrolmentService -> ICourseEditionEnrolmentRepository: isStudentEnrolledInCourseEdition (studentID, courseEditionID)
 activate ICourseEditionEnrolmentRepository #E1F5FE
 
 ref over ICourseEditionEnrolmentRepository
@@ -170,7 +146,7 @@ end ref
 
 participant ":ICourseEditionEnrolmentSpringDataJPA" as ceeJPAInterface
 
-ICourseEditionEnrolmentRepository -> ceeJPAInterface: existsById_StudentIDAndId_CourseEditionIDAndIsActiveTrue(studentIDDataModel, courseEditionIDDataModel)
+ICourseEditionEnrolmentRepository -> ceeJPAInterface: existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIDDataModel, courseEditionIDDataModel)
 activate ceeJPAInterface #E1F5FE
 ceeJPAInterface --> ICourseEditionEnrolmentRepository: False
 deactivate ceeJPAInterface

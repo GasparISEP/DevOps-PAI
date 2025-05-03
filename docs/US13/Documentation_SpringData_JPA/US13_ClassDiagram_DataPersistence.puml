@@ -6,98 +6,71 @@ skinparam nodesep 100
 
 
 interface IRepository {
-    save(entity : Entity);
-    findAll();
-    ofIdentity(ID id);
-    containsOfIdentity(ID id);
+    +save(entity : Entity);
+    +findAll();
+    +ofIdentity(ID id);
+    +containsOfIdentity(ID id);
 }
 
 '=== 1. CONTROLLER ==='
 class US13_RegisterTeacherAndRelevantDataController {
-  +getTeacherCategoryList()
-  +getDepartmentList()
-  +registerTeacher(...)
+    +getAllTeacherCategories() : Iterable<TeacherCategory>
+    +findAll : Iterable<Department>
+    +registerTeacher(...)
 }
 
 '=== 2. SERVICES ==='
 class TeacherCategoryServiceImpl {
-  +findAll(): List<TeacherCategory>
+    +getAllTeacherCategories()
 }
 
-interface ITeacherCategoryService
+interface ITeacherCategoryService {
+    +getAllTeacherCategories() : Iterable<TeacherCategory>
+}
 
 class DepartmentServiceImpl {
-  +findAll(): Set<Department>
+    +findAll() : Iterable<Department>
 }
 
-interface IDepartmentService
+interface IDepartmentService {
+    +findAll() : Iterable<Department>
+}
 
 class TeacherServiceImpl {
-  +registerTeacher(...): boolean
+    +registerTeacher(...) : boolean
+    +existsById(teacherID TeacherID) : boolean
 }
 
-interface ITeacherService
-
-'=== 3. REPOSITORY INTERFACES ==='
-interface ITeacherCategoryRepository {
-  +findAll(): List<TeacherCategory>
-}
-
-interface IDepartmentRepository {
-  +findAll(): Set<Department>
+interface ITeacherService {
+    +registerTeacher (...) : boolean
+    +existsById(teacherID TeacherID) : boolean
 }
 
 interface ITeacherRepository {
-  +registerTeacher(...): boolean
-  +containsOfIdentity(TeacherID): boolean
-  +existsByTeacherIdOrNif(...): boolean
+    +registerTeacher(...): boolean
+    +containsOfIdentity(TeacherID): boolean
+    +existsByTeacherIdOrNif(...): boolean
 }
 
 interface ITeacherRepositorySpringData {
+    +existsByTeacherIdOrNif(teacherID TeacherID, nif NIF)
 }
 
 interface JpaRepository {
 }
 
-
 interface ITeacherCareerProgressionRepository {
-  +saveTeacherCareerProgression(TeacherCareerProgression)
-}
-
-'=== 4. REPOSITORY IMPLEMENTATIONS ==='
-class TeacherCategoryRepositoryImpl {
-  +findAll(): List<TeacherCategory>
-}
-
-class DepartmentRepositoryImpl {
-  +findAll(): Set<Department>
+    +saveTeacherCareerProgression(TeacherCareerProgression)
 }
 
 class TeacherRepositorySpringDataImpl {
-  +save(Teacher)
-  +containsOfIdentity(TeacherID)
-  +existsByTeacherIdOrNif(TeacherID, NIF)
+    +save(Teacher)
+    +containsOfIdentity(TeacherID)
+    +existsByTeacherIdOrNif(TeacherID, NIF)
 }
 
-class TeacherCareerProgressionRepositoryImpl {
+class TeacherCareerProgressionRepositorySpringDataImpl {
   +saveTeacherCareerProgression(TeacherCareerProgression)
-}
-
-'=== 5. FACTORIES ==='
-interface ITeacherCategoryFactory {
-  +createTeacherCategory(Name): TeacherCategory
-}
-
-class TeacherCategoryFactoryImpl {
-  +createTeacherCategory(Name): TeacherCategory
-}
-
-interface IDepartmentFactory {
-  +createDepartment(Name): Department
-}
-
-class DepartmentFactoryImpl {
-  +createDepartment(Name): Department
 }
 
 interface ITeacherFactory {
@@ -105,11 +78,12 @@ interface ITeacherFactory {
 }
 
 class TeacherFactoryImpl {
-  +createTeacher(...): Teacher
+    +createAddress(...): Address
+    +createTeacher(...): Teacher
 }
 
 interface ITeacherCareerProgressionFactory {
-  +createTeacherCareerProgression(...): TeacherCareerProgression
+    +createTeacherCareerProgression(...): TeacherCareerProgression
 }
 
 class TeacherCareerProgressionFactoryImpl {
@@ -119,7 +93,16 @@ class TeacherCareerProgressionFactoryImpl {
 '=== 6. AGGREGATES ==='
 package "Teacher Aggregate" {
   class Teacher <<Root>> {
-
+  +identity() : TeacherID
+  -_teacherID : TeacherID
+  -_name : Name
+  -_email : Email
+  -_nif : NIF
+  -_phoneNumber : PhoneNumber
+  -_academicBackground : AcademicBackground
+  -_address : Address
+  -_departmentID : DepartmentID
+  -_teacherAcademicEmail : TeacherAcademicEmail
   }
 }
 
@@ -176,18 +159,10 @@ class TeacherAcademicEmailDataModel {
 
 '=== 7. VALUE OBJECTS ==='
 class TeacherID <<VO>> {
-
+ -_teacherAcronym : TeacherAcronym
 }
 
 class TeacherAcronym <<VO>> {
- -_acronym : String
-}
-
-class DepartmentID <<VO>> {
-
-}
-
-class Acronym <<VO>> {
  -_acronym : String
 }
 
@@ -237,11 +212,11 @@ class Date <<VO>> {
 }
 
 class DepartmentID <<VO>> {
-
+ -_acronym : DepartmentAcronym
 }
 
 class TeacherCategoryID <<VO>> {
-
+ -_categoryID : UUID
 }
 
 class Address <<VO>> {
@@ -249,9 +224,6 @@ class Address <<VO>> {
 }
 
 '=== 8. MAPPERS ==='
-class TeacherCategoryMapperImpl {
-  +toDomain(teacherCategoryDataModel)
-}
 
 class DepartmentMapperImpl {
   +toDomain(departmentDataModel)
@@ -302,20 +274,48 @@ class TeacherDataModel {
 }
 
 interface ITeacherMapper
+
 ITeacherMapper <|.. "1" TeacherMapperImpl : <<implements>>
-interface ITeacherCategoryMapper
-ITeacherCategoryMapper <|.. "1" TeacherCategoryMapperImpl : <<implements>>
-interface IDepartmentMapper
+
+interface IDepartmentMapper {
+    +toDomain(teacherIDDataModel : TeacherIDDataModel)
+    +toDataModel(teacherID : TeacherID)
+}
+
 IDepartmentMapper <|.. "1" DepartmentMapperImpl : <<implements>>
-interface ITeacherIDMapper
+
+interface ITeacherIDMapper {
+    +toDomain(teacherIDDataModel : TeacherIDDataModel)
+    +toDataModel(teacherID : TeacherID)
+}
+
 ITeacherIDMapper <|.. "1" TeacherIDMapperImpl : <<implements>>
-interface IAddressMapper
+
+interface IAddressMapper {
+    +toDomain(addressDataModel : AddressDataModel)
+    +toDataModel(address : Address)
+}
+
 IAddressMapper <|.. "1" AddressMapperImpl : <<implements>>
-interface ITeacherAcademicEmailMapper
+
+interface ITeacherAcademicEmailMapper {
+    +toDomain(teacherAcademicEmailDataModel : TeacherAcademicEmailDataModel)
+    +toDataModel(teacherAcademicEmail : TeacherAcademicEmail)
+}
+
 ITeacherAcademicEmailMapper <|.. "1" TeacherAcademicEmailMapperImpl : <<implements>>
-interface INIFMapper
+
+interface INIFMapper {
+    +toDomain(nifDataModel : NIFDataModel)
+    +toDataModel(nif : NIF)
+}
+
 INIFMapper <|.. "1" NIFMapperImpl : <<implements>>
-interface IPhoneNumberMapper
+
+interface IPhoneNumberMapper {
+    +toDomain(phoneNumberDataModel : PhoneNumberDataModel)
+    +toDataModel(phoneNumber : PhoneNumber)
+}
 IPhoneNumberMapper <|.. "1" PhoneNumberMapperImpl : <<implements>>
 
 '=== 9. CONNECTIONS WITH MULTIPLICITIES ==='
