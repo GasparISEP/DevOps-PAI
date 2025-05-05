@@ -8,6 +8,13 @@ skinparam nodesep 25
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
+skinparam classFontSize 14
+skinparam shadowing true
+skinparam rectangle {
+  RoundCorner 20
+}
+
+
 class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController {
     +US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsController(programmeEditionEnrolmentService: IProgrammeEditionEnrolmentService)
     +getAllProgrammesIDs(): List<ProgrammeID>
