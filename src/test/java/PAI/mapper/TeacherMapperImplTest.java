@@ -108,7 +108,8 @@ class TeacherMapperImplTest {
                 Arguments.of("nifMapperDouble"),
                 Arguments.of("phoneNumberMapperDouble"),
                 Arguments.of("addressMapperDouble"),
-                Arguments.of("teacherAcademicEmailMapperDouble")
+                Arguments.of("teacherAcademicEmailMapperDouble"),
+                Arguments.of("departmentIDMapper")
         );
     }
 

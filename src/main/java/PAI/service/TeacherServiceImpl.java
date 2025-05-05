@@ -2,7 +2,6 @@ package PAI.service;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.exception.TeacherAlreadyExistsException;
 import PAI.factory.ITeacherFactory;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
