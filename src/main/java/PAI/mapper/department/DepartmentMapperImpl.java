@@ -6,7 +6,7 @@ import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 
 import org.springframework.stereotype.Component;

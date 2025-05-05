@@ -3,7 +3,7 @@ package PAI.mapper.department;
 import PAI.VOs.*;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import org.junit.jupiter.api.Test;
 

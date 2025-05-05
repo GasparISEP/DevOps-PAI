@@ -1,11 +1,17 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.factory.ITeacherFactory;
+import PAI.factory.teacher.ITeacherFactory;
+import PAI.mapper.IAddressMapper;
+import PAI.mapper.INIFMapper;
+import PAI.mapper.IPhoneNumberMapper;
+import PAI.mapper.ITeacherAcademicEmailMapper;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.persistence.datamodel.*;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component

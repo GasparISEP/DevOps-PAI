@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import PAI.service.department.IDepartmentService;
 import org.springframework.stereotype.Component;
 

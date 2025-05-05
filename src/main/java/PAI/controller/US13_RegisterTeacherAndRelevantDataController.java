@@ -5,7 +5,7 @@ import PAI.domain.TeacherCategory;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

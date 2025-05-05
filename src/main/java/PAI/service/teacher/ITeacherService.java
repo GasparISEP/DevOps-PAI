@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;

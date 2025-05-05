@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.factory.teacher;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;

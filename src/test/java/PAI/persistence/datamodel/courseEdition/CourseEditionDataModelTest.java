@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;

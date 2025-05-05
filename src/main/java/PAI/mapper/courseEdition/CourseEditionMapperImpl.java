@@ -6,14 +6,12 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
-import PAI.mapper.ITeacherIDMapper;
+import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
-import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Component;
 
 @Component

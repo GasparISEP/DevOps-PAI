@@ -1,8 +1,8 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.teacher;
 
 import PAI.persistence.datamodel.NIFDataModel;
-import PAI.persistence.datamodel.TeacherDataModel;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

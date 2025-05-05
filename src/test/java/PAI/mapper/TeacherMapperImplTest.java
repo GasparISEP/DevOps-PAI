@@ -2,11 +2,15 @@ package PAI.mapper;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.factory.ITeacherFactory;
+import PAI.factory.teacher.ITeacherFactory;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.mapper.department.IDepartmentIDMapper;
+import PAI.mapper.teacher.ITeacherIDMapper;
+import PAI.mapper.teacher.TeacherMapperImpl;
 import PAI.persistence.datamodel.*;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,11 +1,13 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.mapper.*;
+import PAI.mapper.teacher.ITeacherIDMapper;
+import PAI.mapper.teacher.ITeacherMapper;
 import PAI.persistence.datamodel.NIFDataModel;
-import PAI.persistence.datamodel.TeacherDataModel;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Repository;
 

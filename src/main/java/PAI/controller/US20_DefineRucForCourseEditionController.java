@@ -5,7 +5,7 @@ import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
 import PAI.domain.Teacher;
 import PAI.service.courseEdition.ICourseEditionService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 
 import java.util.Objects;
 

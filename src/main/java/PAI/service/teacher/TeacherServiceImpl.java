@@ -1,8 +1,8 @@
-package PAI.service;
+package PAI.service.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.factory.ITeacherFactory;
+import PAI.factory.teacher.ITeacherFactory;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
 

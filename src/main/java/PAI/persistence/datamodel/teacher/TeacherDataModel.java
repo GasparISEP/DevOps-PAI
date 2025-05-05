@@ -1,5 +1,6 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.teacher;
 
+import PAI.persistence.datamodel.*;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import jakarta.persistence.*;
 

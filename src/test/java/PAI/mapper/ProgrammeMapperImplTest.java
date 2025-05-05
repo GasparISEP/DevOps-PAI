@@ -7,11 +7,12 @@ import PAI.mapper.DegreeType.DegreeTypeIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.programme.ProgrammeMapperImpl;
+import PAI.mapper.teacher.TeacherIDMapperImpl;
 import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
