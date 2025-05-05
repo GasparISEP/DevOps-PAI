@@ -1,5 +1,4 @@
-package PAI.factory;
-import PAI.domain.Department;
+package PAI.domain.department;
 import java.util.Set;
 
 public interface IDepartmentListFactory {

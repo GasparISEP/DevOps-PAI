@@ -1,9 +1,9 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.Department;
+import PAI.domain.department.*;
 import PAI.factory.*;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
-import PAI.persistence.mem.department.IDepartmentRepository;
+import PAI.domain.department.IDepartmentRepository;
 import PAI.repository.ITeacherRepository;
 import PAI.repository.TeacherRepositoryImpl;
 import PAI.service.ITeacherService;

@@ -1,7 +1,7 @@
  package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import PAI.domain.TeacherCategory;
 import PAI.factory.*;
 import PAI.persistence.springdata.TeacherCategoryRepositorySpringDataImpl;

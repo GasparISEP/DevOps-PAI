@@ -1,13 +1,10 @@
 package PAI.mapper.department;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
-import PAI.domain.Teacher;
-import PAI.factory.DepartmentFactoryImpl;
-import PAI.factory.IDepartmentFactory;
+import PAI.domain.department.Department;
+import PAI.domain.department.IDepartmentFactory;
 import PAI.persistence.datamodel.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
-import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

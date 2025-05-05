@@ -1,8 +1,8 @@
 package PAI.repository;
 import PAI.VOs.*;
-import PAI.domain.Department;
-import PAI.factory.IDepartmentFactory;
-import PAI.factory.IDepartmentListFactory;
+import PAI.domain.department.Department;
+import PAI.domain.department.IDepartmentFactory;
+import PAI.domain.department.IDepartmentListFactory;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.*;

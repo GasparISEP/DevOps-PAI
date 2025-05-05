@@ -1,8 +1,8 @@
 package PAI.controller;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
-import PAI.factory.DepartmentFactoryImpl;
-import PAI.factory.DepartmentListFactoryImpl;
+import PAI.domain.department.DepartmentFactoryImpl;
+import PAI.domain.department.DepartmentListFactoryImpl;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;

@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;

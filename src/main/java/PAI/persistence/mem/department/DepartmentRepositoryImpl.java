@@ -1,15 +1,16 @@
 package PAI.persistence.mem.department;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import PAI.factory.IDepartmentListFactory;
+import PAI.domain.department.IDepartmentListFactory;
+import PAI.domain.department.IDepartmentRepository;
 
-public class DepartmentRepositoryImpl implements IDepartmentRepository{
+public class DepartmentRepositoryImpl implements IDepartmentRepository {
 
     private final Set<Department> _departments;
 

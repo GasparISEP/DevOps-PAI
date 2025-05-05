@@ -1,5 +1,6 @@
 package PAI.domain;
 import PAI.VOs.*;
+import PAI.domain.department.Department;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

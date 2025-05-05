@@ -1,5 +1,6 @@
 package PAI.factory;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
+import PAI.domain.department.DepartmentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;

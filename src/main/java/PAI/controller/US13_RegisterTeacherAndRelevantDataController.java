@@ -1,8 +1,7 @@
 package PAI.controller;
 import PAI.VOs.*;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import PAI.domain.TeacherCategory;
-import PAI.repository.*;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
