@@ -5,7 +5,7 @@ import PAI.domain.Teacher;
 import PAI.domain.TeacherCategory;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.ITeacherCategoryService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

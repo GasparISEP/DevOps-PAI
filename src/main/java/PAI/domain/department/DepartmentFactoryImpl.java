@@ -1,8 +1,7 @@
-package PAI.factory;
+package PAI.domain.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
-import PAI.domain.Department;
 import org.springframework.stereotype.Component;
 
 @Component

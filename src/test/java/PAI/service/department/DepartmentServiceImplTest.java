@@ -4,9 +4,9 @@ import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherID;
-import PAI.domain.Department;
-import PAI.factory.IDepartmentFactory;
-import PAI.persistence.mem.department.IDepartmentRepository;
+import PAI.domain.department.Department;
+import PAI.domain.department.IDepartmentFactory;
+import PAI.domain.department.IDepartmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

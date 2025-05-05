@@ -2,7 +2,8 @@ package PAI.mapper;
 
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.mapper.teacher.TeacherIDMapperImpl;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

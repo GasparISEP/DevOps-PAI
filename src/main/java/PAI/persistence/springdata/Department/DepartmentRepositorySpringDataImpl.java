@@ -1,13 +1,13 @@
 package PAI.persistence.springdata.Department;
 import PAI.VOs.DepartmentID;
 
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.department.IDepartmentMapper;
 
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.persistence.mem.department.IDepartmentRepository;
+import PAI.domain.department.IDepartmentRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

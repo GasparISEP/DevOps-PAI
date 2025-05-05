@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Component;
 
 @Component

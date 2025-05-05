@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.factory.*;
+import PAI.factory.teacher.ITeacherListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

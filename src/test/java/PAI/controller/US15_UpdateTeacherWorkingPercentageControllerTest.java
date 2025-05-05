@@ -5,7 +5,7 @@ import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.Teacher;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

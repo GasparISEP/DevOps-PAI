@@ -1,7 +1,6 @@
 package PAI.mapper.department;
 
-import PAI.domain.Department;
-import PAI.factory.IDepartmentFactory;
+import PAI.domain.department.Department;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 
 public interface IDepartmentMapper {

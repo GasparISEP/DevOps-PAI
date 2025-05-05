@@ -1,8 +1,8 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component

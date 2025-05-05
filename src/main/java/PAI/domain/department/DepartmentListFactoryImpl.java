@@ -1,5 +1,5 @@
-package PAI.factory;
-import PAI.domain.Department;
+package PAI.domain.department;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,7 +1,7 @@
  package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import PAI.domain.TeacherCategory;
 import PAI.factory.*;
 import PAI.persistence.springdata.TeacherCategoryRepositorySpringDataImpl;
@@ -11,9 +11,9 @@ import PAI.service.*;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
-import PAI.service.ITeacherService;
+import PAI.service.teacher.ITeacherService;
 import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;
-import PAI.service.TeacherServiceImpl;
+import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;

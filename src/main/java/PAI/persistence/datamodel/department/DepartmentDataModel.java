@@ -1,5 +1,5 @@
 package PAI.persistence.datamodel.department;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import jakarta.persistence.*;
 
 import java.util.Objects;

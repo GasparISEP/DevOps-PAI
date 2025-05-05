@@ -2,10 +2,13 @@ package PAI.service;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.factory.ITeacherFactory;
-import PAI.factory.TeacherFactoryImpl;
-import PAI.persistence.springdata.TeacherRepositorySpringDataImpl;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.factory.teacher.ITeacherFactory;
+import PAI.factory.teacher.TeacherFactoryImpl;
+import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
 import PAI.repository.ITeacherRepository;
+import PAI.service.teacher.ITeacherService;
+import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -168,12 +171,14 @@ class TeacherServiceImplTest {
         when(teacherRepositoryDouble.existsByTeacherIdOrNif(teacherIDdouble, nifDouble)).thenReturn(true);
 
         // Act
-        Optional<TeacherID> result = teacherService.registerTeacher(
-                acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble);
+        Exception exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            teacherService.registerTeacher(
+                    acronymDouble, nameDouble, emailDouble, nifDouble, phoneNumberDouble, academicBackgroundDouble,
+                    streetDouble, postalCodeDouble, locationDouble, countryDouble, departmentIDDouble);
+        });
 
         // Assert
-        assertTrue(result.isEmpty());
+        assertEquals("Teacher with the provided Acronym or NIF is already registered.", exception.getMessage());
     }
 
     @Test

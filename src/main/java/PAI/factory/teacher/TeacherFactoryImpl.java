@@ -1,9 +1,8 @@
-package PAI.factory;
+package PAI.factory.teacher;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import PAI.exception.TeacherAlreadyExistsException;
 import org.springframework.stereotype.Component;
 
 

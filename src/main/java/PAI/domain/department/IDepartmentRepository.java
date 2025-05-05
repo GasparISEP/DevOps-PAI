@@ -1,7 +1,7 @@
-package PAI.persistence.mem.department;
+package PAI.domain.department;
 import PAI.VOs.DepartmentID;
 import PAI.ddd.IRepository;
-import PAI.domain.Department;
+
 import java.util.Optional;
 import java.util.Set;
 

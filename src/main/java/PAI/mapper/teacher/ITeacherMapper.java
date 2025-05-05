@@ -1,7 +1,7 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.domain.Teacher;
-import PAI.persistence.datamodel.TeacherDataModel;
+import PAI.persistence.datamodel.teacher.TeacherDataModel;
 
 public interface ITeacherMapper {
 

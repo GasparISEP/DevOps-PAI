@@ -1,7 +1,7 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.VOs.TeacherID;
-import PAI.persistence.datamodel.TeacherIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 
 public interface ITeacherIDMapper {
 

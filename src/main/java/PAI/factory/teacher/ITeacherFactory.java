@@ -1,9 +1,8 @@
-package PAI.factory;
+package PAI.factory.teacher;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
 import PAI.domain.*;
-import org.springframework.stereotype.Component;
 
 public interface ITeacherFactory {
     Teacher createTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,

@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.teacher;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

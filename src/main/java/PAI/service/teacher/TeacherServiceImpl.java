@@ -1,9 +1,9 @@
-package PAI.service;
+package PAI.service.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.exception.TeacherAlreadyExistsException;
-import PAI.factory.ITeacherFactory;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.factory.teacher.ITeacherFactory;
 import PAI.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class TeacherServiceImpl implements ITeacherService {
                 street, postalCode, location, country, departmentID);
 
         if (_teacherRepository.existsByTeacherIdOrNif(teacher.identity(), nif))
-            return Optional.empty();
+            throw new BusinessRuleViolationException("Teacher with the provided Acronym or NIF is already registered.");
 
         _teacherRepository.save(teacher);
 

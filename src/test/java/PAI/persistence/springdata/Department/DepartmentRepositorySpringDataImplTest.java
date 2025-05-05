@@ -1,7 +1,7 @@
 package PAI.persistence.springdata.Department;
 
 import PAI.VOs.*;
-import PAI.domain.Department;
+import PAI.domain.department.Department;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.department.DepartmentDataModel;

@@ -3,14 +3,14 @@ package PAI.mapper.programme;
 import PAI.factory.programme.IProgrammeFactory;
 import PAI.domain.programme.Programme;
 import PAI.mapper.DegreeType.DegreeTypeIDMapper;
-import PAI.mapper.TeacherIDMapperImpl;
+import PAI.mapper.teacher.TeacherIDMapperImpl;
 import PAI.mapper.department.DepartmentIDMapperImpl;
-import PAI.persistence.datamodel.*;
 import PAI.VOs.*;
 import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
