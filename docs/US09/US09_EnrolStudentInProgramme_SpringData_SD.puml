@@ -70,7 +70,7 @@ ProgrammeEnrolmentRepo -> PEIDMapper : toDomain(peIDDomain)
 activate PEIDMapper
 PEIDMapper -> ProgrammeEnrolmentRepo : peIDDataModel
 deactivate PEIDMapper
-ProgrammeEnrolmentRepo -> IPERepoSpringData : existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModel, programmeIDDataModel)
+ProgrammeEnrolmentRepo -> IPERepoSpringData : existsById(peIDDataModel)
 activate IPERepoSpringData
 IPERepoSpringData ->
 IPERepoSpringData <--

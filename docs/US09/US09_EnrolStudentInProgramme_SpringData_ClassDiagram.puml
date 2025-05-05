@@ -71,7 +71,7 @@ class ProgrammeEnrolmentDataModel {
 
 interface IProgrammeEnrolmentSpringDataRepository {
 +save(peDataModel: ProgrammeEnrolmentDataModel)
-+existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModel: StudentIDDataModel, programmeIDDataModel: ProgrammeIDDataModel)
++existsById(peIDDataModel: ProgrammeEnrolmentIDDataModel)
 }
 
 interface IProgrammeEnrolmentMapper {
