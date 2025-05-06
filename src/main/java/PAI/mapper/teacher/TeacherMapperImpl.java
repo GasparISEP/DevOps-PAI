@@ -68,7 +68,7 @@ public class TeacherMapperImpl implements ITeacherMapper {
     public TeacherDataModel toDataModel (Teacher teacher) {
 
         if(teacher == null) {
-            return null;
+            throw new IllegalArgumentException("Teacher cannot be null.");
         }
 
         TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(teacher.getTeacherID());
@@ -96,7 +96,7 @@ public class TeacherMapperImpl implements ITeacherMapper {
     public Teacher toDomain (TeacherDataModel teacherDataModel) {
 
         if (teacherDataModel == null) {
-            return null;
+            throw new IllegalArgumentException("Teacher Data Model cannot be null.");
         }
 
         TeacherID teacherID = _teacherIDMapper.toDomain(teacherDataModel.getTeacherIDDataModel());

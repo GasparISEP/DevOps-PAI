@@ -11,7 +11,7 @@ public class TeacherIDMapperImpl implements ITeacherIDMapper {
     public TeacherID toDomain (TeacherIDDataModel teacherIDDataModel) {
 
         if (teacherIDDataModel == null)
-            return null;
+            throw new IllegalArgumentException("TeacherID Data Model cannot be null.");
 
         String teacherAcronym = teacherIDDataModel.getTeacherAcronym();
         TeacherAcronym acronym = new TeacherAcronym(teacherAcronym);
@@ -22,7 +22,7 @@ public class TeacherIDMapperImpl implements ITeacherIDMapper {
     public TeacherIDDataModel toDataModel (TeacherID teacherID) {
 
         if (teacherID == null)
-            return null;
+            throw new IllegalArgumentException("TeacherID cannot be null.");
 
         TeacherAcronym teacherAcronym = teacherID.getTeacherAcronym();
 

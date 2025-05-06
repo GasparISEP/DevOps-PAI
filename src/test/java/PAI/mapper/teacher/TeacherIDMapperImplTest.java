@@ -1,8 +1,7 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.mapper.teacher.TeacherIDMapperImpl;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +23,10 @@ class TeacherIDMapperImplTest {
 
     @Test
     void toDomainShouldReturnNullWhenTeacherIDDataModelIsNull () {
-        // Act
-        TeacherID result = teacherIDMapper.toDomain(null);
+        // Arrange
 
-        // Assert
-        assertNull(result);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> teacherIDMapper.toDomain(null));
     }
 
     @Test
@@ -48,10 +46,10 @@ class TeacherIDMapperImplTest {
 
     @Test
     void toDataModelShouldReturnNullWhenTeacherIDIsNull () {
-        // Act
-        TeacherIDDataModel result = teacherIDMapper.toDataModel(null);
-        // Assert
-        assertNull(result);
+        // Arrange
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> teacherIDMapper.toDataModel(null));
     }
 
     @Test

@@ -1,12 +1,14 @@
-package PAI.mapper;
+package PAI.mapper.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
 import PAI.factory.teacher.ITeacherFactory;
+import PAI.mapper.IAddressMapper;
+import PAI.mapper.INIFMapper;
+import PAI.mapper.IPhoneNumberMapper;
+import PAI.mapper.ITeacherAcademicEmailMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.mapper.department.IDepartmentIDMapper;
-import PAI.mapper.teacher.ITeacherIDMapper;
-import PAI.mapper.teacher.TeacherMapperImpl;
 import PAI.persistence.datamodel.*;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.teacher.TeacherDataModel;
@@ -149,10 +151,11 @@ class TeacherMapperImplTest {
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         //Act
-        TeacherDataModel result = teacherMapper.toDataModel(null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> teacherMapper.toDataModel(null));
 
         //Assert
-        assertNull(result);
+        assertEquals("Teacher cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -186,17 +189,18 @@ class TeacherMapperImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenProvidedTeacherDataModelIsNull() {
+    void shouldThrowIllegalArgumentExceptionWhenProvidedTeacherDataModelIsNull() {
         //Arrange
         createMapperDoubles();
         TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
                 _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
         //Act
-        Teacher result = teacherMapper.toDomain(null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> teacherMapper.toDomain(null));
 
         //Assert
-        assertNull(result);
+        assertEquals("Teacher Data Model cannot be null.", exception.getMessage());
     }
 
     @Test
