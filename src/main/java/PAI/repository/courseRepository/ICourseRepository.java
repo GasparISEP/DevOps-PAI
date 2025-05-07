@@ -10,5 +10,5 @@ public interface ICourseRepository extends IRepository<CourseID, Course> {
 
     boolean existsCourseByAcronym(Acronym courseAcronym);
 
-    boolean existsCourseByName(Name courseName);
+    boolean existsCourseIgnoringCaseByName(Name courseName);
 }
