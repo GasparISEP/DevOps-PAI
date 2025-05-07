@@ -66,12 +66,12 @@ public class CourseRepositoryImpl implements ICourseRepository {
     }
 
     @Override
-    public boolean existsCourseByName(Name courseName) {
+    public boolean existsCourseIgnoringCaseByName(Name courseName) {
         if(courseName == null) {
             return false;
         }
         for (Course course : courseList) {
-            if (course.identity().getName().equals(courseName)) {
+            if (course.identity().getName().getName().equalsIgnoreCase(courseName.getName())) {
                 return true;
             }
         }

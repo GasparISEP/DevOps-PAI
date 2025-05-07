@@ -2,6 +2,7 @@ package PAI.persistence.mem.courseRepository;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
+import PAI.repository.courseRepository.ICourseRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ class CourseRepositoryImplTest {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactoryDouble = mock(ICourseRepositoryListFactory.class);
         // act
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
         // assert
         assertNotNull(courseRepositoryImpl);
     }
@@ -36,7 +37,7 @@ class CourseRepositoryImplTest {
     void shouldGetAllCoursesInRepository(){
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactoryDouble = mock(ICourseRepositoryListFactory.class);
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
         // act
         Iterable<Course> list = courseRepositoryImpl.findAll();
         // assert
@@ -44,11 +45,11 @@ class CourseRepositoryImplTest {
     }
 
     @Test
-    void shouldReturnCourseDDDIfCourseDDDSavedInRepository(){
+    void shouldReturnCourseDDDIfCourseDDDSavedInRepository() throws Exception {
         // arrange
         Course course = mock(Course.class);
         ICourseRepositoryListFactory iCourseRepositoryListFactoryDouble = mock(ICourseRepositoryListFactory.class);
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactoryDouble);
         // act
         Course result = courseRepositoryImpl.save(course);
         // assert
@@ -56,7 +57,7 @@ class CourseRepositoryImplTest {
     }
 
     @Test
-    void shouldReturnNullIfCourseIDAlreadyExistsInRepository() {
+    void shouldReturnNullIfCourseIDAlreadyExistsInRepository() throws Exception {
         // arrange
         CourseID courseID = mock(CourseID.class);
         Course course = mock(Course.class);
@@ -68,7 +69,7 @@ class CourseRepositoryImplTest {
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
         when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
 
-        CourseRepositoryImpl repository = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository repository = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         // act
         Course result = repository.save(course);
@@ -82,7 +83,7 @@ class CourseRepositoryImplTest {
     void shouldThrowExceptionIfInputIsNull(){
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(CourseRepositoryListFactoryImpl.class);
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> courseRepositoryImpl.save(null));
 
@@ -104,7 +105,7 @@ class CourseRepositoryImplTest {
         when(stream.filter(any())).thenReturn(filteredStream);
         when(filteredStream.findFirst()).thenReturn(Optional.of(course));
 
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         // act
         Optional<Course> result = courseRepositoryImpl.ofIdentity(courseID);
@@ -118,7 +119,7 @@ class CourseRepositoryImplTest {
     void shouldReturnOptionalEmptyIfCourseIdNull() {
         // arrange
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(CourseRepositoryListFactoryImpl.class);
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
         // act
         Optional<Course> result = courseRepositoryImpl.ofIdentity(null);
         // assert
@@ -130,7 +131,7 @@ class CourseRepositoryImplTest {
         // arrange
         CourseID courseID = mock(CourseID.class);
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(CourseRepositoryListFactoryImpl.class);
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
         // act
         Optional<Course> result = courseRepositoryImpl.ofIdentity(courseID);
         // assert
@@ -144,7 +145,7 @@ class CourseRepositoryImplTest {
         Course course = mock(Course.class);
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(CourseRepositoryListFactoryImpl.class);
 
-        CourseRepositoryImpl courseRepositoryImpl = spy(new CourseRepositoryImpl(iCourseRepositoryListFactory));
+        ICourseRepository courseRepositoryImpl = spy(new CourseRepositoryImpl(iCourseRepositoryListFactory));
 
         when(courseRepositoryImpl.ofIdentity(courseID)).thenReturn(Optional.of(course));
 
@@ -161,7 +162,7 @@ class CourseRepositoryImplTest {
         CourseID courseID = mock(CourseID.class);
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(CourseRepositoryListFactoryImpl.class);
 
-        CourseRepositoryImpl courseRepositoryImpl = spy(new CourseRepositoryImpl(iCourseRepositoryListFactory));
+        ICourseRepository courseRepositoryImpl = spy(new CourseRepositoryImpl(iCourseRepositoryListFactory));
         when(courseRepositoryImpl.ofIdentity(courseID)).thenReturn(Optional.empty());
 
         // act
@@ -186,7 +187,7 @@ class CourseRepositoryImplTest {
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
         when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
 
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         list.add(courseDouble);
 
@@ -213,7 +214,7 @@ class CourseRepositoryImplTest {
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
         when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
 
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         list.add(courseDouble);
 
@@ -227,7 +228,7 @@ class CourseRepositoryImplTest {
     @Test
     void shouldReturnFalseIfCourseAcronymIsNull() {
         // arrange
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(mock(ICourseRepositoryListFactory.class));
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(mock(ICourseRepositoryListFactory.class));
 
         // act
         boolean result = courseRepositoryImpl.existsCourseByAcronym(null);
@@ -250,12 +251,37 @@ class CourseRepositoryImplTest {
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
         when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
 
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepository = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         list.add(courseDouble);
 
         // act
-        boolean result = courseRepositoryImpl.existsCourseByName(courseName);
+        boolean result = courseRepository.existsCourseIgnoringCaseByName(courseName);
+
+        // assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfCourseNameExistsInRepositoryIgnoringCase() {
+        // arrange
+        Name courseName = new Name("SOFTWARE ENGINEERING II");
+        Course courseDouble = mock(Course.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseDouble.identity()).thenReturn(courseIDDouble);
+        when(courseIDDouble.getName()).thenReturn(courseName);
+
+        List<Course> list = new ArrayList<>();
+
+        ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
+        when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
+
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+
+        list.add(courseDouble);
+
+        // act
+        boolean result = courseRepositoryImpl.existsCourseIgnoringCaseByName(new Name("Software Engineering Ii"));
 
         // assert
         assertTrue(result);
@@ -265,7 +291,8 @@ class CourseRepositoryImplTest {
     void shouldReturnFalseIfCourseNameDoesNotExistInRepository() {
         // arrange
         Name courseName = mock(Name.class);
-        Name courseName2 = new Name("Software Engineering");
+        when(courseName.getName()).thenReturn("Software Engineering II");
+        Name courseName2 = new Name("Software Engineering I");
 
         Course courseDouble = mock(Course.class);
         CourseID courseIDDouble = mock(CourseID.class);
@@ -277,12 +304,12 @@ class CourseRepositoryImplTest {
         ICourseRepositoryListFactory iCourseRepositoryListFactory = mock(ICourseRepositoryListFactory.class);
         when(iCourseRepositoryListFactory.createCourseRepositoryList()).thenReturn(list);
 
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(iCourseRepositoryListFactory);
 
         list.add(courseDouble);
 
         // act
-        boolean result = courseRepositoryImpl.existsCourseByName(courseName2);
+        boolean result = courseRepositoryImpl.existsCourseIgnoringCaseByName(courseName2);
 
         // assert
         assertFalse(result);
@@ -291,10 +318,10 @@ class CourseRepositoryImplTest {
     @Test
     void shouldReturnFalseIfCourseNameIsNull() {
         // arrange
-        CourseRepositoryImpl courseRepositoryImpl = new CourseRepositoryImpl(mock(ICourseRepositoryListFactory.class));
+        ICourseRepository courseRepositoryImpl = new CourseRepositoryImpl(mock(ICourseRepositoryListFactory.class));
 
         // act
-        boolean result = courseRepositoryImpl.existsCourseByName(null);
+        boolean result = courseRepositoryImpl.existsCourseIgnoringCaseByName(null);
 
         // assert
         assertFalse(result);
