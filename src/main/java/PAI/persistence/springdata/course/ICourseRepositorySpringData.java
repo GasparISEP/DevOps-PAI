@@ -8,6 +8,6 @@ public interface ICourseRepositorySpringData extends JpaRepository<CourseDataMod
 
     boolean existsByAcronym(String courseAcronym);
 
-    boolean existsByName(String courseName);
+    boolean existsByNameIgnoreCase(String courseName);
 
 }
