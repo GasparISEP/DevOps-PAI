@@ -33,7 +33,7 @@ public class CourseServiceImpl implements ICourseService {
     public Course createAndSaveCourse (Name name, Acronym acronym) throws Exception {
         Course course = this.courseFactory.createCourse(name, acronym);
 
-        if (courseRepository.existsCourseByName(name)) {
+        if (courseRepository.existsCourseIgnoringCaseByName(name)) {
             throw new BusinessRuleViolationException("A course with this name already exists.");
         }
 

@@ -170,7 +170,7 @@ class CourseServiceImplTest {
         Course course = mock(Course.class);
 
         when(factory.createCourse(name, acronym)).thenReturn(course);
-        when(repository.existsCourseByName(name)).thenReturn(true);
+        when(repository.existsCourseIgnoringCaseByName(name)).thenReturn(true);
 
         // Act + Assert
         assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveCourse(name, acronym));
