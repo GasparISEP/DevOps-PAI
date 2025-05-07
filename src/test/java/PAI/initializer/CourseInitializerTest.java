@@ -2,7 +2,6 @@ package PAI.initializer;
 
 import PAI.VOs.Acronym;
 import PAI.VOs.Name;
-import PAI.controller.US02_ConfigureAccessMethodController;
 import PAI.domain.course.Course;
 import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,16 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class CourseInitializerTest {
@@ -75,6 +65,10 @@ class CourseInitializerTest {
         verify(courseService).createAndSaveCourse(new Name("Transfiguration II"), new Acronym("TRN2"));
         verify(courseService).createAndSaveCourse(new Name("Transfiguration III"), new Acronym("TRN3"));
         verify(courseService).createAndSaveCourse(new Name("Transfiguration IV"), new Acronym("TRN4"));
+        //CAPITALIZED DUPLICATE NAME TEST
+        verify(courseService).createAndSaveCourse(new Name("TRANSFIGURATION IV"), new Acronym("TRN5"));
+        //ACRONYM DUPLICATE TEST
+        verify(courseService).createAndSaveCourse(new Name("Transfiguration V"), new Acronym("TRN4"));
     }
 
     @Test
@@ -84,6 +78,6 @@ class CourseInitializerTest {
 
         initializer.init();
 
-        verify(courseService, times(30)).createAndSaveCourse(any(Name.class), any(Acronym.class));
+        verify(courseService, times(32)).createAndSaveCourse(any(Name.class), any(Acronym.class));
     }
 }
