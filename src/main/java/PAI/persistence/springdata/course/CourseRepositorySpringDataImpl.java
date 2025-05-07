@@ -86,18 +86,18 @@ public class CourseRepositorySpringDataImpl implements ICourseRepository {
     }
 
     @Override
-    public boolean existsCourseByName(Name courseName) {
-        if (courseName == null) {
-            return false;
-        }
-        return _iCourseRepository.existsByName(courseName.getName());
-    }
-
-    @Override
     public boolean existsCourseByAcronym(Acronym courseAcronym) {
         if (courseAcronym == null) {
             return false;
         }
         return _iCourseRepository.existsByAcronym(courseAcronym.getAcronym());
+    }
+
+    @Override
+    public boolean existsCourseIgnoringCaseByName(Name courseName) {
+        if (courseName == null) {
+            return false;
+        }
+        return _iCourseRepository.existsByNameIgnoreCase(courseName.getName());
     }
 }
