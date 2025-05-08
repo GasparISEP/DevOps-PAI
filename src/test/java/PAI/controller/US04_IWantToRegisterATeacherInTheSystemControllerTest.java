@@ -23,7 +23,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     //arrange
     private ITeacherService _iTeacherServiceDouble;
     private DepartmentServiceImpl _departmentServiceDouble;
-    private TeacherAcronym _teacherAcronymDouble;
+    private TeacherID _teacherIDDouble;
     private Name _nameDouble;
     private Email _emailDouble;
     private NIF _nifDouble;
@@ -42,7 +42,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     }
 
     void createTeacherArgumentDoubles() {
-        _teacherAcronymDouble = mock(TeacherAcronym.class);
+        _teacherIDDouble = mock(TeacherID.class);
         _nameDouble = mock(Name.class);
         _emailDouble = mock(Email.class);
         _nifDouble = mock(NIF.class);
@@ -103,7 +103,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
         //act
         boolean result = controller.registerATeacherInTheSystem(
-                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
+                _teacherIDDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
         );
         //assert
         assertTrue(result);
@@ -122,7 +122,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
 
         //act
         boolean result = controller.registerATeacherInTheSystem(
-                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
+                _teacherIDDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble, _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble, _departmentIDDouble
         );//assert
         assertFalse(result);
     }
@@ -154,7 +154,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnTrueIfTeacherIsRegisteredWithSuccess_integrationTest() throws Exception {
         //Arrange
-        TeacherAcronym teacherAcronym = createTeacherAcronym();
+        TeacherID teacherID = createTeacherID();
         DepartmentID departmentID= createDepartmentID();
         Name name = new Name("John Doe");
         Email email = new Email("john@doe.com");
@@ -170,7 +170,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         IDepartmentService departmentServiceDouble = createDepartmentService();
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherService, departmentServiceDouble);
         //Act
-        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
+        boolean result = controller.registerATeacherInTheSystem(teacherID,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         //Assert
         assertTrue(result);
     }
@@ -179,7 +179,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
     @Test
     void shouldReturnFalseIfInvalidDepartment_integrationTest() throws Exception {
 
-        TeacherAcronym teacherAcronym = createTeacherAcronym();
+        TeacherID teacherID = createTeacherID();
         DepartmentID departmentID= createOtherDepartmentID();
         Name name = new Name("John Doe");
         Email email = new Email("john@doe.com");
@@ -195,7 +195,7 @@ class US04_IWantToRegisterATeacherInTheSystemControllerTest {
         IDepartmentService departmentServiceDouble = createDepartmentService();
         US04_IWantToRegisterATeacherInTheSystemController controller = new US04_IWantToRegisterATeacherInTheSystemController(teacherService, departmentServiceDouble);
         //Act
-        boolean result = controller.registerATeacherInTheSystem(teacherAcronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
+        boolean result = controller.registerATeacherInTheSystem(teacherID,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         //Assert
         assertFalse(result);
     }

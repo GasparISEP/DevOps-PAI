@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 class TeacherTest {
 
     private TeacherAcronym _teacherAcronymDouble;
+    private TeacherID _teacherIDDouble;
     private Name _nameDouble;
     private Email _emailDouble;
     private NIF _nifDouble;
@@ -25,6 +26,8 @@ class TeacherTest {
 
     private void createDoubles (){
         _teacherAcronymDouble = mock(TeacherAcronym.class);
+        _teacherIDDouble = mock(TeacherID.class);
+        when(_teacherIDDouble.getTeacherAcronym()).thenReturn(_teacherAcronymDouble);
         _nameDouble = mock(Name.class);
         _emailDouble = mock(Email.class);
         _nifDouble = mock(NIF.class);
@@ -40,7 +43,7 @@ class TeacherTest {
         createDoubles();
 
         // Act
-        new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Assert
@@ -65,7 +68,7 @@ class TeacherTest {
 
         // Make each field at a time Null
         switch (nullField) {
-            case "Acronym" -> _teacherAcronymDouble = null;
+            case "Acronym" -> _teacherIDDouble = null;
             case "Name" -> _nameDouble = null;
             case "Email" -> _emailDouble = null;
             case "NIF" -> _nifDouble = null;
@@ -76,7 +79,7 @@ class TeacherTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+            new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                     _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
             );
         });
@@ -87,21 +90,21 @@ class TeacherTest {
         // Arrange
         createDoubles();
 
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
         TeacherID result = teacher.identity();
 
         // Assert
-        assertEquals(result.getTeacherAcronym(), _teacherAcronymDouble);
+        assertEquals(result, _teacherIDDouble);
     }
 
     @Test
     public void shouldReturnTrueWhenComparingTheSameObject() {
         // Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
@@ -115,7 +118,7 @@ class TeacherTest {
     public void shouldReturnFalseWhenSameAsIsCalledWithNullValue() {
         // Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
@@ -129,7 +132,7 @@ class TeacherTest {
     public void shouldReturnFalseWhenSameAsIsCalledWithADifferentClass() {
         // Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
         Object otherDouble = mock(Object.class);
 
@@ -145,10 +148,10 @@ class TeacherTest {
         // Arrange
         createDoubles();
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
-        Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher2 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
@@ -162,10 +165,10 @@ class TeacherTest {
     public void shouldReturnTrueWhenSameAsIsCalledWithSameNif() {
         // Arrange
         createDoubles();
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
-        Teacher teacher2 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher2 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
@@ -179,13 +182,15 @@ class TeacherTest {
     public void shouldReturnFalseWhenSameAsIsCalledWithDifferentTeacherIDAndNif() {
         // Arrange
         createDoubles();
-        TeacherAcronym acronymDouble2 = mock(TeacherAcronym.class);
+        TeacherAcronym teacherAcronymDouble2 = mock(TeacherAcronym.class);
+        TeacherID teacherIDDouble2 = mock(TeacherID.class);
+        when(teacherIDDouble2.getTeacherAcronym()).thenReturn(teacherAcronymDouble2);
         NIF nifDouble2 = mock(NIF.class);
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
-        Teacher teacher2 = new Teacher(acronymDouble2, _nameDouble, _emailDouble, nifDouble2,
+        Teacher teacher2 = new Teacher(teacherIDDouble2, _nameDouble, _emailDouble, nifDouble2,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble);
 
         // Act
@@ -201,7 +206,7 @@ class TeacherTest {
         createDoubles();
         NIF nifDouble2 = mock(NIF.class);
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -221,7 +226,7 @@ class TeacherTest {
         createDoubles();
         NIF nifDouble2 = mock(NIF.class);
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -241,7 +246,7 @@ class TeacherTest {
 
         createDoubles();
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -260,7 +265,7 @@ class TeacherTest {
 
         DepartmentID departmentIDDouble2 = mock(DepartmentID.class);
 
-        Teacher teacher1 = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher1 = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -275,7 +280,7 @@ class TeacherTest {
     void shouldReturnTeacherIDThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -283,14 +288,14 @@ class TeacherTest {
         TeacherID result = teacher.getTeacherID();
 
         //Assert
-        assertEquals(_teacherAcronymDouble, result.getTeacherAcronym());
+        assertEquals(_teacherIDDouble, result);
     }
 
     @Test
     void shouldReturnNameThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -305,7 +310,7 @@ class TeacherTest {
     void shouldReturnEmailThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -320,7 +325,7 @@ class TeacherTest {
     void shouldReturnNIFThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -335,7 +340,7 @@ class TeacherTest {
     void shouldReturnPhoneNumberThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -350,7 +355,7 @@ class TeacherTest {
     void shouldReturnAcademicBackgroundThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -365,7 +370,7 @@ class TeacherTest {
     void shouldReturnAddressThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -380,7 +385,7 @@ class TeacherTest {
     void shouldReturnDepartmentIDThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
 
@@ -395,10 +400,14 @@ class TeacherTest {
     void shouldReturnTeacherAcademicEmailThroughGetter() {
         //Arrange
         createDoubles();
-        Teacher teacher = new Teacher(_teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble,
+        TeacherAcronym teacherAcronymDouble = mock(TeacherAcronym.class);
+        Teacher teacher = new Teacher(_teacherIDDouble, _nameDouble, _emailDouble, _nifDouble,
                 _phoneNumberDouble, _academicBackgroundDouble, _addressDouble, _departmentIDDouble
         );
-        TeacherAcademicEmail teacherAcademicEmail = new TeacherAcademicEmail(_teacherAcronymDouble);
+
+        when(_teacherIDDouble.getTeacherAcronym()).thenReturn(teacherAcronymDouble);
+
+        TeacherAcademicEmail teacherAcademicEmail = new TeacherAcademicEmail(_teacherIDDouble.getTeacherAcronym());
 
         //Act
         TeacherAcademicEmail result = teacher.getTeacherAcademicEmail();

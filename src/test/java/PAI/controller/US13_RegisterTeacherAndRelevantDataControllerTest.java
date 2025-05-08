@@ -157,7 +157,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
         TeacherID teacherID = mock(TeacherID.class);
         Optional<TeacherID> optionalTeacherID = Optional.of(teacherID);
 
-        when(_teacherServiceDouble.registerTeacher(any(TeacherAcronym.class), any(Name.class), any(Email.class),
+        when(_teacherServiceDouble.registerTeacher(any(TeacherID.class), any(Name.class), any(Email.class),
                 any(NIF.class), any(PhoneNumber.class), any(AcademicBackground.class), any(Street.class),
                 any(PostalCode.class), any(Location.class), any(Country.class), any(DepartmentID.class))).thenReturn(optionalTeacherID);
 
@@ -182,7 +182,7 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
 
         Optional<TeacherID> optionalEmpty = Optional.empty();
 
-        when(_teacherServiceDouble.registerTeacher(any(TeacherAcronym.class), any(Name.class), any(Email.class),
+        when(_teacherServiceDouble.registerTeacher(any(TeacherID.class), any(Name.class), any(Email.class),
                 any(NIF.class), any(PhoneNumber.class), any(AcademicBackground.class), any(Street.class),
                 any(PostalCode.class), any(Location.class), any(Country.class), any(DepartmentID.class))).thenReturn(optionalEmpty);
 

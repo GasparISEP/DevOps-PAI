@@ -23,7 +23,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
     }
 
     public boolean registerATeacherInTheSystem(
-            TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+            TeacherID teacherID, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
             Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) throws Exception {
 
         if(!isDepartmentInDepartmentRepository(departmentID)){
@@ -31,7 +31,7 @@ public class US04_IWantToRegisterATeacherInTheSystemController {
         }
 
         _teacherService.registerTeacher(
-                 acronym,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
+                 teacherID,  name,  email,  nif,  phoneNumber,  academicBackground,street, postalCode,  location,  country,  departmentID);
         return true;
     }
 

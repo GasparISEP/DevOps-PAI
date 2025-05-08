@@ -67,7 +67,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
 
         // register Teacher
-        Optional<TeacherID> optionalTeacherID = _teacherService.registerTeacher(vo.teacherAcronym, vo.name, vo.email,
+        Optional<TeacherID> optionalTeacherID = _teacherService.registerTeacher(vo.teacherID, vo.name, vo.email,
                 vo.nif, vo.phoneNumber, vo.academicBackground, vo.street, vo.postalCode, vo.location, vo.country, vo.departmentID);
 
         if (optionalTeacherID.isEmpty()) {
@@ -84,7 +84,7 @@ public class US13_RegisterTeacherAndRelevantDataController {
 
 
     // Records variable as TeacherInput
-    private record TeacherVOs(TeacherAcronym teacherAcronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber,
+    private record TeacherVOs(TeacherID teacherID, Name name, Email email, NIF nif, PhoneNumber phoneNumber,
             AcademicBackground academicBackground, Street street, PostalCode postalCode, Location location,
             Country country, DepartmentID departmentID, Date Date, TeacherCategoryID teacherCategoryID,
             WorkingPercentage workingPercentage
@@ -95,11 +95,12 @@ public class US13_RegisterTeacherAndRelevantDataController {
            String academicBackground, String street, String postalCode, String location, String country,
            String departmentAcronym, String date, String teacherCategoryID, int workingPercentage, String countryCode) {
 
+        TeacherAcronym teacherAcronymVO = new TeacherAcronym(teacherAcronym);
         Country countryVO = new Country(country);
         DepartmentAcronym departmentAcronymVO = new DepartmentAcronym(departmentAcronym);
         UUID teacherCategoriID_UUID = UUID.fromString(teacherCategoryID);
         return new TeacherVOs(
-                new TeacherAcronym(teacherAcronym),
+                new TeacherID(teacherAcronymVO),
                 new Name(name),
                 new Email(email),
                 new NIF(nif, countryVO),

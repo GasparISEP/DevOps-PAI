@@ -237,7 +237,7 @@ class TeacherMapperImplTest {
 
         Teacher expectedTeacher = mock(Teacher.class);
 
-        when(_teacherFactoryDouble.createTeacher(eq(_teacherAcronymDouble), any(Name.class), any(Email.class), eq(_nifDouble),
+        when(_teacherFactoryDouble.createTeacher(eq(_teacherIDDouble), any(Name.class), any(Email.class), eq(_nifDouble),
                 eq(_phoneNumberDouble), any(AcademicBackground.class), eq(_streetDouble), eq(_postalCodeDouble),
                 eq(_locationDouble), eq(_countryDouble), eq(_departmentIDDouble))).thenReturn(expectedTeacher);
 

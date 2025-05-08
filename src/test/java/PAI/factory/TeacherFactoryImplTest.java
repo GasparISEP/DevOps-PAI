@@ -20,6 +20,7 @@ class TeacherFactoryImplTest {
 
     // Arrange
     private TeacherAcronym _teacherAcronymDouble;
+    private TeacherID _teacherIDDouble;
     private Name _nameDouble;
     private Email _emailDouble;
     private NIF _nifDouble;
@@ -31,8 +32,10 @@ class TeacherFactoryImplTest {
     private PAI.VOs.Location _locationDouble;
     private Country _countryDouble;
 
-    private void createTeacherAndArgumentsDouble (){
+    private void createTeacherAndArgumentsDouble () {
         _teacherAcronymDouble = mock(TeacherAcronym.class);
+        _teacherIDDouble = mock(TeacherID.class);
+        when(_teacherIDDouble.getTeacherAcronym()).thenReturn(_teacherAcronymDouble);
         _nameDouble = mock(Name.class);
         _emailDouble = mock(Email.class);
         _nifDouble = mock(NIF.class);
@@ -56,7 +59,7 @@ class TeacherFactoryImplTest {
 
             // Act
             Teacher result = teacherFactory.createTeacher(
-                    _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
+                    _teacherIDDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
                     _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble, _countryDouble,
                     _departmentIDDouble);
 
@@ -95,7 +98,7 @@ class TeacherFactoryImplTest {
 
         // Make each field null
         switch (nullField) {
-            case "Acronym" -> _teacherAcronymDouble = null;
+            case "Acronym" -> _teacherIDDouble = null;
             case "Name" -> _nameDouble = null;
             case "Email" -> _emailDouble = null;
             case "NIF" -> _nifDouble = null;
@@ -125,7 +128,7 @@ class TeacherFactoryImplTest {
             try{
                 // Act + Assert
                 teacherFactory.createTeacher(
-                        _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
+                        _teacherIDDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
                         _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
                         _countryDouble, _departmentIDDouble
                 );
@@ -144,7 +147,7 @@ class TeacherFactoryImplTest {
 
         // Act
         Teacher teacher = factory.createTeacher(
-                _teacherAcronymDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
+                _teacherIDDouble, _nameDouble, _emailDouble, _nifDouble, _phoneNumberDouble,
                 _academicBackgroundDouble, _streetDouble, _postalCodeDouble, _locationDouble,
                 _countryDouble, _departmentIDDouble
         );

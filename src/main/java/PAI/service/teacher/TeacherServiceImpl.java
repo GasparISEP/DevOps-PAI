@@ -28,10 +28,10 @@ public class TeacherServiceImpl implements ITeacherService {
         _teacherRepository = teacherRepository;
     }
 
-    public Optional<TeacherID> registerTeacher(TeacherAcronym acronym, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
+    public Optional<TeacherID> registerTeacher(TeacherID teacherID, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,
                                                Street street, PostalCode postalCode, Location location, Country country, DepartmentID departmentID) throws Exception {
 
-        Teacher teacher = _teacherFactory.createTeacher(acronym, name, email, nif, phoneNumber, academicBackground,
+        Teacher teacher = _teacherFactory.createTeacher(teacherID, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
 
         if (_teacherRepository.existsByTeacherIdOrNif(teacher.identity(), nif))

@@ -100,7 +100,6 @@ public class TeacherMapperImpl implements ITeacherMapper {
         }
 
         TeacherID teacherID = _teacherIDMapper.toDomain(teacherDataModel.getTeacherIDDataModel());
-        TeacherAcronym teacherAcronym = teacherID.getTeacherAcronym();
 
         Name name = new Name(teacherDataModel.getName());
         Email email = new Email(teacherDataModel.getEmail());
@@ -120,7 +119,7 @@ public class TeacherMapperImpl implements ITeacherMapper {
 
         DepartmentID departmentID = _departmentIDMapper.toDomainModel(teacherDataModel.getDepartmentID());
 
-        return _teacherFactory.createTeacher(teacherAcronym, name, email, nif, phoneNumber, academicBackground,
+        return _teacherFactory.createTeacher(teacherID, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
     }
 }

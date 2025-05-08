@@ -77,7 +77,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
 
 
-        Teacher teacher2 = new Teacher(teacherAcronym2,name,email,nif,phoneNumber,academicBackground,address,departmentID);
+        Teacher teacher2 = new Teacher(teacherID2,name,email,nif,phoneNumber,academicBackground,address,departmentID);
 
 
 
@@ -85,7 +85,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         IProgrammeService programmeService = mock(IProgrammeService.class);
 
 
-        when(programmeService.changeProgrammeDirector(programme.identity(), teacher2.identity())).thenReturn(true);
+        when(programmeService.changeProgrammeDirector(programme.identity(), teacherID2)).thenReturn(true);
 
         US12_iWantToChangeProgrammeDirectorOfProgrammeController controller = new US12_iWantToChangeProgrammeDirectorOfProgrammeController(programmeService);
 
