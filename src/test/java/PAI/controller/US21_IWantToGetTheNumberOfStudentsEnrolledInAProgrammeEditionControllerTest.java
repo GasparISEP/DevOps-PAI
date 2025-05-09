@@ -72,7 +72,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test() throws Exception {
+    void shouldReturnOneWhenGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
         // Arrange
         UUID schoolYearID = UUID.fromString("1c7f0b41-bf0b-41eb-9ac7-e654ee592bf4");
         SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
@@ -87,6 +87,24 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         
         // Assert
         assertEquals(1, result);
+    }
+
+    @Test
+    void shouldReturnZeroWhenGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
+        // Arrange
+        UUID schoolYearID = UUID.fromString("1c7f141-bf0b-41eb-9ac7-e654ee592bf4");
+        SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
+        ProgrammeID programmeID = new ProgrammeID(
+            new NameWithNumbersAndSpecialChars("Chemistry"),
+            new Acronym("CHY")
+        );
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
+
+        // Act
+        int result = controller.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID);
+        
+        // Assert
+        assertEquals(0, result);
     }
 
     @Test
