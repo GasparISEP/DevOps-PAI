@@ -170,10 +170,9 @@ class TeacherRepositoryTest {
     }
 
     @Test
-    void existsByIDorNIFShouldReturnTrueDueToSameID () {
+    void existsByIDorNIFShouldReturnTrueDueToSameID() {
         // Arrange
         createFactoriesDoubles();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
         Teacher teacherDouble = mock(Teacher.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
         NIF nifDouble = mock(NIF.class);
@@ -181,18 +180,20 @@ class TeacherRepositoryTest {
         when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(true);
         when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(false);
 
+        _teacherListFactory = () -> List.of(teacherDouble);
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
-    void existsByIDorNIFShouldReturnTrueDueToSameNIF () {
+    void existsByIDorNIFShouldReturnTrueDueToSameNIF() {
         // Arrange
         createFactoriesDoubles();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
         Teacher teacherDouble = mock(Teacher.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
         NIF nifDouble = mock(NIF.class);
@@ -200,11 +201,15 @@ class TeacherRepositoryTest {
         when(teacherDouble.sameAs(teacherIDDouble)).thenReturn(false);
         when(teacherDouble.hasThisNIF(nifDouble)).thenReturn(true);
 
+        // Setup factory to return a list containing our mock teacher
+        _teacherListFactory = () -> List.of(teacherDouble);
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(_teacherListFactory);
+
         // Act
         boolean result = teacherRepository.existsByTeacherIdOrNif(teacherIDDouble, nifDouble);
 
         // Assert
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
