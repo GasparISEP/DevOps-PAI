@@ -7,11 +7,9 @@ title US13: As a HRC, I want to register a new teacher in the system, including 
 
 actor HRC
 participant ":UI" as UI #Cyan/Silver
-participant ":Controller" as Controller #Cyan/Silver
+participant ":Controller" as Controller #Gray/Silver
 participant ":ITeacherCategoryRepository" as TeacherCategoryRepository  #Cyan/Silver
-participant "tcList :List<TeacherCategories>" as tcList #Yellow/Silver
 participant ":IDepartmentRepository" as DepartmentRepository #Cyan/Silver
-participant "deptSet :Set<Departments>" as dptList #Yellow/Silver
 participant ":ITeacherService" as TService #Green/Silver
 participant ":TeacherFactoryImpl" as TeacherFactory #Yellow/Silver
 participant ":ITeacherRepository" as TeacherRepository #Cyan/Silver
@@ -22,6 +20,8 @@ participant "teacherIDVO1 :TeacherID" as TeacherID #Yellow/silver
 participant "TeacherAcademicEmailVO1 : TeacherAcademicEmail" as TeacherAcademicEmail #Yellow/Silver
 participant ":ITeacherCareerProgressionService" as TCPService #Green/Silver
 participant ":TeacherCareerProgressionFactoryImpl" as TeacherCareerProgressionFactory #Yellow/Silver
+participant "tcpID1 :TeacherCareerProgressionID" as TeacherCareerProgressionID #Yellow/Silver
+
 participant ":ITeacherCareerProgressionRepository" as TeacherCareerProgressionRepository #Cyan/Silver
 participant "tcp1 :TeacherCareerProgression" as TeacherCareerProgression #Yellow/Silver
 
@@ -139,10 +139,9 @@ deactivate TeacherAcademicEmail
 Teacher --> TeacherFactory: \t TeacherAcademicEmailVO1
 deactivate Teacher
 
-TeacherFactory --> TeacherRepository: t1
-
-activate TeacherRepository
+TeacherFactory -> TeacherRepository: t1
 deactivate TeacherFactory
+activate TeacherRepository
 
 TeacherRepository -> TeacherRepository: **save** (t1)
 
@@ -151,28 +150,47 @@ activate Teacher
 |||
 Teacher --> TeacherRepository: teacherIDVO1
 deactivate Teacher
-deactivate TeacherRepository
 
-TeacherRepository --> Controller: teacherIDVO1
+TeacherRepository --> TService: teacherIDVO1
+TService --> Controller: teacherIDVO1
+deactivate TService
 deactivate TeacherRepository
 |||
-Controller -> TeacherCareerProgressionRepository: **registerTeacherCareerProgression**(dateVO, teacherCategoryIDVO, workingPercentageVO, teacherIDVO1)
-activate TeacherCareerProgressionRepository
 
-TeacherCareerProgressionRepository -> TeacherCareerProgressionFactory: **createTeacherCareerProgression**(dateVO,\n teacherCategoryIDVO,\n workingPercentageVO, teacherIDVO1)
+Controller -> TCPService: **registerTeacherCareerProgression: **(dateVO, teacherCategoryIDVO, workingPercentageVO, teacherIDVO1)
+activate TCPService
+TCPService -> TeacherCareerProgressionFactory: : **createTeacherCareerProgression**(dateVO,\n teacherCategoryIDVO,\n workingPercentageVO, teacherIDVO1)
 activate TeacherCareerProgressionFactory
-
+|||
+TeacherCareerProgressionFactory -> TeacherCareerProgressionID **: new TeacherCareerProgressionID()
+activate TeacherCareerProgressionID
+TeacherCareerProgressionID --> TeacherCareerProgressionFactory: tcpID1
+deactivate TeacherCareerProgressionID
+|||
 TeacherCareerProgressionFactory -> TeacherCareerProgression **: **createTeacherCarrerProgression**(dateVO,\n teacherCategoryIDVO,\n workingPercentageVO, teacherIDVO1)
 activate TeacherCareerProgression
 |||
 TeacherCareerProgression --> TeacherCareerProgressionFactory: \ttcp1
 deactivate TeacherCareerProgression
-TeacherCareerProgressionFactory --> TeacherCareerProgressionRepository: \ttcp1
+TeacherCareerProgressionFactory --> TCPService: tcp1
 deactivate TeacherCareerProgressionFactory
+TCPService -> TeacherCareerProgressionRepository: \ttcp1
+|||
+activate TeacherCareerProgressionRepository
+
+TeacherCareerProgressionRepository -> TeacherCareerProgression: containsOfIdentity(tcp1.getID())
+activate TeacherCareerProgression
+|||
+TeacherCareerProgression --> TeacherCareerProgressionRepository: False
+deactivate TeacherCareerProgression
 |||
 TeacherCareerProgressionRepository -> TeacherCareerProgressionRepository: **save** (tcp1)
-TeacherCareerProgressionRepository --> Controller: True
+TeacherCareerProgressionRepository --> TCPService: True
 deactivate TeacherCareerProgressionRepository
+
+TCPService --> Controller: True
+deactivate TCPService
+
 Controller --> UI: True
 deactivate Controller
 
