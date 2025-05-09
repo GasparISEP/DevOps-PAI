@@ -1,6 +1,5 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.teacher;
 
-import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,12 +98,12 @@ class TeacherIDDataModelTest {
     }
 
     @Test
-    void shouldNotBeEqualIfObjectsHaveSameHashCode() {
+    void shouldNotBeEqualIfObjectsHaveDifferentHashCode() {
         // Arrange
         TeacherIDDataModel teacherIDDataModel = new TeacherIDDataModel("teachers");
-        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teachers");
+        TeacherIDDataModel teacherIDDataModel2 = new TeacherIDDataModel("teacher");
 
         // Act + Assert
-        assertEquals(teacherIDDataModel.hashCode(), teacherIDDataModel2.hashCode());
+        assertNotEquals(teacherIDDataModel.hashCode(), teacherIDDataModel2.hashCode());
     }
 }

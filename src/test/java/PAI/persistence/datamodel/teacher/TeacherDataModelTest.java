@@ -1,8 +1,10 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.teacher;
 
+import PAI.persistence.datamodel.AddressDataModel;
+import PAI.persistence.datamodel.NIFDataModel;
+import PAI.persistence.datamodel.PhoneNumberDataModel;
+import PAI.persistence.datamodel.TeacherAcademicEmailDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
-import PAI.persistence.datamodel.teacher.TeacherDataModel;
-import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
