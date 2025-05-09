@@ -3,7 +3,8 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.service.IProgrammeEditionEnrolmentService;
-
+import org.springframework.stereotype.Component;
+@Component
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private final IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService;

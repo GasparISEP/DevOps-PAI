@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
@@ -19,9 +20,15 @@ import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import PAI.service.ProgrammeEditionEnrolmentServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -29,7 +36,58 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest 
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("programme-edition-enrolment")
 class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTest {
+
+    @Autowired private IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
+    @Autowired private IProgrammeEditionRepository programmeEditionRepository;
+    @Autowired private ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
+    @Autowired private ICourseEditionRepository courseEditionRepository;
+    @Autowired private ISchoolYearRepository schoolYearRepository;
+    @Autowired private IProgrammeEnrolmentRepository programmeEnrolmentRepository;
+    @Autowired private IProgrammeRepository programmeRepository;
+    @Autowired private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
+
+    private IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
+    private US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller;
+
+    @BeforeEach
+    void setUp() {
+        programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+            programmeEditionEnrolmentRepository,
+            programmeEditionRepository,
+            courseEditionEnrolmentRepository,
+            courseEditionRepository,
+            schoolYearRepository,
+            programmeEnrolmentRepository,
+            programmeRepository,
+            programmeEditionEnrolmentFactory
+        );
+        controller = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(
+            programmeEditionEnrolmentService,
+            programmeEditionRepository
+        );
+    }
+
+    @Test
+    void shouldGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test() throws Exception {
+        // Arrange
+        UUID schoolYearID = UUID.fromString("1c7f0b41-bf0b-41eb-9ac7-e654ee592bf4");
+        SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
+        ProgrammeID programmeID = new ProgrammeID(
+            new NameWithNumbersAndSpecialChars("Computer Sci"),
+            new Acronym("SWE")
+        );
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
+
+        // Act
+        int result = controller.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID);
+        
+        // Assert
+        assertEquals(1, result);
+    }
 
     @Test
     void shouldCreateControllerWhenRepositoryIsValid_Isolation_Test() {
