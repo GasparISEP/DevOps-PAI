@@ -1,7 +1,6 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
@@ -27,12 +26,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -72,7 +73,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnOneWhenGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
+    void shouldReturnOneWhenOneStudentEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
         // Arrange
         UUID schoolYearID = UUID.fromString("1c7f0b41-bf0b-41eb-9ac7-e654ee592bf4");
         SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
@@ -90,7 +91,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnZeroWhenGetTheNumberOfStudentsEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
+    void shouldReturnZeroWhenNoStudentsEnrolledInProgrammeEdition_Integration_Test_JPA() throws Exception {
         // Arrange
         UUID schoolYearID = UUID.fromString("1c7f141-bf0b-41eb-9ac7-e654ee592bf4");
         SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
@@ -105,6 +106,19 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         
         // Assert
         assertEquals(0, result);
+    }
+
+    @Test
+    void shouldReturnEmptyIterableWhenNoProgrammeEditionsExist() {
+        // Act
+        Iterable<ProgrammeEdition> result = controller.getAllProgrammeEdition();
+
+        // Assert
+        // Convert Iterable to a List for easy assertions
+        List<ProgrammeEdition> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+
+        assertTrue(resultList.isEmpty());
     }
 
     @Test
