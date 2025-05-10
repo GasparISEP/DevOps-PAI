@@ -10,8 +10,14 @@ import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
 import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
 import PAI.service.accessMethod.AccessMethodServiceImpl;
 import PAI.service.accessMethod.IAccessMethodService;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +27,23 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("access-method")
 class US02ConfigureAccessMethodControllerTest {
+
+
+    @Autowired private IAccessMethodFactory accessMethodFactory;
+    @Autowired private IRepositoryAccessMethod accessMethodRepository;
+
+    private IAccessMethodService accessMethodService;
+    private US02_ConfigureAccessMethodController controller;
+
+    @BeforeEach
+    void setUp() {
+        accessMethodService = new AccessMethodServiceImpl(accessMethodFactory, accessMethodRepository);
+        controller = new US02_ConfigureAccessMethodController(accessMethodService);
+    }
 
     @Test
     void shouldCreateThisController() {
@@ -145,5 +167,23 @@ class US02ConfigureAccessMethodControllerTest {
         Optional<AccessMethod> stored = repository.getAccessMethodByName(new NameWithNumbersAndSpecialChars(accessMethodName));
         assertTrue(stored.isPresent());
         assertEquals(1, ((List<AccessMethod>)repository.findAll()).size());
+    }
+
+    @Test
+    void shouldReturnTrueIfAccessMethodIsRegisteredSuccessfully_Integration_Test_JPA() {
+        //arrange
+        //act
+        boolean result = controller.configureAccessMethod("M23");
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfAccessMethodAlreadyExists_Integration_Test_JPA() {
+        //arrange
+        //act
+        boolean result = controller.configureAccessMethod("Maiores de 23 anos");
+        //assert
+        assertFalse(result);
     }
 }
