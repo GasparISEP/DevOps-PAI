@@ -3,14 +3,14 @@
 title US26_getNumberOfStudentsInProgrammesFromSpecifiedDepartmentInGivenSchoolYear.puml
 top to bottom direction
 skinparam ranksep 60
-skinparam nodesep 60
+skinparam nodesep 70
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
 ' ========== CONTROLLER LAYER ==========
 package Controller #F5EEF8{
 class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
-    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentRepository PEERepo,ISchoolYearRepository schoolYearRepository,IDepartmentRepository departmentRepository, IProgrammeRepository programmeRepository)
+    +US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController( IProgrammeEditionEnrolmentService PEEService,ISchoolYearService schoolYearService,IDepartmentService departmentService, IProgrammeService programmeService)
     +countStudentsInProgrammeFromDepartmentInSchoolYear(departmentID: DepartmentID, schoolYearID: SchoolYearID): int
 }
 }
@@ -20,36 +20,35 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController {
 package DepartmentServices {
 interface IDepartmentService <<Interface>> {
 +departmentExists(DepartmentID department) :boolean
++getDepartmentIDs() : set<DepartmentID>
 }
 
 class DepartmentServiceImpl {
 +departmentExists(DepartmentID department) :boolean
-
++getDepartmentIDs() : set<DepartmentID>
 }
 }
 
 package SchoolYearServices {
 interface ISchoolYearService <<Interface>> {
 +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
++getAllSchoolYearIDs(): List<SchoolYearID>
 }
 
 class SchoolYearServiceImpl {
 +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
-
++getAllSchoolYearIDs(): List<SchoolYearID>
 }
 }
 
 
 package ProgrammeEditionEnrolmentServices {
 interface IProgrammeEditionEnrolmentService <<Interface>> {
-+isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
-      +findStudentInProgrammeEdition(): StudentID
++countStudentsInProgrammeFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
 }
 
 class ProgrammeEditionEnrolmentServiceImpl {
-+isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
-      +findStudentInProgrammeEdition(): StudentID
-
++countStudentsInProgrammeFromDepartmentInSchoolYear(schoolYearID: SchoolYearID, programmeIDs: List<ProgrammeID>): boolean
 }
 }
 
@@ -65,14 +64,37 @@ class ProgrammeServiceImpl {
 
 ' ========== REPOSITORY LAYER ==========
 
+
+interface IDepartmentRepositorySpringData <<Interface>> {
++existsByID(DepartmentIDDataModel departmentIDDataModel): boolean
++findAll(): List<DepartmentDataModel>
+}
+
+interface IProgrammeRepositorySpringData <<Interface>> {
++findAll(): List<ProgrammeDataModel>
+}
+
+interface ISchoolYearRepositorySpringData <<Interface>> {
++existsByID(SchoolYearIDDataModel schoolYearIDDataModel): boolean
++findAll(): List<SchoolYearDataModel>
+}
+
+interface IProgrammeEditionEnrolmentRepositorySpringData <<Interface>> {
++findAll(): List<ProgrammeEditionEnrolmentDataModel>
+
+}
+
 package DepartmentRepository {
 interface IDepartmentRepository <<Interface>> {
     +departmentExists(DepartmentID department) :boolean
+    +containsOfIdentity(DepartmentID department) :boolean
+    +getDepartmentIDs(): Set<DepartmentIDs>
 }
 
 class DepartmentRepositorySpringDataImpl {
     +departmentExists(DepartmentID department) :boolean
-    +findDepartmentByID(DepartmentID department) :Optional <Department>
+    +containsOfIdentity(DepartmentID department) :boolean
+    +getDepartmentIDs(): Set<DepartmentIDs>
 }
 }
 
@@ -97,11 +119,13 @@ class ProgrammeEditionEnrolmentRepositorySpringDataImpl {
 
 package SchoolYearRepository {
 interface ISchoolYearRepository <<Interface>> {
-    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+    +containsOfIdentity(schoolYearID: SchoolYear): boolean
+    +findAll(): Iterable<SchoolYear>
 }
 
 class SchoolYearRepositorySpringDataImpl {
-    +schoolYearExistsByID(schoolYearID: SchoolYear): boolean
+    +containsOfIdentity(schoolYearID: SchoolYear): boolean
+    +findAll(): Iterable<SchoolYear>
 }
 }
 
@@ -150,28 +174,89 @@ package "Department Aggregate" #LightBlue {
     }
 }
 
+
+class DepartmentIDDataModel {
+    -departmentID: String
+    +DepartmentIDDataModel(String departmentID): DepartmentIDDataModel
+    }
+
+
 package "DepartmentMapper" {
 
 interface IDepartmentMapper <<Interface>> {
-+toEntity(): DepartmentDataModel
++toDataModel(): DepartmentDataModel
 +toDomain(): Department
 }
 
 class DepartmentMapperImpl {
-+toEntity(): DepartmentDataModel
++toDataModel(): DepartmentDataModel
 +toDomain(): Department
 }
 }
 
+package "DepartmentIDMapper" {
+
+interface IDepartmentIDMapper <<Interface>> {
++toDataModel(DepartmentID departmentID): DepartmentIDDataModel
++toDomain(): DepartmentID
+}
+
+class DepartmentIDMapperImpl {
++toDataModel(DepartmentID departmentID): DepartmentIDDataModel
++toDomain(): DepartmentID
+}
+}
+
+package "DepartmentFactory" {
+interface IDepartmentFactory <<interface>>{
++newDepartment(DepartmentAcronym acronym, Name name): Department
++newDepartment(DepartmentAcronym acronym, Name name, TeacherID directorID): Department
+}
+class DepartmentFactoryImpl {
++newDepartment(DepartmentAcronym acronym, Name name): Department
++newDepartment(DepartmentAcronym acronym, Name name, TeacherID directorID): Department
+}
+}
+
+
+package "SchoolYearFactory" {
+interface ISchoolYearFactory <<interface>>{
++createSchoolYear(UUID uuid, Description description, Date startDate, Date endDate): SchoolYear
+}
+class SchoolYearFactoryImpl {
++createSchoolYear(UUID uuid, Description description, Date startDate, Date endDate): SchoolYear
+}
+}
+
+class SchoolYearIDDataModel {
+    -id: String
+    +SchoolYearIDDataModel(String id): SchoolYearIDDataModel
+    }
+
+
+package "SchoolYearIDMapper" {
+
+interface ISchoolYearIDMapper <<Interface>> {
++toDataModel(): SchoolYearIDDataModel
++toDomain(): SchoolYearID
+}
+
+class SchoolYearIDMapperImpl {
++toDataModel(): SchoolYearIDDataModel
++toDomain(): SchoolYearID
+}
+}
+
+
 package "SchoolYearMapper" {
 
 interface ISchoolYearMapper <<Interface>> {
-+toEntity(): SchoolYearDataModel
++toDataModel(): SchoolYearDataModel
 +toDomain(): SchoolYear
 }
 
 class SchoolYearMapperImpl {
-+toEntity(): SchoolYearDataModel
++toDataModel(): SchoolYearDataModel
 +toDomain(): SchoolYear
 }
 }
@@ -179,45 +264,45 @@ class SchoolYearMapperImpl {
 package "ProgrammeMapper" {
 
 interface IProgrammeMapper <<Interface>> {
-+toEntity(): ProgrammeDataModel
-+toDomain(): Programme
++toDataModel(): ProgrammeDataModel
++toDomain(ProgrammeDataModel programmeDataModel): Programme
 }
 
 class ProgrammeMapperImpl {
-+toEntity(): ProgrammeDataModel
-+toDomain(): Programme
++toDataModel(): ProgrammeDataModel
++toDomain(ProgrammeDataModel programmeDataModel): Programme
 }
 }
 
 package "ProgrammeEditionEnrolmentMapper" {
 
 interface IProgrammeEditionEnrolmentMapper <<Interface>> {
-+toEntity(): ProgrammeEditionEnrolmentDataModel
-+toDomain(): ProgrammeEditionEnrolment
++toDataModel(): ProgrammeEditionEnrolmentDataModel
++toDomain(ProgrammeEditionEnrolmentDataModel): Optional <ProgrammeEditionEnrolment>
 }
 
 class ProgrammeEditionEnrolmentMapperImpl {
-+toEntity(): ProgrammeEditionEnrolmentDataModel
-+toDomain(): ProgrammeEditionEnrolment
++toDataModel(): ProgrammeEditionEnrolmentDataModel
++toDomain(ProgrammeEditionEnrolmentDataModel): Optional <ProgrammeEditionEnrolment>
 }
 }
 
 package "ProgrammeFactory" {
 interface IProgrammeFactory <<interface>>{
-+registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): Programme
++reregisterProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID programmeID): Programme
 }
 class ProgrammeFactoryImpl {
-+registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID): Programme
++reregisterProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID programmeID): Programme
 }
 }
 
 
 package "ProgrammeEditionEnrolmentFactory" {
 interface IProgrammeEditionEnrolmentFactory <<interface>> {
-+createWithEnrolmentData(StudentID studentID, ProgrammeEditionID programmeEditionID, LocalDate enrolmentDate): ProgrammeEditionEnrolment
++createWithEnrolmentDate(StudentID studentID, ProgrammeEditionID programmeEditionID, Date enrolmentDate, EnrolmentStatus isActive): ProgrammeEditionEnrolment
 }
 class ProgrammeEditionEnrolmentFactoryImpl {
-+createWithEnrolmentData(StudentID studentID, ProgrammeEditionID programmeEditionID, LocalDate enrolmentDate): ProgrammeEditionEnrolment
++createWithEnrolmentDate(StudentID studentID, ProgrammeEditionID programmeEditionID, Date enrolmentDate, EnrolmentStatus isActive): ProgrammeEditionEnrolment
 }
 }
 
@@ -225,10 +310,11 @@ class ProgrammeID <<Value Object>> {
      +equals ()
 }
 class DepartmentID <<Value Object>> {
-     +equals ()
+     +getAcronym (): DepartmentAcronym
 }
 class SchoolYearID <<Value Object>> {
-     +equals ()
+     +equals()
+     +toString ()
 }
 class ProgrammeEditionID <<Value Object>> {
      +isSameProgrammeEdition ()
@@ -279,6 +365,11 @@ class StudentID <<Value Object>> {
  }
 
 
+DepartmentRepositorySpringDataImpl--> IDepartmentRepositorySpringData
+SchoolYearRepositorySpringDataImpl--> ISchoolYearRepositorySpringData
+ProgrammeRepositorySpringDataImpl--> IProgrammeRepositorySpringData
+ProgrammeEditionEnrolmentRepositorySpringDataImpl -->IProgrammeEditionEnrolmentRepositorySpringData
+
 IProgrammeFactory <|.. ProgrammeFactoryImpl
 ProgrammeFactoryImpl --> Programme
 ProgrammeMapperImpl --> IProgrammeFactory
@@ -296,16 +387,32 @@ ProgrammeEditionEnrolment "1" --> "1" StudentID
 DepartmentServiceImpl --> IDepartmentMapper
 IDepartmentMapper <|.. DepartmentMapperImpl
 DepartmentRepositorySpringDataImpl --> DepartmentMapperImpl
+DepartmentRepositorySpringDataImpl --> IDepartmentIDMapper
+IDepartmentIDMapper <|.. DepartmentIDMapperImpl
+DepartmentIDMapperImpl --> DepartmentIDDataModel
+DepartmentIDMapperImpl --> DepartmentID
+DepartmentDataModel --> DepartmentIDDataModel
 DepartmentMapperImpl ...>  Department
 DepartmentMapperImpl ..> DepartmentDataModel
+IDepartmentFactory <|.. DepartmentFactoryImpl
+DepartmentFactoryImpl --> Department
+DepartmentMapperImpl --> IDepartmentFactory
 
 SchoolYearServiceImpl --> ISchoolYearMapper
 ISchoolYearMapper <|.. SchoolYearMapperImpl
 SchoolYearRepositorySpringDataImpl --> SchoolYearMapperImpl
 SchoolYearMapperImpl ..> SchoolYear
 SchoolYearMapperImpl ..> SchoolYearDataModel
+SchoolYearRepositorySpringDataImpl --> ISchoolYearIDMapper
+ISchoolYearIDMapper <|.. SchoolYearIDMapperImpl
+SchoolYearIDMapperImpl --> SchoolYearIDDataModel
+SchoolYearIDMapperImpl --> SchoolYearID
+SchoolYearDataModel --> SchoolYearIDDataModel
+ISchoolYearFactory <|.. SchoolYearFactoryImpl
+SchoolYearFactoryImpl --> SchoolYear
+SchoolYearMapperImpl --> ISchoolYearFactory
 
-ProgrammeServiceImpl --> IProgrammeMapper
+
 IProgrammeMapper <|.. ProgrammeMapperImpl
 ProgrammeRepositorySpringDataImpl --> ProgrammeMapperImpl
 ProgrammeMapperImpl ..> Programme
