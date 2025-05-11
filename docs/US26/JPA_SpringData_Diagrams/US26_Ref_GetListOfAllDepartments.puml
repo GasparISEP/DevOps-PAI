@@ -1,0 +1,78 @@
+@startuml
+
+ title US26 Reference SD: Get List of All Departments
+ autonumber
+ skinparam sequence {
+    LifelineBorderColor Black
+    LifelineBackgroundColor LightBlue
+  }
+
+ participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+ participant ":IDepartmentService" as IDepartmentService #LightBlue/White
+ participant ":IDepartmentRepository" as IDepartmentRepository #LightBlue/White
+ participant ":DepartmentRepositorySpringDataImpl" as DepartmentRepositorySpringDataImpl #LightBlue/White
+participant ":IDepartmentRepositorySpringData" as IDepartmentRepositorySpringData #LightBlue/White
+
+ activate Controller
+ Controller -> IDepartmentService: getDepartmentIDs ()
+ activate IDepartmentService
+ IDepartmentService -> IDepartmentRepository: getDepartmentIDs ()
+ activate IDepartmentRepository
+ IDepartmentRepository -> DepartmentRepositorySpringDataImpl: findAll ()
+ activate DepartmentRepositorySpringDataImpl
+ create "d[i]:Departments" #LightBlue/White
+ activate "d[i]:Departments"
+ DepartmentRepositorySpringDataImpl ->  "d[i]:Departments"** : new ArrayList <Department>()
+ DepartmentRepositorySpringDataImpl -> IDepartmentRepositorySpringData: findAll()
+ activate IDepartmentRepositorySpringData
+ create "dDM[i]:DepartmentDataModels" #LightBlue/White
+ IDepartmentRepositorySpringData ->  "dDM[i]:DepartmentDataModels"** : new ArrayList <DepartmentDataModel>()
+ deactivate IDepartmentRepositorySpringData
+  activate "dDM[i]:DepartmentDataModels"
+  "dDM[i]:DepartmentDataModels" --> DepartmentRepositorySpringDataImpl: dDM[i]:DepartmentDataModels
+ loop for each DepartmentDataModel in dDM[i]:DepartmentDataModels
+ participant ":IDepartmentMapper" as IDepartmentMapper #LightBlue/White
+
+
+ DepartmentRepositorySpringDataImpl -> IDepartmentMapper: toDomain(DepartmentDataModel)
+ activate IDepartmentMapper
+ participant ":IDepartmentFactory" as IDepartmentFactory #LightBlue/White
+ IDepartmentMapper -> IDepartmentFactory: newDepartment()
+ activate IDepartmentFactory
+ create "d1: Department" #LightBlue/White
+ IDepartmentFactory ->  "d1: Department"** : new Department()
+activate "d1: Department"
+"d1: Department" --> IDepartmentFactory: d1:department
+ deactivate "d1: Department"
+ IDepartmentFactory --> IDepartmentMapper: d1:department
+ deactivate IDepartmentFactory
+ IDepartmentMapper --> DepartmentRepositorySpringDataImpl: d1:department
+ DepartmentRepositorySpringDataImpl -> "d[i]:Departments": add(d1)
+ end
+ "d[i]:Departments" --> DepartmentRepositorySpringDataImpl: d[i]:Departments
+ deactivate "d[i]:Departments"
+
+create "dID[i]: departmentIDs" #LightBlue/White
+DepartmentRepositorySpringDataImpl ->  "dID[i]: departmentIDs"** : new Hashset()
+activate "dID[i]: departmentIDs"
+loop for each Department in d[i]:Departments
+participant "Department" as Department #LightBlue/White
+DepartmentRepositorySpringDataImpl -> Department: identity()
+activate Department
+Department --> DepartmentRepositorySpringDataImpl: dID1:DepartmentID
+deactivate Department
+DepartmentRepositorySpringDataImpl -> "dID[i]: departmentIDs":add(dID1)
+end
+"dID[i]: departmentIDs" -->DepartmentRepositorySpringDataImpl: dID[i]: departmentIDs
+deactivate "dID[i]: departmentIDs"
+DepartmentRepositorySpringDataImpl --> IDepartmentRepository: dID[i]: departmentIDs
+ deactivate DepartmentRepositorySpringDataImpl
+IDepartmentRepository --> IDepartmentService: dID[i]: departmentIDs
+deactivate IDepartmentRepository
+IDepartmentService --> Controller: dID[i]: departmentIDs
+ deactivate "dDM[i]:DepartmentDataModels"
+
+
+ deactivate IDepartmentService
+ deactivate Controller
+ @enduml
