@@ -30,6 +30,7 @@ participant ":IDepartmentRepositorySpringData" as IDepartmentRepositorySpringDat
  deactivate IDepartmentRepositorySpringData
   activate "dDM[i]:DepartmentDataModels"
   "dDM[i]:DepartmentDataModels" --> DepartmentRepositorySpringDataImpl: dDM[i]:DepartmentDataModels
+  deactivate "dDM[i]:DepartmentDataModels"
  loop for each DepartmentDataModel in dDM[i]:DepartmentDataModels
  participant ":IDepartmentMapper" as IDepartmentMapper #LightBlue/White
 
@@ -47,6 +48,7 @@ activate "d1: Department"
  IDepartmentFactory --> IDepartmentMapper: d1:department
  deactivate IDepartmentFactory
  IDepartmentMapper --> DepartmentRepositorySpringDataImpl: d1:department
+ deactivate IDepartmentMapper
  DepartmentRepositorySpringDataImpl -> "d[i]:Departments": add(d1)
  end
  "d[i]:Departments" --> DepartmentRepositorySpringDataImpl: d[i]:Departments
@@ -70,7 +72,7 @@ DepartmentRepositorySpringDataImpl --> IDepartmentRepository: dID[i]: department
 IDepartmentRepository --> IDepartmentService: dID[i]: departmentIDs
 deactivate IDepartmentRepository
 IDepartmentService --> Controller: dID[i]: departmentIDs
- deactivate "dDM[i]:DepartmentDataModels"
+
 
 
  deactivate IDepartmentService

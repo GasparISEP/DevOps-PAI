@@ -1,0 +1,82 @@
+@startuml
+
+ title US26 Reference SD: Get List of All School Years
+ autonumber
+ skinparam sequence {
+    LifelineBorderColor Black
+    LifelineBackgroundColor LightBlue
+  }
+
+ participant ":CountStudentsInProgrammesFromDepartmentInSchoolYearController" as Controller #LightBlue/White
+ participant ":ISchoolYearService" as ISchoolYearService #LightBlue/White
+ participant ":SchoolYearServiceImpl" as SchoolYearServiceImpl #LightBlue/White
+ participant ":ISchoolYearRepository" as ISchoolYearRepository #LightBlue/White
+ participant ":SchoolYearRepositorySpringDataImpl" as SchoolYearRepositorySpringDataImpl #LightBlue/White
+participant ":ISchoolYearRepositorySpringData" as ISchoolYearRepositorySpringData #LightBlue/White
+
+ activate Controller
+ Controller -> ISchoolYearService: getAllSchoolYearIDs ()
+ activate ISchoolYearService
+ ISchoolYearService -> SchoolYearServiceImpl: getAllSchoolYearIDs()
+ activate SchoolYearServiceImpl
+ create "syID[i]: SchoolYearIDs" #LightBlue/White
+ SchoolYearServiceImpl ->  "syID[i]: SchoolYearIDs"** : new ArrayList()
+ activate "syID[i]: SchoolYearIDs"
+ SchoolYearServiceImpl -> ISchoolYearRepository: findAll()
+ activate ISchoolYearRepository
+ ISchoolYearRepository -> SchoolYearRepositorySpringDataImpl: findAll()
+ deactivate ISchoolYearRepository
+ activate SchoolYearRepositorySpringDataImpl
+ create "sy[i]: allSchoolYears" #LightBlue/White
+ SchoolYearRepositorySpringDataImpl ->  "sy[i]: allSchoolYears"** : new ArrayList()
+ activate "sy[i]: allSchoolYears"
+ SchoolYearRepositorySpringDataImpl -> ISchoolYearRepositorySpringData: findAll()
+ activate ISchoolYearRepositorySpringData
+ create "syDM[i]: allSchoolYearDataModels" #LightBlue/White
+
+ ISchoolYearRepositorySpringData -> "syDM[i]: allSchoolYearDataModels": new ArrayList()
+deactivate ISchoolYearRepositorySpringData
+activate "syDM[i]: allSchoolYearDataModels"
+"syDM[i]: allSchoolYearDataModels" --> SchoolYearRepositorySpringDataImpl: syDM[i]:allSchoolYearDataModels
+deactivate "syDM[i]: allSchoolYearDataModels"
+loop for each SchoolYearDataModel in syDM[i]:allSchoolYearDataModels
+ participant ":ISchoolYearMapper" as ISchoolYearMapper #LightBlue/White
+SchoolYearRepositorySpringDataImpl -> ISchoolYearMapper: toDomain(SchoolYearDataModel)
+ activate ISchoolYearMapper
+ participant ":ISchoolYearFactory" as ISchoolYearFactory #LightBlue/White
+ ISchoolYearMapper -> ISchoolYearFactory: createSchoolYear()
+ activate ISchoolYearFactory
+ create "sy1: SchoolYear" #LightBlue/White
+ ISchoolYearFactory ->  "sy1: SchoolYear"** : new SchoolYear()
+activate "sy1: SchoolYear"
+"sy1: SchoolYear" --> ISchoolYearFactory: sy1:SchoolYear
+ deactivate "sy1: SchoolYear"
+ ISchoolYearFactory --> ISchoolYearMapper: sy1:SchoolYear
+ deactivate ISchoolYearFactory
+ ISchoolYearMapper --> SchoolYearRepositorySpringDataImpl: sy1: SchoolYear
+ deactivate ISchoolYearMapper
+ SchoolYearRepositorySpringDataImpl -> "sy[i]: allSchoolYears": add(sy1)
+end
+ "sy[i]: allSchoolYears" --> SchoolYearRepositorySpringDataImpl: sy[i]:allSchoolYears
+ deactivate "sy[i]: allSchoolYears"
+ SchoolYearRepositorySpringDataImpl --> SchoolYearServiceImpl: sy[i]:allSchoolYears
+ deactivate SchoolYearRepositorySpringDataImpl
+loop for each SchoolYear in sy[i]:allSchoolYears
+participant "SchoolYear" as SchoolYear #LightBlue/White
+SchoolYearServiceImpl -> SchoolYear: identity()
+activate SchoolYear
+SchoolYear --> SchoolYearServiceImpl: syID1:SchoolYearID
+deactivate SchoolYear
+SchoolYearServiceImpl -> "syID[i]: SchoolYearIDs":add(syID1)
+end
+
+"syID[i]: SchoolYearIDs" -->SchoolYearServiceImpl: syID[i]:SchoolYearIDs
+deactivate "syID[i]: SchoolYearIDs"
+SchoolYearServiceImpl --> ISchoolYearService: syID[i]: SchoolYearIDs
+deactivate SchoolYearServiceImpl
+
+
+ISchoolYearService --> Controller: syID[i]: SchoolYearIDs
+ deactivate ISchoolYearService
+ deactivate Controller
+ @enduml
