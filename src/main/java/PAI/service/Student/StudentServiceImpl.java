@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.Student;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
@@ -7,7 +7,7 @@ import PAI.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentServiceImpl implements IStudentService{
+public class StudentServiceImpl implements IStudentService {
 
     private IStudentFactory _studentFactory;
     private IStudentRepository _studentRepository;

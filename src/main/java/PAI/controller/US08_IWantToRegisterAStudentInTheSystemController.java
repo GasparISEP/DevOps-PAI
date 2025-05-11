@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
-import PAI.service.IStudentService;
+import PAI.service.Student.IStudentService;
 import org.springframework.stereotype.Component;
 
 @Component

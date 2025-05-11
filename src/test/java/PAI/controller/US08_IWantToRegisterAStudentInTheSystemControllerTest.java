@@ -4,8 +4,7 @@ import PAI.VOs.*;
 
 import PAI.domain.Student;
 
-import PAI.service.IStudentService;
-import PAI.service.StudentServiceImpl;
+import PAI.service.Student.IStudentService;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
