@@ -21,9 +21,10 @@ participant ":IDepartmentRepositorySpringData" as IDepartmentRepositorySpringDat
  IDepartmentRepository -> DepartmentRepositorySpringDataImpl: findAll ()
  activate DepartmentRepositorySpringDataImpl
  create "d[i]:Departments" #LightBlue/White
- activate "d[i]:Departments"
+
  DepartmentRepositorySpringDataImpl ->  "d[i]:Departments"** : new ArrayList <Department>()
- DepartmentRepositorySpringDataImpl -> IDepartmentRepositorySpringData: findAll()
+  activate "d[i]:Departments"
+  DepartmentRepositorySpringDataImpl -> IDepartmentRepositorySpringData: findAll()
  activate IDepartmentRepositorySpringData
  create "dDM[i]:DepartmentDataModels" #LightBlue/White
  IDepartmentRepositorySpringData ->  "dDM[i]:DepartmentDataModels"** : new ArrayList <DepartmentDataModel>()
