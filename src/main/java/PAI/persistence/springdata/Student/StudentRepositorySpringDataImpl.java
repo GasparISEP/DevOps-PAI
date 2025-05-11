@@ -1,8 +1,10 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.Student;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.mapper.*;
+import PAI.mapper.Student.IStudentIDMapper;
+import PAI.mapper.Student.IStudentMapper;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.Student.StudentDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;

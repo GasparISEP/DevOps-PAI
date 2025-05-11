@@ -3,6 +3,7 @@ package PAI.persistence.springdata;
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.mapper.*;
+import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;

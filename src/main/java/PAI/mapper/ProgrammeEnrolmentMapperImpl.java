@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.factory.IProgrammeEnrolmentFactory;
 
+import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.accessMethod.IAccessMethodIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;

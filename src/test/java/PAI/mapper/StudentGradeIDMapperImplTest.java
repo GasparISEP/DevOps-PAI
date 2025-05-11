@@ -1,6 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
+import PAI.mapper.Student.StudentIDMapperImpl;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;

@@ -4,16 +4,8 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.StudentID;
-import PAI.mapper.ICourseEditionEnrolmentIDMapper;
-import PAI.mapper.ICourseEditionEnrolmentMapper;
-import PAI.mapper.IStudentIDMapper;
-import PAI.mapper.courseEdition.ICourseEditionIDMapper;
-import PAI.persistence.springdata.CourseEditionEnrolmentRepositorySpringDataImpl;
-import PAI.persistence.springdata.ICourseEditionEnrolmentRepositorySpringData;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;

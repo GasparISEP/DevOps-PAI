@@ -1,4 +1,4 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.Student;
 
 
 import PAI.persistence.datamodel.NIFDataModel;

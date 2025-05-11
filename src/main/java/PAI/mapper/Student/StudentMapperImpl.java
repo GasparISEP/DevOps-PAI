@@ -1,7 +1,11 @@
-package PAI.mapper;
+package PAI.mapper.Student;
 
 import PAI.VOs.*;
 import PAI.domain.Student;
+import PAI.mapper.IAddressMapper;
+import PAI.mapper.INIFMapper;
+import PAI.mapper.IPhoneNumberMapper;
+import PAI.mapper.IStudentAcademicEmailMapper;
 import PAI.persistence.datamodel.*;
 import PAI.factory.IStudentFactory;
 import PAI.persistence.datamodel.Student.StudentDataModel;

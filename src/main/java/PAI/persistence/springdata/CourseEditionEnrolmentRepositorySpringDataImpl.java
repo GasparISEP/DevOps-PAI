@@ -6,7 +6,7 @@ import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.mapper.ICourseEditionEnrolmentIDMapper;
 import PAI.mapper.ICourseEditionEnrolmentMapper;
-import PAI.mapper.IStudentIDMapper;
+import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;

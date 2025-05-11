@@ -3,11 +3,13 @@ package PAI.persistence.springdata;
 import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.mapper.NIFMapperImpl;
-import PAI.mapper.StudentIDMapperImpl;
-import PAI.mapper.StudentMapperImpl;
+import PAI.mapper.Student.StudentIDMapperImpl;
+import PAI.mapper.Student.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.Student.StudentDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
+import PAI.persistence.springdata.Student.IStudentRepositorySpringData;
+import PAI.persistence.springdata.Student.StudentRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

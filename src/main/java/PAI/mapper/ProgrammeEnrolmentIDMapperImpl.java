@@ -3,6 +3,7 @@ package PAI.mapper;
 import PAI.VOs.ProgrammeEnrolmentID;
 import PAI.VOs.StudentID;
 import PAI.VOs.ProgrammeID;
+import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;

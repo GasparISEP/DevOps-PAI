@@ -1,11 +1,11 @@
-package PAI.mapper;
+package PAI.mapper.Student;
 
 import PAI.VOs.StudentID;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StudentIDMapperImpl implements  IStudentIDMapper {
+public class StudentIDMapperImpl implements IStudentIDMapper {
 
     public StudentIDDataModel domainToDataModel(StudentID studentID) {
 

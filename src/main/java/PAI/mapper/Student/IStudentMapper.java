@@ -1,4 +1,4 @@
-package PAI.mapper;
+package PAI.mapper.Student;
 
 import PAI.domain.Student;
 import PAI.persistence.datamodel.Student.StudentDataModel;
