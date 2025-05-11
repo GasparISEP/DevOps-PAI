@@ -8,7 +8,7 @@ import PAI.mapper.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import org.springframework.stereotype.Repository;

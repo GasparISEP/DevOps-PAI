@@ -4,8 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.mapper.*;
 import PAI.persistence.datamodel.NIFDataModel;
-import PAI.persistence.datamodel.StudentDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.repository.IStudentRepository;
 import org.springframework.stereotype.Repository;
 

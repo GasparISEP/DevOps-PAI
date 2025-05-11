@@ -6,7 +6,7 @@ import PAI.factory.IStudentGradeFactory;
 import PAI.mapper.courseEdition.CourseEditionIDMapperImpl;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 
 

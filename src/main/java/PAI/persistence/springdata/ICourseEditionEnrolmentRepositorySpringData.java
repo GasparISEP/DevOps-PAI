@@ -2,7 +2,7 @@ package PAI.persistence.springdata;
 
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;

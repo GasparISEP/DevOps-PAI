@@ -1,7 +1,7 @@
 package PAI.persistence.datamodel;
 
 import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,6 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class ProgrammeEditionEnrolmentDataModelTest {
 

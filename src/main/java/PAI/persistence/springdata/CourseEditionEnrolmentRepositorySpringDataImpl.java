@@ -11,9 +11,8 @@ import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;

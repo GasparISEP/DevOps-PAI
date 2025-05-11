@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.domain.Student;
-import PAI.persistence.datamodel.StudentDataModel;
+import PAI.persistence.datamodel.Student.StudentDataModel;
 
 public interface IStudentMapper {
 

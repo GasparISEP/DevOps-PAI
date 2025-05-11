@@ -1,6 +1,5 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.Student;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;

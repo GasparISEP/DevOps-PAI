@@ -5,7 +5,7 @@ import PAI.VOs.StudentID;
 import PAI.VOs.ProgrammeID;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.springframework.stereotype.Component;
 

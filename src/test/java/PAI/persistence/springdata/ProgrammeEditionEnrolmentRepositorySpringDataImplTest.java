@@ -6,7 +6,7 @@ import PAI.mapper.*;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

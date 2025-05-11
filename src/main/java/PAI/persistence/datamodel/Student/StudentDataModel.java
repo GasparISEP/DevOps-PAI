@@ -1,5 +1,6 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.Student;
 
+import PAI.persistence.datamodel.*;
 import jakarta.persistence.*;
 
 @Entity

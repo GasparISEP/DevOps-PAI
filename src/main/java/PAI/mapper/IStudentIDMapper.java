@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.StudentID;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 
 public interface IStudentIDMapper {
 

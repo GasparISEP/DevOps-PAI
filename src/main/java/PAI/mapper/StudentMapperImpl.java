@@ -4,6 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.Student;
 import PAI.persistence.datamodel.*;
 import PAI.factory.IStudentFactory;
+import PAI.persistence.datamodel.Student.StudentDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component

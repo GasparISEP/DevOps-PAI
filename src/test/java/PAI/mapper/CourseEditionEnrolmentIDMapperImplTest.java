@@ -5,7 +5,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 

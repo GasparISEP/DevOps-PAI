@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.VOs.StudentID;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

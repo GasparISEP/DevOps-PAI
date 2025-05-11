@@ -8,7 +8,7 @@ import PAI.mapper.IStudentIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

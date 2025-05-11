@@ -8,10 +8,9 @@ import PAI.mapper.*;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;

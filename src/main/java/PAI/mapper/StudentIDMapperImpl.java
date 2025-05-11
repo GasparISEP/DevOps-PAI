@@ -1,9 +1,8 @@
 package PAI.mapper;
 
 import PAI.VOs.StudentID;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class StudentIDMapperImpl implements  IStudentIDMapper {

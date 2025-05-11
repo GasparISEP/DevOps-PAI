@@ -6,8 +6,8 @@ import PAI.mapper.NIFMapperImpl;
 import PAI.mapper.StudentIDMapperImpl;
 import PAI.mapper.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
-import PAI.persistence.datamodel.StudentDataModel;
-import PAI.persistence.datamodel.StudentIDDataModel;
+import PAI.persistence.datamodel.Student.StudentDataModel;
+import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
