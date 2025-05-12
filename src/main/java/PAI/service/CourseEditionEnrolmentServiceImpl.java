@@ -7,7 +7,7 @@ import PAI.domain.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.ICourseEditionRepository;
+import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;

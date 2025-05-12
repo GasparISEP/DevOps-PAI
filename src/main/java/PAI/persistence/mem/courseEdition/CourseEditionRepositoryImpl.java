@@ -6,7 +6,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
 import PAI.factory.ICourseEditionFactory;
 import PAI.factory.ICourseEditionListFactory;
-import PAI.repository.ICourseEditionRepository;
+import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.repository.courseEditionRepository;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;

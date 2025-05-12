@@ -9,7 +9,7 @@ import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import PAI.repository.ICourseEditionRepository;
+import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

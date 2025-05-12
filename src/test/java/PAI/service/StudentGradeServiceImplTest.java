@@ -8,7 +8,7 @@ import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.factory.IStudentGradeFactory;
 import PAI.factory.studentGrade.IStudentGradeRepository;
-import PAI.repository.ICourseEditionRepository;
+import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import PAI.repository.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.service.studentGrade.StudentGradeServiceImpl;

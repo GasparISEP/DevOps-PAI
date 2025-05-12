@@ -6,7 +6,7 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.repository.ICourseEditionRepository;
+import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.IProgrammeEnrolmentRepository;
 import PAI.repository.ISchoolYearRepository;
