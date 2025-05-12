@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.repository.teacherRepository;
 
 import PAI.VOs.*;
 import PAI.domain.*;

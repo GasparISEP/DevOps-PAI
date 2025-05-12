@@ -8,7 +8,7 @@ import PAI.mapper.teacher.ITeacherMapper;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
-import PAI.repository.ITeacherRepository;
+import PAI.repository.teacherRepository.ITeacherRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

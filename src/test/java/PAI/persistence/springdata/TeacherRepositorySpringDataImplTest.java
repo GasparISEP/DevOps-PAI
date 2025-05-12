@@ -12,7 +12,7 @@ import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.springdata.teacher.ITeacherRepositorySpringData;
 import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
-import PAI.repository.ITeacherRepository;
+import PAI.repository.teacherRepository.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -3,6 +3,8 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.domain.*;
 import PAI.factory.teacher.ITeacherListFactory;
+import PAI.repository.teacherRepository.ITeacherRepository;
+import PAI.repository.teacherRepository.TeacherRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
