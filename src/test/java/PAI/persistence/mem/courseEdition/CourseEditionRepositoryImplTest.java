@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.persistence.mem.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
@@ -8,7 +8,6 @@ import PAI.factory.courseEdition.CourseEditionFactoryImpl;
 import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
 import PAI.factory.courseEdition.ICourseEditionFactory;
 import PAI.factory.courseEdition.ICourseEditionListFactory;
-import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
