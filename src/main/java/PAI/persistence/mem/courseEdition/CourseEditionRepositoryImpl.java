@@ -4,8 +4,8 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.CourseEdition;
-import PAI.factory.ICourseEditionFactory;
-import PAI.factory.ICourseEditionListFactory;
+import PAI.factory.courseEdition.ICourseEditionFactory;
+import PAI.factory.courseEdition.ICourseEditionListFactory;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.CourseEdition;
-import PAI.factory.ICourseEditionFactory;
+import PAI.factory.courseEdition.ICourseEditionFactory;
 import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;

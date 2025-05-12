@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.factory.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;

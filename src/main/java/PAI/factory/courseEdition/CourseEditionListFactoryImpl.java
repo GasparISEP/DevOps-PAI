@@ -1,4 +1,4 @@
-package PAI.factory;
+package PAI.factory.courseEdition;
 
 import PAI.domain.CourseEdition;
 

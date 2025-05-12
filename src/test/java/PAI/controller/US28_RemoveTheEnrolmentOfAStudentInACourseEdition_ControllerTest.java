@@ -2,8 +2,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.*;
-import PAI.factory.CourseEditionFactoryImpl;
-import PAI.factory.CourseEditionListFactoryImpl;
+import PAI.factory.courseEdition.CourseEditionFactoryImpl;
+import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
 import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
