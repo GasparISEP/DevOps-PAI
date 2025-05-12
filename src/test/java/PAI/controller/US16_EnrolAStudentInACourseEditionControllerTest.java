@@ -6,6 +6,7 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.factory.*;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanListFactoryImpl;
 import PAI.persistence.mem.courseInStudyPlan.CourseInStudyPlanRepositoryImpl;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;

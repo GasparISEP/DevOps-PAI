@@ -15,6 +15,7 @@ import PAI.factory.programme.ProgrammeFactoryImpl;
 import PAI.mapper.SchoolYear.SchoolYearMapperImpl;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
