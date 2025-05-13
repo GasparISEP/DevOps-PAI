@@ -5,9 +5,7 @@ import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.CourseEditionFactoryImpl;
-import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
 import PAI.domain.courseEdition.ICourseEditionFactory;
-import PAI.factory.courseEdition.ICourseEditionListFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

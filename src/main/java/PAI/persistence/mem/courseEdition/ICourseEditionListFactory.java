@@ -1,4 +1,4 @@
-package PAI.factory.courseEdition;
+package PAI.persistence.mem.courseEdition;
 
 import PAI.domain.courseEdition.CourseEdition;
 
