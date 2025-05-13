@@ -4,7 +4,7 @@ package PAI.controller;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.department.IDepartmentService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.schoolYear.ISchoolYearService;

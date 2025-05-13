@@ -4,10 +4,12 @@ import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
+import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentIDMapper;
+import PAI.mapper.programmeEditionEnrolment.ProgrammeEditionEnrolmentMapperImpl;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

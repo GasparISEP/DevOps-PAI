@@ -1,11 +1,9 @@
-package PAI.repository;
+package PAI.persistence.mem.programmeEditionEnrolment;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.factory.IProgrammeEditionEnrolmentListFactory;
-
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentListFactory;
+import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 
 
 import java.util.*;

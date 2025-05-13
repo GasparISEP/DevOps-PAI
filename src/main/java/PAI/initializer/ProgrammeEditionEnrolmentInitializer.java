@@ -1,7 +1,7 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

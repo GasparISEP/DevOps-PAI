@@ -1,10 +1,8 @@
 package PAI.repository;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.domain.Student;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 
 public class ProgrammeEditionEnrolmentDoubleEqualsTrue extends ProgrammeEditionEnrolment {
 

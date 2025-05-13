@@ -1,10 +1,9 @@
-package PAI.factory;
+package PAI.domain.programmeEditionEnrolment;
 
 import PAI.VOs.Date;
 import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEditionEnrolment;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,5 @@
-package PAI.factory;
+package PAI.domain.programmeEditionEnrolment;
 
-import PAI.domain.ProgrammeEditionEnrolment;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

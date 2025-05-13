@@ -1,13 +1,12 @@
-package PAI.mapper;
+package PAI.mapper.programmeEditionEnrolment;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Component

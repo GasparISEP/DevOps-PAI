@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.programmeEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.VOs.ProgrammeEditionEnrolmentID;

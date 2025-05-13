@@ -1,11 +1,11 @@
-package PAI.service;
+package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.IProgrammeEnrolmentRepository;
 import PAI.repository.schoolYear.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;

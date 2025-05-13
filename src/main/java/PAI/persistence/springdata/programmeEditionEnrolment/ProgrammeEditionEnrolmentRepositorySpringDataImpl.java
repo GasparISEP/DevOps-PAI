@@ -1,16 +1,16 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.programmeEditionEnrolment;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.mapper.IProgrammeEditionEnrolmentIDMapper;
-import PAI.mapper.IProgrammeEditionEnrolmentMapper;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentIDMapper;
+import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentMapper;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

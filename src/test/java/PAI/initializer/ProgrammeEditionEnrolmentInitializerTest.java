@@ -1,27 +1,18 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-import PAI.controller.US07_IWantToCreateASchoolYearController;
-import PAI.domain.programme.Programme;
-import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.CommandLineRunner;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class ProgrammeEditionEnrolmentInitializerTest {

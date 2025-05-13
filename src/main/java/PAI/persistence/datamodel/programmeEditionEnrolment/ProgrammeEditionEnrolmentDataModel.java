@@ -1,6 +1,5 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.programmeEditionEnrolment;
 
-import PAI.VOs.EnrolmentStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

@@ -1,6 +1,4 @@
-package PAI.factory;
-
-import PAI.domain.ProgrammeEditionEnrolment;
+package PAI.domain.programmeEditionEnrolment;
 
 import java.util.Set;
 

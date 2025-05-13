@@ -1,9 +1,8 @@
-package PAI.repository;
+package PAI.repository.programmeEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 
 import java.util.List;
 import java.util.Optional;

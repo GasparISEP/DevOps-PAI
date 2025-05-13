@@ -1,17 +1,18 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.IProgrammeEnrolmentRepository;
 import PAI.repository.schoolYear.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

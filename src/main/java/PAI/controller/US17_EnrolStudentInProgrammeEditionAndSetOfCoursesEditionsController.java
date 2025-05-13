@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 
-import PAI.service.IProgrammeEditionEnrolmentService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.courseEditionEnrolment;
 
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

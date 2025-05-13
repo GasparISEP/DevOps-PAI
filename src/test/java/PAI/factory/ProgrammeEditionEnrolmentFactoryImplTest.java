@@ -8,11 +8,10 @@ import PAI.VOs.Date;
 import PAI.VOs.EnrolmentStatus;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-
-import java.time.LocalDate;
 
 class ProgrammeEditionEnrolmentFactoryImplTest {
 

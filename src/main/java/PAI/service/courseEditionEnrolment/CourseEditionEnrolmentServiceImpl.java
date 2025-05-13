@@ -3,14 +3,14 @@ package PAI.service.courseEditionEnrolment;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
-import PAI.repository.IProgrammeEditionEnrolmentRepository;
+import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentRepositoryImpl;
-import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.programmeEditionEnrolment.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -1,7 +1,7 @@
-package PAI.mapper;
+package PAI.mapper.programmeEditionEnrolment;
 
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
 
 import java.util.Optional;
 

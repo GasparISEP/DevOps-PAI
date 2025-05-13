@@ -1,6 +1,7 @@
 package PAI.domain;
 
-import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

@@ -1,14 +1,17 @@
 package PAI.persistence.springdata;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEditionEnrolment;
-import PAI.mapper.*;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.ProgrammeEditionEnrolmentIDDataModel;
+import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentIDMapper;
+import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentMapper;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.springdata.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepositorySpringData;
+import PAI.persistence.springdata.programmeEditionEnrolment.ProgrammeEditionEnrolmentRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

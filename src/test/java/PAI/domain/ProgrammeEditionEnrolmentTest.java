@@ -1,10 +1,9 @@
 package PAI.domain;
 
 import PAI.VOs.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.factory.IProgrammeEditionEnrolmentFactory;
-import PAI.factory.IProgrammeEditionEnrolmentListFactory;
-import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentListFactory;
+import PAI.persistence.mem.programmeEditionEnrolment.ProgrammeEditionEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
