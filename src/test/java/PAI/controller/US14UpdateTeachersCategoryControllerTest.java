@@ -2,9 +2,9 @@
 
 import PAI.VOs.*;
 import PAI.domain.Teacher;
-import PAI.domain.TeacherCategory;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
-import PAI.service.ITeacherCategoryService;
+import PAI.service.teacherCategory.ITeacherCategoryService;
 import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

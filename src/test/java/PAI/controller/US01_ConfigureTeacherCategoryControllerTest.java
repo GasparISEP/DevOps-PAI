@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.Name;
-import PAI.service.TeacherCategoryServiceImpl;
+import PAI.service.teacherCategory.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

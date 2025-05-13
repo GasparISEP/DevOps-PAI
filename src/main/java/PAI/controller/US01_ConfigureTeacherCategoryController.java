@@ -1,6 +1,6 @@
 package PAI.controller;
 
-import PAI.service.ITeacherCategoryService;
+import PAI.service.teacherCategory.ITeacherCategoryService;
 import org.springframework.stereotype.Component;
 
 @Component

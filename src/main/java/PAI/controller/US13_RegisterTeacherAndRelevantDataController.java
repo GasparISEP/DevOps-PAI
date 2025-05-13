@@ -1,10 +1,10 @@
 package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.department.Department;
-import PAI.domain.TeacherCategory;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
-import PAI.service.ITeacherCategoryService;
+import PAI.service.teacherCategory.ITeacherCategoryService;
 import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Component;
 

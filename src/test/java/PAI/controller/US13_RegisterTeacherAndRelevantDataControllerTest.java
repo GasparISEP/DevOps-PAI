@@ -2,18 +2,22 @@
 
 import PAI.VOs.*;
 import PAI.domain.department.Department;
-import PAI.domain.TeacherCategory;
+import PAI.domain.teacherCategory.ITeacherCategoryFactory;
+import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.domain.teacherCategory.TeacherCategoryFactoryImpl;
 import PAI.factory.*;
-import PAI.persistence.springdata.TeacherCategoryRepositorySpringDataImpl;
+import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import PAI.persistence.springdata.teacherCareerProgression.TeacherCareerProgressionRepoSpringDataImpl;
 import PAI.repository.*;
-import PAI.service.*;
+import PAI.repository.teacherCategoryRepository.ITeacherCategoryRepository;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.teacher.ITeacherService;
 import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;
 import PAI.service.teacher.TeacherServiceImpl;
+import PAI.service.teacherCategory.ITeacherCategoryService;
+import PAI.service.teacherCategory.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;
