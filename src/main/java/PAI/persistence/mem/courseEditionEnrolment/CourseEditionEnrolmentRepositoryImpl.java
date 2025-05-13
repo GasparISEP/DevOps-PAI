@@ -1,4 +1,4 @@
-package PAI.persistence.mem;
+package PAI.persistence.mem.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;

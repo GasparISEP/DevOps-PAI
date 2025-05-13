@@ -2,10 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.domain.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.factory.*;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.service.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 

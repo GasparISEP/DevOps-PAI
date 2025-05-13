@@ -1,7 +1,6 @@
-package PAI.persistence.mem;
+package PAI.persistence.mem.courseEditionEnrolment;
 
 import PAI.VOs.*;
-import PAI.VOs.Date;
 import PAI.domain.courseEditionEnrolment.*;
 import org.junit.jupiter.api.Test;
 

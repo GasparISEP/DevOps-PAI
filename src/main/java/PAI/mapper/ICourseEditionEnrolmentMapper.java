@@ -1,7 +1,7 @@
 package PAI.mapper;
 
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
 
 import java.util.Optional;
 

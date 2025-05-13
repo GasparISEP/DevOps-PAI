@@ -1,11 +1,12 @@
-package PAI.mapper;
+package PAI.mapper.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
+import PAI.mapper.ICourseEditionEnrolmentIDMapper;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CourseEditionEnrolmentIDMapperImpl implements ICourseEditionEnrolmentIDMapper{
+public class CourseEditionEnrolmentIDMapperImpl implements ICourseEditionEnrolmentIDMapper {
 
     private final IStudentIDMapper studentIDMapper;
     private final ICourseEditionIDMapper courseEditionIDMapper;

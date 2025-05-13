@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.service.ICourseEditionEnrolmentService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
 public class US24_IWantToKnowNumberOfStudentsEnrolledInCourseEditionController {
 

@@ -18,6 +18,7 @@ rectangle "<system>\nPAI" as SystemBox {
   component Frontend
   component Backend
   component BD
+  interface " " as I1
 }
 
 ' Ligações externas — fora da caixa
@@ -30,7 +31,8 @@ RESTAPI -- SystemBox
 ' Ligações internas — dentro da caixa
 Frontend -- Backend
 Frontend -- SystemBox
-Backend -( BD
+Backend -( I1
 BD -- Port
+I1 - BD
 
 @enduml

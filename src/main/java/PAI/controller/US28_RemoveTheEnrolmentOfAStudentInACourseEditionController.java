@@ -2,8 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.service.ICourseEditionEnrolmentService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.stereotype.Component;
 
 

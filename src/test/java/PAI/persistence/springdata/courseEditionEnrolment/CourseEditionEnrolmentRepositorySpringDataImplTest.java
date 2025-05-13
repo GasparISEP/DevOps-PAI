@@ -1,4 +1,4 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
@@ -7,8 +7,8 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.mapper.*;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
