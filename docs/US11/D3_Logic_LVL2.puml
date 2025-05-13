@@ -1,0 +1,38 @@
+@startuml
+
+skinparam rectangle {
+  BorderColor Purple
+  BackgroundColor White
+}
+
+' Elementos externos
+actor User
+
+artifact D3
+artifact Port #red
+interface "POI Lib" as POI
+ interface "RestAPI" as RESTAPI
+
+' Sistema (PAI)
+rectangle "<system>\nPAI" as SystemBox {
+  component Frontend
+  component Backend
+  component BD
+  interface " " as I1
+}
+
+' Ligações externas — fora da caixa
+SystemBox  --( User
+POI )-up-SystemBox
+RESTAPI -- SystemBox
+
+
+
+' Ligações internas — dentro da caixa
+Frontend -- Backend
+Frontend -- SystemBox
+Backend -( I1
+BD -- Port
+I1 - BD
+
+@enduml
