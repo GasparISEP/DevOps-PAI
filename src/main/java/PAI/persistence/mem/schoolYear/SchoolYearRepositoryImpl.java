@@ -1,10 +1,9 @@
-package PAI.persistence.mem;
+package PAI.persistence.mem.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.SchoolYear;
-import PAI.factory.ISchoolYearListFactory;
-import PAI.repository.ISchoolYearRepository;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.repository.schoolYear.ISchoolYearRepository;
 
 import java.util.ArrayList;
 import java.util.List;

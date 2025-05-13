@@ -1,14 +1,11 @@
-package PAI.repository;
+package PAI.persistence.mem.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.SchoolYear;
-import PAI.factory.ISchoolYearFactory;
-import PAI.factory.ISchoolYearListFactory;
-import PAI.factory.SchoolYearFactoryImpl;
-import PAI.factory.SchoolYearListFactoryImpl;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

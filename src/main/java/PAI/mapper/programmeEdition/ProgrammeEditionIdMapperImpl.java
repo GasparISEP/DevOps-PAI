@@ -4,7 +4,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.mapper.programme.IProgrammeIDMapper;
-import PAI.mapper.schoolYearID.ISchoolYearIDMapper;
+import PAI.mapper.schoolYear.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;

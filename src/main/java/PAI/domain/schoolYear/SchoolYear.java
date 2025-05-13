@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;

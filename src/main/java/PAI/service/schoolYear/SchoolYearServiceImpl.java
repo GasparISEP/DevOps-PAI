@@ -3,9 +3,9 @@ package PAI.service.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.SchoolYear;
-import PAI.factory.ISchoolYearFactory;
-import PAI.repository.ISchoolYearRepository;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.repository.schoolYear.ISchoolYearRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

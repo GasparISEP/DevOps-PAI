@@ -2,11 +2,11 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.factory.ISchoolYearFactory;
-import PAI.factory.ISchoolYearListFactory;
-import PAI.factory.SchoolYearFactoryImpl;
-import PAI.factory.SchoolYearListFactoryImpl;
-import PAI.persistence.mem.SchoolYearRepositoryImpl;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
+import PAI.domain.schoolYear.SchoolYearFactoryImpl;
+import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
+import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;

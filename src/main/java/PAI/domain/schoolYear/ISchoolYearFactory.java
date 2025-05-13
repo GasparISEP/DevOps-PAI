@@ -1,8 +1,7 @@
-package PAI.factory;
+package PAI.domain.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.domain.SchoolYear;
 
 import java.util.UUID;
 

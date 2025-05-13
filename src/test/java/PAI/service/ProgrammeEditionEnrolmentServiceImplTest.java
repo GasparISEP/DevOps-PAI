@@ -9,7 +9,7 @@ import PAI.factory.IProgrammeEditionEnrolmentFactory;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import PAI.repository.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.IProgrammeEnrolmentRepository;
-import PAI.repository.ISchoolYearRepository;
+import PAI.repository.schoolYear.ISchoolYearRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import org.junit.jupiter.api.Test;

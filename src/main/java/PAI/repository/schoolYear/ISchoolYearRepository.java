@@ -1,8 +1,8 @@
-package PAI.repository;
+package PAI.repository.schoolYear;
 
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.IRepository;
-import PAI.domain.SchoolYear;
+import PAI.domain.schoolYear.SchoolYear;
 
 import java.util.List;
 import java.util.Optional;

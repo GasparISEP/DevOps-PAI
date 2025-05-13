@@ -1,4 +1,4 @@
-package PAI.mapper.schoolYearID;
+package PAI.mapper.schoolYear;
 
 
 import PAI.VOs.SchoolYearID;

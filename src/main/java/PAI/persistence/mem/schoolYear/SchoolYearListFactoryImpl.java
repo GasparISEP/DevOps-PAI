@@ -1,6 +1,6 @@
-package PAI.factory;
+package PAI.persistence.mem.schoolYear;
 
-import PAI.domain.SchoolYear;
+import PAI.domain.schoolYear.SchoolYear;
 
 import java.util.ArrayList;
 import java.util.List;

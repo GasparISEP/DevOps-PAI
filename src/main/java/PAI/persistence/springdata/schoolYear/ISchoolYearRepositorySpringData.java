@@ -1,4 +1,4 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.schoolYear;
 
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
