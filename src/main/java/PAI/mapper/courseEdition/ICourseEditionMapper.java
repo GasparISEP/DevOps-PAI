@@ -1,6 +1,6 @@
 package PAI.mapper.courseEdition;
 
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
 
 public interface ICourseEditionMapper {

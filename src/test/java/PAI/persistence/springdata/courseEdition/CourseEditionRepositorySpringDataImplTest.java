@@ -2,7 +2,7 @@ package PAI.persistence.springdata.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;

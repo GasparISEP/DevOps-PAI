@@ -1,6 +1,6 @@
-package PAI.factory.courseEdition;
+package PAI.persistence.mem.courseEdition;
 
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 
 import java.util.List;
 

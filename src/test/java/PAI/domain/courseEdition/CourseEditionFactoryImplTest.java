@@ -1,12 +1,9 @@
-package PAI.factory;
+package PAI.domain.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
-import PAI.domain.CourseEdition;
-import PAI.factory.courseEdition.CourseEditionFactoryImpl;
-import PAI.factory.courseEdition.ICourseEditionFactory;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

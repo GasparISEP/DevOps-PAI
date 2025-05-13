@@ -1,8 +1,6 @@
-package PAI.factory;
+package PAI.persistence.mem.courseEdition;
 
-import PAI.domain.CourseEdition;
-import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
-import PAI.factory.courseEdition.ICourseEditionListFactory;
+import PAI.domain.courseEdition.CourseEdition;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,10 +1,9 @@
-package PAI.factory.courseEdition;
+package PAI.domain.courseEdition;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
-import PAI.domain.CourseEdition;
 
 public interface ICourseEditionFactory {
 

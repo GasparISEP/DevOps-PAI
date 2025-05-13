@@ -4,7 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 
 import java.util.List;
 import java.util.Optional;
