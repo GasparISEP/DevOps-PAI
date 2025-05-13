@@ -6,7 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.programme.IProgrammeIDMapper;
-import PAI.mapper.schoolYear.ISchoolYearIDMapper;
+import PAI.mapper.SchoolYear.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.stereotype.Component;

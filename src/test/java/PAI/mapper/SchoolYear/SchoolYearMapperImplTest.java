@@ -1,4 +1,4 @@
-package PAI.mapper.schoolYear;
+package PAI.mapper.SchoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;

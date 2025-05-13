@@ -2,8 +2,8 @@ package PAI.mapper.SchoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
-import PAI.domain.SchoolYear;
-import PAI.factory.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package PAI.mapper.SchoolYear;
 
 
-import PAI.domain.SchoolYear;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 
 public interface ISchoolYearMapper {

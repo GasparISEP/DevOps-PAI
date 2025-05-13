@@ -2,7 +2,7 @@ package PAI.mapper.programmeEdition;
 
 import PAI.VOs.*;
 import PAI.mapper.programme.IProgrammeIDMapper;
-import PAI.mapper.schoolYear.ISchoolYearIDMapper;
+import PAI.mapper.SchoolYear.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
