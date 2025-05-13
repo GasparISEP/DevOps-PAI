@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.factory.*;
-import PAI.factory.courseEdition.CourseEditionFactoryImpl;
+import PAI.domain.courseEdition.CourseEditionFactoryImpl;
 import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
 import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;

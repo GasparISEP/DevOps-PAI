@@ -6,7 +6,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.Date;
 import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.Student;
 import PAI.domain.StudentGrade;
 import PAI.service.studentGrade.IStudentGradeService;

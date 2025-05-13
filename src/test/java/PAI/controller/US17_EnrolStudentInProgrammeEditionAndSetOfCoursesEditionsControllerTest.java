@@ -2,7 +2,7 @@ package PAI.controller;
 
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.ProgrammeEnrolment;
 import PAI.domain.SchoolYear;
 import PAI.domain.courseEditionEnrolment.*;
@@ -10,9 +10,9 @@ import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.factory.*;
-import PAI.factory.courseEdition.CourseEditionFactoryImpl;
+import PAI.domain.courseEdition.CourseEditionFactoryImpl;
 import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
-import PAI.factory.courseEdition.ICourseEditionFactory;
+import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.factory.courseEdition.ICourseEditionListFactory;
 import PAI.factory.programme.IProgrammeFactory;
 import PAI.factory.programme.ProgrammeFactoryImpl;

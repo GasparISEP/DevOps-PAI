@@ -3,8 +3,8 @@ package PAI.persistence.mem.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.CourseEdition;
-import PAI.factory.courseEdition.ICourseEditionFactory;
+import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.factory.courseEdition.ICourseEditionListFactory;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 

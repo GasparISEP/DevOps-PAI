@@ -1,6 +1,6 @@
 package PAI.factory;
 
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
 import PAI.factory.courseEdition.ICourseEditionListFactory;
 import org.junit.jupiter.api.Test;

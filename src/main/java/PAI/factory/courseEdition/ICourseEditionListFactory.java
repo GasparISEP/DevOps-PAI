@@ -1,6 +1,6 @@
 package PAI.factory.courseEdition;
 
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 
 import java.util.List;
 

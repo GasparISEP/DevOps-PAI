@@ -3,10 +3,10 @@ package PAI.persistence.mem.courseEdition;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.domain.*;
-import PAI.factory.courseEdition.CourseEditionFactoryImpl;
+import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.courseEdition.CourseEditionFactoryImpl;
 import PAI.factory.courseEdition.CourseEditionListFactoryImpl;
-import PAI.factory.courseEdition.ICourseEditionFactory;
+import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.factory.courseEdition.ICourseEditionListFactory;
 import org.junit.jupiter.api.Test;
 

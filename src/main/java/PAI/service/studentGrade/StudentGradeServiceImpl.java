@@ -1,7 +1,7 @@
 package PAI.service.studentGrade;
 
 import PAI.VOs.*;
-import PAI.domain.CourseEdition;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.SchoolYear;
 import PAI.domain.StudentGrade;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;

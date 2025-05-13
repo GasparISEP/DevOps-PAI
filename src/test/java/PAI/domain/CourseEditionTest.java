@@ -4,6 +4,7 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
+import PAI.domain.courseEdition.CourseEdition;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
