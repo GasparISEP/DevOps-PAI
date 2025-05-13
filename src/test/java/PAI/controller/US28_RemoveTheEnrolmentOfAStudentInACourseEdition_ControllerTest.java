@@ -5,10 +5,11 @@ import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.courseEdition.CourseEditionFactoryImpl;
 import PAI.persistence.mem.courseEdition.CourseEditionListFactoryImpl;
 import PAI.factory.ProgrammeEditionEnrolmentListFactoryImpl;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import PAI.repository.ProgrammeEditionEnrolmentRepositoryImpl;
-import PAI.service.*;
+import PAI.service.courseEditionEnrolment.CourseEditionEnrolmentServiceImpl;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

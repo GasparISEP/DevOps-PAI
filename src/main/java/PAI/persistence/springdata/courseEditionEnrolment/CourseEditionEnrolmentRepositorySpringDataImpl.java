@@ -1,4 +1,4 @@
-package PAI.persistence.springdata;
+package PAI.persistence.springdata.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
@@ -8,8 +8,8 @@ import PAI.mapper.ICourseEditionEnrolmentIDMapper;
 import PAI.mapper.ICourseEditionEnrolmentMapper;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;

@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.courseEditionEnrolment;
 
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;

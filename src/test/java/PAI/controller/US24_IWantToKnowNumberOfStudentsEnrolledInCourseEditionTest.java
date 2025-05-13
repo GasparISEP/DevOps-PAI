@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.CourseEditionID;
-import PAI.service.ICourseEditionEnrolmentService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

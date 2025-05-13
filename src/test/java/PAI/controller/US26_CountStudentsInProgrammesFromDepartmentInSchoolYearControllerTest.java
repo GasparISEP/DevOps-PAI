@@ -17,7 +17,7 @@ import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.persistence.mem.courseEdition.ICourseEditionListFactory;
 import PAI.factory.programme.IProgrammeFactory;
 import PAI.factory.programme.ProgrammeFactoryImpl;
-import PAI.persistence.mem.CourseEditionEnrolmentRepositoryImpl;
+import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.SchoolYearRepositoryImpl;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import PAI.domain.department.IDepartmentRepository;

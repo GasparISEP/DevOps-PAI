@@ -1,4 +1,4 @@
-package PAI.persistence.datamodel;
+package PAI.persistence.datamodel.courseEditionEnrolment;
 
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;

@@ -1,10 +1,12 @@
-package PAI.mapper;
+package PAI.mapper.courseEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
-import PAI.persistence.datamodel.CourseEditionEnrolmentDataModel;
-import PAI.persistence.datamodel.CourseEditionEnrolmentIDDataModel;
+import PAI.mapper.ICourseEditionEnrolmentIDMapper;
+import PAI.mapper.ICourseEditionEnrolmentMapper;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
