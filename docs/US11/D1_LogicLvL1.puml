@@ -1,0 +1,24 @@
+@startuml
+
+skinparam rectangle {
+  BorderColor Orange
+  BackgroundColor White
+}
+
+rectangle " " as SystemBox {
+
+  artifact "D1" as D1
+
+  component "<system>\nPAI" as PAI {
+  }
+
+  interface "UI" as UI
+  interface "API" as API
+  interface "POI Lib" as POI
+
+  UI -right- PAI
+  API -up- PAI
+  PAI -( POI
+}
+
+@enduml
