@@ -1,0 +1,23 @@
+@startuml
+title UC: Level 2 Register a Programme in the System
+caption SSD – Process View Level 2
+
+actor ASC as "ASC/Administrator"
+participant Backend <<system>>
+
+ASC -> Backend ++ : 1. Request to register a Programme
+Backend --> ASC -- : 2. List of Degree Types
+
+ASC -> Backend ++ : 3. Select Degree Type
+Backend --> ASC -- : 4. List of Departments
+
+ASC -> Backend ++ : 5. Select Department
+Backend --> ASC -- : 6. List of Teachers
+
+ASC -> Backend ++ : 7. Select Programme Director
+Backend --> ASC -- : 8. Request Programme Data\n(Name, Acronym, ECTS per Semester, Number of Semesters)
+
+ASC -> Backend ++ : 9. Provide Programme Data
+Backend --> ASC -- : 10. Programme registered successfully!
+
+@enduml
