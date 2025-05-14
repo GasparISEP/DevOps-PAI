@@ -1,7 +1,7 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.factory.programme.IProgrammeFactory;
 import PAI.factory.programme.ProgrammeFactoryImpl;

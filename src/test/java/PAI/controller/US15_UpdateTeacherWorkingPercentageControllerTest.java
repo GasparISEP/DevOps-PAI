@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.Date;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;
 import PAI.service.teacher.ITeacherService;
 import PAI.service.teacherCareerProgression.TeacherCareerProgressionServiceImpl;

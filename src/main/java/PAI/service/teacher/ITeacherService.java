@@ -1,7 +1,7 @@
 package PAI.service.teacher;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 
 import java.util.Optional;
 

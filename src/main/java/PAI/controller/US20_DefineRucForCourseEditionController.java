@@ -3,7 +3,7 @@ package PAI.controller;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.teacher.ITeacherService;
 

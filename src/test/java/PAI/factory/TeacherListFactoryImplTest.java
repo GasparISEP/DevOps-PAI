@@ -1,7 +1,7 @@
 package PAI.factory;
 
-import PAI.domain.Teacher;
-import PAI.factory.teacher.TeacherListFactoryImpl;
+import PAI.domain.teacher.Teacher;
+import PAI.domain.teacher.TeacherListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

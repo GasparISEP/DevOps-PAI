@@ -1,6 +1,7 @@
 package PAI.domain;
 
 import PAI.VOs.*;
+import PAI.domain.teacher.Teacher;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;

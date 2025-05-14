@@ -1,8 +1,9 @@
 package PAI.repository.teacherRepository;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.factory.teacher.ITeacherListFactory;
+import PAI.domain.teacher.ITeacherRepository;
+import PAI.domain.teacher.Teacher;
+import PAI.domain.teacher.ITeacherListFactory;
 
 import java.util.List;
 import java.util.Optional;

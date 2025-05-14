@@ -1,4 +1,4 @@
-package PAI.domain;
+package PAI.domain.teacher;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;

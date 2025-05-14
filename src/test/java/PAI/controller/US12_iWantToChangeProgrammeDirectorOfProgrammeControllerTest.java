@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;

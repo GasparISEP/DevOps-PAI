@@ -1,8 +1,7 @@
-package PAI.factory.teacher;
+package PAI.domain.teacher;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.domain.*;
 import org.springframework.stereotype.Component;
 
 

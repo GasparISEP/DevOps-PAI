@@ -4,11 +4,10 @@ package PAI.controller;
 
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.service.programme.IProgrammeService;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 
 @Component

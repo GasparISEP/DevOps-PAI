@@ -1,8 +1,7 @@
-package PAI.factory.teacher;
+package PAI.domain.teacher;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.domain.*;
 
 public interface ITeacherFactory {
     Teacher createTeacher(TeacherID teacherID, Name name, Email email, NIF nif, PhoneNumber phoneNumber, AcademicBackground academicBackground,

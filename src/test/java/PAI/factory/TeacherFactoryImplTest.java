@@ -2,9 +2,9 @@ package PAI.factory;
 
 import PAI.VOs.*;
 import PAI.VOs.Location;
-import PAI.domain.*;
-import PAI.factory.teacher.ITeacherFactory;
-import PAI.factory.teacher.TeacherFactoryImpl;
+import PAI.domain.teacher.Teacher;
+import PAI.domain.teacher.ITeacherFactory;
+import PAI.domain.teacher.TeacherFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,7 +1,7 @@
 package PAI.persistence.springdata;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.mapper.*;
 import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.teacher.ITeacherMapper;
@@ -12,7 +12,7 @@ import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.springdata.teacher.ITeacherRepositorySpringData;
 import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
-import PAI.repository.teacherRepository.ITeacherRepository;
+import PAI.domain.teacher.ITeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

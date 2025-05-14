@@ -1,12 +1,12 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.factory.teacher.ITeacherFactory;
-import PAI.factory.teacher.TeacherFactoryImpl;
+import PAI.domain.teacher.ITeacherFactory;
+import PAI.domain.teacher.TeacherFactoryImpl;
 import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
-import PAI.repository.teacherRepository.ITeacherRepository;
+import PAI.domain.teacher.ITeacherRepository;
 import PAI.service.teacher.ITeacherService;
 import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
