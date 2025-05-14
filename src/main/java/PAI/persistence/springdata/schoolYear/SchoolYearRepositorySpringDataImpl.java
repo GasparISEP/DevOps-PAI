@@ -3,11 +3,11 @@ package PAI.persistence.springdata.schoolYear;
 
 import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.mapper.SchoolYear.ISchoolYearMapper;
-import PAI.mapper.SchoolYear.ISchoolYearIDMapper;
+import PAI.mapper.schoolYear.ISchoolYearMapper;
+import PAI.mapper.schoolYear.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.schoolYear.SchoolYearDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
-import PAI.repository.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

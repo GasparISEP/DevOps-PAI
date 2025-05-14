@@ -3,10 +3,10 @@ package PAI.mapper.programmeEnrolment;
 import PAI.VOs.ProgrammeEnrolmentID;
 import PAI.VOs.StudentID;
 import PAI.VOs.ProgrammeID;
-import PAI.mapper.Student.IStudentIDMapper;
+import PAI.mapper.student.IStudentIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentIDDataModel;
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.springframework.stereotype.Component;
 

@@ -3,12 +3,12 @@ package PAI.persistence.springdata.Student;
 import PAI.VOs.*;
 import PAI.domain.student.Student;
 import PAI.mapper.*;
-import PAI.mapper.Student.IStudentIDMapper;
-import PAI.mapper.Student.IStudentMapper;
+import PAI.mapper.student.IStudentIDMapper;
+import PAI.mapper.student.IStudentMapper;
 import PAI.persistence.datamodel.NIFDataModel;
-import PAI.persistence.datamodel.Student.StudentDataModel;
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
-import PAI.repository.studentRepository.IStudentRepository;
+import PAI.persistence.datamodel.student.StudentDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
+import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

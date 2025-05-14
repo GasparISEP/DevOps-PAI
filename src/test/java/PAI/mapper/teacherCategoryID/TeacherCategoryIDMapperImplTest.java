@@ -2,7 +2,8 @@ package PAI.mapper.teacherCategoryID;
 
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.persistence.datamodel.teacherCategoryID.TeacherCategoryIDDataModel;
+import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
+import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

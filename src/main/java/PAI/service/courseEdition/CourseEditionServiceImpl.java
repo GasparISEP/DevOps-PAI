@@ -6,7 +6,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
-import PAI.repository.courseEditionRepository.ICourseEditionRepository;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.List;

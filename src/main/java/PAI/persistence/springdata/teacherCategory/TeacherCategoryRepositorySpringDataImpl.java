@@ -5,9 +5,9 @@ import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.mapper.teacherCategory.ITeacherCategoryMapper;
-import PAI.mapper.teacherCategoryID.TeacherCategoryIDMapperImpl;
-import PAI.persistence.datamodel.teacherCategoryID.TeacherCategoryIDDataModel;
-import PAI.repository.teacherCategoryRepository.ITeacherCategoryRepository;
+import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
+import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

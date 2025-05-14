@@ -7,12 +7,12 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionMapper;
-import PAI.mapper.SchoolYear.ISchoolYearIDMapper;
+import PAI.mapper.schoolYear.ISchoolYearIDMapper;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

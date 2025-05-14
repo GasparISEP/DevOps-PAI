@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.teacherCategory;
 
-import PAI.persistence.datamodel.teacherCategoryID.TeacherCategoryIDDataModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.junit.jupiter.api.Test;

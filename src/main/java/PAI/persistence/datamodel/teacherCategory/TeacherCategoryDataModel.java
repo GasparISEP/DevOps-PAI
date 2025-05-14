@@ -1,6 +1,5 @@
 package PAI.persistence.datamodel.teacherCategory;
 
-import PAI.persistence.datamodel.teacherCategoryID.TeacherCategoryIDDataModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

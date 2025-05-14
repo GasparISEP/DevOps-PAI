@@ -1,9 +1,9 @@
 package PAI.persistence.springdata.studentGrade;
 import PAI.VOs.StudentGradeID;
-import PAI.domain.StudentGrade;
-import PAI.factory.studentGrade.IStudentGradeRepository;
-import PAI.mapper.IStudentGradeIDMapper;
-import PAI.mapper.IStudentGradeMapper;
+import PAI.domain.studentGrade.StudentGrade;
+import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.mapper.studentGrade.IStudentGradeIDMapper;
+import PAI.mapper.studentGrade.IStudentGradeMapper;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import org.springframework.stereotype.Repository;

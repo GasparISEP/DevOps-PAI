@@ -3,9 +3,8 @@ package PAI.mapper.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.mapper.teacherCategoryID.ITeacherCategoryIDMapper;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryDataModel;
-import PAI.persistence.datamodel.teacherCategoryID.TeacherCategoryIDDataModel;
+import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

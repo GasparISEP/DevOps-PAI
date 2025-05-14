@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.programmeEnrolment;
 
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import jakarta.persistence.*;

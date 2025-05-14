@@ -4,13 +4,13 @@ import PAI.VOs.*;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentIDMapper;
 import PAI.mapper.programmeEditionEnrolment.IProgrammeEditionEnrolmentMapper;
-import PAI.mapper.Student.IStudentIDMapper;
+import PAI.mapper.student.IStudentIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
-import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

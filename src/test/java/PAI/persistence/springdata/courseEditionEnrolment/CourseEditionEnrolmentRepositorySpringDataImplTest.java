@@ -4,12 +4,13 @@ import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.mapper.*;
-import PAI.mapper.Student.IStudentIDMapper;
+import PAI.mapper.courseEditionEnrolment.ICourseEditionEnrolmentIDMapper;
+import PAI.mapper.courseEditionEnrolment.ICourseEditionEnrolmentMapper;
+import PAI.mapper.student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 

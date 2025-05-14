@@ -1,7 +1,7 @@
 package PAI.domain.programmeEnrolment;
 
 import PAI.VOs.*;
-import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

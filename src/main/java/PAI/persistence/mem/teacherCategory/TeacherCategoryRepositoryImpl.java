@@ -4,7 +4,7 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.ITeacherCategoryFactory;
-import PAI.repository.teacherCategoryRepository.ITeacherCategoryRepository;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 
 import java.util.List;
 import java.util.Optional;

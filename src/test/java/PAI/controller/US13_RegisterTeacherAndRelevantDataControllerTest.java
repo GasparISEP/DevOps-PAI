@@ -2,14 +2,15 @@
 
 import PAI.VOs.*;
 import PAI.domain.department.Department;
+import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
+import PAI.domain.teacherCareerProgression.TeacherCareerProgressionFactoryImpl;
 import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.TeacherCategoryFactoryImpl;
-import PAI.factory.*;
 import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import PAI.persistence.springdata.teacherCareerProgression.TeacherCareerProgressionRepoSpringDataImpl;
-import PAI.repository.*;
-import PAI.repository.teacherCategoryRepository.ITeacherCategoryRepository;
+import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionService;

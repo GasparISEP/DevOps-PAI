@@ -5,7 +5,7 @@ import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
-import PAI.repository.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

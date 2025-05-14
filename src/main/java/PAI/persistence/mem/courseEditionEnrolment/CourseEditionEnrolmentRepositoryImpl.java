@@ -4,8 +4,7 @@ import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 
 import java.util.*;
 

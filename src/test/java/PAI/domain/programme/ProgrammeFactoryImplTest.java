@@ -1,7 +1,6 @@
 package PAI.domain.programme;
 
 import PAI.VOs.*;
-import PAI.factory.programme.ProgrammeFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

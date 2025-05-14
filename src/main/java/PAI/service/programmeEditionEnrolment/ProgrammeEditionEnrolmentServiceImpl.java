@@ -2,14 +2,14 @@ package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
-import PAI.repository.courseEditionRepository.ICourseEditionRepository;
-import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
-import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
-import PAI.repository.schoolYear.ISchoolYearRepository;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,14 +1,13 @@
 package PAI.persistence.springdata.programme;
 
 import PAI.VOs.DepartmentID;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Repository;

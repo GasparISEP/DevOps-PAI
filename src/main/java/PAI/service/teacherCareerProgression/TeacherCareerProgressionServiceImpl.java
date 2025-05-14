@@ -4,9 +4,9 @@ import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
-import PAI.domain.TeacherCareerProgression;
-import PAI.factory.ITeacherCareerProgressionFactory;
-import PAI.repository.ITeacherCareerProgressionRepository;
+import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
+import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
+import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;

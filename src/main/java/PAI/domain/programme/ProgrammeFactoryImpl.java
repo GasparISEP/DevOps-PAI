@@ -1,0 +1,16 @@
+package PAI.domain.programme;
+
+import PAI.VOs.*;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProgrammeFactoryImpl implements IProgrammeFactory {
+    public Programme registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) {
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        return new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID, programmeID);
+    }
+
+    public Programme reregisterProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID id) {
+        return new Programme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID, id);
+    }
+}

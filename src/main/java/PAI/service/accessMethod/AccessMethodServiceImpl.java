@@ -3,7 +3,7 @@ package PAI.service.accessMethod;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

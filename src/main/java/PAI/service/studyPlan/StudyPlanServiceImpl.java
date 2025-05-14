@@ -3,7 +3,7 @@ package PAI.service.studyPlan;
 import PAI.VOs.*;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.repository.studyPlanRepository.IStudyPlanRepository;
+import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

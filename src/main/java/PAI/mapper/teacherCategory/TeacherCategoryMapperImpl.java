@@ -2,7 +2,6 @@ package PAI.mapper.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.mapper.teacherCategoryID.ITeacherCategoryIDMapper;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

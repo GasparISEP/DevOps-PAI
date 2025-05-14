@@ -5,14 +5,12 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.mapper.accessMethod.IAccessMethodMapper;
 import PAI.persistence.datamodel.accessMethod.AccessMethodDataModel;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public class AccessMethodRepositorySpringDataImpl implements IRepositoryAccessMethod {

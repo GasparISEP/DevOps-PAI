@@ -5,9 +5,9 @@ import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.mapper.course.ICourseMapper;
-import PAI.mapper.courseID.ICourseIDMapper;
+import PAI.mapper.course.ICourseIDMapper;
 import PAI.persistence.datamodel.course.CourseDataModel;
-import PAI.repository.courseRepository.ICourseRepository;
+import PAI.domain.repositoryInterfaces.course.ICourseRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

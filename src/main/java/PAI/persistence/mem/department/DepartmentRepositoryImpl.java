@@ -7,8 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import PAI.domain.department.IDepartmentListFactory;
-import PAI.domain.department.IDepartmentRepository;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 
 public class DepartmentRepositoryImpl implements IDepartmentRepository {
 

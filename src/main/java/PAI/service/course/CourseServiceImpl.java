@@ -6,7 +6,7 @@ import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.repository.courseRepository.ICourseRepository;
+import PAI.domain.repositoryInterfaces.course.ICourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

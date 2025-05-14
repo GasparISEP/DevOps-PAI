@@ -1,8 +1,6 @@
 package PAI.domain.course;
 
 import PAI.VOs.*;
-import PAI.exception.BusinessRuleViolationException;
-import PAI.repository.courseRepository.ICourseRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

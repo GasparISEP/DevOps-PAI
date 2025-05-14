@@ -1,12 +1,12 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.factory.programme.IProgrammeFactory;
-import PAI.factory.programme.ProgrammeFactoryImpl;
+import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;

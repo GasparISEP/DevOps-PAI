@@ -2,9 +2,8 @@ package PAI.service.accessMethod;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
-import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

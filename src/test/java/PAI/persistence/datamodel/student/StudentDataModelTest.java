@@ -3,8 +3,6 @@ package PAI.persistence.datamodel.student;
 import PAI.persistence.datamodel.AddressDataModel;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.PhoneNumberDataModel;
-import PAI.persistence.datamodel.Student.StudentDataModel;
-import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.StudentAcademicEmailDataModel;
 import org.junit.jupiter.api.Test;
 

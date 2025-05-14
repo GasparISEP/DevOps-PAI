@@ -1,12 +1,12 @@
 package PAI.persistence.springdata.teacherCareerProgression;
 
 import PAI.VOs.*;
-import PAI.domain.TeacherCareerProgression;
-import PAI.mapper.TeacherCareerProgression.ITeacherCareerProgressionIDMapper;
-import PAI.mapper.TeacherCareerProgression.ITeacherCareerProgressionMapper;
-import PAI.persistence.datamodel.TeacherCareerProgressionDataModel;
-import PAI.persistence.datamodel.TeacherCareerProgressionIDDataModel;
-import PAI.repository.ITeacherCareerProgressionRepository;
+import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
+import PAI.mapper.teacherCareerProgression.ITeacherCareerProgressionIDMapper;
+import PAI.mapper.teacherCareerProgression.ITeacherCareerProgressionMapper;
+import PAI.persistence.datamodel.teacherCareer.TeacherCareerProgressionDataModel;
+import PAI.persistence.datamodel.teacherCareer.TeacherCareerProgressionIDDataModel;
+import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

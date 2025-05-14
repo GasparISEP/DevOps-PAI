@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.teacher.Teacher;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.domain.teacher.ITeacherFactory;
-import PAI.domain.teacher.ITeacherRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

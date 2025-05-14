@@ -7,7 +7,7 @@ import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
 import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
 import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
-import PAI.repository.accessMethodRepository.IRepositoryAccessMethod;
+import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.service.accessMethod.AccessMethodServiceImpl;
 import PAI.service.accessMethod.IAccessMethodService;
 

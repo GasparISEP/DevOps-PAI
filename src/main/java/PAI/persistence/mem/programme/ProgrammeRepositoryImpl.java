@@ -3,7 +3,7 @@ package PAI.persistence.mem.programme;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package PAI.persistence.datamodel.programme;
 
-import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
+import PAI.persistence.datamodel.degreeType.DegreeTypeIDDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import jakarta.persistence.*;

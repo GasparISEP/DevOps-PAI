@@ -3,7 +3,7 @@ package PAI.persistence.mem.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.repository.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 
 import java.util.ArrayList;
 import java.util.List;

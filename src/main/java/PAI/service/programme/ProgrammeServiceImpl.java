@@ -2,8 +2,8 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.factory.programme.IProgrammeFactory;
-import PAI.repository.programmeRepository.IProgrammeRepository;
+import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

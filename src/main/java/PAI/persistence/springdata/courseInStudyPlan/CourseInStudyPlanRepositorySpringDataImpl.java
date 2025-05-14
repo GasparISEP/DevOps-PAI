@@ -8,7 +8,7 @@ import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
+import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

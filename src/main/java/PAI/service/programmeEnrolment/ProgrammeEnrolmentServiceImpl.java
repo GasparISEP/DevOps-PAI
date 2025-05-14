@@ -3,7 +3,7 @@ package PAI.service.programmeEnrolment;
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
-import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Service;
 
 @Service

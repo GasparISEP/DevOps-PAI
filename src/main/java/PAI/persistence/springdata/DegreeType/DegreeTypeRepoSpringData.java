@@ -4,10 +4,10 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.mapper.DegreeType.DegreeTypeMapper;
-import PAI.persistence.datamodel.DegreeType.DegreeTypeDataModel;
-import PAI.persistence.datamodel.DegreeType.DegreeTypeIDDataModel;
-import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
+import PAI.mapper.degreeType.DegreeTypeMapper;
+import PAI.persistence.datamodel.degreeType.DegreeTypeDataModel;
+import PAI.persistence.datamodel.degreeType.DegreeTypeIDDataModel;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

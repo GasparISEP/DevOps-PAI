@@ -4,7 +4,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 
 import java.util.ArrayList;
 import java.util.List;

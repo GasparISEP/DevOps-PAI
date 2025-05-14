@@ -2,8 +2,7 @@ package PAI.persistence.mem.programmeEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
-import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentListFactory;
-import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 
 
 import java.util.*;

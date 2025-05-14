@@ -7,9 +7,9 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.repository.courseEditionRepository.ICourseEditionRepository;
-import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

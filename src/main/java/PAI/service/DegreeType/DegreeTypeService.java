@@ -4,8 +4,8 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
-import PAI.factory.DegreeTypeFactory.IDegreeTypeFactory;
-import PAI.repository.degreeTypeRepository.IDegreeTypeRepository;
+import PAI.domain.degreeType.IDegreeTypeFactory;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

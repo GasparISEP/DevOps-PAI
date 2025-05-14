@@ -1,9 +1,9 @@
 package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.department.DepartmentFactoryImpl;
-import PAI.domain.department.DepartmentListFactoryImpl;
+import PAI.persistence.mem.department.DepartmentListFactoryImpl;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
-import PAI.domain.department.IDepartmentRepository;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.service.department.DepartmentServiceImpl;
 import PAI.service.department.IDepartmentService;
 import org.junit.jupiter.api.Test;

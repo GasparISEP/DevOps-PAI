@@ -1,7 +1,7 @@
 package PAI.controller;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.stereotype.Component;
 @Component

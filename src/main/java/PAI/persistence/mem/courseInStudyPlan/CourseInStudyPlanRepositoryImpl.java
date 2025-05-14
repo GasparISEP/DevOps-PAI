@@ -2,7 +2,7 @@ package PAI.persistence.mem.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
-import PAI.repository.courseInStudyPlanRepository.ICourseInStudyPlanRepository;
+import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 
 import java.util.List;
 import java.util.Optional;

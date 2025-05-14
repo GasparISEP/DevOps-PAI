@@ -3,7 +3,7 @@ package PAI.persistence.springdata.teacherCategory;
 import PAI.VOs.Name;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.TeacherCategoryFactorySpringImpl;
-import PAI.mapper.teacherCategoryID.TeacherCategoryIDMapperImpl;
+import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
 import PAI.mapper.teacherCategory.TeacherCategoryMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

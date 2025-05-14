@@ -3,12 +3,10 @@ package PAI.mapper.courseInStudyPlan;
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
-import PAI.mapper.courseID.ICourseIDMapper;
+import PAI.mapper.course.ICourseIDMapper;
 import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
-import PAI.persistence.datamodel.course.CourseIDDataModel;
-import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.springframework.stereotype.Component;
 
 @Component
