@@ -8,7 +8,7 @@ skinparam rectangle {
 ' Elementos externos
 actor User
 
-artifact D3
+artifact "LogicalView Level 2"
 artifact Port #red
 interface "POI Lib" as POI
  interface "RestAPI" as RESTAPI

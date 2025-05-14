@@ -7,7 +7,7 @@ skinparam rectangle {
 
 rectangle " " as SystemBox {
 
-  artifact "D1" as D1
+  artifact "LogicalView Level 1" as D1
 
   component "<system>\nPAI" as PAI {
   }
