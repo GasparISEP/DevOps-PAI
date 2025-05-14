@@ -1,4 +1,4 @@
-package PAI.service;
+package PAI.service.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.ProgrammeEnrolment;

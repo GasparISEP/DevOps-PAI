@@ -37,7 +37,6 @@ import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentReposi
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.schoolYear.ISchoolYearRepository;
-import PAI.service.*;
 import PAI.service.courseEdition.CourseEditionServiceImpl;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEditionEnrolment.CourseEditionEnrolmentServiceImpl;
@@ -48,6 +47,8 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
+import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
+import PAI.service.programmeEnrolment.ProgrammeEnrolmentServiceImpl;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;

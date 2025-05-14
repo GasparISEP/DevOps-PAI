@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.service.IProgrammeEnrolmentService;
+import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
