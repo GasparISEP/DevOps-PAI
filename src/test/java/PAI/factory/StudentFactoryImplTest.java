@@ -1,7 +1,9 @@
 package PAI.factory;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
+import PAI.domain.student.IStudentFactory;
+import PAI.domain.student.Student;
+import PAI.domain.student.StudentFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

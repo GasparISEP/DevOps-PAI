@@ -1,8 +1,8 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
-import PAI.factory.IStudentFactory;
+import PAI.domain.student.Student;
+import PAI.domain.student.IStudentFactory;
 import PAI.repository.IStudentRepository;
 import PAI.service.Student.StudentServiceImpl;
 import org.apache.commons.lang3.stream.Streams;

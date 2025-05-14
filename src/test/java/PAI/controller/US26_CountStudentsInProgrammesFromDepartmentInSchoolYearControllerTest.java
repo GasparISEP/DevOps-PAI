@@ -7,7 +7,7 @@ import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentListFactoryImpl;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.domain.department.DepartmentFactoryImpl;
 import PAI.domain.department.DepartmentListFactoryImpl;

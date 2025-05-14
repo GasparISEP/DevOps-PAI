@@ -2,6 +2,7 @@ package PAI.domain;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.domain.student.Student;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

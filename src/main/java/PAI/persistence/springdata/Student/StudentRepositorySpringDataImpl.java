@@ -1,7 +1,7 @@
 package PAI.persistence.springdata.Student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 import PAI.mapper.*;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.Student.IStudentMapper;

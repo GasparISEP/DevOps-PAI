@@ -1,6 +1,8 @@
 package PAI.factory;
 
-import PAI.domain.Student;
+import PAI.domain.student.IStudentListFactory;
+import PAI.domain.student.Student;
+import PAI.domain.student.StudentListFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

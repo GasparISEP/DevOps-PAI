@@ -1,13 +1,13 @@
 package PAI.mapper.Student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 import PAI.mapper.IAddressMapper;
 import PAI.mapper.INIFMapper;
 import PAI.mapper.IPhoneNumberMapper;
 import PAI.mapper.IStudentAcademicEmailMapper;
 import PAI.persistence.datamodel.*;
-import PAI.factory.IStudentFactory;
+import PAI.domain.student.IStudentFactory;
 import PAI.persistence.datamodel.Student.StudentDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import org.springframework.stereotype.Component;

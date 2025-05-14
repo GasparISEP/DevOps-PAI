@@ -1,8 +1,8 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
-import PAI.factory.IStudentFactory;
+import PAI.domain.student.Student;
+import PAI.domain.student.IStudentFactory;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.Student.StudentMapperImpl;
 import PAI.persistence.datamodel.*;

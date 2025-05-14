@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 
 import java.util.Optional;
 

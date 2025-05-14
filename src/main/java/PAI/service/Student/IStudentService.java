@@ -1,7 +1,7 @@
 package PAI.service.Student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 
 public interface IStudentService {
 
