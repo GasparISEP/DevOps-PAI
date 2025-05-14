@@ -3,6 +3,7 @@ package PAI.repository;
 import PAI.VOs.*;
 import PAI.domain.student.Student;
 import PAI.domain.student.IStudentListFactory;
+import PAI.repository.studentRepository.StudentRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
