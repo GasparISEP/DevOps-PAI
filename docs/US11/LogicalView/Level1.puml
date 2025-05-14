@@ -13,11 +13,9 @@ rectangle " " as SystemBox {
   }
 
   interface "UI" as UI
-  interface "API" as API
   interface "POI Lib" as POI
 
   UI -right- PAI
-  API -up- PAI
   PAI -( POI
 }
 

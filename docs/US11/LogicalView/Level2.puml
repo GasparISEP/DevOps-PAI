@@ -9,7 +9,7 @@ skinparam rectangle {
 actor User
 
 artifact "LogicalView Level 2"
-artifact Port #red
+
 interface "POI Lib" as POI
  interface "RestAPI" as RESTAPI
 
@@ -30,9 +30,9 @@ RESTAPI -- SystemBox
 
 ' Ligações internas — dentro da caixa
 Frontend -- Backend
-Frontend -- SystemBox
 Backend -( I1
-BD -- Port
+POI -- Backend
+
 I1 - BD
 
 @enduml
