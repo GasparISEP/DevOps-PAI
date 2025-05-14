@@ -1,8 +1,8 @@
 package PAI.mapper;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEnrolment;
-import PAI.factory.IProgrammeEnrolmentFactory;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.accessMethod.IAccessMethodIDMapper;

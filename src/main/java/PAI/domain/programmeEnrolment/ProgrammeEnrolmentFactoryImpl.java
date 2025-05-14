@@ -1,7 +1,6 @@
-package PAI.factory;
+package PAI.domain.programmeEnrolment;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEnrolment;
 import org.springframework.stereotype.Component;
 
 @Component

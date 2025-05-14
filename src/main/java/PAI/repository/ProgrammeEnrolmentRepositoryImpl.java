@@ -1,8 +1,8 @@
 package PAI.repository;
 
 import PAI.VOs.*;
-import PAI.domain.*;
-import PAI.factory.IProgrammeEnrolmentListFactory;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.IProgrammeEnrolmentListFactory;
 
 import java.util.List;
 import java.util.Optional;

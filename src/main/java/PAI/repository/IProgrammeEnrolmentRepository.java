@@ -2,7 +2,7 @@ package PAI.repository;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 
 import java.util.Optional;
 
