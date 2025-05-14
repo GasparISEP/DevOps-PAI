@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.service.IProgrammeEnrolmentService;
+import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
