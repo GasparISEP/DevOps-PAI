@@ -1,4 +1,4 @@
-package PAI.service.Student;
+package PAI.service.student;
 
 import PAI.VOs.*;
 import PAI.domain.student.Student;
