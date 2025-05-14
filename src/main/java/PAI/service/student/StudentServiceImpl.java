@@ -1,9 +1,9 @@
-package PAI.service.Student;
+package PAI.service.student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
-import PAI.factory.IStudentFactory;
-import PAI.repository.IStudentRepository;
+import PAI.domain.student.Student;
+import PAI.domain.student.IStudentFactory;
+import PAI.repository.studentRepository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service

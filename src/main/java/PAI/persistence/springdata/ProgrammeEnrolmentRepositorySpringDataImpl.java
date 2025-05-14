@@ -1,7 +1,7 @@
 package PAI.persistence.springdata;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.mapper.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.IProgrammeEnrolmentMapper;
 import PAI.mapper.Student.IStudentIDMapper;
@@ -10,7 +10,7 @@ import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
-import PAI.repository.IProgrammeEnrolmentRepository;
+import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

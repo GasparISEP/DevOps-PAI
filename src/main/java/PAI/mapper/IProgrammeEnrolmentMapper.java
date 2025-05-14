@@ -1,6 +1,6 @@
 package PAI.mapper;
 
-import PAI.domain.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.persistence.datamodel.ProgrammeEnrolmentDataModel;
 
 public interface IProgrammeEnrolmentMapper {

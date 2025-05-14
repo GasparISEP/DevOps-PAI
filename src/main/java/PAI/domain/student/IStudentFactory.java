@@ -1,7 +1,6 @@
-package PAI.factory;
+package PAI.domain.student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
 
 public interface IStudentFactory {
 

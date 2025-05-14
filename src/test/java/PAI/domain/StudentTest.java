@@ -2,6 +2,7 @@ package PAI.domain;
 
 import PAI.VOs.*;
 import PAI.domain.accessMethod.AccessMethod;
+import PAI.domain.student.Student;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

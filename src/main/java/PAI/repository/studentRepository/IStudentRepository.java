@@ -1,8 +1,8 @@
-package PAI.repository;
+package PAI.repository.studentRepository;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 
 import java.util.Optional;
 

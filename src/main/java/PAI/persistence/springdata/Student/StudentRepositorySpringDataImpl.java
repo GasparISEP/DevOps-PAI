@@ -1,14 +1,14 @@
 package PAI.persistence.springdata.Student;
 
 import PAI.VOs.*;
-import PAI.domain.Student;
+import PAI.domain.student.Student;
 import PAI.mapper.*;
 import PAI.mapper.Student.IStudentIDMapper;
 import PAI.mapper.Student.IStudentMapper;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.Student.StudentDataModel;
 import PAI.persistence.datamodel.Student.StudentIDDataModel;
-import PAI.repository.IStudentRepository;
+import PAI.repository.studentRepository.IStudentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

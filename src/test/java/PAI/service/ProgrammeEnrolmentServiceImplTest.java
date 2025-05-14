@@ -1,9 +1,9 @@
 package PAI.service;
 
 import PAI.VOs.*;
-import PAI.domain.ProgrammeEnrolment;
-import PAI.factory.IProgrammeEnrolmentFactory;
-import PAI.repository.IProgrammeEnrolmentRepository;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
+import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
 import PAI.service.programmeEnrolment.ProgrammeEnrolmentServiceImpl;
 import org.junit.jupiter.api.Test;
 
