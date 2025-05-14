@@ -1,8 +1,8 @@
 package PAI.mapper.teacher;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
-import PAI.factory.teacher.ITeacherFactory;
+import PAI.domain.teacher.Teacher;
+import PAI.domain.teacher.ITeacherFactory;
 import PAI.mapper.IAddressMapper;
 import PAI.mapper.INIFMapper;
 import PAI.mapper.IPhoneNumberMapper;

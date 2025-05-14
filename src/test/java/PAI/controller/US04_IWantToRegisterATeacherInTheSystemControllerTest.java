@@ -1,12 +1,12 @@
 package PAI.controller;
 import PAI.VOs.*;
 import PAI.domain.department.*;
-import PAI.factory.teacher.ITeacherFactory;
-import PAI.factory.teacher.TeacherFactoryImpl;
-import PAI.factory.teacher.TeacherListFactoryImpl;
+import PAI.domain.teacher.ITeacherFactory;
+import PAI.domain.teacher.TeacherFactoryImpl;
+import PAI.domain.teacher.TeacherListFactoryImpl;
 import PAI.persistence.mem.department.DepartmentRepositoryImpl;
 import PAI.domain.department.IDepartmentRepository;
-import PAI.repository.teacherRepository.ITeacherRepository;
+import PAI.domain.teacher.ITeacherRepository;
 import PAI.repository.teacherRepository.TeacherRepositoryImpl;
 import PAI.service.teacher.ITeacherService;
 import PAI.service.teacher.TeacherServiceImpl;

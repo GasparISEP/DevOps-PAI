@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.domain.department.Department;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.service.DegreeType.IDegreeTypeService;

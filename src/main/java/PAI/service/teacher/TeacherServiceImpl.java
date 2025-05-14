@@ -1,10 +1,10 @@
 package PAI.service.teacher;
 
 import PAI.VOs.*;
-import PAI.domain.Teacher;
+import PAI.domain.teacher.Teacher;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.factory.teacher.ITeacherFactory;
-import PAI.repository.teacherRepository.ITeacherRepository;
+import PAI.domain.teacher.ITeacherFactory;
+import PAI.domain.teacher.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

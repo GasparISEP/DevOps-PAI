@@ -1,8 +1,7 @@
-package PAI.repository.teacherRepository;
+package PAI.domain.teacher;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;
-import PAI.domain.Teacher;
 
 public interface ITeacherRepository extends IRepository<TeacherID, Teacher> {
 
