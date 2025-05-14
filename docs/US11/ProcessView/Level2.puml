@@ -2,7 +2,7 @@
 title UC: Level 2 Register a Programme in the System
 caption SSD – Process View Level 2
 
-actor ASC as "ASC/Administrator"
+actor ASC as "ASC"
 participant Backend <<system>>
 
 ASC -> Backend ++ : 1. Request to register a Programme
