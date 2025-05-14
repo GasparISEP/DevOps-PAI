@@ -24,6 +24,7 @@ import PAI.persistence.mem.programmeEdition.ProgrammeEditionListFactoryImpl;
 import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.repository.*;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.schoolYear.ISchoolYearRepository;
 import PAI.service.courseEditionEnrolment.CourseEditionEnrolmentServiceImpl;

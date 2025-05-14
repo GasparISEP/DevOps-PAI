@@ -3,7 +3,7 @@ package PAI.factory;
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolmentFactoryImpl;
-import PAI.repository.IProgrammeEnrolmentRepository;
+import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

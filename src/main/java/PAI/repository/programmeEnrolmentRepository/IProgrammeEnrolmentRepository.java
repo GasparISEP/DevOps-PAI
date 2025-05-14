@@ -1,4 +1,4 @@
-package PAI.repository;
+package PAI.repository.programmeEnrolmentRepository;
 
 import PAI.VOs.*;
 import PAI.ddd.IRepository;

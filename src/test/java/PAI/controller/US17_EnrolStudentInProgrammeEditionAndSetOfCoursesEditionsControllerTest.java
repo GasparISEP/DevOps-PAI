@@ -34,6 +34,7 @@ import PAI.repository.*;
 import PAI.repository.courseEditionRepository.ICourseEditionRepository;
 import PAI.repository.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.repository.programmeEditionRepository.IProgrammeEditionRepository;
+import PAI.repository.programmeEnrolmentRepository.IProgrammeEnrolmentRepository;
 import PAI.repository.programmeRepository.IProgrammeRepository;
 import PAI.repository.schoolYear.ISchoolYearRepository;
 import PAI.service.courseEdition.CourseEditionServiceImpl;
