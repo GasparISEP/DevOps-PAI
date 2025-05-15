@@ -1,38 +1,44 @@
 @startuml
 
-skinparam rectangle {
-  BorderColor Purple
-  BackgroundColor White
-}
 
-' Elementos externos
-actor User
+title "PAI \n (Logical View - Level 2)"
 
-artifact "LogicalView Level 2"
+interface UI
+interface "API REST"
+interface "POI Lib"
 
-interface "POI Lib" as POI
- interface "RestAPI" as RESTAPI
 
-' Sistema (PAI)
-rectangle "<system>\nPAI" as SystemBox {
-  component Frontend
+component "<<System>>\nPAI" {
+  portin " " as p1
+  portin " " as p2
+  portout " " as p3
   component Backend
+  component Frontend
   component BD
   interface " " as I1
+
 }
 
-' Ligações externas — fora da caixa
-SystemBox  --( User
-POI )-up-SystemBox
-RESTAPI -- SystemBox
+component Frontend {
+portin " " as p4
+}
+
+component Backend {
+portin " " as p5
+portout " " as p6
+}
 
 
 
-' Ligações internas — dentro da caixa
-Frontend -- Backend
-Backend -( I1
-POI -- Backend
+I1 -right- BD
+p5-up- p4
+p1 -up- UI
+p2 -up- "API REST"
+p2 -down-p5
+"POI Lib" )-down-p3
+p3 -left-p5
+p1 -down-p4
+p6 -down-(I1
 
-I1 - BD
 
 @enduml
