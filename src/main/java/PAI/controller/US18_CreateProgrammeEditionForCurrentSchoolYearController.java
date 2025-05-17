@@ -37,7 +37,7 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         return programmeService.findAll();
     }
 
-    protected SchoolYearID getCurrentSchoolYear(){
+    public SchoolYearID getCurrentSchoolYear(){
 
         Optional<SchoolYearID> currentSchoolYear = schoolYearService.getCurrentSchoolYearID();
         if(currentSchoolYear.isEmpty()){
@@ -46,16 +46,14 @@ public class US18_CreateProgrammeEditionForCurrentSchoolYearController {
         return currentSchoolYear.get();
     }
 
-    public boolean createAProgrammeEditionForTheCurrentSchoolYear(Programme programme, SchoolYearID sYID) throws Exception {
+    public boolean createAProgrammeEditionForTheCurrentSchoolYear(ProgrammeID pID, SchoolYearID sYID) throws Exception {
 
-        if(programme == null){
-            throw new Exception("Programme cannot be null");
+        if(pID == null){
+            throw new Exception("Programme ID cannot be null");
         }
         if(sYID == null){
             throw new Exception("School Year ID cannot be null");
         }
-
-        ProgrammeID pID = programme.identity();
 
         try {
             ProgrammeEdition programmeEdition = programmeEditionService.createProgrammeEdition(pID, sYID);

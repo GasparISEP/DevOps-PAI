@@ -368,6 +368,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
@@ -386,7 +387,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
 
         // Act + Assert
-        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(programme,null);});
+        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID,null);});
 
     }
 
@@ -432,6 +433,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
 
         Description description1 = new Description("2023/2024");
         Date startDate1 = new Date("01-09-2023");
@@ -449,7 +451,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYearID schoolYearID = schoolYear.identity();
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programme, schoolYearID);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
 
         // Assert
         assertTrue(result);
@@ -491,6 +493,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
 
         // Create a school year
         Description description = new Description("2023/2024");
@@ -506,10 +509,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYearID schoolYearID = schoolYear.identity();
 
         // Create first programme edition
-        controller.createAProgrammeEditionForTheCurrentSchoolYear(programme, schoolYearID);
+        controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
 
         // Act - Create duplicate programme edition
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programme, schoolYearID);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
 
         // Assert
         assertFalse(result);
@@ -576,6 +579,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
             Iterator<Programme> iterator = programmes.iterator();
             Programme programme1 = iterator.next();
 
+
             ProgrammeID pID1 = programme1.identity();
             SchoolYearID sYID = schoolYearService.getCurrentSchoolYearID().get();
 
@@ -583,7 +587,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
             programmeEditionService.saveProgrammeEdition(programmeEdition1);
 
             // Act
-            boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programme1, sYID);
+            boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(pID1, sYID);
 
             // Assert
 //            List<ProgrammeEdition> list = StreamSupport
@@ -629,6 +633,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
 
 
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -638,7 +643,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 .thenThrow(new RuntimeException("Simulated error"));
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programme, schoolYearID);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
 
         // Assert
         assertFalse(result);
