@@ -40,7 +40,6 @@ class ProgrammeEnrolmentSpringDataRepository {
 interface IProgrammeEnrolmentRepository {
 + save(pe: ProgrammeEnrolment)
 +containsOfIdentity(peID: ProgrammeEnrolmentID)
-
 }
 
 class ProgrammeEnrolmentFactoryImpl {
@@ -54,6 +53,7 @@ interface IProgrammeEnrolmentFactory {
 class ProgrammeEnrolmentMapper {
 +toDomain(peDataModel: ProgrammeEnrolmentDataModel, peFactory: ProgrammeEnrolmentFactory)
 +toDataModel(peDomain: ProgrammeEnrolment)
++toDTO()
 }
 
 class ProgrammeEnrolmentDataModel {
@@ -69,6 +69,18 @@ class ProgrammeEnrolmentDataModel {
 +getDate()
 }
 
+class ProgrammeEnrolmentDTO {
+-programmeEnrolmentIDDTO : ProgrammeEnrolmentIDDTO
+-studentID : int
+-accessMethodID : String
+-programmeID : String
+}
+
+class ProgrammeEnrolmentIDDTO {
+-studentUniqueNumber : int
+-programmeAcronym : String
+}
+
 interface IProgrammeEnrolmentSpringDataRepository {
 +save(peDataModel: ProgrammeEnrolmentDataModel)
 +existsById(peIDDataModel: ProgrammeEnrolmentIDDataModel)
@@ -77,6 +89,7 @@ interface IProgrammeEnrolmentSpringDataRepository {
 interface IProgrammeEnrolmentMapper {
 +toDataModel(peDomain: ProgrammeEnrolment)
 +toDomain(peDataModel: ProgrammeEnrolmentDataModel)
++toDTO()
 }
 
 interface IProgrammeEnrolmentService {
@@ -87,6 +100,7 @@ interface IProgrammeEnrolmentService {
 interface IProgrammeEnrolmentIDMapper {
 +toDataModel(peIDDomain: ProgrammeEnrolmentID)
 +toDomain(peIDDataModel: peIDDataModel
++toDTO()
 }
 
 interface IStudentIDMapper {
@@ -107,6 +121,7 @@ interface IAccessMethodIDMapper {
 class ProgrammeEnrolmentIDMapper {
 +toDataModel(peIDDomain: ProgrammeEnrolmentID)
 +toDomain(peIDDataModel: peIDDataModel
++toDTO()
 }
 
 class StudentIDMapper {
