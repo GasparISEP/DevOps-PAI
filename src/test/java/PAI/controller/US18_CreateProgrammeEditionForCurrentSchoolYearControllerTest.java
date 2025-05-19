@@ -521,18 +521,29 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
 
-
-        Description description = new Description("2024/2025");
-        Date startDate = new Date("01-09-2024");
-        Date endDate = new Date("31-08-2025");
-        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description, startDate, endDate);
+        // Create and save multiple school years
+        Description description1 = new Description("2022/2023");
+        Date startDate1 = new Date("01-09-2022");
+        Date endDate1 = new Date("31-08-2023");
+        SchoolYear schoolYear1 = schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
         schoolYearRepository.save(schoolYear1);
-        Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
-        Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
-        SchoolYear schoolYear = schoolYearIterator.next();
-        SchoolYearID expectedID = schoolYear.identity();
 
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+        Description description2 = new Description("2023/2024");
+        Date startDate2 = new Date("01-09-2023");
+        Date endDate2 = new Date("31-08-2024");
+        SchoolYear schoolYear2 = schoolYearFactory.createSchoolYear(description2, startDate2, endDate2);
+        schoolYearRepository.save(schoolYear2);
+
+        Description description3 = new Description("2024/2025");
+        Date startDate3 = new Date("01-09-2024");
+        Date endDate3 = new Date("31-08-2025");
+        SchoolYear schoolYear3 = schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
+        schoolYearRepository.save(schoolYear3);
+
+        SchoolYearID expectedID = schoolYear3.identity();
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
         // Act
         SchoolYearID result = controller.getCurrentSchoolYear();
@@ -570,7 +581,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionIfParameterProgrammeNull() throws Exception {
+    void shouldThrowExceptionIfParameterProgrammeIDNull() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
@@ -719,9 +730,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Programme programme = iterator.next();
         ProgrammeID programmeID = programme.identity();
 
-        Description description1 = new Description("2023/2024");
-        Date startDate1 = new Date("01-09-2023");
-        Date endDate1 = new Date("31-08-2024");
+        Description description1 = new Description("2024/2025");
+        Date startDate1 = new Date("01-09-2024");
+        Date endDate1 = new Date("31-08-2025");
         Description description3 = new Description("2025/2026");
         Date startDate3 = new Date("01-09-2025");
         Date endDate3 = new Date("31-08-2026");
@@ -729,20 +740,76 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         schoolYearRepository.save(schoolYear1);
         SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
         schoolYearRepository.save(schoolYear2);
-        Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
-        Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
-        SchoolYear schoolYear = schoolYearIterator.next();
-        SchoolYearID schoolYearID = schoolYear.identity();
+
+        SchoolYearID currentSchoolYearID = controller.getCurrentSchoolYear();
 
         // Act
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, currentSchoolYearID);
 
         // Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseWhenExceptionIsThrown() throws Exception {
+    void shouldReturnFalseIfAlreadyExistTheSameProgrammeEditionInTheCurrentSchoolYear() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
+                programmeEditionService, programmeService, schoolYearService);
+
+        // Create a programme
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
+        Acronym programmeAcronym = new Acronym("TP");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Iterable<Programme> programmes = programmeRepository.findAll();
+        Iterator<Programme> iterator = programmes.iterator();
+        Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
+
+        // Create a school year
+        Description description = new Description("2024/2025");
+        Date startDate = new Date("01-09-2024");
+        Date endDate = new Date("31-08-2025");
+
+        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description, startDate, endDate);
+        schoolYearRepository.save(schoolYear1);
+
+        SchoolYearID currentSchoolYearID = controller.getCurrentSchoolYear();
+
+        // Create first programme edition
+        controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, currentSchoolYearID);
+
+        // Act - Create duplicate programme edition
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, currentSchoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeEditionIsCreatedForNonCurrentYear() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
@@ -787,104 +854,14 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description, startDate, endDate);
         schoolYearRepository.save(schoolYear1);
 
-        Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
-        Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
-        SchoolYear schoolYear = schoolYearIterator.next();
-        SchoolYearID schoolYearID = schoolYear.identity();
+        SchoolYearID currentSchoolYearID = controller.getCurrentSchoolYear();
 
-        // Create first programme edition
-        controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
-
-        // Act - Create duplicate programme edition
-        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
-
-        // Assert
-        assertFalse(result);
+        // Act + Assert
+        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID,currentSchoolYearID);});
     }
 
     @Test
-        void shouldReturnFalseIfAlreadyExistTheSameProgrammeEditionInTheCurrentSchoolYear() throws Exception {
-            // Arrange
-        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
-
-        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
-
-        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
-                programmeEditionService, programmeService, schoolYearService);
-
-            NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
-            Acronym programmeAcronym1 = new Acronym("LEI");
-            NameWithNumbersAndSpecialChars programmeName2 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Espacial");
-            Acronym programmeAcronym2 = new Acronym("LEE");
-            NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
-            Acronym programmeAcronym3 = new Acronym("LEA");
-            QuantEcts quantEcts = new QuantEcts(30);
-            QuantSemesters quantSemesters = new QuantSemesters(4);
-            DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
-            DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
-            DepartmentID departmentID = new DepartmentID(departmentAcronym);
-            TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
-            TeacherID teacherID = new TeacherID(teacherAcronym);
-
-            programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-            programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-            programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-
-            Description description1 = new Description("2023/2024");
-            Date startDate1 = new Date("01-09-2023");
-            Date endDate1 = new Date("31-08-2024");
-            Description description2 = new Description("2024/2025");
-            Date startDate2 = new Date("01-09-2024");
-            Date endDate2 = new Date("31-08-2025");
-            Description description3 = new Description("2025/2026");
-            Date startDate3 = new Date("01-09-2025");
-            Date endDate3 = new Date("31-08-2026");
-
-        SchoolYear schoolYear1=schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
-        schoolYearRepository.save(schoolYear1);
-        SchoolYear schoolYear2=schoolYearFactory.createSchoolYear(description3, startDate3, endDate3);
-        schoolYearRepository.save(schoolYear2);
-        SchoolYear schoolYear3=schoolYearFactory.createSchoolYear(description2, startDate2, endDate2);
-        schoolYearRepository.save(schoolYear3);
-
-
-            Iterable<Programme> programmes = programmeRepository.findAll();
-            Iterator<Programme> iterator = programmes.iterator();
-            Programme programme1 = iterator.next();
-
-
-            ProgrammeID pID1 = programme1.identity();
-            SchoolYearID sYID = schoolYearService.getCurrentSchoolYearID().get();
-
-            ProgrammeEdition programmeEdition1 = programmeEditionService.createProgrammeEdition(pID1, sYID);
-            programmeEditionService.saveProgrammeEdition(programmeEdition1);
-
-            // Act
-            boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(pID1, sYID);
-
-            // Assert
-//            List<ProgrammeEdition> list = StreamSupport
-//                    .stream(programmeEditionRepository.findAll().spliterator(), false)
-//                    .collect(Collectors.toList());
-//
-//            assertEquals(new HashSet<>(list), programmeEditionRepository.findAll());
-//            assertEquals(3, list.size());
-            assertFalse(result);
-        }
-
-    @Test
-    void shouldReturnFalseWhenServiceThrowsException() throws Exception {
+    void shouldReturnFalseWhenCreatingProgrammeEditionThrowsException() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
@@ -924,6 +901,54 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         // Mock the service to throw an exception
         when(programmeEditionService.createProgrammeEdition(any(), any()))
+                .thenThrow(new RuntimeException("Simulated error"));
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSavingProgrammeEditionThrowsException() throws Exception {
+        // Arrange
+        IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+
+        IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
+        IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
+        IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
+        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+
+        ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
+                programmeEditionService, programmeService, schoolYearService);
+
+        // Create a programme
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
+        Acronym programmeAcronym = new Acronym("TP");
+        QuantEcts quantEcts = new QuantEcts(30);
+        QuantSemesters quantSemesters = new QuantSemesters(4);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
+        TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
+
+        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Iterable<Programme> programmes = programmeRepository.findAll();
+        Iterator<Programme> iterator = programmes.iterator();
+        Programme programme = iterator.next();
+        ProgrammeID programmeID = programme.identity();
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        when(programmeEditionService.saveProgrammeEdition(any()))
                 .thenThrow(new RuntimeException("Simulated error"));
 
         // Act
