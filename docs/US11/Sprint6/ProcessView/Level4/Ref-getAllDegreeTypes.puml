@@ -1,0 +1,41 @@
+@startuml
+autonumber
+
+participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "dtService:DegreeTypeService" as DTS #lightblue
+participant "dtMapper:DegreeTypeMapper" as DTM #lightpink
+participant "dtDTO:DegreeTypeDTO" as DTDTO #lightgreen
+participant "dtRepo:DegreeTypeRepository" as DTR #technology
+participant "dtMapper:DegreeTypeMapper" as M #lightyellow
+participant "dtFactory:DegreeTypeFactoryImpl" as F #lightpink
+participant "degreeType[i]:degreeType" as DT
+
+activate C
+C -> DTS ++: getAllDegreeTypes()
+
+DTS -> DTR ++: findAll()
+
+DTR -> : findAll()
+DTR <-- : List<DegreeTypeDataModel>
+
+loop for DegreeTypeDataModel[i]
+DTR -> M ++: toDomainModel(degreeTypeDataModel[i])
+M -> F ++: recreate(degreeTypeDataModel[i])
+F -> DT**: newDegreeType(degreeTypeID, \n name, maxECTS)
+activate DT
+DT --> F --: degreeType[i]
+F --> M --: degreeType[i]
+M --> DTR --: degreeType[i]
+end
+
+DTR --> DTS --: List<DegreeType>
+loop for DegreeType[i]
+DTS -> DTM ++ :fromDomainToDTO(degreeType[i]))
+DTM -> DTDTO ++: newDegreeTypeDTO(degreeType[i]))
+DTDTO --> DTM --: degreeTypeDTO[i]
+DTM --> DTS --: degreeTypeDTO[i]
+end
+DTS --> C --: List<DegreeTypeDTO>
+deactivate C
+
+@enduml
