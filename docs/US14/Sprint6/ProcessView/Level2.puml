@@ -1,0 +1,33 @@
+@startuml
+autonumber
+
+title As an HRC I want to Update a Teacher's Category in the System\n(Process View Level 2)
+
+actor HRC
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB
+
+activate HRC
+HRC -> FE ++: Request to update a teacher's category
+FE -> BE ++: (GET) Request list of teachers
+BE -> DB ++: Fetch all teachers
+DB --> BE --: List of teachers
+BE --> FE --: List of teachers
+FE --> HRC --: Display teachers
+
+HRC -> FE ++: Select teacher
+FE -> BE ++: (GET) Request list of categories
+BE -> DB ++: Fetch all categories
+DB --> BE --: List of categories
+BE --> FE --: List of categories
+FE --> HRC --: Display categories
+
+HRC -> FE ++: Select category and date
+FE -> BE ++: (PUT) Update teacher
+BE -> DB ++: Update teacher record
+DB --> BE --: Update confirmed
+BE --> FE --: (200 OK) Update successful
+FE --> HRC --: Teacher category updated successfully
+
+@enduml
