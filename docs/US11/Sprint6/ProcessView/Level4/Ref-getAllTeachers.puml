@@ -1,0 +1,41 @@
+@startuml
+autonumber
+
+participant "pctrl:ProgrammeRestController" as C #implementation
+participant "tService:TeacherService" as TS #lightyellow
+participant "tMapper:TeacherMapper" as TM #lightpink
+participant "tDTO:TeacherDTO" as TDTO #lightgreen
+participant "tRepo:TeacherRepository" as TR #lightblue
+participant "tMapper:TeacherMapper" as M #lightgreen
+participant "tFactory:TeacherFactory" as TF #technology
+participant "teacher[i]:Teacher" as T
+
+activate C
+C -> TS ++: getAllTeachers()
+
+TS -> TR ++: findAll()
+
+TR -> : findAll()
+TR <-- : List<TeacherDataModel>
+
+loop for TeacherDataModel[i]
+TR -> M ++: toDomain(teacherDataModel[i])
+M -> TF ++: createTeacher(teacherDataModel[i])
+TF -> T**: newTeacher(teacherID, name, email, \n nif, phoneNumber, academicBackground, street, \n postalCode, location, country, departmentID)
+activate T
+T --> TF --: teacher[i]
+TF --> M --: teacher[i]
+M --> TR --: teacher[i]
+end
+
+TR --> TS --: List<Teacher>
+loop for Teacher[i]
+TS -> TM ++ :fromDomainToDTO(teacher[i]))
+TM -> TDTO ++: newTeacherDTO(teacher[i]))
+TDTO --> TM --: teacherDTO[i]
+TM --> TS --: teacherDTO[i]
+end
+
+TS --> C --: List<TeacherDTO>
+deactivate C
+@enduml
