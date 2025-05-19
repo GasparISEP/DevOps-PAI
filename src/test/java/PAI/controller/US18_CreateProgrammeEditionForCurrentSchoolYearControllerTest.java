@@ -30,9 +30,12 @@ import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -40,6 +43,287 @@ import static org.mockito.Mockito.when;
 
 class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
+    //Unit Tests
+    //Constructor Tests
+    @Test
+    void shouldCreateControllerUnitTest() throws Exception {
+        //Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        //Act
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        //Assert
+        assertNotNull(controller);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionServiceIsNullUnitTest() throws Exception {
+        //Arrange
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(null, programmeService, schoolYearService);});
+
+        // Assert
+        assertEquals("Programme Edition Service cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeServiceIsNullUnitTest() throws Exception {
+        //Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService);});
+
+        // Assert
+        assertEquals("Programme Service cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearServiceIsNullUnitTest() throws Exception {
+        //Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, null);});
+
+        // Assert
+        assertEquals("School Year Service cannot be null", exception.getMessage());
+    }
+
+    //getAllProgrammes Tests
+    @Test
+    void shouldReturnAllProgrammesUnitTest() throws Exception {
+        //Arrange
+
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        Iterable<Programme> expectedProgrammes = mock(Iterable.class);
+        when(programmeService.findAll()).thenReturn(expectedProgrammes);
+
+        //Act
+        Iterable<Programme> actualProgrammes = controller.getAllProgrammes();
+
+        //Assert
+        assertEquals(expectedProgrammes, actualProgrammes);
+    }
+
+    @Test
+    void shouldReturnEmptyListOfNamesIfProgrammeRepositoryIsEmptyUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        when(programmeService.findAll()).thenReturn(new ArrayList<>());
+
+        // Act
+        Iterable<Programme> actualProgrammes = controller.getAllProgrammes();
+
+        // Assert
+        assertNotNull(actualProgrammes);
+        assertFalse(actualProgrammes.iterator().hasNext());
+    }
+
+    //getCurrentSchoolYear Tests
+    @Test
+    void shouldReturnCurrentSchoolYearUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.of(schoolYearID));
+
+        //Act
+        SchoolYearID currentSchoolYearID = controller.getCurrentSchoolYear();
+
+        //Assert
+        assertEquals(schoolYearID, currentSchoolYearID);
+    }
+
+    @Test
+    void shouldReturnNoSchoolYearUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.empty());
+
+        //Act
+        SchoolYearID currentSchoolYearID = controller.getCurrentSchoolYear();
+
+        //Assert
+        assertNull(currentSchoolYearID);
+    }
+
+    //CreateProgrammeEdition Tests
+    @Test
+    void shouldThrowExceptionWhenProgrammeIDIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(null,schoolYearID);});
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearIDIsNull() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        // Act + Assert
+        assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID,null);});
+    }
+
+    @Test
+    void shouldReturnTrueWhenProgrammeEditionIsSuccessfullyCreatedAndSavedUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
+        when(programmeEditionService.saveProgrammeEdition(programmeEdition)).thenReturn(Optional.of(programmeEdition));
+
+        //Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCreateProgrammeEditionFailsUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(null);
+
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSavingProgrammeEditionFailsUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+
+        when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
+        when(programmeEditionService.saveProgrammeEdition(programmeEdition)).thenReturn(Optional.empty());
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCreatingProgrammeEditionThrowsExceptionUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+
+        when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenThrow(IllegalArgumentException.class);
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenSavingProgrammeEditionThrowsExceptionUnitTest() throws Exception {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+
+        US18_CreateProgrammeEditionForCurrentSchoolYearController controller =
+                new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+
+        when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
+        when(programmeEditionService.saveProgrammeEdition(programmeEdition)).thenThrow(IllegalArgumentException.class);
+        // Act
+        boolean result = controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID, schoolYearID);
+
+        // Assert
+        assertFalse(result);
+    }
+
+
+    //Integration Tests
     //Constructor Tests
     @Test
     void shouldCreateController() throws Exception {
