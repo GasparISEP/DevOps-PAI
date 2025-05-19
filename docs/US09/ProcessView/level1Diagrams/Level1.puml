@@ -1,4 +1,7 @@
 @startuml
+
+title UC: Enrol Student in Programme\n(Process View Level 1)
+
 actor ASC as Admin
 participant ":System" as System
 

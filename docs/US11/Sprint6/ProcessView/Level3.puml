@@ -1,0 +1,77 @@
+@startuml
+
+autonumber
+
+title As an ASC I want to register a Programme \n (Process View Level 3)
+
+actor ASC as Admin
+participant "UI" as UI #lightblue
+participant "Controller" as C #lightgreen
+participant "Service" as S #lightblue
+participant "Repository" as R #lightyellow
+participant "Domain" as D #lightpink
+participant "Database" as BD #lightyellow
+
+activate Admin
+Admin -> UI ++: Request register a Programme
+
+UI -> C ++: Request Degree Types
+C -> S ++: Get Degree Types
+S -> R ++: Get Degree Types
+R -> BD ++: Retrieve all Degree Types
+BD --> R --: List of Degree Types
+R --> S --: List of Degree Types
+S --> C --: List of Degree Types
+C --> UI --: List of Degree Types
+UI --> Admin --: Provide List of Degree Types
+
+Admin -> UI ++: Degree Type
+
+UI -> C ++: Request Departments
+C -> S ++: Get Departments
+S -> R ++: Get Departments
+R -> BD ++: Retrieve all Departments
+BD --> R --: List of Departments
+R --> S --: List of Departments
+S --> C --: List of Departments
+C --> UI --: List of Departments
+UI --> Admin --: Provide List of Departments
+
+Admin -> UI ++: Department
+
+UI -> C ++: Request Teachers
+C -> S ++: Get Teachers
+S -> R ++: Get Teachers
+R -> BD ++: Retrieve all Teachers
+BD --> R --: List of Teachers
+R --> S --: List of Teachers
+S --> C --: List of Teachers
+C --> UI --: List of Teachers
+UI --> Admin --: Provide List of Teachers
+
+Admin -> UI ++: Programme Director
+UI --> Admin --: Present Programme Form
+
+Admin -> UI ++: Fill Programme Form (name, acronym, \nquantECTS, quantSemesters)
+
+UI -> C ++: Submit Programme Form
+C -> S ++: Register Programme
+
+S -> D ++: Create Programme
+D --> S --: Programme
+
+S -> R ++: Check if Programme exists
+R -> BD ++: Check if Programme exists
+BD --> R --: Programme does not exist
+R --> S --: Programme does not exist
+
+S -> R ++: Save Programme
+R -> BD ++: Save Programme
+BD --> R --: Saved Programme
+R --> S --: Saved Programme
+
+S --> C --: Saved Programme
+C --> UI --: Saved Programme
+UI --> Admin --: Programme registered successfully!
+
+@enduml

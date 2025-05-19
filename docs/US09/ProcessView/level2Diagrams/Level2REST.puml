@@ -1,0 +1,17 @@
+@startuml
+
+title UC: Enrol Student in Programme\n(Process View Level 2)
+autonumber
+
+participant "<<system(C4)>>\nFrontend" as FE
+participant "<<system(C4)>>\nBackend" as BE
+
+[o-> FE: Request enroll Student in Programme
+activate FE
+FE -> BE: (POST) Request Student in Programme
+activate BE
+BE --> FE: (201 Created) Student enrolled in Programme
+deactivate BE
+[o<-- FE: Student enrolled in Programme
+deactivate FE
+@enduml

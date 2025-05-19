@@ -1,0 +1,42 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
+
+
+participant "ProgrammeEnrolmentRepositorySpringData" as ProgrammeEnrolmentRepo #lightblue
+participant "ProgrammeEnrolmentMapper" as PEMapper
+participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
+participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
+participant "peDomain : ProgrammeEnrolment" as ProgrammeEnrolment
+
+
+activate ProgrammeEnrolmentRepo
+ProgrammeEnrolmentRepo -> PEMapper : toDataModel(PE1)
+activate PEMapper
+PEMapper -> PEDataModel** : ProgrammeEnrolmentDataModel(PE1)
+activate PEDataModel
+PEDataModel --> PEMapper : peDataModel1
+deactivate PEDataModel
+PEMapper --> ProgrammeEnrolmentRepo : peDataModel1
+deactivate PEMapper
+
+ProgrammeEnrolmentRepo -> : save(peDataModel1)
+ProgrammeEnrolmentRepo <-- : pDataModel1
+
+ProgrammeEnrolmentRepo -> PEMapper : toDomain(peDataModel1)
+activate PEMapper
+PEMapper -> PEFactory : createProgrammeEnrolment\n(studentID, accessMethodID,\n programmeID, dateVO)
+activate PEFactory
+PEFactory -> ProgrammeEnrolment** : createProgrammeEnrolment\n(studentID, accessMethodID,\n programmeID, dateVO)
+activate ProgrammeEnrolment
+ProgrammeEnrolment --> PEFactory : PE1
+deactivate ProgrammeEnrolment
+PEFactory --> PEMapper : True
+deactivate PEFactory
+PEMapper --> ProgrammeEnrolmentRepo : true
+deactivate PEMapper
+deactivate ProgrammeEnrolmentRepo
+
+
+@enduml

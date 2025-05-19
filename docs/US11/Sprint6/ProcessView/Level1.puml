@@ -1,0 +1,30 @@
+@startuml
+autonumber
+
+title As an ASC I want to register a Programme \n (Process View Level 1)
+
+actor ASC as Admin
+participant ":SystemPAI" as System
+
+activate System
+Admin -> System  : I Want to register a Programme in the System.
+
+System --> Admin --: Choose a Degree Type
+
+Admin -> System  ++: Degree Type
+
+System --> Admin --: Choose a Department
+
+Admin -> System  ++: Department
+
+System --> Admin --: Choose a ProgrammeDirector
+
+Admin -> System  ++: Teacher
+
+System --> Admin  --: Name? Acronym? quantityOfEcts? quantityOfSemesters?
+
+Admin -> System  ++: name, acronym, quantityOfEcts, quantityOfSemesters
+
+System --> Admin  : Programme registered successfully!
+deactivate System
+@enduml

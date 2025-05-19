@@ -1,5 +1,6 @@
 @startuml
-title UC: Level 2 Register a Programme in the System
+
+title UC: Enrol Student in Programme\n(Process View Level 2)
 caption SSD – Process View Level 2
 
 actor ASC as "ASC"

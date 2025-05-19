@@ -1,0 +1,43 @@
+@startuml
+
+autonumber
+
+title As an ASC I want to register a Programme \n (Process View Level 2)
+
+actor ASC as Admin
+participant "<<SystemPAI>> \nFrontend" as FE #lightblue
+participant "<<SystemPAI>> \nBackend" as BE #lightgreen
+participant "Database" as BD #lightyellow
+
+activate Admin
+Admin -> FE ++: Request register a Programme
+FE -> BE ++: (GET) Request Degree Types
+BE -> BD ++: Retrieve all Degree Types
+BD --> BE --: List of Degree Types
+BE --> FE --: (OK, 200) List of Degree Types
+FE --> Admin --: Provide List of Degree Types
+Admin -> FE ++: Degree Type
+
+FE -> BE ++: (GET) Request Departments
+BE -> BD ++: Retrieve all Departments
+BD --> BE --: List of Departments
+BE --> FE --: (OK, 200) List of Departments
+FE --> Admin --: Provide List of Departments
+Admin -> FE ++: Department
+
+FE -> BE ++: (GET) Request Teachers
+BE -> BD ++: Retrieve all Teachers
+BD --> BE --: List of Teachers
+BE --> FE --: (OK, 200) List of Teachers
+FE --> Admin --: Provide List of Teachers
+Admin -> FE ++: Programme Director
+
+FE --> Admin --: Name, Acronym, Quantity ECTS\n Quantity Semesters?
+Admin -> FE ++: name, acronym, quantECTS, \nquantSemesters
+FE -> BE ++: (POST) Request register a Programme \n(name, acronym, quantECTS, quantSemesters, \ndegreeType, department, programmeDirector)
+BE -> BD ++: (INSERT) Persist Programme to Database (Programme)
+BD --> BE --: Programme
+BE --> FE --: (201 Created) Registered Programme
+FE --> Admin --: Programme registered successfully!
+
+@enduml

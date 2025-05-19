@@ -1,0 +1,36 @@
+@startuml
+
+title UC: Enrol Student in Programme\n(Process View Level 3)
+autonumber
+
+participant "RESTController" as RC
+participant "Service" as S
+participant "Repository" as R
+participant "Domain" as D
+
+[o-> RC: (POST) Request Enrol Student in Programme
+activate RC
+RC -> S: Enrol Student in Programme
+activate S
+S --> D: Create Programme Enrollment
+activate D
+D --> S: Programme Enrollment
+deactivate D
+
+S -> R: Validation of duplicate enrollment Create Programme Enrollment
+activate R
+R --> S: Student not enrolled in Programme validated
+deactivate R
+
+
+
+S -> R: Save Student Enrolled in Programme
+activate R
+R --> S: Student Enrolled in Programme
+deactivate R
+S --> RC: Student Enrolled in Programme
+deactivate S
+[o<-- RC: 201 Created, Student Enrolled in Programme
+deactivate RC
+
+@enduml
