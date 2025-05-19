@@ -1,0 +1,28 @@
+@startuml
+autonumber
+
+participant "pRepo:ProgrammeRepository" as PR #lightcyan
+participant "pMapper:ProgrammeMapper" as M #lightyellow
+participant "pDataModel1:ProgrammeDataModel" as PDM
+participant "pFactory:ProgrammeFactory" as PF #lightpink
+participant "P1:Programme" as P #lightgreen
+
+activate PR
+PR -> M ++: toData(P1)
+
+M -> PDM**: newProgrammeDataModel(P1)
+activate PDM
+PDM --> M --: pDataModel1
+M --> PR --: pDataModel1
+
+PR -> : save(pDataModel1)
+PR <-- : pDataModel1
+
+PR -> M++ : toDomain(pDataModel1)
+M -> PF++ : reregisterProgramme(name, acronym, quantEcts, \nquantSemesters, degreeTypeID, departmentID, teacherID, programmeID)
+PF -> P** : newProgramme(name, acronym, quantEcts, \nquantSemesters, degreeTypeID, departmentID, \nteacherID, programmeID)
+activate P
+P --> PF --: P1
+PF --> M --: P1
+M --> PR --: P1
+@enduml
