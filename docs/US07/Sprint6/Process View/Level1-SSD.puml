@@ -1,0 +1,15 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+
+actor Admin
+participant ":System" as Sys
+
+Admin -> Sys  : I Want to create a School Year in the System.
+Sys --> Admin  : description? startDate? endDate?
+Admin -> Sys  : description! startDate! endDate!
+Sys --> Admin  : Sure?
+Admin -> Sys  : Yes!
+Sys --> Admin  : Ok!
+
+@enduml
