@@ -1,0 +1,14 @@
+@startuml
+title As an HRC, I want to Update a Teacher's Category in the System\n (Process View Level 1)
+actor HRC
+participant ":System" as system
+HRC -> system: I want to update the teacher's Category.
+system --> HRC: Which Teacher?
+HRC -> system: Teacher's Acronym!
+system --> HRC: Which Teacher Category?
+HRC -> system: Teacher Category's ID!
+system -> HRC: What date?
+HRC -> system: Date!
+
+system --> HRC: OK!
+@enduml
