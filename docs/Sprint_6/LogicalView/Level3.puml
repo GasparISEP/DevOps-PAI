@@ -1,0 +1,77 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 3"
+
+rectangle " " {
+
+  interface "API" as API
+  interface "???" as Unknown
+  interface "BD API" as BDAPI
+
+  rectangle "Drivers and frameworks " {
+
+    portin " " as p1
+    portin " " as p2
+    portin " " as p3
+
+    component Router
+    component POI
+    component Drivers
+
+    Router -- p3
+    POI -down- p2
+    Drivers -- p1
+
+    interface " " as IPOI
+    interface " " as IDrivers
+
+    POI -- IPOI
+    Drivers -- IDrivers
+  }
+
+  rectangle "                                            Application layer                                                " {
+    component Controller
+    component "?" as UnknownMiddle
+    component Repo
+    interface " " as IRepo
+    interface " " as IUnknownMiddle
+    interface " " as IController
+
+    "UnknownMiddle" -down- IUnknownMiddle
+    Repo -- IRepo
+    Controller -right- IController
+    Controller -down-( IUnknownMiddle
+  }
+
+  rectangle "                                               Service layer                                                    " {
+    component Service
+    interface " " as IService
+
+    Service - IService
+  }
+
+  rectangle "                                               Domain layer                                                   " {
+    component Domain
+    interface " " as IDomain
+
+    Domain -up- IDomain
+  }
+
+  p1 -up- API
+  p2 -up-( Unknown
+  p3 -up-( BDAPI
+
+  Router -down-( IController
+  UnknownMiddle -up-( IPOI
+  Repo -up-( IDrivers
+
+  Controller -down-( IService
+  Service -up-( IRepo
+  Service -down-( IDomain
+}
+
+@enduml
