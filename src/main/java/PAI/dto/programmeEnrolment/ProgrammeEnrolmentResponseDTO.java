@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public class ProgrammeEnrolmentResponseDTO {
 
-    private String studentName;
+    private int studentName;
     private String accessMethodName;
     private String programmeName;
     private LocalDate date;
 
-    public ProgrammeEnrolmentResponseDTO(String studentName, String accessMethodName, String programmeName, LocalDate date) {
+    public ProgrammeEnrolmentResponseDTO(int studentName, String accessMethodName, String programmeName, LocalDate date) {
         this.studentName = studentName;
         this.accessMethodName = accessMethodName;
         this.programmeName = programmeName;

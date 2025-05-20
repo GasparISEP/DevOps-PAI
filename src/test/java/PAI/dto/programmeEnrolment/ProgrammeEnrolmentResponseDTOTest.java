@@ -12,14 +12,14 @@ class ProgrammeEnrolmentResponseDTOTest {
     @Test
     void shouldCreateValidDTO() {
         // Arrange
-        String studentName = "João";
+        int studentid = 1234567;
         String acessMethodName = "National Acess";
         String programmeName = "Licenciatura em Engenharia Informática";
         LocalDate date = mock(LocalDate.class);
 
 
         // Act
-        ProgrammeEnrolmentResponseDTO programmeEnrolmentResponseDTO = new ProgrammeEnrolmentResponseDTO(studentName,acessMethodName,programmeName,date);
+        ProgrammeEnrolmentResponseDTO programmeEnrolmentResponseDTO = new ProgrammeEnrolmentResponseDTO(studentid,acessMethodName,programmeName,date);
 
         // Assert
         assertNotNull(programmeEnrolmentResponseDTO);

@@ -1,6 +1,6 @@
 package PAI.dto;
 
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentRequestDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ProgrammeEnrolmentRequestDTOTest {
+class ProgrammeEnrolmentDTOTest {
 
     @Test
     void shouldCreateValidDTO() {
@@ -21,10 +21,10 @@ class ProgrammeEnrolmentRequestDTOTest {
 
 
         // Act
-        ProgrammeEnrolmentRequestDTO programmeEnrolmentRequestDTO = new ProgrammeEnrolmentRequestDTO(studentID,acessMethodID,programmeName,programmeAcronym,date);
+        ProgrammeEnrolmentDTO programmeEnrolmentDTO = new ProgrammeEnrolmentDTO(studentID,acessMethodID,programmeName,programmeAcronym,date);
 
         // Assert
-        assertNotNull(programmeEnrolmentRequestDTO);
+        assertNotNull(programmeEnrolmentDTO);
     }
 
     @Test
@@ -35,7 +35,7 @@ class ProgrammeEnrolmentRequestDTOTest {
         String programmeAcronym = "CS";
         LocalDate date = LocalDate.of(2025, 5, 20);
 
-        ProgrammeEnrolmentRequestDTO dto = new ProgrammeEnrolmentRequestDTO(studentID, accessMethodID, programmeName, programmeAcronym, date);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentID, accessMethodID, programmeName, programmeAcronym, date);
 
         assertEquals(studentID, dto.getStudentID());
         assertEquals(accessMethodID, dto.getAccessMethodID());
