@@ -12,7 +12,7 @@ actor Administrator as admin #DeepSkyBlue
 
 participant SystemPAI as System <<Component>> #LightBlue
 
-admin -> System: I want to configure a degree access methods!
+admin -> System: I want to configure an access methods!
 activate System #LightBlue
 
 System --> admin: What access method name?
