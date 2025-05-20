@@ -1,0 +1,20 @@
+@startuml
+title Convert TeacherIdVO to Data Model in Teacher Repository
+autonumber
+
+participant TeacherRepository as TRepo
+participant TeacherIdVO
+participant TeacherIdDataModel
+
+activate TRepo
+TRepo -> TeacherIdVO : receive teacherIdVO
+activate TeacherIdVO
+TeacherIdVO -> TeacherIdDataModel : convert to Data Model
+activate TeacherIdDataModel
+TeacherIdDataModel --> TeacherIdVO : teacherIdDataModel
+deactivate TeacherIdDataModel
+TeacherIdVO --> TRepo : teacherIdDataModel
+deactivate TeacherIdVO
+TRepo --> TRepo : use teacherIdDataModel for DB query
+deactivate TRepo
+@enduml

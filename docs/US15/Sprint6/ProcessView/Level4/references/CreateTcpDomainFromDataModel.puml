@@ -1,0 +1,25 @@
+@startuml
+title Create TeacherCareerProgression Domain Object from Data Model
+autonumber
+
+participant TCPRepository as TCPRepo
+participant TeacherCareerProgressionMapper as Mapper
+participant TeacherCareerProgressionDataModel as DataModel
+participant TeacherCareerProgression as DomainObject
+
+activate TCPRepo
+TCPRepo -> DataModel : fetch latest TCP Data Model
+activate DataModel
+DataModel -> Mapper : toDomain(dataModel)
+activate Mapper
+Mapper -> DomainObject : create Domain Object
+activate DomainObject
+DomainObject --> Mapper : domainObject
+deactivate DomainObject
+Mapper --> TCPRepo : domainObject
+deactivate Mapper
+DataModel --> TCPRepo : dataModel
+deactivate DataModel
+TCPRepo --> TCPRepo : return domainObject
+deactivate TCPRepo
+@enduml
