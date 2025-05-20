@@ -168,7 +168,7 @@ class ProgrammeTest {
             new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, null, programmeDirectorID, programmeID);
         });
         //assert
-        assertEquals("Department must not be null", exception.getMessage());
+        assertEquals("DepartmentID must not be null", exception.getMessage());
     }
 
     @Test
@@ -186,7 +186,7 @@ class ProgrammeTest {
             new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, null, programmeID);
         });
         //assert
-        assertEquals("Insert a valid Programme Director", exception.getMessage());
+        assertEquals("TeacherID must not be null", exception.getMessage());
     }
 
     @Test
@@ -204,7 +204,7 @@ class ProgrammeTest {
             new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, null);
         });
         //assert
-        assertEquals("Insert a valid ProgrammeID", exception.getMessage());
+        assertEquals("ProgrammeID must not be null", exception.getMessage());
     }
 
     //equals
