@@ -1,0 +1,189 @@
+@startuml
+
+skinparam ranksep 100
+skinparam nodesep 100
+
+package "ProgrammeEnrolment Aggregate" as PE {
+entity "<<root>>\nProgrammeEnrolment" {
+-peID: ProgrammeEnrolmentID
+-studentID: StudentID
+-amID: AccessMethodID
+-programmeID: ProgrammeID
+-date: Date
++ProgrammeEnrolment(studentIDVO: StudentID, amIDVO: AccessMethodID, programmeIDVO: ProgrammeID, dateVO: Date)
++getProgrammeEnrolmentID(programmeEnrolment: ProgrammeEnrolment)
++getStudentID(studentIDVO: StudentID)
++getProgrammeID(programmeIDVO: ProgrammeID)
++getAccessMethodID(programmeIDVO: ProgrammeID)
++getDate (date: Date)
+}
+}
+
+class US09_EnrolStudentInProgrammeController {
++US09_EnrolStudentInProgrammeController(programmeEnrolmentService: ProgrammeEnrolmentService)
++enrolStudentInProgramme(uniqueNumber: Integer, accessMethodID: UUID, programmeName: String, acronym: String, date: String)
+}
+
+class ProgrammeEnrolmentService {
++enrolStudentInProgramme(peFactory: IProgrammeEnrolmentFactory, peRepository: IProgrammeEnrolmentRepository)
++enrolStudent(studentID: StudentID, amID: Name, programmeID: ProgrammeID, date: Date)
+}
+
+class ProgrammeEnrolmentRestController {
+-programmeEnrolmentFactory: ProgrammeEnrolmentFactory
+-programmeEnrolmentList: ProgrammeEnrolmentListFactory
++ProgrammeEnrolmentSpringDataRepository(programmeEnrolmentFactory: ProgrammeEnrolmentFactoryImpl, programmeEnrolmentRepositoryListFactory ProgrammeEnrolmentRepositoryList)
++save(peDataModel: ProgrammeEnrolmentDataModel)
++containsOfIdentity(peID: ProgrammeEnrolmentID)
+}
+
+
+class ProgrammeEnrolmentFactoryImpl {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
+}
+
+interface IProgrammeEnrolmentFactory {
++createProgrammeEnrolment(student: Student, accessMethod: AccessMethod, programme: Programme, date: String)
+}
+
+class ProgrammeEnrolmentMapper {
++toDomain(peDataModel: ProgrammeEnrolmentDataModel, peFactory: ProgrammeEnrolmentFactory)
++toDataModel(peDomain: ProgrammeEnrolment)
+}
+
+class ProgrammeEnrolmentDataModel {
+-peIDDataModel: ProgrammeEnrolmentIDDataModel
+-studentIDDataModel: StudentIDDataModel
+-programmeIDDataModel: ProgrammeIDDataModel
+-amIDDataModel: AccessMethodIDDataModel
+-date: LocalDate
++ProgrammeEnrolmentDataModel(pe: ProgrammeEnrolment)
++createProgrammeEnrolmentDomain(peDataModel: ProgrammeEnrolmentDataModel)
++getProgrammeEnrolmentID()
++getAccessMethodID()
++getDate()
+}
+
+interface IProgrammeEnrolmentDTOMapper {
++fromDomainToDTO(ProgrammeEnrolment)
++fromDTOtoDomain(StudentId, AcessMethodId, ProgrammeId, DateVO)
+}
+
+
+class ProgrammeEnrolmentRequestDTO {
+-StudentID: int
+-AcessMethodId: String
+-ProgrammeName : String
+-ProgrammeAcronym: String
+-Date: LocalDate
+}
+
+class ProgrammeEnrolmentResponseDTO {
+-StudentID: StudentID
+-AcessMethodId: AcessMethodId
+-ProgrammeId: ProgrammeID
+-Date: DateVO
+}
+
+
+
+interface IProgrammeEnrolmentRestController {
++save(peDataModel: ProgrammeEnrolmentDataModel)
++existsById(peIDDataModel: ProgrammeEnrolmentIDDataModel)
+}
+
+interface IProgrammeEnrolmentMapper {
++toDataModel(peDomain: ProgrammeEnrolment)
++toDomain(peDataModel: ProgrammeEnrolmentDataModel)
+}
+
+interface IProgrammeEnrolmentService {
++enrolStudentInProgramme(peFactory: IProgrammeEnrolmentFactory, peRepository: IProgrammeEnrolmentRepository)
++enrolStudent(studentIDVO: StudentID, amIDVO: NameVO, programmeIDVO: ProgrammeID, date: Date)
+}
+
+interface IProgrammeEnrolmentIDMapper {
++toDataModel(peIDDomain: ProgrammeEnrolmentID)
++toDomain(peIDDataModel: peIDDataModel
+}
+
+interface IStudentIDMapper {
++toDataModel(studentIDDomain: StudentID)
++toDomain(studentIDDataModel: StudentIDDataModel
+}
+
+interface IProgrammeIDMapper {
++toDataModel(programmeIDDomain: programmeID)
++toDomain(programmeIDDataModel: ProgrammeIDDataModel))
+}
+
+interface IAccessMethodIDMapper {
++toDataModel(amIDDomain: AccessMethodID)
++toDomain(amIDDataModel: AccessMethodIDDataModel)
+}
+
+class ProgrammeEnrolmentIDMapper {
++toDataModel(peIDDomain: ProgrammeEnrolmentID)
++toDomain(peIDDataModel: peIDDataModel
+}
+
+class StudentIDMapper {
++toDataModel(studentIDDomain: StudentID)
++toDomain(studentIDDataModel: StudentIDDataModel}
+}
+
+class ProgrammeIDMapper {
++toDataModel(programmeIDDomain: programmeID)
++toDomain(programmeIDDataModel: ProgrammeIDDataModel))
+}
+
+class AccessMethodIDMapper {
++toDataModel(amIDDomain: AccessMethodID)
++toDomain(amIDDataModel: AccessMethodIDDataModel)
+}
+
+US09_EnrolStudentInProgrammeController "1" -l> "1..*" IProgrammeEnrolmentService
+
+ProgrammeEnrolmentService -d.|> IProgrammeEnrolmentService
+ProgrammeEnrolmentService "1" -u-> "1..*" IProgrammeEnrolmentRestController
+ProgrammeEnrolmentService "1" -l-> "1..*" IProgrammeEnrolmentFactory
+
+ProgrammeEnrolmentRestController "*" -> "1" IProgrammeEnrolmentDTOMapper
+IProgrammeEnrolmentDTOMapper "1" ..> "*" ProgrammeEnrolmentRequestDTO
+IProgrammeEnrolmentDTOMapper "1" ..> "*" ProgrammeEnrolmentResponseDTO
+
+ProgrammeEnrolmentRestController "1" -u.> "1" IProgrammeEnrolmentMapper
+ProgrammeEnrolmentRestController "1" -r.> "1" IProgrammeEnrolmentFactory
+ProgrammeEnrolmentRestController "1..*" -u-> "1" IProgrammeEnrolmentRestController
+
+IProgrammeEnrolmentFactory "1..*" .l.> "*\ncreates" "<<root>>\nProgrammeEnrolment"
+
+IProgrammeEnrolmentFactory <|.d. ProgrammeEnrolmentFactoryImpl
+
+ProgrammeEnrolmentMapper -u.|> IProgrammeEnrolmentMapper
+IProgrammeEnrolmentMapper "1" -l.> "1" ProgrammeEnrolmentDataModel
+IProgrammeEnrolmentMapper "*" -r.> "1" IProgrammeEnrolmentFactory
+
+ProgrammeEnrolmentMapper "1..*" --l-> "1" IProgrammeEnrolmentIDMapper
+ProgrammeEnrolmentMapper "1..*" --d-> "1" IStudentIDMapper
+ProgrammeEnrolmentMapper "1..*" --d-> "1" IProgrammeIDMapper
+ProgrammeEnrolmentMapper "1..*" --r-> "1" IAccessMethodIDMapper
+ProgrammeEnrolmentMapper "1..*" --r-> "_date\n1" "<<root>>\nProgrammeEnrolment"
+
+ProgrammeEnrolmentMapper "1..*" --r-> "*" "<<root>>\nProgrammeEnrolment"
+ProgrammeEnrolmentMapper "1..*" --u-> "*" ProgrammeEnrolmentDataModel
+
+
+ProgrammeEnrolmentIDMapper -d.|> IProgrammeEnrolmentIDMapper
+StudentIDMapper -d.|> IStudentIDMapper
+ProgrammeIDMapper -d.|> IProgrammeIDMapper
+AccessMethodIDMapper -d.|> IAccessMethodIDMapper
+
+IProgrammeEnrolmentIDMapper "1" -d-> "peID\n1..*" "<<root>>\nProgrammeEnrolment"
+IStudentIDMapper "1" -d-> "studentID\n1..*" "<<root>>\nProgrammeEnrolment"
+IProgrammeIDMapper "1" -d-> "programmeID\n1..*" "<<root>>\nProgrammeEnrolment"
+IAccessMethodIDMapper "1" -d-> "amID\n1..*" "<<root>>\nProgrammeEnrolment"
+
+
+
+@enduml
