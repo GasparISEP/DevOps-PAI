@@ -1,0 +1,16 @@
+@startuml
+
+autonumber
+
+title Query database for enrolments matching courseEditionID
+
+participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
+participant "JPA: Spring Data / EntityManager" as JPA #lightblue
+database "Database" as DB #lightblue
+
+R -> JPA ++ #lightblue: findEnrolmentsByCourseEditionID(courseEditionID)
+JPA -> DB ++ #lightblue: SELECT * FROM course_edition_enrolments \nWHERE course_edition_id = :courseEditionID
+DB --> JPA --: ResultSet with matching enrolments
+JPA --> R --: List<CourseEditionEnrolment>
+
+@enduml
