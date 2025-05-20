@@ -17,5 +17,23 @@ public class ProgrammeEnrolmentRequestDTO {
         this.date = date;
     }
 
+    public int getStudentID() {
+        return studentID;
+    }
 
+    public String getAccessMethodID() {
+        return accessMethodID;
+    }
+
+    public String getProgrammeName() {
+        return programmeName;
+    }
+
+    public String getProgrammeAcronym() {
+        return programmeAcronym;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
