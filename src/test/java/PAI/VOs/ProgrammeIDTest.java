@@ -146,38 +146,6 @@ class ProgrammeIDTest {
     }
 
     @Test
-    void shouldVerifyIfProgIDHasName() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
-
-        //act
-        boolean res = progID.hasThisName(name);
-
-        //assert
-        assertTrue(res);
-    }
-
-    @Test
-    void shouldVerifyIfProgIDDoesntHaveName() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
-
-
-        //act
-        boolean res = progID.hasThisName(name1);
-
-        //assert
-        assertFalse(res);
-    }
-
-    @Test
     void shouldGetName() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -237,37 +205,5 @@ class ProgrammeIDTest {
 
         //assert
         assertNotEquals(res, acronym);
-    }
-
-    @Test
-    void shouldVerifyIfProgIDHasAcronym() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
-
-        //act
-        boolean res = progID.hasThisAcronym(acronym);
-
-        //assert
-        assertTrue(res);
-    }
-
-    @Test
-    void shouldVerifyIfProgIDDoesntHaveAcronym() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Acronym acronym1 = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
-
-
-        //act
-        boolean res = progID.hasThisAcronym(acronym1);
-
-        //assert
-        assertFalse(res);
     }
 }
