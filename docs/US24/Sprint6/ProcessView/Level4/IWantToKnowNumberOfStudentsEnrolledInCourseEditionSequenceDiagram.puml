@@ -1,0 +1,56 @@
+@startuml
+
+autonumber
+
+title As an ASC, I want to know the number of students enrolled in a Course Edition. \n (Process View Level 4)
+
+actor ASC as Admin #lightblue
+
+participant ":UI" as UI #lightblue
+participant "ceCtrl:CourseEditionEnrolmentRestController" as C #lightblue
+participant "ceService:CourseEditionEnrolmentService" as S #lightblue
+participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
+
+activate Admin #lightblue
+Admin -> UI ++ #lightblue: I want to know the number of students in a Course Edition
+
+UI -> C ++ #lightblue: getAllCourseEditions()
+
+C -> S ++ #lightblue: getAllCourseEditions()
+S -> R ++ #lightblue: findAllCourseEditions()
+
+ref over R
+    Query database for all CourseEditions
+end ref
+
+R --> S --: List<CourseEdition>
+S --> C --: List<CourseEdition>
+
+ref over C
+    Convert domain objects to CourseEditionDTOs
+end ref
+
+C --> UI --: List<CourseEditionDTO>
+UI --> Admin --: Please select a Course Edition from the list
+
+Admin -> UI ++ #lightblue: selected courseEditionID
+
+UI -> C ++ #lightblue: getNumberOfStudentsEnrolled(courseEditionID)
+C -> S ++ #lightblue: getNumberOfStudentsEnrolled(courseEditionID)
+S -> R ++ #lightblue: findEnrolmentsByCourseEditionID(courseEditionID)
+
+ref over R
+    Query database for enrolments matching courseEditionID
+end ref
+
+R --> S --: List<CourseEditionEnrolment>
+
+ref over S
+    Count the number of enrolments
+end ref
+
+S --> C --: numberOfStudents
+C --> UI --: numberOfStudents
+UI --> Admin --: numberOfStudents enrolled in selected Course Edition
+
+@enduml

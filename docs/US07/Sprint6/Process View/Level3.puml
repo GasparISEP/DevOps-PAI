@@ -9,49 +9,49 @@ skinparam {
 
 title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 3)
 
-actor Administrator as Admin #green
-participant "UI" as UI #olivedrab
-participant "Controller" as C #seagreen
-participant "Service" as S #forestgreen
-participant "Repository" as R #lightseagreen
-participant "Domain" as D #teal
-participant "Database" as BD #steelblue
+actor Administrator as Admin #limegreen
+participant ":UI" as UI #olivedrab
+participant ":Controller" as C #seagreen
+participant ":Service" as S #forestgreen
+participant ":Repository" as R #lightseagreen
+participant ":Domain" as D #teal
+database BD #green
 
 
 Admin -> UI: Request to create a school year
-activate UI #yellowgreen
+activate UI #seashell
 UI --> Admin: Present School Year Form
-deactivate UI #yellowgreen
+deactivate UI #seashell
 Admin -> UI: Fill School Year Form (startDate, endDate,\n description)
-activate UI #yellowgreen
+activate UI #seashell
 UI -> C: Submit School Year Form
-activate C #yellowgreen
-C -> S: Register School Year
-activate S #yellowgreen
+activate C #seashell
+C -> S: Create School Year
+activate S #seashell
 S -> D: Create School Year
-activate D #yellowgreen
+activate D #seashell
 D --> S: School Year
-deactivate D #yellowgreen
+deactivate D #seashell
 S -> R: Check if School Year exists
-activate R #yellowgreen
+activate R #seashell
 R -> BD: Check if School Year exists
-activate BD #yellowgreen
+activate BD #seashell
 BD --> R: School Year does not exist
-deactivate BD #yellowgreen
+deactivate BD #seashell
 R --> S: School Year does not exist
-deactivate R #yellowgreen
+deactivate R #seashell
 S -> R: Save School Year
-activate R #yellowgreen
+activate R #seashell
 R -> BD: Save School Year
-activate BD #yellowgreen
-BD --> R: Saved School Year
-deactivate BD #yellowgreen
-R --> S: Saved School Year
-deactivate R #yellowgreen
-S --> C: Saved School Year
-deactivate S #yellowgreen
-C --> UI: Saved School Year
-deactivate C #yellowgreen
+activate BD #seashell
+BD --> R: Saved!
+deactivate BD #seashell
+R --> S: Saved!
+deactivate R #seashell
+S --> C: Saved!
+deactivate S #seashell
+C --> UI: Saved!
+deactivate C #seashell
 UI --> Admin: School Year created successfully!
-deactivate UI #yellowgreen
+deactivate UI #seashell
 @enduml

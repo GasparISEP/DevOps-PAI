@@ -1,0 +1,72 @@
+@startuml
+
+autonumber
+
+title As an HRC I want to Update a Teacher's Category in the System\n(Process View Level 3)
+
+actor HRC
+participant "UI" as UI
+participant "Controller" as C
+participant "Service" as S
+participant "Repository" as R
+participant "Domain" as D
+database DB
+
+
+activate HRC
+HRC -> UI++ : Request update a Teacher's Category
+UI -> C++ : Request Teachers
+C -> S++ : Get teachers
+S ->  R++ : Get teachers
+R -> DB++ : Fetch teachers
+DB --> R-- : List of teachers
+R --> S -- : List of teachers
+S --> C -- : List of teachers
+C --> UI -- : List of teachers
+UI --> HRC --: Provide List of teacher categories
+HRC -> UI++ : Teacher
+UI -> C++ : Request teacher categories
+C -> S++ : Get teacher categories
+S ->  R++ : Get teacher categories
+R -> DB++ : Fetch teacher categories
+DB --> R-- : List of teacher categories
+R --> S -- : List of teacher categories
+S --> C -- : List of teacher categories
+C --> UI -- : List of teacher categories
+UI --> HRC --: Provide List of teacher categories and Date
+HRC -> UI++ : Teacher Category and Date
+UI -> C++ : Update Teacher's Category
+C -> S ++ : Update Teacher's Category
+S -> R ++ : Get Last TeacherCareerProgressionFromTeacher
+R -> DB ++ : Get Last TeacherCareerProgressionFromTeacher
+DB --> R -- : TCP
+R --> S -- : TCP
+S -> D++ : IsLastUpdateBeforeDate
+D --> S -- : True
+S -> D++ : hasSameLastCategory
+D --> S -- : False
+S -> D++ : Create TCP1
+D --> S-- : TCP1
+S -> R ++ : Save TCP1
+R -> DB ++ : Save TCP1
+DB --> R -- : Saved
+R --> S --: Saved
+S --> C : Saved
+C --> UI : Updated
+UI --> HRC : Updated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
