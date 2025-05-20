@@ -1,4 +1,4 @@
-package PAI.dto;
+package PAI.dto.programmeEnrolment;
 
 import java.time.LocalDate;
 

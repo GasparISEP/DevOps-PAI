@@ -1,0 +1,18 @@
+@startuml GetLastTCP
+title Retrieve Last Career Progression
+autonumber
+
+participant Service
+participant TCPRepository
+participant TCPRepoSpringData
+
+activate Service
+Service -> TCPRepository : findLastTCPFromTeacherID(teacherIdVO)
+activate TCPRepository
+TCPRepository -> TCPRepoSpringData : findTopByTeacherIDOrderByDateDesc(...)
+activate TCPRepoSpringData
+TCPRepoSpringData --> TCPRepository : lastTCPDataModel
+deactivate TCPRepoSpringData
+TCPRepository --> Service : lastTCP (Domain Object)
+deactivate TCPRepository
+@enduml

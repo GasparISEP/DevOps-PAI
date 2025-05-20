@@ -1,0 +1,17 @@
+@startuml CreateNewTCP
+title Use Factory to Create New TCP
+autonumber
+
+participant Service
+participant TCPFactory
+participant "TCP (new)"
+
+activate Service
+Service -> TCPFactory : updateWorkingPercentageInTeacherCareerProgression(...)
+activate TCPFactory
+TCPFactory -> TCP : createTeacherCareerProgression(...)
+activate TCP
+TCP --> TCPFactory : newTCP
+deactivate TCP
+TCPFactory --> Service : newTCP
+@enduml
