@@ -50,7 +50,9 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         DepartmentID departmentID = department.identity();
         TeacherID programmeDirectorID = programmeDirector.identity();
 
-        return _programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        _programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+
+        return true;
     }
 
     public boolean createStudyPlan(ProgrammeID programmeID, LocalDate date) throws Exception {

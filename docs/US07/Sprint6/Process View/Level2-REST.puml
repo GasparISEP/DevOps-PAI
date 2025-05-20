@@ -1,0 +1,34 @@
+@startuml
+autonumber
+
+title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 2)
+
+skinparam {
+    SequenceLifeLineBorderColor gray
+    SequenceParticipantBorderColor darkblue
+    DefaultTextAlignment center
+}
+
+actor Administrator as Admin #lightblue
+participant "Frontend" as FE #lightblue
+participant "Backend" as BE #lightblue
+database DB
+
+Admin -> FE: Request to create a school year
+activate FE #lightblue
+FE --> Admin: StartDate, EndDate, Description?
+deactivate FE #lightblue
+Admin -> FE: startDate, endDate, description
+activate FE #lightblue
+FE -> BE : (POST) Request to create a school year \n(startDate, endDate, description)
+activate BE #lightblue
+BE -> DB: (INSERT) Persist school year to \nDatabase (School Year)
+activate DB #lightblue
+DB --> BE: School Year
+deactivate DB #lightblue
+BE --> FE: (201 Created) Created school year
+deactivate BE #lightblue
+FE --> Admin: School year created successfully!
+deactivate FE #lightblue
+
+@enduml

@@ -28,16 +28,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         _programmeRepository = programmeRepository;
     }
 
-    public boolean registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
-        if (doesProgrammeExist(name, acronym)) {
-            throw new IllegalArgumentException("Programme already exists");
-        }
+    public Programme registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+
         Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
-        Programme savedProgramme = _programmeRepository.save(programme);
-        if (savedProgramme == null) {
-            throw new IllegalArgumentException("Failed to save Programme.");
-        }
-        return true;
+
+        if(_programmeRepository.containsOfIdentity(programme.identity()))
+            throw new Exception("Programme is already registered");
+
+        return _programmeRepository.save(programme);
     }
 
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception {
@@ -116,20 +114,4 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return Optional.empty();
     }
-
-    public boolean doesProgrammeExist(NameWithNumbersAndSpecialChars name, Acronym acronym) {
-        if (name == null || acronym == null) {
-            return false;
-        }
-        for (Programme existingProgramme : _programmeRepository.findAll()) {
-            if (existingProgramme.identity().hasThisName(name) || existingProgramme.identity().hasThisAcronym(acronym)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-
 }

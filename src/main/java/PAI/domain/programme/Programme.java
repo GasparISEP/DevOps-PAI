@@ -41,17 +41,17 @@ public class Programme implements AggregateRoot<ProgrammeID> {
         _degreeTypeID = degreeTypeID;
 
         if (departmentID == null) {
-            throw new IllegalArgumentException("Department must not be null");
+            throw new IllegalArgumentException("DepartmentID must not be null");
         }
         _department = departmentID;
 
         if (programmeDirectorID == null) {
-            throw new IllegalArgumentException("Insert a valid Programme Director");
+            throw new IllegalArgumentException("TeacherID must not be null");
         }
         _programmeDirectorID = programmeDirectorID;
 
         if (programmeID == null) {
-            throw new IllegalArgumentException("Insert a valid ProgrammeID");
+            throw new IllegalArgumentException("ProgrammeID must not be null");
         }
         _programmeID = programmeID;
     }
