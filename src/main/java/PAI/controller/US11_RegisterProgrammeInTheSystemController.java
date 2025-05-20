@@ -24,6 +24,8 @@ public class US11_RegisterProgrammeInTheSystemController {
         QuantEcts programmeQuantityOfEcts = new QuantEcts(quantityOfEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
 
-        return programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+
+        return true;
     }
 }
