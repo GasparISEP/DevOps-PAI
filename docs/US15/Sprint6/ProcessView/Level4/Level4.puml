@@ -1,0 +1,55 @@
+@startuml UpdateTeacherWorkingPercentage_Main
+skinparam sequenceMessageAlign center
+title Main Flow: Update Teacher Working Percentage
+
+actor HRC
+participant UI
+participant Controller
+participant Service
+participant TeacherRepository
+participant TeacherSpringData
+participant TCPRepository
+participant TCPRepoSpringData
+participant TCPFactory
+
+autonumber
+
+activate HRC
+HRC -> UI : Request update working percentage
+activate UI
+UI -> Controller : updateTeacherWorkingPercentage(dto)
+
+activate Controller
+ref over Controller
+  Create VOs from DTO using Mapper
+end ref
+
+Controller -> Service : updateTeacherWorkingPercentage(dateVO, wpVO, teacherIdVO)
+
+activate Service
+ref over Service, TeacherRepository
+  Check if Teacher exists
+end ref
+
+
+ref over Service, TCPRepository
+  Get last TeacherCareerProgression
+end ref
+
+ref over Service, lastTCP
+  Validate Business Rules
+end ref
+
+ref over Service, TCPFactory
+  Create new TeacherCareerProgression
+end ref
+
+ref over Service, TCPRepository
+  Convert Domain Object to Data Model and Save
+end ref
+
+Service --> Controller : success
+deactivate Service
+Controller --> UI : success
+UI -> HRC : Success!
+@enduml

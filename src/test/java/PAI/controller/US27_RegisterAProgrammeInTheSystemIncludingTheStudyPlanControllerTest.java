@@ -186,6 +186,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
+        Programme programmeDouble = mock(Programme.class);
 
         when(degreeType.identity()).thenReturn(degreeTypeID);
         when(department.identity()).thenReturn(departmentID);
@@ -199,7 +200,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
                 eq(degreeTypeID),
                 eq(departmentID),
                 eq(teacherID)
-        )).thenReturn(true);
+        )).thenReturn(programmeDouble);
 
         //act
         boolean result = controller.registerProgramme(name, acronym, qtyEcts, qtySemesters, degreeType, department, programmeDirector);

@@ -1,0 +1,38 @@
+@startuml CreateVOsFromDTO
+title DTO to VO Conversion
+autonumber
+
+participant DTO
+participant Mapper
+participant TeacherIdVO
+participant WorkingPercentageVO
+participant DateVO
+
+activate DTO
+DTO -> Mapper : toTeacherIdVO(dto)
+activate Mapper
+Mapper -> TeacherIdVO : newTeacherIdVO(...)
+activate TeacherIdVO
+TeacherIdVO --> Mapper : teacherIdVO
+deactivate TeacherIdVO
+Mapper --> DTO : teacherIdVO
+deactivate Mapper
+
+DTO -> Mapper : toWorkingPercentageVO(dto)
+activate Mapper
+Mapper -> WorkingPercentageVO : newWorkingPercentageVO(...)
+activate WorkingPercentageVO
+WorkingPercentageVO --> Mapper : workingPercentageVO
+deactivate WorkingPercentageVO
+Mapper --> DTO : wpVO
+deactivate Mapper
+
+DTO -> Mapper : toDateVO(dto)
+activate Mapper
+Mapper -> DateVO : newtoDateVO(...)
+activate DateVO
+DateVO --> Mapper : dateVO
+deactivate DateVO
+Mapper --> DTO : dateVO
+deactivate Mapper
+@enduml
