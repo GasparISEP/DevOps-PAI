@@ -1,0 +1,52 @@
+@startuml
+
+title UC: Update Teacher Working Percentage\n(Process View Level 3)
+autonumber
+
+participant "RESTController" as RC
+participant "Service" as S
+participant "Repository" as R
+participant "Domain" as D
+participant "Factory" as F
+
+[o-> RC: (PUT) Request Update Working Percentage
+activate RC
+RC -> S: updateTeacherWorkingPercentage(dateVO, wpVO, teacherIdVO)
+activate S
+
+S -> R: Check if Teacher Exists
+activate R
+R --> S: Teacher exists
+deactivate R
+
+S -> R: Get Last Career Progression
+activate R
+R --> S: lastTCP (Domain object)
+deactivate R
+
+S -> D: Validate Business Rules (date, wp)
+activate D
+D --> S: Validation OK
+deactivate D
+
+S -> F: Create new Career Progression
+activate F
+F --> S: newTCP
+deactivate F
+
+S -> R: Check for Duplicates
+activate R
+R --> S: No duplicate found
+deactivate R
+
+S -> R: Save Career Progression
+activate R
+R --> S: newTCP saved
+deactivate R
+
+S --> RC: Working Percentage Updated
+deactivate S
+[o<-- RC: 200 OK, Working Percentage Updated
+deactivate RC
+
+@enduml
