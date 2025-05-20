@@ -1,0 +1,25 @@
+@startuml
+title Convert TeacherCareerProgression Domain Object to Data Model for Save
+autonumber
+
+participant TCPRepository as TCPRepo
+participant TeacherCareerProgression as DomainObject
+participant TeacherCareerProgressionMapper as Mapper
+participant TeacherCareerProgressionDataModel as DataModel
+
+activate TCPRepo
+TCPRepo -> DomainObject : receive TCP domain object
+activate DomainObject
+DomainObject -> Mapper : toDataModel(domainObject)
+activate Mapper
+Mapper -> DataModel : create Data Model
+activate DataModel
+DataModel --> Mapper : dataModel
+deactivate DataModel
+Mapper --> TCPRepo : dataModel
+deactivate Mapper
+DomainObject --> TCPRepo : domainObject
+deactivate DomainObject
+TCPRepo --> TCPRepo : save dataModel to DB
+deactivate TCPRepo
+@enduml

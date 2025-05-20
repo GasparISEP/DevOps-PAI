@@ -1,5 +1,6 @@
 @startuml
 title As an HRC, I want to Update a Teacher's Working Percentage in the System\n(Process View Level 1)
+autonumber
 
 actor HRC
 participant ":System" as system

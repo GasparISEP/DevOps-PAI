@@ -1,0 +1,20 @@
+@startuml
+title Convert TeacherIdVO to Data Model in TeacherCareerProgression Repository
+autonumber
+
+participant TCPRepository as TCPRepo
+participant TeacherIdVO
+participant TeacherIdDataModel
+
+activate TCPRepo
+TCPRepo -> TeacherIdVO : receive teacherIdVO
+activate TeacherIdVO
+TeacherIdVO -> TeacherIdDataModel : convert to Data Model
+activate TeacherIdDataModel
+TeacherIdDataModel --> TeacherIdVO : teacherIdDataModel
+deactivate TeacherIdDataModel
+TeacherIdVO --> TCPRepo : teacherIdDataModel
+deactivate TeacherIdVO
+TCPRepo --> TCPRepo : use teacherIdDataModel for DB query
+deactivate TCPRepo
+@enduml

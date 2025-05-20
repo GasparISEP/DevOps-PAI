@@ -1,0 +1,174 @@
+@startuml
+
+skinparam linetype ortho
+
+class SchoolYearRestController {
+   +US07_IWantToCreateASchoolYearController(schoolYearService: ISchoolYearService)
+   +addSchoolYear(descriptionInfo: String, startDateInfo: String, endDateInfo: String): boolean
+}
+
+' aggregate
+package  "SchoolYear Aggregate" {
+    class SchoolYear <<Root>> <<Entity>> {
+        +isSameSchoolYear(otherSchoolYear(description: Description,\n startDate : dateVO, endDate : dateVO)SchoolYear: SchoolYear)
+        +equals(Object: o)
+    }
+}
+
+' interfaces
+interface ISchoolYearListFactory <<interface>> {
+   +newArrayList(): List<SchoolYear>
+}
+
+interface ISchoolYearFactory <<interface>> {
+   +createSchoolYear(descriptionVO,\n startDate : dateVO, endDate : dateVO): SchoolYear
+}
+
+interface ISchoolYearRepository <<interface>> {
+    +addSchoolYear(description: Description,\n startDate : dateVO, endDate : dateVO)
+}
+
+interface ISchoolYearService <<interface>> {
+    +addSchoolYear(description: Description,\n startDate: Date, endDate: Date)
+}
+
+interface ISchoolYearRepositorySpringDataJPA <<interface>> {
+}
+
+interface ISchoolYearMapper <<interface>>{
+    +toDomain(dataModel: SchoolYearDataModel): SchoolYear
+    +toEntity(domain: SchoolYear): SchoolYearDataModel
+}
+
+interface ISchoolYearDTOMapper <<interface>>{
+    +toDTO()
+    +fromDTOtoDomain()
+}
+
+class SchoolYearDTOMapperImpl {
+    +DTO()
+    +fromDTOtoDomain()
+}
+
+class SchoolYearVOsDTO {
+    -_description: Description
+    -_startDate: Date
+    -_endDate: Date
+}
+
+class SchoolYearDTO {
+    -_description: String
+    -_startDate: LocalDate
+    -_endDate: LocalDate
+}
+
+' service
+class SchoolYearServiceImpl {
+    +SchoolYearServiceImpl(schoolYearRepositorySpringData:\n ISchoolYearRepositorySpringDataImpl)
+    +addSchoolYear(description: Description,\n startDate: Date, endDate: Date)
+}
+
+' repos
+class SchoolYearRepositoryMemoImpl {
+    +schoolYearRepository()
+    +addSchoolYear(description: Description,\n startDate : Date, endDate : Date)
+    +schoolYearExists(schoolYear: SchoolYear)
+    +getLatestSchoolYear(): SchoolYear
+    +getAllSchoolYears(): List<SchoolYear>
+}
+
+class SchoolYearRepositorySpringDataJPAImpl {
+    +addSchoolYear(description: Description, startDate : Date, endDate : Date)
+    +save(schoolYear: SchoolYear)
+    +findById(id: Long): Optional<SchoolYear>
+    +findAll(): List<SchoolYear>
+}
+
+' factory
+class SchoolYearListFactoryImpl {
+   +newArrayList(): List<SchoolYear>
+}
+
+class SchoolYearFactoryImpl {
+   +createSchoolYear(description: Description,\n startDate : Date, endDate : Date): SchoolYear
+}
+
+' Mapper
+class SchoolYearMapperImpl {
+    +toDomain(dataModel: SchoolYearDataModel): SchoolYear
+    +toEntity(domain: SchoolYear): SchoolYearDataModel
+}
+
+' Data Model (JPA Entity)
+class SchoolYearDataModel <<DataModel>> {
+   -_id: String
+   -_description: String
+   -_startDate: LocalDate
+   -_endDate: LocalDate
+}
+
+class SchoolYearIDDataModel <<DataModel>> {
+    -_schoolYearID: String
+    +SchoolYearIDDataModel()
+    +SchoolYearIDDataModel(schoolYearID: String)
+    +getSchoolYearID
+}
+
+' Value Objects
+class Description  <<Value Object>> {
+    -_description : String
+}
+
+class Date  <<Value Object>> {
+    -_date: LocalDate
+}
+
+class SchoolYearID <<Value Object>> {
+    -_schoolYearID : UUID
+    + SchoolYearId(schoolYearID: UUID)
+}
+
+
+
+SchoolYearRestController "*" -u--> "_schoolYearService\n1" ISchoolYearService
+SchoolYearRestController "*" ---> "_schoolYearDTOMapper\n1" ISchoolYearDTOMapper
+
+SchoolYearServiceImpl  ...|> ISchoolYearService
+SchoolYearServiceImpl --> ISchoolYearRepository
+SchoolYearServiceImpl --> ISchoolYearFactory
+SchoolYearServiceImpl --> ISchoolYearListFactory
+
+SchoolYearRepositoryMemoImpl --> SchoolYear
+SchoolYearRepositoryMemoImpl ...|> ISchoolYearRepository
+
+SchoolYearRepositorySpringDataJPAImpl ..|> ISchoolYearRepository
+SchoolYearRepositorySpringDataJPAImpl ..> ISchoolYearRepositorySpringDataJPA
+SchoolYearRepositorySpringDataJPAImpl ..> SchoolYear
+SchoolYearRepositorySpringDataJPAImpl .u.> SchoolYearDataModel
+
+
+SchoolYearFactoryImpl ...|> ISchoolYearFactory
+SchoolYearListFactoryImpl ...|> ISchoolYearListFactory
+
+ISchoolYearFactory ..> SchoolYear
+ISchoolYearListFactory ..> SchoolYear
+
+SchoolYear "1"--> "1" SchoolYearID
+SchoolYear "1"--> "1" Description
+SchoolYear "1"--> "1" Date
+
+SchoolYearMapperImpl ..> SchoolYear
+SchoolYearMapperImpl ..> SchoolYearDataModel
+SchoolYearMapperImpl ..> ISchoolYearFactory
+SchoolYearMapperImpl ..|> ISchoolYearMapper
+
+ISchoolYearMapper ..> SchoolYear
+ISchoolYearMapper ..> SchoolYearDataModel
+
+ISchoolYearDTOMapper <|.. SchoolYearDTOMapperImpl
+ISchoolYearDTOMapper "1" ..> "*" SchoolYearDTO
+ISchoolYearDTOMapper "1" ..> "*" SchoolYearVOsDTO
+
+SchoolYearDataModel ..>SchoolYearIDDataModel
+
+@enduml

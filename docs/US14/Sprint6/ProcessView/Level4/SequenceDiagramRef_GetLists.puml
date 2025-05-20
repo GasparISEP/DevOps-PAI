@@ -1,0 +1,107 @@
+@startuml
+'idea.partialRender
+autonumber
+title Get Teacher List and Teacher Category List (DTOs) — DDD Structure
+
+participant "UI" as UI
+participant "TeacherCtrl:TeacherController" as Ctrl
+participant "tService:TeacherService" as TService
+participant "tRepo:TeacherRepository" as TRepo
+participant "tMapper:TeacherMapper" as TMapper
+participant "tFactory:TeacherFactory" as TFactory
+participant "teacher[i]:Teacher" as TeacherDomain
+participant "teacherDTO[i]:TeacherDTO" as TeacherDTO
+participant "tDTOBuilder:TeacherDTOBuilder" as TDTOBuilder
+participant "tSpringData:ITeacherRepoSpringData" as TSpringData
+participant "cService:TeacherCategoryService" as CService
+participant "cRepo:TeacherCategoryRepository" as CRepo
+participant "cMapper:TeacherCategoryMapper" as CMapper
+participant "cFactory:TeacherCategoryFactory" as CFactory
+participant "category[i]:TeacherCategory" as CategoryDomain
+participant "categoryDTO[i]:TeacherCategoryDTO" as CategoryDTO
+participant "cDTOBuilder:TeacherCategoryDTOBuilder" as CDTOBuilder
+participant "cSpringData:ITeacherCategoryRepoSpringData" as CSpringData
+
+database "DB" as DB
+
+UI -> Ctrl : findAllTeachersAndCategories()
+activate Ctrl
+Ctrl -> TService : findAllTeachers()
+activate TService
+TService -> TRepo : findAll()
+activate TRepo
+TRepo -> TSpringData : findAll()
+activate TSpringData
+TSpringData -> DB : SELECT * FROM teachers
+DB --> TSpringData : List<TeacherDataModel>
+TSpringData --> TRepo : List<TeacherDataModel>
+deactivate TSpringData
+loop for each TeacherDataModel[i]
+TRepo -> TMapper : toDomain(dataModel[i])
+activate TMapper
+TMapper -> TFactory : newTeacher(dataModel[i])
+activate TFactory
+TFactory -> TeacherDomain** : newTeacher(id, name, categoryId)
+activate TeacherDomain
+TeacherDomain --> TFactory : teacher[i]
+deactivate TeacherDomain
+TFactory --> TMapper : teacher[i]
+deactivate TFactory
+TMapper --> TRepo : teacher[i]
+deactivate TMapper
+end
+TRepo --> TService : List<Teacher>
+deactivate TRepo
+loop for each Teacher[i]
+TService -> TDTOBuilder : fromDomain(teacher[i])
+activate TDTOBuilder
+TDTOBuilder -> TeacherDTO : newTeacherDTO(teacher[i])
+activate TeacherDTO
+TeacherDTO --> TDTOBuilder : teacherDTO[i]
+deactivate TeacherDTO
+TDTOBuilder --> TService : teacherDTO[i]
+deactivate TDTOBuilder
+end
+TService --> Ctrl : List<TeacherDTO>
+deactivate TService
+Ctrl -> CService : findAllCategories()
+activate CService
+CService -> CRepo : findAll()
+activate CRepo
+CRepo -> CSpringData : findAll()
+activate CSpringData
+CSpringData -> DB : SELECT * FROM teacher_categories
+DB --> CSpringData : List<TeacherCategoryDataModel>
+CSpringData --> CRepo : List<TeacherCategoryDataModel>
+deactivate CSpringData
+loop for each TeacherCategoryDataModel[i]
+CRepo -> CMapper : toDomain(dataModel[i])
+activate CMapper
+CMapper -> CFactory : newTeacherCategory(dataModel[i])
+activate CFactory
+CFactory -> CategoryDomain** : newTeacherCategory(id, name)
+activate CategoryDomain
+CategoryDomain --> CFactory : category[i]
+deactivate CategoryDomain
+CFactory --> CMapper : category[i]
+deactivate CFactory
+CMapper --> CRepo : category[i]
+deactivate CMapper
+end
+CRepo --> CService : List<TeacherCategory>
+deactivate CRepo
+loop for each TeacherCategory[i]
+CService -> CDTOBuilder : fromDomain(category[i])
+activate CDTOBuilder
+CDTOBuilder -> CategoryDTO : newCategoryDTO(category[i])
+activate CategoryDTO
+CategoryDTO --> CDTOBuilder : categoryDTO[i]
+deactivate CategoryDTO
+CDTOBuilder --> CService : categoryDTO[i]
+deactivate CDTOBuilder
+end
+CService --> Ctrl : List<TeacherCategoryDTO>
+deactivate CService
+Ctrl --> UI : teacherDTOList + categoryDTOList
+deactivate Ctrl
+@enduml

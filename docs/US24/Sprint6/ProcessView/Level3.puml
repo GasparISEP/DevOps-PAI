@@ -1,0 +1,39 @@
+@startuml
+
+autonumber
+
+title As an ASC, I want to get the number of students enrolled in a course edition \n (Process View Level 3)
+
+actor ASC as Admin #lightblue
+participant "UI" as UI #lightblue
+participant "Controller" as C #lightblue
+participant "Service" as S #lightblue
+participant "Repository" as R #lightblue
+participant "Database" as BD #lightblue
+
+activate Admin #lightblue
+Admin -> UI ++ #lightblue: Request list of course editions
+
+UI -> C ++ #lightblue: Request course editions
+C -> S ++ #lightblue: Retrieve course editions
+S -> R ++ #lightblue: Fetch course editions
+R -> BD ++ #lightblue: Query all course editions
+BD --> R --: List of course editions
+R --> S --: List of course editions
+S --> C --: List of course editions
+C --> UI --: List of course editions
+UI --> Admin --: Display course editions for selection
+
+Admin -> UI ++ #lightblue: Select course edition
+
+UI -> C ++ #lightblue: Request number of students enrolled in selected course edition
+C -> S ++ #lightblue: Retrieve number of students enrolled in selected course edition
+S -> R ++ #lightblue: Fetch number of enrolled students
+R -> BD ++ #lightblue: Query number of students enrolled in course edition
+BD --> R --: Integer: number of enrolled students
+R --> S --: Number of enrolled students
+S --> C --: Number of enrolled students
+C --> UI --: Number of enrolled students
+UI --> Admin --: Display number of enrolled students
+
+@enduml

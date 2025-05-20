@@ -1,0 +1,20 @@
+@startuml
+autonumber
+
+title As an ASC, I want to get the number of students enrolled in a course edition \n (Process View Level 1)
+
+actor ASC as Admin #lightblue
+participant ":SystemPAI" as System #lightblue
+
+activate Admin #lightblue
+activate System #lightblue
+
+Admin -> System : I want to know how many students are enrolled in a course edition.
+
+System --> Admin --: Which course edition?
+
+Admin -> System ++ #lightblue: "This" course edition.
+
+System --> Admin : There are [number] students enrolled in "this" course edition.
+deactivate
+@enduml
