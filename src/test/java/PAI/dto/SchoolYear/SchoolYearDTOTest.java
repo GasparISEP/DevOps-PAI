@@ -9,6 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class SchoolYearDTOTest {
 
     @Test
+    void shouldConstructSchoolYearDTOWithEmptyController() {
+        //arrange + act
+        SchoolYearDTO syDTO = new SchoolYearDTO();
+
+        //assert
+        assertNotNull(syDTO);
+    }
+
+    @Test
     void shouldConstructSchoolYearDTO() {
     //arrange
     String description = "ola";
@@ -82,5 +91,36 @@ class SchoolYearDTOTest {
 
         //assert
         assertNotEquals(endDates,get);
+    }
+
+    @Test
+    void shouldGetStartDate() {
+        //arrange
+        String description = "ola";
+        LocalDate startDate = LocalDate.of(2025, 2, 26);
+        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
+
+        //act
+        LocalDate get = syDTO.getStartDate();
+
+        //assert
+        assertEquals(get,syDTO.getStartDate());
+    }
+
+    @Test
+    void shouldNotGetStartDate() {
+        //arrange
+        String description = "ola";
+        LocalDate startDate = LocalDate.of(2025, 2, 26);
+        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        LocalDate startDates = LocalDate.of(2025, 3, 30);
+        SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
+
+        //act
+        LocalDate get = syDTO.getStartDate();
+
+        //assert
+        assertNotEquals(startDates,get);
     }
 }
