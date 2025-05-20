@@ -21,7 +21,7 @@ class ProgrammeEnrolmentMapperTest {
         String programmeAcronymValue = "EI";
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
-        ProgrammeEnrolmentRequestDTO dto = new ProgrammeEnrolmentRequestDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
 
         ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
         ProgrammeEnrolment result = mapper.toProgrammeEnrolment(dto);
@@ -42,5 +42,28 @@ class ProgrammeEnrolmentMapperTest {
         assertEquals(expected.getAccessMethodID(), result.getAccessMethodID());
         assertEquals(expected.getProgrammeID(), result.getProgrammeID());
         assertEquals(expected.getDate(), result.getDate());
+    }
+
+    @Test
+    void testToProgrammeEnrolmentDTO() {
+        // Arrange
+        StudentID sid = new StudentID(1234567);
+        AccessMethodID aid = new AccessMethodID(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
+        NameWithNumbersAndSpecialChars nameVo = new NameWithNumbersAndSpecialChars("Engenharia Informática");
+        Acronym acronymVo = new Acronym("EG");
+        ProgrammeID pid = new ProgrammeID(nameVo, acronymVo);
+        LocalDate localDate = LocalDate.of(2025, 5, 20);
+        Date dateVo = new Date(localDate);
+
+
+        ProgrammeEnrolment enrolment = new ProgrammeEnrolment(sid, aid, pid, dateVo);
+
+        // Act
+        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentResponseDTO dto = mapper.toProgrammeEnrolmentDTO(enrolment);
+
+        // Assert
+        assertEquals(1234567, dto.getStudentID());
+
     }
 }
