@@ -8,7 +8,7 @@ skinparam shadowing true
 autonumber
 
 actor Administrator as admin
-participant "SystemPAI" as System <<Component>>
+participant "SystemPAI" as System <<component>>
 
 admin -> System: I want to configure teacher categories!
 activate System #E1F5FE
