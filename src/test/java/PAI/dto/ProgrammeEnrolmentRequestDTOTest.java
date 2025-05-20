@@ -1,9 +1,6 @@
 package PAI.dto;
 
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
-import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
-import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentRequestDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
