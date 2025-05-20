@@ -4,7 +4,7 @@ autonumber
 
 title Query database for all CourseEditions
 
-participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
+participant "ceRepo:CourseEditionRepository" as R #lightblue
 participant "JPA: EntityManager / Spring Data JPA" as JPA #lightblue
 database "Database" as DB #lightblue
 

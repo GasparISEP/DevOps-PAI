@@ -1,4 +1,4 @@
-package PAI.persistence.springdata.DegreeType;
+package PAI.persistence.springdata.degreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
