@@ -1,0 +1,28 @@
+@startuml
+autonumber
+
+title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 2)
+
+actor Administrator as Admin
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB
+
+Admin -> FE: Request to create a school year
+activate FE
+FE --> Admin: StartDate, EndDate, Description?
+deactivate FE
+Admin -> FE: startDate, endDate, description
+activate FE
+FE -> BE : (POST) Request to create a school year \n(startDate, endDate, description)
+activate BE
+BE -> DB: (INSERT) Persist school year to Database (School Year)
+activate DB
+DB --> BE: School Year
+deactivate DB
+BE --> FE: (201 Created) Created school year
+deactivate BE
+FE --> Admin: School year created successfully!
+deactivate FE
+
+@enduml
