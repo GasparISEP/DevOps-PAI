@@ -7,11 +7,16 @@ import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -65,9 +70,12 @@ class ProgrammeServiceImplTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme programme =mock(Programme.class);
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         when(programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenReturn(programme);
+        when(programme.identity()).thenReturn(programmeID);
+        when(programmeRepository.containsOfIdentity(programmeID)).thenReturn(false);
         when(programmeRepository.save(programme)).thenReturn(programme);
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
@@ -76,137 +84,39 @@ class ProgrammeServiceImplTest {
         boolean result = service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         //Assert
-        assertNotNull(result);
+        assertTrue(result);
     }
 
-    @Test
-    void returnsFalseWhenProgrammeAlreadyExists() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
+    static Stream<Arguments> parametersToCreateProgrammeAreInvalid() {
+        return Streams.of(
+                Arguments.of(null, mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Programme name cannot be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), null, mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Acronym must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), null, mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Number of ECTS must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), null, mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Quantity of Semesters must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), null, mock(DepartmentID.class), mock(TeacherID.class), "DegreeTypeID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), null, mock(TeacherID.class), "DepartmentID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), null, "TeacherID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "ProgrammeID must not be null")
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(false);
-        when(progID.hasThisName(name)).thenReturn(false);
-
-        boolean res = service.doesProgrammeExist(name, acronym);
-
-        //Act + Assert
-        assertFalse(res);
-
+        );
     }
 
-    @Test
-    void returnsFalseWhenAcronymIsNull() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+    @ParameterizedTest
+    @MethodSource("parametersToCreateProgrammeAreInvalid")
+    void shouldThrowExceptionWhenParametersToCreateProgrammeAreNotValid(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, String expectedMessage) {
+        //arrange
+        IProgrammeFactory programmeFactoryDouble = mock(IProgrammeFactory.class);
+        IProgrammeRepository programmeRepositoryDouble = mock(IProgrammeRepository.class);
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactoryDouble, programmeRepositoryDouble);
 
-        boolean res = service.doesProgrammeExist(name, null);
+        when(programmeFactoryDouble.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenThrow(new IllegalArgumentException(expectedMessage));
 
-        //Act + Assert
-        assertFalse(res);
+        //act
+        Exception result = assertThrows(IllegalArgumentException.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
 
-    }
-
-    @Test
-    void returnsFalseWhenNameIsNull() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        boolean res = service.doesProgrammeExist(null, acronym);
-
-        //Act + Assert
-        assertFalse(res);
-
-    }
-
-    @Test
-    void returnsTrueWhenProgrammeAlreadyExists() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(true);
-        when(progID.hasThisName(name)).thenReturn(true);
-
-        boolean res = service.doesProgrammeExist(name, acronym);
-
-        //Act + Assert
-        assertTrue(res);
-
-    }
-
-    @Test
-    void returnsTrueWhenProgrammeDoesntHaveName() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(true);
-        when(progID.hasThisName(name)).thenReturn(false);
-
-        boolean res = service.doesProgrammeExist(name, acronym);
-
-        //Act + Assert
-        assertTrue(res);
-
-    }
-
-    @Test
-    void returnsTrueWhenProgrammeDoesntHaveAcronym() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(false);
-        when(progID.hasThisName(name)).thenReturn(true);
-
-        boolean res = service.doesProgrammeExist(name, acronym);
-
-        //Act + Assert
-        assertTrue(res);
-
+        //assert
+        assertEquals(result.getMessage(), expectedMessage);
     }
 
     @Test
@@ -221,23 +131,25 @@ class ProgrammeServiceImplTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.getAcronym()).thenReturn(acronym);
-        when(progID.getName()).thenReturn(name);
+        when(programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenReturn(programme);
+        when(programme.identity()).thenReturn(programmeID);
+        when(programmeRepository.containsOfIdentity(programmeID)).thenReturn(true);
 
-        //act + assert
-        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
+        //act
+        Exception result = assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
 
+        //assert
+        assertEquals(result.getMessage(), "Programme is already registered");
     }
 
+
     @Test
-    void shouldNotRegisterProgrammeWhenProgrammeNameAlreadyExists() {
+    void shouldThrowExceptionWhenProgrammeFailsToBeSavedInTheDatabase() throws Exception {
         //Arrange
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
@@ -248,65 +160,16 @@ class ProgrammeServiceImplTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        when(programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenReturn(programme);
+        when(programme.identity()).thenReturn(programmeID);
+        when(programmeRepository.containsOfIdentity(programmeID)).thenReturn(false);
+        when(programmeRepository.save(programme)).thenThrow(new RuntimeException());
 
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(true);
-        when(progID.hasThisName(name)).thenReturn(false);
-
-        //act + assert
-        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
-
-    }
-
-    @Test
-    void shouldNotRegisterProgrammeWhenProgrammeAcronymAlreadyExists() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
-        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        TeacherID programmeDirectorID = mock(TeacherID.class);
-        Programme prog = mock(Programme.class);
-        ProgrammeID progID = mock(ProgrammeID.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        when(programmeRepository.findAll()).thenReturn(List.of(prog));
-        when(prog.identity()).thenReturn(progID);
-        when(progID.hasThisAcronym(acronym)).thenReturn(false);
-        when(progID.hasThisName(name)).thenReturn(true);
-
-        //act + assert
-        assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
-
-    }
-
-    @Test
-    void shouldNotRegisterProgrammeWhenItsNull() {
-        //Arrange
-        IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
-        QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        TeacherID programmeDirectorID = mock(TeacherID.class);
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
-
-        //Act
-        //Assert
+        //Act + Assert
         assertThrows(Exception.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
 
     }
