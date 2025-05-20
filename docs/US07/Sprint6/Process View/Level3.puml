@@ -1,0 +1,57 @@
+@startuml
+
+autonumber
+skinparam {
+  SequenceLifeLineBorderColor gray
+  SequenceParticipantBorderColor darkgreen
+  DefaultTextAlignment center
+}
+
+title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 3)
+
+actor Administrator as Admin #green
+participant "UI" as UI #olivedrab
+participant "Controller" as C #seagreen
+participant "Service" as S #forestgreen
+participant "Repository" as R #lightseagreen
+participant "Domain" as D #teal
+participant "Database" as BD #steelblue
+
+
+Admin -> UI: Request to create a school year
+activate UI #yellowgreen
+UI --> Admin: Present School Year Form
+deactivate UI #yellowgreen
+Admin -> UI: Fill School Year Form (startDate, endDate,\n description)
+activate UI #yellowgreen
+UI -> C: Submit School Year Form
+activate C #yellowgreen
+C -> S: Register School Year
+activate S #yellowgreen
+S -> D: Create School Year
+activate D #yellowgreen
+D --> S: School Year
+deactivate D #yellowgreen
+S -> R: Check if School Year exists
+activate R #yellowgreen
+R -> BD: Check if School Year exists
+activate BD #yellowgreen
+BD --> R: School Year does not exist
+deactivate BD #yellowgreen
+R --> S: School Year does not exist
+deactivate R #yellowgreen
+S -> R: Save School Year
+activate R #yellowgreen
+R -> BD: Save School Year
+activate BD #yellowgreen
+BD --> R: Saved School Year
+deactivate BD #yellowgreen
+R --> S: Saved School Year
+deactivate R #yellowgreen
+S --> C: Saved School Year
+deactivate S #yellowgreen
+C --> UI: Saved School Year
+deactivate C #yellowgreen
+UI --> Admin: School Year created successfully!
+deactivate UI #yellowgreen
+@enduml
