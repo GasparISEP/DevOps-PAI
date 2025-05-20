@@ -1,0 +1,17 @@
+@startuml
+title As an HRC, I want to Update a Teacher's Working Percentage in the System\n(Process View Level 1)
+
+actor HRC
+participant ":System" as system
+
+HRC -> system: I want to update the teacher's working percentage.
+system --> HRC: Which Teacher?
+HRC -> system: Teacher's Acronym!
+system --> HRC: What Working Percentage?
+HRC -> system: Working Percentage!
+system --> HRC: What Date?
+HRC -> system: Date!
+
+system --> HRC: OK!
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+title As an HRC, I want to Update a Teacher's Working Percentage in the System\n(Process View Level 2)
+
+actor HRC
+participant UI
+participant Controller
+participant Service
+participant Repository
+
+HRC -> UI : Start process
+UI -> Controller : Ask for list of teachers
+Controller -> Service : getAllTeachers()
+Service -> Repository : findAll()
+Repository --> Service : list
+Service --> Controller : list
+Controller --> UI : list
+UI -> HRC : Show teachers
+
+HRC -> UI : Teacher Acronym + new Working Percentage + Date
+UI -> Controller : updateTeacherWorkingPercentage(...)
+Controller -> Service : updateTeacherWorkingPercentage(...)
+
+Service -> Repository : validate teacher exists
+Service -> Repository : get last career progression
+Service -> Repository : save updated progression
+
+Service --> Controller : success
+Controller --> UI : success
+UI -> HRC : Success!
+
+@enduml
