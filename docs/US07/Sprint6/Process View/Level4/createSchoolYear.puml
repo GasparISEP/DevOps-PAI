@@ -25,11 +25,11 @@ UI --> Admin: StartDate? EndDate? Description?
 deactivate UI #seashell
 Admin -> UI: startDate! endDate! description!
 activate UI #seashell
-UI -> C: createASchoolYearInTheSystem \n(SchoolYearRequestDTO)
+UI -> C: createASchoolYearInTheSystem \n(SchoolYearDTO)
 activate C #seashell
 
 ref over C
-    Convert SchoolYearRequestDTO
+    Convert SchoolYearDTO
     to SchoolYearVOsDTO
 end ref
 
@@ -69,10 +69,10 @@ SYS --> C: SY1
 deactivate SYS
 
 ref over C
-    Convert SY1 to SchoolYearResponseDTO
+    Convert SY1 to SchoolYearDTO
 end ref
 
-C --> UI: SchoolYearResponseDTO
+C --> UI: SchoolYearDTO
 deactivate C
 UI --> Admin: School Year created successfully!
 deactivate UI

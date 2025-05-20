@@ -12,7 +12,7 @@ participant "syMapper" as SYM #lightgray
 participant "syVOsDTO" as SYDTO #lightgray
 
 activate C #whitesmoke
-C -> SYM: fromDTOtoDomain(SchoolYearRequestDTO)
+C -> SYM: fromDTOtoDomain(SchoolYearDTO)
 activate SYM #whitesmoke
 SYM -> SYDTO**: new SchoolYearVOsDTO (startDateVO, endDateVO,\n descriptionVO)
 activate SYDTO #whitesmoke
