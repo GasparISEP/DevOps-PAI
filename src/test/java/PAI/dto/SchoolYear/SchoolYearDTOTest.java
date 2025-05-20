@@ -52,4 +52,35 @@ class SchoolYearDTOTest {
         //assert
         assertNotEquals(descriptions,get);
     }
+
+    @Test
+    void shouldGetEndDate() {
+        //arrange
+        String description = "ola";
+        LocalDate startDate = LocalDate.of(2025, 2, 26);
+        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
+
+        //act
+        LocalDate get = syDTO.getEndDate();
+
+        //assert
+        assertEquals(get,syDTO.getEndDate());
+    }
+
+    @Test
+    void shouldNotGetEndDate() {
+        //arrange
+        String description = "ola";
+        LocalDate startDate = LocalDate.of(2025, 2, 26);
+        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        LocalDate endDates = LocalDate.of(2025, 3, 30);
+        SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
+
+        //act
+        LocalDate get = syDTO.getEndDate();
+
+        //assert
+        assertNotEquals(endDates,get);
+    }
 }

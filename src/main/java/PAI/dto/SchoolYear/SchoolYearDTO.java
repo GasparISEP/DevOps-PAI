@@ -17,4 +17,8 @@ public class SchoolYearDTO {
     public String getDescription() {
         return _description;
     }
+
+    public LocalDate getEndDate() {
+        return _endDate;
+    }
 }
