@@ -1,0 +1,17 @@
+@startuml
+
+title UC: Register a Student in the System\n(Process View Level 2)
+autonumber
+
+participant "<<system(C4)>>\nFrontend" as FE
+participant "<<system(C4)>>\nBackend" as BE
+
+[o-> FE: Request to register a Student in the system.
+activate FE
+FE -> BE: (POST) Request to register a Student in the System
+activate BE
+BE --> FE: (201 Created) Student registered in the System.
+deactivate BE
+[o<-- FE: Student registered in the System.
+deactivate FE
+@enduml

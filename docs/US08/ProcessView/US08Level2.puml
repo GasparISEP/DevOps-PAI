@@ -1,0 +1,15 @@
+@startuml
+
+title UC: Register a Student in the System\n(Process View Level 2)
+caption SSD – Process View Level 2
+
+actor ASC as "ASC"
+participant Backend <<system>>
+
+ASC -> Backend ++ : 1. Request to register a Student in the System
+Backend --> ASC -- : 2. Request Student Data\n(Unique Number, Name, NIF, Phone, Email, Street, Postal Code, Location, Country)
+
+ASC -> Backend ++ : 3. Provide Student Data
+Backend --> ASC -- : 4. Student registered successfully!
+
+@enduml
