@@ -1,0 +1,28 @@
+@startuml
+title Create Value Objects from DTO
+autonumber
+
+participant Controller
+participant Mapper
+participant TeacherIdVO
+participant DateVO
+participant WorkingPercentageVO
+
+activate Controller
+Controller -> Mapper : extract teacherAcronym, teacherNIF, date, workingPercentage
+activate Mapper
+Mapper -> TeacherIdVO : create(teacherAcronym, teacherNIF)
+activate TeacherIdVO
+TeacherIdVO --> Mapper : teacherIdVO
+deactivate TeacherIdVO
+Mapper -> DateVO : create(date)
+activate DateVO
+DateVO --> Mapper : dateVO
+deactivate DateVO
+Mapper -> WorkingPercentageVO : create(workingPercentage)
+activate WorkingPercentageVO
+WorkingPercentageVO --> Mapper : workingPercentageVO
+deactivate WorkingPercentageVO
+Mapper --> Controller : teacherIdVO, dateVO, workingPercentageVO
+deactivate Mapper
+@enduml

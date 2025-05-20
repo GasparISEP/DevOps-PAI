@@ -1,0 +1,97 @@
+@startuml
+scale 0.5
+title US16: Enrol a student in a course edition (REST API) - Class Diagram
+
+' Legend
+legend left
+  <b>Legend</b>
+  <color:blue>Blue arrow</color>: uses (dependency)
+  <color:green>Green arrow</color>: implements (interface implementation)
+  <color:red>Red arrow</color>: creates/persists (object creation or persistence)
+endlegend
+
+skinparam linetype ortho
+skinparam nodesep 150
+skinparam ranksep 150
+skinparam arrowMessageAlign center
+skinparam arrowMessagePosition 0.9
+skinparam padding 8
+
+' Service Layer
+interface ICourseEditionEnrolmentService {
+    +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+}
+
+' Domain Classes
+class CourseEditionEnrolment {
+    +id: CourseEditionEnrolmentID
+    +studentId: StudentID
+    +courseEditionId: CourseEditionID
+}
+
+' Data Models
+class CourseEditionEnrolmentDataModel {
+    +id: Long
+    +studentId: Long
+    +courseEditionId: Long
+}
+
+' Mappers
+interface ICourseEditionEnrolmentMapperDto {
+    +toDomain(dto: EnrolStudentCourseEditionDto): Pair<StudentID, CourseEditionID>
+}
+
+class CourseEditionEnrolmentMapperDto {
+    +toDomain(dto: EnrolStudentCourseEditionDto): Pair<StudentID, CourseEditionID>
+}
+
+interface ICourseEditionEnrolmentMapperDataModel {
+    +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
+}
+
+class CourseEditionEnrolmentMapperDataModel {
+    +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
+}
+
+' Repository
+interface ICourseEditionEnrolmentRepository {
+    +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    +save(enrolment: CourseEditionEnrolmentDataModel): boolean
+}
+
+' Controller
+class CourseEditionEnrolmentRestController {
+    -courseEditionEnrolmentService: ICourseEditionEnrolmentService
+    +enrolStudentInCourseEdition(dto: EnrolStudentCourseEditionDto): ResponseEntity<Void>
+}
+
+' Factory
+interface ICourseEditionEnrolmentFactory {
+    +create(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentFactory {
+    +create(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+}
+
+' Relationships
+CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentService : uses
+ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentMapperDto : uses
+ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentRepository : uses
+CourseEditionEnrolmentMapperDto -[#blue]-> ICourseEditionEnrolmentFactory : uses
+ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentMapperDataModel
+ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentFactory
+ICourseEditionEnrolmentRepository -[#blue]-> ICourseEditionEnrolmentMapperDataModel : uses
+
+' Implementations
+CourseEditionEnrolmentMapperDto ..[#green]|> ICourseEditionEnrolmentMapperDto : implements
+CourseEditionEnrolmentMapperDataModel ..[#green]|> ICourseEditionEnrolmentMapperDataModel : implements
+CourseEditionEnrolmentFactory ..[#green]|> ICourseEditionEnrolmentFactory : implements
+
+' Creations
+ICourseEditionEnrolmentFactory ..[#red]> CourseEditionEnrolment : creates
+ICourseEditionEnrolmentMapperDataModel ..[#red]> CourseEditionEnrolmentDataModel : creates
+ICourseEditionEnrolmentRepository ..[#red]> CourseEditionEnrolmentDataModel : persists
+ICourseEditionEnrolmentMapperDto ..[#red]> CourseEditionEnrolmentDto : creates
+
+@enduml
