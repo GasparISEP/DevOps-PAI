@@ -1,0 +1,36 @@
+@startuml
+autonumber
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+
+actor HRC
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB #lightgray/gray
+
+HRC -> FE ++: I want to register a new teacher including all relevant data.
+FE --> HRC --: What are the Teacher's attributes?
+
+HRC -> FE ++: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country
+FE -> BE ++: (GET) Request list of categories
+BE -> DB ++: Fetch all categories
+DB --> BE --: List of categories
+BE --> FE --: List of categories
+FE --> HRC --: Display categories
+
+HRC -> FE ++: Select category
+FE -> BE ++: (GET) Request list of departments
+BE -> DB ++: Fetch all department
+DB --> BE --: List of department
+BE --> FE --: List of department
+FE --> HRC --: Display department
+
+HRC -> FE ++: Select department
+
+FE -> BE ++: (POST) Create teacher
+BE -> DB ++: Insert into teacher
+DB --> BE --: Insert confirmed
+BE --> FE --: (201 OK) Created successfuly
+FE --> HRC --: Teacher registered successfully!
+
+@enduml

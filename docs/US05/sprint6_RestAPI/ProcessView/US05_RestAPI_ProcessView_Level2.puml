@@ -1,0 +1,27 @@
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US05:\n Register a Department In The System\n Process View Level 2
+actor ADM
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB
+
+ADM -> FE ++: Request to register Department
+FE --> ADM --: Request acronym
+ADM -> FE ++: Enter acronym
+FE --> ADM --: Request name
+ADM -> FE ++: Enter name
+
+FE -> BE ++: (POST) Register Department
+BE -> DB ++: Persist instance of department created
+DB --> BE --: Registry confirmed
+BE --> FE --: (200 OK) Registration successful
+FE --> ADM --: registered department successfully
+
+@enduml

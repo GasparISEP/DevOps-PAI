@@ -16,7 +16,6 @@ import java.util.UUID;
 public class ProgrammeEnrolmentInitializer {
 
     @Bean
-    @Autowired
     public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
         return (args) -> {
             loadProgrammeEnrolment(controller);

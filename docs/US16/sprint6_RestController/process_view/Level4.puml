@@ -1,0 +1,86 @@
+@startuml
+title US16: Enroll a Student in a Course Edition - Process View Level 4
+autonumber
+
+' Set colors for different types of lines
+skinparam sequence {
+    ArrowColor #2C3E50
+    LifeLineBorderColor #2C3E50
+    LifeLineBackgroundColor #ECF0F1
+    ParticipantBorderColor #2C3E50
+    ParticipantBackgroundColor #ECF0F1
+    ParticipantFontColor #2C3E50
+    ActorBorderColor #2C3E50
+    ActorBackgroundColor #ECF0F1
+    ActorFontColor #2C3E50
+    DatabaseBorderColor #2C3E50
+    DatabaseBackgroundColor #ECF0F1
+    DatabaseFontColor #2C3E50
+}
+
+actor "Academic Services Coordinator" as ASC
+participant ":CourseEditionEnrolmentRestController" as Controller
+participant ":CourseEditionEnrolmentService" as Service
+participant ":CourseEditionEnrolmentFactory" as Factory
+participant ":CourseEditionEnrolmentRepository" as Repository
+participant ":CourseEditionEnrolmentMapper" as Mapper
+database "Database" as DB
+
+ASC -> Controller: POST /api/courseeditions/{courseEditionId}/enrolments
+activate Controller
+
+Controller -> Mapper: toDomain(EnrolStudentCourseEditionDto)
+activate Mapper
+note right of Mapper
+  Transformations:
+  1. String studentId -> StudentID VO
+  2. String courseEditionId -> CourseEditionID VO
+end note
+Mapper --> Controller: Pair<StudentID, CourseEditionID>
+deactivate Mapper
+
+Controller -> Service: enrolStudentInACourseEdition(studentId, courseEditionId)
+activate Service
+
+Service -> Service: validateEnrollment(studentId, courseEditionId)
+Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
+activate Repository
+Repository -> DB: SELECT * FROM course_edition_enrolments
+activate DB
+DB --> Repository: ResultSet
+deactivate DB
+Repository --> Service: false
+deactivate Repository
+Service --> Service: true
+
+Service -> Factory: create(studentId, courseEditionId)
+activate Factory
+Factory --> Service: CourseEditionEnrolment
+deactivate Factory
+
+Service -> Mapper: toDataModel(CourseEditionEnrolment)
+activate Mapper
+note right of Mapper
+  Transformations:
+  1. StudentID VO -> Long
+  2. CourseEditionID VO -> Long
+end note
+Mapper --> Service: CourseEditionEnrolmentDataModel
+deactivate Mapper
+
+Service -> Repository: save(courseEditionEnrolmentDataModel)
+activate Repository
+Repository -> DB: INSERT INTO course_edition_enrolments
+activate DB
+DB --> Repository: Success
+deactivate DB
+Repository --> Service: true
+deactivate Repository
+
+Service --> Controller: true
+deactivate Service
+
+Controller --> ASC: 201 Created
+deactivate Controller
+
+@enduml 

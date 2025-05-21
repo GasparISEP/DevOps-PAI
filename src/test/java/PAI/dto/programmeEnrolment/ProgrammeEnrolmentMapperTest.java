@@ -23,7 +23,7 @@ class ProgrammeEnrolmentMapperTest {
 
         ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
 
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
         ProgrammeEnrolment result = mapper.toProgrammeEnrolment(dto);
 
 
@@ -59,7 +59,7 @@ class ProgrammeEnrolmentMapperTest {
         ProgrammeEnrolment enrolment = new ProgrammeEnrolment(sid, aid, pid, dateVo);
 
         // Act
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
         ProgrammeEnrolmentResponseDTO dto = mapper.toProgrammeEnrolmentDTO(enrolment);
 
         // Assert
@@ -78,7 +78,7 @@ class ProgrammeEnrolmentMapperTest {
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
         ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
 
 
         //act
@@ -99,7 +99,7 @@ class ProgrammeEnrolmentMapperTest {
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
         ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
 
 
         //act
@@ -120,7 +120,7 @@ class ProgrammeEnrolmentMapperTest {
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
         ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
 
         //act
         ProgrammeID programmeID = mapper.toProgrammeID(dto);
@@ -140,7 +140,7 @@ class ProgrammeEnrolmentMapperTest {
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
         ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
-        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+        ProgrammeEnrolmentMapperDTO mapper = new ProgrammeEnrolmentMapperDTO();
 
         //act
         Date date = mapper.toDateVO(dto);
