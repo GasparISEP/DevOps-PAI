@@ -1,0 +1,50 @@
+@startuml
+title Register a Programme, including Study Plan (Granularity 2)
+
+actor ASC
+participant Frontend
+participant Backend
+database Database
+
+ASC -> Frontend: Fill and submit programme form
+activate Frontend
+
+Frontend -> Backend: POST /programmes
+activate Backend
+note right Frontend
+  Sent as JSON format
+  Received as programmeDTO
+end note
+
+Backend -> Database: Save(programmeDM)
+activate Database
+Database --> Backend: OK
+deactivate Database
+
+Backend --> Frontend: 201 Created + programmeId
+deactivate Backend
+
+Frontend --> ASC: Confirmation message
+deactivate Frontend
+
+ASC -> Frontend: Submit study plan data
+activate Frontend
+Frontend -> Backend: POST /programmes/studyplans
+activate Backend
+note right Frontend
+  Sent as JSON format
+  Received as studyPlanDTO
+end note
+
+Backend -> Database: Save(studyPlanDM)
+activate Database
+Database --> Backend: OK
+deactivate Database
+
+Backend --> Frontend: 201 Created
+deactivate Backend
+
+Frontend --> ASC: Confirmation message
+deactivate Frontend
+
+@enduml
