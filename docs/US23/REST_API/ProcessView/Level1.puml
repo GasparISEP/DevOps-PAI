@@ -1,0 +1,20 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title: I want to know the appoval percentage of a Course Edition \n (Process View Level 1)
+actor RUC
+participant ":System" as System #lightblue
+
+RUC -> System  : I want to know the approval percentage of a Course Edition
+activate System
+System --> RUC  : Which Course Edition?
+deactivate System
+RUC -> System  : Course Edition!
+activate System
+System --> RUC  : Confirm?
+deactivate System
+RUC -> System  : Yes!
+activate System
+System --> RUC  : Success!
+deactivate System
+@enduml
