@@ -42,21 +42,23 @@ class CourseEditionEnrolmentDataModel {
     +courseEditionId: Long
 }
 
-' Mappers
-interface ICourseEditionEnrolmentMapperDto {
-    +toDomain(dto: EnrolStudentCourseEditionDto): Pair<StudentID, CourseEditionID>
-}
-
-class CourseEditionEnrolmentMapperDto {
-    +toDomain(dto: EnrolStudentCourseEditionDto): Pair<StudentID, CourseEditionID>
-}
-
 interface ICourseEditionEnrolmentMapperDataModel {
     +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
 }
 
 class CourseEditionEnrolmentMapperDataModel {
     +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
+}
+
+' Assembler
+interface ICourseEditionEnrolmentAssembler {
+    +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+    +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
+}
+
+class CourseEditionEnrolmentAssembler {
+    +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+    +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
 }
 
 ' Repository
@@ -82,22 +84,21 @@ class CourseEditionEnrolmentFactory {
 
 ' Relationships
 CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentService : uses
-ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentMapperDto : uses
 ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentRepository : uses
-CourseEditionEnrolmentMapperDto -[#blue]-> ICourseEditionEnrolmentFactory : uses
+ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentAssembler : uses
+ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentFactory : uses
 ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentMapperDataModel
 ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentFactory
 ICourseEditionEnrolmentRepository -[#blue]-> ICourseEditionEnrolmentMapperDataModel : uses
 
 ' Implementations
-CourseEditionEnrolmentMapperDto ..[#green]|> ICourseEditionEnrolmentMapperDto : implements
 CourseEditionEnrolmentMapperDataModel ..[#green]|> ICourseEditionEnrolmentMapperDataModel : implements
 CourseEditionEnrolmentFactory ..[#green]|> ICourseEditionEnrolmentFactory : implements
+CourseEditionEnrolmentAssembler ..[#green]|> ICourseEditionEnrolmentAssembler : implements
 
 ' Creations
 ICourseEditionEnrolmentFactory ..[#red]> CourseEditionEnrolment : creates
 ICourseEditionEnrolmentMapperDataModel ..[#red]> CourseEditionEnrolmentDataModel : creates
 ICourseEditionEnrolmentRepository ..[#red]> CourseEditionEnrolmentDataModel : persists
-ICourseEditionEnrolmentMapperDto ..[#red]> CourseEditionEnrolmentDto : creates
 
 @enduml

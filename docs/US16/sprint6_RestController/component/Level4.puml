@@ -46,6 +46,7 @@ package "Application" {
     class CourseEditionEnrolmentService {
         -enrolmentRepository: ICourseEditionEnrolmentRepository
         -enrolmentFactory: ICourseEditionEnrolmentFactory
+        -enrolmentAssembler: ICourseEditionEnrolmentAssembler
         +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
         +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
         +validateEnrollment(studentId: StudentID, courseEditionId: CourseEditionID): boolean
@@ -71,6 +72,16 @@ package "Infrastructure" {
         +delete(enrolment: CourseEditionEnrolment): boolean
         -toEntity(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentEntity
         -toDomain(entity: CourseEditionEnrolmentEntity): CourseEditionEnrolment
+    }
+
+    interface ICourseEditionEnrolmentAssembler {
+        +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+        +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
+    }
+
+    class CourseEditionEnrolmentAssembler {
+        +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+        +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
     }
 }
 
@@ -98,6 +109,8 @@ package "Interface" {
 CourseEditionEnrolmentService ..|> ICourseEditionEnrolmentService
 CourseEditionEnrolmentService --> ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentService --> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentService --> ICourseEditionEnrolmentAssembler
+CourseEditionEnrolmentAssembler ..|> ICourseEditionEnrolmentAssembler
 CourseEditionEnrolmentRepositoryImpl ..|> ICourseEditionEnrolmentRepository
 CourseEditionEnrolmentRestController --> ICourseEditionEnrolmentService
 
