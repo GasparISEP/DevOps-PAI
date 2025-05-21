@@ -3,9 +3,11 @@ package PAI.persistence.springdata.teacher;
 import PAI.VOs.*;
 import PAI.domain.teacher.Teacher;
 import PAI.mapper.*;
+import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.teacher.ITeacherMapper;
 import PAI.persistence.datamodel.NIFDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
@@ -22,9 +24,10 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
     private ITeacherMapper teacherMapper;
     private ITeacherIDMapper teacherIDMapper;
     private INIFMapper nifMapper;
+    private IDepartmentIDMapper departmentIDMapper;
 
     public TeacherRepositorySpringDataImpl(ITeacherRepositorySpringData teacherRepositorySpringData, ITeacherMapper teacherMapper,
-                                       ITeacherIDMapper teacherIDMapper, INIFMapper nifMapper) {
+                                       ITeacherIDMapper teacherIDMapper, INIFMapper nifMapper, IDepartmentIDMapper departmentIDMapper) {
 
         if (teacherRepositorySpringData == null) {
             throw new IllegalArgumentException("TeacherRepositorySpringData must not be null.");
@@ -38,11 +41,15 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         if (nifMapper == null) {
             throw new IllegalArgumentException("NIFMapper must not be null.");
         }
+        if (departmentIDMapper == null) {
+            throw new IllegalArgumentException("DepartmentIdMapper must not be null.");
+        }
 
         iTeacherRepositorySpringData = teacherRepositorySpringData;
         this.teacherMapper = teacherMapper;
         this.teacherIDMapper = teacherIDMapper;
         this.nifMapper = nifMapper;
+        this.departmentIDMapper = departmentIDMapper;
     }
 
     public Teacher save(Teacher teacher) {
@@ -84,6 +91,12 @@ public class TeacherRepositorySpringDataImpl implements ITeacherRepository {
         Optional<TeacherDataModel> result = iTeacherRepositorySpringData.findByTeacherId(teacherIDDataModel);
 
         return result.isPresent();
+    }
+
+    @Override
+    public Iterable<Teacher> findTeacherByDepartmentId(DepartmentID departmentID) {
+        DepartmentIDDataModel departmentIDDataModel = departmentIDMapper.toDataModel(departmentID);
+        return teacherMapper.toDomain(iTeacherRepositorySpringData.findAllByDepartmentID(departmentIDDataModel));
     }
 
     @Override
