@@ -1,6 +1,11 @@
 @startuml
 autonumber
 
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
 title US05:\n Register a Department In The System\n Process View Level 2
 actor ADM
 participant "Frontend" as FE
