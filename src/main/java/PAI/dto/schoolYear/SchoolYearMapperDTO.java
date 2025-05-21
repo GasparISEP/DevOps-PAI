@@ -34,4 +34,8 @@ public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
     public Date toEndDate(SchoolYearDTO syDTO) {
         return new Date(syDTO.getEndDate());
     }
+
+    public Date toStartDate(SchoolYearDTO syDTO) {
+        return new Date(syDTO.getStartDate());
+    }
 }

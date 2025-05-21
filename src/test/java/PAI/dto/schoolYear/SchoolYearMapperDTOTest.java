@@ -84,4 +84,20 @@ class SchoolYearMapperDTOTest {
         // assert
         assertNotNull(res);
     }
+
+    @Test
+    void shouldTransformToStartDate() {
+        // arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
+        SchoolYearMapperDTO syMapperDTO = new SchoolYearMapperDTO(syFactory);
+
+        when(syDTO.getStartDate()).thenReturn(LocalDate.of(23,12,23));
+
+        // act
+        Date res = syMapperDTO.toStartDate(syDTO);
+
+        // assert
+        assertNotNull(res);
+    }
 }
