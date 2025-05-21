@@ -1,0 +1,35 @@
+@startuml
+title Register a Programme, including the Study Plan
+actor ASC
+participant ":System" as system
+
+ASC -> system: **requestProgrammeRegistration**()
+activate system
+system --> ASC: **provideRequiredDataFields**()
+deactivate system
+|||
+ASC -> system: **getAvailableDegreeTypes**()
+activate system
+system --> ASC: degreeTypesList
+deactivate system
+|||
+ASC -> system: **getAvailableDepartments**()
+activate system
+system --> ASC: departmentsList
+deactivate system
+|||
+ASC -> system: **getAvailableTeachers**()
+activate system
+system --> ASC: teachersList
+deactivate system
+|||
+ASC -> system: **submitProgrammeData**(name, acronym, ects, semesters,\n degreeType, department, programmeDirector)
+activate system
+system --> ASC: **registrationConfirmation**(programmeId)
+deactivate system
+|||
+ASC -> system: **submitStudyPlanData**(programmeId, activationDate)
+activate system
+system --> ASC: **studyPlanRegistrationConfirmation**()
+deactivate system
+@enduml

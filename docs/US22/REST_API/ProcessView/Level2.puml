@@ -1,31 +1,52 @@
 @startuml
-autonumber
 
+autonumber
 title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 2)
 
 skinparam sequencemessagealign center
 
-actor Administrator as Admin
+actor RUC as RUC
 participant "Frontend" as FE #application
 participant "Backend" as BE #strategy
 database DB
 
 
-Admin -> FE: Request to grade a Student in a Course Edition
+''RUC -> FE: Grade a Student in a Course Edition
+''activate FE
+''FE --> RUC: Grade details?
+''RUC -> FE: grade, date, studentID
+''FE --> RUC : Which Course Edition?
+''deactivate FE
+
+RUC -> FE : Grade a Student in a Course Edition
 activate FE
-FE --> Admin: Student, Grade, Date, Course Edition?
-deactivate FE
-Admin -> FE: grade, date, studentID, courseEditionID
-activate FE
-FE -> BE : (POST) Request to grade a Student in a Course Edition \n (grade, date, courseEditionID, studentID)
+FE -> BE : (GET) \n Retrieve all Course Editions
 activate BE
-BE -> DB: (INSERT) Save new Student's grade in Course Edition to \n Database (studentGrade)
+BE --> DB : (GET) \n Retrieve all Course Editions
+activate DB
+DB --> BE : All Course Editions
+deactivate DB
+BE --> FE : All Course Editions
+deactivate BE
+FE --> RUC : Choose a Course Edition
+deactivate FE
+
+RUC -> FE : Request to grade a Student in a Course Edition
+activate FE
+FE --> RUC: Grade details?
+deactivate FE
+RUC -> FE: grade, date, studentID
+activate FE
+FE -> BE : (POST) \n Grade a Student in a Course Edition
+activate BE
+BE -> DB: (INSERT) \n Save Student's grade in Course Edition to Database
 activate DB
 DB --> BE: StudentGrade
 deactivate DB
-BE --> FE: Created StudentGrade
+BE --> FE: Created StudentGrade!
 deactivate BE
-FE --> Admin: Student graded successfully!
+FE --> RUC: Student graded successfully!
 deactivate FE
+
 
 @enduml
