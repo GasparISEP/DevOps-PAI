@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title US05:\n Register a Department In The System\n Process View Level 1
+actor Administrator
+participant ":System" as System
+
+Administrator -> System: I want to register a department in the system.
+System --> Administrator: acronym?
+Administrator -> System: acronym!
+System --> Administrator: name?
+Administrator -> System: name!
+System --> Administrator: Successfully registered department!
+@enduml
