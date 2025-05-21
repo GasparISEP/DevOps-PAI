@@ -1,0 +1,42 @@
+@startuml
+autonumber
+
+skinparam {
+    SequenceLifeLineBorderColor gray
+    SequenceParticipantBorderColor #chocolate
+    DefaultTextAlignment center
+}
+
+participant "syRepo" as SYR #cornsilk
+participant "syMapper" as SYM #cornsilk
+participant "syDataModel1" as SYDM #cornsilk
+participant "syFactory" as SYF #cornsilk
+participant "SY1" as SY #cornsilk
+
+activate SYR #blanchedalmond
+SYR -> SYM: toData(SY1)
+activate SYM #blanchedalmond
+SYM -> SYDM**: newProgrammeDataModel(SY1)
+activate SYDM #blanchedalmond
+SYDM --> SYM: syDataModel1
+deactivate SYDM #blanchedalmond
+SYM --> SYR: syDataModel1
+deactivate SYM #blanchedalmond
+SYR -> : save(syDataModel1)
+
+SYR <-- : syDataModel1
+
+SYR -> SYM: toDomain(syDataModel1)
+activate SYM #blanchedalmond
+SYM -> SYF: createSchoolYear(syID, startDate, endDate, \n description)
+activate SYF #blanchedalmond
+SYF -> SY** : newSchoolYear(syID, startDate, endDate, \n description)
+activate SY #blanchedalmond
+SY --> SYF: SY1
+deactivate SY #blanchedalmond
+SYF --> SYM: SY1
+deactivate SYF #blanchedalmond
+SYM --> SYR: SY1
+deactivate SYM #blanchedalmond
+
+@enduml

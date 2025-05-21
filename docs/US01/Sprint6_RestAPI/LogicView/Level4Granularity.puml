@@ -1,0 +1,195 @@
+@startuml
+
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Logical View - Level 4 Granularity)
+
+
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam linetype ortho
+
+
+' ======= CONTROLLER =======
+
+class US01_ConfigureTeacherCategoryRESTController #FFBBFF{
+      + US01_ConfigureTeacherCategoryController (service : ITeacherCategoryService)
+      + configureTeacherCategory(teacherCategoryDTO: TeacherCategoryRequestDTO): \nTeacherCategoryResponseDTO
+}
+
+' ======= SERVICE =======
+
+interface ITeacherCategoryService #C1FFC1{
+    + configureTeacherCategory(teacherCategoryName: Name): \n TeacherCategory
+}
+
+class TeacherCategoryServiceImpl #C1FFC1{
+    + TeacherCategoryServiceImpl (factory: ITeacherCategoryFactory, repository: ITeacherCategoryRepository)
+    + configureTeacherCategory(teacherCategoryName: Name): TeacherCategory
+}
+
+' ======= REPOSITORY =======
+
+interface ITeacherCategoryRepository #E0FFFF{
+      + existsByName(name: Name): boolean
+}
+
+class TeacherCategoryRepositorySpringDataImpl #E0FFFF {
+   + save(teacherCategory: TeacherCategory): TeacherCategory
+   + existsByName(name: Name): boolean
+}
+
+interface ITeacherCategoryRepositorySpringData #E0FFFF{
+      + existsByName(name: Name): boolean
+}
+
+' ======= FACTORY =======
+
+interface ITeacherCategoryFactory  	#FAFAD2{
+  + createTeacherCategory(name: Name): TeacherCategory
+}
+
+class TeacherCategoryFactoryImpl #FAFAD2{
+  + createTeacherCategory(name: Name): TeacherCategory
+}
+
+' ======= AGGREGATE =======
+
+package "TeacherCategory Aggregate"  {
+    Entity TeacherCategory <<Root>> <<Entity>> #FFDAB9{
+      + TeacherCategory(id: TeacherCategoryID, name: Name)
+      + getName(): Name
+      + identity(): TeacherCategoryID
+      + sameAs(Object obj): boolean
+      + equals(Object obj): boolean
+      + hashCode(): int
+    }
+}
+
+' ======= VALUE OBJECTS =======
+
+class Name <<Value Object>> #FFE4E1{
+  - _name: String
+  + Name(name: String)
+  + getName(): String
+  + equals(obj: Object): boolean
+  + hashCode(): int
+}
+
+class TeacherCategoryID <<Value Object>> #FFE4E1{
+   - _id: UUID
+   + TeacherCategoryID()
+   + getValue(): UUID
+   + equals(Object obj): boolean
+   + hashCode(): int
+}
+
+' ======= DATAMODEL =======
+
+class TeacherCategoryDataModel #E6E6FA{
+   - name: String
+   + TeacherCategoryDataModel()
+   + TeacherCategoryDataModel(id: TeacherCategoryIDDataModel, name: String)
+   + getId(): TeacherCategoryIDDataModel
+   + getName(): Name
+   + equals(Object obj): boolean
+   + hashCode(): int
+}
+
+class TeacherCategoryIDDataModel #E6E6FA {
+   - value: UUID
+   + TeacherCategoryIDDataModel()
+   + TeacherCategoryIDDataModel(value: UUID)
+   + getValue(): UUID
+   + equals(Object obj): boolean
+   + hashCode(): int
+}
+
+' ======= MAPPERS =======
+
+interface ITeacherCategoryIDMapper #E6E6FA{
+   + toDataModel (id: TeacherCategoryID): TeacherCategoryIDDataModel
+   + toDomain (idDataModel: TeacherCategoryIDDataModel): TeacherCategoryID
+}
+
+class TeacherCategoryIDMapperImpl #E6E6FA{
+   + toDataModel (id: TeacherCategoryID): TeacherCategoryIDDataModel
+   + toDomain (idDataModel: TeacherCategoryIDDataModel): TeacherCategoryID
+}
+
+interface ITeacherCategoryMapper #E6E6FA{
+   + toDataModel (teacherCategory: TeacherCategory): TeacherCategoryDataModel
+   + toDomain (dataModel: TeacherCategoryDataModel): TeacherCategory
+}
+
+class TeacherCategoryMapperImpl #E6E6FA{
+   + toDataModel (teacherCategory: TeacherCategory): TeacherCategoryDataModel
+   + toDomain (dataModel: TeacherCategoryDataModel): TeacherCategory
+}
+
+
+' ======= DTO =======
+
+class TeacherCategoryResponseDTO #FFFAFA {
+    - _id: String
+    - _name: String
+    + TeacherCategoryResponseDTO(id: String, name: String)
+}
+
+class TeacherCategoryRequestDTO #FFFAFA  {
+    - _name: String
+    + TeacherCategoryResponseDTO(name: String)
+    + findName(): String
+}
+
+
+' ======= Mappers DTO to VO and VO to DTO =======
+
+interface ITeacherCategoryMapperDTO #FFFAFA  {
+    + toValueObject (teacherCategoryDTO: TeacherCategoryRequestDTO): Name
+    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+}
+
+class TeacherCategoryMapperDTOImpl #FFFAFA {
+    + toValueObject (teacherCategoryDTO: TeacherCategoryRequestDTO): Name
+    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+}
+
+' ======= NAVIGABILITY =======
+
+US01_ConfigureTeacherCategoryRESTController "1" -u-> "_service  1             " ITeacherCategoryService
+US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
+US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryResponseDTO
+US01_ConfigureTeacherCategoryRESTController "1"--> "_mapperDto   1          " ITeacherCategoryMapperDTO
+
+TeacherCategoryMapperDTOImpl ..|> ITeacherCategoryMapperDTO
+ITeacherCategoryMapperDTO "1"..> "1" TeacherCategoryRequestDTO
+ITeacherCategoryMapperDTO "1"..> "1" TeacherCategory
+
+TeacherCategoryServiceImpl ..|> ITeacherCategoryService
+TeacherCategoryServiceImpl "1"--> "1 _factory" ITeacherCategoryFactory
+TeacherCategoryServiceImpl "1" --> "_repository 1        " ITeacherCategoryRepository
+
+TeacherCategoryFactoryImpl..|> ITeacherCategoryFactory
+ITeacherCategoryFactory "1"..> "1" TeacherCategory
+
+TeacherCategoryRepositorySpringDataImpl ..|> ITeacherCategoryRepository
+TeacherCategoryRepositorySpringDataImpl "1"-u-> "1 _springData"ITeacherCategoryRepositorySpringData
+TeacherCategoryRepositorySpringDataImpl "1"..> "1" TeacherCategory
+TeacherCategoryRepositorySpringDataImpl "1"..> "1" Name
+TeacherCategoryRepositorySpringDataImpl "1"-u-> "_mapper 1        " ITeacherCategoryMapper
+TeacherCategoryRepositorySpringDataImpl "1" -u->"   _idMapper   1            " ITeacherCategoryIDMapper
+ITeacherCategoryRepositorySpringData "1" ..> "1" TeacherCategoryDataModel
+ITeacherCategoryRepositorySpringData "1" ..> "1" Name
+
+TeacherCategoryMapperImpl ..|> ITeacherCategoryMapper
+TeacherCategoryIDMapperImpl ..|> ITeacherCategoryIDMapper
+ITeacherCategoryIDMapper "1" ..> "1 " TeacherCategoryIDDataModel
+ITeacherCategoryIDMapper "1" ..> "1"  TeacherCategoryID
+ITeacherCategoryMapper "1   "..> "1   " TeacherCategoryDataModel
+ITeacherCategoryMapper "1"..> "1" TeacherCategory
+
+TeacherCategoryDataModel "1" --> "_idDataModel 1 "TeacherCategoryIDDataModel
+
+TeacherCategory "1"-u-> "                                            _name 1"Name
+TeacherCategory "1"--> "_id 1    "TeacherCategoryID
+
+@enduml

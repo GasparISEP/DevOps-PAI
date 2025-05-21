@@ -1,0 +1,34 @@
+@startuml
+title As ASC, I want to remove the enrolment of a student in a course edition\n(Process View Level 2 Granularity)
+autonumber
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC as ASC
+
+participant "Frontend" as frontend <<component>>
+participant "Backend" as backend <<component>>
+participant "Database" as db <<component>>
+
+ASC -> frontend ++ : I want to remove the enrolment of a student in a course edition
+frontend -> backend ++ : (GET) Request List CourseEditions
+backend -> db ++ : (FETCH) All CourseEditions
+db --> backend -- : List of CourseEditions
+backend --> frontend -- : List of CourseEditions
+frontend --> ASC -- : Which course edition?
+
+ASC -> frontend ++ : Selected CourseEdition
+frontend -> backend ++ : (GET) Request all Students in selected CourseEdition
+backend -> db ++ : (FETCH) All Students in Selected CourseEdition
+db --> backend -- : List of Students in Selected CourseEdition
+backend --> frontend -- : List of Students in Selected CourseEdition
+frontend --> ASC -- : Which student?
+
+ASC -> frontend ++ : Selected Student
+frontend -> backend ++ : (PATCH) Remove the enrolment of the student from course edition
+backend -> db ++ : (UPDATE) Delete enrolment record
+db --> backend -- : Enrolment removed successfully
+backend --> frontend -- : Confirmation of enrolment removal
+frontend --> ASC -- : Enrolment removed successfully
+deactivate frontend
+@enduml

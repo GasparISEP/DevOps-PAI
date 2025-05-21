@@ -24,16 +24,16 @@ public class DegreeType implements AggregateRoot<DegreeTypeID> {
         return this._degreeTypeID;
     }
 
-    public String getId() {
-        return _degreeTypeID.getDTID();
+    public DegreeTypeID getId() {
+        return _degreeTypeID;
     }
 
-    public String getName() {
-        return _name.getName();
+    public Name getName() {
+        return _name;
     }
 
-    public int getMaxEcts() {
-        return _maxEcts.getMaxEcts();
+    public MaxEcts getMaxEcts() {
+        return _maxEcts;
     }
 
     @Override

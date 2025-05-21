@@ -1,21 +1,12 @@
 package PAI.initializer;
 
-import PAI.VOs.Date;
-import PAI.VOs.DepartmentAcronym;
-import PAI.VOs.Description;
-import PAI.VOs.Name;
 import PAI.controller.US07_IWantToCreateASchoolYearController;
+import PAI.domain.schoolYear.SchoolYear;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -36,8 +27,9 @@ class SchoolYearInitializerTest {
     @Test
     void shouldInitializeAndRegisterSchoolYearsFromCsv() throws Exception {
         // Arrange
+        SchoolYear schoolYear = mock(SchoolYear.class);
         when(controller.addSchoolYear(anyString(), anyString(), anyString()))
-                .thenReturn(true);
+                .thenReturn(schoolYear);
 
 
         // Act

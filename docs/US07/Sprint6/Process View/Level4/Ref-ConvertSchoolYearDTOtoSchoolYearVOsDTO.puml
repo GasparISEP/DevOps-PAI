@@ -1,0 +1,24 @@
+@startuml
+autonumber
+
+skinparam {
+    SequenceLifeLineBorderColor gray
+    SequenceParticipantBorderColor gray
+    DefaultTextAlignment center
+}
+
+participant "syRestCtrl" as C #lightgray
+participant "syMapper" as SYM #lightgray
+participant "syVOsDTO" as SYDTO #lightgray
+
+activate C #whitesmoke
+C -> SYM: fromDTOtoDomain(SchoolYearDTO)
+activate SYM #whitesmoke
+SYM -> SYDTO**: new SchoolYearVOsDTO (startDateVO, endDateVO,\n descriptionVO)
+activate SYDTO #whitesmoke
+SYDTO --> SYM: schoolYearVOsDTO
+deactivate SYDTO #whitesmoke
+SYM --> C: schoolYearVOsDTO
+deactivate SYM #whitesmoke
+
+@enduml

@@ -1,0 +1,121 @@
+@startuml
+skinparam classAttributeIconSize 0
+title Update Teacher Working Percentage
+
+' ========== ENTITIES ==========
+
+class TeacherCareerProgression {
+  - _tcpID: TeacherCareerProgressionID
+  - _date: Date
+  - _teacherCategoryID: TeacherCategoryID
+  - _workingPercentage: WorkingPercentage
+  - _teacherID: TeacherID
+
+  +TeacherCareerProgression(teacherCareerProgressionId: TeacherCareerProgressionID, date: Date, teacherCategoryID: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID)
+  +getID(): TeacherCareerProgressionID
+  +getDate(): Date
+  +getTeacherCategoryID(): TeacherCategoryID
+  +getTeacherID(): TeacherID
+  +getWorkingPercentage(): WorkingPercentage
+  +isLastDateEqualOrBeforeNewDate(newDate: Date): boolean
+  +isDateAfter(tcp: TeacherCareerProgression): boolean
+  +sameAs(object: Object): boolean
+}
+
+
+' ========== VALUE OBJECTS ==========
+
+class TeacherCareerProgressionID
+class Date {
+  -localDate: LocalDate
+  +getLocalDate(): LocalDate
+}
+class TeacherCategoryID
+class WorkingPercentage {
+  -percentage: workingPercentage
+}
+class TeacherID {
+  -acronym: String
+}
+
+' ========== CONTROLLER ==========
+
+class US15_UpdateTeacherWorkingPercentageController {
+  +updateWorkingPercentageInTeacherCareerProgression(dto: UpdateWorkingPercentageDTO): UpdateWorkingPercentageOutputDTO
+  +findAll(): List<Something>
+}
+
+' ========== DTOs ==========
+
+class UpdateWorkingPercentageDTO {
+  -date: String
+  -workingPercentage: int
+  -acronym: String
+}
+
+class UpdateWorkingPercentageOutputDTO {
+  -success: boolean
+  -message: String
+}
+
+' ========== MAPPER ==========
+
+interface IUpdateWorkingPercentageMapper {
+  +toVOs(dto: UpdateWorkingPercentageDTO): (Date, WorkingPercentage, TeacherID)
+  +toOutputDTO(success: boolean, message: String): UpdateWorkingPercentageOutputDTO
+}
+
+class UpdateWorkingPercentageMapper {
+  +toVOs(dto: UpdateWorkingPercentageDTO): (Date, WorkingPercentage, TeacherID)
+  +toOutputDTO(success: boolean, message: String): UpdateWorkingPercentageOutputDTO
+}
+
+UpdateWorkingPercentageMapper ..|> IUpdateWorkingPercentageMapper
+
+' ========== SERVICE ==========
+
+interface ITeacherCareerProgressionService {
+  +updateWorkingPercentageInTeacherCareerProgression(date: Date, workingPercentage: WorkingPercentage, teacherID: TeacherID)
+}
+
+class TeacherCareerProgressionServiceImpl {
+  +updateWorkingPercentageInTeacherCareerProgression(date: Date, workingPercentage: WorkingPercentage, teacherID: TeacherID)
+}
+
+TeacherCareerProgressionServiceImpl ..|> ITeacherCareerProgressionService
+
+' ========== REPOSITORY ==========
+
+interface ITeacherCareerProgressionRepository {
+  +findLastTCPFromTeacherID(teacherID: TeacherID): TeacherCareerProgression
+  +save(tcp: TeacherCareerProgression): void
+}
+
+class TeacherCareerProgressionRepositorySpringData {
+  +findLastTCPFromTeacherID(teacherID: TeacherID): TeacherCareerProgression
+  +save(tcp: TeacherCareerProgression): void
+}
+
+TeacherCareerProgressionRepositorySpringData ..|> ITeacherCareerProgressionRepository
+
+' ========== RELATIONS ==========
+
+US15_UpdateTeacherWorkingPercentageController --> ITeacherCareerProgressionService : uses
+US15_UpdateTeacherWorkingPercentageController --> IUpdateWorkingPercentageMapper : uses
+US15_UpdateTeacherWorkingPercentageController --> UpdateWorkingPercentageDTO : receives
+US15_UpdateTeacherWorkingPercentageController --> UpdateWorkingPercentageOutputDTO : returns
+
+UpdateWorkingPercentageMapper --> Date
+UpdateWorkingPercentageMapper --> WorkingPercentage
+UpdateWorkingPercentageMapper --> TeacherID
+UpdateWorkingPercentageMapper --> UpdateWorkingPercentageOutputDTO
+
+TeacherCareerProgression --> TeacherCareerProgressionID
+TeacherCareerProgression --> Date
+TeacherCareerProgression --> TeacherCategoryID
+TeacherCareerProgression --> WorkingPercentage
+TeacherCareerProgression --> TeacherID
+
+TeacherCareerProgressionServiceImpl --> ITeacherCareerProgressionRepository : uses
+
+@enduml

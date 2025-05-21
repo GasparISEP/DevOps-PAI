@@ -1,0 +1,18 @@
+@startuml
+title As ASC, I want to remove the enrolment of a student in a course edition\n(Process View Level 1 Granularity)
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC
+participant ":System" as S
+
+ASC -> S : I want to remove the enrolment of a student in a course edition
+S --> ASC : What student?
+ASC -> S : Student!
+S --> ASC : What course edition?
+ASC -> S : Course edition!
+S --> ASC : Sure?
+ASC -> S : Yes
+S --> ASC : Removal successful!
+
+@enduml

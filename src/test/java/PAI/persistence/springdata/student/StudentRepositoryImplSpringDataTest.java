@@ -8,8 +8,6 @@ import PAI.mapper.student.StudentMapperImpl;
 import PAI.persistence.datamodel.NIFDataModel;
 import PAI.persistence.datamodel.student.StudentDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.persistence.springdata.Student.IStudentRepositorySpringData;
-import PAI.persistence.springdata.Student.StudentRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

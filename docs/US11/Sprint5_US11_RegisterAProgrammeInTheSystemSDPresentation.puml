@@ -1,0 +1,100 @@
+@startuml
+autonumber
+
+title US11: As an ASC, I want to register a programme in the system.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightgrey
+participant ":ControllerUS11" as C #lightgrey
+
+participant ":ProgrammeService" as PS #lightgrey
+participant ":ProgrammeFactory" as PF #lightgrey
+participant "PId1:ProgrammeId" as PID #lightgrey
+participant "P1:Programme" as P #lightgrey
+participant ":ProgrammeRepositorySpringData" as PR #lightgrey
+participant ":ProgrammeMapper" as PM #lightgrey
+participant "PDM1:ProgrammeDataModel" as PDM #lightgrey
+
+
+
+activate Admin
+Admin -> UI ++ : I want to register a Programme in the System.
+
+|||
+ref over UI
+    \t\t\tGet DTo lists of
+    \t\t\tDegreeType, Department, Teacher \t
+    \t\t\tfrom Data Base
+    \t\t\tConvert DataModel to DTO
+
+end ref
+
+
+UI --> Admin: Choose a Degree Type, Department\nand Programme Director from the lists.
+
+Admin -> UI: Degree Type! Department! Director!
+
+UI --> Admin: Name? Acronym? Quantity of Ects credits\nper Semester? Quantity of Semesters?
+
+Admin -> UI: Name! Acronym! Quantity of Ects credits\nper Semester! Quantity of Semesters!
+
+UI -> C ++: registerProgramme(String name, String acronym, int quantityOfEcts,\nint quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID\ndepartmentID, TeacherID programmeDirectorID)
+
+|||
+ref over C
+    \t\t\tConvert Primitives to VO \t
+
+end ref
+|||
+
+C -> PS ++: registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym,\nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID\ndegreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID)
+
+
+
+PS -> PF ++: registerProgramme(NameWithNumbersAndSpecialChars name, Acronym acronym,\nQuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID\ndegreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID)
+
+PF -> PID **: ProgrammeID\n(NameWithNumbersAndSpecialChars\nname, Acronym acronym)
+activate PID
+|||
+
+PID --> PF --: \tPId1
+
+PF -> P **: Programme(NameWithNumbersAndSpecialChars name,\nAcronym acronym, QuantEcts quantityOfEcts, QuantSemesters \nuantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID\ndepartmentID, TeacherID programmeDirectorID, ProgrammeID PID)
+activate P
+|||
+
+P --> PF --: \t P1
+
+
+PF --> PS --: \tP1
+
+PS -> PR ++: save(Programme P1)
+
+PR -> PM ++: toData(Programme P1)
+
+PM -> PDM **: ProgrammeDataModel(ProgrammeIDDataModel progID,\nString name, String acronym, int quantSemesters, int quantEcts,\nDegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel\ndepartmentID, TeacherIDDataModel progDirectorID)
+activate PDM
+|||
+PDM --> PM --: PDM1
+
+PM -> PR --: PDM1
+
+|||
+ref over PR
+    \t\t\t\t\tGet All Programmes from DB\t\t
+    \t\t\t\t\tCheck if P1 already exits\t\t
+    \t\t\t\t\tUpdate DB\t\t
+
+end ref
+|||
+
+PR --> PS --: \tTrue
+
+PS --> C --: \tTrue
+
+C --> UI --: \tTrue
+
+UI --> Admin --: Programme registered successfully!
+
+@enduml

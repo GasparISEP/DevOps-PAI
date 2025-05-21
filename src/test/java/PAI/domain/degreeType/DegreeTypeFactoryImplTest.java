@@ -26,8 +26,8 @@ class DegreeTypeFactoryImplTest {
 
         assertNotNull(degreeType);
         assertNotNull(degreeType.identity());
-        assertEquals(name.getName(), degreeType.getName());
-        assertEquals(maxEcts.getMaxEcts(), degreeType.getMaxEcts());
+        assertEquals(name.getName(), degreeType.getName().getName());
+        assertEquals(maxEcts.getMaxEcts(), degreeType.getMaxEcts().getMaxEcts());
     }
 
     @Test
@@ -47,7 +47,7 @@ class DegreeTypeFactoryImplTest {
 
         assertNotNull(degreeType);
         assertEquals(id, degreeType.identity());
-        assertEquals("Engenharia", degreeType.getName());
-        assertEquals(180, degreeType.getMaxEcts());
+        assertEquals("Engenharia", degreeType.getName().getName());
+        assertEquals(180, degreeType.getMaxEcts().getMaxEcts());
     }
 }

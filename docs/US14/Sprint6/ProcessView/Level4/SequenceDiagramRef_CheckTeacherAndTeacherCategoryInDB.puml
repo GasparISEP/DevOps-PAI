@@ -1,0 +1,51 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+Title Check Teacher and TeacherCategory in the DataBase
+
+participant "ctrl:UpdateTeacherCareerProgressionController" as Controller
+participant "ts1:TeacherService" as TeacherService
+participant "teacherRepo1:TeacherRepositorySpringDataImpl" as TeacherRepo
+participant "ITeacherRepoSpringData" as ITeacherRepoSpringData
+participant "tcs1:TeacherCategoryApplicationService" as TeacherCategoryService
+participant "tcRepo: TeacherCategoryRepositorySpringDataImpl" as TCRepo
+participant "ITeacherCategoryRepoSpringData" as ITeacherCategoryRepoSpringData
+
+
+
+activate Controller
+Controller -> TeacherService: containsOfIdentity(teacherIDVO)
+activate TeacherService
+
+TeacherService -> TeacherRepo: containsOfIdentity(teacherIDVO)
+activate TeacherRepo
+
+TeacherRepo -> ITeacherRepoSpringData: existsById(teacherIDVO);
+activate ITeacherRepoSpringData
+ITeacherRepoSpringData ->
+ITeacherRepoSpringData <--
+ITeacherRepoSpringData --> TeacherRepo: True
+deactivate ITeacherRepoSpringData
+
+TeacherRepo --> TeacherService: True
+deactivate TeacherRepo
+TeacherService --> Controller: True
+deactivate TeacherService
+|||
+Controller -> TeacherCategoryService: containsOfIdentity(teacherCategoryIDVO)
+activate TeacherCategoryService
+TeacherCategoryService -> TCRepo: containsOfIdentity(teacherCategoryIDVO)
+activate TCRepo
+
+TCRepo -> ITeacherCategoryRepoSpringData: existsById(teacherCategoryIDVO);
+activate ITeacherCategoryRepoSpringData
+ITeacherCategoryRepoSpringData ->
+ITeacherCategoryRepoSpringData <--
+ITeacherCategoryRepoSpringData --> TCRepo: True
+deactivate ITeacherCategoryRepoSpringData
+
+TCRepo --> TeacherCategoryService: True
+deactivate TCRepo
+TeacherCategoryService --> Controller: True
+deactivate TeacherCategoryService
+@enduml

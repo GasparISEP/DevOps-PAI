@@ -1,0 +1,17 @@
+@startuml
+autonumber
+title CreateVOs — Teacher Category Update
+
+participant "ctrl:UpdateTeacherCareerProgressionController" as Controller
+participant "tcpMapper:TeacherCareerProgressionMapper" as Mapper
+participant "tcpVOsDTO:TeacherCategoryUpdateVOsDTO" as VOsDTO
+
+activate Controller
+Controller -> Mapper ++ : fromDTOToDomain(teacherIdDTO,\nteacherCategoryIdDTO, dateDTO)
+
+Mapper -> VOsDTO** : new TeacherCategoryUpdateVOsDTO(\nteacherAcronymVO,\nteacherIdVO,\nteacherCategoryIdVO,\ndateVO)
+activate VOsDTO
+VOsDTO --> Mapper -- : teacherCategoryUpdateVOsDTO
+Mapper --> Controller -- : teacherCategoryUpdateVOsDTO
+deactivate Controller
+@enduml

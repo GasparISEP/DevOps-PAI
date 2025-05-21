@@ -1,0 +1,80 @@
+@startuml
+autonumber
+
+title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 3)
+
+skinparam {
+  SequenceLifeLineBorderColor gray
+  SequenceParticipantBorderColor seashell
+  DefaultTextAlignment center
+}
+
+actor Administrator as Admin #darkslategrey
+participant ":UI" as UI #mediumturquoise
+participant ":SchoolYearRestController" as C #lightseagreen
+participant ":SchoolYearService" as SYS #teal
+participant ":SchoolYearFactory" as SYF #steelblue
+participant ":SchoolYearID" as SYID #darkcyan
+participant ":SchoolYear" as SY #darkturquoise
+participant ":SchoolYearRepository" as SYR #mediumaquamarine
+database BD #darkslategrey
+
+Admin -> UI: I want to create a School Year in the System
+activate UI #seashell
+UI --> Admin: StartDate? EndDate? Description?
+deactivate UI #seashell
+Admin -> UI: startDate! endDate! description!
+activate UI #seashell
+UI -> C: createASchoolYearInTheSystem \n(SchoolYearDTO)
+activate C #seashell
+
+ref over C
+    Convert SchoolYearDTO
+    to SchoolYearVOsDTO
+end ref
+
+C -> SYS: addSchoolYear(DateVO, DateVO, \nDescriptionVO)
+activate SYS #seashell
+SYS -> SYF: addSchoolYear(DateVO, DateVO, \nDescriptionVO)
+activate SYF #seashell
+SYF -> SYID **: createSchoolYearID(uuid)
+activate SYID #seashell
+SYID --> SYF: SYIDVO1
+deactivate SYID
+SYF -> SY **: createSchoolYear(SYIDVO1, DateVO, DateVO, \nDescriptionVO)
+activate SY #seashell
+SY --> SYF: SY1
+deactivate SY #seashell
+SYF --> SYS: SY1
+deactivate SYF
+SYS -> SYR: schoolYearsExistsById(SYIDVO1)
+activate SYR #seashell
+SYR -> BD : containsOfIdentity(SYIDVO1)
+activate BD #seashell
+SYR <-- BD: False
+deactivate BD
+SYR --> SYS: False
+deactivate SYR
+SYS -> SYR : saveSchoolYear(SY1)
+activate SYR #seashell
+
+ref over SYR
+    Save in Database
+    Convert domain object to DataModel and persist using JPA
+end ref
+
+SYR --> SYS: SY1
+deactivate SYR
+SYS --> C: SY1
+deactivate SYS
+
+ref over C
+    Convert SY1 to SchoolYearDTO
+end ref
+
+C --> UI: SchoolYearDTO
+deactivate C
+UI --> Admin: School Year created successfully!
+deactivate UI
+
+@enduml

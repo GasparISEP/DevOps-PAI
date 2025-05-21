@@ -73,7 +73,7 @@ class DegreeTypeMapperTest {
         // Assert
         assertNotNull(result);
         assertEquals("mock-id-456", result.identity().getDTID());
-        assertEquals("AnotherMock", result.getName());
-        assertEquals(90, result.getMaxEcts());
+        assertEquals("AnotherMock", result.getName().getName());
+        assertEquals(90, result.getMaxEcts().getMaxEcts());
     }
 }

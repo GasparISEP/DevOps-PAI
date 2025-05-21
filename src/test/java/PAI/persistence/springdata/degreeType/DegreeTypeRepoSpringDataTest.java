@@ -7,8 +7,6 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.mapper.degreeType.DegreeTypeMapper;
 import PAI.persistence.datamodel.degreeType.DegreeTypeDataModel;
 import PAI.persistence.datamodel.degreeType.DegreeTypeIDDataModel;
-import PAI.persistence.springdata.DegreeType.DegreeTypeRepoSpringData;
-import PAI.persistence.springdata.DegreeType.IDegreeTypeRepoSpringData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

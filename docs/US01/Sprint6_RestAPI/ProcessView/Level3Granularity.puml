@@ -1,0 +1,46 @@
+@startuml
+
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 3 Granularity)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant "Router" as router <<Component>>
+participant "RESTController" as controller <<Component>>
+participant "Service" as service <<Component>>
+participant "Domain" as domain <<Component>>
+participant "Repository" as repository <<Component>>
+
+-> router: configureTeacherCategory (name)
+activate router #E1F5FE
+
+router -> controller: configureTeacherCategory (teacherCategoryRequestDTO)
+activate controller #E1F5FE
+
+controller -> service: configureTeacherCategory (nameVO)
+activate service #E1F5FE
+
+service -> domain: createTeacherCategory (nameVO)
+activate domain #E1F5FE
+
+domain --> service: teacherCategory
+deactivate domain
+
+service -> repository: save (teacherCategory)
+activate repository #E1F5FE
+
+repository --> service: teacherCategory
+deactivate repository
+
+service --> controller: teacherCategory
+deactivate service
+
+controller --> router: (201, Created) teacherCategoryResponseDTO
+deactivate controller
+
+<-- router: (201, Created) teacherCategoryJSON
+deactivate router
+
+@enduml

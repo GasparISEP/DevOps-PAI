@@ -1,0 +1,36 @@
+@startuml
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+autonumber
+
+participant "RESTController" as RC
+participant "Service" as S
+participant "Repository" as R
+participant "Domain" as D
+
+[o-> RC++: (GET) Request List of Categories
+RC -> S++: Request Teacher Categories
+S -> R ++: Request Teacher Categories
+R --> S --: List of Teacher Categories
+S --> RC --: List of Teacher Categories
+[o<-- RC --: (200 OK) Display Teacher Category List
+
+[o-> RC++: (GET) Request List of Departments
+RC -> S++: Request Departments
+S -> R ++: Request Departments
+R --> S --: List of Departments
+S --> RC --: List of Departments
+[o<-- RC --: (200 OK) Display Department List
+
+[o-> RC++: (POST) Request Register Teacher
+RC -> S++: Register Teacher
+S -> D ++: Create Teacher
+D --> S --: Teacher
+S -> R ++: Validate if Created Teacher is duplicated
+R --> S --: Teacher is not duplicated
+S -> R ++: Save Teacher
+R --> S --: Teacher registered
+S --> RC --: Teacher registered
+[o<-- RC --: (201 OK) Created Teacher Successfully\t
+
+@enduml

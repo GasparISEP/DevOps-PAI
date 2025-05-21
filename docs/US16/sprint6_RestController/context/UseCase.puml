@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Academic Services Coordinator" as ASC
+
+rectangle "Student Enrollment System" {
+    usecase "Enroll a student in a Course edition" as UC16
+}
+
+ASC --> UC16
+
+@enduml 

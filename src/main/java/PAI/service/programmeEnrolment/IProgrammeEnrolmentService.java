@@ -1,8 +1,9 @@
 package PAI.service.programmeEnrolment;
 
 import PAI.VOs.*;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 
 public interface IProgrammeEnrolmentService {
 
-    boolean enrolStudentInProgramme (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date);
+    ProgrammeEnrolment enrolStudentInProgramme (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws Exception;
 }
