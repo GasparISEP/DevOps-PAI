@@ -1,0 +1,103 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 4 (US13 - Register Teacher)"
+
+rectangle " " {
+
+  interface "API" as API
+  interface "BD API" as BDAPI
+
+  rectangle "Drivers and Frameworks" {
+
+    portin " " as p1
+    portin " " as p2
+    portin " " as p3
+
+    component Router
+    component POI
+    component Drivers
+
+    Router -- p3
+    POI -down- p2
+    Drivers -- p1
+
+    interface " " as IPOI
+    interface " " as IDrivers
+
+    POI -- IPOI
+    Drivers -- IDrivers
+  }
+
+  rectangle "Application Layer" {
+    component "TeacherController" as Controller
+    component "TeacherDTO" as TeacherDTO
+    component "TeacherMapper" as TeacherMapper
+    component "TeacherRepository" as TeacherRepo
+    component "TeacherCategoryRepository" as TeacherCategoryRepo
+    component "DepartmentRepository" as DepartmentRepo
+
+    interface " " as ITeacherRepo
+    interface " " as ITeacherCategoryRepo
+    interface " " as IDepartmentRepo
+    interface " " as ITeacherMapper
+    interface " " as ITeacherDTO
+    interface " " as ITeacherController
+
+    TeacherMapper - ITeacherMapper
+    TeacherDTO - ITeacherDTO
+    TeacherRepo -- ITeacherRepo
+    TeacherCategoryRepo -- ITeacherCategoryRepo
+    DepartmentRepo -- IDepartmentRepo
+    Controller -right- ITeacherController
+    Controller -left-( ITeacherDTO
+    Controller -down-( ITeacherMapper
+    Controller -down-( ITeacherCategoryRepo
+    Controller -down-( IDepartmentRepo
+  }
+
+  rectangle "Service Layer" {
+    component "TeacherService" as Service
+    component "TeacherCareerProgressionService" as CareerProgressionService
+    interface " " as ITeacherService
+    interface " " as ITeacherCareerProgressionService
+
+    Service - ITeacherService
+    CareerProgressionService - ITeacherCareerProgressionService
+    Service -down-( ITeacherCareerProgressionService
+  }
+
+  rectangle "Domain Layer" {
+    component "TeacherFactory" as Factory
+    interface " " as ITeacherFactory
+    component "Teacher" as Teacher
+    component "TeacherCareerProgression" as CareerProgression
+    component "TeacherCategory" as TeacherCategory
+    component "Department" as Department
+    interface " " as ITeacherDomain
+    interface " " as ITeacherCareerProgressionDomain
+
+    Factory - ITeacherFactory
+    Service -up-( ITeacherFactory
+    Teacher -up- ITeacherDomain
+    CareerProgression -up- ITeacherCareerProgressionDomain
+
+  }
+
+  p1 -up- API
+  p3 -up-( BDAPI
+
+  Router -down-( ITeacherController
+  TeacherRepo -up-( IDrivers
+  TeacherCategoryRepo -up-( IDrivers
+  DepartmentRepo -up-( IDrivers
+
+  Controller -down-( ITeacherService
+  Service -up-( ITeacherRepo
+  CareerProgressionService -up-( ITeacherCareerProgressionDomain
+  Service -down-( ITeacherDomain
+}
+@enduml
