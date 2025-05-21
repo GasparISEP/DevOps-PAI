@@ -1,0 +1,37 @@
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US05:\n Register a Department In The System\n Process View Level 3
+actor ADM
+participant ":Frontend" as FE
+participant ":Controller" as CT
+participant ":Service" as SE
+participant ":Domain" as DM
+participant ":Repository" as RE
+database DB
+
+
+ADM -> FE ++: Request to register Department
+FE --> ADM --: Prompt: "Enter Department Acronym"
+ADM -> FE ++: Input: "DEI"
+FE --> ADM --: Prompt: "Enter Department Name"
+ADM -> FE ++: Input: "Software Engineering Department"
+
+FE -> CT ++: (POST) registerDepartment("DEI", \n"Software Engineering Department")
+CT -> SE ++: registerDepartment("DEI", \n"Software Engineering Department")
+SE -> DM ++: createDepartment("DEI", \n"Software Engineering Department")
+DM --> SE --: Department instance created
+SE -> RE ++: saveDepartment(department)
+RE -> DB ++: persist Department
+DB --> RE --: Department persisted
+RE --> SE --: Confirmation
+SE --> CT --: Confirmation
+CT --> FE --: (200 OK) Registration successful
+FE --> ADM --: Department registered successfully
+
+@enduml
