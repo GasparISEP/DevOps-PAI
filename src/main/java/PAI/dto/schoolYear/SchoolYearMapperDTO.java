@@ -30,4 +30,8 @@ public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
     public Description toDescription(SchoolYearDTO syDTO) {
         return new Description(syDTO.getDescription());
     }
+
+    public Date toEndDate(SchoolYearDTO syDTO) {
+        return new Date(syDTO.getEndDate());
+    }
 }
