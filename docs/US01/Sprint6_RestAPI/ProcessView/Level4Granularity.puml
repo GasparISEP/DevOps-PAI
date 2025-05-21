@@ -11,35 +11,34 @@ participant ":Router" as router
 -> router: configureTeacherCategory (name)
 activate router #E1F5FE
 
-ref over router
-    Convert JSON to NameDTO
-end
+note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+
 
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
-router -> Controller: configureTeacherCategory (name)
+router -> Controller: configureTeacherCategory \n (teacherCategoryRequestDTO)
 activate Controller #E1F5FE
 
 ref over Controller
-    Convert NameDTO to NameVO
+    Convert teacherCategoryRequestDTO to nameVO
 end
 
 participant ":ITeacherCategoryService" as service
-Controller -> service: configureTeacherCategory (name)
+Controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
 
 participant ":ITeacherCategoryFactory" as Factory
-service -> Factory: createTeacherCategory (name)
+service -> Factory: createTeacherCategory (nameVO)
 activate Factory #E1F5FE
 
 create "tcID:TeacherCategoryID"
 Factory -> "tcID:TeacherCategoryID": create ()
 
 create "tc:TeacherCategory"
-Factory -> "tc:TeacherCategory": create (tcID, name)
+Factory -> "tc:TeacherCategory": create (tcID, nameVO)
 deactivate Factory
 
 participant ":ITeacherCategoryRepository" as Repository
-service -> Repository: existsByName (name)
+service -> Repository: existsByName (nameVO)
 activate Repository #E1F5FE
 Repository --> service: false
 deactivate Repository
@@ -71,14 +70,14 @@ ref over Controller
     Convert tcSaved to DTO
 end
 
-Controller --> router: (201, Created) tcSavedDTO
+Controller --> router: (201, Created) tcSavedResponseDTO
 deactivate Controller
 
-ref over router
-    Convert tcSavedDTO to JSON
-end
 
-<-- router: (201, Created) tcSavedDTO
+note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
+
+
+<-- router: (201, Created) tcSavedResponseJSON
 deactivate router
 
 @enduml

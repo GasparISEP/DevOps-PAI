@@ -1,0 +1,40 @@
+@startuml
+autonumber
+
+title As an ASC I want to Enroll a Student in a Course Edition\n(Process View Level 2)
+
+actor ASC
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB
+
+activate ASC
+ASC -> FE ++: Request to enroll a student
+FE -> BE ++: (GET) Request list of students
+BE -> DB ++: Fetch all students
+DB --> BE --: List of students
+BE --> FE --: List of students
+FE --> ASC --: Display students
+
+ASC -> FE ++: Select student
+FE -> BE ++: (GET) Request programme editions for student
+BE -> DB ++: Fetch programme editions
+DB --> BE --: List of programme editions
+BE --> FE --: List of programme editions
+FE --> ASC --: Display programme editions
+
+ASC -> FE ++: Select programme edition
+FE -> BE ++: (GET) Request course editions
+BE -> DB ++: Fetch course editions for programme
+DB --> BE --: List of course editions
+BE --> FE --: List of course editions
+FE --> ASC --: Display course editions
+
+ASC -> FE ++: Select course edition and confirm
+FE -> BE ++: (POST) Create enrollment
+BE -> DB ++: Create enrollment record
+DB --> BE --: Creation confirmed
+BE --> FE --: (201 Created) Enrollment successful
+FE --> ASC --: Student enrolled successfully
+
+@enduml 
