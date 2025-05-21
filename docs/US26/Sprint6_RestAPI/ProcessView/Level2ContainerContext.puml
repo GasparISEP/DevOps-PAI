@@ -1,0 +1,30 @@
+@startuml
+title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated\nto my department, in a given school year.\n(Process View Level 2)
+
+actor DD
+participant ":Frontend" as FE
+participant ":Backend" as BE
+database DB
+
+autonumber
+
+activate DD
+DD -> FE++: Request to get the number of students enrolled in all programmes\nassociated to my department, in a given school year
+FE -> BE++: (GET) Request List Of Departments
+BE -> DB++: Fetch all departments
+DB --> BE--: List of departments
+BE --> FE--: List of departments
+FE --> DD--: Display departments
+DD -> FE++: Select department
+FE -> BE++: (GET) Request List Of SchoolYears
+BE -> DB++: Fetch all school years
+DB --> BE--: List of school years
+BE --> FE--: List of school years
+FE --> DD--: Display school years
+DD -> FE++: Select school year
+FE -> BE++: (GET) Request number of students enrolled
+BE -> DB++: Fetch number of students enrolled
+DB --> BE--: Number of students enrolled
+BE --> FE--: Number of students enrolled
+FE --> DD--: Display number of students enrolled
+@enduml
