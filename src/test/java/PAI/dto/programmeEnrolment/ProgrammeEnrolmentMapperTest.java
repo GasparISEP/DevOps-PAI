@@ -66,4 +66,25 @@ class ProgrammeEnrolmentMapperTest {
         assertEquals(1234567, dto.getStudentID());
 
     }
+
+    @Test
+    void testReturnStudentID() {
+
+        // arrange
+        int studentIDValue = 1234567;
+        String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
+        String programmeNameValue = "Engenharia Informática";
+        String programmeAcronymValue = "EI";
+        LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
+
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+
+
+        //act
+        StudentID expectedStudentID = mapper.toStudentID(dto);
+
+        //assert
+        assertEquals(studentIDValue, expectedStudentID.getUniqueNumber());
+    }
 }

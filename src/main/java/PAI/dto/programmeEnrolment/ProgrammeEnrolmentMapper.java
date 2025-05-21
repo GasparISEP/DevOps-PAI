@@ -32,4 +32,8 @@ public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper{
 
     }
 
+    public StudentID toStudentID (ProgrammeEnrolmentDTO programmeDTO){
+        return new StudentID(programmeDTO.getStudentID());
+    }
+
 }
