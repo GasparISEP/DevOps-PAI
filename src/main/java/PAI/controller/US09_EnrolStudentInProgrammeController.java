@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class US09_EnrolStudentInProgrammeController {
         }
     }
 
-    public boolean enrolStudentInProgramme(int studentNumber, UUID accessMethodIDStr, String programmeName, String acronym, String enrolmentDate) {
+    public ProgrammeEnrolment enrolStudentInProgramme(int studentNumber, UUID accessMethodIDStr, String programmeName, String acronym, String enrolmentDate) {
         try {
             StudentID studentID = new StudentID(studentNumber);
             AccessMethodID accessMethodID = new AccessMethodID(accessMethodIDStr);
@@ -34,7 +35,8 @@ public class US09_EnrolStudentInProgrammeController {
             return _enrolmentService.enrolStudentInProgramme(studentID, accessMethodID, programmeID, date);
         } catch (Exception e) {
             System.err.println("Error enrolling student in programme: " + e.getMessage());
-            return false;
+            return null;
+
         }
     }
 }

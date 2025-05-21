@@ -6,6 +6,8 @@ import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService {
 
@@ -20,9 +22,9 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
         _peRepository = programmeEnrolmentRepository;
     }
 
-    public boolean enrolStudentInProgramme (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date){
+    public ProgrammeEnrolment enrolStudentInProgramme (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws Exception {
         if (studentID == null || accessMethodID == null || programmeID == null || date == null){
-            return false;
+            throw new Exception("Not possible to enrol student");
         }
 
         ProgrammeEnrolment pe = _peFactory.createProgrammeEnrolment(studentID,accessMethodID, programmeID, date);
@@ -33,8 +35,8 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
             throw new IllegalArgumentException("Programme Enrolment already exists.");
         }
 
-        _peRepository.save(pe);
+        return  _peRepository.save(pe);
 
-        return true;
+
     }
 }
