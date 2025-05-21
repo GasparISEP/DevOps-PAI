@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+title US06: UpdateDepartmentDirectorOfADepartment
+
+left to right direction
+actor " Administrator " as Admin
+skinparam rectangleTitleAlignment left
+skinparam rectangleBorderColor #ddfada
+
+rectangle PAI {
+
+(US01 - I want to configure teacher categories in the system.) as (1)
+(US04 - I want to register a teacher in the system.) as (4)
+(US05 - I want to register a department in the system.) as (5)
+(US06 - I want to change/update the Department Director of a department.) as (6)
+(US07 - I want to create a school year in the system.) as (7)
+(US10 - I want to configure degree types/levels in the system.) as (10)
+(US29 - I want to register a teacher in the system using a Web UI.) as (29)
+}
+
+Admin --> (1)
+Admin --> (4)
+Admin --> (5)
+Admin --> (6)
+Admin --> (7)
+Admin --> (10)
+Admin --> (29)
+
+@enduml
