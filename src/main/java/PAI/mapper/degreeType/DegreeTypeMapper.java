@@ -22,8 +22,8 @@ public class DegreeTypeMapper implements IDegreeTypeMapper {
     public DegreeTypeDataModel toDataModel(DegreeType degreeType) {
         return new DegreeTypeDataModel(
                 idMapper.toDataModel(degreeType.identity()),
-                degreeType.getName(),
-                degreeType.getMaxEcts()
+                degreeType.getName().getName(),
+                degreeType.getMaxEcts().getMaxEcts()
         );
     }
 

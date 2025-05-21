@@ -87,17 +87,17 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
        Programme programme = mock(Programme.class);
        DegreeType degreeType = mock(DegreeType.class);
        QuantSemesters quantSemesters = mock(QuantSemesters.class);
-
        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-
        ProgrammeID programmeID = mock(ProgrammeID.class);
        LocalDate implementationDate = mock(LocalDate.class);
+       MaxEcts maxEctsDouble = mock(MaxEcts.class);
 
        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(programme));
        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
        when(degreeTypeService.getDegreeTypeById(degreeTypeID)).thenReturn(Optional.of(degreeType));
 
-       when(degreeType.getMaxEcts()).thenReturn(180);
+       when(degreeType.getMaxEcts()).thenReturn(maxEctsDouble);
+       when(maxEctsDouble.getMaxEcts()).thenReturn(180);
 
        when(programme.getQuantSemesters()).thenReturn(quantSemesters);
        when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);

@@ -1,0 +1,21 @@
+@startuml
+actor RUC
+
+title I want to grade a Student in a CourseEdition \n (Process View Level 1)
+
+participant ":System" as System
+
+RUC -> System  : I want to grade a Student in a Course Edition
+activate System
+System --> RUC  : Student, Grade, Date, Course Edition?
+deactivate System
+RUC -> System : Student, Grade, Date, Course Edition.
+activate System
+System --> RUC : Confirm?
+deactivate System
+RUC -> System : Confirm.
+activate System
+System --> RUC : Success!
+deactivate System
+
+@enduml

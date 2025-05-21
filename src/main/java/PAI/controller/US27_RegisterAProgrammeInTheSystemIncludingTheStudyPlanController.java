@@ -81,7 +81,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         int quantSemester = programme.getQuantSemesters().getQuantityOfSemesters();
         DurationInYears durationInYears = new DurationInYears(quantSemester);
 
-        int quantityOfEcts = degreeType.getMaxEcts();
+        int quantityOfEcts = degreeType.getMaxEcts().getMaxEcts();
         MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
 
         _studyPlanService.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);

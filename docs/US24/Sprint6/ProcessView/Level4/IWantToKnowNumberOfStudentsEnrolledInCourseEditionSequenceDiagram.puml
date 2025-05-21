@@ -9,6 +9,7 @@ actor ASC as Admin #lightblue
 participant ":UI" as UI #lightblue
 participant "ceCtrl:CourseEditionEnrolmentRestController" as C #lightblue
 participant "ceService:CourseEditionEnrolmentService" as S #lightblue
+participant "ceRepo:CourseEditionRepository" as RCE #lightblue
 participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
 
 activate Admin #lightblue
@@ -17,13 +18,13 @@ Admin -> UI ++ #lightblue: I want to know the number of students in a Course Edi
 UI -> C ++ #lightblue: getAllCourseEditions()
 
 C -> S ++ #lightblue: getAllCourseEditions()
-S -> R ++ #lightblue: findAllCourseEditions()
+S -> RCE ++ #lightblue: findAllCourseEditions()
 
-ref over R
+ref over RCE
     Query database for all CourseEditions
 end ref
 
-R --> S --: List<CourseEdition>
+RCE --> S --: List<CourseEdition>
 S --> C --: List<CourseEdition>
 
 ref over C

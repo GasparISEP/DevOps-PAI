@@ -1,0 +1,33 @@
+@startuml
+
+title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 1 Granularity)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor ASC as ASC
+participant "SystemPAI" as System <<component>>
+activate ASC
+
+ASC -> System: I want to create a programme edition for the current school year!
+activate System #E1F5FE
+
+System --> ASC: What programme name?
+
+ASC -> System: Entered programme name!
+
+System --> ASC: What school year?
+
+ASC -> System: Entered school year!
+
+System --> ASC: Sure?
+
+ASC -> System: Yes!
+
+
+System --> ASC: Ok!
+deactivate ASC
+deactivate System
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 1 Granularity)
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor ASC as admin #teal
+participant ":System \n PAI" as System #teal
+
+admin -> System: I want to add Course to a Programme!
+activate System #E1F5FE #teal
+
+System --> admin: Which Programme?
+deactivate System #teal
+
+admin -> System: Enter Programme!
+activate System #E1F5FE #teal
+
+System --> admin: Which Course?
+deactivate System
+
+admin -> System: Enter Course!
+activate System #E1F5FE #teal
+
+System --> admin: Which Curricular Year?
+deactivate System
+
+admin -> System: Enter Curricular Year!
+activate System #E1F5FE #teal
+
+System --> admin: Which Semester?
+deactivate System
+
+admin -> System: Enter Semester!
+activate System #E1F5FE #teal
+
+System --> admin: Duration of Course in Semester?
+deactivate System
+
+admin -> System: Enter Duration!
+activate System #E1F5FE #teal
+
+System --> admin: Quantity of Credits?
+deactivate System
+
+admin -> System: Enter ECTS credits!
+activate System #E1F5FE #teal
+
+System --> admin: Sure?
+deactivate System
+
+admin -> System: Yes!
+activate System #E1F5FE #teal
+
+System --> admin: Ok!
+deactivate System
+@enduml

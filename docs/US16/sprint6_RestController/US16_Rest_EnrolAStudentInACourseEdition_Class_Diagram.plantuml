@@ -17,6 +17,12 @@ skinparam arrowMessageAlign center
 skinparam arrowMessagePosition 0.9
 skinparam padding 8
 
+' Layout hints
+together {
+  class CourseEditionEnrolmentFactory
+  interface ICourseEditionEnrolmentFactory
+}
+
 ' Service Layer
 interface ICourseEditionEnrolmentService {
     +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean

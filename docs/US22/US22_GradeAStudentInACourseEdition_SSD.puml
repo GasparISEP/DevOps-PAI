@@ -3,15 +3,27 @@ actor RUC
 participant ":System" as System
 
 RUC -> System  : I want to grade a Student in a Course Edition
+activate System
 System --> RUC  : What Course Edition?
+deactivate System
 RUC -> System  : Enter course Edition
+activate System
 System --> RUC  : What Student?
+deactivate System
 RUC -> System  : Enter Student
+activate System
 System --> RUC  : What Grade?
+deactivate System
 RUC -> System  : Enter Grade
+activate System
 System --> RUC  : Which Date?
+deactivate System
 RUC  -> System  : Enter Date
+activate System
 System --> RUC  : Sure?
+deactivate System
 RUC -> System  : Yes!
+activate System
 System --> RUC  : Ok
+deactivate System
 @enduml

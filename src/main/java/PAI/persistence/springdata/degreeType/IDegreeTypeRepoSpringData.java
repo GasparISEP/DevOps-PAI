@@ -1,4 +1,4 @@
-package PAI.persistence.springdata.DegreeType;
+package PAI.persistence.springdata.degreeType;
 
 import PAI.persistence.datamodel.degreeType.DegreeTypeDataModel;
 import PAI.persistence.datamodel.degreeType.DegreeTypeIDDataModel;

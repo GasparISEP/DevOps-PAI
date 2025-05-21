@@ -1,4 +1,4 @@
-package PAI.persistence.springdata.Student;
+package PAI.persistence.springdata.student;
 
 import PAI.VOs.*;
 import PAI.domain.student.Student;
