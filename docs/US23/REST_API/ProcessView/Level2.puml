@@ -1,0 +1,31 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title: I want to know the approval percentage of a Course Edition \n (Process View Level 2)
+actor RUC as RUC
+
+participant "Frontend" as FE #application
+participant "Backend" as BE #strategy
+database DB
+
+
+RUC -> FE : Find the approval percentage of a Course Edition
+activate FE
+FE --> RUC : Which Course Edition?
+deactivate FE
+RUC -> FE: Course Edition!
+activate FE
+FE -> BE : (GET) \n Approval rate of Course Edition
+activate BE
+BE --> DB : (GET) \n Calculate approval rate
+activate DB
+DB --> BE :Approval rate
+deactivate DB
+BE --> FE : Approval rate
+deactivate BE
+FE --> RUC : Approval rate
+deactivate FE
+
+
+@enduml
