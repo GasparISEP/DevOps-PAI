@@ -1,15 +1,19 @@
 package PAI.mapper.teacher;
 
 import PAI.VOs.*;
+import PAI.domain.course.ICourseFactory;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacher.ITeacherFactory;
 import PAI.mapper.IAddressMapper;
 import PAI.mapper.INIFMapper;
 import PAI.mapper.IPhoneNumberMapper;
 import PAI.mapper.ITeacherAcademicEmailMapper;
+import PAI.mapper.course.CourseMapperImpl;
+import PAI.mapper.course.ICourseIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.persistence.datamodel.*;
+import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
@@ -188,20 +192,7 @@ class TeacherMapperImplTest {
         assertNotNull(result);
     }
 
-    @Test
-    void shouldThrowIllegalArgumentExceptionWhenProvidedTeacherDataModelIsNull() {
-        //Arrange
-        createMapperDoubles();
-        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(_teacherFactoryDouble, _teacherIDMapperDouble, _nifMapperDouble,
-                _phoneNumberMapperDouble, _addressMapperDouble, _teacherAcademicEmailMapperDouble, _departmentIDMapper);
 
-        //Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> teacherMapper.toDomain(null));
-
-        //Assert
-        assertEquals("Teacher Data Model cannot be null.", exception.getMessage());
-    }
 
     @Test
     void shouldReturnTeacherWhenTeacherDataModelIsNotNull() {
@@ -246,5 +237,32 @@ class TeacherMapperImplTest {
 
         //Assert
         assertEquals(expectedTeacher, result);
+    }
+    @Test
+    void shouldThrowExceptionWhenProvidedTeacherDataModelListIsNull() {
+        ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
+        ITeacherIDMapper teacherIDMapperDouble = mock(ITeacherIDMapper.class);
+        INIFMapper nifMapperDouble = mock(INIFMapper.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(IPhoneNumberMapper.class);
+        IAddressMapper addressMapperDouble = mock(IAddressMapper.class);
+        ITeacherAcademicEmailMapper emailMapperDouble = mock(ITeacherAcademicEmailMapper.class);
+        IDepartmentIDMapper departmentIDMapperDouble = mock(IDepartmentIDMapper.class);
+
+        TeacherMapperImpl teacherMapperImpl = new TeacherMapperImpl(
+                teacherFactoryDouble,
+                teacherIDMapperDouble,
+                nifMapperDouble,
+                phoneNumberMapperDouble,
+                addressMapperDouble,
+                emailMapperDouble,
+                departmentIDMapperDouble
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                teacherMapperImpl.toDomain((Iterable<TeacherDataModel>) null)
+        );
+
+        assertEquals("Teacher Data Model list cannot be null.", exception.getMessage());
     }
 }

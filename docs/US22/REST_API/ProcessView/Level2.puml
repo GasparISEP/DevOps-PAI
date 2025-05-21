@@ -31,7 +31,7 @@ deactivate BE
 FE --> RUC : Choose a Course Edition
 deactivate FE
 
-RUC -> FE : Request to grade a Student in a Course Edition
+RUC -> FE : Request to grade a Student in the Course Edition
 activate FE
 FE --> RUC: Grade details?
 deactivate FE

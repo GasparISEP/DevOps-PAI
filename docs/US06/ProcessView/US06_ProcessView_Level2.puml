@@ -1,0 +1,33 @@
+@startuml
+
+title US06: Update Department Director Of A Department
+
+actor "Administrator" as A
+participant ":Frontend" as FE
+participant ":Backend" as BE
+participant ":DataBase" as DB
+
+skinparam sequenceLifeLineBackgroundColor #application
+
+A -> FE ++ : I want to update the Department Director of a Department
+FE -> BE ++: GET /departments
+BE -> DB ++: SELECT * FROM departments
+DB --> BE --: List of departments
+BE --> FE --: List of departments
+FE --> A --: Which Department?
+
+A -> FE ++ : This Department!
+FE -> BE ++ : GET /teachers?departmentId={id}
+BE -> DB ++ : SELECT * FROM teachers WHERE department_id = {id}
+DB --> BE -- : List of teachers
+BE --> FE -- : List of teachers
+FE --> A -- : Which Teacher?
+
+A -> FE ++ : This Teacher!
+FE -> BE ++ : PUT /departments/{id}/director { teacherId }
+BE -> DB ++: UPDATE departments SET director_id = {teacherId} WHERE id = {id}
+DB --> BE -- : Success
+BE --> FE -- : Director updated
+FE --> A -- : Department director updated successfully!
+
+@enduml
