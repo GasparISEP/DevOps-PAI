@@ -77,16 +77,18 @@ class SchoolYearServiceImplTest {
 
         when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
 
+        when(schoolYearRepository.save(newSchoolYear)).thenReturn(newSchoolYear);
+
         // Act
-        boolean result = service.addSchoolYear(description, startDate, endDate);
+        SchoolYear result = service.addSchoolYear(description, startDate, endDate);
 
         // Assert
-        assertTrue(result); // Verify that the result is true, meaning the school year was added successfully
+        assertEquals(result,newSchoolYear);
     }
 
     // Test case for adding a new school year when it already exists in the repository
     @Test
-    void addSchoolYearShouldThrowExceptionWhenSchoolYearAlreadyExists() throws Exception {
+    void addSchoolYearShouldThrowExceptionWhenSchoolYearAlreadyExists() {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
@@ -111,6 +113,48 @@ class SchoolYearServiceImplTest {
         });
 
         assertEquals("School year already exists.", exception.getMessage()); // Verify the exception message
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearWhenDescriptionIsNull() {
+        // Arrange: Mocks and setup
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        // Assert
+        assertThrows(Exception.class, () -> service.addSchoolYear(null,startDate,endDate));
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearWhenStartDateIsNull() {
+        // Arrange: Mocks and setup
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        Description description = mock(Description.class);
+        Date endDate = mock(Date.class);
+
+        // Assert
+        assertThrows(Exception.class, () -> service.addSchoolYear(description,null,endDate));
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearWhenEndDateIsNull() {
+        // Arrange: Mocks and setup
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+
+        // Assert
+        assertThrows(Exception.class, () -> service.addSchoolYear(description,startDate,null));
     }
 
     // Test case for adding multiple different school years successfully
@@ -140,14 +184,17 @@ class SchoolYearServiceImplTest {
 
         // Mock the repository to return false for school year existence check (meaning the school year doesn't exist yet)
         when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
+        when(schoolYearRepository.save(schoolYear1)).thenReturn(schoolYear1);
+        when(schoolYearRepository.save(schoolYear2)).thenReturn(schoolYear2);
 
         // Act: Try to add two different school years
-        boolean result1 = service.addSchoolYear(description1, startDate1, endDate1);
-        boolean result2 = service.addSchoolYear(description2, startDate2, endDate2);
+        SchoolYear result1 = service.addSchoolYear(description1, startDate1, endDate1);
+        SchoolYear result2 = service.addSchoolYear(description2, startDate2, endDate2);
+
 
         // Assert: Verify that both school years are added successfully
-        assertTrue(result1);
-        assertTrue(result2);
+        assertEquals(result1,schoolYear1);
+        assertEquals(result2,schoolYear2);
     }
 
     @Test

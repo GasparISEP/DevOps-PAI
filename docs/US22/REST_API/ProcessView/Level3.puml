@@ -1,7 +1,7 @@
 @startuml
 
+autonumber
 title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 3)
-
 skinparam sequencemessagealign center
 autonumber
 
@@ -15,47 +15,45 @@ database db #wheat
 
 RUC -> ui : Select **Student grading** in a **CourseEdition** functionality
 activate ui
-ui --> RUC : What is the Student grading information?
+ui -> controller : Retrieve all Course Editions
+activate controller
+controller -> service : Retrieve all Course Editions
+activate service
+service -> repo : Retrieve all Course Editions
+activate repo
+repo -> db : Retrieve all Course Editions
+activate db
+db --> repo : All Course Editions
+deactivate db
+repo --> service : All Course Editions
+deactivate repo
+service --> controller : All Course Editions
+deactivate service
+controller --> ui : All Course Editions
+deactivate controller
 
-deactivate ui
-RUC -> ui : Fill in the **Student grading** information \n (Grade, Date, CourseEditionID, StudentID)
 
-activate ui
+ui --> RUC : Choose a Course Edition
+
+RUC -> ui : Fill in the **Student grading** information \n (Grade, Date, StudentID)
+
 ui -> controller : Submit Student grading information
 
 activate controller
 controller -> service : Create a new Student grade
 
 activate service
-service -> repo : Check if Student is enrolled
+service -> repo : Validate grading constraints
 activate repo
 repo --> service : true
 deactivate repo
-deactivate service
-
-service -> repo : Check if date of the grade is in range of the School Year
-activate service
-activate repo
-repo --> service : true
-deactivate repo
-deactivate service
-
-service -> repo : Check if Student is already graded
-activate service
-activate repo
-repo --> service : false
-deactivate repo
-deactivate service
 
 service -> domain : Create new Student grade
-activate service
 activate domain
 domain --> service : Student Grade
 deactivate domain
-deactivate service
 
 service -> repo : save Student Grade
-activate service
 activate repo
 repo -> db : save
 activate db
@@ -71,5 +69,6 @@ controller --> ui : Student Grade saved!
 deactivate controller
 
 ui --> RUC : Student graded successfully!
+deactivate ui
 
 @enduml

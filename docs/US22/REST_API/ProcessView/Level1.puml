@@ -1,15 +1,16 @@
 @startuml
 actor RUC
+skinparam sequencemessagealign center
 
-title I want to grade a Student in a CourseEdition \n (Process View Level 1)
+title As a RUC, I want to grade a Student in a CourseEdition \n (Process View Level 1)
 
 participant ":System" as System
 
-RUC -> System  : I want to grade a Student in a Course Edition
+RUC -> System  : Select Student grading in a Course Edition
 activate System
 System --> RUC  : Student, Grade, Date, Course Edition?
 deactivate System
-RUC -> System : Student, Grade, Date, Course Edition.
+RUC -> System : Student, Grade, Date, Course Edition !
 activate System
 System --> RUC : Confirm?
 deactivate System

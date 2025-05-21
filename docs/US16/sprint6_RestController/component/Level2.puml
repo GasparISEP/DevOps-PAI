@@ -1,0 +1,20 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title US16: Enroll a Student in a Course Edition - Container
+
+Person(asc, "Academic Services Coordinator", "A person who manages student enrollments")
+
+System_Boundary(system, "Student Enrollment System") {
+    Container(web_app, "Web Application", "Spring Boot", "Delivers the web interface to ASCs")
+    Container(api, "API Application", "Spring Boot", "Provides enrollment functionality via REST API")
+    ContainerDb(database, "Database", "Stores student, course, and enrollment data")
+}
+
+Rel(asc, web_app, "Uses", "HTTPS")
+Rel(web_app, api, "Makes API calls to", "HTTPS/JSON")
+Rel(api, database, "Reads from and writes to", "JDBC")
+
+@enduml 
