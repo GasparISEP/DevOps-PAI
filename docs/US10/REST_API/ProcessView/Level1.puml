@@ -3,8 +3,6 @@
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title: Configure Degree Type in the System \n (Process View Level 1)
-actor RUC
-participant ":System" as System #lightblue
 
 actor Administrator
 
