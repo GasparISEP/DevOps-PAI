@@ -13,11 +13,11 @@ database DB
 
 Admin -> FE: Request to grade a Student in a Course Edition
 activate FE
-FE --> Admin: Course Edition, Student, Grade, Date?
+FE --> Admin: Student, Grade, Date, Course Edition?
 deactivate FE
-Admin -> FE: courseEditionID, studentID, grade, date
+Admin -> FE: grade, date, studentID, courseEditionID
 activate FE
-FE -> BE : (POST) Request to grade a Student in a Course Edition \n (courseEditionID, studentID, grade, date)
+FE -> BE : (POST) Request to grade a Student in a Course Edition \n (grade, date, courseEditionID, studentID)
 activate BE
 BE -> DB: (INSERT) Save new Student's grade in Course Edition to \n Database (studentGrade)
 activate DB
