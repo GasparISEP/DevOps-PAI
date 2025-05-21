@@ -3,7 +3,6 @@ package PAI.persistence.springdata.teacher;
 import PAI.VOs.*;
 import PAI.domain.teacher.Teacher;
 import PAI.mapper.*;
-import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.teacher.ITeacherMapper;
 import PAI.mapper.teacher.TeacherIDMapperImpl;
@@ -29,22 +28,20 @@ class TeacherRepositorySpringDataImplTest {
     private ITeacherIDMapper teacherIDMapper;
     private INIFMapper nifMapper;
     private ITeacherRepository teacherRepository;
-    private IDepartmentIDMapper departmentIDMapper;
 
     @BeforeEach
     void setUp() {
+        // Arrange
         iTeacherRepoSpringData = mock(ITeacherRepositorySpringData.class);
-        teacherMapper = mock(ITeacherMapper.class);
-        teacherIDMapper = mock(ITeacherIDMapper.class);
-        nifMapper = mock(INIFMapper.class);
-        departmentIDMapper = mock(IDepartmentIDMapper.class);
+        teacherMapper = mock(TeacherMapperImpl.class);
+        teacherIDMapper = mock(TeacherIDMapperImpl.class);
+        nifMapper = mock(NIFMapperImpl.class);
 
         teacherRepository = new TeacherRepositorySpringDataImpl(
                 iTeacherRepoSpringData,
                 teacherMapper,
                 teacherIDMapper,
-                nifMapper,
-                departmentIDMapper
+                nifMapper
         );
     }
 
@@ -62,7 +59,7 @@ class TeacherRepositorySpringDataImplTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringDataImpl(null, teacherMapper, teacherIDMapper, nifMapper,departmentIDMapper));
+                new TeacherRepositorySpringDataImpl(null, teacherMapper, teacherIDMapper, nifMapper));
     }
 
     @Test
@@ -71,7 +68,7 @@ class TeacherRepositorySpringDataImplTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, null, teacherIDMapper, nifMapper,departmentIDMapper));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, null, teacherIDMapper, nifMapper));
     }
 
     @Test
@@ -80,7 +77,7 @@ class TeacherRepositorySpringDataImplTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, null, nifMapper,departmentIDMapper));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, null, nifMapper));
     }
 
     @Test
@@ -89,7 +86,7 @@ class TeacherRepositorySpringDataImplTest {
 
         //Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, teacherIDMapper, null,departmentIDMapper));
+                new TeacherRepositorySpringDataImpl(iTeacherRepoSpringData, teacherMapper, teacherIDMapper, null));
     }
 
     @Test
@@ -153,12 +150,12 @@ class TeacherRepositorySpringDataImplTest {
 
         when(teacherMapper.toDataModel(teacherDouble)).thenReturn(teacherDataModel);
         when(iTeacherRepoSpringData.save(teacherDataModel)).thenReturn(teacherDataModel);
-        when(teacherMapper.toDomain((TeacherDataModel) null)).thenReturn(null); // ← correção aqui
+        when(teacherMapper.toDomain(null)).thenReturn(null);
 
         // Act
         Teacher result = teacherRepository.save(teacherDouble);
 
-        // Assert
+        //Assert
         assertNull(result);
     }
 

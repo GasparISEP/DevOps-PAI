@@ -47,11 +47,6 @@ public class TeacherRepositoryImpl implements ITeacherRepository {
         return false;
     }
 
-    @Override
-    public Iterable<Teacher> findTeacherByDepartmentId(DepartmentID departmentID) {
-        return null;
-    }
-
     public boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) {
 
         for (Teacher teacher : _teachers) {
@@ -61,6 +56,4 @@ public class TeacherRepositoryImpl implements ITeacherRepository {
         }
         return false;
     }
-
-
 }
