@@ -52,4 +52,20 @@ class SchoolYearMapperDTOTest {
         //assert
         assertNotNull(res);
     }
+
+    @Test
+    void shouldTransformToDescription() {
+        // arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
+        SchoolYearMapperDTO syMapperDTO = new SchoolYearMapperDTO(syFactory);
+
+        when(syDTO.getDescription()).thenReturn("Ola");
+
+        // act
+        Description res = syMapperDTO.toDescription(syDTO);
+
+        // assert
+        assertNotNull(res);
+    }
 }

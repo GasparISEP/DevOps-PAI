@@ -26,4 +26,8 @@ public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
 
         return _syFactory.createSchoolYear(description, startDate, endDate);
     }
+
+    public Description toDescription(SchoolYearDTO syDTO) {
+        return new Description(syDTO.getDescription());
+    }
 }
