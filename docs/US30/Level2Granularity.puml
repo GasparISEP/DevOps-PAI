@@ -35,6 +35,12 @@ deactivate frontend
 asc -> frontend: Enter curricular year!
 activate frontend #E1F5FE
 
+frontend --> asc: Which semester?
+deactivate frontend
+
+asc -> frontend: Enter semester!
+activate frontend #E1F5FE
+
 frontend --> asc: Duration of course in semester?
 deactivate frontend
 
