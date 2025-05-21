@@ -1,0 +1,46 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 3 (US16 - Enroll Student in Course)"
+
+rectangle " " {
+    interface "API" as API
+
+    rectangle "REST API" {
+        rectangle "Application Layer" {
+            component "CourseEditionEnrolmentController" as Controller
+            component "CourseEditionEnrolmentDTO" as DTO
+        }
+
+        rectangle "Service Layer" {
+            component "CourseEditionEnrolmentService" as Service
+            component "CourseEditionEnrolmentMapper" as Mapper
+        }
+
+        rectangle "Repository Layer" {
+            component "StudentRepository" as StudentRepo
+            component "CourseRepository" as CourseRepo
+            component "CourseEditionEnrolmentRepository" as EnrollmentRepo
+        }
+    }
+
+    rectangle "Database" {
+        component "H2 Database" as DB
+    }
+}
+
+API -down-> Controller
+Controller -down-> DTO
+Controller -down-> Service
+Mapper -down-> Service
+Service -down-> StudentRepo
+Service -down-> CourseRepo
+Service -down-> EnrollmentRepo
+StudentRepo -down-> DB
+CourseRepo -down-> DB
+EnrollmentRepo -down-> DB
+
+@enduml 

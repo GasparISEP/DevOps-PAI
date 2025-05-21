@@ -1,0 +1,99 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 4 (US16 - Enroll Student in Course)"
+
+rectangle " " {
+  interface "API" as API
+
+  rectangle "Drivers and Frameworks" {
+    portin " " as p1
+    portin " " as p2
+    portin " " as p3
+
+    component Router
+    component POI
+    component Drivers
+
+    Router -- p3
+    POI -down- p2
+    Drivers -- p1
+
+    interface " " as IPOI
+    interface " " as IDrivers
+
+    POI -- IPOI
+    Drivers -- IDrivers
+  }
+
+  rectangle "Application Layer" {
+    interface " " as IController
+    component "CourseEditionEnrolmentController" as Controller
+    component "CourseEditionEnrolmentDTO" as EnrolmentDTO
+    component "StudentRepository" as StudentRepo
+    component "CourseRepository" as CourseRepo
+    component "CourseEditionEnrolmentRepository" as EnrolmentRepo
+
+    interface " " as IEnrolmentRepo
+    interface " " as IStudentRepo
+    interface " " as ICourseRepo
+    interface " " as IEnrolmentDTO
+
+    EnrolmentDTO - IEnrolmentDTO
+    EnrolmentRepo -- IEnrolmentRepo
+    StudentRepo -- IStudentRepo
+    CourseRepo -- ICourseRepo
+    Controller -right- IController
+    Controller -left-( IEnrolmentDTO
+    Controller -down-( IStudentRepo
+    Controller -down-( ICourseRepo
+  }
+
+  rectangle "Service Layer" {
+    component "CourseEditionEnrolmentService" as Service
+    component "CourseEditionEnrolmentMapper" as EnrolmentMapper
+    interface " " as IEnrolmentService
+    interface " " as IEnrolmentMapper
+
+    Service - IEnrolmentService
+    EnrolmentMapper - IEnrolmentMapper
+  }
+
+  rectangle "Domain Layer" {
+    component "CourseEditionEnrolmentFactory" as Factory
+    interface " " as IEnrolmentFactory
+    component "CourseEditionEnrolment" as Enrolment
+    component "Student" as Student
+    component "Course" as Course
+    interface " " as IEnrolmentDomain
+    interface " " as IStudentDomain
+    interface " " as ICourseDomain
+
+    Factory - IEnrolmentFactory
+    Service -up-( IEnrolmentFactory
+    Enrolment -up- IEnrolmentDomain
+    Enrolment -up-( IEnrolmentFactory
+    Student -up- IStudentDomain
+    Course -up- ICourseDomain
+  }
+
+  p1 -up- API
+  p3 -up-( API
+
+  Router -down-( IController
+  EnrolmentRepo -up-( IDrivers
+  StudentRepo -up-( IDrivers
+  CourseRepo -up-( IDrivers
+
+  Controller -down-( IEnrolmentService
+  Service -up-( IEnrolmentRepo
+  Service -up-( IStudentRepo
+  Service -up-( ICourseRepo
+  Service -down-( IStudentDomain
+  Service -down-( ICourseDomain
+  Service -down-( IEnrolmentMapper
+}
+@enduml 
