@@ -1,5 +1,5 @@
 @startuml
-title Register a Programme, including the Study Plan
+title Register a Programme, including the Study Plan (Granularity 1)
 actor ASC
 participant ":System" as system
 
