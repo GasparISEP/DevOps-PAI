@@ -1,6 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.dto.SchoolYear.ISchoolYearMapperDTO;
+import PAI.dto.schoolYear.ISchoolYearMapperDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
 

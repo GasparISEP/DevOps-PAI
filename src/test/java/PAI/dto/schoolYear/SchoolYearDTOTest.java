@@ -1,4 +1,4 @@
-package PAI.dto.SchoolYear;
+package PAI.dto.schoolYear;
 
 import org.junit.jupiter.api.Test;
 
