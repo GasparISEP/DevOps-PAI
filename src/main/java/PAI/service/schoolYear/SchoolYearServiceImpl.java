@@ -24,16 +24,18 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     }
 
     // Create and save a new school year if it does not already exist
-    @Override
-    public boolean addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
+    public SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
+        if (description == null || startDate == null || endDate == null) {
+            throw new Exception("Not possible to create a school year");
+        }
+
         SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
             throw new Exception("School year already exists.");
         }
 
-        schoolYearRepository.save(newSchoolYear);
-        return true;
+        return schoolYearRepository.save(newSchoolYear);
     }
 
      // Validate that a given dependency is not null
