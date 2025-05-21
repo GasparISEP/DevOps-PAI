@@ -1,0 +1,84 @@
+@startuml
+
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 4 Granularity)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router
+-> router: configureTeacherCategory (name)
+activate router #E1F5FE
+
+ref over router
+    Convert JSON to NameDTO
+end
+
+participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+router -> Controller: configureTeacherCategory (name)
+activate Controller #E1F5FE
+
+ref over Controller
+    Convert NameDTO to NameVO
+end
+
+participant ":ITeacherCategoryService" as service
+Controller -> service: configureTeacherCategory (name)
+activate service #E1F5FE
+
+participant ":ITeacherCategoryFactory" as Factory
+service -> Factory: createTeacherCategory (name)
+activate Factory #E1F5FE
+
+create "tcID:TeacherCategoryID"
+Factory -> "tcID:TeacherCategoryID": create ()
+
+create "tc:TeacherCategory"
+Factory -> "tc:TeacherCategory": create (tcID, name)
+deactivate Factory
+
+participant ":ITeacherCategoryRepository" as Repository
+service -> Repository: existsByName (name)
+activate Repository #E1F5FE
+Repository --> service: false
+deactivate Repository
+
+service -> Repository: save (tc)
+activate Repository #E1F5FE
+
+ref over Repository
+    Convert tc to DataModel
+end
+
+participant ":ITeacherCategoryRepositorySpringData" as springDataRepository
+Repository -> springDataRepository: save (tcDataModel)
+activate springDataRepository #E1F5FE
+springDataRepository --> Repository : tcDataModelSaved
+deactivate springDataRepository
+
+ref over Repository
+    Convert tcDataModelSaved to Domain
+end
+
+Repository --> service: tcSaved
+deactivate Repository
+
+service --> Controller: tcSaved
+deactivate service
+
+ref over Controller
+    Convert tcSaved to DTO
+end
+
+Controller --> router: (201, Created) tcSavedDTO
+deactivate Controller
+
+ref over router
+    Convert tcSavedDTO to JSON
+end
+
+<-- router: (201, Created) tcSavedDTO
+deactivate router
+
+@enduml

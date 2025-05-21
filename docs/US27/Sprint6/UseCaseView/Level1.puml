@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+
+actor ASC as "Academic Services Collaborator"
+
+rectangle "Programme Subsystem" {
+    usecase "Register Programme" as UC1
+    usecase "Define Study Plan" as UC2
+}
+
+ASC --> UC1
+UC1 --> UC2 : «includes»
+@enduml
