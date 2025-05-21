@@ -1,0 +1,45 @@
+@startuml
+title US02: As an Administrator, I want to configure degree access methods in the system. \n (Process View - Level 3 Granularity)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as RT <<component>> #LightBlue
+participant ":Controller" as CT <<component>>#LightGreen
+participant ":Service" as SV <<component>>#LightGray
+participant ":Domain" as DM <<component>>#LightYellow
+participant ":Repository" as RP <<component>>#white
+
+-> RT: Configure AccessMethod (name)
+activate RT #LightBlue
+
+
+RT -> CT: Configure AccessMethod (name)
+activate CT #LightGreen
+
+CT -> SV: Configure AccessMethod (name)
+activate SV #LightGray
+
+SV -> DM: create AccessMethod (name)
+activate DM #LightYellow
+
+DM --> SV: AccessMethod
+deactivate DM
+SV -> RP: save (AccessMethod)
+activate RP
+
+RP --> SV: accessMethod
+deactivate RP
+
+SV --> CT: accessMethod
+deactivate SV
+
+CT --> RT: (201, Created) accessMethodDTO
+deactivate CT
+
+<-- RT : (201, Created) accessMethodJSON
+deactivate RT
+
+@enduml
