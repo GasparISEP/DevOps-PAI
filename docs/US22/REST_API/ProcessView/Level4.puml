@@ -6,13 +6,13 @@ autonumber
 actor RUC
 participant ":UI" as ui #application
 participant "ceRESTctrllr:CourseEditionRESTController" as ctrlrREST #motivation
-participant ":StudentGradeService" as sr #business
-participant ":CourseEditionEnrolmentRepository" as ceer #technology
-participant ":CourseEditionEnrolmentMapper" as ceemp #strategy
-participant ":StudentGradeFactory" as sgf #implementation
+participant ":StudentGradeServiceImpl" as sr #business
+participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #technology
+participant ":CourseEditionEnrolmentMapperImpl" as ceemp #strategy
+participant ":StudentGradeFactoryImpl" as sgf #implementation
 participant "sg1:StudentGrade" as gs #physical
 participant "sgRepo1:StudentGradeRepositorySpringData" as sgr #lightgray
-participant "studentGradeRepoSD:IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #lightcoral
+participant "iSGRepo:IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #lightcoral
 participant "sgMapper:StudentGradeMapper" as sgmp #mistyrose
 
 RUC -> ui : I want to grade a Student in a Course Edition
@@ -21,7 +21,7 @@ ui --> RUC : What is the Grade, Date, CourseEditionID and StudentID?
 deactivate ui
 RUC -> ui : grade, date, courseEditionID, studentID!
 activate ui
-ui -> ctrlrREST : RegisterStudentGrade (Grade, Date, StudentID, CourseEditionID)
+ui -> ctrlrREST : registerStudentGrade (Grade, Date, StudentID, CourseEditionID)
 activate ctrlrREST
 ctrlrREST -> sr : newStudentGrade (grade, date, studentID, courseEditionID)
 
@@ -51,19 +51,18 @@ sgf --> sr : sg1
 deactivate sgf
 sr -> sgr : save(sg1)
 activate sgr
-sgr -> IStudentGradeRepoSpringData : save()
+sgr -> IStudentGradeRepoSpringData : save(sg1)
 activate IStudentGradeRepoSpringData
-IStudentGradeRepoSpringData -> sgmp : toDataModel()
+IStudentGradeRepoSpringData -> sgmp : toData(sg1)
 activate sgmp
-sgmp --> IStudentGradeRepoSpringData : StudentDataModel()
+sgmp --> IStudentGradeRepoSpringData : studentDataModel
 deactivate sgmp
-IStudentGradeRepoSpringData --> sgr : StudentGrade()
+IStudentGradeRepoSpringData --> sgr : sg1
 deactivate IStudentGradeRepoSpringData
 sgr --> sr -- : sg1
 sr --> ctrlrREST -- : true
 ctrlrREST --> ui -- : true
 ui --> RUC : Success!
-
-
 deactivate ui
+
 @enduml
