@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class SchoolYearDTOMapperTest {
+class SchoolYearMapperDTOTest {
 
     @Test
     void shouldConstructASchoolYearDTOMapper() {
@@ -21,7 +21,7 @@ class SchoolYearDTOMapperTest {
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
 
         //act
-        SchoolYearDTOMapper syMapper = new SchoolYearDTOMapper(syFactory);
+        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
 
         //assert
         assertNotNull(syMapper);
@@ -34,7 +34,7 @@ class SchoolYearDTOMapperTest {
         SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
 
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
-        SchoolYearDTOMapper syMapper = new SchoolYearDTOMapper(syFactory);
+        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
 
         when(syFactory.createSchoolYear(
                 any(Description.class),

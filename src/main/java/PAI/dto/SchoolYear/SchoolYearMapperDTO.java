@@ -4,15 +4,18 @@ import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import org.springframework.stereotype.Component;
 
-public class SchoolYearDTOMapper {
+@Component
+public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
 
     private ISchoolYearFactory _syFactory;
 
-    public SchoolYearDTOMapper (ISchoolYearFactory syFactory) {
+    public SchoolYearMapperDTO (ISchoolYearFactory syFactory) {
         _syFactory = syFactory;
     }
 
+    @Override
     public SchoolYear toDomain(SchoolYearDTO syDTO) {
 
         Description description = new Description(syDTO.getDescription());
