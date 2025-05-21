@@ -1,5 +1,5 @@
 @startuml
-title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated\nto my department, in a given school year.\n(Process View Level 2)
+title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated to my department, in a given school year.\n(Process View Level 2)
 
 actor DD
 participant ":Frontend" as FE
