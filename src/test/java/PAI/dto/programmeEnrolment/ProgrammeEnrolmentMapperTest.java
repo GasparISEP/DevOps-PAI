@@ -87,4 +87,70 @@ class ProgrammeEnrolmentMapperTest {
         //assert
         assertEquals(studentIDValue, expectedStudentID.getUniqueNumber());
     }
+
+    @Test
+    void testReturnAccessMethodID() {
+
+        // arrange
+        int studentIDValue = 1234567;
+        String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
+        String programmeNameValue = "Engenharia Informática";
+        String programmeAcronymValue = "EI";
+        LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
+
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+
+
+        //act
+        AccessMethodID expectedAccessMethodID = mapper.toAccessMethodID(dto);
+        UUID expectedUuid = UUID.fromString(accessMethodUUID);
+
+        //assert
+        assertEquals(expectedUuid, expectedAccessMethodID.getAccessMethodID());    }
+
+    @Test
+    void testReturnProgrammeID() {
+
+        // arrange
+        int studentIDValue = 1234567;
+        String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
+        String programmeNameValue = "Engenharia Informática";
+        String programmeAcronymValue = "EI";
+        LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
+
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+
+        //act
+        ProgrammeID programmeID = mapper.toProgrammeID(dto);
+
+        //assert
+        assertEquals(programmeNameValue, programmeID.getName().getnameWithNumbersAndSpecialChars());
+    }
+
+    @Test
+    void testReturnDateVO() {
+
+        // arrange
+        int studentIDValue = 1234567;
+        String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
+        String programmeNameValue = "Engenharia Informática";
+        String programmeAcronymValue = "EI";
+        LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
+
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentMapper mapper = new ProgrammeEnrolmentMapper();
+
+        //act
+        Date date = mapper.toDateVO(dto);
+
+        //assert
+        assertEquals(enrolmentDate, date.getLocalDate());
+    }
+
+
+
+
 }
+

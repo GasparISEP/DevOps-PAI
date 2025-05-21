@@ -36,4 +36,19 @@ public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper{
         return new StudentID(programmeDTO.getStudentID());
     }
 
+    public AccessMethodID toAccessMethodID (ProgrammeEnrolmentDTO programmeDTO){
+        return new AccessMethodID(UUID.fromString(programmeDTO.getAccessMethodID()));
+    }
+
+    public ProgrammeID toProgrammeID (ProgrammeEnrolmentDTO programmeDTO){
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeDTO.getProgrammeName());
+        Acronym acronym = new Acronym(programmeDTO.getProgrammeAcronym());
+
+        return new ProgrammeID(name,acronym);
+    }
+
+    public Date toDateVO (ProgrammeEnrolmentDTO programmeDTO){
+        return new Date(programmeDTO.getDate());
+    }
+
 }
