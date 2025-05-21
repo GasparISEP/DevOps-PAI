@@ -1,0 +1,68 @@
+@startuml
+
+title US05: Register a Department in the System
+
+autonumber
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+actor "Administrator" as Administrator
+participant ":UI" as UI
+participant ":US05_RegisterADepartmentInTheSystem\nController" as Controller
+participant ":IDepartmentRegistry\nService" as Service
+participant "dID1: DepartmentID" as DepartmentID
+participant ":IDepartment\nRepository" as DepartmentRepository
+participant ":IDepartment\nFactory" as DepartmentFactory
+participant "d1:Department" as Department #LightBlue
+participant ":IDepartment\nMapper" as Mapper
+participant "ddm1: DepartmentDataModel" as departmentDataModel #LightYellow
+participant ":IDepartment\nRepositorySpringData" as departmentRepoSpringData
+
+Administrator -> UI ++: I want to register a department.
+UI --> Administrator --: Please provide the acronym.
+Administrator -> UI ++: Enter acronym.
+UI --> Administrator --: Please provide the name.
+Administrator -> UI ++: Enter name.
+
+
+UI -> Controller ++: registerDepartment\n(acronym, name)
+
+ref over Controller
+    Convert acronym and name to VO
+end ref
+
+Controller -> Service++: registerDepartment\n(acronymVO, nameVO)
+
+Service ->  DepartmentID**: new DepartmentID
+
+
+Service -> DepartmentRepository ++: containsOfIdentity(dID1)
+DepartmentRepository -> Service --: false
+
+
+Service -> DepartmentFactory ++: newDepartment\n(acronymVO, nameVO)
+DepartmentFactory -> Department **: newDepartment\n(acronymVO, nameVO)
+DepartmentFactory --> Service --: d1
+
+Service -> DepartmentRepository ++: register department(d1)
+DepartmentRepository -> Mapper ++: toDataModel(d1)
+
+Mapper -> departmentDataModel **: createDataModel(d1)
+Mapper --> DepartmentRepository --: ddm1
+
+DepartmentRepository -> departmentRepoSpringData ++: save (ddm1)
+
+departmentRepoSpringData --> DepartmentRepository --: true
+
+
+DepartmentRepository --> Service --: true
+
+
+Service --> Controller --: True
+
+Controller --> UI --: True
+UI --> Administrator --: Department registered
+
+@enduml
