@@ -54,12 +54,12 @@ rectangle " " {
 
   rectangle "Service Layer" {
     component "CourseEditionEnrolmentService" as Service
-    component "CourseEditionEnrolmentMapper" as EnrolmentMapper
+    component "CourseEditionEnrolmentAssembler" as EnrolmentAssembler
     interface " " as IEnrolmentService
-    interface " " as IEnrolmentMapper
+    interface " " as IEnrolmentAssembler
 
     Service - IEnrolmentService
-    EnrolmentMapper - IEnrolmentMapper
+    EnrolmentAssembler - IEnrolmentAssembler
   }
 
   rectangle "Domain Layer" {
@@ -94,6 +94,6 @@ rectangle " " {
   Service -up-( ICourseRepo
   Service -down-( IStudentDomain
   Service -down-( ICourseDomain
-  Service -down-( IEnrolmentMapper
+  Service -down-( IEnrolmentAssembler
 }
 @enduml 
