@@ -2,10 +2,12 @@ package PAI.dto.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Component
 public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper{
 
     public ProgrammeEnrolmentMapper() {
