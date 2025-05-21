@@ -16,13 +16,13 @@ participant "Repository" as repository <<Component>>
 -> router: configureTeacherCategory (name)
 activate router #E1F5FE
 
-router -> controller: configureTeacherCategory (name)
+router -> controller: configureTeacherCategory (teacherCategoryRequestDTO)
 activate controller #E1F5FE
 
-controller -> service: configureTeacherCategory (name)
+controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
 
-service -> domain: createTeacherCategory (name)
+service -> domain: createTeacherCategory (nameVO)
 activate domain #E1F5FE
 
 domain --> service: teacherCategory
@@ -37,7 +37,7 @@ deactivate repository
 service --> controller: teacherCategory
 deactivate service
 
-controller --> router: (201, Created) teacherCategoryDTO
+controller --> router: (201, Created) teacherCategoryResponseDTO
 deactivate controller
 
 <-- router: (201, Created) teacherCategoryJSON

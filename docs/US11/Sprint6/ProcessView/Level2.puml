@@ -5,9 +5,9 @@ autonumber
 title As an ASC I want to register a Programme \n (Process View Level 2)
 
 actor ASC as Admin
-participant "<<SystemPAI>> \nFrontend" as FE #lightblue
-participant "<<SystemPAI>> \nBackend" as BE #lightgreen
-participant "Database" as BD #lightyellow
+participant "<<Component>> \nFrontend" as FE #lightblue
+participant "<<Component>> \nBackend" as BE #lightgreen
+participant "<<Component>> \nDatabase" as BD #lightyellow
 
 activate Admin
 Admin -> FE ++: Request register a Programme
