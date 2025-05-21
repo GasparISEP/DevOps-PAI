@@ -1,0 +1,16 @@
+@startuml
+title As an ASC, I want to Enroll a Student in a Course Edition\n (Process View Level 1)
+actor ASC
+participant ":System" as system
+ASC -> system: I want to enroll a student in a course edition.
+system --> ASC: Which Student?
+ASC -> system: Student's ID!
+system --> ASC: Which Programme Edition?
+ASC -> system: Programme Edition's ID!
+system --> ASC: Which Course Edition?
+ASC -> system: Course Edition's ID!
+system --> ASC: Confirm enrollment?
+ASC -> system: Yes!
+
+system --> ASC: OK!
+@enduml 

@@ -1,53 +1,56 @@
 @startuml
+skinparam classAttributeIconSize 0
+title Update Teacher Working Percentage
 
-skinparam ranksep 100
-skinparam nodesep 100
+' ========== ENTITIES ==========
 
-package "TeacherCareerProgression Aggregate" as TCP {
-entity "<<root>>\nTeacherCareerProgression" {
-  -tcpID: TeacherCareerProgressionID
-  -date: Date
-  -workingPercentage: int
-  -teacherID: TeacherID
-  +TeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
-  +updateWorkingPercentage(workingPercentageVO: WorkingPercentageVO)
-  +getDate(): DateVO
+class TeacherCareerProgression {
+  - _tcpID: TeacherCareerProgressionID
+  - _date: Date
+  - _teacherCategoryID: TeacherCategoryID
+  - _workingPercentage: WorkingPercentage
+  - _teacherID: TeacherID
+
+  +TeacherCareerProgression(teacherCareerProgressionId: TeacherCareerProgressionID, date: Date, teacherCategoryID: TeacherCategoryID, workingPercentage: WorkingPercentage, teacherID: TeacherID)
+  +getID(): TeacherCareerProgressionID
+  +getDate(): Date
+  +getTeacherCategoryID(): TeacherCategoryID
   +getTeacherID(): TeacherID
+  +getWorkingPercentage(): WorkingPercentage
+  +isLastDateEqualOrBeforeNewDate(newDate: Date): boolean
+  +isDateAfter(tcp: TeacherCareerProgression): boolean
+  +sameAs(object: Object): boolean
 }
+
+
+' ========== VALUE OBJECTS ==========
+
+class TeacherCareerProgressionID
+class Date {
+  -localDate: LocalDate
+  +getLocalDate(): LocalDate
 }
+class TeacherCategoryID
+class WorkingPercentage {
+  -percentage: workingPercentage
+}
+class TeacherID {
+  -acronym: String
+}
+
+' ========== CONTROLLER ==========
 
 class US15_UpdateTeacherWorkingPercentageController {
-  +US15_UpdateTeacherWorkingPercentageController(service: ITeacherCareerProgressionService)
-  +updateWorkingPercentageInTeacherCareerProgression(dto: UpdateWorkingPercentageDTO)
-  +findAll()
+  +updateWorkingPercentageInTeacherCareerProgression(dto: UpdateWorkingPercentageDTO): UpdateWorkingPercentageOutputDTO
+  +findAll(): List<Something>
 }
 
-interface ITeacherCareerProgressionService {
-  +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
-  +findAll()
-}
-
-class TeacherCareerProgressionServiceImpl {
-  +updateWorkingPercentageInTeacherCareerProgression(dateVO: DateVO, workingPercentageVO: WorkingPercentageVO, teacherIDVO: TeacherIDVO)
-  +findAll()
-}
-
-interface ITeacherCareerProgressionRepository {
-  +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
-  +save(tcp: TeacherCareerProgression)
-}
-
-class TeacherCareerProgressionRepositorySpringData {
-  +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
-  +save(tcp: TeacherCareerProgression)
-}
+' ========== DTOs ==========
 
 class UpdateWorkingPercentageDTO {
   -date: String
   -workingPercentage: int
   -acronym: String
-  -nif: String
-  -country: String
 }
 
 class UpdateWorkingPercentageOutputDTO {
@@ -55,50 +58,64 @@ class UpdateWorkingPercentageOutputDTO {
   -message: String
 }
 
+' ========== MAPPER ==========
+
 interface IUpdateWorkingPercentageMapper {
-  +toVOs(dto: UpdateWorkingPercentageDTO): (DateVO, WorkingPercentageVO, TeacherIDVO)
+  +toVOs(dto: UpdateWorkingPercentageDTO): (Date, WorkingPercentage, TeacherID)
   +toOutputDTO(success: boolean, message: String): UpdateWorkingPercentageOutputDTO
 }
 
-class UpdateWorkingPercentageMapper implements IUpdateWorkingPercentageMapper {
-  +toVOs(dto: UpdateWorkingPercentageDTO): (DateVO, WorkingPercentageVO, TeacherIDVO)
+class UpdateWorkingPercentageMapper {
+  +toVOs(dto: UpdateWorkingPercentageDTO): (Date, WorkingPercentage, TeacherID)
   +toOutputDTO(success: boolean, message: String): UpdateWorkingPercentageOutputDTO
 }
 
-class DateVO {
-  -date: LocalDate
+UpdateWorkingPercentageMapper ..|> IUpdateWorkingPercentageMapper
+
+' ========== SERVICE ==========
+
+interface ITeacherCareerProgressionService {
+  +updateWorkingPercentageInTeacherCareerProgression(date: Date, workingPercentage: WorkingPercentage, teacherID: TeacherID)
 }
 
-class WorkingPercentageVO {
-  -percentage: int
+class TeacherCareerProgressionServiceImpl {
+  +updateWorkingPercentageInTeacherCareerProgression(date: Date, workingPercentage: WorkingPercentage, teacherID: TeacherID)
 }
 
-class TeacherIDVO {
-  -acronym: String
-  -nif: String
-  -country: String
+TeacherCareerProgressionServiceImpl ..|> ITeacherCareerProgressionService
+
+' ========== REPOSITORY ==========
+
+interface ITeacherCareerProgressionRepository {
+  +findLastTCPFromTeacherID(teacherID: TeacherID): TeacherCareerProgression
+  +save(tcp: TeacherCareerProgression): void
 }
 
-' Associations
+class TeacherCareerProgressionRepositorySpringData {
+  +findLastTCPFromTeacherID(teacherID: TeacherID): TeacherCareerProgression
+  +save(tcp: TeacherCareerProgression): void
+}
 
-US15_UpdateTeacherWorkingPercentageController "1" --> "1" ITeacherCareerProgressionService : uses
-ITeacherCareerProgressionService <|.. TeacherCareerProgressionServiceImpl
-TeacherCareerProgressionServiceImpl "1" --> "1" ITeacherCareerProgressionRepository : uses
-ITeacherCareerProgressionRepository <|.. TeacherCareerProgressionRepositorySpringData
+TeacherCareerProgressionRepositorySpringData ..|> ITeacherCareerProgressionRepository
 
-US15_UpdateTeacherWorkingPercentageController "1" --> "1" UpdateWorkingPercentageDTO : receives
-US15_UpdateTeacherWorkingPercentageController "1" --> "1" UpdateWorkingPercentageOutputDTO : returns
+' ========== RELATIONS ==========
 
-US15_UpdateTeacherWorkingPercentageController "1" --> "1" IUpdateWorkingPercentageMapper : uses
-UpdateWorkingPercentageMapper -|> IUpdateWorkingPercentageMapper
+US15_UpdateTeacherWorkingPercentageController --> ITeacherCareerProgressionService : uses
+US15_UpdateTeacherWorkingPercentageController --> IUpdateWorkingPercentageMapper : uses
+US15_UpdateTeacherWorkingPercentageController --> UpdateWorkingPercentageDTO : receives
+US15_UpdateTeacherWorkingPercentageController --> UpdateWorkingPercentageOutputDTO : returns
 
-UpdateWorkingPercentageMapper "1" --> "1" DateVO : creates
-UpdateWorkingPercentageMapper "1" --> "1" WorkingPercentageVO : creates
-UpdateWorkingPercentageMapper "1" --> "1" TeacherIDVO : creates
-UpdateWorkingPercentageMapper "1" --> "1" UpdateWorkingPercentageOutputDTO : creates
+UpdateWorkingPercentageMapper --> Date
+UpdateWorkingPercentageMapper --> WorkingPercentage
+UpdateWorkingPercentageMapper --> TeacherID
+UpdateWorkingPercentageMapper --> UpdateWorkingPercentageOutputDTO
 
-TCP "1" --> "1" DateVO : uses
-TCP "1" --> "1" WorkingPercentageVO : uses
-TCP "1" --> "1" TeacherIDVO : uses
+TeacherCareerProgression --> TeacherCareerProgressionID
+TeacherCareerProgression --> Date
+TeacherCareerProgression --> TeacherCategoryID
+TeacherCareerProgression --> WorkingPercentage
+TeacherCareerProgression --> TeacherID
+
+TeacherCareerProgressionServiceImpl --> ITeacherCareerProgressionRepository : uses
 
 @enduml

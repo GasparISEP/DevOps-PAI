@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
-public class ProgrammeEnrolmentMapper implements IProgrammeEnrolmentMapper{
+public class ProgrammeEnrolmentMapperDTO implements IProgrammeEnrolmentMapperDTO {
 
-    public ProgrammeEnrolmentMapper() {
+    public ProgrammeEnrolmentMapperDTO() {
     }
 
     public ProgrammeEnrolment toProgrammeEnrolment (ProgrammeEnrolmentDTO programmeDTO){
