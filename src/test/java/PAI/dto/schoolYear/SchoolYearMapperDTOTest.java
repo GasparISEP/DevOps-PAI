@@ -100,4 +100,27 @@ class SchoolYearMapperDTOTest {
         // assert
         assertNotNull(res);
     }
+
+    @Test
+    void shouldTransformSchoolYeartoDTO() {
+        //arrange
+        SchoolYear sy = mock(SchoolYear.class);
+        SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
+
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        when(sy.getDescription()).thenReturn(description);
+        when(sy.getEndDate()).thenReturn(startDate);
+        when(sy.getStartDate()).thenReturn(endDate);
+
+        //act
+        SchoolYearDTO res = syMapper.toDTO(sy);
+
+        //assert
+        assertNotNull(res);
+    }
 }
