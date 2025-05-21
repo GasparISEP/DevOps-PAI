@@ -2,7 +2,9 @@ package PAI.controller;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
@@ -47,7 +49,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         });
 
         // Assert
-        assertEquals("School Year Service must not be null.", exception.getMessage());
+        assertEquals("Services cannot be null.", exception.getMessage());
     }
 
     // Verify exception is thrown for null parameters
@@ -58,35 +60,64 @@ class US07_IWantToCreateASchoolYearControllerTest {
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> controller.addSchoolYear(null,null,null));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                controller.addSchoolYear(null, null, null));
+
+        assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
     }
 
-    // Verify exception for each null parameter (description, start date, end date)
     @Test
-    void shouldThrowExceptionWhenAnyParameterIsNull() {
+    void shouldThrowExceptionWhenEndDateIsNull() {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+        String description = "ola";
+        String startDate = "22/22/22";
 
         // Act & Assert
-        IllegalArgumentException exceptionForDescription = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear(null, "24-09-2024", "31-06-2025"));
-        assertEquals("Description cannot be null or empty", exceptionForDescription.getMessage());
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                controller.addSchoolYear(description, startDate, null));
 
-        IllegalArgumentException exceptionForStartDate = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear("School Year 24/25", null, "31-06-2025"));
-        assertEquals("Date cannot be empty!", exceptionForStartDate.getMessage());
+        assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
+    }
 
-        IllegalArgumentException exceptionForEndDate = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear("School Year 24/25", "24-09-2024", null));
-        assertEquals("Date cannot be empty!", exceptionForEndDate.getMessage());
+
+    @Test
+    void shouldThrowExceptionWhenStartDateIsNull() {
+        // Arrange
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+        String description = "ola";
+        String endDate = "22/22/22";
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                controller.addSchoolYear(description, null, endDate));
+
+        assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDescriptionIsNull() {
+        // Arrange
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+        String startDate = "21/22/22";
+        String endDate = "22/22/22";
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                controller.addSchoolYear(null, startDate, endDate));
+
+        assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
     }
 
     // Verify successful addition of school year
     @Test
-    void shouldReturnTrueWhenYearIsSuccessfullyAdded() throws Exception {
+    void shouldReturnASchoolYearWhenYearIsSuccessfullyAdded() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         String descriptionInfo = "School Year 24/25";
@@ -94,18 +125,18 @@ class US07_IWantToCreateASchoolYearControllerTest {
         String endDateInfo = "31-06-2025";
 
         when(schoolYearService.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
-                .thenReturn(true);
+                .thenReturn(schoolYear);
 
         // Act
-        boolean result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        SchoolYear result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
 
         // Assert
-        assertTrue(result);
+        assertEquals(result,schoolYear);
     }
 
     // Verify failure when school year cannot be added
     @Test
-    void shouldReturnFalseWhenYearIsNotSuccessfullyAdded() throws Exception {
+    void shouldNotReturnASchoolYearWhenYearIsNotSuccessfullyAdded() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
@@ -114,14 +145,11 @@ class US07_IWantToCreateASchoolYearControllerTest {
         String startDateInfo = "24-09-2024";
         String endDateInfo = "31-06-2025";
 
-        when(schoolYearService.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
-                .thenReturn(false);
-
         // Act
-        boolean result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        SchoolYear result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
 
         // Assert
-        assertFalse(result);
+        assertNull(result);
     }
 
     // Verify exception when school year already exists
@@ -139,24 +167,30 @@ class US07_IWantToCreateASchoolYearControllerTest {
                 .thenThrow(new Exception("School year already exists."));
 
         // Act & Assert
-        Exception exception = assertThrows(Exception.class, () -> controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo));
-        assertEquals("School year already exists.", exception.getMessage());
+        Exception exception = assertThrows(Exception.class, () ->
+                controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo)
+        );
+
+        assertTrue(exception.getMessage().contains("School year already exists."));
     }
+
 
     // Verify allowing multiple different school years creation
     @Test
     void shouldAllowMultipleDifferentSchoolYearsCreation() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         when(schoolYearService.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
-                .thenReturn(true) // 1st creation
-                .thenReturn(true); // 2nd creation
+                .thenReturn(schoolYear) // 1st creation
+                .thenReturn(schoolYear1); // 2nd creation
 
         // Act & Assert
-        assertTrue(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"));
-        assertTrue(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"));
+        assertEquals(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"),schoolYear);
+        assertEquals(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"),schoolYear1);
     }
 
 
@@ -167,8 +201,8 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange: Create real dependencies
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        SchoolYearRepositoryImpl schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory);
+        ISchoolYearRepository schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearListFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         String descriptionInfo = "School Year 24/25";
@@ -176,10 +210,10 @@ class US07_IWantToCreateASchoolYearControllerTest {
         String endDateInfo = "31-06-2025";
 
         // Act: Try to create a new school year
-        boolean result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        SchoolYear result = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
 
         // Assert: Should return true
-        assertTrue(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -196,30 +230,31 @@ class US07_IWantToCreateASchoolYearControllerTest {
         String endDateInfo = "31-06-2025";
 
         // Act: Create the school year the first time
-        boolean created = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
-        assertTrue(created, "First creation should succeed.");
+        SchoolYear created = controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        assertNotNull(created, "First creation should succeed.");
 
         // Act & Assert: Creating the same school year again should throw an exception
         Exception exception = assertThrows(Exception.class, () ->
                 controller.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo)
         );
 
-        // Assert: Check that the exception message matches
-        assertEquals("School year already exists.", exception.getMessage());
+        // Assert: Check that the exception message matches expected message
+        assertTrue(exception.getMessage().contains("already exists"), "Exception message should indicate that the school year already exists.");
     }
+
 
     @Test
     void integrationTest_ShouldAllowMultipleDifferentSchoolYearsCreation() throws Exception {
         // Arrange
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+        ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         // Act & Assert
-        assertTrue(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"));
-        assertTrue(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"));
+        assertNotNull(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"));
+        assertNotNull(controller.addSchoolYear("School Year 25/26", "24-09-2025", "31-06-2026"));
     }
 
 }
