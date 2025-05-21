@@ -2,36 +2,71 @@
 autonumber
 
 skinparam sequence {
-   LifelineBorderColor black
-   LifelineBackgroundColor LightBlue
- }
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
 
-title US05:\n Register a Department In The System\n Process View Level 3
-actor ADM
+title US05: Register a Department in the System\nProcess View – Level 3
+
+actor ADM as "Administrator"
 participant ":Frontend" as FE
-participant ":Controller" as CT
+participant ":RestController" as CT
+participant ":MapperDTO" as MP
 participant ":Service" as SE
 participant ":Domain" as DM
+participant ":MapperDataModel" as MDM
 participant ":Repository" as RE
 database DB
 
-
-ADM -> FE ++: Request to register Department
-FE --> ADM --: Prompt: "Enter Department Acronym"
+group Human Interaction
+ADM -> FE ++: Request to register a department
+FE --> ADM --: Prompt: "Enter department acronym"
 ADM -> FE ++: Input: "DEI"
-FE --> ADM --: Prompt: "Enter Department Name"
+FE --> ADM --: Prompt: "Enter department name"
 ADM -> FE ++: Input: "Software Engineering Department"
+end group
 
-FE -> CT ++: (POST) registerDepartment("DEI", \n"Software Engineering Department")
-CT -> SE ++: registerDepartment("DEI", \n"Software Engineering Department")
-SE -> DM ++: createDepartment("DEI", \n"Software Engineering Department")
-DM --> SE --: Department instance created
-SE -> RE ++: saveDepartment(department)
-RE -> DB ++: persist Department
-DB --> RE --: Department persisted
-RE --> SE --: Confirmation
-SE --> CT --: Confirmation
-CT --> FE --: (200 OK) Registration successful
+group HTTP Request
+FE -> CT ++: (POST) /departments with JSON {acronym: "DEI", name: "Software Engineering Department"}
+end group
+
+group Mapping DTO to Request
+CT -> MP ++: toRequestDTO(json)
+MP --> CT --: RegisterDepartmentRequest (String name, String acronym)
+end group
+
+group Application Service Invocation
+CT -> SE ++: createAndSaveDepartment(request)
+end group
+
+group Domain Logic
+SE -> DM ++: new Department(acronym, name)
+DM --> SE --: Department instance
+end group
+
+group Mapping Domain to DataModel
+SE -> MDM ++: toDataModel(department)
+MDM --> SE --: DepartmentDataModel
+end group
+
+group Persistence
+SE -> RE ++: save(departmentDataModel)
+RE --> SE --: Persisted DepartmentDataModel
+SE --> CT --: Department persisted
+end group
+
+group Mapping to DTO
+CT -> MP ++: toDTO(department)
+MP --> CT --: DepartmentDTO
+end group
+
+group HTTP Response
+CT --> FE --: HTTP 201 Created + DepartmentDTO
 FE --> ADM --: Department registered successfully
+end group
 
 @enduml
