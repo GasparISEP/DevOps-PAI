@@ -24,7 +24,7 @@ participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactory
 participant ":StudentMapper" as StudentMapper
 participant ":ProgrammeEditionMapper" as ProgrammeEditionMapper
 participant ":CourseEditionMapper" as CourseEditionMapper
-participant ":CourseEditionEnrolmentMapper" as CourseEditionEnrolmentMapper
+participant ":CourseEditionEnrolmentAssembler" as CourseEditionEnrolmentAssembler
 participant ":CourseEditionEnrolmentMapperDataModel" as CourseEditionEnrolmentMapperDataModel
 
 Client -> UI: I want to enrol a student in a course edition!
@@ -107,12 +107,13 @@ Client -> UI: Yes!
 activate UI #E1F5FE
 UI -> RestController: POST /api/courseeditions/{courseEditionId}/enrolments
 activate RestController #E1F5FE
-RestController -> CourseEditionEnrolmentMapper: toDomain(EnrolStudentCourseEditionDto)
-activate CourseEditionEnrolmentMapper #E1F5FE
-CourseEditionEnrolmentMapper --> RestController: StudentID, CourseEditionID
-deactivate CourseEditionEnrolmentMapper
-RestController -> CourseEditionEnrolmentService: enrolStudentInACourseEdition(studentID, courseEditionID)
+RestController -> CourseEditionEnrolmentService: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
 activate CourseEditionEnrolmentService #E1F5FE
+
+CourseEditionEnrolmentService -> CourseEditionEnrolmentAssembler: toDomain(EnrolStudentCourseEditionDto)
+activate CourseEditionEnrolmentAssembler #E1F5FE
+CourseEditionEnrolmentAssembler --> CourseEditionEnrolmentService: StudentID, CourseEditionID
+deactivate CourseEditionEnrolmentAssembler
 
 CourseEditionEnrolmentService -> CourseEditionEnrolmentFactory: create(studentID, courseEditionID)
 activate CourseEditionEnrolmentFactory #E1F5FE
