@@ -1,0 +1,87 @@
+@startuml
+autonumber
+title US06: Update Department Director Of A Department
+
+actor "Administrator" as A
+participant UI
+participant "US06_IWantToUpdateTheDepartmentDirectorOfADepartmentControllerRest" as CTRL
+participant "UpdateDepartmentDirectorService" as S
+participant "DepartmentRepository" as DR
+participant "TeacherRepository" as TR
+
+skinparam sequenceLifeLineBackgroundColor #application
+
+A -> UI ++ : I want to update the Department Director of a Department!
+UI -> CTRL ++ : getAllDepartments()
+CTRL -> S ++ : findAllDepartments()
+S -> DR ++ : findAll()
+
+ref over DR
+FindAll()
+Returns: List<DepartmentDataModel>
+end ref
+
+DR --> S -- : departmentListDomain
+S --> CTRL -- : departmentListDomain
+
+ref over CTRL
+Convert departmentListDomain to departmentListDTO using DepartmentMapper
+end ref
+
+CTRL --> UI -- : departmentListDTO
+UI --> A -- : Which Department?
+A -> UI ++ : This Department!
+
+UI --> CTRL ++ : getAllTeachersByDepartmentID(departmentID)
+
+ref over CTRL
+Convert departmentDTOID to departmentVO using DepartmentMapper
+end ref
+
+CTRL --> S ++ : getAllTeachersByDepartmentID(departmentID)
+S -> TR ++ : getAllTeachersByDepartmentID(departmentID)
+
+ref over TR
+FindAllByDepartmentID()
+Returns: List<TeacherDataModel>
+end ref
+
+TR --> S -- : teacherListDomain
+S --> CTRL -- : teacherListDomain
+
+ref over CTRL
+Convert teacherListDomain to teacherListDTO using TeacherMapper
+end ref
+
+CTRL --> UI -- : teacherListDTO
+UI --> A -- : Which Teacher?
+A -> UI ++ : This Teacher!
+UI --> CTRL ++ : updateDepartmentDirector(teacherID)
+
+ref over CTRL
+Convert teacherDTOID to teacherVO using TeacherMapper
+end ref
+
+CTRL --> S ++ : updateDepartmentDirector(departmentVO, teacherVO)
+
+ref over S
+validateDepartmentExists(departmentVO)
+end ref
+
+S -> DR ++ : departmentExists(departmentVO)
+DR --> S -- : true
+
+ref over S
+validateTeacherInDepartment(teacherVO, departmentVO)
+end ref
+
+S -> TR ++ : teacherInDepartment(teacherVO, departmentVO)
+TR --> S -- : true
+
+S -> DR ++ : updateDepartmentDirector(departmentVO, teacherVO)
+DR --> S -- : success
+S --> CTRL -- : success
+CTRL --> UI -- : confirmation / error
+UI --> A -- : Done!
+
+@enduml
