@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,56 +22,76 @@ class US09_EnrolStudentInProgrammeControllerTest {
         controller = new US09_EnrolStudentInProgrammeController(enrolmentService);
     }
 
-    @Test
-    void enrolStudentInProgramme_SuccessfulEnrolment_ReturnsTrue() {
-        // Arrange
-        int studentNumber = 1234567;
-        UUID accessMethodID = UUID.randomUUID();
-        String programmeName = "Software Engineering";
-        String acronym = "SE";
-        String enrolmentDate = "01-09-2024";
 
+    @Test
+    void enrolStudentInProgramme_SuccessfulEnrolment_ReturnsTrue() throws Exception {
+        // Arrange
+        int    studentNumber   = 1234567;
+        UUID   accessMethodID  = UUID.randomUUID();
+        String progName        = "Software Engineering";
+        String acronym         = "SE";
+        String enrolDate       = "01-09-2024";
+
+        ProgrammeEnrolment mockEnrolment = mock(ProgrammeEnrolment.class);
         when(enrolmentService.enrolStudentInProgramme(
                 any(StudentID.class),
                 any(AccessMethodID.class),
                 any(ProgrammeID.class),
                 any(Date.class)
-        )).thenReturn(true);
+        )).thenReturn(mockEnrolment);
 
         // Act
-        boolean result = controller.enrolStudentInProgramme(studentNumber, accessMethodID, programmeName, acronym, enrolmentDate);
+        ProgrammeEnrolment result = controller.enrolStudentInProgramme(
+                studentNumber, accessMethodID, progName, acronym, enrolDate
+        );
 
         // Assert
-        assertTrue(result);
-        verify(enrolmentService, times(1)).enrolStudentInProgramme(any(), any(), any(), any());
+        assertSame(mockEnrolment, result);
+        verify(enrolmentService, times(1))
+                .enrolStudentInProgramme(any(), any(), any(), any());
     }
 
     @Test
-    void enrolStudentInProgramme_UnsuccessfulEnrolment_ReturnsFalse() {
+    void enrolStudentInProgramme_UnsuccessfulEnrolment_ReturnsNull() throws Exception {
         // Arrange
-        when(enrolmentService.enrolStudentInProgramme(any(), any(), any(), any()))
-                .thenReturn(false);
+
+        String validDate = "01-09-2024";
+        when(enrolmentService.enrolStudentInProgramme(
+                any(StudentID.class),
+                any(AccessMethodID.class),
+                any(ProgrammeID.class),
+                any(Date.class)
+        )).thenReturn(null);
 
         // Act
-        boolean result = controller.enrolStudentInProgramme(1234567, UUID.randomUUID(), "Programme", "PR", "01-09-2024");
+        ProgrammeEnrolment result = controller.enrolStudentInProgramme(
+                1234567,
+                UUID.randomUUID(),
+                "Programme",
+                "PR",
+                validDate
+        );
 
         // Assert
-        assertFalse(result);
-        verify(enrolmentService, times(1)).enrolStudentInProgramme(any(), any(), any(), any());
+        assertNull(result);
+        verify(enrolmentService, times(1))
+                .enrolStudentInProgramme(any(), any(), any(), any());
     }
 
     @Test
-    void enrolStudentInProgramme_ExceptionThrown_ReturnsFalse() {
+    void enrolStudentInProgramme_ExceptionThrown_ReturnsNull() throws Exception {
         // Arrange
+        String badDate = "01-13-2024";
         when(enrolmentService.enrolStudentInProgramme(any(), any(), any(), any()))
-                .thenThrow(new RuntimeException("Database error"));
+                .thenReturn(mock(ProgrammeEnrolment.class));
 
         // Act
-        boolean result = controller.enrolStudentInProgramme(1234567, UUID.randomUUID(), "Programme", "PR", "01-09-2024");
+        ProgrammeEnrolment result = controller.enrolStudentInProgramme(
+                123, UUID.randomUUID(), "X", "X", badDate
+        );
 
         // Assert
-        assertFalse(result);
-        verify(enrolmentService, times(1)).enrolStudentInProgramme(any(), any(), any(), any());
+        assertNull(result);
     }
 
     @Test

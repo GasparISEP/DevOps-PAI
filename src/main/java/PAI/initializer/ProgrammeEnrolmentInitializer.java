@@ -1,6 +1,7 @@
 package PAI.initializer;
 
 import PAI.controller.US09_EnrolStudentInProgrammeController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class ProgrammeEnrolmentInitializer {
 
     @Bean
+    @Autowired
     public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
         return (args) -> {
             loadProgrammeEnrolment(controller);
