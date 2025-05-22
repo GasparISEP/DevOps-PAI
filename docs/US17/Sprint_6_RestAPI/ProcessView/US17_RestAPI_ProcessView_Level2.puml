@@ -1,0 +1,32 @@
+@startuml
+
+' US17 - Enrol a Student in a Programme Edition
+' Process View - Level 2 (Frontend, Backend, DB)
+
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+}
+
+title US17: Enrol a Student in a Programme Edition \n (Process View - Level 2)
+
+actor ASC
+participant ":Frontend" as FE <<component>>
+participant ":Backend" as BE <<component>>
+participant ":Database" as DB <<database>>
+
+ASC -> FE ++: Request enrolment form
+FE --> ASC --: Select student
+ASC -> FE ++: Select student
+FE --> ASC --: Select programme edition
+ASC -> FE ++: Select programme edition
+
+FE -> BE ++: POST /programmeeditions/{...}/enrolments\nBody: studentId
+BE -> DB ++: save(ProgrammeEditionEnrolment)
+DB --> BE --: OK
+BE --> FE --: 201 Created
+FE --> ASC --: Enrolment successful
+
+@enduml

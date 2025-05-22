@@ -13,17 +13,18 @@ skinparam sequence {
 }
 
 actor "Administrator" as Administrator
-participant ":UI" as UI
-participant ":US05_RegisterDepartmentController" as Controller
-participant ":IDepartmentRegistryService" as Service
+participant ":Frontend" as UI
+participant ":DepartmentRestController" as Controller
+participant ":IDepartmentRegistrationService" as Service
 participant ":IDepartmentAssembler" as Mapper
 participant "rdc1:RegisterDepartmentCommand" as Request #LightYellow
 participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
-participant ":DepartmentFactory" as Factory
-participant "d1:Department" as Department #LightBlue
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentDataModelMapper" as DataModelMapper
+participant ":DepartmentFactory" as Factory
+participant "d1:Department" as Department #LightBlue
 participant "d1DM:DepartmentDataModel" as DepartmentDataModel #LightYellow
+participant "d1.saved:Department" as Department2 #LightBlue
 participant ":IDepartmentSpringDataRepository" as SpringDataRepo
 
 group Human Interaction
@@ -72,10 +73,18 @@ end group
 
 group Spring Data Persistence
 Repository -> SpringDataRepo ++: save(d1DM)
-SpringDataRepo --> Repository --: d1.saved
+SpringDataRepo --> Repository --: d1DM.saved
 end group
 
-Repository --> Service --: d1.saved
+group Mapping DataModel to Domain
+Repository -> DataModelMapper ++: toDomain(d1DM)
+DataModelMapper -> Factory ++: newDepartment (acronym, name)
+Factory -> Department2 **: <create> Department(acronym, name)
+Factory --> DataModelMapper --: d1.saved
+DataModelMapper --> Repository --: d1.saved
+end group
+
+Repository --> Service --: d1
 Service --> Controller --: d1
 
 end group

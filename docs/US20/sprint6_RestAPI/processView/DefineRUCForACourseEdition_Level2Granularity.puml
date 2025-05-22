@@ -12,9 +12,9 @@ skinparam participantBackgroundColor #lightblue/white
 autonumber
 
 actor ProgrammeDirector as PD
-participant "Frontend" as Frontend <<component>>
-participant "Backend" as Backend <<component>>
-participant "Database" as DB <<component>>
+participant "Frontend" as Frontend <<container>>
+participant "Backend" as Backend <<container>>
+participant "Database" as DB <<container>>
 
 PD -> Frontend: I want to define the RUC for a course edition
 activate Frontend #E1F5FE

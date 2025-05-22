@@ -14,13 +14,10 @@ title US05: Register a Department in the System\nProcess View – Level 3
 
 actor ADM as "Administrator"
 participant ":Frontend" as FE
-participant ":RestController" as CT
-participant ":Assembler" as MP
+participant ":Controller" as CT
 participant ":Service" as SE
 participant ":Domain" as DM
-participant ":MapperDataModel" as MDM
 participant ":Repository" as RE
-database DB
 
 group Human Interaction
 ADM -> FE ++: Request to register a department
@@ -34,11 +31,6 @@ group HTTP Request
 FE -> CT ++: (POST) /departments with JSON {request}
 end group
 
-group Mapping DTO to Request
-CT -> MP ++: RegisterDepartmentCommand command =\n toRegisterDepartmentCommand(request)
-MP --> CT --: command
-end group
-
 group Application Service Invocation
 CT -> SE ++: createAndSaveDepartment(command)
 
@@ -49,24 +41,10 @@ end group
 
 group Persistence
 SE -> RE ++: save(department)
-group Mapping Domain to DataModel
-RE -> MDM ++: departmentDM = toDataModel(department)
-MDM --> RE --: departmentDM
-end group
-RE -> DB : save(departmentDM)
-group Mapping Domain to DataModel
-RE -> MDM ++: departmentDM = toDomain(departmentDM)
-MDM --> RE --: department
-end group
 RE --> SE --: Persisted department
 end group
 
 SE --> CT --: department
-end group
-
-group Mapping to DTO
-CT -> MP ++: toDTO(department)
-MP --> CT --: DepartmentDTO
 end group
 
 group HTTP Response
