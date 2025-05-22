@@ -2,6 +2,7 @@ package PAI.initializer;
 
 import PAI.controller.US07_IWantToCreateASchoolYearController;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

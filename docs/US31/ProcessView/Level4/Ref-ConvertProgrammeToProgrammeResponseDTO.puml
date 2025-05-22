@@ -1,0 +1,15 @@
+@startuml
+autonumber
+
+participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "pMapper:ProgrammeAssembler" as PA #lightgreen
+participant "programmeResponseDTO:ProgrammeResponseDTO" as PDTO
+
+activate C
+C -> PA ++: fromDomainToDTO(Programme)
+PA -> PDTO**: newProgrammeResponseDTO (name, acronym, quantECTS \nquantSemesters, degreeTypeName, departmentName, teacherName)
+activate PDTO
+PDTO --> PA--: programmeResponseDTO
+PA --> C--: programmeResponseDTO
+
+@enduml

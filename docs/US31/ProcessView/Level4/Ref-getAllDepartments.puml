@@ -1,0 +1,42 @@
+@startuml
+autonumber
+
+participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "dService:DepartmentService" as DPS #strategy
+participant "dtAssember:DepartmentAssember" as DA #lightpink
+participant "dDTO:DepartmentDTO" as DDTO #lightgreen
+participant "dRepo:DepartmentRepository" as DPR #lightcyan
+participant "dMapper:DepartmentMapper" as M #lightyellow
+participant "dFactory:DepartmentFactory" as F #lightpink
+participant "department[i]:Department" as DT
+
+activate C
+C -> DPS ++: getAllDepartments()
+
+DPS -> DPR ++: findAll()
+
+DPR -> : findAll()
+DPR <-- : List<DepartmentDataModel>
+
+loop for DepartmentDataModel[i]
+DPR -> M ++: toDomain(departmentDataModel[i])
+M -> F ++: newDepartment(departmentDataModel[i])
+F -> DT**: newDepartment(acronym, name)
+activate DT
+DT --> F --: department[i]
+
+F --> M --: department[i]
+M --> DPR --: department[i]
+end
+
+DPR --> DPS --: List<Department>
+loop for Department[i]
+DPS -> DA ++ :fromDomainToDTO(department[i]))
+DA -> DDTO ++: newDepartmentDTO(department[i]))
+DDTO --> DA --: departmentDTO[i]
+DA --> DPS --: departmentDTO[i]
+end
+
+DPS --> C --: List<DepartmentDTO>
+deactivate C
+@enduml

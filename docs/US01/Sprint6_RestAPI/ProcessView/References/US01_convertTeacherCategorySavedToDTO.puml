@@ -1,0 +1,25 @@
+@startuml
+
+title Convert Teacher Category Saved to DTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+participant ":ITeacherCategoryAssembler" as tcAssembler
+activate Controller #E1F5FE
+Controller -> tcAssembler: toDTO (tc)
+activate tcAssembler #E1F5FE
+
+create "tcResponseDTO: TeacherCategoryResponseDTO"
+tcAssembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create (tc.getId().getValue().toString(), \n tc.getName().getName())
+deactivate tcAssembler
+deactivate Controller
+
+@enduml

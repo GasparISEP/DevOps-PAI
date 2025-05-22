@@ -5,6 +5,8 @@ import PAI.VOs.Description;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
@@ -12,6 +14,7 @@ import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,10 +57,13 @@ class US07_IWantToCreateASchoolYearControllerTest {
 
     // Verify exception is thrown for null parameters
     @Test
-    void shouldThrowExceptionWhenNullParametersArePassed() {
+    void shouldThrowExceptionWhenNullParametersArePassed() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
+        when(schoolYearService.addSchoolYear(null, null, null))
+                .thenThrow(new IllegalArgumentException("Parameters cannot be null"));
+
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -67,47 +73,60 @@ class US07_IWantToCreateASchoolYearControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenEndDateIsNull() {
+    void shouldThrowExceptionWhenEndDateIsNull() throws Exception{
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
-        String description = "ola";
-        String startDate = "22/22/22";
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        when(schoolYearService.addSchoolYear(description, startDate, null))
+                .thenThrow(new IllegalArgumentException("Parameters cannot be null"));
+
+        String description1 = "ola";
+        String startDate1 = "2025-12-12";
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear(description, startDate, null));
+                controller.addSchoolYear(description1, startDate1, null));
 
         assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
     }
 
 
     @Test
-    void shouldThrowExceptionWhenStartDateIsNull() {
+    void shouldThrowExceptionWhenStartDateIsNull() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
-        String description = "ola";
-        String endDate = "22/22/22";
+        Description description = mock(Description.class);
+        Date endDate = mock(Date.class);
+        String description1 = "ola";
+        String endDate1 = "22/22/22";
+        when(schoolYearService.addSchoolYear(description, null, endDate))
+                .thenThrow(new IllegalArgumentException("Parameters cannot be null"));
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear(description, null, endDate));
+                controller.addSchoolYear(description1, null, endDate1));
 
         assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
     }
 
     @Test
-    void shouldThrowExceptionWhenDescriptionIsNull() {
+    void shouldThrowExceptionWhenDescriptionIsNull() throws Exception {
         // Arrange
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
-        String startDate = "21/22/22";
-        String endDate = "22/22/22";
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        String startDate1 = "21/22/22";
+        String endDate1 = "22/22/22";
+        when(schoolYearService.addSchoolYear(null, startDate, endDate))
+                .thenThrow(new IllegalArgumentException("Parameters cannot be null"));
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                controller.addSchoolYear(null, startDate, endDate));
+                controller.addSchoolYear(null, startDate1, endDate1));
 
         assertTrue(exception.getMessage().startsWith("Invalid input:"), "Exception message should indicate invalid input");
     }
@@ -185,8 +204,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         when(schoolYearService.addSchoolYear(any(Description.class), any(Date.class), any(Date.class)))
-                .thenReturn(schoolYear) // 1st creation
-                .thenReturn(schoolYear1); // 2nd creation
+                .thenReturn(schoolYear, schoolYear1);
 
         // Act & Assert
         assertEquals(controller.addSchoolYear("School Year 24/25", "24-09-2024", "31-06-2025"),schoolYear);
@@ -202,7 +220,8 @@ class US07_IWantToCreateASchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearRepository schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         String descriptionInfo = "School Year 24/25";
@@ -221,8 +240,9 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange: Create real dependencies
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         String descriptionInfo = "School Year 24/25";
@@ -248,8 +268,9 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
         // Act & Assert

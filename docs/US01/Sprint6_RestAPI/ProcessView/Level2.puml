@@ -1,0 +1,43 @@
+@startuml
+
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 2)
+
+skinparam componentStyle component
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor Administrator as admin
+
+participant "Frontend" as frontend <<Container>>
+participant "Backend" as backend <<Container>>
+participant "Database" as db <<Container>>
+
+admin -> frontend: I want to configure teacher categories!
+activate frontend #E1F5FE
+
+frontend --> admin: What teacher category name?
+
+admin -> frontend: Enter teacher category name!
+
+frontend --> admin: Sure?
+
+admin -> frontend: Yes!
+
+frontend -> backend: (POST) Request configure a TeacherCategory (name)
+activate backend #E1F5FE
+
+backend -> db: (INSERT) Persist TeacherCategory (name)
+activate db #E1F5FE
+
+db --> backend: teacherCategory
+deactivate db
+
+backend --> frontend: (201, Created) TeacherCategory configurated!
+deactivate backend
+
+frontend --> admin: Ok!
+deactivate frontend
+
+@enduml

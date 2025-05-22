@@ -1,0 +1,26 @@
+@startuml
+
+' US17 - Frontend Granular Flow
+' Process View - Level 3 Frontend
+
+autonumber
+
+title US17: Enrol a Student in a ProgrammeEdition \n (Process View - Level 3 Frontend)
+
+actor ASC
+participant ":StudentEnrolmentForm.vue" as form <<component>> <<ViewComponent>>
+participant ":StudentService" as frontendService <<component>> <<Service>>
+participant ":Router" as router <<component>> <<Router>>
+
+ASC -> form ++: Open enrolment page
+form -> frontendService ++: getAllStudents()
+frontendService --> form --: listOfStudents
+form -> frontendService ++: getValidProgrammeEditions(studentId)
+frontendService --> form --: listOfProgrammeEditions
+
+ASC -> form ++: Submit form with studentId, programmeAcronym, programmeName, schoolYearId
+form -> router: POST /programmeeditions/{...}/enrolments\nBody: studentId
+router --> form: 201 Created
+form --> ASC: Success message
+
+@enduml

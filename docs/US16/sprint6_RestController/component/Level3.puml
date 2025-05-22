@@ -1,104 +1,117 @@
 @startuml
-scale 0.5
-title US16: Enrol a student in a course edition (REST API) - Class Diagram
+title US16: Enroll a Student in a Course Edition - Code Level
 
-' Legend
-legend left
-  <b>Legend</b>
-  <color:blue>Blue arrow</color>: uses (dependency)
-  <color:green>Green arrow</color>: implements (interface implementation)
-  <color:red>Red arrow</color>: creates/persists (object creation or persistence)
-endlegend
-
-skinparam linetype ortho
-skinparam nodesep 150
-skinparam ranksep 150
-skinparam arrowMessageAlign center
-skinparam arrowMessagePosition 0.9
-skinparam padding 8
-
-' Layout hints
-together {
-  class CourseEditionEnrolmentFactory
-  interface ICourseEditionEnrolmentFactory
+' Domain Layer
+package "Domain" {
+    class StudentID {
+        +value: Long
+        +equals(Object obj): boolean
+        +hashCode(): int
+        +toString(): String
+    }
+    
+    class CourseEditionID {
+        +value: Long
+        +equals(Object obj): boolean
+        +hashCode(): int
+        +toString(): String
+    }
+    
+    class CourseEditionEnrolment {
+        +id: CourseEditionEnrolmentID
+        +studentId: StudentID
+        +courseEditionId: CourseEditionID
+        +enrollmentDate: LocalDateTime
+        +equals(Object obj): boolean
+        +hashCode(): int
+        +toString(): String
+    }
+    
+    class CourseEditionEnrolmentID {
+        +value: Long
+        +equals(Object obj): boolean
+        +hashCode(): int
+        +toString(): String
+    }
 }
 
-' Service Layer
-interface ICourseEditionEnrolmentService {
-    +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+' Application Layer
+package "Application" {
+    interface ICourseEditionEnrolmentService {
+        +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        +validateEnrollment(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    }
+    
+    class CourseEditionEnrolmentService {
+        -enrolmentRepository: ICourseEditionEnrolmentRepository
+        -enrolmentFactory: ICourseEditionEnrolmentFactory
+        -enrolmentAssembler: ICourseEditionEnrolmentAssembler
+        +enrolStudentInACourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        +validateEnrollment(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        -checkPrerequisites(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+        -checkScheduleConflicts(studentId: StudentID, courseEditionId: CourseEditionID): boolean
+    }
 }
 
-' Domain Classes
-class CourseEditionEnrolment {
-    +id: CourseEditionEnrolmentID
-    +studentId: StudentID
-    +courseEditionId: CourseEditionID
+' Infrastructure Layer
+package "Infrastructure" {
+    interface ICourseEditionEnrolmentRepository {
+        +save(enrolment: CourseEditionEnrolment): boolean
+        +findByStudentAndCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): Optional<CourseEditionEnrolment>
+        +findAllByStudentId(studentId: StudentID): List<CourseEditionEnrolment>
+        +delete(enrolment: CourseEditionEnrolment): boolean
+    }
+    
+    class CourseEditionEnrolmentRepositoryImpl {
+        -jpaRepository: JpaRepository<CourseEditionEnrolmentEntity, Long>
+        +save(enrolment: CourseEditionEnrolment): boolean
+        +findByStudentAndCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): Optional<CourseEditionEnrolment>
+        +findAllByStudentId(studentId: StudentID): List<CourseEditionEnrolment>
+        +delete(enrolment: CourseEditionEnrolment): boolean
+        -toEntity(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentEntity
+        -toDomain(entity: CourseEditionEnrolmentEntity): CourseEditionEnrolment
+    }
+
+    interface ICourseEditionEnrolmentAssembler {
+        +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+        +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
+    }
+
+    class CourseEditionEnrolmentAssembler {
+        +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+        +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
+    }
 }
 
-' Data Models
-class CourseEditionEnrolmentDataModel {
-    +id: Long
-    +studentId: Long
-    +courseEditionId: Long
-}
-
-interface ICourseEditionEnrolmentMapperDataModel {
-    +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
-}
-
-class CourseEditionEnrolmentMapperDataModel {
-    +toDataModel(enrolment: CourseEditionEnrolment): CourseEditionEnrolmentDataModel
-}
-
-' Assembler
-interface ICourseEditionEnrolmentAssembler {
-    +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
-    +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
-}
-
-class CourseEditionEnrolmentAssembler {
-    +assembleEnrolment(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
-    +disassembleEnrolment(enrolment: CourseEditionEnrolment): EnrolStudentCourseEditionDto
-}
-
-' Repository
-interface ICourseEditionEnrolmentRepository {
-    +isStudentEnrolledInCourseEdition(studentId: StudentID, courseEditionId: CourseEditionID): boolean
-    +save(enrolment: CourseEditionEnrolmentDataModel): boolean
-}
-
-' Controller
-class CourseEditionEnrolmentRestController {
-    -courseEditionEnrolmentService: ICourseEditionEnrolmentService
-    +enrolStudentInCourseEdition(dto: EnrolStudentCourseEditionDto): ResponseEntity<Void>
-}
-
-' Factory
-interface ICourseEditionEnrolmentFactory {
-    +create(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
-}
-
-class CourseEditionEnrolmentFactory {
-    +create(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
+' Interface Layer
+package "Interface" {
+    class CourseEditionEnrolmentRestController {
+        -enrolmentService: ICourseEditionEnrolmentService
+        -logger: Logger
+        +enrolStudentInCourseEdition(dto: EnrolStudentCourseEditionDto): ResponseEntity<Void>
+        +getStudentEnrollments(studentId: Long): ResponseEntity<List<CourseEditionEnrolmentDto>>
+        +deleteEnrollment(enrollmentId: Long): ResponseEntity<Void>
+        -validateDto(dto: EnrolStudentCourseEditionDto): boolean
+    }
+    
+    class EnrolStudentCourseEditionDto {
+        +studentId: Long
+        +courseEditionId: Long
+        +equals(Object obj): boolean
+        +hashCode(): int
+        +toString(): String
+    }
 }
 
 ' Relationships
-CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentService : uses
-ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentRepository : uses
-ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentAssembler : uses
-ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentFactory : uses
-ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentMapperDataModel
-ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentFactory
-ICourseEditionEnrolmentRepository -[#blue]-> ICourseEditionEnrolmentMapperDataModel : uses
+CourseEditionEnrolmentService ..|> ICourseEditionEnrolmentService
+CourseEditionEnrolmentService --> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentService --> ICourseEditionEnrolmentFactory
+CourseEditionEnrolmentService --> ICourseEditionEnrolmentAssembler
+CourseEditionEnrolmentAssembler ..|> ICourseEditionEnrolmentAssembler
+CourseEditionEnrolmentRepositoryImpl ..|> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentRestController --> ICourseEditionEnrolmentService
 
-' Implementations
-CourseEditionEnrolmentMapperDataModel ..[#green]|> ICourseEditionEnrolmentMapperDataModel : implements
-CourseEditionEnrolmentFactory ..[#green]|> ICourseEditionEnrolmentFactory : implements
-CourseEditionEnrolmentAssembler ..[#green]|> ICourseEditionEnrolmentAssembler : implements
-
-' Creations
-ICourseEditionEnrolmentFactory ..[#red]> CourseEditionEnrolment : creates
-ICourseEditionEnrolmentMapperDataModel ..[#red]> CourseEditionEnrolmentDataModel : creates
-ICourseEditionEnrolmentRepository ..[#red]> CourseEditionEnrolmentDataModel : persists
-
-@enduml
+@enduml 

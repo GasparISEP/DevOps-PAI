@@ -1,0 +1,46 @@
+@startuml
+
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 3 Granularity)
+
+autonumber
+
+
+participant ":Router" as router <<component>> <<Router>> #lightblue
+participant ":RESTController" as restController <<component>> <<RESTController>> #teal
+participant ":Service" as service <<component>> <<Service>> #lightgreen
+participant ":Domain" as domain <<component>> <<Domain>> #orange
+participant ":Repository" as repository <<component>> <<Repository>> #grey
+
+
+note over router: The method `addCourseToProgramme` includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
+
+-> router: addCourseToProgramme (semester,\n curricularYear,\n courseID,\n studyPlanID,\n durationOfCourse,\n quantityOfCreditsEcts)
+activate router #E1F5FE
+
+router -> restController: addCourseToProgramme (DTO)
+activate restController #E1F5FE
+
+restController -> service: addCourseToProgramme (VO)
+activate service #E1F5FE
+
+service -> domain: addCourseToProgramme (VO)
+activate domain #E1F5FE
+
+domain -> service: courseInStudyPlan
+deactivate domain
+
+service --> repository: save(courseInStudyPlan)
+activate repository #E1F5FE
+
+repository --> service: courseInStudyPlan
+deactivate repository
+
+service --> restController: courseInStudyPlan
+deactivate service
+
+restController --> router: (201, Created) courseInStudyPlanDTO
+deactivate restController
+
+<-- router: (201, Created) courseInStudyPlanJSON
+
+@enduml

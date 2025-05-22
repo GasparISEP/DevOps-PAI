@@ -13,17 +13,18 @@ skinparam sequence {
 }
 
 actor "Administrator" as Administrator
-participant ":UI" as UI
-participant ":US05_RegisterDepartmentController" as Controller
-participant ":IDepartmentRegistryService" as Service
-participant ":IDepartmentMapperDTO" as Mapper
-participant "rdr1:RegisterDepartmentRequest" as Request #LightYellow
+participant ":Frontend" as UI
+participant ":DepartmentRestController" as Controller
+participant ":IDepartmentRegistrationService" as Service
+participant ":IDepartmentAssembler" as Mapper
+participant "rdc1:RegisterDepartmentCommand" as Request #LightYellow
 participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
-participant ":DepartmentFactory" as Factory
-participant "d1:Department" as Department #LightBlue
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentDataModelMapper" as DataModelMapper
+participant ":DepartmentFactory" as Factory
+participant "d1:Department" as Department #LightBlue
 participant "d1DM:DepartmentDataModel" as DepartmentDataModel #LightYellow
+participant "d1.saved:Department" as Department2 #LightBlue
 participant ":IDepartmentSpringDataRepository" as SpringDataRepo
 
 group Human Interaction
@@ -35,32 +36,34 @@ Administrator -> UI ++: "Software Engineering Department"
 end group
 
 group HTTP Request
-UI -> Controller ++: (POST) /departments\nwith JSON { acronym, name }
+UI -> Controller ++: (POST) /departments\nwith JSON { RegisterDepartmentRequest request }
 end group
 
 group Mapping JSON to Request (VOs)
-Controller -> Mapper ++: toRequestDTO(json)
-Mapper -> Request **: <create> RegisterDepartmentRequest\n(acronym, name)
-Mapper --> Controller --: rdr1
+Controller -> Mapper ++: toRequestCommand(request)
+Mapper -> Request **: <create> RegisterDepartmentCommand\n(request.acronym(), request.name())
+Mapper --> Controller --: rdc1
 end group
 
 group Application Service
-Controller -> Service ++: createAndSaveDepartment(rdr1)
+Controller -> Service ++: createAndSaveDepartment(rdc1)
 end group
 
 group Domain Logic – Department Creation
-Service -> Factory ++: newDepartment(request.acronym(), request.name())
+Service -> Factory ++: newDepartment(acronym, name)
 Factory -> Department **: <create> Department(acronym, name)
 Factory --> Service --: d1
 end group
 
+group Validation
+Service -> Repository ++: containsOfIdentity(d1.identity())
+Repository -> SpringDataRepo ++: existsById(mapper.toDataModel(d1.identity()))
+SpringDataRepo --> Repository --: false
+Repository --> Service --: false
+end group
+
 group Persistence
 Service -> Repository ++: save(d1)
-
-group Validation
-Repository -> SpringDataRepo ++: containsOfIdentity(d1.identity())
-SpringDataRepo --> Repository --: false
-end group
 
 group Mapping Domain to DataModel
 Repository -> DataModelMapper ++: toDataModel(d1)
@@ -70,22 +73,30 @@ end group
 
 group Spring Data Persistence
 Repository -> SpringDataRepo ++: save(d1DM)
-SpringDataRepo --> Repository --: d1.saved
+SpringDataRepo --> Repository --: d1DM.saved
 end group
 
-Repository --> Service --: d1.saved
+group Mapping DataModel to Domain
+Repository -> DataModelMapper ++: toDomain(d1DM)
+DataModelMapper -> Factory ++: newDepartment (acronym, name)
+Factory -> Department2 **: <create> Department(acronym, name)
+Factory --> DataModelMapper --: d1.saved
+DataModelMapper --> Repository --: d1.saved
+end group
+
+Repository --> Service --: d1
 Service --> Controller --: d1
 
 end group
 
 group Mapping Domain to Output DTO
 Controller -> Mapper ++: toDTO(d1)
-Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name)
-Mapper --> Controller --: DepartmentDTO
+Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name, teacherID)
+Mapper --> Controller --: d1DTO
 end group
 
 group Response
-Controller --> UI --: HTTP 201 Created + DepartmentDTO
+Controller --> UI --: HTTP 201 Created + d1DTO
 UI --> Administrator --: Department successfully registered
 end group
 

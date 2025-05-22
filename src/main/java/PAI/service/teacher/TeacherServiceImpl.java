@@ -12,8 +12,8 @@ import java.util.Optional;
 @Service
 public class TeacherServiceImpl implements ITeacherService {
 
-    private ITeacherFactory _teacherFactory;
-    private ITeacherRepository _teacherRepository;
+    private final ITeacherFactory _teacherFactory;
+    private final ITeacherRepository _teacherRepository;
 
     public TeacherServiceImpl (ITeacherFactory teacherFactory, ITeacherRepository teacherRepository) {
 

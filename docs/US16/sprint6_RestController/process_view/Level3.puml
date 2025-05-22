@@ -1,145 +1,59 @@
 @startuml
-title US16: Enrol a student in a course edition (REST API)
 autonumber
-skinparam {
-  ActivityPadding 2
-  ActivityMargin 2
-  BoxPadding 2
+
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
 }
-skinparam defaultTextAlignment center
-skinparam shadowing true
 
-actor Client
-participant ":UI" as UI
-participant ":US16_EnrolAStudentInACourseEditionRestController" as RestController
-participant ":IStudentService" as StudentService
-participant ":IStudentRepository" as StudentRepository
-participant ":IProgrammeEditionService" as ProgrammeEditionService
-participant ":ICourseEditionService" as CourseEditionService
-participant ":ICourseEditionEnrolmentService" as CourseEditionEnrolmentService
-participant ":IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrolmentRepository
-participant ":ICourseEditionRepository" as CourseEditionRepository
-participant ":ICourseEditionEnrolmentRepository" as CourseEditionEnrolmentRepository
-participant ":ICourseEditionEnrolmentFactory" as CourseEditionEnrolmentFactory
-participant ":StudentMapper" as StudentMapper
-participant ":ProgrammeEditionMapper" as ProgrammeEditionMapper
-participant ":CourseEditionMapper" as CourseEditionMapper
-participant ":CourseEditionEnrolmentAssembler" as CourseEditionEnrolmentAssembler
-participant ":CourseEditionEnrolmentMapperDataModel" as CourseEditionEnrolmentMapperDataModel
+title US16: Enroll a Student in a Course Edition\nProcess View – Level 3
 
-Client -> UI: I want to enrol a student in a course edition!
-activate UI #E1F5FE
-UI --> Client: What Student?
-deactivate UI
+actor ASC as "Academic Services Coordinator"
+participant ":Frontend" as FE
+participant ":Controller" as CT
+participant ":Service" as SE
+participant ":Domain" as DM
+participant ":Repository" as RE
 
-' Search for Student
-Client -> UI: Search for student
-activate UI #E1F5FE
-UI -> RestController: GET /api/students?search={searchTerm}
-activate RestController #E1F5FE
-RestController -> StudentService: findStudents(searchTerm)
-activate StudentService #E1F5FE
-StudentService -> StudentRepository: findStudents(searchTerm)
-activate StudentRepository #E1F5FE
-StudentRepository --> StudentService: List<Student>
-deactivate StudentRepository
-StudentService --> RestController: List<Student>
-deactivate StudentService
-RestController -> StudentMapper: toDto(Student)
-activate StudentMapper #E1F5FE
-StudentMapper --> RestController: StudentDto
-deactivate StudentMapper
-RestController --> UI: 200 OK (List<StudentDto>)
-deactivate RestController
-UI --> Client: Here are the matching students. Select one.
-deactivate UI
+group Human Interaction
+ASC -> FE ++: Request to enroll a student
+FE --> ASC --: Prompt: "Enter student name"
+ASC -> FE ++: Input: "John Doe"
+FE --> ASC --: Display matching students
+ASC -> FE ++: Select student
+FE --> ASC --: Display programme editions
+ASC -> FE ++: Select programme edition
+FE --> ASC --: Display course editions
+ASC -> FE ++: Select course edition
+end group
 
-' Get Programme Editions for Selected Student
-Client -> UI: Select student
-activate UI #E1F5FE
-UI -> RestController: GET /api/students/{studentId}/programme-editions
-activate RestController #E1F5FE
-RestController -> ProgrammeEditionService: findProgrammeEditionsByStudent(studentID)
-activate ProgrammeEditionService #E1F5FE
-ProgrammeEditionService -> ProgrammeEditionEnrolmentRepository: findProgrammeEditionsThatStudentIsEnrolled(studentID)
-activate ProgrammeEditionEnrolmentRepository #E1F5FE
-ProgrammeEditionEnrolmentRepository --> ProgrammeEditionService: List<ProgrammeEditionID>
-deactivate ProgrammeEditionEnrolmentRepository
-ProgrammeEditionService --> RestController: List<ProgrammeEditionID>
-deactivate ProgrammeEditionService
-RestController -> ProgrammeEditionMapper: toDto(ProgrammeEditionID)
-activate ProgrammeEditionMapper #E1F5FE
-ProgrammeEditionMapper --> RestController: ProgrammeEditionDto
-deactivate ProgrammeEditionMapper
-RestController --> UI: 200 OK (List<ProgrammeEditionDto>)
-deactivate RestController
-UI --> Client: Here is a list of programme editions the student is enrolled in. What Programme Edition?
-deactivate UI
+group HTTP Request
+FE -> CT ++: (POST) /courseeditions/enrolments with JSON {request}
+end group
 
-' Get Course Editions by Programme Edition
-Client -> UI: Enter the Programme Edition!
-activate UI #E1F5FE
-UI -> RestController: GET /api/programme-editions/{programmeEditionId}/course-editions
-activate RestController #E1F5FE
-RestController -> CourseEditionService: findCourseEditionsByProgrammeEdition(programmeEditionID)
-activate CourseEditionService #E1F5FE
-CourseEditionService -> CourseEditionRepository: findCourseEditionsByProgrammeEditionID(programmeEditionID)
-activate CourseEditionRepository #E1F5FE
-CourseEditionRepository --> CourseEditionService: List<CourseEditionID>
-deactivate CourseEditionRepository
-CourseEditionService --> RestController: List<CourseEditionID>
-deactivate CourseEditionService
-RestController -> CourseEditionMapper: toDto(CourseEditionID)
-activate CourseEditionMapper #E1F5FE
-CourseEditionMapper --> RestController: CourseEditionDto
-deactivate CourseEditionMapper
-RestController --> UI: 200 OK (List<CourseEditionDto>)
-deactivate RestController
-UI --> Client: Here is a list of Course Editions! What Course Edition?
-deactivate UI
+group Application Service Invocation
+CT -> SE ++: enrollStudentInCourseEdition(command)
 
-' Enrol Student in Course Edition
-Client -> UI: Enter the Course Edition!
-activate UI #E1F5FE
-UI --> Client: Sure?
-deactivate UI
-Client -> UI: Yes!
-activate UI #E1F5FE
-UI -> RestController: POST /api/courseeditions/{courseEditionId}/enrolments
-activate RestController #E1F5FE
-RestController -> CourseEditionEnrolmentService: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
-activate CourseEditionEnrolmentService #E1F5FE
+group Domain Logic
+SE -> DM ++: CourseEditionEnrolment enrollment = new CourseEditionEnrolment(command.studentId(), command.programmeEditionId(), command.courseEditionId())
+DM --> SE --: enrollment
+end group
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentAssembler: toDomain(EnrolStudentCourseEditionDto)
-activate CourseEditionEnrolmentAssembler #E1F5FE
-CourseEditionEnrolmentAssembler --> CourseEditionEnrolmentService: StudentID, CourseEditionID
-deactivate CourseEditionEnrolmentAssembler
+group Persistence
+SE -> RE ++: save(enrollment)
+RE --> SE --: Persisted enrollment
+end group
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentFactory: create(studentID, courseEditionID)
-activate CourseEditionEnrolmentFactory #E1F5FE
-CourseEditionEnrolmentFactory --> CourseEditionEnrolmentService: CourseEditionEnrolment
-deactivate CourseEditionEnrolmentFactory
+SE --> CT --: enrollment
+end group
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentRepository: isStudentEnrolledInCourseEdition(studentID, courseEditionID)
-activate CourseEditionEnrolmentRepository #E1F5FE
-CourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: false
-deactivate CourseEditionEnrolmentRepository
+group HTTP Response
+CT --> FE --: HTTP 201 Created + EnrollmentDTO
+FE --> ASC --: Student enrolled successfully
+end group
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentMapperDataModel: toDataModel(CourseEditionEnrolment)
-activate CourseEditionEnrolmentMapperDataModel #E1F5FE
-CourseEditionEnrolmentMapperDataModel --> CourseEditionEnrolmentService: CourseEditionEnrolmentDataModel
-deactivate CourseEditionEnrolmentMapperDataModel
-
-CourseEditionEnrolmentService -> CourseEditionEnrolmentRepository: save(courseEditionEnrolmentDataModel)
-activate CourseEditionEnrolmentRepository #E1F5FE
-CourseEditionEnrolmentRepository --> CourseEditionEnrolmentService: true
-deactivate CourseEditionEnrolmentRepository
-
-CourseEditionEnrolmentService --> RestController: true
-deactivate CourseEditionEnrolmentService
-RestController --> UI: 201 Created
-deactivate RestController
-UI --> Client: Student successfully enrolled in course edition!
-deactivate UI
-
-@enduml
+@enduml 

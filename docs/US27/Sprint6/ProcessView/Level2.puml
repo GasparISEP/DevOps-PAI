@@ -1,50 +1,85 @@
 @startuml
-title Register a Programme, including Study Plan (Granularity 2)
+title Register a Programme, including Study Plan (System - Granularity 2)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
 
-actor ASC
-participant Frontend
-participant Backend
-database Database
+actor ASC #F5B041
+participant Frontend <<container>> #D7BDE2
+participant Backend <<container>> #A2D9CE
+database Database <<container>> #F9E79F
 
-ASC -> Frontend: Fill and submit programme form
 activate Frontend
-
-Frontend -> Backend: POST /programmes
+ASC -> Frontend: **requestProgrammeRegistration**()
+Frontend --> ASC: **provideRequiredDataFields**()
+|||
+ASC -> Frontend: **getAvailableDegreeTypes**()
+Frontend -> Backend: **(GET) getAllDegreeTypes**()
+activate Backend
+Backend -> Database: **findAll**()
+activate Database
+Database --> Backend: degreeTypesDMList
+deactivate Database
+Backend --> Frontend: degreeTypesList
+deactivate Backend
+Frontend --> ASC: degreeTypesList
+|||
+ASC -> Frontend: **getAvailableDepartments**()
+Frontend -> Backend: **(GET) getAllDepartments**()
+activate Backend
+Backend -> Database: **findAll**()
+activate Database
+Database --> Backend: departmentsDMList
+deactivate Database
+Backend --> Frontend: departmentsList
+deactivate Backend
+Frontend --> ASC: departmentsList
+|||
+ASC -> Frontend: **getAvailableTeachers**()
+Frontend -> Backend: **(GET) getAllTeachers**()
+activate Backend
+Backend -> Database: **findAll**()
+activate Database
+Database --> Backend: teachersDMList
+deactivate Database
+Backend --> Frontend: teachersList
+deactivate Backend
+Frontend --> ASC: teachersList
+|||
+ASC -> Frontend: **selectIncludeStudyPlanOption**(yes)
+Frontend --> ASC: **provideStudyPlanDataFields**()
+|||
+ASC -> Frontend: **submitProgrammeDataWithStudyPlan**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector, studyPlanStartingDate)
+Frontend -> Backend: **(POST) registerProgrammeWithStudyPlan**\n(ProgrammeStudyPlanDTO)
 activate Backend
 note right Frontend
-  Sent as JSON format
-  Received as programmeDTO
+  Receive as JSON format,
+  Converted to
+  ProgrammeStudyPlanDTO
 end note
 
-Backend -> Database: Save(programmeDM)
+Backend -> Database: **save**(programmeDM)
 activate Database
-Database --> Backend: OK
+Database --> Backend: True
+deactivate Database
+|||
+Backend -> Database: **findById**(degreeTypeIdDM)
+activate Database
+Backend <-- Database: degreeTypeIdDM
+deactivate Database
+|||
+Backend -> Database: **save**(studyPlanDM)
+activate Database
+Database --> Backend: True
 deactivate Database
 
-Backend --> Frontend: 201 Created + programmeId
+Backend --> Frontend: 201 Created \n+ \nProgrammeStudyPlanResponseDTO\t
 deactivate Backend
-
-Frontend --> ASC: Confirmation message
-deactivate Frontend
-
-ASC -> Frontend: Submit study plan data
-activate Frontend
-Frontend -> Backend: POST /programmes/studyplans
-activate Backend
 note right Frontend
-  Sent as JSON format
-  Received as studyPlanDTO
+  Send as
+  ProgrammeStudyPlanResponseDTO,
+  Converted to JSON
 end note
 
-Backend -> Database: Save(studyPlanDM)
-activate Database
-Database --> Backend: OK
-deactivate Database
-
-Backend --> Frontend: 201 Created
-deactivate Backend
-
-Frontend --> ASC: Confirmation message
-deactivate Frontend
-
+Frontend --> ASC: Confirmation \n+ \ncreated programme details
 @enduml

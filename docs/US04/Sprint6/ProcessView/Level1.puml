@@ -1,0 +1,25 @@
+@startuml
+autonumber
+
+title US04: As an Administrator, I want to register a teacher in the system.
+
+actor Administrator
+participant ":System" as System #lightgrey
+
+activate System #silver
+Administrator -> System: I want to register a teacher.
+System --> Administrator: What are the Teacher's attributes?
+Administrator -> System: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, \n country, date, workingPercentage
+System --> Administrator: Which Category?
+Administrator -> System: teacherCategory
+System --> Administrator: Which Department?
+Administrator -> System: department
+System --> Administrator: Teacher registered successfully!
+deactivate System
+
+
+Note Right Administrator #lightgray/White
+    **teacherCategory** = A Teacher Category already in system
+    **department** = A Department already in system
+End Note
+@enduml
