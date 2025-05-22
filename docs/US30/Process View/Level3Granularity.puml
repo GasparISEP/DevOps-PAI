@@ -1,9 +1,8 @@
 @startuml
 
-title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 3 Granularity)
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 3 - Backend)
 
 autonumber
-
 
 participant ":Router" as router <<component>> <<Router>> #lightblue
 participant ":RESTController" as restController <<component>> <<RESTController>> #teal
@@ -12,13 +11,20 @@ participant ":Domain" as domain <<component>> <<Domain>> #orange
 participant ":Repository" as repository <<component>> <<Repository>> #grey
 
 
-note over router: The method `addCourseToProgramme` includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
+note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
 
--> router: addCourseToProgramme (semester,\n curricularYear,\n courseID,\n studyPlanID,\n durationOfCourse,\n quantityOfCreditsEcts)
+-> router: addCourseToProgramme (JSON)
 activate router #E1F5FE
+
+note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+
 
 router -> restController: addCourseToProgramme (DTO)
 activate restController #E1F5FE
+
+ref over restController
+    Convert addCourseToProgrammeRequestDTO to addCourseToProgrammeRequestVO
+end
 
 restController -> service: addCourseToProgramme (VO)
 activate service #E1F5FE
@@ -35,6 +41,10 @@ activate repository #E1F5FE
 repository --> service: courseInStudyPlan
 deactivate repository
 
+ref over restController
+    Convert courseInStudyPlanVO to courseInStudyPlanDTO
+end
+
 service --> restController: courseInStudyPlan
 deactivate service
 
@@ -42,5 +52,7 @@ restController --> router: (201, Created) courseInStudyPlanDTO
 deactivate restController
 
 <-- router: (201, Created) courseInStudyPlanJSON
+
+note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
 @enduml
