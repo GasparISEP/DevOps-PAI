@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class SchoolYearDTO {
 
     private String _description;
-    private LocalDate _endDate;
-    private LocalDate _startDate;
+    private String _endDate;
+    private String _startDate;
 
     public SchoolYearDTO() {}
 
-    public SchoolYearDTO (String description, LocalDate startDate, LocalDate endDate) {
+    public SchoolYearDTO (String description, String startDate, String endDate) {
         _description = description;
         _startDate = startDate;
         _endDate = endDate;
@@ -20,11 +20,11 @@ public class SchoolYearDTO {
         return _description;
     }
 
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return _endDate;
     }
 
-    public LocalDate getStartDate() {
+    public String getStartDate() {
         return _startDate;
     }
 }

@@ -1,0 +1,19 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title US04: Register a Teacher in the System - Container View
+
+Person(admin, "Administrator", "A person responsible for registering teachers")
+System_Boundary(system, "Teacher Registration System") {
+    Container(ui, "Web Application", "Spring Boot", "Delivers the web interface to the Administrator")
+    Container(api, "API Application", "Spring Boot", "Provides registration functionality via REST API")
+    ContainerDb(db, "Database", "Stores registered teacher information")
+}
+
+Rel(admin, ui, "Uses", "HTTPS")
+Rel(ui, api, "Makes API calls to", "HTTPS/JSON")
+Rel(api, db, "Reads from and writes to", "JDBC")
+
+@enduml

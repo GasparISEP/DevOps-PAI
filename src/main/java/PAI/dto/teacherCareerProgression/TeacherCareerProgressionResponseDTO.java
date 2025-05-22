@@ -20,4 +20,20 @@ public class TeacherCareerProgressionResponseDTO {
     public String getTcpid() {
         return tcpid;
     }
+
+    public String getDate(){
+        return date;
+    }
+
+    public String getTcid() {
+        return tcid;
+    }
+
+    public int getWorkingpercentage() {
+        return workingpercentage;
+    }
+
+    public String getTeacherid() {
+        return teacherid;
+    }
 }
