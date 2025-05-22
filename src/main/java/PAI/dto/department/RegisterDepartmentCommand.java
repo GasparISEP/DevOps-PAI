@@ -1,11 +1,12 @@
 package PAI.dto.department;
 
-import PAI.VOs.Acronym;
+
+import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 
 public record RegisterDepartmentCommand (
         Name name,
-        Acronym acronym
+        DepartmentAcronym acronym
 ) {
     public RegisterDepartmentCommand {
         if (name == null || name.getName().isBlank()) {

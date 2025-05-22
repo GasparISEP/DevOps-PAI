@@ -1,6 +1,7 @@
 package PAI.dto.department;
 
-import PAI.VOs.Acronym;
+
+import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class RegisterDepartmentCommandTest {
         // Arrange
         Name name = mock(Name.class);
         when(name.getName()).thenReturn("Software Engineering Department");
-        Acronym acronym = mock(Acronym.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
 
         // Act
@@ -29,7 +30,7 @@ class RegisterDepartmentCommandTest {
     @Test
     void shouldThrowExceptionWhenNameIsNull() {
         // Arrange
-        Acronym acronym = mock(Acronym.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
 
         // Act & Assert
@@ -44,7 +45,7 @@ class RegisterDepartmentCommandTest {
         // Arrange
         Name name = mock(Name.class);
         when(name.getName()).thenReturn("");
-        Acronym acronym = mock(Acronym.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
 
         // Act & Assert
@@ -72,7 +73,7 @@ class RegisterDepartmentCommandTest {
         // Arrange
         Name name = mock(Name.class);
         when(name.getName()).thenReturn("Software Engineering Department");
-        Acronym acronym = mock(Acronym.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("");
 
         // Act & Assert
