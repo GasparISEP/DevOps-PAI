@@ -2,6 +2,7 @@ package PAI.initializer;
 
 import PAI.controller.US07_IWantToCreateASchoolYearController;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,9 +28,9 @@ class SchoolYearInitializerTest {
     @Test
     void shouldInitializeAndRegisterSchoolYearsFromCsv() throws Exception {
         // Arrange
-        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYearDTO schoolYearDTO = mock(SchoolYearDTO.class);
         when(controller.addSchoolYear(anyString(), anyString(), anyString()))
-                .thenReturn(schoolYear);
+                .thenReturn(schoolYearDTO);
 
 
         // Act

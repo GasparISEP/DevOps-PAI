@@ -1,0 +1,54 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title I want to know the approval percentage of a Course Edition \n (Process View Level 4)
+skinparam sequencemessagealign center
+
+actor ProgrammeDirector
+participant ":UI" as UI #application
+participant "ceRestCtrl:CourseEditionRESTController" as RestCtrl #motivation
+participant ":StudentGradeServiceImpl" as SGService #business
+participant ":StudentGradeRepositorySpringDataImpl" as SGRepoSpringData #technology
+
+ProgrammeDirector -> UI  : I want to know approval percentage of a Course Edition
+activate UI
+UI --> ProgrammeDirector  : Course Edition?
+deactivate UI
+ProgrammeDirector -> UI  : CourseEditionID!
+activate UI
+
+UI -> RestCtrl : CalculateApprovalPercentageOfACourseEdition(CourseEditionID)
+activate RestCtrl
+RestCtrl -> SGService : knowApprovalRate(CourseEditionID)
+activate SGService
+
+SGService -> SGRepoSpringData : Find All Students' Grades
+activate SGRepoSpringData
+SGRepoSpringData -> SGRepoSpringData: findAll()
+SGRepoSpringData --> SGService : Students' Grades
+deactivate SGRepoSpringData
+
+loop for each StudentGrade in CourseEdition
+    SGService -> SGRepoSpringData : hasThisCourseEdition(:ceIdVO1)
+    activate SGRepoSpringData
+    SGRepoSpringData --> SGService : True!
+    deactivate SGRepoSpringData
+
+    SGService -> SGRepoSpringData : knowGrade()
+    activate SGRepoSpringData
+    SGRepoSpringData --> SGService : grade
+    deactivate SGRepoSpringData
+
+    SGService -> SGService : Calculate Approval (increment if >=10)
+end
+
+SGService --> RestCtrl : Approval Percentage
+deactivate SGService
+
+RestCtrl --> UI : Approval Percentage
+deactivate RestCtrl
+
+UI --> ProgrammeDirector : Know Approval Percentage of courseEdition1
+deactivate UI
+@enduml

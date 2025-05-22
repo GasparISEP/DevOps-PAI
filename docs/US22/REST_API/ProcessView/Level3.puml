@@ -1,22 +1,21 @@
 @startuml
 
 autonumber
-skinparam sequenceMessageAlign center
-skinparam sequenceLifeLineBackgroundColor lightblue
-title I want to know the approval percentage of a Course Edition \n (Process View Level 3)
+title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 3)
 skinparam sequencemessagealign center
+autonumber
 
 actor RUC
-participant ":UI" as UI #application
+participant ":UI" as ui #application
 participant ":Controller" as controller #motivation
 participant ":Service" as service #business
 participant ":Repository" as repo #technology
 participant ":Domain" as domain #physical
 database db #wheat
 
-RUC -> UI : Find approval rate in a **CourseEdition**
-activate UI
-UI -> controller : Retrieve all Course Editions
+RUC -> ui : Select **Student grading** in a **CourseEdition** functionality
+activate ui
+ui -> controller : Retrieve all Course Editions
 activate controller
 controller -> service : Retrieve all Course Editions
 activate service
@@ -30,32 +29,46 @@ repo --> service : All Course Editions
 deactivate repo
 service --> controller : All Course Editions
 deactivate service
-controller --> UI : All Course Editions
+controller --> ui : All Course Editions
 deactivate controller
 
 
-UI --> RUC : Choose a Course Edition
-RUC -> UI : Course Edition!
+ui --> RUC : Choose a Course Edition
 
+RUC -> ui : Fill in the **Student grading** information \n (Grade, Date, StudentID)
 
-UI -> controller : Calculate approval rate
+ui -> controller : Submit Student grading information
 
 activate controller
-controller -> service : Calculate approval rate
+controller -> service : Create a new Student grade
 
 activate service
-service -> repo : Retrieve students' grades.
+service -> repo : Validate grading constraints
 activate repo
-repo --> service : Students' grades
+repo --> service : true
 deactivate repo
 
-service --> controller : Approval rate
+service -> domain : Create new Student grade
+activate domain
+domain --> service : Student Grade
+deactivate domain
+
+service -> repo : save Student Grade
+activate repo
+repo -> db : save
+activate db
+db --> repo : saved!
+deactivate db
+repo --> service : Student Grade saved!
+deactivate repo
+
+service --> controller : Student Grade saved!
 deactivate service
 
-controller --> UI : Approval rate
+controller --> ui : Student Grade saved!
 deactivate controller
 
-UI --> RUC : Approval rate!
-deactivate UI
+ui --> RUC : Student graded successfully!
+deactivate ui
 
 @enduml

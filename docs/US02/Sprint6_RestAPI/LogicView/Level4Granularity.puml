@@ -1,0 +1,167 @@
+@startuml
+skinparam ranksep 25
+skinparam nodesep 25
+skinparam classBackgroundColor #E1F5FE
+skinparam linetype ortho
+
+
+'===== CONTROLLER =======
+class US02_ConfigureAccessMethod_RESTController {
+    +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
+    +configureAccessMethod(accessMethoDTO: AccessMethodRequestDTO): AccessMethodResponseDTO
+}
+
+'===AGGREGATE===
+
+package "AccessMethod Aggregate" {
+    entity AccessMethod <<Root>> <<Entity>> {
+    + AccessMethod(accessMethodId: AccessMethodId,\n accessMethodName: NameWithNumbersAndSpecialChars)
+    + Equals(Object objectToCompare)
+    }
+}
+
+'===VALUE OBJECTS===
+class NameWithNumbersAndSpecialChars <<Value Object>> {
+    - nameWithNumbersAndSpecialChars: String
+    + isNameInvalid(name: String)
+    + getNameWithNumbersAndSpecialChars(): String
+}
+
+class  AccessMethodID <<Value Object>>{
+    - id: String
+    + Equals(Object objectToCompare)
+}
+
+'===DATAMODEL===
+
+class AccessMethodDataModel <<DataModel>> {
+    - accessMethodId: UUID
+    - accessMethodName: String
+    + AccessMethodDataModel(accessMethodId: UUID,\n accessMethodName: String)
+    + getAccessMethodID(): AccessMethodID
+    + getName : String
+}
+
+class AccessMethodIDDataModel <<DataModel>> {
+    - id: String
+    + Equals(Object objectToCompare)
+}
+
+'===MAPPERS===
+
+interface IAccessMethodMapper{
+    + toDomain(accessMethodDataModel: AccessMethodDataModel): Optional<AccessMethod>
+    + toDataModel(accessMethod: AccessMethod): Optional<AccessMethodDataModel>
+}
+
+interface IAccessMethodIDMapper{
+    + toVO (accessMethodIDDataModel: AccessMethodIDDataModel): AccessMethodID
+    + toDataModel (accessMethodID: AccessMethodID): Optional<AccessMethodIDDataModel>
+}
+
+class AccessMethodIDMapperImpl {
+    + toVO (accessMethodIDDataModel: AccessMethodIDDataModel): Optional<AccessMethodID>
+    + toDataModel (accessMethodID: AccessMethodID): Optional<AccessMethodIDDataModel>
+}
+
+class AccessMethodMapperImpl {
+    + toDomain (accessMethodDataModel: AccessMethodDataModel): Optional<AccessMethod>
+    + toDataModel (accessMethod: AccessMethod): Optional<AccessMethodDataModel>
+}
+
+'===REPOSITORY===
+
+interface IAccessMethodRepositorySpringData{
+}
+
+interface IAccessMethodRepository {
+    +saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
+    +getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
+}
+
+class AccessMethodRepositorySpringDataImpl {
+    + saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
+    + getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
+    }
+
+'===DTO===
+class AccessMethodRequestDTO <<Record>>{
+    - accessMethodName: String
+}
+class AccessMethodResponseDTO <<Record>>{
+    - accessMethodId: String
+    - accessMethodName: String
+    + AccessMethodResponseDTO(name: String)
+    + getByName(): String
+}
+
+' ======= FACTORY =======
+interface IAccessMethodFactory {
+    +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodFactoryImpl {
+     +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+     +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+
+'===== SERVICE =======
+interface IAccessMethodService {
+  registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodServiceImpl {
+    +AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
+    + registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+'===ASSEMBLER===
+
+interface IAccessMethodAssembler {
+    + toVO(accessMethodDTO: AccessMethodRequestDTO): NameWithNumbersAndSpecialChars
+    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+}
+class AccessMethodAssemblerImpl {
+    + toVO(accessMethodDTO: AccessMethodRequestDTO): NameWithNumbersAndSpecialChars
+    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+}
+
+'===NAVIGABILITY===
+
+US02_ConfigureAccessMethod_RESTController "1"-u->"1..*" IAccessMethodService
+US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodRequestDTO
+US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodResponseDTO
+US02_ConfigureAccessMethod_RESTController "1"..> "1" IAccessMethodAssembler
+
+AccessMethodServiceImpl " "...|>" " IAccessMethodService
+AccessMethodServiceImpl "1".u..>"1" IAccessMethodRepository
+AccessMethodServiceImpl "1"...>"1..*" IAccessMethodFactory
+
+AccessMethod "1" -u-> " 1" NameWithNumbersAndSpecialChars
+AccessMethod "1" --> " 1" AccessMethodID
+IAccessMethodAssembler "1" .u.> "1" AccessMethod
+
+AccessMethodRepositorySpringDataImpl "1" ..> "1" AccessMethod
+AccessMethodRepositorySpringDataImpl "1" ..> "1" NameWithNumbersAndSpecialChars
+AccessMethodRepositorySpringDataImpl "1" --> "1" IAccessMethodMapper
+AccessMethodRepositorySpringDataImpl "1"-u-> "1"IAccessMethodIDMapper
+AccessMethodRepositorySpringDataImpl "1"--> "1"IAccessMethodRepositorySpringData
+AccessMethodRepositorySpringDataImpl " ".u..|>" " IAccessMethodRepository
+IAccessMethodRepositorySpringData ..>NameWithNumbersAndSpecialChars
+IAccessMethodRepositorySpringData "1" ..> "1" AccessMethodDataModel
+
+AccessMethodMapperImpl " "..u.|>" " IAccessMethodMapper
+IAccessMethodFactory "1" .u.> "1" AccessMethod
+AccessMethodFactoryImpl " "...|>" " IAccessMethodFactory
+IAccessMethodMapper "1"..u.>"1" AccessMethod
+IAccessMethodMapper "1"...>"1" AccessMethodDataModel
+AccessMethodID "1" <.u. "1" IAccessMethodIDMapper
+AccessMethodIDMapperImpl " " ...|> " " IAccessMethodIDMapper
+AccessMethodAssemblerImpl " "...|>" " IAccessMethodAssembler
+IAccessMethodAssembler "1" ..> "1" AccessMethodRequestDTO
+IAccessMethodAssembler "1" ..> "1" AccessMethodResponseDTO
+AccessMethodDataModel "1" -u-> "1" AccessMethodIDDataModel
+IAccessMethodIDMapper "1" ..> "1" AccessMethodIDDataModel
+@enduml

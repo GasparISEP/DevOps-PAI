@@ -10,6 +10,8 @@ public class ProgrammeResponseDTO {
     private String departmentName;
     private String teacherName;
 
+    public ProgrammeResponseDTO() {}
+
     public ProgrammeResponseDTO(String name, String acronym, int quantECTS, int quantSemesters, String degreeTypeName, String departmentName, String teacherName) {
         this.name = name;
         this.acronym = acronym;

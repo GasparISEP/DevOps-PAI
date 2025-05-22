@@ -6,8 +6,8 @@ title As an Administrator, I want to configure a DegreeType in the System \n (Pr
 skinparam sequenceMessageAlign center
 
 actor Administrator
-participant "Frontend" as FE #application
-participant "Backend" as BE #strategy
+participant "<<Component>> \nFrontend" as FE #application
+participant "<<Component>> \nBackend" as BE #strategy
 database DB
 
 Administrator -> FE : Register DegreeType (Name, MaxEcts)

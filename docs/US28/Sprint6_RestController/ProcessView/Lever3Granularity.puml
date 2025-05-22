@@ -1,0 +1,76 @@
+@startuml
+title As ASC, I want to remove the enrolment of a student in a course edition\n(Process View Level 3 Granularity)
+autonumber
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC as ASC
+participant ":UI" as UI
+participant ":CourseEdition\nController" as CEC
+participant ":ICourseEdition\nService" as CES
+participant ":ICourseEdition\nRepository" as CER
+
+participant ":ICourseEditionEnrolment\nService" as CEES
+participant ":ICourseEditionEnrolment\nRepository" as CEER
+participant "cee:CourseEditionEnrolment" as CEE
+
+
+participant "ICourseEdition\nMapper" as CEM
+participant "ICourseEdition\nAssembler" as CEA
+participant "IStudent\nMapper" as SM
+participant "IStudent\nAssembler" as SA
+participant ":ICourseEdition\nEnrolmentMapper" as CEEM
+
+'Get all course editions
+ASC -> UI ++ : I want to remove the enrolment of a student in a course edition
+UI -> CEC ++ : GET/api/courseeditions
+CEC -> CES ++ : findAllCourseEditions
+CES -> CER ++ : findAllCourseEditions
+ref over CER
+    convert dataModel to Domain
+end ref
+CER --> CES -- : List<CourseEditions>
+ref over CES
+    convert domain to DTO
+end ref
+CES --> CEC -- : List<CourseEditionsDTO>
+CEC --> UI -- : 200 OK (List<CourseEditionsDTO>)
+UI --> ASC -- : Here are all CourseEditions
+
+'Get all Students enrolled in course edition
+ASC -> UI ++ : Selected Course Edition
+UI -> CEC ++ : GET/courseeditions/{courseeditionID}/students
+CEC -> CEES ++ : findStudentsByCourseEdition(courseEditionID)
+CEES -> CEER ++ : findStudentsByCourseEdition(courseEditionId)
+ref over CEER
+    convert dataModel to Domain
+end ref
+CEER --> CEES -- : List<Students>
+ref over CEES
+    convert domain to DTO
+end ref
+CEES --> CEC -- : List<StudentsDTO>
+CEC --> UI -- : 200 OK (List<StudentsDTO>)
+UI --> ASC -- : Here are all Students enrolled in selected Course Edition
+
+'Remove the enrolment of a student in a course edition
+ASC -> UI ++ : Selected Student
+UI -> CEC ++ : PATCH/courseeditions/{courseeditionID}/students/{studentID}
+CEC -> CEES ++ : removeCourseEditionEnrolment(studentID, courseEditionID)
+CEES -> CEER ++ : findEnrolmentByStudentAndCourseEdition(studentID, courseEditionID)
+ref over CEER
+    convert dataModel to Domain
+end ref
+CEER --> CEES -- : cee: courseEditionEnrolment
+CEES -> CEE ++ : deactivateEnrolment()
+CEE -> CEE : deactivateEnrolment()
+CEE --> CEES -- : Enrolment Status set to inactive
+CEES -> CEC -- : Enrolment Status set to inactive
+CEC -> UI -- : 200 OK (Enrolment Status se to inactive)
+UI --> ASC -- : Student Enrolment from Selected CourseEdition deactivated
+
+
+
+
+
+@enduml
