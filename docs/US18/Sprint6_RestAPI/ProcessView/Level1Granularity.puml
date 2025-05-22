@@ -18,9 +18,9 @@ System --> ASC: What programme name?
 
 ASC -> System: Entered programme name!
 
-System --> ASC: What school year?
+System --> ASC: What school year uuid?
 
-ASC -> System: Entered school year!
+ASC -> System: Entered school year uuid!
 
 System --> ASC: Sure?
 
