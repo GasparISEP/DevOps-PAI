@@ -17,12 +17,13 @@ participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
 router -> Controller: configureTeacherCategory (name)
 activate Controller #E1F5FE
 
+create "nameVO:Name"
+Controller -> "nameVO:Name": create
+
 participant ":ITeacherCategoryService" as service
-Controller -> service: configureTeacherCategory (name)
+Controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
 
-create "nameVO:Name"
-service -> "nameVO:Name": create
 
 participant ":ITeacherCategoryFactory" as Factory
 service -> Factory: createTeacherCategory (nameVO)
@@ -61,12 +62,12 @@ end
 Repository --> service: tcSaved
 deactivate Repository
 
-ref over service
+service --> Controller: tcSaved
+deactivate service
+
+ref over Controller
     Convert tcSaved to DTO
 end
-
-service --> Controller: tcSavedResponseDTO
-deactivate service
 
 Controller --> router: (201, Created) tcSavedResponseDTO
 deactivate Controller
