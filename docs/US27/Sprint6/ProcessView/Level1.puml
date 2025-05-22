@@ -1,38 +1,29 @@
 @startuml
 title Register a Programme, including the Study Plan (Granularity 1)
+skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
 
 actor ASC #F5B041
 participant "PAI" as system <<System>> #ABEBA1
 
-ASC -> system: **requestProgrammeRegistration**()
 activate system
+ASC -> system: **requestProgrammeRegistration**()
 system --> ASC: **provideRequiredDataFields**()
-deactivate system
 |||
 ASC -> system: **getAvailableDegreeTypes**()
-activate system
 system --> ASC: degreeTypesList
-deactivate system
 |||
 ASC -> system: **getAvailableDepartments**()
-activate system
 system --> ASC: departmentsList
-deactivate system
 |||
 ASC -> system: **getAvailableTeachers**()
-activate system
 system --> ASC: teachersList
-deactivate system
 |||
 ASC -> system: **selectIncludeStudyPlanOption**(yes)
-activate system
 system --> ASC: **provideStudyPlanDataFields**()
-deactivate system
 |||
 ASC -> system: **submitProgrammeDataWithStudyPlan**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector, studyPlanStartingDate)
-activate system
 system --> ASC: **registrationConfirmation**(createdProgramme)
-deactivate system
 
 @enduml
