@@ -5,13 +5,11 @@ title "PAI \n (Logical View - Level 2)"
 
 interface UI
 interface "API REST"
-interface "POI Lib"
 
 
 component "<<System>>\nPAI" {
   portin " " as p1
   portin " " as p2
-  portout " " as p3
   component Backend
   component Frontend
   component BD
@@ -35,8 +33,6 @@ p5-up- p4
 p1 -up- UI
 p2 -up- "API REST"
 p2 -down-p5
-"POI Lib" )-down-p3
-p3 -left-p5
 p1 -down-p4
 p6 -down-(I1
 

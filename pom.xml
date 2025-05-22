@@ -95,6 +95,11 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>3.4.3</version> <!-- Igual à tua versão do Spring Boot -->
+        </dependency>
 
         <!-- EclipseLink como provider JPA -->
         <dependency>

@@ -1,0 +1,35 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 2 (US16 - Enroll Student in Course)"
+
+rectangle " " {
+    actor "Academic Services Coordinator" as ASC
+    
+    rectangle "Student Enrollment System" {
+        interface "API" as API
+        interface "BD API" as BDAPI
+        
+        rectangle "Web Application" {
+            component "Web Interface" as WebUI
+        }
+        
+        rectangle "REST API" {
+            component "Enrollment API" as EnrollmentAPI
+        }
+        
+        rectangle "Database" {
+            component "H2 Database" as DB
+        }
+    }
+}
+
+ASC -down-> WebUI : Uses
+ASC -down-> EnrollmentAPI : Uses
+WebUI -down-> EnrollmentAPI : Uses
+EnrollmentAPI -down-> DB : Uses
+
+@enduml 

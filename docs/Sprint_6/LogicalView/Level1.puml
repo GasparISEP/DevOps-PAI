@@ -9,14 +9,14 @@ rectangle " " as SystemBox {
 
   artifact "LogicalView Level 1" as D1
 
-  component "<system>\nPAI" as PAI {
+  component "<system>\n     PAI" as PAI {
   }
 
   interface "UI" as UI
-  interface "POI Lib" as POI
+  interface "API" as API
 
   UI -right- PAI
-  PAI -( POI
+  API -up- PAI
 }
 
 @enduml
