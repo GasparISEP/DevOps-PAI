@@ -6,7 +6,7 @@ import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudentID;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 
-public interface IProgrammeEnrolmentMapperDTO {
+public interface IProgrammeEnrolmentAssembler {
     ProgrammeEnrolment toProgrammeEnrolment (ProgrammeEnrolmentDTO programmeDTO);
     ProgrammeEnrolmentResponseDTO toProgrammeEnrolmentDTO (ProgrammeEnrolment programmeEnrolment);
     StudentID toStudentID (ProgrammeEnrolmentDTO programmeDTO);
