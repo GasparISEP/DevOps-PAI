@@ -7,7 +7,7 @@ import PAI.domain.teacher.Teacher;
 
 public interface IUpdateDepartmentDirectorService {
 
-    boolean updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception;
+    Department updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception;
 
     Iterable<Department> listDepartments();
 
