@@ -1,0 +1,62 @@
+@startuml
+
+autonumber
+title As an Administrator, I want to configure a DegreeType in the System \n (Process View Level 3)
+
+skinparam sequenceMessageAlign center
+
+actor Administrator
+participant "Frontend" as FE #application
+participant "Controller" as Controller #motivation
+participant "Service" as Service #business
+participant "Repository" as Repo #technology
+participant "Domain" as Domain #physical
+database DB
+
+Administrator -> FE : Fill DegreeType form (Name, MaxEcts)
+activate FE
+FE -> Controller : register DegreeType(Name, MaxEcts)
+activate Controller
+
+Controller -> Service : register DegreeType(Name, MaxEcts)
+activate Service
+
+Service -> Domain : create DegreeType
+activate Domain
+Domain --> Service : DegreeType
+deactivate Domain
+
+Service -> Repo : Check if DegreeType exists
+activate Repo
+
+Repo -> DB : Check if DegreeType exists
+activate DB
+
+DB --> Repo : DegreeType does not exist
+deactivate DB
+
+Repo --> Service : DegreeType does not exist
+deactivate Repo
+
+Service -> Repo : Save DegreeType
+activate Repo
+
+Repo -> DB : Save DegreeType
+activate DB
+
+DB --> Repo : DegreeType saved
+deactivate DB
+
+Repo --> Service : DegreeType saved
+deactivate Repo
+
+Service --> Controller : DegreeType saved
+deactivate Service
+
+Controller --> FE : DegreeType saved
+deactivate Controller
+
+FE --> Administrator : DegreeType registered successfully
+deactivate FE
+
+@enduml
