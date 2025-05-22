@@ -29,5 +29,14 @@ class StudentResponseDTOTest {
         //Assert
         assertNotNull(result);
         assertEquals(studentID, result.getStudentID());
+        assertEquals(studentName, result.getName());
+        assertEquals(nif, result.getNIF());
+        assertEquals(nifCountry, result.getNIFCountry());
+        assertEquals(street, result.getStreet());
+        assertEquals(postalCode, result.getPostalCode());
+        assertEquals(location, result.getLocation());
+        assertEquals(addressCountry, result.getAddressCountry());
+        assertEquals(phoneCountryCode, result.getPhoneCountryCode());
+        assertEquals(phoneNumber, result.getPhoneNumber());
     }
 }
