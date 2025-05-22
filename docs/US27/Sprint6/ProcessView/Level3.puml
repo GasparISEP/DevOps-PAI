@@ -75,8 +75,19 @@ Repository -> : save(programmeDM)
 Repository <-- : True
 Repository --> Service: programme
 deactivate Repository
+Service --> RestController: programmeResponseDTO
+deactivate Service
 |||
-Service -> Domain: createStudyPlan(programmeID, implementationDate,\ndurationInYears, quantityOfEcts)
+RestController -> Service: registerStudyPlan(name, acronym, \nstartDate, quantityOfSemesters, degreeTypeId)
+activate Service
+Service -> Repository: ofIdentity(degreeTypeId)
+activate Repository
+Repository -> : findById(degreeTypeIdDM)
+Repository <-- : degreeTypeIdDM
+Repository --> Service: degreeType
+deactivate Repository
+|||
+Service -> Domain: createStudyPlan(programmeID, startDate,\ndurationInYears, quantityOfEcts)
 activate Domain
 Domain --> Service: studyPlan
 deactivate Domain
@@ -88,7 +99,7 @@ Repository <-- : True
 Repository --> Service: studyPlan
 deactivate Repository
 |||
-Service --> RestController: ProgrammeStudyPlanResponseDTO
+Service --> RestController: StudyPlanResponseDTO
 deactivate Service
 <-- RestController: 201 Created \n+ \nProgrammeStudyPlanResponseDTO\t
 note left RestController
