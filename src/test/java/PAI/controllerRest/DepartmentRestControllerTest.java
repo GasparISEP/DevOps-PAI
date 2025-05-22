@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
@@ -199,4 +200,41 @@ class DepartmentRestControllerTest {
         assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
     }
 
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+        String errorMessage = "Invalid input data";
+
+        when(departmentRegistrationService.getAllDepartments()).thenThrow(new IllegalArgumentException(errorMessage));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCodeValue());
+        assertEquals(errorMessage, response.getBody());
     }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+        when(departmentRegistrationService.getAllDepartments()).thenThrow(new RuntimeException("Database is down"));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
+}
