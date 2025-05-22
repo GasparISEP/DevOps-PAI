@@ -107,20 +107,16 @@ UI --> Client: Sure?
 deactivate UI
 Client -> UI: Yes!
 activate UI #E1F5FE
-UI -> CourseEditionEnrolmentController: POST /api/courseeditions/{courseEditionId}/enrolments
+UI -> CourseEditionEnrolmentController: POST /api/courseeditions/enrolments
 activate CourseEditionEnrolmentController #E1F5FE
-CourseEditionEnrolmentController -> CourseEditionEnrolmentService: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
-activate CourseEditionEnrolmentService #E1F5FE
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentAssembler: toDomain(EnrolStudentCourseEditionDto)
+CourseEditionEnrolmentController -> CourseEditionEnrolmentAssembler: toDomain(CourseEditionEnrolmentDto)
 activate CourseEditionEnrolmentAssembler #E1F5FE
-CourseEditionEnrolmentAssembler --> CourseEditionEnrolmentService: StudentID, CourseEditionID
+CourseEditionEnrolmentAssembler --> CourseEditionEnrolmentController: CourseEditionEnrolment
 deactivate CourseEditionEnrolmentAssembler
 
-CourseEditionEnrolmentService -> CourseEditionEnrolmentFactory: create(studentID, courseEditionID)
-activate CourseEditionEnrolmentFactory #E1F5FE
-CourseEditionEnrolmentFactory --> CourseEditionEnrolmentService: CourseEditionEnrolment
-deactivate CourseEditionEnrolmentFactory
+CourseEditionEnrolmentController -> CourseEditionEnrolmentService: enrolStudentInACourseEdition(CourseEditionEnrolment)
+activate CourseEditionEnrolmentService #E1F5FE
 
 CourseEditionEnrolmentService -> CourseEditionEnrolmentRepository: isStudentEnrolledInCourseEdition(studentID, courseEditionID)
 activate CourseEditionEnrolmentRepository #E1F5FE

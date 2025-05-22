@@ -21,28 +21,39 @@ skinparam sequence {
 actor "Academic Services Coordinator" as ASC
 participant ":CourseEditionEnrolmentRestController" as Controller
 participant ":CourseEditionEnrolmentService" as Service
-participant ":CourseEditionEnrolmentFactory" as Factory
 participant ":CourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentAssembler" as Assembler
 database "Database" as DB
 
-ASC -> Controller: POST /api/courseeditions/{courseEditionId}/enrolments
+ASC -> Controller: POST /api/courseeditions/enrolments
 activate Controller
 
-Controller -> Service: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
-activate Service
-
-Service -> Assembler: toDomain(EnrolStudentCourseEditionDto)
+Controller -> Assembler: toDomain(CourseEditionEnrolmentDto)
 activate Assembler
 note right of Assembler
   Transformations:
   1. String studentId -> StudentID VO
-  2. String courseEditionId -> CourseEditionID VO
+  2. String programmeName -> NameWithNumbersAndSpecialChars VO
+  3. String programmeAcronym -> Acronym VO
+  4. String schoolYearId -> UUID -> SchoolYearID VO
+  5. String courseName -> Name VO
+  6. String courseAcronym -> Acronym VO
+  7. String studyPlanDate -> Date VO
+  Creates nested VOs:
+  - ProgrammeID
+  - ProgrammeEditionID
+  - CourseID
+  - StudyPlanID
+  - CourseInStudyPlanID
+  - CourseEditionID
 end note
-Assembler --> Service: Pair<StudentID, CourseEditionID>
+Assembler --> Controller: CourseEditionEnrolment
 deactivate Assembler
 
-Service -> Service: validateEnrollment(studentId, courseEditionId)
+Controller -> Service: enrolStudentInACourseEdition(CourseEditionEnrolment)
+activate Service
+
+Service -> Service: validateEnrollment(courseEditionEnrolment)
 Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
 activate Repository
 Repository -> DB: SELECT * FROM course_edition_enrolments
@@ -53,17 +64,13 @@ Repository --> Service: false
 deactivate Repository
 Service --> Service: true
 
-Service -> Factory: create(studentId, courseEditionId)
-activate Factory
-Factory --> Service: CourseEditionEnrolment
-deactivate Factory
-
 Service -> Assembler: toDataModel(CourseEditionEnrolment)
 activate Assembler
 note right of Assembler
   Transformations:
-  1. StudentID VO -> Long
-  2. CourseEditionID VO -> Long
+  1. StudentID VO -> StudentIDDataModel
+  2. CourseEditionID VO -> CourseEditionIDDataModel
+  3. All nested VOs -> corresponding DataModels
 end note
 Assembler --> Service: CourseEditionEnrolmentDataModel
 deactivate Assembler
