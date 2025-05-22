@@ -18,10 +18,10 @@ backend --> frontend -- : List of CourseEditions
 frontend --> ASC -- : Which course edition?
 
 ASC -> frontend ++ : Selected CourseEdition
-frontend -> backend ++ : (GET) Request all Students in selected CourseEdition
-backend -> db ++ : (FETCH) All Students in Selected CourseEdition
-db --> backend -- : List of Students in Selected CourseEdition
-backend --> frontend -- : List of Students in Selected CourseEdition
+frontend -> backend ++ : (GET) Request all Students enrolled in CourseEdition
+backend -> db ++ : (FETCH) All Students enrolled in CourseEdition
+db --> backend -- : List of Students enrolled in CourseEdition
+backend --> frontend -- : List of Students enrolled in CourseEdition
 frontend --> ASC -- : Which student?
 
 ASC -> frontend ++ : Selected Student
