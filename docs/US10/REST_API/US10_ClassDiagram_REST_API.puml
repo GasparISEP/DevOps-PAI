@@ -1,0 +1,124 @@
+@startuml
+skinparam component {
+  BackgroundColor<<Service>> #AAF0D1
+  BackgroundColor<<Repository>> #FFD580
+  BackgroundColor<<Component>> #F0E68C
+  BackgroundColor<<RestController>> #ADD8E6
+  BorderColor black
+}
+
+title Diagrama UML Completo para DegreeType conforme código fornecido
+
+
+class US10_IWantToConfigureDegreeTypesLevelsController {
+  +registerDegreeType(dto: DegreeTypeDTO): ResponseEntity<Boolean>
+}
+
+
+interface IDegreeTypeService {
+  +registerDegreeType(name: Name, maxEcts: MaxEcts): boolean throws Exception
+  +getDegreeTypeById(id: DegreeTypeID): Optional<DegreeType>
+  +getAllDegreeTypes(): List<DegreeType>
+}
+
+
+class DegreeTypeService implements IDegreeTypeService {
+  -repository: IDegreeTypeRepositoryInterface
+  -factory: IDegreeTypeFactory
+
+  +registerDegreeType(name: Name, maxEcts: MaxEcts): boolean throws Exception
+  +getDegreeTypeById(id: DegreeTypeID): Optional<DegreeType>
+  +getAllDegreeTypes(): List<DegreeType>
+}
+
+interface IDegreeTypeFactory {
+  +create(name: Name, maxEcts: MaxEcts): DegreeType
+  +recreate(id: DegreeTypeID, name: Name, maxEcts: MaxEcts): DegreeType
+}
+
+
+class DegreeTypeFactoryImpl implements IDegreeTypeFactory {
+  +create(name: Name, maxEcts: MaxEcts): DegreeType
+  +recreate(id: DegreeTypeID, name: Name, maxEcts: MaxEcts): DegreeType
+}
+
+
+interface IDegreeTypeRepositoryInterface {
+  +containsOfIdentity(id: DegreeTypeID): boolean
+  +save(degreeType: DegreeType): DegreeType
+  +ofIdentity(id: DegreeTypeID): Optional<DegreeType>
+  +getAllDegreeTypes(): List<DegreeType>
+}
+
+
+class DegreeTypeRepo implements IDegreeTypeRepositoryInterface {
+  -dtRepoJPA: IDegreeTypeRepoSpringData
+  -mapper: DegreeTypeMapper
+
+  +containsOfIdentity(id: DegreeTypeID): boolean
+  +save(degreeType: DegreeType): DegreeType
+  +ofIdentity(id: DegreeTypeID): Optional<DegreeType>
+  +getAllDegreeTypes(): List<DegreeType>
+  +registerDegreeType(id: DegreeTypeID, name: Name, maxEcts: MaxEcts): boolean
+}
+
+
+package "DegreeType" {
+class DegreeType {
+  -_degreeTypeID: DegreeTypeID
+  -_name: Name
+  -_maxEcts: MaxEcts
+
+  +DegreeType(degreeTypeID: DegreeTypeID, name: Name, maxEcts: MaxEcts)
+  +identity(): DegreeTypeID
+  +getId(): DegreeTypeID
+  +getName(): Name
+  +getMaxEcts(): MaxEcts
+  +sameAs(object): boolean
+  +equals(object): boolean
+  +hashCode(): int
+}
+}
+
+
+class DegreeTypeID <<ValueObject>> {
+  -DTID: Long
+  +DegreeTypeID()
+  +DegreeTypeID(Long id)
+  +getDTID(): Long
+}
+
+
+class Name <<ValueObject>> {
+  -name: String
+  +Name(String name)
+  +getName(): String
+}
+
+
+class MaxEcts <<ValueObject>> {
+  -maxEcts: int
+  +MaxEcts(int maxEcts)
+  +getMaxEcts(): int
+}
+
+
+
+
+US10_IWantToConfigureDegreeTypesLevelsController "*" ..> "1" IDegreeTypeService
+
+
+IDegreeTypeService "1   " ..|> IDegreeTypeRepositoryInterface
+IDegreeTypeService "1" ....> IDegreeTypeFactory
+
+
+DegreeType --> "1" DegreeTypeID
+DegreeType "*" --> "1" Name
+DegreeType "*" --> "1" MaxEcts
+
+
+IDegreeTypeRepositoryInterface ....> IDegreeTypeFactory
+
+IDegreeTypeFactory "1" ....> "Creates" DegreeType
+
+@enduml

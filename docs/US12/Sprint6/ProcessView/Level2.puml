@@ -1,0 +1,34 @@
+@startuml
+
+autonumber
+
+title As an ASC I change the Programme Director \n (Process View Level 2)
+
+actor ASC as Admin
+participant "<<Component>> \nFrontend" as FE #lightblue
+participant "<<Component>> \nBackend" as BE #lightgreen
+participant "<<Component>> \nDatabase" as BD #lightyellow
+
+activate Admin
+Admin -> FE ++: Request change the Programme Director
+FE -> BE ++: (GET) Request Programme
+BE -> BD ++: Retrieve all Programmes
+BD --> BE --: List of Programmes
+BE --> FE --: (OK, 200) List of Programmes
+FE --> Admin --: Provide List of Programmes
+Admin -> FE ++: Programme
+
+FE -> BE ++: (GET) Request Teachers
+BE -> BD ++: Retrieve all Teachers
+BD --> BE --: List of Teachers
+BE --> FE --: (OK, 200) List of Teachers
+FE --> Admin --: Provide List of Teachers
+Admin -> FE ++: Teachers
+
+FE -> BE ++: (PATCH) Request change the Programme Director
+BE -> BD ++: (INSERT) Persist Programme Director to Database (Programme Director)
+BD --> BE --: Programme Director
+BE --> FE --: (201 Updated) Updated Programme Director
+FE --> Admin --: Programme Director updated successfully!
+
+@enduml

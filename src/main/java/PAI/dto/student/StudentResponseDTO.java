@@ -35,4 +35,49 @@ public class StudentResponseDTO {
     public int getStudentID() {
         return studentID;
     }
+
+    public String getName() {
+        return _name;
+    }
+
+    public String getNIF() {
+        return _NIF;
+    }
+
+    public String getNIFCountry() {
+        return _NIFCountry;
+    }
+
+    public String getStreet() {
+        return _street;
+    }
+
+    public String getPostalCode() {
+        return _postalCode;
+    }
+
+    public String getLocation() {
+        return _location;
+    }
+
+    public String getAddressCountry() {
+        return _addressCountry;
+    }
+
+    public String getPhoneCountryCode() {
+        return _phoneCountryCode;
+    }
+
+    public String getPhoneNumber() {
+        return _phoneNumber;
+    }
+
+    public String getEmail() {
+        return _email;
+    }
+
+    public String getAcademicEmail() {
+        return _academicEmail;
+    }
+
 }
