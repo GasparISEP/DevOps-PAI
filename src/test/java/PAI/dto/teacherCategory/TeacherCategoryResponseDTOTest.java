@@ -31,6 +31,7 @@ class TeacherCategoryResponseDTOTest {
         // Act
         TeacherCategoryResponseDTO teacherCategoryResponseDTO = new TeacherCategoryResponseDTO (id, name);
 
+        // Assert
         assertEquals(null, teacherCategoryResponseDTO.id());
         assertEquals(null, teacherCategoryResponseDTO.name());
     }

@@ -143,24 +143,32 @@ class TeacherCategoryResponseDTO <<record>> #E0FFFF {
     + _name: String
 }
 
+class TeacherCategoryRequestDTO <<record>> #E0FFFF {
+    + _name: String
+}
+
 ' ======= Assembler =======
 
 interface ITeacherCategoryAssembler #E0FFFF  {
     + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+    + toVO (teacherCategoryRequestDTO: TeacherCategoryRequestDTO): Name
 }
 
 class TeacherCategoryAssemblerImpl #E0FFFF {
     + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+    + toVO (teacherCategoryRequestDTO: TeacherCategoryRequestDTO): Name
 }
 
 ' ======= NAVIGABILITY =======
 
 US01_ConfigureTeacherCategoryRESTController "1" -u-> "_service  1             " ITeacherCategoryService
 US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryResponseDTO
+US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
 US01_ConfigureTeacherCategoryRESTController "1"--> "_assembler   1          " ITeacherCategoryAssembler
 
 TeacherCategoryAssemblerImpl ..|> ITeacherCategoryAssembler
 ITeacherCategoryAssembler "1"..> "1" TeacherCategory
+ITeacherCategoryAssembler "1"..> "1" TeacherCategoryRequestDTO
 
 TeacherCategoryServiceImpl ..|> ITeacherCategoryService
 TeacherCategoryServiceImpl "1"--> "1 _factory" ITeacherCategoryFactory

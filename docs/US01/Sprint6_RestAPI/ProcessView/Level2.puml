@@ -25,7 +25,7 @@ frontend --> admin: Sure?
 
 admin -> frontend: Yes!
 
-frontend -> backend: (POST) Request configure a TeacherCategory (name)
+frontend -> backend: (POST) Request configure a TeacherCategory (tcRequestDTO)
 activate backend #E1F5FE
 
 backend -> db: (INSERT) Persist TeacherCategory (name)
