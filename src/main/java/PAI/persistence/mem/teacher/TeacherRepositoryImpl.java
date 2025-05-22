@@ -62,8 +62,7 @@ public class TeacherRepositoryImpl implements ITeacherRepository {
     }
     @Override
     public Iterable<Teacher> findAllByDepartmentId(DepartmentID departmentID) {
-        // TODO: implementação real, ou atirar exceção se não for usada
-        throw new UnsupportedOperationException("Not implemented yet");
+        return List.of();
     }
 
 }
