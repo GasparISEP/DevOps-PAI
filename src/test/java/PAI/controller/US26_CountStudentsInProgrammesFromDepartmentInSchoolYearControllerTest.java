@@ -5,6 +5,9 @@ import PAI.domain.department.Department;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.dto.schoolYear.SchoolYearMapperDTO;
 import PAI.persistence.mem.programmeEditionEnrolment.ProgrammeEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.programmeEnrolment.IProgrammeEnrolmentListFactory;
 import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentListFactoryImpl;
@@ -491,7 +494,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
@@ -752,7 +757,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl, schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = null;
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
@@ -862,7 +869,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         ProgrammeEditionEnrolmentServiceImpl programmeEditionEnrolmentService =null;
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
 
@@ -993,7 +1002,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = null;
 
@@ -1124,7 +1135,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
@@ -1256,7 +1269,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
@@ -1387,7 +1402,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
@@ -1520,7 +1537,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
@@ -1654,7 +1673,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                         programmeRepository,
                         programmeEditionEnrolmentFactory);
 
-        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl);
+        ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
+        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl,schoolYearMapperDTO);
         DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentFactoryImpl,departmentRepository);
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory,programmeRepository);
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);

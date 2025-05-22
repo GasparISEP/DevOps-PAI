@@ -1,0 +1,67 @@
+@startuml
+
+autonumber
+title As an Administrator, I want to configure a DegreeType in the System \n (Process View Level 4)
+
+skinparam sequenceMessageAlign center
+
+actor Administrator
+participant ":UI" as UI #application
+participant ":US10_IWantToConfigureDegreeTypesLevelsController" as Controller #motivation
+participant ":DegreeTypeServiceImpl" as Service #business
+participant ":DegreeTypeRepositorySpringData" as Repo #technology
+participant ":DegreeTypeMapperImpl" as Mapper #strategy
+participant ":DegreeTypeFactoryImpl" as Factory #implementation
+participant "dt1 :DegreeType" as DomainEntity #physical
+database DB
+
+Administrator -> UI : Fill DegreeType form (Name, MaxEcts)
+activate UI
+UI -> Controller : registerDegreeType(Name, MaxEcts)
+activate Controller
+
+Controller -> Service : registerDegreeType(Name, MaxEcts)
+activate Service
+
+Service -> Factory : create(Name, MaxEcts)
+activate Factory
+
+Factory -> DomainEntity : new DegreeType(Name, MaxEcts)
+activate DomainEntity
+DomainEntity --> Factory : dt1
+deactivate DomainEntity
+
+Factory --> Service : dt1
+deactivate Factory
+
+Service -> Repo : containsOfIdentity(DegreeType.identity())
+activate Repo
+Repo --> Service : false
+deactivate Repo
+
+Service -> Mapper : toDataModel(DegreeType)
+activate Mapper
+Mapper --> Service : DegreeType DataModel
+deactivate Mapper
+
+Service -> Repo : save(DegreeType DataModel)
+activate Repo
+
+Repo -> DB : save DegreeType DataModel
+activate DB
+DB --> Repo : DegreeType DataModel saved
+deactivate DB
+
+Repo --> Service : saved DegreeType DataModel
+deactivate Repo
+
+Service --> Controller : success
+deactivate Service
+
+Controller --> UI : success
+deactivate Controller
+
+UI --> Administrator : DegreeType registered successfully
+deactivate UI
+
+@enduml

@@ -20,9 +20,9 @@ class SchoolYearDTOTest {
     @Test
     void shouldConstructSchoolYearDTO() {
     //arrange
-    String description = "ola";
-    LocalDate startDate = LocalDate.of(2025, 2, 26);
-    LocalDate endDate = LocalDate.of(2025, 3, 31);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
 
     //act
     SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
@@ -34,9 +34,9 @@ class SchoolYearDTOTest {
     @Test
     void shouldGetDescription() {
         //arrange
-        String description = "ola";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
@@ -51,8 +51,8 @@ class SchoolYearDTOTest {
         //arrange
         String description = "ola";
         String descriptions = "olas";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
@@ -65,13 +65,13 @@ class SchoolYearDTOTest {
     @Test
     void shouldGetEndDate() {
         //arrange
-        String description = "ola";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
-        LocalDate get = syDTO.getEndDate();
+        String get = syDTO.getEndDate();
 
         //assert
         assertEquals(get,syDTO.getEndDate());
@@ -80,14 +80,14 @@ class SchoolYearDTOTest {
     @Test
     void shouldNotGetEndDate() {
         //arrange
-        String description = "ola";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
-        LocalDate endDates = LocalDate.of(2025, 3, 30);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
+        String endDates = "30-08-2025";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
-        LocalDate get = syDTO.getEndDate();
+        String get = syDTO.getEndDate();
 
         //assert
         assertNotEquals(endDates,get);
@@ -96,13 +96,13 @@ class SchoolYearDTOTest {
     @Test
     void shouldGetStartDate() {
         //arrange
-        String description = "ola";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
-        LocalDate get = syDTO.getStartDate();
+        String get = syDTO.getStartDate();
 
         //assert
         assertEquals(get,syDTO.getStartDate());
@@ -111,14 +111,14 @@ class SchoolYearDTOTest {
     @Test
     void shouldNotGetStartDate() {
         //arrange
-        String description = "ola";
-        LocalDate startDate = LocalDate.of(2025, 2, 26);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
-        LocalDate startDates = LocalDate.of(2025, 3, 30);
+        String description = "School Year 24/25";
+        String startDate = "24-09-2024";
+        String endDate = "31-06-2025";
+        String startDates = "25-09-2024";
         SchoolYearDTO syDTO = new SchoolYearDTO(description, startDate, endDate);
 
         //act
-        LocalDate get = syDTO.getStartDate();
+        String get = syDTO.getStartDate();
 
         //assert
         assertNotEquals(startDates,get);

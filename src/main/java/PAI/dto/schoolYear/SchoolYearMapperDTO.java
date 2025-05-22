@@ -31,8 +31,8 @@ public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
 
     public SchoolYearDTO toDTO(SchoolYear sy) {
         String description = sy.getDescription().getDescription();
-        LocalDate startDate = sy.getStartDate().getLocalDate();
-        LocalDate endDate = sy.getEndDate().getLocalDate();
+        String startDate = sy.getStartDate().getLocalDate().toString();
+        String endDate = sy.getEndDate().getLocalDate().toString();
 
         return new SchoolYearDTO(description,startDate,endDate);
     }
