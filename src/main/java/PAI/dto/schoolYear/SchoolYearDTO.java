@@ -1,30 +1,28 @@
 package PAI.dto.schoolYear;
 
-import java.time.LocalDate;
-
 public class SchoolYearDTO {
 
-    private String _description;
-    private String _endDate;
-    private String _startDate;
+    private String description;
+    private String endDate;
+    private String startDate;
 
     public SchoolYearDTO() {}
 
     public SchoolYearDTO (String description, String startDate, String endDate) {
-        _description = description;
-        _startDate = startDate;
-        _endDate = endDate;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public String getEndDate() {
-        return _endDate;
+        return endDate;
     }
 
     public String getStartDate() {
-        return _startDate;
+        return startDate;
     }
 }

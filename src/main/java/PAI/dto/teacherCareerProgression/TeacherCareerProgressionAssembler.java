@@ -49,4 +49,13 @@ public class TeacherCareerProgressionAssembler {
     public TeacherID toTeacherID (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
         return new TeacherID(new TeacherAcronym(teacherCareerProgressionDTO.getTeacherid()));
     }
+
+    public TeacherCategoryUpdateResponseDTO UpdateCategoryToDTO (TeacherCareerProgression teacherCareerProgression){
+
+        String date = teacherCareerProgression.getDate().toString();
+        String teacherID = teacherCareerProgression.getTeacherID().toString();
+        String teacherCategory = teacherCareerProgression.getTeacherCategoryID().toString();
+        int workingPercent = teacherCareerProgression.getWorkingPercentage().getValue();
+        return new TeacherCategoryUpdateResponseDTO(date,teacherID,teacherCategory,workingPercent);
+    }
 }
