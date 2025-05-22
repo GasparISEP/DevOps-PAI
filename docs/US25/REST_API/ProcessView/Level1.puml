@@ -1,0 +1,11 @@
+@startuml
+title Average grade of a course edition of my programme. \n(Process View lvl 1)
+
+actor ProgrammeDirector as PD
+participant SystemPAI as System
+
+PD -> System ++ #application: I want to know the average grade of a CourseEdition
+System --> PD: Which CourseEdition?
+PD -> System: CourseEdition
+System --> PD --: Average Grade of CourseEdition!
+@enduml

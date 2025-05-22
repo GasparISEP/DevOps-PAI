@@ -7,8 +7,10 @@ import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
+import org.springframework.stereotype.Component;
 
-public class DepartmentAssembler implements IDepartmentAssembler {
+@Component
+public class DepartmentAssemblerImpl implements IDepartmentAssembler {
 
     @Override
     public RegisterDepartmentCommand toRegisterDepartmentCommand(RegisterDepartmentRequest registerDepartmentRequest) {

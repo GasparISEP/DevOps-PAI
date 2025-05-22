@@ -1,0 +1,51 @@
+@startuml
+title US19: As an ASC, I want to create a course edition\n(Process View – Level 1 Granularity)
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC  #LightBlue/White
+participant "<<component>>\nSystem" as SYSTEM #E1F5FE
+
+ASC -> SYSTEM: I want to create a course edition
+activate SYSTEM
+SYSTEM --> ASC: Which degree type?
+deactivate SYSTEM
+
+ASC -> SYSTEM: Enter degree type!
+activate SYSTEM
+SYSTEM --> ASC: Which programme?
+deactivate SYSTEM
+
+ASC -> SYSTEM: Enter programme!
+activate SYSTEM
+SYSTEM --> ASC: Which programme edition?
+deactivate SYSTEM
+
+ASC -> SYSTEM: Enter programme edition!
+activate SYSTEM
+SYSTEM --> ASC: Which course from the study plan?
+deactivate SYSTEM
+
+ASC -> SYSTEM: Enter course!
+activate SYSTEM
+SYSTEM --> ASC: Confirm course edition creation?
+deactivate SYSTEM
+
+ASC -> SYSTEM: Yes, confirm
+activate SYSTEM
+SYSTEM --> ASC: Course edition created successfully!
+deactivate SYSTEM
+
+@enduml
+``
