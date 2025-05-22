@@ -1,11 +1,11 @@
 @startuml
 title Register a Programme, including Study Plan (Granularity 2)
+skinparam sequenceLifeLineBackgroundColor lightblue
 
-
-actor ASC
-participant Frontend
-participant Backend
-database Database
+actor ASC #F5B041
+participant Frontend <<component>> #D7BDE2
+participant Backend <<component>> #A2D9CE
+database Database <<component>> #F9E79F
 
 activate Frontend
 ASC -> Frontend: Fill and submit programme \nform with study plan
