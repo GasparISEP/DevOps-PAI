@@ -8,7 +8,7 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 
 public interface ICourseEditionEnrolmentAssembler {
-    CourseEditionEnrolment toDomain(CourseEditionEnrolmentDto courseEditionEnrolmentDto);
+    CourseEditionEnrolment toDomain(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception;
     Optional<CourseEditionEnrolmentDto> toDto(StudentID studentID, CourseEditionID courseEditionID);
 }   
 
