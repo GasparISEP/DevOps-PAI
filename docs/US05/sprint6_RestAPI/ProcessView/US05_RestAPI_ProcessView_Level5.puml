@@ -1,0 +1,92 @@
+@startuml
+
+title US05: Register a Department in the System\nProcess View – Level 5
+
+autonumber
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
+actor "Administrator" as Administrator
+participant ":UI" as UI
+participant ":US05_RegisterDepartmentController" as Controller
+participant ":IDepartmentRegistryService" as Service
+participant ":IDepartmentMapperDTO" as Mapper
+participant "rdr1:RegisterDepartmentRequest" as Request #LightYellow
+participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
+participant ":DepartmentFactory" as Factory
+participant "d1:Department" as Department #LightBlue
+participant ":IDepartmentRepository" as Repository
+participant ":DepartmentDataModelMapper" as DataModelMapper
+participant "d1DM:DepartmentDataModel" as DepartmentDataModel #LightYellow
+participant ":IDepartmentSpringDataRepository" as SpringDataRepo
+
+group Human Interaction
+Administrator -> UI ++: I want to register a department
+UI --> Administrator --: Prompt: Enter acronym
+Administrator -> UI ++: "DEI"
+UI --> Administrator --: Prompt: Enter name
+Administrator -> UI ++: "Software Engineering Department"
+end group
+
+group HTTP Request
+UI -> Controller ++: (POST) /departments\nwith JSON { acronym, name }
+end group
+
+group Mapping JSON to Request (VOs)
+Controller -> Mapper ++: toRequestDTO(json)
+Mapper -> Request **: <create> RegisterDepartmentRequest\n(acronym, name)
+Mapper --> Controller --: rdr1
+end group
+
+group Application Service
+Controller -> Service ++: createAndSaveDepartment(rdr1)
+end group
+
+group Domain Logic – Department Creation
+Service -> Factory ++: newDepartment(request.acronym(), request.name())
+Factory -> Department **: <create> Department(acronym, name)
+Factory --> Service --: d1
+end group
+
+group Persistence
+Service -> Repository ++: save(d1)
+
+group Validation
+Repository -> SpringDataRepo ++: containsOfIdentity(d1.identity())
+SpringDataRepo --> Repository --: false
+end group
+
+group Mapping Domain to DataModel
+Repository -> DataModelMapper ++: toDataModel(d1)
+DataModelMapper -> DepartmentDataModel **: <create> DepartmentDataModel(acronym, name)
+DataModelMapper --> Repository --: "d1DM:DepartmentDataModel"
+end group
+
+group Spring Data Persistence
+Repository -> SpringDataRepo ++: save(d1DM)
+SpringDataRepo --> Repository --: d1.saved
+end group
+
+Repository --> Service --: d1.saved
+Service --> Controller --: d1
+
+end group
+
+group Mapping Domain to Output DTO
+Controller -> Mapper ++: toDTO(d1)
+Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name)
+Mapper --> Controller --: DepartmentDTO
+end group
+
+group Response
+Controller --> UI --: HTTP 201 Created + DepartmentDTO
+UI --> Administrator --: Department successfully registered
+end group
+
+@enduml

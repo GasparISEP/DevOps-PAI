@@ -14,6 +14,9 @@ import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class TeacherMapperImpl implements ITeacherMapper {
 
@@ -121,5 +124,21 @@ public class TeacherMapperImpl implements ITeacherMapper {
 
         return _teacherFactory.createTeacher(teacherID, name, email, nif, phoneNumber, academicBackground,
                 street, postalCode, location, country, departmentID);
+    }
+    @Override
+    public Iterable<Teacher> listToDomain(Iterable<TeacherDataModel> listDataModel) {
+        if (listDataModel == null) {
+            throw new IllegalArgumentException("Teacher Data Model list cannot be null.");
+        }
+
+        List<Teacher> listDomain = new ArrayList<>();
+        for (TeacherDataModel teacherDataModel : listDataModel) {
+            if (teacherDataModel == null) {
+                throw new IllegalArgumentException("Teacher Data Model list contains a null element.");
+            }
+            Teacher teacher = toDomain(teacherDataModel);
+            listDomain.add(teacher);
+        }
+        return listDomain;
     }
 }

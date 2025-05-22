@@ -1,0 +1,27 @@
+@startuml
+
+autonumber
+
+title As a Programme, Director I want to know the Average Grade of a Course Edition of my Programme. \n(Process View lvl 2)
+
+actor ProgrammeDirector as PD
+participant "<<SystemPAI>> \nFrontend" as FE #lightblue
+participant "<<SystemPAI>> \nBackend" as BE #lightgreen
+participant "Database" as BD #lightyellow
+
+activate PD
+PD -> FE ++ #application : Request Course Edition
+FE -> BE ++ #application: (GET) Course Editions
+BE -> BD ++ #application: Retrieve all Course Editions
+BD --> BE -- #application: List of Course Editions
+BE --> FE --: (OK, 200) List of Course Editions
+FE --> PD --: Provide List of Course Editions
+
+PD -> FE ++ #application: Course Edition!
+FE -> BE ++ #application: (GET) Average Grades
+BE -> BD ++ #application: Retrieve (CourseEditionID) Student Grades
+BD --> BE --: List of Grades
+BE --> FE --: (OK, 200) Grades' Average
+FE --> PD --: Grades' Average!
+
+@enduml

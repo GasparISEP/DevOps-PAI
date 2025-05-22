@@ -1,0 +1,78 @@
+@startuml
+
+skinparam componentStyle rectangle
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 3 (US16 - Enroll Student in Course)"
+
+rectangle " " {
+    interface "API" as API
+
+    rectangle "REST API" {
+        rectangle "Application Layer" {
+            component "StudentRestController" as StudentController
+            component "ProgrammeEditionRestController" as ProgrammeEditionController
+            component "CourseEditionRestController" as CourseEditionController
+            component "CourseEditionEnrolmentController" as EnrolmentController
+            component "StudentDTO" as StudentDTO
+            component "ProgrammeEditionDTO" as ProgrammeEditionDTO
+            component "CourseEditionDTO" as CourseEditionDTO
+            component "CourseEditionEnrolmentDTO" as EnrolmentDTO
+        }
+
+        rectangle "Service Layer" {
+            component "StudentService" as StudentService
+            component "ProgrammeEditionService" as ProgrammeEditionService
+            component "CourseEditionService" as CourseEditionService
+            component "CourseEditionEnrolmentService" as EnrolmentService
+            component "CourseEditionEnrolmentAssembler" as EnrolmentAssembler
+        }
+
+        rectangle "Repository Layer" {
+            component "StudentRepository" as StudentRepo
+            component "ProgrammeEditionRepository" as ProgrammeEditionRepo
+            component "CourseEditionRepository" as CourseEditionRepo
+            component "CourseEditionEnrolmentRepository" as EnrolmentRepo
+        }
+    }
+
+    rectangle "Database" {
+        component "H2 Database" as DB
+    }
+}
+
+' API connections
+API -down-> StudentController
+API -down-> ProgrammeEditionController
+API -down-> CourseEditionController
+API -down-> EnrolmentController
+
+' Controller to DTO connections
+StudentController -down-> StudentDTO
+ProgrammeEditionController -down-> ProgrammeEditionDTO
+CourseEditionController -down-> CourseEditionDTO
+EnrolmentController -down-> EnrolmentDTO
+
+' Controller to Service connections
+StudentController -down-> StudentService
+ProgrammeEditionController -down-> ProgrammeEditionService
+CourseEditionController -down-> CourseEditionService
+EnrolmentController -down-> EnrolmentService
+
+' Service to Repository connections
+StudentService -down-> StudentRepo
+ProgrammeEditionService -down-> ProgrammeEditionRepo
+CourseEditionService -down-> CourseEditionRepo
+EnrolmentService -down-> EnrolmentRepo
+
+' Service to Assembler connection
+EnrolmentService -down-> EnrolmentAssembler
+
+' Repository to Database connections
+StudentRepo -down-> DB
+ProgrammeEditionRepo -down-> DB
+CourseEditionRepo -down-> DB
+EnrolmentRepo -down-> DB
+
+@enduml 

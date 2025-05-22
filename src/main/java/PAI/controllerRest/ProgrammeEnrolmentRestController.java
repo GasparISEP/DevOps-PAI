@@ -6,7 +6,7 @@ import PAI.VOs.Date;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudentID;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentMapperDTO;
+import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProgrammeEnrolmentRestController {
 
     private final IProgrammeEnrolmentService programmeEnrolmentService;
-    private final IProgrammeEnrolmentMapperDTO programmeEnrolmentMapper;
+    private final IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
 
 
 
-    public ProgrammeEnrolmentRestController(IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentMapperDTO programmeEnrolmentMapper) {
+    public ProgrammeEnrolmentRestController(IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper) {
         this.programmeEnrolmentService = programmeEnrolmentService;
         this.programmeEnrolmentMapper = programmeEnrolmentMapper;
     }

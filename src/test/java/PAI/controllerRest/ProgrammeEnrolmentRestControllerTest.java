@@ -2,7 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentMapperDTO;
+import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
@@ -25,7 +25,7 @@ class ProgrammeEnrolmentRestControllerTest {
     private IProgrammeEnrolmentService programmeEnrolmentService;
 
     @Mock
-    private IProgrammeEnrolmentMapperDTO programmeEnrolmentMapperDTO;
+    private IProgrammeEnrolmentAssembler programmeEnrolmentMapperDTO;
 
     @InjectMocks
     private ProgrammeEnrolmentRestController programmeEnrolmentRestController;

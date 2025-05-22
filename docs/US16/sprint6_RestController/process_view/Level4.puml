@@ -23,24 +23,24 @@ participant ":CourseEditionEnrolmentRestController" as Controller
 participant ":CourseEditionEnrolmentService" as Service
 participant ":CourseEditionEnrolmentFactory" as Factory
 participant ":CourseEditionEnrolmentRepository" as Repository
-participant ":CourseEditionEnrolmentMapper" as Mapper
+participant ":CourseEditionEnrolmentAssembler" as Assembler
 database "Database" as DB
 
 ASC -> Controller: POST /api/courseeditions/{courseEditionId}/enrolments
 activate Controller
 
-Controller -> Mapper: toDomain(EnrolStudentCourseEditionDto)
-activate Mapper
-note right of Mapper
+Controller -> Service: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
+activate Service
+
+Service -> Assembler: toDomain(EnrolStudentCourseEditionDto)
+activate Assembler
+note right of Assembler
   Transformations:
   1. String studentId -> StudentID VO
   2. String courseEditionId -> CourseEditionID VO
 end note
-Mapper --> Controller: Pair<StudentID, CourseEditionID>
-deactivate Mapper
-
-Controller -> Service: enrolStudentInACourseEdition(studentId, courseEditionId)
-activate Service
+Assembler --> Service: Pair<StudentID, CourseEditionID>
+deactivate Assembler
 
 Service -> Service: validateEnrollment(studentId, courseEditionId)
 Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
@@ -58,15 +58,15 @@ activate Factory
 Factory --> Service: CourseEditionEnrolment
 deactivate Factory
 
-Service -> Mapper: toDataModel(CourseEditionEnrolment)
-activate Mapper
-note right of Mapper
+Service -> Assembler: toDataModel(CourseEditionEnrolment)
+activate Assembler
+note right of Assembler
   Transformations:
   1. StudentID VO -> Long
   2. CourseEditionID VO -> Long
 end note
-Mapper --> Service: CourseEditionEnrolmentDataModel
-deactivate Mapper
+Assembler --> Service: CourseEditionEnrolmentDataModel
+deactivate Assembler
 
 Service -> Repository: save(courseEditionEnrolmentDataModel)
 activate Repository

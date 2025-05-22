@@ -1,0 +1,13 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title US04: Register a Teacher in the System - System Context
+
+Person(admin, "Administrator", "A person responsible for registering teachers")
+System(system, "Teacher Registration System", "Allows managing teacher registrations")
+
+Rel(admin, system, "Uses", "HTTPS")
+
+@enduml

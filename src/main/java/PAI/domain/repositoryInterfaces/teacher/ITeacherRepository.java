@@ -9,4 +9,7 @@ public interface ITeacherRepository extends IRepository<TeacherID, Teacher> {
     boolean existsByTeacherIdOrNif(TeacherID teacherID, NIF nif);
 
     boolean containsOfIdentity(TeacherID teacherID);
+
+    Iterable<Teacher> findAllByDepartmentId(DepartmentID departmentID);
+
 }

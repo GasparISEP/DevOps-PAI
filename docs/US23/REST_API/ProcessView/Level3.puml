@@ -1,0 +1,61 @@
+@startuml
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title I want to know the approval percentage of a Course Edition \n (Process View Level 3)
+skinparam sequencemessagealign center
+
+actor RUC
+participant ":UI" as UI #application
+participant ":Controller" as controller #motivation
+participant ":Service" as service #business
+participant ":Repository" as repo #technology
+participant ":Domain" as domain #physical
+database db #wheat
+
+RUC -> UI : Find approval rate in a **CourseEdition**
+activate UI
+UI -> controller : Retrieve all Course Editions
+activate controller
+controller -> service : Retrieve all Course Editions
+activate service
+service -> repo : Retrieve all Course Editions
+activate repo
+repo -> db : Retrieve all Course Editions
+activate db
+db --> repo : All Course Editions
+deactivate db
+repo --> service : All Course Editions
+deactivate repo
+service --> controller : All Course Editions
+deactivate service
+controller --> UI : All Course Editions
+deactivate controller
+
+
+UI --> RUC : Choose a Course Edition
+RUC -> UI : Course Edition!
+
+
+UI -> controller : Calculate approval rate
+
+activate controller
+controller -> service : Calculate approval rate
+
+activate service
+service -> repo : Retrieve students' grades.
+activate repo
+repo --> service : Students' grades
+deactivate repo
+
+service --> controller : Approval rate
+deactivate service
+
+controller --> UI : Approval rate
+deactivate controller
+
+UI --> RUC : Approval rate!
+deactivate UI
+
+@enduml

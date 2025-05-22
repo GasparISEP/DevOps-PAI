@@ -1,0 +1,65 @@
+@startuml
+skinparam SequenceGroupBackgroundColor #f2f2f2
+skinparam SequenceGroupBorderColor #cccccc
+autonumber
+title US05: Register a Department - Process View Level 4
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+}
+
+actor ADM as "Administrator"
+participant ":Frontend" as FE
+participant ":RestController" as CT
+participant ":Mapper" as MP
+participant ":Service" as SE
+participant ":Domain" as DM
+participant ":MapperDataModel" as MDM
+participant ":Repository" as RE
+database DB
+
+group Human Interaction
+ADM -> FE ++: Fill in form with name and acronym
+end group
+
+group HTTP Request
+FE -> CT ++: (POST) /departments with JSON {name, acronym}
+end group
+
+group Mapping and VO Creation
+CT -> MP ++: toRequestDTO(json)
+MP --> CT --: RegisterDepartmentRequest (with VOs)
+end group
+
+group Application Service Invocation
+CT -> SE ++: createAndSaveDepartment(request)
+end group
+
+group Domain Aggregate Creation
+SE -> DM ++: new Department(acronym, name)
+DM --> SE --: Department instance
+end group
+
+group Mapping to DataModel
+SE -> MDM ++: toDataModel(department)
+MDM --> SE --: DepartmentDataModel
+end group
+
+group Persistence with Spring Data
+SE -> RE ++: save(departmentDataModel)
+RE --> SE --: Persisted DepartmentDataModel
+SE --> CT --: Domain object or confirmation
+end group
+
+group Mapping Response
+CT -> MP ++: toDTO(department)
+MP --> CT --: DepartmentDTO (with ID, name, acronym)
+end group
+
+group HTTP Response
+CT --> FE --: HTTP 201 Created + DepartmentDTO
+FE --> ADM --: "Department successfully created"
+end group
+
+@enduml

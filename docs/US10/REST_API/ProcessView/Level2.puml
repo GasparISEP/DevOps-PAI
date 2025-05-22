@@ -1,0 +1,29 @@
+@startuml
+
+autonumber
+title As an Administrator, I want to configure a DegreeType in the System \n (Process View Level 2)
+
+skinparam sequenceMessageAlign center
+
+actor Administrator
+participant "<<Component>> \nFrontend" as FE #application
+participant "<<Component>> \nBackend" as BE #strategy
+database DB
+
+Administrator -> FE : Register DegreeType (Name, MaxEcts)
+activate FE
+FE -> BE : (POST) /degree-types \n Name, MaxEcts
+activate BE
+
+BE -> DB : (INSERT) Save new DegreeType
+activate DB
+DB --> BE : DegreeType saved
+deactivate DB
+
+BE --> FE : DegreeType registered successfully
+deactivate BE
+
+FE --> Administrator : Confirmation message
+deactivate FE
+
+@enduml

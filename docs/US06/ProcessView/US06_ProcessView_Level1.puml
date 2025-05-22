@@ -1,0 +1,15 @@
+@startuml
+
+title US06: Update Department Director Of A Department
+
+actor "Administrator" as A
+
+participant ":System" as S
+A -> S: I want to update the Department Director of a Department!
+S --> A: Which Department?
+A -> S: This the Department!
+S --> A: Which Teacher?
+A -> S: This the Teacher!
+S --> A: Done!
+
+@enduml
