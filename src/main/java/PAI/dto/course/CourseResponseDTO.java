@@ -1,21 +1,12 @@
 package PAI.dto.course;
 
-public class CourseResponseDTO {
+import jakarta.validation.constraints.NotBlank;
 
-    private String _acronym;
-    private String _name;
+public record CourseResponseDTO (
 
-    public CourseResponseDTO (String acronym, String name) {
+        @NotBlank (message = "Acronym cannot be blank.")
+        String _acronym,
 
-        _acronym = acronym;
-        _name = name;
-    }
-
-    public String getAcronym() {
-        return _acronym;
-    }
-
-    public String getName() {
-        return _name;
-    }
-}
+        @NotBlank (message = "Name cannot be blank.")
+        String _name
+) {}
