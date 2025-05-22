@@ -13,8 +13,8 @@ skinparam sequence {
 }
 
 actor "Administrator" as ADM
-participant ":UI" as UI
-participant ":RegisterDepartmentController" as Controller
+participant ":Frontend" as UI
+participant ":DepartmentRestController" as Controller
 participant ":IDepartmentAssembler" as Assembler
 participant ":IDepartmentRegistryService" as Service
 participant ":IDepartmentRepository" as Repository
@@ -31,35 +31,36 @@ ADM -> UI ++: Input: "Software Engineering Department"
 end group
 
 group Controller Layer
-UI -> Controller ++: (POST) /departments {acronym, name}
-Controller -> Assembler ++: toRegisterDepartmentCommand(request)
+UI -> Controller ++: (POST) /departments {request}
+Controller -> Assembler ++: RegisterDepartmentRequest
 Assembler --> Controller --: RegisterDepartmentCommand
-Controller -> Service ++: createAndSaveDepartment(command)
 end group
 
+
 group Application + Domain Logic
+Controller -> Service ++: createAndSaveDepartment
 Service -> Factory ++: create Department
 Factory --> Service --: Department
-Service -> Repository ++: containsOfIdentity(department.identity)
-Repository -> SpringDataRepo ++: existsById(...)
-SpringDataRepo --> Repository --: false
-Repository --> Service --: false
+Service -> Repository ++: validate department
+Repository -> SpringDataRepo ++: validate department
+SpringDataRepo --> Repository --: validation
+Repository --> Service --: validation
 end group
 
 group Persistence
-Service -> Repository ++: save(department)
-Repository -> DataModelMapper ++: toDataModel(department)
+Service -> Repository ++: save department
+Repository -> DataModelMapper ++: map to DepartmentDataModel
 DataModelMapper --> Repository --: DepartmentDataModel
-Repository -> SpringDataRepo ++: save(DepartmentDataModel)
+Repository -> SpringDataRepo ++: save DepartmentDataModel
 SpringDataRepo --> Repository --: persisted
 Repository --> Service --: persisted
 end group
 
 group Response Mapping
 Service --> Controller --: Department
-Controller -> Assembler ++: toDTO(department)
+Controller -> Assembler ++: assemble to DepartmentDTO
 Assembler --> Controller --: DepartmentDTO
-Controller --> UI --: HTTP 201 + DepartmentDTO
+Controller --> UI --: HTTP response + DepartmentDTO
 UI --> ADM --: Success message
 end group
 
