@@ -6,7 +6,9 @@ import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.exception.BusinessRuleViolationException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DepartmentRegistrationServiceImpl implements IDepartmentRegistrationService {
 
     private final IDepartmentFactory departmentFactory;
