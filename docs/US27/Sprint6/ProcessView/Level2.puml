@@ -3,9 +3,9 @@ title Register a Programme, including Study Plan (Granularity 2)
 skinparam sequenceLifeLineBackgroundColor lightblue
 
 actor ASC #F5B041
-participant Frontend <<component>> #D7BDE2
-participant Backend <<component>> #A2D9CE
-database Database <<component>> #F9E79F
+participant Frontend <<container>> #D7BDE2
+participant Backend <<container>> #A2D9CE
+
 
 activate Frontend
 ASC -> Frontend: Fill and submit programme \nform with study plan
@@ -17,17 +17,8 @@ note right Frontend
   Converted to
    ProgrammeStudyPlanDTO
 end note
-
-Backend -> Database: Save(programmeDM)
-activate Database
-Database --> Backend: OK
-deactivate Database
 |||
-Backend -> Database: Save(studyPlanDM)
-activate Database
-Database --> Backend: OK
-deactivate Database
-
+|||
 Backend --> Frontend: 201 Created \n\t+ \nProgrammeStudyPlanResponseDTO\t
 deactivate Backend
 note right Frontend

@@ -28,25 +28,19 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     }
 
     // Create and save a new school year if it does not already exist
-    public SchoolYearDTO addSchoolYear(String description, String startDate, String endDate) throws Exception {
+    public SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
 
         if (description == null || startDate == null || endDate == null) {
             throw new Exception("Not possible to create a school year");
         }
 
-        Description description1 = new Description(description);
-
-        Date startDate1 = new Date(startDate);
-
-        Date endDate1 = new Date(endDate);
-
-        SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
             throw new Exception("School year already exists.");
         }
 
-        return schoolYearMapperDTO.toDTO(schoolYearRepository.save(newSchoolYear));
+        return schoolYearRepository.save(newSchoolYear);
     }
 
      // Validate that a given dependency is not null

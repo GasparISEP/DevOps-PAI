@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface ISchoolYearService {
 
-    SchoolYearDTO addSchoolYear(String description, String startDate, String endDate) throws Exception;
+    SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception;
     Optional<SchoolYearID> getCurrentSchoolYearID();
     boolean schoolYearExistsById(SchoolYearID schoolYearID);
     List<SchoolYearID> getAllSchoolYearsIDs();
