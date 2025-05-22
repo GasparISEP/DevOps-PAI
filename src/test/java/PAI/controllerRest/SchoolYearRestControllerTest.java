@@ -1,6 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ class SchoolYearRestControllerTest {
     @Test
     void shouldCreateASYRestController() {
         //Arrange
-        ISchoolYearMapperDTO iSYMapperDTO = mock(ISchoolYearMapperDTO.class);
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
 
         //Act
