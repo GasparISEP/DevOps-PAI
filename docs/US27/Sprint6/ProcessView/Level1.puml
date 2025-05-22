@@ -1,7 +1,9 @@
 @startuml
 title Register a Programme, including the Study Plan (Granularity 1)
-actor ASC
-participant ":System" as system
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+actor ASC #F5B041
+participant "PAI" as system <<System>> #ABEBA1
 
 ASC -> system: **requestProgrammeRegistration**()
 activate system
