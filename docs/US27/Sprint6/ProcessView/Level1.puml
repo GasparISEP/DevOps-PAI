@@ -23,13 +23,14 @@ activate system
 system --> ASC: teachersList
 deactivate system
 |||
-ASC -> system: **submitProgrammeData**(name, acronym, ects, semesters,\n degreeType, department, programmeDirector)
+ASC -> system: **selectIncludeStudyPlanOption**(yes)
 activate system
-system --> ASC: **registrationConfirmation**(programmeId)
+system --> ASC: **provideStudyPlanDataFields**()
 deactivate system
 |||
-ASC -> system: **submitStudyPlanData**(programmeId, activationDate)
+ASC -> system: **submitProgrammeDataWithStudyPlan**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector, studyPlanStartingDate)
 activate system
-system --> ASC: **studyPlanRegistrationConfirmation**()
+system --> ASC: **registrationConfirmation**(createdProgramme)
 deactivate system
+
 @enduml
