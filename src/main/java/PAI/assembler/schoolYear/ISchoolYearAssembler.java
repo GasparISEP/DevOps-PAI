@@ -1,10 +1,11 @@
-package PAI.dto.schoolYear;
+package PAI.assembler.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearDTO;
 
-public interface ISchoolYearMapperDTO {
+public interface ISchoolYearAssembler {
 
     SchoolYear toDomain(SchoolYearDTO syDTO);
     Description toDescription(SchoolYearDTO syDTO);

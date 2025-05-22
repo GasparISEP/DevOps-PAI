@@ -10,8 +10,8 @@ import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
-import PAI.dto.schoolYear.SchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
 import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
 import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
@@ -343,7 +343,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
@@ -366,7 +366,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
@@ -390,7 +390,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
 
@@ -418,7 +418,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -446,7 +446,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -496,7 +496,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -526,7 +526,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -578,7 +578,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
@@ -607,7 +607,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -649,7 +649,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -715,7 +715,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
 
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -778,7 +778,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -837,7 +837,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -891,7 +891,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
@@ -942,7 +942,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearRepositoryListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
