@@ -37,4 +37,9 @@ public class TeacherCareerProgressionID implements DomainId {
     public UUID getIDValue() {
         return this._ID;
     }
+
+    @Override
+    public String toString() {
+        return _ID.toString();
+    }
 }

@@ -28,9 +28,9 @@ class SchoolYearInitializerTest {
     @Test
     void shouldInitializeAndRegisterSchoolYearsFromCsv() throws Exception {
         // Arrange
-        SchoolYearDTO schoolYearDTO = mock(SchoolYearDTO.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
         when(controller.addSchoolYear(anyString(), anyString(), anyString()))
-                .thenReturn(schoolYearDTO);
+                .thenReturn(schoolYear);
 
 
         // Act

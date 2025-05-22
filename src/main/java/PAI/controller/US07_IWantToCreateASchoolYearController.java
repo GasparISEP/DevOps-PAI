@@ -1,6 +1,8 @@
 package PAI.controller;
 
-import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,9 +26,13 @@ public class US07_IWantToCreateASchoolYearController {
     }
 
     // Creates a new School Year
-    public SchoolYearDTO addSchoolYear (String descriptionInfo, String startDateInfo, String endDateInfo) throws Exception {
+    public SchoolYear addSchoolYear (String descriptionInfo, String startDateInfo, String endDateInfo) throws Exception {
         try {
-            return schoolYearService.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+            Description description = new Description(descriptionInfo);
+            Date startDate = new Date(startDateInfo);
+            Date endDate = new Date(endDateInfo);
+
+            return schoolYearService.addSchoolYear(description, startDate, endDate);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid input: " + e.getMessage(), e);
         } catch (Exception e) {

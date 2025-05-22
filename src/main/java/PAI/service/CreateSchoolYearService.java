@@ -5,7 +5,7 @@ import PAI.VOs.Description;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ public class CreateSchoolYearService {
 
     private final ISchoolYearRepository schoolYearRepository;
     private final ISchoolYearFactory schoolYearFactory;
-    private final ISchoolYearMapperDTO schoolYearMapperDTO;
+    private final ISchoolYearAssembler schoolYearMapperDTO;
 
-    public CreateSchoolYearService(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory, ISchoolYearMapperDTO schoolYearMapperDTO) {
+    public CreateSchoolYearService(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory, ISchoolYearAssembler schoolYearMapperDTO) {
         this.schoolYearRepository = validateNotNull(schoolYearRepository, "schoolYearRepository");
         this.schoolYearFactory = validateNotNull(schoolYearFactory, "schoolYearFactory");
         this.schoolYearMapperDTO = validateNotNull(schoolYearMapperDTO, "schoolYearMapper");

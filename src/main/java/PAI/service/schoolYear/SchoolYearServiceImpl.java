@@ -6,7 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Service;
 
@@ -19,34 +19,28 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
 
     private final ISchoolYearRepository schoolYearRepository;
     private final ISchoolYearFactory schoolYearFactory;
-    private final ISchoolYearMapperDTO schoolYearMapperDTO;
+    private final ISchoolYearAssembler schoolYearMapperDTO;
 
-    public SchoolYearServiceImpl(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory, ISchoolYearMapperDTO schoolYearMapperDTO) {
+    public SchoolYearServiceImpl(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory, ISchoolYearAssembler schoolYearMapperDTO) {
         this.schoolYearRepository = validateNotNull(schoolYearRepository, "schoolYearRepository");
         this.schoolYearFactory = validateNotNull(schoolYearFactory, "schoolYearFactory");
         this.schoolYearMapperDTO = validateNotNull(schoolYearMapperDTO, "schoolYearMapper");
     }
 
     // Create and save a new school year if it does not already exist
-    public SchoolYearDTO addSchoolYear(String description, String startDate, String endDate) throws Exception {
+    public SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
 
         if (description == null || startDate == null || endDate == null) {
             throw new Exception("Not possible to create a school year");
         }
 
-        Description description1 = new Description(description);
-
-        Date startDate1 = new Date(startDate);
-
-        Date endDate1 = new Date(endDate);
-
-        SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description1, startDate1, endDate1);
+        SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
         if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
             throw new Exception("School year already exists.");
         }
 
-        return schoolYearMapperDTO.toDTO(schoolYearRepository.save(newSchoolYear));
+        return schoolYearRepository.save(newSchoolYear);
     }
 
      // Validate that a given dependency is not null

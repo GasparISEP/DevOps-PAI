@@ -51,4 +51,14 @@ public class Date implements ValueObject {
         return Objects.equals(localDate, date.localDate);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(localDate);
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return localDate.format(formatter);
+    }
 }

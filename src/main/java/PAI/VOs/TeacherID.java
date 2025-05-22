@@ -30,4 +30,11 @@ public class TeacherID implements DomainId {
     public int hashCode() {
         return Objects.hash(_teacherAcronym);
     }
+
+    @Override
+    public String toString() {
+        return _teacherAcronym.toString();
+    }
 }
+
+
