@@ -30,7 +30,7 @@ public class TeacherDataModel {
     private AddressDataModel address;
 
     @Embedded
-    private DepartmentIDDataModel departmentIDDataModel;
+    private DepartmentIDDataModel departmentID;
 
     @Embedded
     private TeacherAcademicEmailDataModel academicEmail;
@@ -48,7 +48,7 @@ public class TeacherDataModel {
         this.academicBackground = academicBackground;
         this.address = address;
         this.academicEmail = teacherAcademicEmail;
-        this.departmentIDDataModel = departmentIDDataModel;
+        this.departmentID = departmentIDDataModel;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {
@@ -80,7 +80,7 @@ public class TeacherDataModel {
     }
 
     public DepartmentIDDataModel getDepartmentID() {
-        return departmentIDDataModel;
+        return departmentID;
     }
 
     public TeacherAcademicEmailDataModel getTeacherAcademicEmail() {
