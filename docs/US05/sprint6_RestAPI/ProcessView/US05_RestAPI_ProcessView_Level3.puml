@@ -14,13 +14,10 @@ title US05: Register a Department in the System\nProcess View – Level 3
 
 actor ADM as "Administrator"
 participant ":Frontend" as FE
-participant ":RestController" as CT
-participant ":MapperDTO" as MP
+participant ":Controller" as CT
 participant ":Service" as SE
 participant ":Domain" as DM
-participant ":MapperDataModel" as MDM
 participant ":Repository" as RE
-database DB
 
 group Human Interaction
 ADM -> FE ++: Request to register a department
@@ -31,37 +28,23 @@ ADM -> FE ++: Input: "Software Engineering Department"
 end group
 
 group HTTP Request
-FE -> CT ++: (POST) /departments with JSON {acronym: "DEI", name: "Software Engineering Department"}
-end group
-
-group Mapping DTO to Request
-CT -> MP ++: toRequestDTO(json)
-MP --> CT --: RegisterDepartmentRequest (String name, String acronym)
+FE -> CT ++: (POST) /departments with JSON {request}
 end group
 
 group Application Service Invocation
-CT -> SE ++: createAndSaveDepartment(request)
-end group
+CT -> SE ++: createAndSaveDepartment(command)
 
 group Domain Logic
-SE -> DM ++: new Department(acronym, name)
-DM --> SE --: Department instance
-end group
-
-group Mapping Domain to DataModel
-SE -> MDM ++: toDataModel(department)
-MDM --> SE --: DepartmentDataModel
+SE -> DM ++: Department department = new Department(command.acronym(), command.name())
+DM --> SE --: department
 end group
 
 group Persistence
-SE -> RE ++: save(departmentDataModel)
-RE --> SE --: Persisted DepartmentDataModel
-SE --> CT --: Department persisted
+SE -> RE ++: save(department)
+RE --> SE --: Persisted department
 end group
 
-group Mapping to DTO
-CT -> MP ++: toDTO(department)
-MP --> CT --: DepartmentDTO
+SE --> CT --: department
 end group
 
 group HTTP Response

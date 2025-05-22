@@ -1,6 +1,6 @@
 @startuml
 
-title US20 \n As a Programme Director, I want to define the RUC for a course edition \n Process View - Level 1 Granularity
+title US20 \n As a Programme Director, I want to define the RUC for a course edition \n Process View - Level 1 Granularity - System
 
 skinparam titleFontName "Verdana"
 skinparam defaultFontName "Verdana"
@@ -11,7 +11,7 @@ skinparam participantBackgroundColor #lightblue/white
 autonumber
 
 actor ProgrammeDirector as PD
-participant "SystemPAI" as System <<Component>>
+participant "SystemPAI" as System <<System>>
 
 PD -> System: I want to define the RUC for a course edition.
 activate System #E1F5FE

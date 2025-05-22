@@ -1,0 +1,110 @@
+@startuml
+title Register a Programme, including Study Plan (Backend - Granularity 3)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":RestController" as RestController <<controller>> #82CFFD
+participant ":Service" as Service <<service>> #F6CBA5
+participant ":Domain" as Domain <<domain>> #C4E29A
+participant ":Repository" as Repository <<repository>> #F6F1E7
+
+-> RestController: **(GET) getAllDegreeTypes**()
+activate RestController
+RestController -> Service: **findAll**()
+activate Service
+Service -> Repository: **findAll**()
+activate Repository
+Repository -> : **findAll**()
+Repository <-- : degreeTypesDMList
+Repository --> Service: degreeTypesList
+deactivate Repository
+Service --> RestController: degreeTypesList
+deactivate Service
+<-- RestController: degreeTypesList
+deactivate RestController
+|||
+-> RestController: **(GET) getAllDepartments**()
+activate RestController
+RestController -> Service: **findAll**()
+activate Service
+Service -> Repository: **findAll**()
+activate Repository
+Repository -> : **findAll**()
+Repository <-- : departmentsDMList
+Repository --> Service: departmentList
+deactivate Repository
+Service --> RestController: departmentsList
+deactivate Service
+<-- RestController: departmentsList
+deactivate RestController
+|||
+-> RestController: **(GET) getAllTeachers**()
+activate RestController
+RestController -> Service: **findAll**()
+activate Service
+Service -> Repository: **findAll**()
+activate Repository
+Repository -> : **findAll**()
+Repository <-- : teachersDMList
+Repository --> Service: teachersList
+deactivate Repository
+Service --> RestController: teachersList
+deactivate Service
+<-- RestController: teachersList
+deactivate RestController
+|||
+-> RestController: **(POST) registerProgrammeWithStudyPlan**\n(ProgrammeStudyPlanDTO)
+activate RestController
+note left of RestController
+  Receive as JSON format
+  Converted to
+  ProgrammeStudyPlanDTO
+end note
+
+RestController -> Service: registerAProgrammeInTheSystemIncludingStudyPlan(ProgrammeVOsDTO)
+activate Service
+Service -> Domain: createProgramme(name, acronym, quantityOfEcts,\nquantityOfSemesters, degreeTypeId, departmentId, teacherId)
+activate Domain
+Domain --> Service: programme
+deactivate Domain
+|||
+Service -> Repository: save(programme)
+activate Repository
+Repository -> : save(programmeDM)
+Repository <-- : True
+Repository --> Service: programme
+deactivate Repository
+Service --> RestController: programmeResponseDTO
+deactivate Service
+|||
+RestController -> Service: registerStudyPlan(name, acronym, \nstartDate, quantityOfSemesters, degreeTypeId)
+activate Service
+Service -> Repository: ofIdentity(degreeTypeId)
+activate Repository
+Repository -> : findById(degreeTypeIdDM)
+Repository <-- : degreeTypeIdDM
+Repository --> Service: degreeType
+deactivate Repository
+|||
+Service -> Domain: createStudyPlan(programmeID, startDate,\ndurationInYears, quantityOfEcts)
+activate Domain
+Domain --> Service: studyPlan
+deactivate Domain
+|||
+Service -> Repository: save(studyPlan)
+activate Repository
+Repository -> : save(studyPlanDM)
+Repository <-- : True
+Repository --> Service: studyPlan
+deactivate Repository
+|||
+Service --> RestController: StudyPlanResponseDTO
+deactivate Service
+<-- RestController: 201 Created \n+ \nProgrammeStudyPlanResponseDTO\t
+note left RestController
+  Send as
+  ProgrammeStudyPlanResponseDTO,
+  Converted to JSON
+end note
+@enduml

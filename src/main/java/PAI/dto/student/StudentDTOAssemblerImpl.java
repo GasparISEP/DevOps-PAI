@@ -2,7 +2,9 @@ package PAI.dto.student;
 
 import PAI.VOs.*;
 import PAI.domain.student.Student;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StudentDTOAssemblerImpl implements IStudentDTOAssembler{
 
     public StudentID toStudentID(StudentDTO studentDTO) {

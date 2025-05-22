@@ -1,0 +1,64 @@
+@startuml
+
+' US17 - Enrol a Student in a ProgrammeEdition
+' Process View - Level 4 (Technical Backend Architecture)
+
+skinparam componentStyle uml2
+skinparam sequence {
+    LifeLineBorderColor black
+    LifeLineBackgroundColor LightBlue
+}
+
+title US17: Enrol Student in a ProgrammeEdition (Process View – Level 4)
+
+actor ASC
+participant ":Router" as router <<component>> <<Router>>
+participant ":RESTController" as restController <<component>> <<RESTController>>
+participant ":Service" as service <<component>> <<Service>>
+participant ":Factory" as factory <<component>> <<Factory>>
+participant ":Domain" as domain <<component>> <<Aggregate>>
+participant ":Mapper" as mapper <<component>> <<Mapper>>
+participant ":DataModel" as datamodel <<component>> <<DataModel>>
+participant ":SpringDataRepository" as repo <<component>> <<SpringData>>
+participant "H2 Database" as db <<database>>
+
+== Step 1: User submits form ==
+ASC -> router: POST /programmeeditions/{acr}/{name}/{year}/enrolments
+activate router
+
+router -> restController: enrolStudent(requestDTO)
+activate restController
+
+restController -> service: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(VO)
+activate service
+
+== Step 2: Domain and Repository checks ==
+service -> repo: isStudentEnrolled(studentID, programmeID)
+repo -> db: SELECT
+repo --> service: true
+
+service -> repo: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, year)
+repo -> db: SELECT
+repo --> service: ProgrammeEditionID
+
+service -> repo: isStudentEnrolledInThisProgrammeEdition(studentID, peID)
+repo -> db: SELECT
+repo --> service: false
+
+== Step 3: Create and persist enrolment ==
+service -> factory: newProgrammeEditionEnrolment(studentID, peID)
+factory --> service: ProgrammeEditionEnrolment
+
+service -> mapper: toDataModel(enrolment)
+mapper --> datamodel: ProgrammeEditionEnrolmentDataModel
+
+service -> repo: save(datamodel)
+repo -> db: INSERT
+repo --> service: OK
+
+service --> restController: success
+restController --> router: HTTP 201 Created
+router --> ASC: Student successfully enrolled
+
+deactivate service
+@enduml

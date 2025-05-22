@@ -1,66 +1,74 @@
 package PAI.dto.courseEditionEnrolment;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class CourseEditionEnrolmentDtoTest {
+class CourseEditionEnrolmentDtoTest {
     
     @Test
-    void shouldCreateCourseEditionEnrolmentRequestDto() {
-        // arrange
-        String courseEditionID = "1";
-        String studentID ="1";
-        // act
-        CourseEditionEnrolmentDto courseEditionEnrolmentRequestDto = new CourseEditionEnrolmentDto(courseEditionID, studentID);
-        // assert
-        assertNotNull(courseEditionEnrolmentRequestDto);
+    void shouldCreateValidCourseEditionEnrolmentDto() {
+        // Arrange
+        int studentUniqueNumber = 1100000;
+        String programmeName = "LEI";
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String studyPlanDate = "01-01-2024";
+
+        // Act
+        CourseEditionEnrolmentDto dto = new CourseEditionEnrolmentDto(
+            studentUniqueNumber,
+            programmeName,
+            programmeAcronym,
+            schoolYearId,
+            courseAcronym,
+            courseName,
+            studyPlanDate
+        );
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals(studentUniqueNumber, dto.studentUniqueNumber());
+        assertEquals(programmeName, dto.programmeName());
+        assertEquals(programmeAcronym, dto.programmeAcronym());
+        assertEquals(schoolYearId, dto.schoolYearId());
+        assertEquals(courseAcronym, dto.courseAcronym());
+        assertEquals(courseName, dto.courseName());
+        assertEquals(studyPlanDate, dto.studyPlanDate());
     }
 
     @Test
-    void shouldGetNullIfCourseEditionIDNull(){
-        // arrange
-        String courseEditionID = null;
-        String studentID ="1";
-        // act
-        CourseEditionEnrolmentDto courseEditionEnrolmentRequestDto = new CourseEditionEnrolmentDto(courseEditionID, studentID);
-        // assert
-        assertNull(courseEditionEnrolmentRequestDto.courseEditionId());
+    void shouldCreateDtoWithMinimumValues() {
+        // Arrange
+        int studentUniqueNumber = 1;
+        String programmeName = "A";
+        String programmeAcronym = "B";
+        String schoolYearId = "00000000-0000-0000-0000-000000000000";
+        String courseAcronym = "C";
+        String courseName = "D";
+        String studyPlanDate = "01-01-2024";
+
+        // Act
+        CourseEditionEnrolmentDto dto = new CourseEditionEnrolmentDto(
+            studentUniqueNumber,
+            programmeName,
+            programmeAcronym,
+            schoolYearId,
+            courseAcronym,
+            courseName,
+            studyPlanDate
+        );
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals(studentUniqueNumber, dto.studentUniqueNumber());
+        assertEquals(programmeName, dto.programmeName());
+        assertEquals(programmeAcronym, dto.programmeAcronym());
+        assertEquals(schoolYearId, dto.schoolYearId());
+        assertEquals(courseAcronym, dto.courseAcronym());
+        assertEquals(courseName, dto.courseName());
+        assertEquals(studyPlanDate, dto.studyPlanDate());
     }
-
-    @Test
-    void shouldGetNullIfStudentIDNull(){
-        // arrange
-        String courseEditionID = "1";
-        String studentID = null;
-        // act
-        CourseEditionEnrolmentDto courseEditionEnrolmentRequestDto = new CourseEditionEnrolmentDto(courseEditionID, studentID);
-        // assert
-        assertNull(courseEditionEnrolmentRequestDto.studentId());
-    }   
-
-    @Test
-    void shouldGetCourseEditionID(){
-        // arrange
-        String courseEditionID = "1";
-        String studentID ="1";
-        // act
-        CourseEditionEnrolmentDto courseEditionEnrolmentRequestDto = new CourseEditionEnrolmentDto(courseEditionID, studentID);
-        // assert
-        assertEquals(courseEditionID, courseEditionEnrolmentRequestDto.courseEditionId());
-    }   
-
-    @Test
-    void shouldGetStudentID(){
-        // arrange
-        String courseEditionID = "1";
-        String studentID ="1";
-        // act
-        CourseEditionEnrolmentDto courseEditionEnrolmentRequestDto = new CourseEditionEnrolmentDto(courseEditionID, studentID);
-        // assert
-        assertEquals(studentID, courseEditionEnrolmentRequestDto.studentId());
-    }       
-
 }

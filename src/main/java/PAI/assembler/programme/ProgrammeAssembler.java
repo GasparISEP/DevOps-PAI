@@ -5,7 +5,9 @@ import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProgrammeAssembler implements IProgrammeAssembler {
 
     public ProgrammeVOsDTO fromDTOToDomain (ProgrammeRequestDTO programmeRequestDTO) {

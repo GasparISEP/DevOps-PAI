@@ -1,14 +1,14 @@
 @startuml
 autonumber
 
-participant "pCtrl:ProgrammeRestController" as C #implementation
-participant "pMapper:ProgrammeMapper" as PM #lightgreen
+participant "pService:ProgrammeServiceImpl" as PS #implementation
+participant "pMapper:ProgrammeAssembler" as PA #lightgreen
 participant "programmeVOsDTO:ProgrammeVOsDTO" as PDTO
 
-activate C
-C -> PM ++: fromDTOToDomain(ProgrammeRequestDTO)
-PM -> PDTO**: new ProgrammeVOsDTO (nameVO, acronymVO, quantECTSVO \nquantSemestersVO, degreeTypeID, departmentID, teacherID)
+activate PS
+PS -> PA ++: fromDTOToDomain(ProgrammeRequestDTO)
+PA -> PDTO**: newProgrammeVOsDTO (nameVO, acronymVO, quantECTSVO \nquantSemestersVO, degreeTypeID, departmentID, teacherID)
 activate PDTO
-PDTO --> PM--: programmeVOsDTO
-PM --> C--: programmeVOsDTO
+PDTO --> PA--: programmeVOsDTO
+PA --> PS--: programmeVOsDTO
 @enduml

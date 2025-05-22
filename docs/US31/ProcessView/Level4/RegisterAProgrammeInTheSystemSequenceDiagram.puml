@@ -56,14 +56,14 @@ UI --> Admin --: Name? Acronym? Quantity of Ects credits\nper Semester? Quantity
 
 Admin -> UI ++: name, acronym, quantityOfEcts, quantityOfSemesters
 
-UI -> C ++: registerAProgrammeInTheSystem \n(ProgrammeRequestDTO)
+UI -> C ++: registerAProgrammeInTheSystem \n(programmeRequestDTO)
 
 ref over C
     Convert ProgrammeRequestDTO
     to ProgrammeVOsDTO
 end ref
 
-C -> PS ++: registerProgramme(nameVO, acronymVO, \nquantityOfEctsVO, quantityOfSemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
+C -> PS ++: registerProgramme(programmeRequestDTO)
 
 PS -> PF ++: registerProgramme(nameVO, acronymVO, \nquantityOfEctsVO, quantityOfSemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
 
@@ -89,11 +89,11 @@ end ref
 
 PR --> PS --: P1
 
-PS --> C --: P1
-
-ref over C
+ref over PS
     Convert P1 to ProgrammeResponseDTO
 end ref
+
+PS --> C --: ProgrammeResponseDTO
 
 C --> UI --: ProgrammeResponseDTO
 

@@ -7,9 +7,13 @@ import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 class DepartmentAssemblerImplTest {
 
@@ -77,5 +81,43 @@ class DepartmentAssemblerImplTest {
             departmentAssembler.toDTO(null);
         });
     }
+    @Test
+    void shouldConvertListOfDepartmentsToDTOs() {
+        // Arrange
+        Department departmentDouble = mock(Department.class);
+        when(departmentDouble.identity()).thenReturn(mock(DepartmentID.class));
+        when(departmentDouble.getName()).thenReturn(mock(Name.class));
+        when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
+        when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
 
+        Iterable<Department> listDepartment = List.of(departmentDouble);
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act
+        Iterable<DepartmentDTO> departmentDTOs = departmentAssembler.toDTOs(listDepartment);
+
+        // Assert
+        assertNotNull(departmentDTOs);
+    }
+    @Test
+    void shouldReturnEmptyListWhenInputIsNull() {
+        //Arrange
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentDTO> departmentDTOS = departmentAssembler.toDTOs(null);
+        //Assert
+        assertNotNull(departmentDTOS);
+
+    }
+    @Test
+    void shouldReturnEmptyListWhenInputIsEmpty() {
+        //Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentDTO> departmentDTOS = departmentAssembler.toDTOs(List.of()); // Static method to create an empty list
+        //Assert
+        assertNotNull(departmentDTOS);
+    }
 }

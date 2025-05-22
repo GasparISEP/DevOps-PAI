@@ -3,12 +3,16 @@ package PAI.assembler.department;
 
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
+import PAI.domain.course.Course;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
+import PAI.persistence.datamodel.course.CourseDataModel;
 import org.springframework.stereotype.Component;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 @Component
 public class DepartmentAssemblerImpl implements IDepartmentAssembler {
 
@@ -35,4 +39,18 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
                 department.getDirectorID().toString()
         );
     }
+    @Override
+    public Iterable<DepartmentDTO> toDTOs(Iterable<Department> listDepartment) {
+        if (listDepartment == null) {
+            return Collections.emptyList(); // evita null pointer exception e retorna uma lista vazia
+        }
+
+        List<DepartmentDTO> listDTO = new ArrayList<>();
+        for (Department department : listDepartment) {
+            DepartmentDTO departmentDTO = toDTO(department);
+            listDTO.add(departmentDTO);
+        }
+        return listDTO;
+    }
+
 }
