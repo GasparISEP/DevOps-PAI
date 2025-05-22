@@ -11,4 +11,5 @@ public interface IProgrammeEditionService {
     ProgrammeEdition createProgrammeEdition(ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception;
     Optional<ProgrammeEdition> saveProgrammeEdition(ProgrammeEdition programmeEdition) throws Exception;
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
+    Iterable<ProgrammeEdition> findAllProgrammeEditions() throws Exception;
 }

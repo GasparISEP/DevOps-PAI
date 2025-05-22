@@ -1,6 +1,8 @@
 @startuml
 title Register a Programme, including the Study Plan (Granularity 1)
+skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
+autonumber
 
 actor ASC #F5B041
 participant "PAI" as system <<System>> #ABEBA1

@@ -26,8 +26,8 @@ class TeacherCareerProgressionAssemblerTest {
     }
 
     @Test
-    void testToTeacherCareerProgression() {
-        TeacherCareerProgression progression = assembler.toTeacherCareerProgression(dto);
+    void testToDomain() {
+        TeacherCareerProgression progression = assembler.toDomain(dto);
 
         assertNotNull(progression);
         assertEquals(dto.getTcpid(), progression.getID().toString());
@@ -38,20 +38,18 @@ class TeacherCareerProgressionAssemblerTest {
     }
 
     @Test
-    void testToTeacherCareerProgressionDTO() {
-        TeacherCareerProgression domain = assembler.toTeacherCareerProgression(dto);
-        TeacherCareerProgressionResponseDTO responseDTO = assembler.toTeacherCareerProgressionDTO(domain);
+    void testToDomainDTO() {
+        TeacherCareerProgression domain = assembler.toDomain(dto);
+        TeacherWorkingPercentageUpdateDTO responseDTO = assembler.toTeacherWorkingPercentageUpdateDTO(domain);
 
         assertNotNull(responseDTO);
-        assertEquals(dto.getTcpid(), responseDTO.getTcpid());
         assertEquals(dto.getDate(), responseDTO.getDate());
-        assertEquals(dto.getTcid(), responseDTO.getTcid());
         assertEquals(dto.getWorkingpercentage(), responseDTO.getWorkingpercentage());
         assertEquals(dto.getTeacherid(), responseDTO.getTeacherid());
     }
 
     @Test
-    void testToTeacherCareerProgressionID() {
+    void testToDomainID() {
         TeacherCareerProgressionID id = assembler.toTeacherCareerProgressionID(dto);
         assertEquals(dto.getTcpid(), id.toString());
     }

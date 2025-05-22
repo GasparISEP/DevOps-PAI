@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.domain.programmeEdition.IProgrammeEditionFactory;
+import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
@@ -33,6 +35,8 @@ import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRep
 import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,8 +70,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Autowired private IProgrammeEnrolmentRepository programmeEnrolmentRepository;
     @Autowired private IProgrammeRepository programmeRepository;
     @Autowired private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
+    @Autowired private IProgrammeEditionFactory programmeEditionFactory;
 
     private IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
+    private IProgrammeEditionService programmeEditionService;
     private US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller;
 
     @BeforeEach
@@ -82,9 +88,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             programmeRepository,
             programmeEditionEnrolmentFactory
         );
+        programmeEditionService = new ProgrammeEditionService(
+                programmeEditionFactory,
+                programmeEditionRepository
+        );
+
         controller = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(
             programmeEditionEnrolmentService,
-            programmeEditionRepository
+                programmeEditionService
         );
     }
 
@@ -125,7 +136,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnEmptyIterableWhenNoProgrammeEditionsExist() {
+    void shouldReturnEmptyIterableWhenNoProgrammeEditionsExist() throws Exception {
         // Act
         Iterable<ProgrammeEdition> result = controller.getAllProgrammeEdition();
 
@@ -142,10 +153,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         //SUT Controller
         //Arrange
         IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
         //Act
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionService);
         //Assert
         assertNotNull(controller);
     }
@@ -153,10 +164,10 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Test
     void shouldThrowExceptionWhenServiceIsNull() {
         //SUT Controller
-        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
         //Arrange
         //Act + Assert
-        assertThrows(Exception.class, () -> new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, iProgrammeEditionRepository));
+        assertThrows(Exception.class, () -> new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(null, iProgrammeEditionService));
     }
 
     @Test
@@ -174,9 +185,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
         IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionService);
         when(iProgrammeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEditionID)).thenReturn(1);
         // act
         int result = controller.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID);
@@ -188,9 +199,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     void shouldReturnIllegalArgumentExceptionIfProgrammeEditionIdNull() throws Exception {
         // arrange
         IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionService);
         // act && assert
         assertThrows(IllegalArgumentException.class, () -> controller.getTheNumberOfStudentsEnrolledInAProgrammeEdition(null));
     }
@@ -222,7 +233,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
-
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -244,7 +256,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
 
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, programmeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, iProgrammeEditionService);
 
         programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID, programmeEditionID1);
         programmeEditionEnrolmentService.enrolStudentInProgrammeEdition(studentID2, programmeEditionID1);
@@ -286,7 +298,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
-
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -297,7 +310,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
                 programmeRepository,
                 programmeEditionEnrolmentFactory);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller1 =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, programmeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(programmeEditionEnrolmentService, iProgrammeEditionService);
 
         // Act
         int result = controller1.getTheNumberOfStudentsEnrolledInAProgrammeEdition(programmeEditionID1);
@@ -309,14 +322,14 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
 
     @Test
-    void shouldGetAllProgrammeEdition() {
+    void shouldGetAllProgrammeEdition() throws Exception {
         // arrange
         IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeEditionRepository iProgrammeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
-                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionRepository);
+                new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionService);
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        when(iProgrammeEditionRepository.findAll()).thenReturn(List.of(programmeEdition));
+        when(iProgrammeEditionService.findAllProgrammeEditions()).thenReturn(List.of(programmeEdition));
         // act
         Iterable<ProgrammeEdition> result = controller.getAllProgrammeEdition();
         // assert
