@@ -10,6 +10,8 @@ public class ProgrammeRequestDTO {
     private String departmentID;
     private String teacherID;
 
+    public ProgrammeRequestDTO() {}
+
     public ProgrammeRequestDTO(String name, String acronym, int quantECTS, int quantSemesters, String degreeTypeID, String departmentID, String teacherID) {
         this.name = name;
         this.acronym = acronym;
