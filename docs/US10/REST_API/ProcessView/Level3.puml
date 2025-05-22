@@ -6,16 +6,16 @@ title As an Administrator, I want to configure a DegreeType in the System \n (Pr
 skinparam sequenceMessageAlign center
 
 actor Administrator
-participant "Frontend" as FE #application
+participant "UI" as UI #application
 participant "Controller" as Controller #motivation
 participant "Service" as Service #business
 participant "Repository" as Repo #technology
 participant "Domain" as Domain #physical
 database DB
 
-Administrator -> FE : Fill DegreeType form (Name, MaxEcts)
-activate FE
-FE -> Controller : register DegreeType(Name, MaxEcts)
+Administrator -> UI : Fill DegreeType form (Name, MaxEcts)
+activate UI
+UI -> Controller : register DegreeType(Name, MaxEcts)
 activate Controller
 
 Controller -> Service : register DegreeType(Name, MaxEcts)
@@ -53,10 +53,10 @@ deactivate Repo
 Service --> Controller : DegreeType saved
 deactivate Service
 
-Controller --> FE : DegreeType saved
+Controller --> UI : DegreeType saved
 deactivate Controller
 
-FE --> Administrator : DegreeType registered successfully
-deactivate FE
+UI --> Administrator : DegreeType registered successfully
+deactivate UI
 
 @enduml
