@@ -1,29 +1,29 @@
 package PAI.controller;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
+import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.stereotype.Component;
 @Component
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
     private final IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService;
-    private final IProgrammeEditionRepository iProgrammeEditionRepository;
+    private final IProgrammeEditionService iProgrammeEditionService;
 
 
-    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService, IProgrammeEditionRepository iProgrammeEditionRepository) {
+    public US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService, IProgrammeEditionService iProgrammeEditionService) {
         if(iProgrammeEditionEnrolmentService == null) {
             throw new IllegalArgumentException("iProgrammeEditionEnrolmentService cannot be null");
         }
-        if(iProgrammeEditionRepository == null) {
-            throw new IllegalArgumentException("iProgrammeEditionRepository cannot be null");
+        if(iProgrammeEditionService == null) {
+            throw new IllegalArgumentException("iProgrammeEditionService cannot be null");
         }
-        this.iProgrammeEditionRepository = iProgrammeEditionRepository;
+        this.iProgrammeEditionService = iProgrammeEditionService;
         this.iProgrammeEditionEnrolmentService = iProgrammeEditionEnrolmentService;
     }
 
-    public Iterable<ProgrammeEdition> getAllProgrammeEdition() {
-        return iProgrammeEditionRepository.findAll();
+    public Iterable<ProgrammeEdition> getAllProgrammeEdition() throws Exception {
+        return iProgrammeEditionService.findAllProgrammeEditions();
     }
 
 
