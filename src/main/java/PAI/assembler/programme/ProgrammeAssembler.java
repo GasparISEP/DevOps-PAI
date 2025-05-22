@@ -6,7 +6,7 @@ import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 
-public class ProgrammeAssembler {
+public class ProgrammeAssembler implements IProgrammeAssembler {
 
     public ProgrammeVOsDTO fromDTOToDomain (ProgrammeRequestDTO programmeRequestDTO) {
 

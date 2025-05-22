@@ -6,9 +6,9 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.dto.schoolYear.SchoolYearDTO;
-import PAI.dto.schoolYear.SchoolYearMapperDTO;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,7 +25,7 @@ class SchoolYearServiceImplTest {
     void constructorShouldThrowExceptionWhenRepositoryIsNull() {
         // Arrange
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -40,7 +40,7 @@ class SchoolYearServiceImplTest {
     void constructorShouldThrowExceptionWhenFactoryIsNull() {
         // Arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -68,7 +68,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
 
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -105,7 +105,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
 
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
@@ -140,7 +140,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         String startDateInfo = "02-02-2025";
@@ -155,7 +155,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         String descriptionInfo = "ola";
@@ -171,7 +171,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         String descriptionInfo = "ola";
@@ -187,7 +187,7 @@ class SchoolYearServiceImplTest {
         // Arrange: Mocks and setup
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         // Mock the school year objects
@@ -234,7 +234,7 @@ class SchoolYearServiceImplTest {
         //arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
         SchoolYear schoolYear1 = mock(SchoolYear.class);
 
@@ -253,7 +253,7 @@ class SchoolYearServiceImplTest {
         //arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
 
         when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
@@ -269,7 +269,7 @@ class SchoolYearServiceImplTest {
         //arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
 
         when(schoolYearRepository.getCurrentSchoolYear()).thenThrow(new NullPointerException());
@@ -286,7 +286,7 @@ class SchoolYearServiceImplTest {
         SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
 
         when(schoolYearRepository.containsOfIdentity(schoolYearID1)).thenReturn(true);
@@ -304,7 +304,7 @@ class SchoolYearServiceImplTest {
         SchoolYearID schoolYearID1 = null;
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
 
         //act
@@ -321,7 +321,7 @@ class SchoolYearServiceImplTest {
         SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
 
         when(schoolYearRepository.containsOfIdentity(schoolYearID1)).thenReturn(false);
@@ -339,7 +339,7 @@ class SchoolYearServiceImplTest {
         SchoolYear schoolYear2 = mock(SchoolYear.class);
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
         when(schoolYearRepository.findAll()).thenReturn(List.of(schoolYear,schoolYear2));
 
@@ -355,7 +355,7 @@ class SchoolYearServiceImplTest {
         //arrange
         ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
         ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
-        ISchoolYearMapperDTO schoolYearMapperDTO = mock(SchoolYearMapperDTO.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
         when(schoolYearRepository.getAllSchoolYearsIDs()).thenReturn(List.of());
 

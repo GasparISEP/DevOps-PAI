@@ -1,0 +1,20 @@
+@startuml
+
+title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 2 Granularity)
+autonumber
+
+actor ASC #lightblue
+participant Frontend as "Frontend\n<<Component>>" #lightblue
+participant Backend as "Backend\n<<Component>>" #lightgreen
+participant  Repo as "Repo\n<<Component>>" #lightyellow
+ASC -> Frontend: I want to get the number of students in a programme edition!
+Frontend -> ASC: Which Programme Edition?
+ASC -> Frontend: Enter Programme Edition!
+Frontend -> ASC:This programme Edition?
+ASC -> Frontend:Yes!
+Frontend ->Backend:(get) The number of students in a programme edition(ProgrammeEditionID)
+Backend -> Repo:(SELECT) findAll ProgrammeEditionEnrolments(ProgrammeEditionID)
+Repo-->Backend:List <ProgrammeEditionEnrolment>
+Backend--> Frontend:int
+Frontend-->ASC:number Of Students!
+@enduml

@@ -3,9 +3,9 @@ package PAI.controller;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.dto.schoolYear.SchoolYearDTO;
-import PAI.dto.schoolYear.SchoolYearMapperDTO;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
@@ -215,7 +215,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearRepository schoolYearRepositoryImpl = new SchoolYearRepositoryImpl(schoolYearListFactory);
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepositoryImpl, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
 
@@ -235,7 +235,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange: Create real dependencies
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
@@ -263,7 +263,7 @@ class US07_IWantToCreateASchoolYearControllerTest {
         // Arrange
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearListFactory schoolYearListFactory = new SchoolYearListFactoryImpl();
-        ISchoolYearMapperDTO schoolYearMapperDTO = new SchoolYearMapperDTO(schoolYearFactory);
+        ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactory);
         ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
         US07_IWantToCreateASchoolYearController controller = new US07_IWantToCreateASchoolYearController(schoolYearService);
