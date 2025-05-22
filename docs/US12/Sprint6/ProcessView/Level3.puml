@@ -1,0 +1,57 @@
+@startuml
+
+autonumber
+
+title As an ASC I want to change a Programme Director\n (Process View Level 3)
+
+actor ASC as Admin
+participant "UI" as UI #lightblue
+participant "Controller" as C #lightgreen
+participant "Service" as S #lightblue
+participant "Repository" as R #lightyellow
+participant "Domain" as D #lightpink
+participant "Database" as BD #lightyellow
+
+activate Admin
+Admin -> UI ++: Request change a Programme Director
+
+UI -> C ++: Request Programmes
+C -> S ++: Get Programmes
+S -> R ++: Get Programmes
+R -> BD ++: Retrieve Programmes
+BD --> R --: List of Programmes
+R --> S --: List of Programmes
+S --> C --: List of Programmes
+C --> UI --: List of Programmes
+UI --> Admin --: Provide List of Programmes
+
+Admin -> UI ++: Programmes
+
+UI -> C ++: Request Teachers
+C -> S ++: Get Teachers
+S -> R ++: Get Teachers
+R -> BD ++: Retrieve all Teachers
+BD --> R --: List of Teachers
+R --> S --: List of Teachers
+S --> C --: List of Teachers
+C --> UI --: List of Teachers
+UI --> Admin --: Provide List of Teachers
+
+Admin -> UI ++: Programme and Teacher
+
+UI -> C ++: Submit Programme and Teacher
+C -> S ++: Register Programme Director
+
+S -> D ++: Update Programme Director
+D --> S --: Programme Director
+
+S -> R ++: Save Programme Director
+R -> BD ++: Save Programme Director
+BD --> R --: Saved Programme Director
+R --> S --: Saved Programme Director
+
+S --> C --: Saved Programme Director
+C --> UI --: Saved Programme Director
+UI --> Admin --: Programme Director updated successfully!
+
+@enduml
