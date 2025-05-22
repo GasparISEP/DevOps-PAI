@@ -1,86 +1,93 @@
 @startuml
-title US16: Enroll a Student in a Course Edition - Process View Level 4
-autonumber
 
-' Set colors for different types of lines
+title US16: Enroll a Student in a Course Edition\nProcess View – Level 4
+
+autonumber
 skinparam sequence {
-    ArrowColor #2C3E50
-    LifeLineBorderColor #2C3E50
-    LifeLineBackgroundColor #ECF0F1
-    ParticipantBorderColor #2C3E50
-    ParticipantBackgroundColor #ECF0F1
-    ParticipantFontColor #2C3E50
-    ActorBorderColor #2C3E50
-    ActorBackgroundColor #ECF0F1
-    ActorFontColor #2C3E50
-    DatabaseBorderColor #2C3E50
-    DatabaseBackgroundColor #ECF0F1
-    DatabaseFontColor #2C3E50
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
 }
 
 actor "Academic Services Coordinator" as ASC
+participant ":Frontend" as UI
 participant ":CourseEditionEnrolmentRestController" as Controller
-participant ":CourseEditionEnrolmentService" as Service
-participant ":CourseEditionEnrolmentFactory" as Factory
-participant ":CourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentAssembler" as Assembler
-database "Database" as DB
+participant ":ICourseEditionEnrolmentService" as Service
+participant ":ICourseEditionEnrolmentRepository" as Repository
+participant ":CourseEditionEnrolmentFactory" as Factory
+participant ":CourseEditionEnrolmentDataModelMapper" as DataModelMapper
+database "DB" as SpringDataRepo
 
-ASC -> Controller: POST /api/courseeditions/{courseEditionId}/enrolments
-activate Controller
+group Human Interaction
+ASC -> UI ++: Request to enroll a student
+UI --> ASC --: Prompt: "Enter student name"
+ASC -> UI ++: Input: "John Doe"
+UI --> ASC --: Display matching students
+ASC -> UI ++: Select student
+UI --> ASC --: Display programme editions
+ASC -> UI ++: Select programme edition
+UI --> ASC --: Display course editions
+ASC -> UI ++: Select course edition
+end group
 
-Controller -> Service: enrolStudentInACourseEdition(EnrolStudentCourseEditionDto)
-activate Service
-
-Service -> Assembler: toDomain(EnrolStudentCourseEditionDto)
-activate Assembler
+group Controller Layer
+UI -> Controller ++: (POST) /courseeditions/enrolments {request}
+Controller -> Assembler ++: toDomain(CourseEditionEnrolmentDto)
 note right of Assembler
   Transformations:
   1. String studentId -> StudentID VO
-  2. String courseEditionId -> CourseEditionID VO
+  2. String programmeName -> NameWithNumbersAndSpecialChars VO
+  3. String programmeAcronym -> Acronym VO
+  4. String schoolYearId -> UUID -> SchoolYearID VO
+  5. String courseName -> Name VO
+  6. String courseAcronym -> Acronym VO
+  7. String studyPlanDate -> Date VO
+  Creates nested VOs:
+  - ProgrammeID
+  - ProgrammeEditionID
+  - CourseID
+  - StudyPlanID
+  - CourseInStudyPlanID
+  - CourseEditionID
 end note
-Assembler --> Service: Pair<StudentID, CourseEditionID>
-deactivate Assembler
+Assembler --> Controller --: CourseEditionEnrolment
+end group
 
-Service -> Service: validateEnrollment(studentId, courseEditionId)
-Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
-activate Repository
-Repository -> DB: SELECT * FROM course_edition_enrolments
-activate DB
-DB --> Repository: ResultSet
-deactivate DB
-Repository --> Service: false
-deactivate Repository
-Service --> Service: true
+group Application + Domain Logic
+Controller -> Service ++: enrollStudentInCourseEdition
+Service -> Factory ++: create Enrollment
+Factory --> Service --: CourseEditionEnrolment
+Service -> Repository ++: validate enrollment
+Repository -> SpringDataRepo ++: validate enrollment
+SpringDataRepo --> Repository --: validation
+Repository --> Service --: validation
+end group
 
-Service -> Factory: create(studentId, courseEditionId)
-activate Factory
-Factory --> Service: CourseEditionEnrolment
-deactivate Factory
-
-Service -> Assembler: toDataModel(CourseEditionEnrolment)
-activate Assembler
-note right of Assembler
+group Persistence
+Service -> Repository ++: save enrollment
+Repository -> DataModelMapper ++: toDataModel(CourseEditionEnrolment)
+note right of DataModelMapper
   Transformations:
-  1. StudentID VO -> Long
-  2. CourseEditionID VO -> Long
+  1. StudentID VO -> StudentIDDataModel
+  2. CourseEditionID VO -> CourseEditionIDDataModel
+  3. All nested VOs -> corresponding DataModels
 end note
-Assembler --> Service: CourseEditionEnrolmentDataModel
-deactivate Assembler
+DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
+Repository -> SpringDataRepo ++: save CourseEditionEnrolmentDataModel
+SpringDataRepo --> Repository --: persisted
+Repository --> Service --: persisted
+end group
 
-Service -> Repository: save(courseEditionEnrolmentDataModel)
-activate Repository
-Repository -> DB: INSERT INTO course_edition_enrolments
-activate DB
-DB --> Repository: Success
-deactivate DB
-Repository --> Service: true
-deactivate Repository
+group Response Mapping
+Service --> Controller --: CourseEditionEnrolment
+Controller -> Assembler ++: toDto(CourseEditionEnrolment)
+Assembler --> Controller --: CourseEditionEnrolmentDto
+Controller --> UI --: HTTP response + CourseEditionEnrolmentDto
+UI --> ASC --: Success message
+end group
 
-Service --> Controller: true
-deactivate Service
-
-Controller --> ASC: 201 Created
-deactivate Controller
-
-@enduml 
+@enduml

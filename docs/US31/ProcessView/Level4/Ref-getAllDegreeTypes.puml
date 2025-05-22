@@ -3,7 +3,7 @@ autonumber
 
 participant "pCtrl:ProgrammeRestController" as C #implementation
 participant "dtService:DegreeTypeService" as DTS #lightblue
-participant "dtMapper:DegreeTypeMapper" as DTM #lightpink
+participant "dtAssembler:DegreeTypeAssembler" as DTA #lightpink
 participant "dtDTO:DegreeTypeDTO" as DTDTO #lightgreen
 participant "dtRepo:DegreeTypeRepository" as DTR #technology
 participant "dtMapper:DegreeTypeMapper" as M #lightyellow
@@ -30,10 +30,10 @@ end
 
 DTR --> DTS --: List<DegreeType>
 loop for DegreeType[i]
-DTS -> DTM ++ :fromDomainToDTO(degreeType[i]))
-DTM -> DTDTO ++: newDegreeTypeDTO(degreeType[i]))
-DTDTO --> DTM --: degreeTypeDTO[i]
-DTM --> DTS --: degreeTypeDTO[i]
+DTS -> DTA ++ :fromDomainToDTO(degreeType[i]))
+DTA -> DTDTO ++: newDegreeTypeDTO(degreeType[i]))
+DTDTO --> DTA --: degreeTypeDTO[i]
+DTA --> DTS --: degreeTypeDTO[i]
 end
 DTS --> C --: List<DegreeTypeDTO>
 deactivate C

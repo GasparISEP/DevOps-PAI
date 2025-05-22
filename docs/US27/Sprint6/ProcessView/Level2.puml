@@ -63,6 +63,11 @@ activate Database
 Database --> Backend: True
 deactivate Database
 |||
+Backend -> Database: **findById**(degreeTypeIdDM)
+activate Database
+Backend <-- Database: degreeTypeIdDM
+deactivate Database
+|||
 Backend -> Database: **save**(studyPlanDM)
 activate Database
 Database --> Backend: True

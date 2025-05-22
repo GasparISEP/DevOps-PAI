@@ -3,7 +3,7 @@ autonumber
 
 participant "pCtrl:ProgrammeRestController" as C #implementation
 participant "dService:DepartmentService" as DPS #strategy
-participant "dtMapper:DepartmentMapper" as DM #lightpink
+participant "dtAssember:DepartmentAssember" as DA #lightpink
 participant "dDTO:DepartmentDTO" as DDTO #lightgreen
 participant "dRepo:DepartmentRepository" as DPR #lightcyan
 participant "dMapper:DepartmentMapper" as M #lightyellow
@@ -31,10 +31,10 @@ end
 
 DPR --> DPS --: List<Department>
 loop for Department[i]
-DPS -> DM ++ :fromDomainToDTO(department[i]))
-DM -> DDTO ++: newDepartmentDTO(department[i]))
-DDTO --> DM --: departmentDTO[i]
-DM --> DPS --: departmentDTO[i]
+DPS -> DA ++ :fromDomainToDTO(department[i]))
+DA -> DDTO ++: newDepartmentDTO(department[i]))
+DDTO --> DA --: departmentDTO[i]
+DA --> DPS --: departmentDTO[i]
 end
 
 DPS --> C --: List<DepartmentDTO>

@@ -1,0 +1,57 @@
+@startuml
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title As a Programme Director I want to know the Average Grade of a Course Edition of my Programme. \n(Process View lvl 3)
+skinparam sequencemessagealign center
+
+actor RUC
+participant ":UI" as UI #application
+participant ":Controller" as controller #motivation
+participant ":Service" as service #business
+participant ":Repository" as repo #technology
+database db #wheat
+
+RUC -> UI : I want to know the average \n grade in a **CourseEdition**
+activate UI
+UI -> controller : Retrieve all Course Editions
+activate controller
+controller -> service : Retrieve all Course Editions
+activate service
+service -> repo : Retrieve all Course Editions
+activate repo
+repo -> db : Retrieve all Course Editions
+activate db
+db --> repo : All Course Editions
+deactivate db
+repo --> service : All Course Editions
+deactivate repo
+service --> controller : All Course Editions
+deactivate service
+controller --> UI : All Course Editions
+deactivate controller
+
+
+UI --> RUC : Choose a Course Edition
+RUC -> UI : Course Edition!
+
+
+UI -> controller ++: Calculate average grade
+
+controller -> service ++: Calculate average grade
+
+service -> repo ++: Retrieve students' grades
+repo --> db ++: Retrieve students' grades
+db --> repo --: All Students' grades
+repo --> service --: All Students' grades
+
+
+service --> controller --: Course Edition's average
+
+controller --> UI --: Course Edition's average
+
+UI --> RUC : Course Edition's average!
+deactivate UI
+
+@enduml
