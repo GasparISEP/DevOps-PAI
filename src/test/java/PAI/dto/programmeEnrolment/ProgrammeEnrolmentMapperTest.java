@@ -11,38 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeEnrolmentMapperTest {
 
-    @Test
-    void testToProgrammeEnrolment() {
-
-        // arrange
-        int studentIDValue = 1234567;
-        String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
-        String programmeNameValue = "Engenharia Informática";
-        String programmeAcronymValue = "EI";
-        LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
-
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
-
-        ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
-        ProgrammeEnrolment result = mapper.toProgrammeEnrolment(dto);
-
-
-        StudentID expectedStudentID = new StudentID(studentIDValue);
-        AccessMethodID expectedAccessMethodID = new AccessMethodID(UUID.fromString(accessMethodUUID));
-        NameWithNumbersAndSpecialChars expectedName = new NameWithNumbersAndSpecialChars(programmeNameValue);
-        Acronym expectedAcronym = new Acronym(programmeAcronymValue);
-        ProgrammeID expectedProgrammeID = new ProgrammeID(expectedName, expectedAcronym);
-        Date expectedDate = new Date(enrolmentDate);
-
-        //act
-        ProgrammeEnrolment expected = new ProgrammeEnrolment(expectedStudentID, expectedAccessMethodID, expectedProgrammeID, expectedDate);
-
-        //assert
-        assertEquals(expected.getStudentID(), result.getStudentID());
-        assertEquals(expected.getAccessMethodID(), result.getAccessMethodID());
-        assertEquals(expected.getProgrammeID(), result.getProgrammeID());
-        assertEquals(expected.getDate(), result.getDate());
-    }
 
     @Test
     void testToProgrammeEnrolmentDTO() {

@@ -14,7 +14,7 @@ class StudentDTOTest {
         String nif = "123456789";
         String nifCountry = "Portugal";
         String street = "Rua dos Pintos";
-        String postalCode = "12345";
+        String postalCode = "1234-000";
         String location = "Coimbra";
         String addressCountry = "Portugal";
         String phoneCountryCode = "+351";
@@ -39,4 +39,35 @@ class StudentDTOTest {
         assertEquals(email, studentDTO.getEmail());
     }
 
+    @Test
+    void shouldSetAttributesForStudentDTO() {
+        //Arrange
+        StudentDTO studentDTO = new StudentDTO();
+
+        //Act
+        studentDTO.setStudentID(1234567);
+        studentDTO.setName("Paulo");
+        studentDTO.setNIF("123456789");
+        studentDTO.setNIFCountry("Portugal");
+        studentDTO.setStreet("Rua dos Pintos");
+        studentDTO.setPostalCode("1234-000");
+        studentDTO.setLocation("Coimbra");
+        studentDTO.setAddressCountry("Portugal");
+        studentDTO.setPhoneCountryCode("+351");
+        studentDTO.setPhoneNumber("987654321");
+        studentDTO.setEmail("paulo.andre@mail.pt");
+
+        //Assert
+        assertEquals(1234567, studentDTO.getStudentID());
+        assertEquals("Paulo", studentDTO.getName());
+        assertEquals("123456789", studentDTO.getNIF());
+        assertEquals("Portugal", studentDTO.getNIFCountry());
+        assertEquals("Rua dos Pintos", studentDTO.getStreet());
+        assertEquals("1234-000", studentDTO.getPostalCode());
+        assertEquals("Coimbra", studentDTO.getLocation());
+        assertEquals("Portugal", studentDTO.getAddressCountry());
+        assertEquals("+351", studentDTO.getPhoneCountryCode());
+        assertEquals("987654321", studentDTO.getPhoneNumber());
+        assertEquals("paulo.andre@mail.pt", studentDTO.getEmail());
+    }
 }

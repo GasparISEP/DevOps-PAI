@@ -1,0 +1,36 @@
+@startuml
+
+title Convert Teacher Category DataModel Saved to Domain
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherCategoryRepository" as ITeacherCategoryRepository
+
+activate ITeacherCategoryRepository #E1F5FE
+participant ":ITeacherCategoryMapper" as tcMapper
+ITeacherCategoryRepository -> tcMapper: toDomain (tcDataModelSaved)
+activate tcMapper #E1F5FE
+
+participant ":ITeacherCategoryIDMapper" as tcIDMapper
+tcMapper -> tcIDMapper: toDomain (tcDataModelSaved.getID())
+activate tcIDMapper #E1F5FE
+create "tcID: TeacherCategoryID"
+tcIDMapper -> "tcID: TeacherCategoryID": create (id.getValue())
+deactivate tcIDMapper
+
+create "name: Name"
+tcMapper -> "name: Name": create (tcDataModelSaved.getName())
+
+create "tcDataModel: TeacherCategoryDataModel"
+tcMapper -> "tcDataModel: TeacherCategoryDataModel": create (tcID, name)
+deactivate tcMapper
+deactivate tcMapper
+
+@enduml
