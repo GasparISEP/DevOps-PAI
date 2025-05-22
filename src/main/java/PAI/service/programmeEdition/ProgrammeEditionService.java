@@ -64,4 +64,9 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
         return programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID);
     }
+
+    public Iterable<ProgrammeEdition> findAllProgrammeEditions(){
+        return programmeEditionRepository.findAll();
+    }
+
 }
