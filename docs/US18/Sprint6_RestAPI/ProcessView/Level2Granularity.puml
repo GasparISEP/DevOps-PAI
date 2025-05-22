@@ -19,9 +19,9 @@ ASC -> frontend: I want to create a programme edition for the current school yea
 activate frontend #E1F5FE
 
 frontend -> backend: (GET) Request List Of Programmes
-backend -> DB: Fetch all departments
-DB --> backend: List of departments
-backend --> frontend: List of departments
+backend -> DB: Fetch all programmes
+DB --> backend: List of programmes
+backend --> frontend: List of programmes
 
 
 frontend --> ASC: What programme name?
@@ -29,7 +29,7 @@ frontend --> ASC: What programme name?
 ASC -> frontend: Entered programme name!
 
 
-frontend -> backend: (GET) Request List Of Programmes
+frontend -> backend: (GET) Request current school year
 backend -> DB: Fetch current school year
 DB --> backend: Current school year
 backend --> frontend: Current school year
