@@ -1,16 +1,16 @@
 @startuml
 
-title US02: As an Administrator, I want to configure degree access methods in the system. \n(Process View - Level 1 Granularity)
+title US02: As an Administrator, I want to configure degree access methods in the system. \n(Process View - Level 1 - System)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
 autonumber
 
-actor Administrator as admin #DeepSkyBlue
+actor Administrator as admin
 
 
-participant SystemPAI as System <<Component>> #LightBlue
+participant SystemPAI as System <<System>> #LightBlue
 
 admin -> System: I want to configure an access methods!
 activate System #LightBlue

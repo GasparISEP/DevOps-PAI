@@ -1,5 +1,5 @@
 @startuml
-title US02: As an Administrator, I want to configure degree access methods in the system. \n (Process View - Level 2 Granularity)
+title US02: As an Administrator, I want to configure degree access methods in the system. \n (Process View - Level 2 - Container)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -7,9 +7,9 @@ skinparam shadowing true
 autonumber
 
 actor Administrator as admin #DeepSkyBlue
-participant "Frontend" as FE <<component>> #LightBlue
-participant "Backend" as BE <<component>> #LightGreen
-participant "Database" as DB <<component>> #LightGray
+participant "Frontend" as FE <<Container>> #LightBlue
+participant "Backend" as BE <<Container>> #LightGreen
+participant "Database" as DB <<Container>> #LightGray
 
 ' Início do processo
 admin -> FE: I want to configure an access method!
@@ -27,7 +27,7 @@ deactivate FE
 admin -> FE: Yes!
 activate FE #LightBlue
 
-FE -> BE: (POST) Request configure an access method (name)
+FE -> BE: (POST) Request configure an access method (amRequestDTO)
 activate BE #LightGreen
 
 BE -> DB: (INSERT) Persist Access method (name)
