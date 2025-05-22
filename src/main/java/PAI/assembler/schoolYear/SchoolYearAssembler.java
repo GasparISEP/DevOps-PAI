@@ -1,19 +1,18 @@
-package PAI.dto.schoolYear;
+package PAI.assembler.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
-public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
+public class SchoolYearAssembler implements ISchoolYearAssembler {
 
     private ISchoolYearFactory _syFactory;
 
-    public SchoolYearMapperDTO (ISchoolYearFactory syFactory) {
+    public SchoolYearAssembler(ISchoolYearFactory syFactory) {
         _syFactory = syFactory;
     }
 
@@ -31,8 +30,8 @@ public class SchoolYearMapperDTO implements ISchoolYearMapperDTO {
 
     public SchoolYearDTO toDTO(SchoolYear sy) {
         String description = sy.getDescription().getDescription();
-        LocalDate startDate = sy.getStartDate().getLocalDate();
-        LocalDate endDate = sy.getEndDate().getLocalDate();
+        String startDate = sy.getStartDate().getLocalDate().toString();
+        String endDate = sy.getEndDate().getLocalDate().toString();
 
         return new SchoolYearDTO(description,startDate,endDate);
     }

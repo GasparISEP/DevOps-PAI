@@ -1,6 +1,7 @@
 package PAI.dto.schoolYear;
 
 import PAI.VOs.*;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
@@ -21,7 +22,7 @@ class SchoolYearMapperDTOTest {
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
 
         //act
-        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapper = new SchoolYearAssembler(syFactory);
 
         //assert
         assertNotNull(syMapper);
@@ -34,7 +35,7 @@ class SchoolYearMapperDTOTest {
         SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
 
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
-        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapper = new SchoolYearAssembler(syFactory);
 
         when(syFactory.createSchoolYear(
                 any(Description.class),
@@ -43,8 +44,8 @@ class SchoolYearMapperDTOTest {
         )).thenReturn(sy);
 
         when(syDTO.getDescription()).thenReturn("Ola");
-        when(syDTO.getEndDate()).thenReturn(LocalDate.of(2025,2,26));
-        when(syDTO.getStartDate()).thenReturn(LocalDate.of(2025,3,15));
+        when(syDTO.getEndDate()).thenReturn("25-04-2025");
+        when(syDTO.getStartDate()).thenReturn("15-03-2025");
 
         //act
         SchoolYear res = syMapper.toDomain(syDTO);
@@ -58,7 +59,7 @@ class SchoolYearMapperDTOTest {
         // arrange
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
         SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
-        SchoolYearMapperDTO syMapperDTO = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapperDTO = new SchoolYearAssembler(syFactory);
 
         when(syDTO.getDescription()).thenReturn("Ola");
 
@@ -74,9 +75,9 @@ class SchoolYearMapperDTOTest {
         // arrange
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
         SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
-        SchoolYearMapperDTO syMapperDTO = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapperDTO = new SchoolYearAssembler(syFactory);
 
-        when(syDTO.getEndDate()).thenReturn(LocalDate.of(23,12,23));
+        when(syDTO.getEndDate()).thenReturn("25-04-2025");
 
         // act
         Date res = syMapperDTO.toEndDate(syDTO);
@@ -90,9 +91,9 @@ class SchoolYearMapperDTOTest {
         // arrange
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
         SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
-        SchoolYearMapperDTO syMapperDTO = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapperDTO = new SchoolYearAssembler(syFactory);
 
-        when(syDTO.getStartDate()).thenReturn(LocalDate.of(23,12,23));
+        when(syDTO.getStartDate()).thenReturn("15-03-2025");
 
         // act
         Date res = syMapperDTO.toStartDate(syDTO);
@@ -105,10 +106,9 @@ class SchoolYearMapperDTOTest {
     void shouldTransformSchoolYeartoDTO() {
         //arrange
         SchoolYear sy = mock(SchoolYear.class);
-        SchoolYearDTO syDTO = mock(SchoolYearDTO.class);
 
         ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
-        SchoolYearMapperDTO syMapper = new SchoolYearMapperDTO(syFactory);
+        SchoolYearAssembler syMapper = new SchoolYearAssembler(syFactory);
         Description description = mock(Description.class);
         Date startDate = mock(Date.class);
         Date endDate = mock(Date.class);
@@ -116,6 +116,10 @@ class SchoolYearMapperDTOTest {
         when(sy.getDescription()).thenReturn(description);
         when(sy.getEndDate()).thenReturn(startDate);
         when(sy.getStartDate()).thenReturn(endDate);
+
+        when(description.getDescription()).thenReturn("2024-2025");
+        when(startDate.getLocalDate()).thenReturn(LocalDate.of(2025, 5, 4));
+        when(endDate.getLocalDate()).thenReturn(LocalDate.of(2025, 5, 6));
 
         //act
         SchoolYearDTO res = syMapper.toDTO(sy);

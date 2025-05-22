@@ -7,16 +7,20 @@ import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class DepartmentAssemblerTest {
+
+class DepartmentAssemblerImplTest {
 
     @Test
     void shouldCreateDepartmentAssembler() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertNotNull(departmentAssembler);
@@ -29,7 +33,7 @@ class DepartmentAssemblerTest {
         when(registerDepartmentRequestDouble.name()).thenReturn("Software Engineering Department");
         when(registerDepartmentRequestDouble.acronym()).thenReturn("DEI");
 
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
         RegisterDepartmentCommand registerDepartmentCommand = departmentAssembler.toRegisterDepartmentCommand(registerDepartmentRequestDouble);
@@ -41,7 +45,7 @@ class DepartmentAssemblerTest {
     @Test
     void shouldThrowExceptionWhenRegisterDepartmentRequestIsNull() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -58,7 +62,7 @@ class DepartmentAssemblerTest {
         when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
         when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
 
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
         DepartmentDTO departmentDTO = departmentAssembler.toDTO(departmentDouble);
@@ -70,12 +74,50 @@ class DepartmentAssemblerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
             departmentAssembler.toDTO(null);
         });
     }
+    @Test
+    void shouldConvertListOfDepartmentsToDTOs() {
+        // Arrange
+        Department departmentDouble = mock(Department.class);
+        when(departmentDouble.identity()).thenReturn(mock(DepartmentID.class));
+        when(departmentDouble.getName()).thenReturn(mock(Name.class));
+        when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
+        when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
 
+        Iterable<Department> listDepartment = List.of(departmentDouble);
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act
+        Iterable<DepartmentDTO> departmentDTOs = departmentAssembler.toDTOs(listDepartment);
+
+        // Assert
+        assertNotNull(departmentDTOs);
+    }
+    @Test
+    void shouldReturnEmptyListWhenInputIsNull() {
+        //Arrange
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentDTO> departmentDTOS = departmentAssembler.toDTOs(null);
+        //Assert
+        assertNotNull(departmentDTOS);
+
+    }
+    @Test
+    void shouldReturnEmptyListWhenInputIsEmpty() {
+        //Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentDTO> departmentDTOS = departmentAssembler.toDTOs(List.of()); // Static method to create an empty list
+        //Assert
+        assertNotNull(departmentDTOS);
+    }
 }

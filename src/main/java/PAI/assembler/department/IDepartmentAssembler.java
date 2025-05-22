@@ -9,5 +9,9 @@ public interface IDepartmentAssembler {
 
     RegisterDepartmentCommand toRegisterDepartmentCommand(RegisterDepartmentRequest registerDepartmentRequest);
 
-    DepartmentDTO toDTO (Department department);
+    DepartmentDTO toDTO(Department department);
+
+    Iterable<DepartmentDTO> toDTOs(Iterable<Department> departments);
+
 }
+

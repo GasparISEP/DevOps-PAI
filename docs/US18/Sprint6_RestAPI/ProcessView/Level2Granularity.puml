@@ -12,15 +12,13 @@ actor ASC as ASC
 
 participant "Frontend" as frontend <<component>>
 participant "Backend" as backend <<component>>
-Database DB
 
 activate ASC
 ASC -> frontend: I want to create a programme edition for the current school year!
 activate frontend #E1F5FE
 
 frontend -> backend: (GET) Request List Of Programmes
-backend -> DB: Fetch all programmes
-DB --> backend: List of programmes
+activate backend #E1F5FE
 backend --> frontend: List of programmes
 
 
@@ -30,8 +28,6 @@ ASC -> frontend: Entered programme name!
 
 
 frontend -> backend: (GET) Request current school year
-backend -> DB: Fetch current school year
-DB --> backend: Current school year
 backend --> frontend: Current school year
 frontend --> ASC: What school year uuid?
 
@@ -42,12 +38,6 @@ frontend --> ASC: Sure?
 ASC -> frontend: Yes!
 
 frontend -> backend: (POST) Request create programme edition (name, uuid)
-activate backend #E1F5FE
-
-backend -> DB: (INSERT) Persist ProgrammeEdition (name, uuid)
-activate DB #E1F5FE
-DB --> backend: programmeEdition
-deactivate DB
 
 backend --> frontend: (201, Created) programmeEdition created!
 deactivate backend

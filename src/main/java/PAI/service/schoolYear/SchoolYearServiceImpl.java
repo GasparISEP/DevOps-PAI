@@ -6,6 +6,8 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,14 +19,17 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
 
     private final ISchoolYearRepository schoolYearRepository;
     private final ISchoolYearFactory schoolYearFactory;
+    private final ISchoolYearAssembler schoolYearMapperDTO;
 
-    public SchoolYearServiceImpl(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory) {
+    public SchoolYearServiceImpl(ISchoolYearRepository schoolYearRepository, ISchoolYearFactory schoolYearFactory, ISchoolYearAssembler schoolYearMapperDTO) {
         this.schoolYearRepository = validateNotNull(schoolYearRepository, "schoolYearRepository");
         this.schoolYearFactory = validateNotNull(schoolYearFactory, "schoolYearFactory");
+        this.schoolYearMapperDTO = validateNotNull(schoolYearMapperDTO, "schoolYearMapper");
     }
 
     // Create and save a new school year if it does not already exist
     public SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
+
         if (description == null || startDate == null || endDate == null) {
             throw new Exception("Not possible to create a school year");
         }

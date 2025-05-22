@@ -1,0 +1,148 @@
+@startuml
+title As ASC, I want to remove the enrolment of a student in a course edition\n(Process View Level 4 Granularity - Memory & JPA)
+autonumber
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC
+participant ":UI" as UI
+participant ":CourseEdition\nController" as CEC
+participant ":ICourseEditionEnrolment\nService" as CEES
+participant ":ICourseEditionEnrolment\nRepository" as CEER
+participant "cee:CourseEditionEnrolment" as CEE
+participant "status:EnrolmentStatus" as ES
+participant "ceID: CourseEditionID" as courseEditionID
+
+participant ":IProgrammeEditionEnrolment\nRepository" as PEER
+participant "pee:ProgrammeEditionEnrolment" as PEE
+
+participant ":ICourseEditionEnrolment\nRepositorySpringData" as CEESpringRepo
+participant ":ICourseEdition\nEnrolmentMapper" as CEEM
+participant ":IProgrammeEditionEnrolment\nRepositorySpringData" as PEESpringRepo
+participant ":IProgrammeEdition\nEnrolmentMapper" as PEEMapper
+' Step 1: User initiates the request to remove enrolment
+ASC -> UI ++ : I want to remove the enrolment\nof a student in a course edition
+UI -> CEC ++ : removeCourseEditionEnrolment\n(studentID, courseEditionID)
+CEC -> CEES ++ : removeCourseEditionEnrolment\n(studentID, courseEditionID)
+
+
+' Step 2: Service retrieves enrolment from repository
+group Deactivate Course Edition Enrolment: removeCourseEditionEnrolment
+CEES -> CEER ++ : findEnrolmentByStudentAndCourseEdition(studentID, courseEditionID)
+ref over CEER
+    ICourseEditionEnrolmentRepositorySpringData
+    findByStudentAndCourseEdition(studentID, courseEditionID)
+end ref
+CEER --> CEES -- : CourseEditionEnrolment
+
+' Step 3: Check if enrolment is active
+CEES -> CEE ++ : isEnrolmentActive()
+CEE --> CEES -- : true
+
+
+' Step 4: Deactivate the enrolment if active
+CEES -> CEE ++ : deactivateEnrolment()
+CEE -> ES ++ : new EnrolmentStatus(false)
+ES --> CEE -- : EnrolmentStatus(false)
+CEE --> CEES -- : Enrolment Status set to inactive
+
+' Remove the enrolment from the internal set of the repository(memory)
+CEES -> CEER ++ : getInternalSet()
+CEER --> CEES -- : Set<CourseEditionEnrolment>
+CEES -> CEER ++ : remove(courseEditionEnrolment)
+CEER --> CEES -- : true (Enrolment removed from internal set)
+
+' Step 5: Save the updated enrolment in the repository
+CEES -> CEER ++ : save(courseEditionEnrolment)
+ref over CEER
+    convert domain to toDataModel
+end ref
+CEER -> CEER : save(courseEditionEnrolmentDataModel)
+ref over CEER
+    convert dataModel to Domain
+end ref
+CEER --> CEES -- : courseEditionEnrolment
+
+' Step 6: Checking for other active course enrolments
+group Checking other active course edition enrolments: hasOtherActiveCourseEditionEnrolments
+CEES -> CEER ++ : findAll()
+ref over CEER
+    convert dataModel to Domain
+end ref
+CEER --> CEES -- : List<CourseEditionEnrolment>
+
+loop for each enrolment
+  ' Step 6.1: Check if the enrolment belongs to the student
+  CEES -> CEE ++ : hasStudent()
+  CEE --> CEES -- : studentID
+
+  CEES -> CEES: equals(studentID, inputStudentID)
+
+  ' Step 6.2: Check if the enrolment is active
+  CEES -> CEE ++ : isEnrolmentActive()
+  CEE --> CEES -- : true
+
+  ' Step 6.3: Retrieve course edition ID
+  CEES -> CEE ++ : knowCourseEdition()
+  CEE --> CEES -- : courseEditionID
+
+  ' Step 6.4: Retrieve programme edition ID from course edition
+  CEES -> courseEditionID ++ : getProgrammeEditionID()
+
+  courseEditionID --> CEES -- : programmeEditionID
+
+  CEES -> CEES: equals(programmeEditionID, inputProgrammeEditionID)
+
+  alt [1] match found: Has other active course edition enrolments
+    CEES --> CEC: true (only course enrolment deactivated)
+  end
+end
+end
+else
+
+' After loop
+group Deactivate Programme Edition Enrolment: deactivateProgrammeEditionEnrolment
+alt [2] No more active course edition enrolments
+CEES --> CEES: No active course edition enrolments found
+    ' Step 7.1: Retrieve programme edition enrolment from repository
+    CEES -> PEER ++ : findProgrammeEditionEnrolmentByStudentAndProgrammeEdition(studentID, programmeEditionID)
+    ref over PEER
+    IProgrammeEditionEnrolmentRepositorySpringData
+    findProgrammeEditionEnrolmentByStudentAndProgrammeEdition(studentID, programmeEditionID)
+    end ref
+    PEER --> CEES -- : ProgrammeEditionEnrolment
+
+    ' Step 7.2: Deactivate programme edition enrolment
+    CEES -> PEE ++ : deactivateEnrolment()
+    PEE -> ES ++ : new EnrolmentStatus(false)
+    ES --> PEE -- : EnrolmentStatus(false)
+    PEE --> CEES -- : Enrolment Status set to inactive
+
+' Remove the enrolment from the internal set of the repository
+CEES -> PEER ++ : getInternalSet()
+PEER --> CEES -- : Set<ProgrammeEditionEnrolment>
+CEES -> PEER ++ : remove(programmeEditionEnrolment)
+PEER --> CEES -- : true (Enrolment removed from internal set)
+
+
+    ' Step 7.3: Save the updated programme enrolment in the repository
+    CEES -> PEER ++ : save(programmeEditionEnrolment)
+    ref over PEER
+        convert domain to dataModel
+    end ref
+    PEER -> PEER : save(programmeEditionEnrolment)
+    ref over PEER
+        convert dataModel to Domain
+    end ref
+    PEER --> CEES -- : ProgrammeEditionEnrolment
+
+    ' Step 7.4: Return success to the controller
+    CEES --> CEC -- : true (course and programme enrolment deactivated)
+end
+end
+end
+
+' Step 8: Return success message to the user
+CEC --> UI -- : true
+UI --> ASC -- : Enrolment successfully removed!
+@enduml

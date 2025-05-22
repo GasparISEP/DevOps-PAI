@@ -1,19 +1,53 @@
 package PAI.controllerRest;
 
-import PAI.dto.schoolYear.ISchoolYearMapperDTO;
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.service.schoolYear.ISchoolYearService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/schoolyear")
+@RequestMapping("/schoolyears")
 public class SchoolYearRestController {
 
-    private final ISchoolYearMapperDTO iSchoolYearMapperDTO;
-    private final ISchoolYearService iSchoolYearService;
+    private final ISchoolYearAssembler schoolYearAssembler;
+    private final ISchoolYearService schoolYearService;
 
-    public SchoolYearRestController (ISchoolYearMapperDTO iSYMapperDTO, ISchoolYearService iSYService) {
-        iSchoolYearMapperDTO = iSYMapperDTO;
-        iSchoolYearService = iSYService;
+    public SchoolYearRestController (ISchoolYearAssembler iSYMapperDTO, ISchoolYearService iSYService) {
+        schoolYearAssembler = iSYMapperDTO;
+        schoolYearService = iSYService;
+    }
+
+    @PostMapping()
+    public ResponseEntity<SchoolYearDTO> createASchoolYear (@RequestBody SchoolYearDTO schoolYearDTO){
+        if (schoolYearDTO == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Description description = schoolYearAssembler.toDescription(schoolYearDTO);
+            Date startDate = schoolYearAssembler.toStartDate(schoolYearDTO);
+            Date endDate = schoolYearAssembler.toEndDate(schoolYearDTO);
+
+            SchoolYear schoolYear = schoolYearService.addSchoolYear(description,startDate,endDate);
+
+            if(schoolYear!=null){
+                SchoolYearDTO schoolYearDTO1 = schoolYearAssembler.toDTO(schoolYear);
+                return new ResponseEntity<>(schoolYearDTO1, HttpStatus.CREATED);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
