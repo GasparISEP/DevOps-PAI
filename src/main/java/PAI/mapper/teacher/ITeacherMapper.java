@@ -8,4 +8,6 @@ public interface ITeacherMapper {
     TeacherDataModel toDataModel(Teacher teacher);
 
     Teacher toDomain(TeacherDataModel teacherDataModel);
+
+    Iterable<Teacher> listToDomain(Iterable<TeacherDataModel> teacherDataModels);
 }

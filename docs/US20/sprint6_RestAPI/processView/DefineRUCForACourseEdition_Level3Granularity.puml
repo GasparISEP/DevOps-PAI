@@ -1,0 +1,88 @@
+@startuml
+title US20 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend Internal Flow)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+autonumber
+
+actor ProgrammeDirector as PD
+participant "Frontend" as Frontend <<Component>>
+participant "RESTController" as Controller <<Component>>
+participant "Service" as Service <<Component>>
+participant "Domain" as Domain <<Component>>
+participant "Repository" as Repository <<Component>>
+
+
+PD -> Frontend: I want to define the RUC for a course edition
+
+
+activate Frontend #E1F5FE
+
+Frontend -> Controller: getAllTeachers()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllTeachers()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+
+Repository --> Service: List<Teacher>
+deactivate Repository
+Service --> Controller: List<TeacherDTO>
+deactivate Service
+Controller --> Frontend: (200 OK) – List<TeacherDTO>
+deactivate Controller
+Frontend --> PD: Display teacher selection list
+deactivate Frontend
+
+PD --> Frontend: Select teacher
+activate Frontend  #E1F5FE
+Frontend -> Controller: getAllCourseEditions()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllCourseEditions()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+Repository --> Service: List<CourseEdition>
+deactivate Repository
+Service --> Controller: List<CourseEditionDTO>
+deactivate Service
+Controller --> Frontend: (200 OK) – List<CourseEditionDTO>
+deactivate Controller
+Frontend --> PD: Display course edition selection list
+deactivate Frontend
+
+PD -> Frontend: Select course edition
+activate Frontend #E1F5FE
+
+Frontend -> Controller: defineRucForACourseEdition(courseEditionDTO, teacherDTO)
+activate Controller  #E1F5FE
+
+Controller -> Service: assignRucToCourseEdition(courseEditionDTO, teacherDTO)
+activate Service  #E1F5FE
+
+Service -> Domain: setRuc(teacherId)
+activate Domain  #E1F5FE
+Domain --> Service: true
+deactivate Domain
+
+Service -> Repository: save(courseEdition)
+activate Repository  #E1F5FE
+Repository --> Service: true
+deactivate Repository
+Service --> Controller: true
+deactivate Service
+Controller --> Frontend: (200 OK) RUC successfully updated
+deactivate Controller
+Frontend -> PD: RUC successfully updated
+deactivate Frontend
+@enduml

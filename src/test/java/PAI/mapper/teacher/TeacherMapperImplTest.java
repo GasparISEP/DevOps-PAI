@@ -1,15 +1,19 @@
 package PAI.mapper.teacher;
 
 import PAI.VOs.*;
+import PAI.domain.course.ICourseFactory;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacher.ITeacherFactory;
 import PAI.mapper.IAddressMapper;
 import PAI.mapper.INIFMapper;
 import PAI.mapper.IPhoneNumberMapper;
 import PAI.mapper.ITeacherAcademicEmailMapper;
+import PAI.mapper.course.CourseMapperImpl;
+import PAI.mapper.course.ICourseIDMapper;
 import PAI.mapper.department.DepartmentIDMapperImpl;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.persistence.datamodel.*;
+import PAI.persistence.datamodel.course.CourseDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.teacher.TeacherDataModel;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
@@ -18,6 +22,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -247,4 +253,131 @@ class TeacherMapperImplTest {
         //Assert
         assertEquals(expectedTeacher, result);
     }
+    @Test
+    void shouldThrowExceptionWhenProvidedTeacherDataModelListIsNull() {
+        // Arrange
+        createMapperDoubles();
+
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(
+                _teacherFactoryDouble,
+                _teacherIDMapperDouble,
+                _nifMapperDouble,
+                _phoneNumberMapperDouble,
+                _addressMapperDouble,
+                _teacherAcademicEmailMapperDouble,
+                _departmentIDMapper
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> teacherMapper.listToDomain(null)
+        );
+
+        assertEquals("Teacher Data Model list cannot be null.", exception.getMessage());
+    }
+    @Test
+    void shouldThrowExceptionWhenTeacherDataModelListIsNull() {
+
+        // Arrange
+        ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
+        ITeacherIDMapper teacherIDMapperDouble = mock(ITeacherIDMapper.class);
+        INIFMapper nifMapperDouble = mock(INIFMapper.class);
+        IPhoneNumberMapper phoneNumberMapperDouble = mock(IPhoneNumberMapper.class);
+        IAddressMapper addressMapperDouble = mock(IAddressMapper.class);
+        ITeacherAcademicEmailMapper emailMapperDouble = mock(ITeacherAcademicEmailMapper.class);
+        IDepartmentIDMapper departmentIDMapperDouble = mock(IDepartmentIDMapper.class);
+
+        TeacherMapperImpl teacherMapperImpl = new TeacherMapperImpl(
+                teacherFactoryDouble,
+                teacherIDMapperDouble,
+                nifMapperDouble,
+                phoneNumberMapperDouble,
+                addressMapperDouble,
+                emailMapperDouble,
+                departmentIDMapperDouble
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,() -> teacherMapperImpl.listToDomain(null)
+        );
+
+        assertEquals("Teacher Data Model list cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnListOfTeachersWhenTeacherDataModelListIsValid() {
+
+        // Arrange
+        createMapperDoubles();
+
+        TeacherMapperImpl teacherMapper = new TeacherMapperImpl(
+                _teacherFactoryDouble,
+                _teacherIDMapperDouble,
+                _nifMapperDouble,
+                _phoneNumberMapperDouble,
+                _addressMapperDouble,
+                _teacherAcademicEmailMapperDouble,
+                _departmentIDMapper
+        );
+
+        TeacherDataModel teacherDouble1 = mock(TeacherDataModel.class);
+        TeacherDataModel teacherDouble2 = mock(TeacherDataModel.class);
+
+        TeacherIDDataModel tidm1 = mock(TeacherIDDataModel.class);
+        NIFDataModel nifDM = mock(NIFDataModel.class);
+        PhoneNumberDataModel phoneDM = mock(PhoneNumberDataModel.class);
+        AddressDataModel addressDM = mock(AddressDataModel.class);
+        DepartmentIDDataModel depIDDM = mock(DepartmentIDDataModel.class);
+
+        TeacherID teacherID1 = mock(TeacherID.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Address address = mock(Address.class);
+        DepartmentID depID = mock(DepartmentID.class);
+
+        Teacher teacherMock = mock(Teacher.class);
+
+        // Para ambos os TeacherDataModel usares os mesmos mocks (podes duplicar se quiseres mais detalhe)
+        for (TeacherDataModel dm : List.of(teacherDouble1, teacherDouble2)) {
+            when(dm.getTeacherIDDataModel()).thenReturn(tidm1);
+            when(dm.getNif()).thenReturn(nifDM);
+            when(dm.getPhoneNumber()).thenReturn(phoneDM);
+            when(dm.getAddress()).thenReturn(addressDM);
+            when(dm.getDepartmentID()).thenReturn(depIDDM);
+            when(dm.getName()).thenReturn("Henrique");
+            when(dm.getEmail()).thenReturn("henrique@gmail.com");
+            when(dm.getAcademicBackground()).thenReturn("PHD");
+        }
+
+        // Mapeamentos
+        when(_teacherIDMapperDouble.toDomain(tidm1)).thenReturn(teacherID1);
+        when(_nifMapperDouble.dataModelToDomain(nifDM)).thenReturn(nif);
+        when(_phoneNumberMapperDouble.dataModelToDomain(phoneDM)).thenReturn(phone);
+        when(_addressMapperDouble.toDomain(addressDM)).thenReturn(address);
+        when(_departmentIDMapper.toDomainModel(depIDDM)).thenReturn(depID);
+
+        // Endereço (necessário para factory)
+        when(address.getStreet()).thenReturn(mock(Street.class));
+        when(address.getPostalCode()).thenReturn(mock(PostalCode.class));
+        when(address.getLocation()).thenReturn(mock(Location.class));
+        when(address.getCountry()).thenReturn(mock(Country.class));
+
+        // TeacherFactory cria sempre o mesmo teacherMock (poderias criar dois diferentes também)
+        when(_teacherFactoryDouble.createTeacher(
+                eq(teacherID1), any(Name.class), any(Email.class),
+                eq(nif), eq(phone), any(AcademicBackground.class),
+                any(Street.class), any(PostalCode.class), any(Location.class), any(Country.class),
+                eq(depID)
+        )).thenReturn(teacherMock);
+
+        // Act
+        Iterable<Teacher> result = teacherMapper.listToDomain(List.of(teacherDouble1, teacherDouble2));
+
+        // Assert
+        List<Teacher> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+
+        assertEquals(2, resultList.size());
+      }
 }
