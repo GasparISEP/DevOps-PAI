@@ -1,0 +1,93 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+' Logical View for US17: Enrol Student in Programme Edition
+
+title US17 – Logical View (Static Structure)
+
+package "UI Layer" {
+  [StudentProgrammeEditionEnrolmentController]
+}
+
+package "DTOs" {
+  [ProgrammeEditionEnrolmentRequest]
+  [ProgrammeEditionSummaryDTO]
+  [StudentSummaryDTO]
+}
+
+package "Application Layer" {
+  [ProgrammeEditionEnrolmentServiceImpl]
+  interface IProgrammeEditionEnrolmentService
+}
+
+package "Domain Layer" {
+  [ProgrammeEditionEnrolmentFactoryImpl]
+  interface IProgrammeEditionEnrolmentFactory
+  [ProgrammeEditionEnrolment]
+  [ProgrammeEnrolment]
+  [ProgrammeEdition]
+  [Student]
+}
+
+package "VOs" {
+  [ProgrammeEditionID]
+  [ProgrammeID]
+  [SchoolYearID]
+  [StudentID]
+  [EnrolmentStatus]
+  [Date]
+}
+
+package "Repository Interfaces" {
+  interface IProgrammeEnrolmentRepository
+  interface IProgrammeEditionRepository
+  interface IProgrammeEditionEnrolmentRepository
+  interface ICourseEditionRepository
+  interface ICourseEditionEnrolmentRepository
+}
+
+package "Mappers" {
+  [ProgrammeEditionMapper]
+  [StudentMapper]
+}
+
+package "Persistence (Spring Data JPA)" {
+  [ProgrammeEditionEnrolmentRepositorySpringDataImpl]
+  [IProgrammeEditionEnrolmentRepositorySpringData]
+  [ProgrammeEditionEnrolmentDataModel]
+  [ProgrammeEditionEnrolmentIDDataModel]
+  [ProgrammeEditionIdDataModel]
+  [StudentIDDataModel]
+}
+
+StudentProgrammeEditionEnrolmentController --> ProgrammeEditionEnrolmentRequest
+StudentProgrammeEditionEnrolmentController --> IProgrammeEditionEnrolmentService
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl --> ICourseEditionRepository
+ProgrammeEditionEnrolmentServiceImpl --> ICourseEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolment --> ProgrammeEditionID
+ProgrammeEditionEnrolment --> StudentID
+ProgrammeEdition --> ProgrammeID
+ProgrammeEdition --> SchoolYearID
+ProgrammeEnrolment --> ProgrammeID
+ProgrammeEnrolment --> StudentID
+ProgrammeEnrolment --> AccessMethodID
+ProgrammeEnrolment --> Date
+ProgrammeEditionEnrolmentRepositorySpringDataImpl --> IProgrammeEditionEnrolmentRepositorySpringData
+ProgrammeEditionEnrolmentRepositorySpringDataImpl --> ProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentMapper --> ProgrammeEditionEnrolmentDataModel
+ProgrammeEditionEnrolmentMapper --> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentDataModel --> ProgrammeEditionEnrolmentIDDataModel
+ProgrammeEditionEnrolmentIDDataModel --> StudentIDDataModel
+ProgrammeEditionEnrolmentIDDataModel --> ProgrammeEditionIdDataModel
+
+ProgrammeEditionMapper --> ProgrammeEditionSummaryDTO
+StudentMapper --> StudentSummaryDTO
+
+@enduml

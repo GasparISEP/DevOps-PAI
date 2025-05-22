@@ -1,0 +1,29 @@
+
+
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US17:\n Enrol a Student in a ProgrammeEdition\n Process View Level 1
+
+actor ASC
+participant ":System" as System
+
+ASC -> System ++: I want to enrol a student in a programme
+System --> ASC --: What student do you want to enrol?
+
+ASC -> System ++: I select a student
+System --> ASC --: In which programme edition (school year)?
+
+ASC -> System ++: I select a programme edition
+System --> ASC --: Confirm enrolment?
+
+ASC -> System ++: Yes!
+System --> ASC --: Student successfully enrolled in programme edition and related courses
+
+@enduml
+

@@ -1,0 +1,72 @@
+@startuml
+' Process View – Level 4
+
+skinparam sequence {
+    LifeLineBorderColor black
+    LifeLineBackgroundColor LightBlue
+}
+
+title US17:\n Enrol a Student in a ProgrammeEdition\n Process View Level 4
+
+actor ASC
+participant "Frontend" as FE
+
+box "Controller Layer"
+participant "StudentProgrammeEditionEnrolmentController" as Controller
+end box
+
+box "DTO Layer"
+participant "ProgrammeEditionEnrolmentRequest" as RequestDTO
+end box
+
+box "Application Service"
+participant "ProgrammeEditionEnrolmentServiceImpl" as AppService
+end box
+
+box "Domain Layer"
+participant "ProgrammeEditionEnrolmentFactoryImpl" as Factory
+participant "ProgrammeEditionEnrolment" as DomainEntity
+end box
+
+box "Repository Layer"
+participant "ProgrammeEditionEnrolmentRepositorySpringDataImpl" as RepositoryImpl
+participant "IProgrammeEditionEnrolmentRepositorySpringData" as SpringDataJPA
+database "DB" as DB
+end box
+
+ASC -> FE ++: Fill form with student + programme + year
+FE -> Controller ++: POST /programmeeditions/{...}/enrolments\nJSON: studentId
+
+Controller -> RequestDTO ++: Parse and validate JSON
+RequestDTO --> Controller --: studentId
+
+Controller -> AppService ++: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(...)
+
+AppService -> RepositoryImpl ++: isStudentEnrolled(...)
+RepositoryImpl -> SpringDataJPA ++: existsById(...)
+SpringDataJPA -> DB ++: SQL Query
+DB --> SpringDataJPA --: Result
+SpringDataJPA --> RepositoryImpl --: true/false
+RepositoryImpl --> AppService --: true/false
+
+AppService -> RepositoryImpl ++: findProgrammeEdition(...)
+RepositoryImpl -> SpringDataJPA ++: custom query
+SpringDataJPA -> DB ++: SQL query
+DB --> SpringDataJPA --: Result
+SpringDataJPA --> RepositoryImpl --: ProgrammeEditionDataModel
+RepositoryImpl --> AppService --: ProgrammeEditionID
+
+AppService -> Factory ++: newProgrammeEditionEnrolment(...)
+Factory --> AppService --: DomainEntity
+
+AppService -> RepositoryImpl ++: save(DomainEntity)
+RepositoryImpl -> SpringDataJPA ++: save(DataModel)
+SpringDataJPA -> DB ++: INSERT
+DB --> SpringDataJPA --: Saved
+SpringDataJPA --> RepositoryImpl --: OK
+RepositoryImpl --> AppService --: OK
+
+AppService --> Controller --: success
+Controller --> FE --: 201 Created
+@enduml
+
