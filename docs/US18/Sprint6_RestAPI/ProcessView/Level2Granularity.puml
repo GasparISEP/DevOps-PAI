@@ -19,8 +19,11 @@ ASC -> frontend: I want to create a programme edition for the current school yea
 activate frontend #E1F5FE
 
 frontend -> backend: (GET) Request List Of Programmes
+activate backend #E1F5FE
 backend -> DB: Fetch all programmes
+activate DB #E1F5FE
 DB --> backend: List of programmes
+deactivate DB #E1F5FE
 backend --> frontend: List of programmes
 
 
@@ -31,7 +34,9 @@ ASC -> frontend: Entered programme name!
 
 frontend -> backend: (GET) Request current school year
 backend -> DB: Fetch current school year
+activate DB #E1F5FE
 DB --> backend: Current school year
+deactivate DB #E1F5FE
 backend --> frontend: Current school year
 frontend --> ASC: What school year uuid?
 
@@ -42,7 +47,6 @@ frontend --> ASC: Sure?
 ASC -> frontend: Yes!
 
 frontend -> backend: (POST) Request create programme edition (name, uuid)
-activate backend #E1F5FE
 
 backend -> DB: (INSERT) Persist ProgrammeEdition (name, uuid)
 activate DB #E1F5FE
