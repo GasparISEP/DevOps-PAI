@@ -2,7 +2,9 @@ package PAI.assembler.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
+import PAI.controller.US16_EnrolAStudentInACourseEditionController;
 import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +15,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TeacherCategoryAssemblerImplTest {
+
+    //testing method toDTO
 
     @Test
     void shouldReturnATeacherCategoryResponseDTO() {
@@ -34,5 +38,33 @@ class TeacherCategoryAssemblerImplTest {
 
         //assert
         assertNotNull(result);
+    }
+
+    //testing method toVO
+
+    @Test
+    void shouldReturnANameVO() {
+        //arrange
+        TeacherCategoryRequestDTO doublleTeacherCategoryRequestDTO = mock(TeacherCategoryRequestDTO.class);
+        when (doublleTeacherCategoryRequestDTO.name()).thenReturn("Assistant Professor");
+
+        TeacherCategoryAssemblerImpl teacherCategoryAssembler = new TeacherCategoryAssemblerImpl();
+
+        //act
+        Name result = teacherCategoryAssembler.toVO(doublleTeacherCategoryRequestDTO);
+
+        //assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnAnExceptionWhenTeacherCategoryRequestDTOIsNull() {
+        // arrange
+        TeacherCategoryAssemblerImpl teacherCategoryAssembler = new TeacherCategoryAssemblerImpl();
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            teacherCategoryAssembler.toVO(null);
+        });
     }
 }
