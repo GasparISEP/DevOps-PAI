@@ -21,16 +21,15 @@ public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
     }
 
     @Override
-    public boolean registerCategory(String categoryName) throws Exception {
-        Name name = new Name(categoryName);
+    public TeacherCategory configureTeacherCategory(Name teacherCategoryName) throws Exception {
 
-        if (repository.existsByName(name)) {
-            throw new Exception("Category already exists or could not be registered.");
+        TeacherCategory newCategory = factory.createTeacherCategory(teacherCategoryName);
+
+        if (repository.existsByName(teacherCategoryName)) {
+            throw new Exception("Teacher Category already exists or could not be registered.");
         }
 
-        TeacherCategory newCategory = factory.createTeacherCategory(name);
-        repository.save(newCategory);
-        return true;
+        return repository.save(newCategory);
     }
 
     public boolean existsById(TeacherCategoryID teacherCategoryID) {
