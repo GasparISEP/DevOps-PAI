@@ -1,0 +1,59 @@
+@startuml
+
+title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 Granularity)
+
+skinparam componentStyle component
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor ASC as ASC
+
+participant "Frontend" as frontend <<component>>
+participant "Backend" as backend <<component>>
+Database DB
+
+activate ASC
+ASC -> frontend: I want to create a programme edition for the current school year!
+activate frontend #E1F5FE
+
+frontend -> backend: (GET) Request List Of Programmes
+backend -> DB: Fetch all departments
+DB --> backend: List of departments
+backend --> frontend: List of departments
+
+
+frontend --> ASC: What programme name?
+
+ASC -> frontend: Entered programme name!
+
+
+frontend -> backend: (GET) Request List Of Programmes
+backend -> DB: Fetch current school year
+DB --> backend: Current school year
+backend --> frontend: Current school year
+frontend --> ASC: What school year uuid?
+
+ASC -> frontend: Entered school year uuid!
+
+frontend --> ASC: Sure?
+
+ASC -> frontend: Yes!
+
+frontend -> backend: (POST) Request create programme edition (name, uuid)
+activate backend #E1F5FE
+
+backend -> DB: (INSERT) Persist ProgrammeEdition (name, uuid)
+activate DB #E1F5FE
+DB --> backend: programmeEdition
+deactivate DB
+
+backend --> frontend: (201, Created) programmeEdition created!
+deactivate backend
+
+frontend --> ASC: Ok!
+deactivate frontend
+deactivate ASC
+
+@enduml
