@@ -2,20 +2,18 @@
 title US11: I want to register a programme in the system
 
 class ProgrammeRestController {
-    +US11_RegisterProgrammeInTheSystemController(programmeService: IProgrammeService, programmeAssembler: IProgrammeDTOMapper)
-    +registerProgramme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts,
-    quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID , programmeDirectorID: TeacherID)
+    +US11_RegisterProgrammeInTheSystemController(programmeService: IProgrammeService, programmeAssembler: IProgrammeAssembler)
+    +registerProgramme(programmeRequestDTO: ProgrammeRequestDTO)
 }
 
-interface IProgrammeDTOMapper {
-    +fromDomainToDTO(Programme)
-    +fromDTOtoDomain(nameVO, acronymVO, quantECTSVO, quantSemestersVO, degreeTypeIDVO, departmentIDVO, teacherIDVO)
+interface IProgrammeAssembler {
+    +fromDomainToDTO(programmeDomain: Programme)
+    +fromDTOtoDomain(programmeRequestDTO: ProgrammeRequestDTO))
 }
 
-class ProgrammeDTOMapperImpl {
-    +fromDomainToDTO(Programme)
-    +fromDTOtoDomain(nameVO, acronymVO, quantECTSVO, quantSemestersVO,
-    degreeTypeIDVO, departmentIDVO, teacherIDVO)
+class ProgrammeAssemblerImpl {
+    +fromDomainToDTO(programmeDomain:Programme)
+    +fromDTOtoDomain(programmeRequestDTO: ProgrammeRequestDTO)
 }
 
 class ProgrammeRequestDTO {
@@ -55,63 +53,13 @@ class ProgrammeResponseDTO {
     degreeTypeName: String, departmentName: String, programmeDirectorName: String)
 }
 
-interface IDegreeTypeService {
-    +getAllDegreeTypes()
-}
-
-class DegreeTypeServiceImpl {
-    +getAllDegreeTypes()
-}
-
-interface IDegreeTypeDTOMapper {
-    +fromDomainToDTO(degreeTypeName: Name)
-}
-
-class DegreeTypeDTOMapper {
-    +fromDomainToDTO(degreeTypeName: Name)
-}
-
-interface IDepartmentService {
-    +getAllDepartments()
-}
-
-class DepartmentServiceImpl {
-    +getAllDepartments()
-}
-
-interface IDepartmentDTOMapper {
-    +fromDomainToDTO(departmentName: Name)
-}
-
-class DepartmentDTOMapper {
-    +fromDomainToDTO(departmentName: Name)
-}
-
-interface ITeacherService {
-    +getAllTeachers()
-}
-
-class TeacherServiceImpl {
-    +getAllTeachers()
-}
-
-interface ITeacherDTOMapper {
-    +fromDomainToDTO(programmeDirectorName: Name)
-}
-
-class TeacherDTOMapper {
-    +fromDomainToDTO(programmeDirectorName: Name)
-}
-
 interface IProgrammeService {
-    +registerProgramme (name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts,
-    quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, programmeDirectorID: TeacherID)
+    +registerProgramme (programmeVOsDTO: ProgrammeVOsDTO)
 }
 
 class ProgrammeServiceImpl {
     +ProgrammeServiceImpl(programmeRepository: IProgrammeRepository)
-    +registerProgramme (name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts,
-    quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, programmeDirectorID: TeacherID)
+    +registerProgramme (programmeVOsDTO: ProgrammeVOsDTO)
 }
 
 interface IProgrammeFactory {
@@ -249,30 +197,23 @@ class TeacherIDDataModel {
     +getTeacherAcronym()
 }
 
-ProgrammeRestController "*" ---> "_DegreeTypeService\n1" IDegreeTypeService
-ProgrammeRestController "*" ---> "_departmentService\n1" IDepartmentService
-ProgrammeRestController "*" ---> "_teacherService\n1" ITeacherService
 ProgrammeRestController "*" -u--> "_programmeService\n1" IProgrammeService
-ProgrammeRestController "*" ---> "_programmeDTOMapper\n1" IProgrammeDTOMapper
-ProgrammeRestController "*" ---> "_degreeTypeDTOMapper\n1" IDegreeTypeDTOMapper
-ProgrammeRestController "*" ---> "_departmentDTOMapper\n1" IDepartmentDTOMapper
-ProgrammeRestController "*" ---> "_teacherDTOMapper\n1" ITeacherDTOMapper
+ProgrammeRestController "*" ---> "_programmeDTOMapper\n1" IProgrammeAssembler
+ProgrammeRestController "1" ..> "*" ProgrammeRequestDTO
+ProgrammeRestController "1" ..> "*" ProgrammeVOsDTO
+ProgrammeRestController "1" ..> "*" ProgrammeResponseDTO
 
-IDegreeTypeDTOMapper <|.. DegreeTypeDTOMapper
-IDepartmentDTOMapper <|.. DepartmentDTOMapper
-ITeacherDTOMapper <|.. TeacherDTOMapper
 
-IProgrammeDTOMapper <|.. ProgrammeDTOMapperImpl
-IProgrammeDTOMapper "1" ..> "*" ProgrammeRequestDTO
-IProgrammeDTOMapper "1" ..> "*" ProgrammeVOsDTO
-IProgrammeDTOMapper "1" ..> "*" ProgrammeResponseDTO
+IProgrammeAssembler <|.. ProgrammeAssemblerImpl
+IProgrammeAssembler "1" .u.> "*" ProgrammeRequestDTO
+IProgrammeAssembler "1" .u.> "*" ProgrammeVOsDTO
+IProgrammeAssembler "1" .u.> "*" ProgrammeResponseDTO
 
-IDegreeTypeService <|.- DegreeTypeServiceImpl
-IDepartmentService <|.- DepartmentServiceImpl
-ITeacherService <|.- TeacherServiceImpl
 IProgrammeService <|.- ProgrammeServiceImpl
+IProgrammeService "1" ..> "*" ProgrammeVOsDTO
+IProgrammeService "1" ..> "*" ProgrammeResponseDTO
 
-IProgrammeService "*" ---> "1" IProgrammeRepository
+IProgrammeService "*" -r--> "1" IProgrammeRepository
 
 IProgrammeFactory <|.d. ProgrammeFactoryImpl
 IProgrammeFactory "1" ..> "*" "<<root>>\nProgramme" : "<<creates>>"

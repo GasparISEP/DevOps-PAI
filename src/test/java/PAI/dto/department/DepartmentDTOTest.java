@@ -11,25 +11,22 @@ class DepartmentDTOTest {
         String id = "DEI";
         String name = "Software Engineering Department";
         String acronym = "DEI";
-        String teacherID = "AAM";
 
         // Act
-        DepartmentDTO departmentDTO = new DepartmentDTO(id, name, acronym, teacherID);
+        DepartmentDTO departmentDTO = new DepartmentDTO(id, name, acronym);
 
         // Assert
         assertEquals(id, departmentDTO.id());
         assertEquals(name, departmentDTO.name());
         assertEquals(acronym, departmentDTO.acronym());
-        assertEquals(teacherID, departmentDTO.teacherID());
     }
 
     @Test
     void shouldHandleNullId() {
-        DepartmentDTO departmentDTO = new DepartmentDTO(null, "Design", "DSN", "AAM");
+        DepartmentDTO departmentDTO = new DepartmentDTO(null, "Design", "DSN");
 
         assertNull(departmentDTO.id());
         assertEquals("Design", departmentDTO.name());
         assertEquals("DSN", departmentDTO.acronym());
-        assertEquals("AAM", departmentDTO.teacherID());
     }
 }

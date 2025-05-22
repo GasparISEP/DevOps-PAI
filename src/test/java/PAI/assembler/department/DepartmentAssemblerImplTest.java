@@ -56,19 +56,31 @@ class DepartmentAssemblerImplTest {
     @Test
     void shouldConvertDepartmentToDTO() {
         // Arrange
-        Department departmentDouble = mock(Department.class);
-        when(departmentDouble.identity()).thenReturn(mock(DepartmentID.class));
-        when(departmentDouble.getName()).thenReturn(mock(Name.class));
-        when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
-        when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
+        Department department = mock(Department.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        when(department.identity()).thenReturn(departmentID);
 
-        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+
+        when(department.identity().getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        when(department.getName()).thenReturn(name);
+        when(name.getName()).thenReturn("Software Engineering Department");
+
+        when(department.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        DepartmentAssemblerImpl assembler = new DepartmentAssemblerImpl();
 
         // Act
-        DepartmentDTO departmentDTO = departmentAssembler.toDTO(departmentDouble);
+        DepartmentDTO dto = assembler.toDTO(department);
 
         // Assert
-        assertNotNull(departmentDTO);
+        assertEquals("DEI", dto.id());
+        assertEquals("Software Engineering Department", dto.name());
+        assertEquals("DEI", dto.acronym());
     }
 
     @Test
@@ -85,10 +97,16 @@ class DepartmentAssemblerImplTest {
     void shouldConvertListOfDepartmentsToDTOs() {
         // Arrange
         Department departmentDouble = mock(Department.class);
-        when(departmentDouble.identity()).thenReturn(mock(DepartmentID.class));
-        when(departmentDouble.getName()).thenReturn(mock(Name.class));
-        when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
-        when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
+        Name nameDouble = mock(Name.class);
+
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+        when(departmentIDDouble.getAcronym()).thenReturn(acronymDouble);
+        when(acronymDouble.getAcronym()).thenReturn("DEI");
+        when(departmentDouble.getName()).thenReturn(nameDouble);
+        when(nameDouble.getName()).thenReturn("Software Engineering Department");
+        when(departmentDouble.getAcronym()).thenReturn(acronymDouble);
 
         Iterable<Department> listDepartment = List.of(departmentDouble);
 
