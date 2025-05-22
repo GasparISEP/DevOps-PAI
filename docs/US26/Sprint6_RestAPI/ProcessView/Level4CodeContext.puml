@@ -1,0 +1,157 @@
+@startuml
+title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated to my department, in a given school year.\n(Process View Level 4)
+
+autonumber
+
+participant ":UI" as UI
+
+' Controllers
+participant ":DepartmentController" as depCtrl
+participant ":SchoolYearController" as syCtrl
+participant ":ProgrammeEditionController" as PECtrl
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as UsService
+participant ":DepartmentRepository" as depRepo
+participant ":DepartmentIDMapper" as depIDMapper
+participant ":SchoolYearRepository" as syRepo
+participant ":ProgrammeEditionRepository" as programmeEditionRepository
+participant ":SchoolYearIDMapper" as syIDMapper
+participant ":ProgrammeRepository" as programmeRepository
+participant ":ProgrammeIDMapper" as programmeIDMapper
+participant ":ProgrammeEditionEnrolmentRepository" as programmeEditionEnrolmentRepository
+participant ":ProgrammeEditionMapper" as programmeEditionMapper
+
+
+
+
+
+database DB
+
+' Step 1: Obtain List of Departments
+'DD -> UI++: Request to get department list
+UI -> depCtrl ++: getAllDepartments()
+ref over depCtrl
+    get all departments
+end ref
+depCtrl --> UI--: List<DepartmentDTO>
+'UI --> DD--: Show departments
+
+' Step 2: Obtain List Of School Years
+'DD -> UI++: Request to get school years
+UI -> syCtrl++: getAllSchoolYears()
+ref over syCtrl
+    get all School Years
+end ref
+syCtrl --> UI--: List<SchoolYearDTO>
+'UI --> DD--: Show school years
+
+
+' Step 3: Obter número de alunos inscritos
+'DD -> UI++: Request number of students enrolled\nDepartmentID, SchoolYearID
+UI -> PECtrl++: totalEnrolledStudentsInProgrammesByDepartmentAndYear(\ndepartmentId :String, schoolYearId: String)
+note over PECtrl
+    - Convert departmentId :String to departmentAcronym :DepartmentAcronym
+    - Convert departmentAcronym :DepartmentAcronym to departmentID :DepartmentID
+    - Convert schoolYearID :String to schoolYearID :UUID
+    - Convert schoolYearID :UUID to schoolYearID :SchoolYearID
+end note
+PECtrl -> UsService++: getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(\ndepartmentId :DepartmentID, schoolYearId: SchoolYearID)
+
+UsService -> depRepo++: containsOfIdentity(departmentID: DepartmentID)
+depRepo -> depIDMapper++: toDataModel(\ndepartmentID: DepartmentID)
+depIDMapper --> depRepo--: DepartmentIDDataModel
+depRepo -> DB++: existsById(DepartmentIDDataModel)
+DB --> depRepo--: true: Boolean
+depRepo --> UsService--: true: Boolean
+
+UsService -> syRepo++: containsOfIdentity(schoolYearID :SchoolYearID)
+syRepo -> syIDMapper++: toDataModel(\nschoolYearID: SchoolYearID)
+syIDMapper --> syRepo--: SchoolYearIDDataModel
+syRepo -> DB++: existsById(SchoolYearIDDataModel)
+DB --> syRepo--: true: Boolean
+syRepo --> UsService--: true: Boolean
+
+UsService -> programmeRepository++: findProgrammeByDepartment(departmentID :DepartmentID)
+programmeRepository -> programmeIDMapper++: toDataModel(departmentID :DepartmentID)
+programmeIDMapper --> programmeRepository--: DepartmentIDDataModel
+programmeRepository -> DB++: SELECT programmeId FROM programmes WHERE department_id = departmentIDDataModel
+DB --> programmeRepository--: List<ProgrammeIDDataModel>
+
+loop for ProgrammeIDDataModel[i]
+    note over of programmeRepository
+        Invokes ProgrammeID
+         to construct object
+    end note
+end
+programmeRepository --> UsService--: List<ProgrammeID>
+
+UsService -> programmeEditionRepository++: findEnrolmentsByProgrammeID(List<ProgrammeID>, schoolYearID :SchoolYearID)
+programmeEditionRepository -> syIDMapper++: toDataModel(\nschoolYearID: SchoolYearID)
+syIDMapper --> programmeEditionRepository--: SchoolYearIDDataModel
+
+programmeEditionRepository -> programmeIDMapper++: toDataModel(List<ProgrammeID>)
+programmeIDMapper --> programmeEditionRepository--: List<ProgrammeIDDataModel>
+
+loop for ProgrammeIDDataModel[i]
+    programmeEditionRepository -> DB++: select programmeEditionID from programme_editions where programmeID = programmeIDDataModel[i] AND schoolYearID = schoolYearIDDataModel
+    DB --> programmeEditionRepository--: ProgrammeEditionIDDataModel
+    programmeEditionRepository -> programmeIDMapper++: toDataModel(ProgrammeEditionIDDataModel)
+    programmeIDMapper --> programmeEditionRepository--: ProgrammeEditionID
+end
+
+programmeEditionRepository --> UsService--: List<ProgrammeEditionID>
+UsService -> programmeEditionEnrolmentRepository ++: countNumberOfStudentsInProgrammeEditions(List<ProgrammeEditionID> :ProgrammeEditionID)
+programmeEditionEnrolmentRepository -> programmeEditionMapper++: toDataModel(List<ProgrammeEditionID> :ProgrammeEditionID)
+programmeEditionMapper --> programmeEditionEnrolmentRepository--: List<ProgrammeEditionIDDataModel>
+
+loop for ProgrammeEditionIDDataModel[i]
+    programmeEditionEnrolmentRepository -> DB++: countByIdProgrammeEditionIdDataModel
+    DB --> programmeEditionEnrolmentRepository--: count :int
+end
+
+programmeEditionEnrolmentRepository --> UsService--: count :int
+UsService --> PECtrl--: count :int
+PECtrl --> UI--: NumberOfStudentsResponseDTO
+
+
+
+
+
+
+
+'UI -> enrCtrl : getNumberOfStudents(requestDTO: GetEnrolledStudentsRequestDTO)
+'enrCtrl -> enrMapper : mapToDomain(requestDTO)
+'enrMapper --> enrCtrl : DepartmentID, SchoolYearID
+'enrCtrl -> enrService : getNumberOfStudentsEnrolled(DepartmentID, SchoolYearID)
+'enrService -> enrRepo : countEnrolledStudents(DepartmentID, SchoolYearID)
+'enrRepo -> DB : SELECT COUNT(*) FROM enrollments WHERE department_id = ? AND school_year_id = ?
+'DB --> enrRepo : Integer
+'enrRepo --> enrService : Integer
+'enrService --> enrCtrl : Integer
+'enrCtrl --> UI : NumberOfStudentsResponseDTO
+'UI --> DD : Display number of students
+
+
+
+
+
+'------------------------------------------------------
+'-------------------------------------------------------
+'actor DD
+'participant ":UI" as UI
+'participant ":NumberOfStudentsEnrolledInAllProgrammeEditionOfAGivenDepartmentController" as ctrl
+'participant ":DepartmentService" as DepartmentService
+'participant ":DepartmentRepository" as DepartmentRepository
+'participant ":DepartmentMapper" as DepartmentMapper
+'participant ":DepartmentDataModel" as DepartmentDataModel
+'participant ":DepartmentIDDataModel" as DepartmentDataModelID
+
+'participant "DepartmentFactory" as SchoolYearService
+'participant "lastTCP:TeacherCareerProgression" as TCP
+'participant "tcpF:ITCPfactory" as TCPf
+'participant "tcp1:TeacherCareerProgression" as TCP1
+'participant "tcpRepo: TeacherCareerProgressionRepositorySDImpl" as TCPRepo
+'participant "ITeacherCareerProgressionRepoSpringData" as TCPRepoSpringData
+
+'DD -> UI : I want to get the number of students enrolled in all\nprogrammes associated to my department, in a given school year.
+'UI -> ctrl : getNumberOfStudentsEnrolledInAllProgrammeEditionOfAGivenDepartment
+@enduml
