@@ -60,6 +60,7 @@ import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -1011,15 +1012,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearService,
                         programmeEditionEnrolmentService);
 
-        String description1 = "School Year 24/25";
-        String description2 = "School Year 25/26";
-        String startDate1 = "23-11-2024";
-        String endDate1 = "09-12-2025";
-        String startDate2 = "10-11-2025";
-        String endDate2 = "09-12-2026";
+        Description descriptionInfo = new Description("ola");
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
+        Description descriptionInfo1 = new Description("olas");
+        Date startDateInfo1 = mock(Date.class);
+        Date endDateInfo1 = mock(Date.class);
 
-        schoolYearService.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearService.addSchoolYear(description2, startDate2, endDate2);
+        schoolYearService.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        schoolYearService.addSchoolYear(descriptionInfo1, startDateInfo1, endDateInfo1);
 
         // Act
         List<SchoolYearID> schoolYears = controller.getAllSchoolYearsIDs();
@@ -1084,14 +1085,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
                         schoolYearService,
                         programmeEditionEnrolmentService);
 
-        String description1 = "School Year 24/25";
-        String description2 = "School Year 25/26";
-        String startDate1 = "23-11-2024";
-        String endDate1 = "09-12-2025";
-        String startDate2 = "10-11-2025";
-        String endDate2 = "09-12-2026";
-        schoolYearService.addSchoolYear(description1, startDate1, endDate1);
-        schoolYearService.addSchoolYear(description2, startDate2, endDate2);
+        Description descriptionInfo = new Description("ola");
+        Description descriptionInfos = new Description("olas");
+        Date startDateInfo = new Date(LocalDate.of(2025,2,2));
+        Date startDateInfos = new Date(LocalDate.of(2026,2,2));
+        Date endDateInfo = new Date(LocalDate.of(2026,2,2));
+        Date endDateInfos = new Date(LocalDate.of(2027,2,2));
+        schoolYearService.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        schoolYearService.addSchoolYear(descriptionInfos, startDateInfos, endDateInfos);
 
         // Act
         List<SchoolYearID> schoolYears = controller.getAllSchoolYearsIDs();
