@@ -1,6 +1,6 @@
 @startuml
 
-title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 4 Granularity)
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 3 - Backend)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -13,18 +13,16 @@ activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
-
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
-router -> Controller: configureTeacherCategory \n (teacherCategoryRequestDTO)
+router -> Controller: configureTeacherCategory (name)
 activate Controller #E1F5FE
 
-ref over Controller
-    Convert teacherCategoryRequestDTO to nameVO
-end
-
 participant ":ITeacherCategoryService" as service
-Controller -> service: configureTeacherCategory (nameVO)
+Controller -> service: configureTeacherCategory (name)
 activate service #E1F5FE
+
+create "nameVO:Name"
+service -> "nameVO:Name": create
 
 participant ":ITeacherCategoryFactory" as Factory
 service -> Factory: createTeacherCategory (nameVO)
@@ -47,7 +45,7 @@ service -> Repository: save (tc)
 activate Repository #E1F5FE
 
 ref over Repository
-    Convert tc to DataModel
+    Convert teacherCategory to DataModel
 end
 
 participant ":ITeacherCategoryRepositorySpringData" as springDataRepository
@@ -63,19 +61,17 @@ end
 Repository --> service: tcSaved
 deactivate Repository
 
-service --> Controller: tcSaved
-deactivate service
-
-ref over Controller
+ref over service
     Convert tcSaved to DTO
 end
+
+service --> Controller: tcSavedResponseDTO
+deactivate service
 
 Controller --> router: (201, Created) tcSavedResponseDTO
 deactivate Controller
 
-
 note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
-
 
 <-- router: (201, Created) tcSavedResponseJSON
 deactivate router
