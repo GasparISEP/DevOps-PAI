@@ -2,8 +2,8 @@ package PAI.dto.course;
 
 public class CourseResponseDTO {
 
-    private final String _acronym;
-    private final String _name;
+    private String _acronym;
+    private String _name;
 
     public CourseResponseDTO (String acronym, String name) {
 
