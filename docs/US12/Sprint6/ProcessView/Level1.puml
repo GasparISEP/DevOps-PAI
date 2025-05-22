@@ -1,0 +1,23 @@
+@startuml
+autonumber
+
+title As an ASC I want to change the Programme Director \n (Process View Level 1)
+
+actor ASC as Admin
+participant "<<Component>>\nSystemPAI" as System
+
+activate System
+Admin -> System  : I want to change the Programme Director in the System.
+
+System --> Admin --: Choose a Programme
+
+Admin -> System  ++: Programme
+
+System --> Admin --: Choose a Teacher
+
+Admin -> System  ++: Teacher
+
+System --> Admin --: Updated Programme Director successfully!
+
+deactivate System
+@enduml
