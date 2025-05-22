@@ -17,6 +17,17 @@ class ProgrammeRequestDTOTest {
     }
 
     @Test
+    void shouldCreateProgrammeRequestDTO() {
+        //arrange
+
+        //act
+        ProgrammeRequestDTO programmeRequestDTO = new ProgrammeRequestDTO();
+
+        //assert
+        assertNotNull(programmeRequestDTO);
+    }
+
+    @Test
     void shouldCreateProgrammeRequestDTOWithGivenValues () {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();

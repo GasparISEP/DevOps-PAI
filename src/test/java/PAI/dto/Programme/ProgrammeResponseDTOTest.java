@@ -17,6 +17,17 @@ class ProgrammeResponseDTOTest {
     }
 
     @Test
+    void shouldCreateProgrammeResponseDTO() {
+        //arrange
+
+        //act
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO();
+
+        //assert
+        assertNotNull(programmeResponseDTO);
+    }
+
+    @Test
     void shouldCreateProgrammeResponseDTOWithGivenValues() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
