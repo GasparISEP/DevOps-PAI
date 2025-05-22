@@ -9,7 +9,7 @@ participant ":System" as System #lightgrey
 activate System #silver
 Administrator -> System: I want to register a teacher.
 System --> Administrator: What are the Teacher's attributes?
-Administrator -> System: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country
+Administrator -> System: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, \n country, date, workingPercentage
 System --> Administrator: Which Category?
 Administrator -> System: teacherCategory
 System --> Administrator: Which Department?
