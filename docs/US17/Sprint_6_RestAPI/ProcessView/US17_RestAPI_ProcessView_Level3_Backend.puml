@@ -1,0 +1,38 @@
+@startuml
+
+' US17 - Backend Granular Flow
+' Process View - Level 3 Backend
+
+autonumber
+
+title US17: Enrol a Student in a ProgrammeEdition \n (Process View - Level 3 Backend)
+
+participant ":Router" as router <<component>> <<Router>>
+participant ":ProgrammeEditionEnrolmentController" as restController <<component>> <<RESTController>>
+participant ":ProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
+participant ":ProgrammeEditionEnrolmentFactoryImpl" as domain <<component>> <<Domain>>
+participant ":IProgrammeEditionEnrolmentRepository" as repository <<component>> <<Repository>>
+
+-> router: enrolStudentInProgrammeEdition(...)
+activate router
+
+router -> restController: POST /programmeeditions/{...}/enrolments
+activate restController
+
+restController -> service: enrolStudentInProgrammeEdition(studentId, editionId)
+activate service
+
+service -> domain: newProgrammeEditionEnrolment(studentId, editionId)
+activate domain
+
+domain --> service: ProgrammeEditionEnrolment
+
+service -> repository: save(ProgrammeEditionEnrolment)
+activate repository
+repository --> service: OK
+
+service --> restController: success
+restController --> router: Response 201 Created
+
+@enduml
+

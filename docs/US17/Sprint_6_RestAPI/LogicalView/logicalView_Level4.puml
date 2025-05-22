@@ -1,0 +1,87 @@
+@startuml
+
+' Logical View - US17: Enrol a Student in a ProgrammeEdition
+
+skinparam ranksep 60
+skinparam nodesep 60
+skinparam linetype ortho
+
+' === CONTROLLER ===
+class StudentProgrammeEditionEnrolmentController <<RESTController>> {
+    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(request: ProgrammeEditionEnrolmentRequest): ResponseEntity<?>
+}
+
+' === SERVICE ===
+interface IProgrammeEditionEnrolmentService <<Service>> {
+    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID, ProgrammeID, SchoolYearID): boolean
+}
+
+class ProgrammeEditionEnrolmentServiceImpl <<Service>> {
+    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID, ProgrammeID, SchoolYearID): boolean
+}
+
+' === DTO ===
+class ProgrammeEditionEnrolmentRequest <<DTO>> {
+    - studentId: String
+    + getStudentId(): String
+}
+
+' === FACTORY ===
+interface IProgrammeEditionEnrolmentFactory <<Factory>> {
+    + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID): ProgrammeEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentFactoryImpl <<Factory>> {
+    + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID): ProgrammeEditionEnrolment
+}
+
+' === AGGREGATE ===
+class ProgrammeEditionEnrolment <<Entity>> {
+    - programmeEditionID: ProgrammeEditionID
+    - studentID: StudentID
+    - enrolmentDate: Date
+    - isActive: EnrolmentStatus
+    + deactivateEnrolment(): void
+    + isEnrolmentActive(): boolean
+}
+
+' === VALUE OBJECTS ===
+class ProgrammeEditionID <<VO>>
+class ProgrammeID <<VO>>
+class SchoolYearID <<VO>>
+class StudentID <<VO>>
+class Date <<VO>>
+class EnrolmentStatus <<VO>>
+
+' === REPOSITORIES ===
+interface IProgrammeEnrolmentRepository <<Repository>> {
+    + isStudentEnrolled(StudentID, ProgrammeID): boolean
+}
+
+interface IProgrammeEditionRepository <<Repository>> {
+    + findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID, SchoolYearID): Optional<ProgrammeEditionID>
+}
+
+interface IProgrammeEditionEnrolmentRepository <<Repository>> {
+    + isStudentEnrolledInThisProgrammeEdition(StudentID, ProgrammeEditionID): boolean
+    + save(ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+}
+
+' === NAVIGABILITIES ===
+StudentProgrammeEditionEnrolmentController --> ProgrammeEditionEnrolmentRequest
+StudentProgrammeEditionEnrolmentController --> IProgrammeEditionEnrolmentService
+
+ProgrammeEditionEnrolmentServiceImpl ..|> IProgrammeEditionEnrolmentService
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentFactoryImpl ..|> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolment
+
+ProgrammeEditionEnrolment --> ProgrammeEditionID
+ProgrammeEditionEnrolment --> StudentID
+ProgrammeEditionEnrolment --> Date
+ProgrammeEditionEnrolment --> EnrolmentStatus
+
+@enduml
