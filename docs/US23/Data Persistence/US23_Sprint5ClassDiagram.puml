@@ -1,5 +1,5 @@
 @startuml
-title US22: I want to grade a student in a CourseEdition
+title US23: I want to know the approval percentage of a CourseEdition
 'left to right direction
 
 class US22_IWantToGradeAStudentInACourseEdition {
