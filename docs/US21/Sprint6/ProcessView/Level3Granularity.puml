@@ -1,6 +1,19 @@
-@startuml
-'https://plantuml.com/sequence-diagram
+@startuml US21
+
+
+participant Router as ":Router"<<Component>> #fff2cc
+participant ProgrammeEditionRestController as ":ProgrammeEditionRestController"<<Component>> #d0e0e3
+participant ProgrammeEditionService as "ProgrammeEditionService"<<Component>> #d9ead3
+participant ProgrammeEditionEnrolmentService as ":ProgrammeEditionEnrolmentService"<<Component>> #d9ead3
+participant ProgrammeEditionSpringData as ":ProgrammeEditionSpringData"<<Component>> #fce5cd
+participant ProgrammeEditionEnrolmentSpringData as ":ProgrammeEditionEnrolmentSpringData"<<Component>> #fce5cd
+participant ":ProgrammeEditionEnrolmentMapper"<<Component>> #ead1dc
+participant ":ProgrammeEditionEnrolmentFactory"<<Component>> #d9d2e9
+participant ProgrammeEditionIDMapper as "ProgrammeEditionIDMapper"<<Component>>
+autonumber
 title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 3 Granularity)
+
+
 
 autonumber
 skinparam defaultTextAlignment center
@@ -12,56 +25,50 @@ skinparam sequence {
     LifeLineBackgroundColor #ffffff
 }
 
+-> Router  : I want to get the number of students enrolled in a programme edition!
+activate Router
+Router -> ProgrammeEditionRestController ++: GET/programmeeditions
+ProgrammeEditionRestController -> ProgrammeEditionService ++: findAll()
+ProgrammeEditionService -> ProgrammeEditionSpringData: findAll()
+activate ProgrammeEditionSpringData
+ProgrammeEditionSpringData --> ProgrammeEditionService --: List<programmeEdition>programmeEditions
+ProgrammeEditionService --> ProgrammeEditionRestController --: List<programmeEdition>programmeEditions
+ProgrammeEditionRestController --> Router --: List<programmeEdition>programmeEditions
+<--Router : Which Programme Edition?
+deactivate Router
+ -> Router  : programmeEdition
+ activate Router
 
 
-actor ASC as ASC #orange
+Router -> ProgrammeEditionRestController  : GET/programmeeditions/{programmeName}/{programmeAcronym}/{schoolYearID}/students
+activate ProgrammeEditionRestController
 
-participant "Router" as router <<Component>> #fffacd
-participant "RESTController" as controller <<Component>> #dcf9ff
-participant "Service" as service <<Component>> #d0f0c0
-participant "Repository" as repo <<Component>> #f4cccc
-database "DB" as db <<Component>> #eeeeee
+ProgrammeEditionRestController -> ProgrammeEditionEnrolmentService ++: totalStudentsInProgrammeEdition(programmeEdition1ID)
+ProgrammeEditionEnrolmentService -> ProgrammeEditionEnrolmentSpringData ++: getAllProgrammeEditionsEnrolmentByProgrammeEditionID(programmeEdition1ID)
+ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionIDMapper ++: toDataModel(programmeEdition1ID)
+ProgrammeEditionIDMapper --> ProgrammeEditionEnrolmentSpringData --: programmeEdition1IdDataModel
+ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData : findAllBy_id_ProgrammeEditionIdDataModel(programmeEdition1IdDataModel)
 
-ASC -> router: Request list of programme editions
-activate router
-router -> controller: (GET) List of Programme Editions
-activate controller
-controller -> service: getAllProgrammeEditions()
-activate service
-service -> repo: fetchAllProgrammeEditions()
-activate repo
-repo -> db: SELECT * FROM ProgrammeEdition
-activate db
-db --> repo: List<ProgrammeEditionDataModel>
-deactivate db
-repo --> service: List<ProgrammeEdition>
-deactivate repo
-service --> controller: List<ProgrammeEditionDTO>
-deactivate service
-controller --> router: List<ProgrammeEditionDTO>
-deactivate controller
-router --> ASC: List<ProgrammeEditionDTO>
-deactivate router
+loop for each ProgrammeEditionEnrolmentDataModel
+    ProgrammeEditionEnrolmentSpringData -> ":ProgrammeEditionEnrolmentMapper" ++: toDomain(programmeEditionEnrolmentDataModel)
+    ":ProgrammeEditionEnrolmentMapper" -> ":ProgrammeEditionEnrolmentFactory"++: newProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId)
+    create "pEE1:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment1
+    ":ProgrammeEditionEnrolmentFactory" -> ProgrammeEditionEnrolment1: <create>
+    ":ProgrammeEditionEnrolmentFactory" --> ":ProgrammeEditionEnrolmentMapper": Optional<pEE1>
+    ":ProgrammeEditionEnrolmentMapper" --> ProgrammeEditionEnrolmentSpringData --: Optional<pEE1>
+    ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData: add to List<ProgrammeEditionEnrolment>
+end
 
-ASC -> router: Select ProgrammeEdition!
-activate router
-router -> controller: getNumberOfStudents(ProgrammeEditionDTO)
-activate controller
-controller -> service: getNumberOfStudents(ProgrammeEditionDTO)
-activate service
-service -> repo: countStudentsByProgrammeEditionID(ProgrammeEditionID)
-activate repo
-repo -> db: SELECT * FROM ProgrammeEditionEnrolment WHERE ProgrammeEditionID = ProgrammeEditionIDDataModel
-activate db
-db --> repo: List<ProgrammeEditionEnrolment>
-deactivate db
-repo --> service: programmeEditionsEnrolments.size()
-deactivate repo
-service --> controller: int
-deactivate service
-controller --> router: int
-deactivate controller
-router --> ASC: Display NumberOfStudents()
-deactivate router
-@enduml
+ProgrammeEditionEnrolmentSpringData --> ProgrammeEditionEnrolmentService --: List<ProgrammeEditionEnrolment>
+ref over ProgrammeEditionEnrolmentService
+    Count total programmeEditionEnrolments
+    1. Get list size
+    2. Return total
+end ref
 
+ProgrammeEditionEnrolmentService --> ProgrammeEditionRestController --: int
+ProgrammeEditionRestController --> Router --: int
+<--Router: Total of Students Enrolled in the specified ProgrammeEdition
+deactivate Router
+
+@enduml  make the participants/actors have diferent colours
