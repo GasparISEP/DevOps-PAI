@@ -9,6 +9,9 @@ import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -151,4 +154,49 @@ class DepartmentRegistrationServiceImplTest {
         assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveDepartment(registerDepartmentCommandDouble));
     }
 
+    @Test
+    void shouldReturnEmptyListWhenNoDepartmentsExist() {
+        // Arrange
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+
+        IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
+
+        when(departmentRepositoryDouble.findAll()).thenReturn(List.of());
+
+        // Act
+        Iterable<Department> result = service.getAllDepartments();
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnListOfDepartments() {
+        // Arrange
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+
+        Department department1 = mock(Department.class);
+        Department department2 = mock(Department.class);
+        Department department3 = mock(Department.class);
+
+        IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
+
+        when(departmentRepositoryDouble.findAll()).thenReturn(List.of(department1, department2, department3));
+
+        // Act
+        Iterable<Department> result = service.getAllDepartments();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        List<Department> listResult = new ArrayList<>();
+        result.forEach(listResult::add);
+        assertEquals(3, listResult.size());
+        assertTrue(listResult.contains(department1));
+        assertTrue(listResult.contains(department2));
+        assertTrue(listResult.contains(department3));
+    }
 }
