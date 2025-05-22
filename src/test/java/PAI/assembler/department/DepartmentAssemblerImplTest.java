@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class DepartmentAssemblerTest {
+class DepartmentAssemblerImplTest {
 
     @Test
     void shouldCreateDepartmentAssembler() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertNotNull(departmentAssembler);
@@ -29,7 +29,7 @@ class DepartmentAssemblerTest {
         when(registerDepartmentRequestDouble.name()).thenReturn("Software Engineering Department");
         when(registerDepartmentRequestDouble.acronym()).thenReturn("DEI");
 
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
         RegisterDepartmentCommand registerDepartmentCommand = departmentAssembler.toRegisterDepartmentCommand(registerDepartmentRequestDouble);
@@ -41,7 +41,7 @@ class DepartmentAssemblerTest {
     @Test
     void shouldThrowExceptionWhenRegisterDepartmentRequestIsNull() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -58,7 +58,7 @@ class DepartmentAssemblerTest {
         when(departmentDouble.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
         when(departmentDouble.getDirectorID()).thenReturn(mock(TeacherID.class));
 
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
         DepartmentDTO departmentDTO = departmentAssembler.toDTO(departmentDouble);
@@ -70,7 +70,7 @@ class DepartmentAssemblerTest {
     @Test
     void shouldThrowExceptionWhenDepartmentIsNull() {
         // Arrange
-        DepartmentAssembler departmentAssembler = new DepartmentAssembler();
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
