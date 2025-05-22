@@ -1,11 +1,61 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+' Process View – Level 3
 
-autonumber
+skinparam sequence {
+    LifeLineBorderColor black
+    LifeLineBackgroundColor LightBlue
+}
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+title US17:\n Enrol a Student in a ProgrammeEdition\n Process View Level 3
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+actor ASC
+participant "Frontend" as FE
+
+box "Controller Layer"
+participant "StudentProgrammeEditionEnrolmentController" as Controller
+end box
+
+box "DTO Layer"
+participant "ProgrammeEditionEnrolmentRequest" as RequestDTO
+end box
+
+box "Application Layer"
+participant "ProgrammeEditionEnrolmentServiceImpl" as Service
+end box
+
+box "Domain Layer"
+participant "ProgrammeEditionEnrolmentFactoryImpl" as Factory
+end box
+
+box "Repository Interfaces"
+participant "IProgrammeEnrolmentRepository" as ProgrammeEnrRepo
+participant "IProgrammeEditionRepository" as ProgrammeEditionRepo
+participant "IProgrammeEditionEnrolmentRepository" as ProgrammeEditionEnrRepo
+end box
+
+ASC -> FE ++: Fill form (Student + Programme + SchoolYear)
+FE -> Controller ++: POST /programmeeditions/{programmeAcronym}/{programmeName}/{schoolYearId}/enrolments\nJSON: studentId
+
+Controller -> RequestDTO ++: Parse and validate JSON
+RequestDTO --> Controller --: Validated studentId
+
+Controller -> Service ++: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId)
+
+Service -> ProgrammeEnrRepo ++: isStudentEnrolled(studentId, programmeId)
+ProgrammeEnrRepo --> Service --: true
+
+Service -> ProgrammeEditionRepo ++: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId)
+ProgrammeEditionRepo --> Service --: programmeEditionId
+
+Service -> ProgrammeEditionEnrRepo ++: isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)
+ProgrammeEditionEnrRepo --> Service --: false
+
+Service -> Factory ++: newProgrammeEditionEnrolment(studentId, programmeEditionId)
+Factory --> Service --: ProgrammeEditionEnrolment
+
+Service -> ProgrammeEditionEnrRepo ++: save(ProgrammeEditionEnrolment)
+ProgrammeEditionEnrRepo --> Service --: OK
+
+Service --> Controller --: success
+Controller --> FE --: 201 Created
 @enduml
