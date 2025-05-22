@@ -8,22 +8,22 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router
--> router: configureTeacherCategory (name)
+-> router: configureTeacherCategory (tcRequestDTO)
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
-router -> Controller: configureTeacherCategory (name)
+router -> Controller: configureTeacherCategory (tcRequestDTO)
 activate Controller #E1F5FE
 
-create "nameVO:Name"
-Controller -> "nameVO:Name": create
+ref over Controller
+    Convert tcRequestDTO to NameVO
+end
 
 participant ":ITeacherCategoryService" as service
 Controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
-
 
 participant ":ITeacherCategoryFactory" as Factory
 service -> Factory: createTeacherCategory (nameVO)
