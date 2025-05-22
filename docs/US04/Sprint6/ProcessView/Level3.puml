@@ -1,0 +1,82 @@
+@startuml
+
+title US04: As an Administrator, I want to register a teacher in the system.
+autonumber
+
+actor Administrator
+participant ":UI" as UI
+participant ":US04_IWantToRegisterATeacherInTheSystemRestController" as RC
+
+participant ":IDepartmentService" as DS
+participant ":IDepartmentRepository" as DR
+participant ":IDepartmentAssembler" as DA
+participant ":ITeacherService" as TS
+participant ":ITeacherRepository" as TR
+participant ":ITeacherAssembler" as TA
+
+
+participant "Domain" as D
+
+Administrator -> UI ++: I want to register a teacher.
+UI --> Administrator --: What are the Teacher's attributes?
+
+Administrator -> UI ++: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, \n location, country
+UI -> RC++: GET /api/departments?search={searchTerm}
+RC -> DS++: findDepartments(searchTerm)
+DS -> DR ++: findDepartments(searchTerm)
+DR --> DS --: List<Department>
+DS --> RC --: List<Department>
+RC -> DA++: toDto(Department)
+DA --> RC--: DepartmentDto
+RC --> UI--:  200 OK (List<DepartmentDto>)
+UI --> Administrator--: Here are the Departments. Select One.
+
+Administrator -> UI++: Select Department
+UI -> RC++: POST /api/teacher
+RC -> TS++ : registerATeacherInTheSystem(TeacherDTO)
+TS -> TA++: toDomain(TeacherDTO)
+TA --> TS--: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
+
+
+
+
+
+
+UI -> Controller : registerATeacherInTheSystem( teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID)
+activate Controller #ddfada
+Controller -> IDepartmentService:isDepartmentInDepartmentRepository(departmentID)
+activate IDepartmentService
+IDepartmentService-> DepartmentServiceImpl:isDepartmentInDepartmentRepository(departmentID)
+activate DepartmentServiceImpl
+ref over DepartmentServiceImpl
+    Convert Domain to DataModel
+end ref
+DepartmentServiceImpl -> IDepartmentRepository:containsOfIdentity(DepartmentID id)
+activate IDepartmentRepository
+IDepartmentRepository -> IDepartmentRepositorySpringData:containsOfIdentity(DepartmentID)
+activate IDepartmentRepositorySpringData
+IDepartmentRepositorySpringData -> DepartmentRepositorySpringDataImpl:containsOfIdentity(DepartmentID)
+activate DepartmentRepositorySpringDataImpl
+DepartmentRepositorySpringDataImpl --> IDepartmentRepositorySpringData:True
+deactivate DepartmentRepositorySpringDataImpl
+IDepartmentRepositorySpringData --> IDepartmentRepository:True
+deactivate IDepartmentRepositorySpringData
+IDepartmentRepository --> DepartmentServiceImpl:True
+deactivate IDepartmentRepository
+DepartmentServiceImpl --> IDepartmentService:True
+deactivate DepartmentServiceImpl
+IDepartmentService-->Controller:True
+deactivate IDepartmentService
+
+[o-> RC++: (POST) Request Register Teacher
+RC -> S++: Register Teacher
+S -> D ++: Create Teacher
+D --> S --: Teacher
+S -> R ++: Validate if Created Teacher is duplicated
+R --> S --: Teacher is not duplicated
+S -> R ++: Save Teacher
+R --> S --: Teacher registered
+S --> RC --: Teacher registered
+[o<-- RC --: (201 OK) Created Teacher Successfully\t
+
+@enduml

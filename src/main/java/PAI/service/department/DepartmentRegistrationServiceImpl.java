@@ -5,6 +5,7 @@ import PAI.VOs.Name;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
+import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,11 @@ public class DepartmentRegistrationServiceImpl implements IDepartmentRegistratio
 
 
     @Override
-    public Department createAndSaveDepartment(DepartmentAcronym acronym, Name name) throws Exception {
-    if (acronym == null || name == null) {
+    public Department createAndSaveDepartment(RegisterDepartmentCommand requestCommand) throws Exception {
+    if (requestCommand.acronym() == null || requestCommand.name() == null) {
             throw new IllegalArgumentException("Acronym and name cannot be null");
         }
-    Department department = departmentFactory.newDepartment(acronym, name);
+    Department department = departmentFactory.newDepartment(requestCommand.acronym(), requestCommand.name());
         if (department == null) {
             throw new IllegalStateException("Failed to create department");
         }
