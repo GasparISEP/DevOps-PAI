@@ -3,7 +3,7 @@ autonumber
 
 participant "pctrl:ProgrammeRestController" as C #implementation
 participant "tService:TeacherService" as TS #lightyellow
-participant "tMapper:TeacherMapper" as TM #lightpink
+participant "tAssembler:TeacherAssembler" as TA #lightpink
 participant "tDTO:TeacherDTO" as TDTO #lightgreen
 participant "tRepo:TeacherRepository" as TR #lightblue
 participant "tMapper:TeacherMapper" as M #lightgreen
@@ -30,10 +30,10 @@ end
 
 TR --> TS --: List<Teacher>
 loop for Teacher[i]
-TS -> TM ++ :fromDomainToDTO(teacher[i]))
-TM -> TDTO ++: newTeacherDTO(teacher[i]))
-TDTO --> TM --: teacherDTO[i]
-TM --> TS --: teacherDTO[i]
+TS -> TA ++ :fromDomainToDTO(teacher[i]))
+TA -> TDTO ++: newTeacherDTO(teacher[i]))
+TDTO --> TA --: teacherDTO[i]
+TA --> TS --: teacherDTO[i]
 end
 
 TS --> C --: List<TeacherDTO>

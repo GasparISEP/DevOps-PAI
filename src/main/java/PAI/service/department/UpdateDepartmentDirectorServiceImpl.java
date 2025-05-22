@@ -26,7 +26,7 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
     }
 
     @Override
-    public boolean updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception {
+    public Department updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception {
         if (teacherID == null) {
             throw new IllegalArgumentException("Teacher ID cannot be null.");
         }
@@ -37,13 +37,14 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
 
         Optional<Department> optionalDepartment = departmentRepository.findDepartmentByID(departmentID);
         if (optionalDepartment.isEmpty()) {
-            return false;
+            throw new IllegalArgumentException("Department not found for the given ID.");
         }
+
 
         Department department = optionalDepartment.get();
         department.setDirectorID(teacherID);
         departmentRepository.save(department);
-        return true;
+        return department;
     }
 
     @Override
