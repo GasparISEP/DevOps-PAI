@@ -1,11 +1,29 @@
 @startuml
-'https://plantuml.com/sequence-diagram
-
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+title US17:\n Enrol a Student in a ProgrammeEdition\n Process View Level 2
+
+actor ASC
+participant "Frontend" as FE
+participant "Backend" as BE
+database DB
+
+ASC -> FE ++: Request to enrol student in programme
+FE --> ASC --: Select a student from the list
+ASC -> FE ++: I select a student
+FE --> ASC --: Select a valid programme edition
+ASC -> FE ++: I select a programme edition
+
+FE -> BE ++: (POST) /programmeeditions/{...}/enrolments \n JSON body: studentId
+BE -> DB ++: Persist ProgrammeEditionEnrolment
+DB --> BE --: Enrolments persisted successfully
+
+BE --> FE --: (201 CREATED) Enrolment successful
+FE --> ASC --: Student enrolled successfully
+
 @enduml
