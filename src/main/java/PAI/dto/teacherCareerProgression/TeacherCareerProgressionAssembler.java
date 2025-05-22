@@ -12,7 +12,7 @@ public class TeacherCareerProgressionAssembler {
     public TeacherCareerProgressionAssembler() {
     }
 
-    public TeacherCareerProgression toTeacherCareerProgression(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
+    public TeacherCareerProgression toDomain(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
         TeacherCareerProgressionID teacherCareerProgressionID = new TeacherCareerProgressionID(UUID.fromString(teacherCareerProgressionDTO.getTcpid()));
         Date date = new Date(teacherCareerProgressionDTO.getDate());
         TeacherCategoryID teacherCategoryID = new TeacherCategoryID(UUID.fromString(teacherCareerProgressionDTO.getTcid()));
@@ -22,14 +22,12 @@ public class TeacherCareerProgressionAssembler {
         return new TeacherCareerProgression (teacherCareerProgressionID, date,teacherCategoryID, wp,teacherID);
     }
 
-    public TeacherCareerProgressionResponseDTO toTeacherCareerProgressionDTO(TeacherCareerProgression teacherCareerProgression) {
-        String tcpid = teacherCareerProgression.getID().toString();
+    public TeacherWorkingPercentageUpdateDTO toTeacherWorkingPercentageUpdateDTO(TeacherCareerProgression teacherCareerProgression) {
         String date = teacherCareerProgression.getDate().toString();
-        String tcid = teacherCareerProgression.getTeacherCategoryID().toString();
         int wp = teacherCareerProgression.getWorkingPercentage().getValue();
         String teacherid = teacherCareerProgression.getTeacherID().toString();
 
-        return new TeacherCareerProgressionResponseDTO(tcpid,date, tcid,wp,teacherid);
+        return new TeacherWorkingPercentageUpdateDTO(date,wp,teacherid);
     }
 
     public TeacherCareerProgressionID toTeacherCareerProgressionID(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
