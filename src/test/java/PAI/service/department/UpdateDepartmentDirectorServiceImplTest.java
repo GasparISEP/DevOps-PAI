@@ -30,10 +30,10 @@ class UpdateDepartmentDirectorServiceImplTest {
         when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
 
         // Act
-        boolean result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        Department result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
 
         // Assert
-        assertTrue(result);
+        assertNotNull(result);
     }
     @Test
     void shouldNotUpdateDirectorWhenDepartmentNotFound() throws Exception {
@@ -49,10 +49,12 @@ class UpdateDepartmentDirectorServiceImplTest {
         when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.empty());
 
         // Act
-        boolean result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        });
 
         // Assert
-        assertFalse(result);
+        assertEquals("Department not found for the given ID.", exception.getMessage());
     }
     @Test
     void shouldThrowExceptionWhenTeacherIDIsNull() {
