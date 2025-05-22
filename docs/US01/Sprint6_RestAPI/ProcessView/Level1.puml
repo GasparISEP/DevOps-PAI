@@ -1,6 +1,6 @@
 @startuml
 
-title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 1 Granularity)
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Process View - Level 1 - System)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -8,7 +8,7 @@ skinparam shadowing true
 autonumber
 
 actor Administrator as admin
-participant "SystemPAI" as System <<component>>
+participant "SystemPAI" as System <<System>>
 
 admin -> System: I want to configure teacher categories!
 activate System #E1F5FE

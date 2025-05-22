@@ -1,0 +1,98 @@
+@startuml
+
+title <<Component>> \n <<Container (C4)>> \n Logical View - Level 3 - Backend
+
+component "<<Component>>\nBackend " as BE{
+
+package "Framework and Drivers Layer" as FDL{
+component "<<component>>\nPersistence" as PERS{
+}
+component "<<component>>\nRouting" as ROUT{
+}
+}
+
+package "Interface Adapters Layer" as IAL{
+component "<<component>>\nController" as CONT{
+}
+component "<<component>>\nRepository" as REPO{
+}
+component "<<component>>\n Mappers" as MAP{
+}
+component "<<component>>\n Assemblers" as ASS{
+}
+component "<<component>>\nDTO" as DTO{
+}
+component "<<component>> \n DataModel" as DATAMODEL{
+}
+}
+package "Service Layer" as ABR{
+component "<<component>>\n Service" as SERV{
+}
+}
+package "Domain Layer" as EBR{
+component "<<component>>\n Domain" as DOMAIN{
+}
+component "<<component>>\n Factory" as Factory{
+}
+}
+interface " " as CONTAPI
+interface " " as DATAMODELAPI
+interface " " as PERSAPI
+interface " " as APPSERVAPI
+interface " " as DTOAPI
+interface " " as MODELAPI
+interface " " as REPOAPI
+interface " " as IFactory
+interface " " as IMappers
+interface " " as IAssemblers
+portin " " as BP1
+portin " " as BP5
+}
+
+/'REST API'/
+ROUT --- BP1
+BP1 -u- "        API"
+
+/'Persistence'/
+PERS -- BP5
+PERS -- PERSAPI
+PERSAPI )-- REPO
+PERS -left-( DATAMODELAPI
+DATAMODELAPI -l- DATAMODEL
+
+/'Routing Controller'/
+ROUT --( CONTAPI
+CONTAPI -- CONT
+
+/'Controller Service'/
+CONT --( APPSERVAPI
+APPSERVAPI -d- SERV
+CONT -up-( DTOAPI
+DTOAPI -up- DTO
+
+/'Service Domain'/
+SERV --( MODELAPI
+MODELAPI -down- DOMAIN
+SERV -right-( IFactory
+Factory -- IFactory
+SERV -- DTOAPI
+SERV --( IMappers
+MAP -- IMappers
+ASS -- IAssemblers
+SERV -down-( IAssemblers
+
+/'Repo Model'/
+REPO -- REPOAPI
+REPO --( MODELAPI
+REPOAPI )-- SERV
+
+
+
+/'Repo Persistence'/
+REPO -l-( DATAMODELAPI
+
+
+/'Exterior connections'/
+BP5 -u-( "Database API"
+
+@enduml
