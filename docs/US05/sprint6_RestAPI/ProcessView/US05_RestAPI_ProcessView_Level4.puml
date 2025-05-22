@@ -1,65 +1,66 @@
 @startuml
-skinparam SequenceGroupBackgroundColor #f2f2f2
-skinparam SequenceGroupBorderColor #cccccc
-autonumber
-title US05: Register a Department - Process View Level 4
 
+title US05: Register a Department in the System\nProcess View – Level 4
+
+autonumber
 skinparam sequence {
-   LifelineBorderColor black
-   LifelineBackgroundColor LightBlue
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
 }
 
-actor ADM as "Administrator"
-participant ":Frontend" as FE
-participant ":RestController" as CT
-participant ":Mapper" as MP
-participant ":Service" as SE
-participant ":Domain" as DM
-participant ":MapperDataModel" as MDM
-participant ":Repository" as RE
-database DB
+actor "Administrator" as ADM
+participant ":UI" as UI
+participant ":RegisterDepartmentController" as Controller
+participant ":IDepartmentAssembler" as Assembler
+participant ":IDepartmentRegistryService" as Service
+participant ":IDepartmentRepository" as Repository
+participant ":DepartmentFactory" as Factory
+participant ":DepartmentDataModelMapper" as DataModelMapper
+database "DB" as SpringDataRepo
 
 group Human Interaction
-ADM -> FE ++: Fill in form with name and acronym
+ADM -> UI ++: Request to register a department
+UI --> ADM --: Prompt: "Enter department acronym"
+ADM -> UI ++: Input: "DEI"
+UI --> ADM --: Prompt: "Enter department name"
+ADM -> UI ++: Input: "Software Engineering Department"
 end group
 
-group HTTP Request
-FE -> CT ++: (POST) /departments with JSON {name, acronym}
+group Controller Layer
+UI -> Controller ++: (POST) /departments {acronym, name}
+Controller -> Assembler ++: toRegisterDepartmentCommand(request)
+Assembler --> Controller --: RegisterDepartmentCommand
+Controller -> Service ++: createAndSaveDepartment(command)
 end group
 
-group Mapping and VO Creation
-CT -> MP ++: toRequestDTO(json)
-MP --> CT --: RegisterDepartmentRequest (with VOs)
+group Application + Domain Logic
+Service -> Factory ++: create Department
+Factory --> Service --: Department
+Service -> Repository ++: containsOfIdentity(department.identity)
+Repository -> SpringDataRepo ++: existsById(...)
+SpringDataRepo --> Repository --: false
+Repository --> Service --: false
 end group
 
-group Application Service Invocation
-CT -> SE ++: createAndSaveDepartment(request)
+group Persistence
+Service -> Repository ++: save(department)
+Repository -> DataModelMapper ++: toDataModel(department)
+DataModelMapper --> Repository --: DepartmentDataModel
+Repository -> SpringDataRepo ++: save(DepartmentDataModel)
+SpringDataRepo --> Repository --: persisted
+Repository --> Service --: persisted
 end group
 
-group Domain Aggregate Creation
-SE -> DM ++: new Department(acronym, name)
-DM --> SE --: Department instance
-end group
-
-group Mapping to DataModel
-SE -> MDM ++: toDataModel(department)
-MDM --> SE --: DepartmentDataModel
-end group
-
-group Persistence with Spring Data
-SE -> RE ++: save(departmentDataModel)
-RE --> SE --: Persisted DepartmentDataModel
-SE --> CT --: Domain object or confirmation
-end group
-
-group Mapping Response
-CT -> MP ++: toDTO(department)
-MP --> CT --: DepartmentDTO (with ID, name, acronym)
-end group
-
-group HTTP Response
-CT --> FE --: HTTP 201 Created + DepartmentDTO
-FE --> ADM --: "Department successfully created"
+group Response Mapping
+Service --> Controller --: Department
+Controller -> Assembler ++: toDTO(department)
+Assembler --> Controller --: DepartmentDTO
+Controller --> UI --: HTTP 201 + DepartmentDTO
+UI --> ADM --: Success message
 end group
 
 @enduml
