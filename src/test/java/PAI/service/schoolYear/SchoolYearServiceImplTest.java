@@ -73,9 +73,9 @@ class SchoolYearServiceImplTest {
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         SchoolYearDTO newSchoolYear = mock(SchoolYearDTO.class);
-        String descriptionInfo = "School Year 24/25";
-        String startDateInfo = "24-09-2024";
-        String endDateInfo = "31-06-2025";
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
 
         SchoolYear schoolYear = mock(SchoolYear.class);
 
@@ -93,7 +93,7 @@ class SchoolYearServiceImplTest {
         when(schoolYearMapperDTO.toDTO(schoolYear)).thenReturn(newSchoolYear);
 
         // Act
-        SchoolYearDTO result = service.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
+        SchoolYear result = service.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
 
         // Assert
         assertNotNull(result);
@@ -109,10 +109,10 @@ class SchoolYearServiceImplTest {
 
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
-        String descriptionInfo = "ola";
-        String startDateInfo = "02-02-2025";
-        String endDateInfo = "03-02-2025";
         SchoolYear existingSchoolYear = mock(SchoolYear.class);
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
 
         // Mocks behaviour
         // Mock the factory to return an existing school year
@@ -143,8 +143,8 @@ class SchoolYearServiceImplTest {
         ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
-        String startDateInfo = "02-02-2025";
-        String endDateInfo = "03-02-2025";
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
 
         // Assert
         assertThrows(Exception.class, () -> service.addSchoolYear(null,startDateInfo,endDateInfo));
@@ -158,9 +158,8 @@ class SchoolYearServiceImplTest {
         ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
-        String descriptionInfo = "ola";
-        String endDateInfo = "03-02-2025";
-
+        Description descriptionInfo = mock(Description.class);
+        Date endDateInfo = mock(Date.class);
 
         // Assert
         assertThrows(Exception.class, () -> service.addSchoolYear(descriptionInfo,null,endDateInfo));
@@ -174,8 +173,8 @@ class SchoolYearServiceImplTest {
         ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
-        String descriptionInfo = "ola";
-        String startDateInfo = "03-02-2025";
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
 
         // Assert
         assertThrows(Exception.class, () -> service.addSchoolYear(descriptionInfo,startDateInfo,null));
@@ -191,18 +190,16 @@ class SchoolYearServiceImplTest {
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
 
         // Mock the school year objects
-        SchoolYearDTO schoolYearDTO1 = mock(SchoolYearDTO.class);
-        SchoolYearDTO schoolYearDTO2 = mock(SchoolYearDTO.class);
         SchoolYear schoolYear1 = mock(SchoolYear.class);
         SchoolYear schoolYear2 = mock(SchoolYear.class);
 
-        String description1 = "ola";
-        String startDate1 = "02-02-2025";
-        String endDate1 = "03-02-2025";
+        Description description1 = mock(Description.class);
+        Date startDate1 = mock(Date.class);
+        Date endDate1 = mock(Date.class);
 
-        String description2 = "ola";
-        String startDate2 = "02-02-2025";
-        String endDate2 = "03-02-2025";
+        Description description2 = mock(Description.class);
+        Date startDate2 = mock(Date.class);
+        Date endDate2 = mock(Date.class);
 
         // Mocks behaviour
         // Mock the factory to return new school years
@@ -215,18 +212,16 @@ class SchoolYearServiceImplTest {
         // Mock the repository to return false for school year existence check (meaning the school year doesn't exist yet)
         when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
         when(schoolYearRepository.save(schoolYear1)).thenReturn(schoolYear1);
-        when(schoolYearMapperDTO.toDTO(schoolYear1)).thenReturn(schoolYearDTO1);
 
         when(schoolYearRepository.save(schoolYear2)).thenReturn(schoolYear2);
-        when(schoolYearMapperDTO.toDTO(schoolYear2)).thenReturn(schoolYearDTO2);
 
         // Act: Try to add two different school years
-        SchoolYearDTO result1 = service.addSchoolYear(description1, startDate1, endDate1);
-        SchoolYearDTO result2 = service.addSchoolYear(description2, startDate2, endDate2);
+        SchoolYear result1 = service.addSchoolYear(description1, startDate1, endDate1);
+        SchoolYear result2 = service.addSchoolYear(description2, startDate2, endDate2);
 
         // Assert: Verify that both school years are added successfully
-        assertEquals(result1,schoolYearDTO1);
-        assertEquals(result2,schoolYearDTO2);
+        assertEquals(result1,schoolYear1);
+        assertEquals(result2,schoolYear2);
     }
 
     @Test
