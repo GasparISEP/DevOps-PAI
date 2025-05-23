@@ -1,26 +1,36 @@
 /* Buttons */
 
 .btn {
-    padding: .75rem 1.5rem;
+    padding: .75rem 2rem;
+    width: 10rem;
     font-size: 1rem;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     border: none;
+    font-weight: bold;
+    transition: all 0.3s ease, transform 0.3s ease;
 }
 
 .btn-secondary {
-    background: transparent;
-    border: 2px solid #800000;
-    color: #800000;
+    background: #333;
+    border: 2px solid #333;
+    color: #fff;
 }
 
 .btn-secondary:hover {
-    background: #ffdede;
+    background: #fff;
+    color: #333;
 }
 
 .btn-primary {
     background: #800000;
+    border: 2px solid #800000;
     color: #fff;
+}
+
+.btn-primary:hover {
+    background: #fff;
+    color: #800000;
 }
 
 .btn-primary:disabled {
