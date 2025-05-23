@@ -58,7 +58,7 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
             return Optional.empty();
         TeacherCareerProgression lastTeacherCareerProgression = optionalTCP.get();
 
-        if(lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(date))
+        if(!lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(date))
             return Optional.empty();
         WorkingPercentage workingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
         if (lastTeacherCareerProgression.getTeacherCategoryID().equals(teacherCategoryID))

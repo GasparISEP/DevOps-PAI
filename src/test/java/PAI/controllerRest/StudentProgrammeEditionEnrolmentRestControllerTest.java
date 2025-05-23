@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentRequest;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import PAI.service.programmeEditionEnrolment.IStudentProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,4 +60,34 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         assertEquals(400, response.getStatusCodeValue());
         assertNull(response.getBody());
     }
+
+    @Test
+    void enrolStudentInProgrammeEdition_validRequest_returns200OK() {
+        // Arrange
+        String studentId = "1500001";
+        String acronym = "LEI";
+        String name = "Engenharia Informática";
+        String schoolYearId = UUID.randomUUID().toString();
+
+        ProgrammeEditionEnrolmentRequest request = new ProgrammeEditionEnrolmentRequest(studentId, acronym, name, schoolYearId);
+
+        doNothing().when(service).enrolStudentInProgrammeEdition(
+                new StudentID(Integer.parseInt(studentId)),
+                new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                new SchoolYearID(UUID.fromString(schoolYearId))
+        );
+
+        // Act
+        ResponseEntity<Void> response = controller.enrolStudentInProgrammeEdition(request);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        verify(service).enrolStudentInProgrammeEdition(
+                new StudentID(Integer.parseInt(studentId)),
+                new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                new SchoolYearID(UUID.fromString(schoolYearId))
+        );
+    }
+
+
 }
