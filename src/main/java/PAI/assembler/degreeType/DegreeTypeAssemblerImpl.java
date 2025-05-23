@@ -8,6 +8,9 @@ import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.dto.degreeType.RegisterDegreeTypeRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class DegreeTypeAssemblerImpl implements IDegreeTypeAssembler{
 
@@ -35,4 +38,16 @@ public class DegreeTypeAssemblerImpl implements IDegreeTypeAssembler{
                 degreeType.getMaxEcts().getMaxEcts()
         );
     }
+
+    @Override
+    public List<DegreeTypeDTO> toDTOs(List<DegreeType> degreeTypes) {
+        if (degreeTypes == null) {
+            throw new IllegalArgumentException("degreeTypes list cannot be null");
+        }
+
+        return degreeTypes.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }
