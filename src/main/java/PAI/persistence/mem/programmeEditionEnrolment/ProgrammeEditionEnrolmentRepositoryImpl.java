@@ -124,4 +124,11 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
     public int hashCode() {
         return Objects.hashCode(_programmeEditionEnrolments);
     }
+
+    @Override
+    public boolean existsByID(ProgrammeEditionEnrolmentID id) {
+        return _programmeEditionEnrolments.stream()
+                .anyMatch(enrolment -> enrolment.identity().equals(id));
+    }
+
 }
