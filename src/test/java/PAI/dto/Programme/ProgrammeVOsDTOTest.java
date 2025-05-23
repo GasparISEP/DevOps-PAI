@@ -11,7 +11,7 @@ class ProgrammeVOsDTOTest {
     static class ProgrammeTestData {
         NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronymDouble = mock(Acronym.class);
-        QuantEcts quantEctsDouble = mock(QuantEcts.class);
+        MaxEcts maxEctsDouble = mock(MaxEcts.class);
         QuantSemesters quantSemestersDouble = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
@@ -24,7 +24,7 @@ class ProgrammeVOsDTOTest {
         ProgrammeTestData data = new ProgrammeTestData();
 
         //act
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //assert
         assertNotNull(programmeVOsDTO);
@@ -35,7 +35,7 @@ class ProgrammeVOsDTOTest {
     void getNameShouldReturnName() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         NameWithNumbersAndSpecialChars result = programmeVOsDTO.getName();
@@ -48,7 +48,7 @@ class ProgrammeVOsDTOTest {
     void getAcronymShouldReturnAcronym() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         Acronym result = programmeVOsDTO.getAcronym();
@@ -61,20 +61,20 @@ class ProgrammeVOsDTOTest {
     void getQuantEctsShouldReturnQuantityOfECTSCredits() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
-        QuantEcts result = programmeVOsDTO.getQuantEcts();
+        MaxEcts result = programmeVOsDTO.getMaxEcts();
 
         //assert
-        assertEquals(result, data.quantEctsDouble);
+        assertEquals(result, data.maxEctsDouble);
     }
 
     @Test
     void getQuantSemestersShouldReturnQuantityOfSemesters() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         QuantSemesters result = programmeVOsDTO.getQuantSemesters();
@@ -87,7 +87,7 @@ class ProgrammeVOsDTOTest {
     void getDegreeTypeIDShouldReturnDegreeTypeID() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         DegreeTypeID result = programmeVOsDTO.getDegreeTypeID();
@@ -100,7 +100,7 @@ class ProgrammeVOsDTOTest {
     void getDepartmentIDShouldReturnDepartmentID() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         DepartmentID result = programmeVOsDTO.getDepartmentID();
@@ -113,7 +113,7 @@ class ProgrammeVOsDTOTest {
     void getTeacherIDShouldReturnTeacherID() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.quantEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(data.nameDouble, data.acronymDouble, data.maxEctsDouble, data.quantSemestersDouble, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
         TeacherID result = programmeVOsDTO.getTeacherID();

@@ -23,8 +23,8 @@ public class ProgrammeDataModel {
     @Column(name = "QuantSemesters")
     private int quantSemesters;
 
-    @Column(name = "QuantEcts")
-    private int quantEcts;
+    @Column(name = "MaxEcts")
+    private int maxEcts;
 
     @Column(name = "DegreeTypeID")
     private DegreeTypeIDDataModel degreeTypeID;
@@ -40,13 +40,13 @@ public class ProgrammeDataModel {
 
     public ProgrammeDataModel() {}
 
-    public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int quantEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
+    public ProgrammeDataModel(ProgrammeIDDataModel progID, String name, String acronym, int quantSemesters, int maxEcts, DegreeTypeIDDataModel degreeTypeID, DepartmentIDDataModel departmentID, TeacherIDDataModel progDirectorID) {
 
         if (name == null || acronym == null || degreeTypeID == null || departmentID == null || progDirectorID == null || progID == null) {
             throw new IllegalArgumentException("Attributes cannot be null");
         }
 
-        if (quantEcts <= 0 || quantSemesters <= 0) {
+        if (maxEcts <= 0 || quantSemesters <= 0) {
             throw new IllegalArgumentException("Attributes must be above 0");
         }
 
@@ -54,7 +54,7 @@ public class ProgrammeDataModel {
         this.name = name;
         this.acronym = acronym;
         this.quantSemesters = quantSemesters;
-        this.quantEcts = quantEcts;
+        this.maxEcts = maxEcts;
         this.degreeTypeID = degreeTypeID;
         this.departmentID = departmentID;
         this.programmeDirectorID = progDirectorID;
@@ -85,8 +85,8 @@ public class ProgrammeDataModel {
         return quantSemesters;
     }
 
-    public int getQuantEcts(){
-        return quantEcts;
+    public int getMaxEcts(){
+        return maxEcts;
     }
 
     public DegreeTypeIDDataModel getDegreeTypeID(){

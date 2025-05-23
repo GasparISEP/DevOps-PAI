@@ -40,17 +40,17 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         _degreeTypeService = degreeTypeService;
     }
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int maxOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
 
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(name);
         Acronym programmeAcronym = new Acronym(acronym);
-        QuantEcts programmeQuantityOfEcts = new QuantEcts(quantityOfEcts);
+        MaxEcts programmeMaxOfEcts = new MaxEcts(maxOfEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
         DegreeTypeID degreeTypeID = degreeType.identity();
         DepartmentID departmentID = department.identity();
         TeacherID programmeDirectorID = programmeDirector.identity();
 
-        _programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        _programmeService.registerProgramme(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         return true;
     }

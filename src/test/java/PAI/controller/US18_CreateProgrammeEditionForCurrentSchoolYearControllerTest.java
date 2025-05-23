@@ -458,7 +458,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Acronym programmeAcronym2 = new Acronym("LEE");
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
@@ -466,9 +466,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -661,7 +661,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Acronym programmeAcronym2 = new Acronym("LEE");
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
@@ -669,9 +669,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -727,7 +727,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Acronym programmeAcronym2 = new Acronym("LEE");
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
@@ -735,9 +735,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -788,7 +788,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
@@ -796,7 +796,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -847,7 +847,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
@@ -855,7 +855,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -879,8 +879,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
     void shouldReturnFalseWhenCreatingProgrammeEditionThrowsException() throws Exception {
         // Arrange
         IProgrammeEditionListFactory programmeEditionDDDListFactory = new ProgrammeEditionListFactoryImpl();
-        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
-        IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionDDDListFactory);
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
 
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
@@ -900,13 +898,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -951,13 +949,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         // Create a programme
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
-        QuantEcts quantEcts = new QuantEcts(30);
+        MaxEcts maxEcts = new MaxEcts(30);
         QuantSemesters quantSemesters = new QuantSemesters(4);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();

@@ -28,7 +28,7 @@ class ProgrammeServiceImplTest {
     private NameWithNumbersAndSpecialChars _name2Double;
     private Acronym _acronymDouble;
     private Acronym _acronym2Double;
-    private QuantEcts _quantityOfEctsDouble;
+    private MaxEcts _maxOfEctsDouble;
     private QuantSemesters _quantityOfSemestersDouble;
     private DegreeTypeID _degreeTypeIDDouble;
     private DepartmentID _departmentIDDouble;
@@ -46,7 +46,7 @@ class ProgrammeServiceImplTest {
         _name2Double = mock(NameWithNumbersAndSpecialChars.class);
         _acronymDouble = mock(Acronym.class);
         _acronym2Double = mock(Acronym.class);
-        _quantityOfEctsDouble = mock(QuantEcts.class);
+        _maxOfEctsDouble = mock(MaxEcts.class);
         _quantityOfSemestersDouble = mock(QuantSemesters.class);
         _degreeTypeIDDouble = mock(DegreeTypeID.class);
         _departmentIDDouble = mock(DepartmentID.class);
@@ -95,13 +95,13 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble);
 
-        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
 
         //Act
-        Programme result = service.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble);
+        Programme result = service.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble);
 
         //Assert
         assertEquals(result, _programmeDouble);
@@ -109,29 +109,29 @@ class ProgrammeServiceImplTest {
 
     static Stream<Arguments> parametersToCreateProgrammeAreInvalid() {
         return Streams.of(
-                Arguments.of(null, mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Programme name cannot be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), null, mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Acronym must not be null"),
+                Arguments.of(null, mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Programme name cannot be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), null, mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Acronym must not be null"),
                 Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), null, mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Number of ECTS must not be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), null, mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Quantity of Semesters must not be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), null, mock(DepartmentID.class), mock(TeacherID.class), "DegreeTypeID must not be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), null, mock(TeacherID.class), "DepartmentID must not be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), null, "TeacherID must not be null"),
-                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "ProgrammeID must not be null")
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), null, mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "Quantity of Semesters must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), null, mock(DepartmentID.class), mock(TeacherID.class), "DegreeTypeID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), null, mock(TeacherID.class), "DepartmentID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), null, "TeacherID must not be null"),
+                Arguments.of(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), "ProgrammeID must not be null")
         );
     }
 
     @ParameterizedTest
     @MethodSource("parametersToCreateProgrammeAreInvalid")
-    void shouldThrowExceptionWhenParametersToCreateProgrammeAreNotValid(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, String expectedMessage) {
+    void shouldThrowExceptionWhenParametersToCreateProgrammeAreNotValid(NameWithNumbersAndSpecialChars name, Acronym acronym, MaxEcts maxOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, String expectedMessage) {
         //Arrange
         createDoubles();
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble);
 
-        when(_programmeFactoryDouble.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenThrow(new IllegalArgumentException(expectedMessage));
+        when(_programmeFactoryDouble.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID)).thenThrow(new IllegalArgumentException(expectedMessage));
 
         //Act
-        Exception result = assertThrows(IllegalArgumentException.class, () -> service.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
+        Exception result = assertThrows(IllegalArgumentException.class, () -> service.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID));
 
         //Assert
         assertEquals(result.getMessage(), expectedMessage);
@@ -144,12 +144,12 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble);
 
-        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
 
         //Act
-        Exception result = assertThrows(Exception.class, () -> service.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble));
+        Exception result = assertThrows(Exception.class, () -> service.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble));
 
         //Assert
         assertEquals(result.getMessage(), "Programme is already registered");
@@ -161,13 +161,13 @@ class ProgrammeServiceImplTest {
         createDoubles();
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble);
-        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenThrow(new RuntimeException());
 
         //Act + Assert
-        assertThrows(Exception.class, () -> service.registerProgramme(_nameDouble, _acronymDouble, _quantityOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble));
+        assertThrows(Exception.class, () -> service.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble));
     }
 
     @Test

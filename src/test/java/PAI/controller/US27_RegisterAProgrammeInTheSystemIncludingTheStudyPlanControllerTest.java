@@ -177,7 +177,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
 
         String name = "Programme";
         String acronym = "PRG";
-        int qtyEcts = 30;
+        int maxEcts = 30;
         int qtySemesters = 6;
         DegreeType degreeType = mock(DegreeType.class);
         Department department = mock(Department.class);
@@ -195,7 +195,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         when(programmeService.registerProgramme(
                 any(NameWithNumbersAndSpecialChars.class),
                 any(Acronym.class),
-                any(QuantEcts.class),
+                any(MaxEcts.class),
                 any(QuantSemesters.class),
                 eq(degreeTypeID),
                 eq(departmentID),
@@ -203,7 +203,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         )).thenReturn(programmeDouble);
 
         //act
-        boolean result = controller.registerProgramme(name, acronym, qtyEcts, qtySemesters, degreeType, department, programmeDirector);
+        boolean result = controller.registerProgramme(name, acronym, maxEcts, qtySemesters, degreeType, department, programmeDirector);
 
         //assert
         assertTrue(result);
