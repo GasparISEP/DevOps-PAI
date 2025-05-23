@@ -3,7 +3,6 @@ package PAI.persistence.springdata.programmeEditionEnrolment;
 import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEditionEnrolment.ProgrammeEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.VOs.StudentID;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +13,4 @@ public interface IProgrammeEditionEnrolmentRepositorySpringData extends JpaRepos
     List<ProgrammeEditionEnrolmentDataModel> findAllById_ProgrammeEditionIdDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel);
 
     Optional<ProgrammeEditionEnrolmentDataModel> findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(StudentIDDataModel studentId, ProgrammeEditionIdDataModel programmeEditionId);
-
-    List<Optional<ProgrammeEditionEnrolmentDataModel>> findByStudentID(StudentID studentId);
 }
