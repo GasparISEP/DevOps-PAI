@@ -4,15 +4,25 @@ import { registerStudent } from '../../services/studentService';
 
 
 const initialForm = {
-    studentID: '', name: '', NIF: '', NIFCountry: '',
-    street: '', postalCode: '', location: '', addressCountry: '',
-    phoneCountryCode: '', phoneNumber: '', email: ''
-}
+    studentID: '',
+    name: '',
+    nif: '',
+    nifCountry: '',
+    street: '',
+    postalCode: '',
+    location: '',
+    addressCountry: '',
+    phoneCountryCode: '',
+    phoneNumber: '',
+    email: ''
+};
+
 
 export default function StudentForm() {
-    const [form, setForm]       = useState(initialForm);
+    const [form, setForm] = useState(initialForm);
     const [loading, setLoading] = useState(false);
     const [error, setError]     = useState('');
+    const [errorMsg, setErrorMsg]   = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
     function handleChange(e) {
@@ -22,6 +32,7 @@ export default function StudentForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
+        setErrorMsg('');
         setSuccessMsg('');
         setLoading(true);
 
@@ -36,24 +47,30 @@ export default function StudentForm() {
             // const resp = await registerStudent(form);
             // setSuccess(resp);
             const respDTO = await registerStudent(payload);
-            setSuccessMsg(`Student "${respDTO.name}" (ID ${respDTO.studentID}) registered!`);
+            setSuccessMsg(`Student ${respDTO.name} (ID ${respDTO.studentID}) registered!`);
 
         } catch (err) {
-            setError(err.message);
+            setErrorMsg(err.message);
         } finally {
             setLoading(false);
         }
     }
 
     const firstFields = [
-        { label:'Student ID',   name:'studentID',    type:'number', required:true },
-        { label:'Name',         name:'name',         type:'text',   required:true },
-        { label:'NIF',          name:'NIF',          type:'text',   required:true },
-        { label:'NIF Country',  name:'NIFCountry',   type:'text',   required:true }
+        { label: 'Student ID',   name: 'studentID',  type: 'number', required: true },
+        { label: 'Name',         name: 'name',       type: 'text',   required: true },
+        { label: 'NIF',          name: 'nif',        type: 'text',   required: true },
+        { label: 'NIF Country',  name: 'nifCountry', type: 'text',   required: true },
     ];
+
     const restFields = [
-        'street','postalCode','location','addressCountry',
-        'phoneCountryCode','phoneNumber','email'
+        'street',
+        'postalCode',
+        'location',
+        'addressCountry',
+        'phoneCountryCode',
+        'phoneNumber',
+        'email'
     ];
 
     return (
@@ -113,8 +130,8 @@ export default function StudentForm() {
                 <Modal
                     message={successMsg}
                     onClose={() => {
-                        setSuccessMsg('');        // apaga a mensagem de sucesso
-                        setForm({                  // reseta o form
+                        setSuccessMsg('');
+                        setForm({
                             studentID: '',
                             name: '',
                             NIF: '',
@@ -130,6 +147,16 @@ export default function StudentForm() {
                     }}
                     />
                   )}
+
+            {errorMsg && (
+                <Modal
+                    message={errorMsg}
+                    onClose={() => {
+                        setErrorMsg('');
+                    }}
+                />
+            )}
+
         </form>
     );
 }

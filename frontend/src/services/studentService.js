@@ -10,12 +10,9 @@ export async function registerStudent(studentDTO) {
     });
 
     if (!response.ok) {
-
-        let errMsg = `HTTP ${response.status}`;
-        try {
-            const errBody = await response.json();
-            errMsg = errBody.error || errMsg;
-        } catch {}
+        const errBody = await response.json();
+        // procura em message primeiro, depois em error, senão status
+        const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
         throw new Error(errMsg);
     }
 

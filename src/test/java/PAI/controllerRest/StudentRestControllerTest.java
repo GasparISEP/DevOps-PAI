@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -108,14 +109,21 @@ class StudentRestControllerTest {
         assertNull(response.getBody());
     }
 
-//    @Test
-//    void whenAnyExceptionIsThrown_thenReturnsBadRequest() {
-//        StudentDTO dto = mock(StudentDTO.class);
-//        when(mapper.toStudentID(dto)).thenThrow(new RuntimeException("Error"));
-//
-//        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(dto);
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-//        assertNull(response.getBody());
-//    }
+    @Test
+    void whenMapperThrows_thenControllerThrowsBadRequestException() {
+        // Arrange
+        StudentDTO dto = new StudentDTO(); // pode deixar campos em branco
+        when(mapper.toStudentID(dto))
+                .thenThrow(new IllegalArgumentException("Invalid student ID"));
+
+        // Act & Assert
+        ResponseStatusException ex = assertThrows(
+                ResponseStatusException.class,
+                () -> studentRestController.registerAStudent(dto),
+                "Expected registerAStudent to throw, but it didn't"
+        );
+
+        assertEquals(400, ex.getStatusCode().value());
+        assertEquals("Invalid student ID", ex.getReason());
+    }
 }
