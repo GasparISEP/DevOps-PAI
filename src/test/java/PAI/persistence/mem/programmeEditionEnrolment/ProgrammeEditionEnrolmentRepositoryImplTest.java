@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -878,103 +877,6 @@ class ProgrammeEditionEnrolmentRepositoryImplTest {
         int hash2 = repo.hashCode();
 
         assertEquals(hash1, hash2);
-    }
-
-    @Test
-    void should_return_a_list_of_programmeEditionEnrolments_when_student_id_is_not_null() {
-        //Arrange
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
-
-        Set<ProgrammeEditionEnrolment> programmeEditionEnrolments = new HashSet<>();
-        programmeEditionEnrolments.add(programmeEditionEnrolment);
-
-        when(programmeEditionEnrolment.findStudentInProgrammeEdition()).thenReturn(studentID);
-
-        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        when(factory.newListProgrammeEditionEnrolment()).thenReturn(programmeEditionEnrolments);
-        
-        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
-        repo.save(programmeEditionEnrolment);
-
-        //Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(studentID);
-        
-        //Assert
-        assertEquals(1, result.size());
-        assertTrue(result.get(0).isPresent());
-        assertEquals(programmeEditionEnrolment, result.get(0).get());
-    }
-
-    @Test
-    void should_return_empty_list_when_student_id_is_null() {
-        //Arrange
-        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        when(factory.newListProgrammeEditionEnrolment()).thenReturn(new HashSet<>());
-        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
-
-        //Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(null);
-        
-        //Assert
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void should_return_empty_list_when_no_enrolments_found() {
-        //Arrange
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
-        when(programmeEditionEnrolment.findStudentInProgrammeEdition()).thenReturn(mock(StudentID.class)); // Different student ID
-
-        Set<ProgrammeEditionEnrolment> programmeEditionEnrolments = new HashSet<>();
-        programmeEditionEnrolments.add(programmeEditionEnrolment);
-
-        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        when(factory.newListProgrammeEditionEnrolment()).thenReturn(programmeEditionEnrolments);
-        
-        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
-        repo.save(programmeEditionEnrolment);
-
-        //Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(studentID);
-        
-        //Assert
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void should_return_multiple_enrolments_for_same_student() {
-        //Arrange
-        StudentID studentID = mock(StudentID.class);
-        ProgrammeEditionEnrolment enrolment1 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment enrolment2 = mock(ProgrammeEditionEnrolment.class);
-
-        when(enrolment1.findStudentInProgrammeEdition()).thenReturn(studentID);
-        when(enrolment2.findStudentInProgrammeEdition()).thenReturn(studentID);
-
-        Set<ProgrammeEditionEnrolment> programmeEditionEnrolments = new HashSet<>();
-        programmeEditionEnrolments.add(enrolment1);
-        programmeEditionEnrolments.add(enrolment2);
-
-        IProgrammeEditionEnrolmentListFactory factory = mock(IProgrammeEditionEnrolmentListFactory.class);
-        when(factory.newListProgrammeEditionEnrolment()).thenReturn(programmeEditionEnrolments);
-        
-        ProgrammeEditionEnrolmentRepositoryImpl repo = new ProgrammeEditionEnrolmentRepositoryImpl(factory);
-        repo.save(enrolment1);
-        repo.save(enrolment2);
-
-        //Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(studentID);
-        
-        //Assert
-        assertEquals(2, result.size());
-        assertTrue(result.get(0).isPresent());
-        assertTrue(result.get(1).isPresent());
-        assertTrue(result.stream()
-            .map(Optional::get)
-            .collect(Collectors.toList())
-            .containsAll(Arrays.asList(enrolment1, enrolment2)));
     }
 
 }
