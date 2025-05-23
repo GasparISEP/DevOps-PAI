@@ -4,51 +4,104 @@ skinparam nodesep 25
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
+legend left
+Legend:
 
+    - Frameworks & Drivers (lightPink): External interfaces.
+    - Interface Adapters (lightBlue): Transforms data between external and internal layers.
+    - Application Services (lightGreen): Manages use case execution and business rules.
+    - Domain (lightYellow): Core business logic and entities, independent of frameworks.
+
+
+end legend
 '===== CONTROLLER =======
 class US02_ConfigureAccessMethod_RESTController {
     +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
     +configureAccessMethod(accessMethoDTO: AccessMethodRequestDTO): AccessMethodResponseDTO
 }
 
-'===AGGREGATE===
+'===DTO===
+class AccessMethodRequestDTO <<Record>> {
+    - name: String
+}
+class AccessMethodResponseDTO <<Record>>{
+    - id: String
+    - name: String
+}
 
+class RegisterAccessMethodCommand <<Record>>{
+    - name: String
+    + RegisterAccessMethodCommand()
+}
+
+'===ASSEMBLER===
+interface IAccessMethodAssembler {
+    + toCommand(dto: AccessMethodRequestDTO): RegisterAccessMethodCommand
+    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+}
+class AccessMethodAssemblerImpl {
+    + toCommand(dto: AccessMethodRequestDTO): RegisterAccessMethodCommand
+    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+}
+
+'===== SERVICE =======
+interface IAccessMethodService {
+  configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodServiceImpl #lightGreen {
+    +AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
+    + configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+' ======= FACTORY =======
+interface IAccessMethodFactory #lightYellow{
+    +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+class AccessMethodFactoryImpl #lightYellow{
+     +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+     +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+}
+
+'===AGGREGATE===
 package "AccessMethod Aggregate" {
-    entity AccessMethod <<Root>> <<Entity>> {
+    entity AccessMethod <<Root>> <<Entity>>#lightYellow {
     + AccessMethod(accessMethodId: AccessMethodId,\n accessMethodName: NameWithNumbersAndSpecialChars)
-    + Equals(Object objectToCompare)
+    + identity(): AccessMethodID
+    + equals: boolean
+    + hasThisAccessMethodName: NameWithNumbersAndSpecialChars
     }
 }
 
 '===VALUE OBJECTS===
-class NameWithNumbersAndSpecialChars <<Value Object>> {
+class NameWithNumbersAndSpecialChars <<Value Object>> #lightYellow{
     - nameWithNumbersAndSpecialChars: String
     + isNameInvalid(name: String)
     + getNameWithNumbersAndSpecialChars(): String
 }
 
-class  AccessMethodID <<Value Object>>{
+class  AccessMethodID <<Value Object>>#lightYellow{
     - id: String
     + Equals(Object objectToCompare)
 }
 
-'===DATAMODEL===
-
-class AccessMethodDataModel <<DataModel>> {
-    - accessMethodId: UUID
-    - accessMethodName: String
-    + AccessMethodDataModel(accessMethodId: UUID,\n accessMethodName: String)
-    + getAccessMethodID(): AccessMethodID
-    + getName : String
+'===REPOSITORY===
+interface IAccessMethodRepositorySpringData #lightPink{
 }
 
-class AccessMethodIDDataModel <<DataModel>> {
-    - id: String
-    + Equals(Object objectToCompare)
+interface IAccessMethodRepository #lightYellow{
+    +saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
+    +getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
+}
+
+class AccessMethodRepositorySpringDataImpl {
+    + saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
+    + getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
 }
 
 '===MAPPERS===
-
 interface IAccessMethodMapper{
     + toDomain(accessMethodDataModel: AccessMethodDataModel): Optional<AccessMethod>
     + toDataModel(accessMethod: AccessMethod): Optional<AccessMethodDataModel>
@@ -69,63 +122,18 @@ class AccessMethodMapperImpl {
     + toDataModel (accessMethod: AccessMethod): Optional<AccessMethodDataModel>
 }
 
-'===REPOSITORY===
-
-interface IAccessMethodRepositorySpringData{
-}
-
-interface IAccessMethodRepository {
-    +saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
-    +getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
-}
-
-class AccessMethodRepositorySpringDataImpl {
-    + saveAccessMethod(accessMethod: AccessMethod): Optional<AccessMethod>
-    + getAccessMethodByName(accessMethodName: NameWithNumbersAndSpecialChars): Optional<AccessMethod>
-    }
-
-'===DTO===
-class AccessMethodRequestDTO <<Record>>{
+'===DATAMODEL===
+class AccessMethodDataModel <<DataModel>> {
+    - accessMethodId: UUID
     - accessMethodName: String
-}
-class AccessMethodResponseDTO <<Record>>{
-    - accessMethodId: String
-    - accessMethodName: String
-    + AccessMethodResponseDTO(name: String)
-    + getByName(): String
+    + AccessMethodDataModel(accessMethodId: UUID,\n accessMethodName: String)
+    + getAccessMethodID(): AccessMethodID
+    + getName : String
 }
 
-' ======= FACTORY =======
-interface IAccessMethodFactory {
-    +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-    +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
-}
-
-class AccessMethodFactoryImpl {
-     +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-     +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
-}
-
-
-'===== SERVICE =======
-interface IAccessMethodService {
-  configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-}
-
-class AccessMethodServiceImpl {
-    +AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
-    + configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-}
-
-'===ASSEMBLER===
-
-interface IAccessMethodAssembler {
-    + toVO(accessMethodDTO: AccessMethodRequestDTO): NameWithNumbersAndSpecialChars
-    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
-}
-class AccessMethodAssemblerImpl {
-    + toVO(accessMethodDTO: AccessMethodRequestDTO): NameWithNumbersAndSpecialChars
-    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+class AccessMethodIDDataModel <<DataModel>> {
+    - id: String
+    + Equals(Object objectToCompare)
 }
 
 '===NAVIGABILITY===
@@ -137,17 +145,19 @@ US02_ConfigureAccessMethod_RESTController "1"..> "1" IAccessMethodAssembler
 
 AccessMethodServiceImpl " "...|>" " IAccessMethodService
 AccessMethodServiceImpl "1".u..>"1" IAccessMethodRepository
-AccessMethodServiceImpl "1"...>"1..*" IAccessMethodFactory
+AccessMethodServiceImpl "1"...>"1" IAccessMethodFactory
+AccessMethodServiceImpl "1" ..> "1" IAccessMethodAssembler
 
 AccessMethod "1" -u-> " 1" NameWithNumbersAndSpecialChars
 AccessMethod "1" --> " 1" AccessMethodID
 IAccessMethodAssembler "1" .u.> "1" AccessMethod
+IAccessMethodAssembler "1" --> "1" RegisterAccessMethodCommand
 
 AccessMethodRepositorySpringDataImpl "1" ..> "1" AccessMethod
 AccessMethodRepositorySpringDataImpl "1" ..> "1" NameWithNumbersAndSpecialChars
 AccessMethodRepositorySpringDataImpl "1" --> "1" IAccessMethodMapper
 AccessMethodRepositorySpringDataImpl "1"-u-> "1"IAccessMethodIDMapper
-AccessMethodRepositorySpringDataImpl "1"--> "1"IAccessMethodRepositorySpringData
+AccessMethodRepositorySpringDataImpl "1"..> "1"IAccessMethodRepositorySpringData
 AccessMethodRepositorySpringDataImpl " ".u..|>" " IAccessMethodRepository
 IAccessMethodRepositorySpringData ..>NameWithNumbersAndSpecialChars
 IAccessMethodRepositorySpringData "1" ..> "1" AccessMethodDataModel
@@ -164,4 +174,5 @@ IAccessMethodAssembler "1" ..> "1" AccessMethodRequestDTO
 IAccessMethodAssembler "1" ..> "1" AccessMethodResponseDTO
 AccessMethodDataModel "1" -u-> "1" AccessMethodIDDataModel
 IAccessMethodIDMapper "1" ..> "1" AccessMethodIDDataModel
+
 @enduml
