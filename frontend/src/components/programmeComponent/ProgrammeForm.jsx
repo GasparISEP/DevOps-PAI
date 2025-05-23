@@ -52,62 +52,75 @@ export default function ProgrammeForm() {
                 <img className="form-img" src={formImage} alt="Person typing on a computer."/>
             </div>
 
-                <form className="programme-form" onSubmit={handleSubmit}>
-                     <div className="programme-form-div">
+            <form className="programme-form" onSubmit={handleSubmit}>
+                <h1>Register Programme</h1>
 
-                         <div className="programme-form-group">
-                             <label className="programme-form-label" htmlFor="name">Name</label>
-                             <input className="programme-form-input" placeholder="Enter your name" id="name" name="name" value={form.name} onChange={handleChange} required />
-                          </div>
+                <div className="programme-form-and-buttons-main-div">
 
-                          <div className="programme-form-group">
-                              <label className="programme-form-label" htmlFor="acronym">Acronym</label>
-                              <input className="programme-form-input" id="acronym" name="acronym" value={form.acronym} onChange={handleChange} required />
-                           </div>
+                    <div className="programme-form-div">
 
-                            <div className="programme-form-group">
-                              <label className="programme-form-label" htmlFor="quantECTS">ECTS</label>
-                              <input className="programme-form-input" id="quantECTS" name="quantECTS" type="number" value={form.quantECTS} onChange={handleChange} required />
-                            </div>
-
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="quantSemesters">Semesters</label>
-                                <input className="programme-form-input" id="quantSemesters" name="quantSemesters" type="number" value={form.quantSemesters} onChange={handleChange} required />
-                            </div>
-
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type ID</label>
-                                <input className="programme-form-input" id="degreeTypeID" name="degreeTypeID" value={form.degreeTypeID} onChange={handleChange} required />
-                            </div>
-
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="departmentID">Department ID</label>
-                                <input className="programme-form-input" id="departmentID" name="departmentID" value={form.departmentID} onChange={handleChange} required />
-                            </div>
-
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="teacherID">Teacher ID</label>
-                                <input className="programme-form-input" id="teacherID" name="teacherID" value={form.teacherID} onChange={handleChange} required />
-                            </div>
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="name">Name</label>
+                            <input className="programme-form-input" placeholder="Enter your name" id="name" name="name"
+                                   value={form.name} onChange={handleChange} required/>
                         </div>
 
-                        {error && <div className="error">{error}</div>}
-
-                        <div className="programme-form-actions">
-                            <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>
-                                CANCEL
-                            </button>
-                            <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'Registering…' : 'REGISTER'}
-                            </button>
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="acronym">Acronym</label>
+                            <input className="programme-form-input" id="acronym" name="acronym" value={form.acronym}
+                                   onChange={handleChange} required/>
                         </div>
 
-                        {success && (
-                            <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                Programme registered successfully!
-                            </div>
-                        )}
-                </form>
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="quantECTS">ECTS</label>
+                            <input className="programme-form-input" id="quantECTS" name="quantECTS" type="number"
+                                   value={form.quantECTS} onChange={handleChange} required/>
+                        </div>
+
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="quantSemesters">Semesters</label>
+                            <input className="programme-form-input" id="quantSemesters" name="quantSemesters" type="number"
+                                   value={form.quantSemesters} onChange={handleChange} required/>
+                        </div>
+
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type ID</label>
+                            <input className="programme-form-input" id="degreeTypeID" name="degreeTypeID"
+                                   value={form.degreeTypeID} onChange={handleChange} required/>
+                        </div>
+
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="departmentID">Department ID</label>
+                            <input className="programme-form-input" id="departmentID" name="departmentID"
+                                   value={form.departmentID} onChange={handleChange} required/>
+                        </div>
+
+                        <div className="programme-form-group">
+                            <label className="programme-form-label" htmlFor="teacherID">Teacher ID</label>
+                            <input className="programme-form-input" id="teacherID" name="teacherID" value={form.teacherID}
+                                   onChange={handleChange} required/>
+                        </div>
+                    </div>
+
+                    {error && <div className="error">{error}</div>}
+
+                    <div className="programme-form-actions">
+                        <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
+                                disabled={loading}>
+                            CANCEL
+                        </button>
+                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                            {loading ? 'Registering…' : 'REGISTER'}
+                        </button>
+                    </div>
+                </div>
+
+                {success && (
+                    <div className="success" style={{marginTop: '1rem', color: '#080'}}>
+                        Programme registered successfully!
+                    </div>
+                )}
+            </form>
         </div>
         </div>
     );
