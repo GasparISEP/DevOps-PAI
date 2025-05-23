@@ -31,9 +31,7 @@ deactivate Backend
 Frontend --> PD: Display teacher selection list
 
 
-deactivate Frontend
 PD -> Frontend: Select teacher
-activate Frontend #E1F5FE
 
 ' --- Select course edition ---
 Frontend -> Backend: (GET) Request course editions
@@ -45,17 +43,16 @@ deactivate DB
 Backend --> Frontend: (200 OK) List of course editions
 deactivate Backend
 Frontend --> PD: Display course edition selection list
-deactivate Frontend
+
 
 PD -> Frontend: Select courseEdition
-activate Frontend  #E1F5FE
+
 
 
 ' --- Confirm ---
 Frontend --> PD: Confirm selected teacher and course edition?
-deactivate Frontend
+
 PD -> Frontend: Yes
-activate Frontend #E1F5FE
 
 
 ' --- Define RUC ---
