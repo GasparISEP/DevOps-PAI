@@ -5,7 +5,7 @@ import PAI.ddd.AggregateRoot;
 
 public class StudyPlan implements AggregateRoot<StudyPlanID> {
 
-    private Date _implementationDate;
+    private Date _startDate;
     private DurationInYears _durationInYears;
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
@@ -21,7 +21,7 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         if (implementationDate == null) {
             throw new IllegalArgumentException("Implementation Date cannot be null");
         }
-        this._implementationDate = implementationDate;
+        this._startDate = implementationDate;
 
         if (durationInYears == null) {
             throw new IllegalArgumentException("Duration In Years cannot be null");
@@ -52,6 +52,10 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         return this._durationInYears;
     }
 
+    public Date getStartDate(){
+        return this._startDate;
+    }
+
     @Override
     public boolean equals (Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -69,7 +73,7 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
     if (object instanceof StudyPlan) {
         StudyPlan studyPlan = (StudyPlan) object;
 
-        if (this._programmeID.equals(studyPlan._programmeID) && (this._implementationDate.equals(studyPlan._implementationDate)) )
+        if (this._programmeID.equals(studyPlan._programmeID) && (this._startDate.equals(studyPlan._startDate)) )
             return true;
     }
     return false;
