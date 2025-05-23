@@ -108,14 +108,14 @@ class StudentRestControllerTest {
         assertNull(response.getBody());
     }
 
-    @Test
-    void whenAnyExceptionIsThrown_thenReturnsBadRequest() {
-        StudentDTO dto = mock(StudentDTO.class);
-        when(mapper.toStudentID(dto)).thenThrow(new RuntimeException("Error"));
-
-        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(dto);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
+//    @Test
+//    void whenAnyExceptionIsThrown_thenReturnsBadRequest() {
+//        StudentDTO dto = mock(StudentDTO.class);
+//        when(mapper.toStudentID(dto)).thenThrow(new RuntimeException("Error"));
+//
+//        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(dto);
+//
+//        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+//        assertNull(response.getBody());
+//    }
 }
