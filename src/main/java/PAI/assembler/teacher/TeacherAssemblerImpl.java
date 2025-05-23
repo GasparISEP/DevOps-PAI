@@ -30,4 +30,18 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
                 teacher.getDepartmentID().getAcronym().getAcronym()
         );
     }
+
+    @Override
+    public Iterable<TeacherDTO> toDTOs(Iterable<Teacher> teachers) {
+        if (teachers == null) {
+            return Collections.emptyList();
+        }
+
+        List<TeacherDTO> listDTO = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+            TeacherDTO teacherDTO = toDTO(teacher);
+            listDTO.add(teacherDTO);
+        }
+        return listDTO;
+    }
 }
