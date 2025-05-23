@@ -192,5 +192,16 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return instance;
     }
 
+    @Override
+    public boolean existsByID(ProgrammeEditionEnrolmentID id) {
+        try {
+            Optional<ProgrammeEditionEnrolmentIDDataModel> idDataModelOpt = _peeIDMapper.toDataModel(id);
+            return idDataModelOpt.isPresent() && _peeRepositorySpringData.existsById(idDataModelOpt.get());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
 }
 
