@@ -41,8 +41,10 @@ class TeacherDTOTest {
 
     @Test
     void shouldAllowNullFields() {
+        //Arrange + Act
         TeacherDTO teacherDTO = new TeacherDTO(null, null, null, null, null, null, null, null, null, null, null);
 
+        //Assert
         assertNotNull(teacherDTO);
         assertNull(teacherDTO.id());
         assertNull(teacherDTO.name());
