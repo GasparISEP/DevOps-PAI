@@ -321,4 +321,43 @@ class TeacherCareerProgressionServiceImplV2Test {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void shouldReturnOptionalOfTeacherWorkingPercentageDTO () throws Exception {
+        // Arrange
+        ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
+        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
+
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(
+                iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
+
+        Date date =mock(Date.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        TeacherCareerProgression previousTCP = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression newTCP = mock(TeacherCareerProgression.class);
+        TeacherWorkingPercentageUpdateDTO dto = mock(TeacherWorkingPercentageUpdateDTO.class);
+
+        WorkingPercentage oldWP = new WorkingPercentage(50);
+        WorkingPercentage newWP = new WorkingPercentage(75);
+
+        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
+        when(teacherCategoryRepository.containsOfIdentity(teacherCategoryID)).thenReturn(true);
+        when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(previousTCP));
+        when(previousTCP.isLastDateEqualOrBeforeNewDate(date)).thenReturn(true);
+        when(previousTCP.getWorkingPercentage()).thenReturn(oldWP);
+        when(previousTCP.getTeacherCategoryID()).thenReturn(teacherCategoryID);
+        when(factory.createTeacherCareerProgression(date, teacherCategoryID, newWP, teacherID)).thenReturn(newTCP);
+        when(assembler.toTeacherWorkingPercentageUpdateDTO(newTCP)).thenReturn(dto);
+
+        // Act
+        Optional<TeacherWorkingPercentageUpdateDTO> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(date, newWP, teacherID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(dto, result.get());
+    }
+
 }
