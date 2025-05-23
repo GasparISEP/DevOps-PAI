@@ -1,6 +1,6 @@
 @startuml
 
-title US02: As an Administrator, I want to configure degree access methods in the system.\n(Process View - Level 4 - Backend)
+title US02: As an Administrator, I want to configure degree access methods in the system.\n(Process View - Level 3 - Backend)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -13,21 +13,20 @@ participant ":Router" as router
 activate router #LightBlue
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
-
-participant ":US02_ConfigureAccessMethodRESTController" as Controller
+participant ":AccessMethodRESTController" as Controller
 router -> Controller: configureAccessMethod(accessMethodRequestDTO)
-activate Controller #LightBlue 
+activate Controller #LightBlue
+
+ref over Controller
+    Convert accessMethodRequestDTO to accessMethodCommand
+end
 
 participant ":IAccessMethodService" as service
-Controller -> service: configureAccessMethod (accessMethodRequestDTO)
+Controller -> service: configureAccessMethod\n (accessMethodCommand)
 activate service #LightBlue
 
-'create "nameVO:Assembler" as Assembler
-'service-> Assembler: RequestDTO2VO (accessMethodRequestDTO)
-'deactivate Assembler
-ref over service
-    Convert accessMethodRequestDTO to nameVO
-end
+create "nameVO:NameWithNumbersAndSpecialCharsVO"
+service -> "nameVO:NameWithNumbersAndSpecialCharsVO": create(command.name())
 
 participant ":IAccessMethodFactory" as Factory
 service -> Factory: createAccessMethod (nameVO)
