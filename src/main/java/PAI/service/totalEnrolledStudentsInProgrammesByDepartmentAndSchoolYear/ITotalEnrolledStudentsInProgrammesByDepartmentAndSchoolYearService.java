@@ -1,0 +1,8 @@
+package PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear;
+
+import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
+
+public interface ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService {
+
+    int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear (TotalEnrolledStudentsCommand command);
+}
