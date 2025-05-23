@@ -6,7 +6,7 @@ import PAI.dto.degreeType.DegreeTypeDTO;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.dto.degreeType.RegisterDegreeTypeRequest;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.service.DegreeType.IDegreeTypeRegistrationService;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

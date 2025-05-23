@@ -5,7 +5,7 @@ import PAI.domain.department.Department;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
-import PAI.service.DegreeType.IDegreeTypeService;
+import PAI.service.degreeType.IDegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 

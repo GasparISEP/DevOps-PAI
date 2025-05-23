@@ -1,4 +1,4 @@
-package PAI.service.DegreeType;
+package PAI.service.degreeType;
 
 import PAI.domain.degreeType.DegreeType;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;

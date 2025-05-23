@@ -5,7 +5,7 @@ import PAI.dto.degreeType.DegreeTypeDTO;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.dto.degreeType.RegisterDegreeTypeRequest;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.service.DegreeType.IDegreeTypeRegistrationService;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import PAI.assembler.degreeType.IDegreeTypeAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

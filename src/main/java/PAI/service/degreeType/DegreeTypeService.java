@@ -1,4 +1,4 @@
-package PAI.service.DegreeType;
+package PAI.service.degreeType;
 
 import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;

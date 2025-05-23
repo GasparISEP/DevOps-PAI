@@ -7,8 +7,6 @@ import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.service.DegreeType.DegreeTypeRegistrationServiceImpl;
-import PAI.service.DegreeType.IDegreeTypeRegistrationService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
