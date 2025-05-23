@@ -40,16 +40,17 @@ UI -> C ++ #lightblue: getAverageGrade(courseEditionID)
 C -> S ++ #lightblue: getAverageGrade(courseEditionID)
 
 S -> SGR ++ #lightblue: findAll()
+SGR --> SGR : findAll()
 SGR --> S --: List<StudentGrade>
 
 group Loop for each StudentGrade
     loop for each studentGrade in List<StudentGrade>
         S -> SG ++ #lightblue: hasThisCourseEditionID(courseEditionID)
-        SG --> S --: boolean
+        SG --> S --: True!
         alt if studentGrade.hasThisCourseEditionID(courseEditionID) is true
             S -> SG ++ #lightblue: get_grade()
-            SG --> S --: Grade object
-            S -> SG ++ #lightblue: knowGrade()
+            SG --> S --: (Grade) grade[i]
+            S -> SG ++ #lightblue: grade[i].knowGrade()
             SG --> S --: (double) grade
         end
     end

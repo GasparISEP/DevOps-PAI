@@ -11,10 +11,11 @@ import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.TeacherCategoryUpdateResponseDTO;
+import PAI.dto.teacherCareerProgression.TeacherWorkingPercentageUpdateDTO;
 
 import java.util.Optional;
 
-public class TeacherCareerProgressionServiceImplV2 implements lTeacherCareerProgressionServiceV2 {
+public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
@@ -49,14 +50,44 @@ public class TeacherCareerProgressionServiceImplV2 implements lTeacherCareerProg
 
     @Override
     public Optional<TeacherCategoryUpdateResponseDTO> updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherAcronym) throws Exception {
-        if (!_teacherRepo.containsOfIdentity(teacherAcronym) || !_teacherCategoryRepo.containsOfIdentity(teacherCategoryID)) return Optional.empty();
+        if (!_teacherRepo.containsOfIdentity(teacherAcronym) || !_teacherCategoryRepo.containsOfIdentity(teacherCategoryID))
+            return Optional.empty();
         Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(teacherAcronym);
-        if (optionalTCP.isEmpty()) return Optional.empty();
+
+        if (optionalTCP.isEmpty())
+            return Optional.empty();
         TeacherCareerProgression lastTeacherCareerProgression = optionalTCP.get();
-        if(lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(date)) return Optional.empty();
+
+        if(!lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(date))
+            return Optional.empty();
         WorkingPercentage workingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
-        if (lastTeacherCareerProgression.getTeacherCategoryID().equals(teacherCategoryID)) return  Optional.empty();
+        if (lastTeacherCareerProgression.getTeacherCategoryID().equals(teacherCategoryID))
+            return  Optional.empty();
         TeacherCareerProgression teacherCareerProgression = createTeacherCareerProgression(date,teacherCategoryID,workingPercentage,teacherAcronym).get();
         return Optional.of(_teacherCareerProgressionAssembler.UpdateCategoryToDTO(teacherCareerProgression));
+    }
+
+    @Override
+    public Optional<TeacherWorkingPercentageUpdateDTO> updateTeacherWorkingPercentageInTeacherCareerProgression(Date date, WorkingPercentage workingPercentage, TeacherID teacherAcronym) throws Exception {
+        if (!_teacherRepo.containsOfIdentity(teacherAcronym))
+            return Optional.empty();
+
+        Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(teacherAcronym);
+        if (optionalTCP.isEmpty())
+            return Optional.empty();
+
+        TeacherCareerProgression lastTeacherCareerProgression = optionalTCP.get();
+
+        if (!lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(date))
+            return Optional.empty();
+
+        if(lastTeacherCareerProgression.getWorkingPercentage().equals(workingPercentage))
+            return Optional.empty();
+
+        TeacherCategoryID teacherCategoryID = lastTeacherCareerProgression.getTeacherCategoryID();
+        Optional<TeacherCareerProgression> newTCP = createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherAcronym);
+
+        return newTCP.map(teacherCareerProgression -> _teacherCareerProgressionAssembler.toTeacherWorkingPercentageUpdateDTO(teacherCareerProgression));
+
     }
 }

@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
+import PAI.VOs.Date;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.schoolYear.SchoolYear;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -110,5 +111,89 @@ class SchoolYearRestControllerTest {
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnAListOfSchoolYears () {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+
+        SchoolYearDTO dto1 = mock(SchoolYearDTO.class);
+        SchoolYearDTO dto2 = mock(SchoolYearDTO.class);
+        SchoolYearDTO dto3 = mock(SchoolYearDTO.class);
+        List<SchoolYearDTO> schoolYearDTOS = List.of(dto1, dto2, dto3);
+        when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
+
+        // Act
+        ResponseEntity<?> response = syRestController.getAllSchoolYears();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(schoolYearDTOS, response.getBody());
+        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
+        verify(iSYService).getAllSchoolYears();
+        assertTrue(((Collection<?>) response.getBody()).contains(dto2));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfSchoolYearsIfThereAreNoSchoolYearsInTheSystem () {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+
+        List<SchoolYearDTO> schoolYearDTOS = List.of();
+        when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
+
+        // Act
+        ResponseEntity<?> response = syRestController.getAllSchoolYears();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(schoolYearDTOS, response.getBody());
+        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
+        verify(iSYService).getAllSchoolYears();
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+
+        String errorMessage = "Invalid input data";
+
+        when(iSYService.getAllSchoolYears()).thenThrow(new IllegalArgumentException(errorMessage));
+
+        // Act
+        ResponseEntity<?> response = syRestController.getAllSchoolYears();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCodeValue());
+        assertEquals(errorMessage, response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+
+        when(iSYService.getAllSchoolYears()).thenThrow(new RuntimeException("Database is down"));
+
+        // Act
+        ResponseEntity<?> response = syRestController.getAllSchoolYears();
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
     }
 }
