@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import RegisterStudentPage from './pages/RegisterStudentPage'
 import './styles/RegisterStudentPage.css'
 import RegisterProgrammePage from "./pages/RegisterProgrammePage";
+import './styles/RegisterProgrammePage.css'
 
 
 

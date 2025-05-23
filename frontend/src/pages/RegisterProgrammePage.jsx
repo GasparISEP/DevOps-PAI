@@ -4,7 +4,7 @@ import '../styles/RegisterStudentPage.css'; // ou cria um novo CSS para programm
 
 export default function RegisterProgrammePage() {
     return (
-        <div className="right-panel">
+        <div className="programme-main-div">
             <h1>Register Programme</h1>
             <ProgrammeForm />
         </div>
