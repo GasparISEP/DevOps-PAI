@@ -12,18 +12,23 @@ participant ":StudentEnrolmentForm.vue" as form <<component>> <<ViewComponent>>
 participant ":StudentEnrolmentFrontendService" as frontendService <<component>> <<Service>>
 participant ":Router" as router <<component>> <<Router>>
 
+' Abertura da página
 ASC -> form ++: Open enrolment page
 
+' Obter estudantes disponíveis
 form -> frontendService ++: getAllStudents()
 frontendService --> form --: List<StudentDTO>
 
+' Obter edições disponíveis
 form -> frontendService ++: getProgrammeEditionsByStudent(studentId)
 frontendService --> form --: List<ProgrammeEditionDTO>
 
+' Submissão do formulário
 ASC -> form ++: Submit form (studentId, programmeAcronym, programmeName, schoolYearId)
-form -> router ++: POST /programmeeditions/{programmeAcronym}/{programmeName}/{schoolYearId}/enrolments\nBody: studentId
 
-router --> form --: 201 Created
+form -> router ++: POST /students/programme-edition-enrolments\nBody: {studentId, programmeAcronym, programmeName, schoolYearId}
+
+router --> form --: 200 OK
 form --> ASC --: Display success message
 
 @enduml

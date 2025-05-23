@@ -9,15 +9,27 @@ skinparam linetype ortho
 ' === CONTROLLER ===
 class StudentProgrammeEditionEnrolmentRestController <<RESTController>> {
     + getProgrammeEditionsStudentCanEnrollIn(studentId: String): ResponseEntity<List<StudentProgrammeEditionEnrolmentDTO>>
+    + enrolStudentInProgrammeEdition(request: ProgrammeEditionEnrolmentRequest): ResponseEntity<Void>
 }
 
 ' === SERVICE ===
 interface IStudentProgrammeEditionEnrolmentService <<Service>> {
     + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
+    + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
 }
 
 class StudentProgrammeEditionEnrolmentServiceImpl <<Service>> {
     + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
+    + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
+}
+
+' === FACTORY ===
+interface IProgrammeEditionEnrolmentFactory <<Factory>> {
+    + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentFactoryImpl <<Factory>> {
+    + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
 }
 
 ' === ASSEMBLER ===
@@ -29,7 +41,7 @@ class StudentProgrammeEditionEnrolmentAssemblerImpl <<Assembler>> {
     + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
 }
 
-' === DTO ===
+' === DTOs ===
 class StudentProgrammeEditionEnrolmentDTO <<DTO>> {
     - programmeAcronym: String
     - programmeName: String
@@ -39,16 +51,28 @@ class StudentProgrammeEditionEnrolmentDTO <<DTO>> {
     + getSchoolYearId(): String
 }
 
+class ProgrammeEditionEnrolmentRequest <<DTO>> {
+    - studentId: String
+    - programmeAcronym: String
+    - programmeName: String
+    - schoolYearId: String
+    + getters()
+}
+
 ' === AGGREGATE ===
 class ProgrammeEdition <<Entity>> {
     + findProgrammeIDInProgrammeEdition(): ProgrammeID
     + findSchoolYearIDInProgrammeEdition(): SchoolYearID
 }
 
+class ProgrammeEditionEnrolment <<Entity>>
+
 ' === VALUE OBJECTS ===
 class ProgrammeID <<VO>>
 class SchoolYearID <<VO>>
 class StudentID <<VO>>
+class ProgrammeEditionID <<VO>>
+class ProgrammeEditionEnrolmentID <<VO>>
 
 ' === REPOSITORIES ===
 interface IProgrammeEnrolmentRepository <<Repository>> {
@@ -57,16 +81,33 @@ interface IProgrammeEnrolmentRepository <<Repository>> {
 
 interface IProgrammeEditionRepository <<Repository>> {
     + findByProgrammeIDs(List<ProgrammeID>): List<ProgrammeEdition>
+    + findByID(ProgrammeEditionID): Optional<ProgrammeEdition>
+}
+
+interface IProgrammeEditionEnrolmentRepository <<Repository>> {
+    + existsByID(ProgrammeEditionEnrolmentID): boolean
+    + save(ProgrammeEditionEnrolment): void
 }
 
 ' === NAVIGATIONS ===
 StudentProgrammeEditionEnrolmentRestController --> IStudentProgrammeEditionEnrolmentService
-StudentProgrammeEditionEnrolmentRestController --> StudentID
+StudentProgrammeEditionEnrolmentRestController --> ProgrammeEditionEnrolmentRequest
 
 StudentProgrammeEditionEnrolmentServiceImpl ..|> IStudentProgrammeEditionEnrolmentService
 StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEnrolmentRepository
 StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionRepository
+StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentRepository
+StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentFactory
 StudentProgrammeEditionEnrolmentServiceImpl --> StudentProgrammeEditionEnrolmentAssemblerImpl
+StudentProgrammeEditionEnrolmentServiceImpl --> StudentID
+StudentProgrammeEditionEnrolmentServiceImpl --> ProgrammeEditionID
+StudentProgrammeEditionEnrolmentServiceImpl --> ProgrammeEditionEnrolmentID
+
+ProgrammeEditionEnrolmentFactoryImpl ..|> IProgrammeEditionEnrolmentFactory
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolmentID
+ProgrammeEditionEnrolmentFactoryImpl --> StudentID
+ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionID
 
 StudentProgrammeEditionEnrolmentAssemblerImpl ..|> IStudentProgrammeEditionEnrolmentAssembler
 StudentProgrammeEditionEnrolmentAssemblerImpl --> StudentProgrammeEditionEnrolmentDTO

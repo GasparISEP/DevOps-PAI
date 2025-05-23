@@ -14,39 +14,42 @@ title US17: Enrol Student in a ProgrammeEdition (Process View – Level 4)
 actor ASC
 participant ":Router" as router <<component>> <<Router>>
 participant ":StudentProgrammeEditionEnrolmentRestController" as controller <<component>> <<RESTController>>
-participant ":ProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
+participant ":ProgrammeEditionEnrolmentRequest" as requestDTO <<component>> <<DTO>>
+participant ":StudentProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
 participant ":ProgrammeEditionEnrolmentFactoryImpl" as factory <<component>> <<Factory>>
-participant ":ProgrammeEditionEnrolment" as domain <<component>> <<Aggregate>>
 participant ":ProgrammeEditionEnrolmentMapperImpl" as mapper <<component>> <<Mapper>>
 participant ":ProgrammeEditionEnrolmentDataModel" as datamodel <<component>> <<DataModel>>
 participant ":IProgrammeEditionEnrolmentRepositorySpringData" as springRepo <<component>> <<SpringData>>
 database "H2 Database" as db
 
 == Step 1: User submits form ==
-ASC -> router: POST /programmeeditions/{acr}/{name}/{year}/enrolments
+ASC -> router: POST /students/programme-edition-enrolments
 activate router
 
-router -> controller: enrolStudent(requestDTO)
+router -> controller: enrolStudentInProgrammeEdition(requestDTO)
 activate controller
 
-controller -> service: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId)
+controller -> requestDTO: parse JSON into DTO
+requestDTO --> controller: studentId, programmeAcronym, programmeName, schoolYearId
+
+controller -> service: enrolStudentInProgrammeEdition(studentId, programmeId, schoolYearId)
 activate service
 
-== Step 2: Repository and Domain Validation ==
+== Step 2: Validations and Lookups ==
 service -> springRepo: isStudentEnrolled(studentId, programmeId)
 springRepo -> db: SELECT ...
 springRepo --> service: true
 
-service -> springRepo: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId)
+service -> springRepo: findByID(programmeEditionId)
 springRepo -> db: SELECT ...
-springRepo --> service: programmeEditionId
+springRepo --> service: ProgrammeEdition
 
-service -> springRepo: isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)
+service -> springRepo: existsByID(enrolmentId)
 springRepo -> db: SELECT ...
 springRepo --> service: false
 
-== Step 3: Create and Persist Enrolment ==
-service -> factory: newProgrammeEditionEnrolment(studentId, programmeEditionId)
+== Step 3: Domain Creation and Persistence ==
+service -> factory: create(enrolmentId, studentId, programmeEditionId)
 factory --> service: ProgrammeEditionEnrolment
 
 service -> mapper: toDataModel(ProgrammeEditionEnrolment)
@@ -57,7 +60,7 @@ springRepo -> db: INSERT INTO ...
 springRepo --> service: OK
 
 service --> controller: success
-controller --> router: HTTP 201 Created
+controller --> router: HTTP 200 OK
 router --> ASC: Student successfully enrolled
 
 deactivate service

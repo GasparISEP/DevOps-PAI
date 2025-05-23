@@ -9,37 +9,37 @@ title US17: Enrol a Student in a ProgrammeEdition \n (Process View - Level 3 - B
 
 participant ":StudentProgrammeEditionEnrolmentRestController" as controller <<component>> <<RESTController>>
 participant ":ProgrammeEditionEnrolmentRequest" as requestDTO <<component>> <<DTO>>
-participant ":ProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
-participant ":ProgrammeEditionEnrolmentFactoryImpl" as factory <<component>> <<Domain>>
+participant ":StudentProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
 participant ":IProgrammeEnrolmentRepository" as programmeEnrRepo <<component>> <<Repository>>
 participant ":IProgrammeEditionRepository" as editionRepo <<component>> <<Repository>>
 participant ":IProgrammeEditionEnrolmentRepository" as enrolmentRepo <<component>> <<Repository>>
+participant ":IProgrammeEditionEnrolmentFactory" as factory <<component>> <<Factory>>
 
--> controller: POST /programmeeditions/{programmeAcronym}/{programmeName}/{schoolYearId}/enrolments
+-> controller: POST /students/programme-edition-enrolments
 activate controller
 
-controller -> requestDTO: parse JSON -> requestDTO
-requestDTO --> controller: studentId
+controller -> requestDTO: deserialize JSON into DTO
+requestDTO --> controller: studentId, programmeAcronym, programmeName, schoolYearId
 
-controller -> service: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId)
+controller -> service: enrolStudentInProgrammeEdition(studentId, programmeId, schoolYearId)
 activate service
 
-service -> programmeEnrRepo: isStudentEnrolled(studentId, programmeId)
-programmeEnrRepo --> service: true
+service -> programmeEnrRepo: findProgrammesByStudent(studentId)
+programmeEnrRepo --> service: List<ProgrammeID>
 
-service -> editionRepo: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId)
-editionRepo --> service: programmeEditionId
+service -> editionRepo: findByID(new ProgrammeEditionID(programmeId, schoolYearId))
+editionRepo --> service: ProgrammeEdition
 
-service -> enrolmentRepo: isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)
+service -> enrolmentRepo: existsByID(ProgrammeEditionEnrolmentID)
 enrolmentRepo --> service: false
 
-service -> factory: newProgrammeEditionEnrolment(studentId, programmeEditionId)
+service -> factory: create(ProgrammeEditionEnrolmentID, studentId, programmeEditionId)
 factory --> service: ProgrammeEditionEnrolment
 
 service -> enrolmentRepo: save(ProgrammeEditionEnrolment)
 enrolmentRepo --> service: OK
 
-service --> controller: success
-controller --> : return 201 CREATED
+service --> controller: void
+controller --> : return 200 OK
 
 @enduml

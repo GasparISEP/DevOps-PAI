@@ -4,8 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 
 public interface ITeacherCareerProgressionAssembler {
-    TeacherCareerProgression toTeacherCareerProgression(TeacherCareerProgressionDTO teacherCareerProgressionDTO);
-    TeacherWorkingPercentageUpdateDTO toTeacherCareerProgressionDTO(TeacherCareerProgression teacherCareerProgression);
+    TeacherWorkingPercentageUpdateDTO toTeacherWorkingPercentageUpdateDTO(TeacherCareerProgression teacherCareerProgression);
     TeacherCareerProgressionID toTeacherCareerProgressionID(TeacherCareerProgressionDTO teacherCareerProgressionDTO);
     Date todate (TeacherCareerProgressionDTO teacherCareerProgressionDTO);
     TeacherCategoryID toTeacherCategoryID (TeacherCareerProgressionDTO teacherCareerProgressionDTO);

@@ -51,38 +51,9 @@
     border-color: #800000;
 }
 
-/* Buttons */
 .form-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
-}
-
-.btn {
-    padding: .75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-secondary {
-    background: transparent;
-    border: 2px solid #800000;
-    color: #800000;
-}
-
-.btn-secondary:hover {
-    background: #ffdede;
-}
-
-.btn-primary {
-    background: #800000;
-    color: #fff;
-}
-
-.btn-primary:disabled {
-    background: #ccc;
-    cursor: not-allowed;
 }

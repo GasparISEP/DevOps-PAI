@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class TeacherCareerProgressionAssembler {
+public class TeacherCareerProgressionAssembler implements ITeacherCareerProgressionAssembler {
 
     public TeacherCareerProgressionAssembler() {
     }
@@ -25,9 +25,9 @@ public class TeacherCareerProgressionAssembler {
     public TeacherWorkingPercentageUpdateDTO toTeacherWorkingPercentageUpdateDTO(TeacherCareerProgression teacherCareerProgression) {
         String date = teacherCareerProgression.getDate().toString();
         int wp = teacherCareerProgression.getWorkingPercentage().getValue();
-        String teacherid = teacherCareerProgression.getTeacherID().toString();
+        String teacherId = teacherCareerProgression.getTeacherID().toString();
 
-        return new TeacherWorkingPercentageUpdateDTO(date,wp,teacherid);
+        return new TeacherWorkingPercentageUpdateDTO(date,wp,teacherId);
     }
 
     public TeacherCareerProgressionID toTeacherCareerProgressionID(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {

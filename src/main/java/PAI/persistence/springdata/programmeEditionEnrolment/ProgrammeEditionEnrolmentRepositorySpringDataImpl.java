@@ -192,5 +192,30 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return instance;
     }
 
+    @Override
+    public boolean existsByID(ProgrammeEditionEnrolmentID id) {
+        try {
+            Optional<ProgrammeEditionEnrolmentIDDataModel> idDataModelOpt = _peeIDMapper.toDataModel(id);
+            return idDataModelOpt.isPresent() && _peeRepositorySpringData.existsById(idDataModelOpt.get());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override 
+    public List<Optional<ProgrammeEditionEnrolment>> findByStudentID(StudentID studentId) {
+        if(studentId == null) {
+            throw new IllegalArgumentException("StudentID cannot be null");
+        }
+        List<Optional<ProgrammeEditionEnrolment>> allProgrammeEditionEnrolments = new ArrayList<>();
+        List<Optional<ProgrammeEditionEnrolmentDataModel>> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findByStudentID(studentId);
+        for(Optional<ProgrammeEditionEnrolmentDataModel> programmeEditionEnrolmentDataModel: allProgrammeEditionEnrolmentsDataModel) {
+            if(programmeEditionEnrolmentDataModel.isEmpty()) {
+                throw new IllegalStateException("Could not map ProgrammeEditionEnrolmentDataModel to domain");
+            }
+            allProgrammeEditionEnrolments.add(_peeMapper.toDomain(programmeEditionEnrolmentDataModel.get()));
+        }
+        return allProgrammeEditionEnrolments;
+    }
 }
 

@@ -2,9 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import './styles/Main.css'
 import RegisterStudentPage from './pages/RegisterStudentPage'
 import './styles/RegisterStudentPage.css'
 import RegisterProgrammePage from "./pages/RegisterProgrammePage";
+import './styles/RegisterProgrammePage.css'
 
 
 

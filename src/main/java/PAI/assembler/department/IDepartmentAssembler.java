@@ -2,6 +2,7 @@ package PAI.assembler.department;
 
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
+import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
 
@@ -12,6 +13,10 @@ public interface IDepartmentAssembler {
     DepartmentDTO toDTO(Department department);
 
     Iterable<DepartmentDTO> toDTOs(Iterable<Department> departments);
+
+    DepartmentWithDirectorDTO toDWDDTO(Department department);
+
+    Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> departments);
 
 }
 

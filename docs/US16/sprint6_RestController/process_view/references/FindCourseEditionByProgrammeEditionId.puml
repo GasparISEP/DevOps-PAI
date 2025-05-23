@@ -1,0 +1,49 @@
+@startuml
+title: Find Course Editions By Programme Edition ID\n(Code View - Level 4)
+
+autonumber
+
+participant ":CourseEditionController" as ceCtrl
+activate ceCtrl
+participant ":CourseEditionService" as ceService
+participant ":CourseEditionRepository" as ceRepo
+participant ":CourseEditionAssembler" as ceAssembler
+participant ":CourseEditionMapper" as ceMapper
+participant ":CourseEditionFactory" as ceFactory
+database DB
+
+ceCtrl -> ceService ++: getCourseEditionsByProgrammeEditionId(programmeEditionId)
+ceService -> ceRepo ++: findByProgrammeEditionId(programmeEditionId)
+ceRepo -> DB ++: SELECT * FROM course_editions WHERE programme_edition_id = programmeEditionId
+DB --> ceRepo --: List<CourseEditionDataModel>
+
+loop for CourseEditionDataModel[i]
+ceRepo -> ceMapper ++: toDomain(CourseEditionDataModel[i])
+ceMapper -> ceFactory ++: newCourseEdition(id, courseId, programmeEditionId, academicYear, semester)
+note over of ceFactory
+    Creates a new
+    CourseEdition object
+end note
+ceFactory --> ceMapper --: CourseEdition
+ceMapper --> ceRepo --: List<CourseEdition>
+end
+
+ceRepo -> ceService: List<CourseEdition>
+ceService -> ceAssembler ++: toDtoList(List<CourseEdition>)
+
+loop for CourseEdition[i]
+    note over of ceAssembler
+        Invokes CourseEditionDTO
+             to construct object
+    end note
+end
+ceAssembler --> ceService --: List<CourseEditionDTO>
+ceService --> ceCtrl --: List<CourseEditionDTO>
+
+legend right
+  DTO = Data Transfer Object
+  Mapper = Convert DataModel to Domain
+  Assembler = Convert Domain to DTO
+end legend
+
+@enduml 
