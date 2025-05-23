@@ -23,4 +23,6 @@ public interface IProgrammeEditionEnrolmentRepository  extends IRepository <Prog
     Set<ProgrammeEditionEnrolment> getInternalSet() throws Exception;
 
     boolean existsByID(ProgrammeEditionEnrolmentID id);
+
+    List<Optional<ProgrammeEditionEnrolment>> findByStudentID(StudentID studentId);
 }

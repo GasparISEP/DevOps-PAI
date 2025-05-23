@@ -131,4 +131,11 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
                 .anyMatch(enrolment -> enrolment.identity().equals(id));
     }
 
+    @Override
+    public List<Optional<ProgrammeEditionEnrolment>> findByStudentID(StudentID studentId) {
+        return _programmeEditionEnrolments.stream()
+                .filter(enrolment -> enrolment.findStudentInProgrammeEdition().equals(studentId))
+                .map(Optional::of)
+                .collect(Collectors.toList());
+    }
 }
