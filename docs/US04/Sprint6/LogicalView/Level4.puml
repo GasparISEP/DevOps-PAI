@@ -5,56 +5,65 @@ skinparam nodesep 150
 skinparam linetype ortho
 skinparam classBackgroundColor #E1F5FE
 
-title US04:As an Administrator, i want to register a Teacher in the System.
+title US04:As an Administrator, I want to register a Teacher in the System.
 
-'===== CONTROLLER =======
+' ===== CONTROLLER =======
+
 class US04_RegisterATeacherInTheSystemController {
     +US04_RegisterATeacherInTheSystemController(teacherService: ITeacherService)
     +configureAccessMethod(accessMethoDTO: AccessMethodRequestDTO): AccessMethodResponseDTO
 }
 
+' ===== FACTORY =======
 
 package "Factory"{
-class TeacherFactoryImpl #lightblue{
+ class TeacherFactoryImpl #lightblue{
     +createTeacher(TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n teacherCategory:TeacherCategory,\n department:Department):Teacher
     +createAddress(street:Street,\n postalCode:PostalCode,\n location:Location, country:Country)
-}
-interface ITeacherFactory #lightblue{
+ }
+
+ interface ITeacherFactory #lightblue{
     +createTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n \n departmentAcronym:DepartmentAcronym):Optional<Teacher>
-}
+ }
 }
 
+' ===== SERVICE =======
+
 package "Service"{
-class TeacherServiceImpl{
+ class TeacherServiceImpl{
    +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):Optional<Teacher>
  }
  interface ITeacherService{
     +registerTeacher(acronym:Acronym, TeacherID:TeacherID,\n name:Name, email:Email, nif:NIF,\n phoneNumber:PhoneNumber, academicBackground:AcademicBackground,\n street:Street, postalCode:PostalCode,\n location:Location, country:Country,\n departmentAcronym:DepartmentAcronym):boolean
  }
+}
+
+' ===== MAPPER =======
+
+package "Mapper Aggregates" {
+ class TeacherMapperImpl{
+    + ToDomain(teacherDataModel:TeacherDataModel)Teacher
+    +toDataModel(teacher:Teacher)TeacherDataModel
  }
 
- package "Mapper Aggregates" {
-class TeacherMapperImpl{
-+ ToDomain(teacherDataModel:TeacherDataModel)Teacher
-+toDataModel(teacher:Teacher)TeacherDataModel
+ interface ITeacherMapper{
+    + ToDomain(teacherDataModel:TeacherDataModel)Teacher
+    +toDataModel(teacher:Teacher)TeacherDataModel
+ }
+
+ class TeacherIDMapperImpl {
+   +toDomain(teacherDataModel) : TeacherID
+   +toDataModel(teacher) : TeacherDataModel
+ }
+
+ interface ITeacherIDMapper
 }
 
-interface ITeacherMapper{
-+ ToDomain(teacherDataModel:TeacherDataModel)Teacher
-+toDataModel(teacher:Teacher)TeacherDataModel
-}
-}
-
-class TeacherIDMapperImpl {
-  +toDomain(teacherDataModel) : TeacherID
-  +toDataModel(teacher) : TeacherDataModel
-}
-
-interface ITeacherIDMapper
+' ===== DATA MODEL =======
 
 package "DataModel" {
-class TeacherDataModel{
--_acronym:TeacherAcronym
+ class TeacherDataModel{
+        -_acronym:TeacherAcronym
         -_name:String
         -_email:String
         -_nif:String
@@ -65,50 +74,70 @@ class TeacherDataModel{
         -_phoneNumber:PhoneNumber
         -_academicBackground:AcademicBackground
         -_departmentID:DepartmentID
+ }
 }
-}
+
+' ===== REPOSITORY =======
+
 package "Repository"{
-class TeacherRepositorySpringDataImpl{
-+addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
+ class TeacherRepositorySpringDataImpl{
+    +addTeacher (acronym:String, TeacherID:String,\n name:String, email:String, nif:String,\n phoneNumber:String, academicBackground:String,\n street:String, postalCode:String,\n location:String, country:String,\n \n departmentID:String):Teacher
 
+ interface IDepartmentRepository #lightblue{
+     +departmentExists(department:Department):boolean
+     +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
+ }
+
+ interface ITeacherRepository #lightblue{
+     +save(teacher: Teacher):teacher
+
+ }
+ interface JPARepository{}
+
+ interface ITeacherRepositorySpringData{
+ +save(teacher: Teacher)teacher
+ +existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) boolean
+ }
 }
 
-interface IDepartmentRepository #lightblue{
-    +departmentExists(department:Department):boolean
-    +FindDepartmentByID(departementID:DepartmentID):\n Optional<Department>
-}
+' === DTO ===
 
-interface ITeacherRepository #lightblue{
-    +save(teacher: Teacher):teacher
-
+class TeacherDTO <<Record>>{
+    - teacherID: String
+    - name: String
+    - email: String
+    - nif: String
+    - phoneNumber: String
+    - academicBackground: String
+    - street: String
+    - postalCode: String
+    - location: String
+    - country: String
+    - departmentID: String
 }
-interface JPARepository{}
-
-interface ITeacherRepositorySpringData{
-+save(teacher: Teacher)teacher
-+existsByTeacherIdOrNif(TeacherID teacherID, NIF nif) boolean
-}
-}
-
-'===DTO===
 
 class TeacherRequestDTO <<Record>>{
+    - teacherID: String
     - teacherName: String
+    - email: String
+    - nif: String
+    - phoneNumber: String
+    - academicBackground: String
+    - street: String
+    - postalCode: String
+    - location: String
+    - country: String
+    - departmentID: String
 }
 class TeacherResponseDTO <<Record>>{
-    - acronym: String
+    - teacherID: String
     - name: String
-    - email:Email
-    -_nif:NIF
-    -_street:Street
-    -_postalCode:PostalCode
-  -_location:Location
-  -_country:Country
-  -_phoneNumber:PhoneNumber
-  -_academicBackground:AcademicBackground
-  -_departmentID:DepartmentID
+    - email: String
+    - departmentName: String
     + getByName(): String
 }
+
+' === TEACHER ===
 
 package "Teacher Aggregates"  {
     entity "<<Root>>Teacher" #lightblue{
@@ -181,6 +210,7 @@ class DepartmentID <<VO>> {
 US04_RegisterATeacherInTheSystemController "1"-u->"1..*" ITeacherService
 US04_RegisterATeacherInTheSystemController "1"..> "1" TeacherRequestDTO
 US04_RegisterATeacherInTheSystemController "1"..> "1" TeacherResponseDTO
+US04_RegisterATeacherInTheSystemController "1"..> "1" TeacherDTO
 
 ITeacherService <|.."Implements" TeacherServiceImpl
 TeacherServiceImpl ..> ITeacherRepository
