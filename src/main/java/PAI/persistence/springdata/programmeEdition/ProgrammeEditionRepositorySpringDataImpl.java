@@ -159,4 +159,24 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             return null;
         }
     }
+
+    @Override
+    public List<ProgrammeEdition> findByProgrammeIDs(List<ProgrammeID> programmeIDs) {
+        try {
+            List<ProgrammeEdition> result = new ArrayList<>();
+            for (ProgrammeID programmeID : programmeIDs) {
+                ProgrammeIDDataModel dataModel = iProgrammeIDMapper.toData(programmeID);
+                List<ProgrammeEditionDataModel> dataModels =
+                        iProgrammeEditionRepositorySpringData.findProgrammeEditionByProgrammeIDDataModel(dataModel);
+
+                for (ProgrammeEditionDataModel dataModelItem : dataModels) {
+                    iProgrammeEditionMapper.toDomain(dataModelItem).ifPresent(result::add);
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
+
 }
