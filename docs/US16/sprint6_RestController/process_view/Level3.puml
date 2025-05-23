@@ -21,10 +21,8 @@ participant ":Repository" as RE
 
 group Human Interaction
 ASC -> FE ++: Request to enroll a student
-FE --> ASC --: Prompt: "Enter student name"
-ASC -> FE ++: Input: "John Doe"
-FE --> ASC --: Display matching students
-ASC -> FE ++: Select student
+FE --> ASC --: Prompt: "Enter student ID"
+ASC -> FE ++: Input: "12345"
 FE --> ASC --: Display programme editions
 ASC -> FE ++: Select programme edition
 FE --> ASC --: Display course editions
@@ -56,4 +54,4 @@ CT --> FE --: HTTP 201 Created + EnrollmentDTO
 FE --> ASC --: Student enrolled successfully
 end group
 
-@enduml 
+@enduml

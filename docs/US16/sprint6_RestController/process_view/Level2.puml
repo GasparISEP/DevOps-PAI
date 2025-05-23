@@ -10,15 +10,10 @@ database DB
 
 activate ASC
 ASC -> FE ++: Request to enroll a student
-FE -> BE ++: (GET) Request list of students
-BE -> DB ++: Fetch all students
-DB --> BE --: List of students
-BE --> FE --: List of students
-FE --> ASC --: Display students
-
-ASC -> FE ++: Select student
-FE -> BE ++: (GET) Request programme editions for student
-BE -> DB ++: Fetch programme editions
+FE --> ASC --: Prompt: "Enter student ID"
+ASC -> FE ++: Input: "12345"
+FE -> BE ++: (GET) Request programme editions for student ID
+BE -> DB ++: Fetch programme editions by student ID
 DB --> BE --: List of programme editions
 BE --> FE --: List of programme editions
 FE --> ASC --: Display programme editions
@@ -37,4 +32,4 @@ DB --> BE --: Creation confirmed
 BE --> FE --: (201 Created) Enrollment successful
 FE --> ASC --: Student enrolled successfully
 
-@enduml 
+@enduml
