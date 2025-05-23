@@ -86,6 +86,16 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
         return jpaRepo.existsByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(studentIDDataModel, programmeIDDataModel);
     }
 
+    @Override
+    public List<ProgrammeID> findProgrammesByStudent(StudentID studentID) {
+        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
+        List<ProgrammeIDDataModel> dataModels = jpaRepo.findProgrammeIDsByStudentID(studentIDDataModel);
+        return dataModels.stream()
+                .map(programmeIDMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+
 }
 
 
