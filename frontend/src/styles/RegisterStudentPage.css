@@ -1,0 +1,88 @@
+
+.right-panel {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.right-panel h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #800000;
+    margin-bottom: 1.5rem;
+}
+
+/* Form */
+.student-form {
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.student-form .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.student-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-form label {
+    font-weight: 500;
+    margin-bottom: .25rem;
+}
+
+.student-form input {
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.student-form input:focus {
+    border-color: #800000;
+}
+
+/* Buttons */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: .75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid #800000;
+    color: #800000;
+}
+
+.btn-secondary:hover {
+    background: #ffdede;
+}
+
+.btn-primary {
+    background: #800000;
+    color: #fff;
+}
+
+.btn-primary:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
