@@ -29,16 +29,17 @@ class StudentGradeService {
 }
 
 class StudentGradeResponseDTO {
-    -grade : int
-    -date : String
-    -studentUniqueNumber : int
-    -courseEditionId : String
-    -studentGradeId : String
-    +getGrade()
-    +getDate()
-    +getStudentUniqueNumber()
-    +getCourseEditionId()
-    +getStudentGradeId()
+      -studentGradeId : String
+      -courseEditionId : String
+      -programmeEditionId : String
+      -courseInStudyPlanID : String
+      -programmeId : String
+      -schoolYearId : String
+      -courseId : String
+      -studyPlanId : String
+      -studentUniqueNumber : int
+      -grade : int
+      -date : String
 }
 
 
