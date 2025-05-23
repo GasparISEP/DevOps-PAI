@@ -3,6 +3,7 @@ package PAI.assembler.department;
 import PAI.VOs.*;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
+import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
 import org.junit.jupiter.api.Test;
@@ -138,4 +139,113 @@ class DepartmentAssemblerImplTest {
         //Assert
         assertNotNull(departmentDTOS);
     }
+
+    //toDWDDTO Tests
+
+
+    @Test
+    void shouldConvertDepartmenWithDirectortToDWDDTO() {
+        // Arrange
+        Department department = mock(Department.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+
+        when(department.identity()).thenReturn(departmentID);
+
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+
+        when(department.identity().getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        when(department.getName()).thenReturn(name);
+        when(name.getName()).thenReturn("Software Engineering Department");
+
+        when(department.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        when(department.getDirectorID()).thenReturn(teacherID);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("MAJ");
+
+        DepartmentAssemblerImpl assembler = new DepartmentAssemblerImpl();
+
+        // Act
+        DepartmentWithDirectorDTO dto = assembler.toDWDDTO(department);
+
+        // Assert
+        assertEquals("DEI", dto.id());
+        assertEquals("Software Engineering Department", dto.name());
+        assertEquals("DEI", dto.acronym());
+        assertEquals("MAJ", dto.teacherID());
+    }
+
+    @Test
+    void shouldThrowExceptionIfDepartmentIsNull() {
+        // Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.toDWDDTO(null);
+        });
+    }
+    @Test
+    void shouldConvertListOfDepartmentstoDWDDTOs() {
+        // Arrange
+        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
+        Name nameDouble = mock(Name.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+        TeacherAcronym teacherAcronymDouble = mock(TeacherAcronym.class);
+
+
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+        when(departmentIDDouble.getAcronym()).thenReturn(acronymDouble);
+        when(acronymDouble.getAcronym()).thenReturn("DEI");
+
+        when(departmentDouble.getName()).thenReturn(nameDouble);
+        when(nameDouble.getName()).thenReturn("Software Engineering Department");
+
+        when(departmentDouble.getAcronym()).thenReturn(acronymDouble);
+
+        when(departmentDouble.getDirectorID()).thenReturn(teacherIDDouble);
+        when(teacherIDDouble.getTeacherAcronym()).thenReturn(teacherAcronymDouble);
+        when(teacherAcronymDouble.getAcronym()).thenReturn("MAJ");
+
+        Iterable<Department> listDepartment = List.of(departmentDouble);
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act
+        Iterable<DepartmentWithDirectorDTO> departmentDWDDTO = departmentAssembler.toDWDDTOs(listDepartment);
+
+        // Assert
+        assertNotNull(departmentDWDDTO);
+    }
+    @Test
+    void shouldReturnEmptyListIfInputIsNull() {
+        //Arrange
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentWithDirectorDTO> departmentDWDDTO = departmentAssembler.toDWDDTOs(null);
+        //Assert
+        assertNotNull(departmentDWDDTO);
+
+    }
+    @Test
+    void shouldReturnEmptyListIfInputIsEmpty() {
+        //Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act
+        Iterable<DepartmentWithDirectorDTO> departmentDWDDTO = departmentAssembler.toDWDDTOs(List.of()); // Static method to create an empty list
+        //Assert
+        assertNotNull(departmentDWDDTO);
+    }
+
+
+
 }

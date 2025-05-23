@@ -16,15 +16,22 @@ actor ASC
 participant ":System" as System <<component>>
 
 ASC -> System ++: I want to enrol a student in a programme edition
-System --> ASC --: What student?
-ASC -> System ++: I select a student
+System --> ASC --: Please select a student
 
-System --> ASC --: Retrieving available programme editions
+ASC -> System ++: I select a student
+System -> System ++: Retrieve student's enrolled programmes
+System -> System ++: Load available programme editions
+
+System --> ASC --: Display available programme editions
 ASC -> System ++: I select one edition
 
 System --> ASC --: Confirm enrolment?
 ASC -> System ++: Yes, enrol student
 
+System -> System ++: Validate programme enrolment
+System -> System ++: Save new enrolment
+
 System --> ASC --: Student enrolled successfully
 
 @enduml
+
