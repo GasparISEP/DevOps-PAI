@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import Modal from './Modal';
+import { registerStudent } from '../../services/studentService';
+
+
+const initialForm = {
+    studentID: '', name: '', NIF: '', NIFCountry: '',
+    street: '', postalCode: '', location: '', addressCountry: '',
+    phoneCountryCode: '', phoneNumber: '', email: ''
+}
 
 export default function StudentForm() {
-    const [form, setForm]       = useState({
-        studentID: '', name: '', NIF: '', NIFCountry: '',
-        street: '', postalCode: '', location: '', addressCountry: '',
-        phoneCountryCode: '', phoneNumber: '', email: ''
-    });
+    const [form, setForm]       = useState(initialForm);
     const [loading, setLoading] = useState(false);
     const [error, setError]     = useState('');
-    const [success, setSuccess] = useState(null);
+    const [successMsg, setSuccessMsg] = useState('');
 
     function handleChange(e) {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -16,12 +21,23 @@ export default function StudentForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setError(''); setSuccess(null); setLoading(true);
+        setError('');
+        setSuccessMsg('');
+        setLoading(true);
+
+
+          const payload = {
+                ...form,
+                studentID: Number(form.studentID),
+                academicEmail: `${form.studentID}@isep.ipp.pt`
+          };
         try {
             // Aqui chamarias o teu studentService.registerStudent(form)
             // const resp = await registerStudent(form);
             // setSuccess(resp);
-            setSuccess({ studentID: form.studentID });
+            const respDTO = await registerStudent(payload);
+            setSuccessMsg(`Student "${respDTO.name}" (ID ${respDTO.studentID}) registered!`);
+
         } catch (err) {
             setError(err.message);
         } finally {
@@ -93,11 +109,27 @@ export default function StudentForm() {
                 </button>
             </div>
 
-            {success && (
-                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                    Student registered with ID {success.studentID}
-                </div>
-            )}
+            {successMsg && (
+                <Modal
+                    message={successMsg}
+                    onClose={() => {
+                        setSuccessMsg('');        // apaga a mensagem de sucesso
+                        setForm({                  // reseta o form
+                            studentID: '',
+                            name: '',
+                            NIF: '',
+                            NIFCountry: '',
+                            street: '',
+                            postalCode: '',
+                            location: '',
+                            addressCountry: '',
+                            phoneCountryCode: '',
+                            phoneNumber: '',
+                            email: ''
+                        });
+                    }}
+                    />
+                  )}
         </form>
     );
 }
