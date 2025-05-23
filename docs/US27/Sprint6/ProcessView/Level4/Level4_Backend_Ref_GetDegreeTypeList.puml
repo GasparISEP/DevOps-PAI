@@ -1,0 +1,25 @@
+@startuml
+title REF: Get Degree Type List (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":DegreeTypeService" as DegreeService <<service>> #F6CBA5
+participant ":DegreeTypeSpringDataImpl" as DegreeTypeRepository <<repository>> #F6F1E7
+
+-> RestController
+activate RestController
+RestController -> DegreeService: **findAll**()
+activate DegreeService
+DegreeService -> DegreeTypeRepository: **findAll**()
+activate DegreeTypeRepository
+DegreeTypeRepository -> : **findAll**()
+DegreeTypeRepository <-- : degreeTypesDMList
+DegreeTypeRepository --> DegreeService: degreeTypesList
+deactivate DegreeTypeRepository
+DegreeService --> RestController: degreeTypesList
+deactivate DegreeService
+<-- RestController
+deactivate RestController
+@enduml
