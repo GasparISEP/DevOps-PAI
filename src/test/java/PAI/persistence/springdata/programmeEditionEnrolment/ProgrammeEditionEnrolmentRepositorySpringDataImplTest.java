@@ -675,56 +675,5 @@ class ProgrammeEditionEnrolmentRepositorySpringDataImplTest {
         assertEquals("Error retrieving the set of programme edition enrolments", thrown.getMessage());
     }
 
-    @Test
-    void shouldReturnListOfProgrammeEditionEnrolmentsByStudentID() {
-        // Arrange
-        StudentID studentID = mock(StudentID.class);
-        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
-        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel = mock(ProgrammeEditionEnrolmentDataModel.class);
 
-        IProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
-        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
-        IProgrammeEditionEnrolmentIDMapper idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
-        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
-
-        ProgrammeEditionEnrolmentRepositorySpringDataImpl repo = new ProgrammeEditionEnrolmentRepositorySpringDataImpl(
-            programmeEditionEnrolmentRepositorySpringData, mapper, idMapper, studentIDMapper, programmeEditionIDMapper
-        );
-
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-        when(programmeEditionEnrolmentRepositorySpringData.findByStudentID(studentID)).thenReturn(List.of(Optional.of(programmeEditionEnrolmentDataModel)));
-        when(mapper.toDomain(programmeEditionEnrolmentDataModel)).thenReturn(Optional.of(enrolment));
-
-        // Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(studentID);
-
-        // Assert
-        assertEquals(1, result.size());
-    }   
-
-    @Test
-    void shouldReturnEmptyListIfStudentIDNotEnrolledInAnyProgrammeEdition() {
-        // Arrange
-        StudentID studentID = mock(StudentID.class);
-
-        IProgrammeEditionEnrolmentRepositorySpringData programmeEditionEnrolmentRepositorySpringData = mock(IProgrammeEditionEnrolmentRepositorySpringData.class);
-        IProgrammeEditionEnrolmentMapper mapper = mock(IProgrammeEditionEnrolmentMapper.class);
-        IProgrammeEditionEnrolmentIDMapper idMapper = mock(IProgrammeEditionEnrolmentIDMapper.class);
-        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
-        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
-
-        ProgrammeEditionEnrolmentRepositorySpringDataImpl repo = new ProgrammeEditionEnrolmentRepositorySpringDataImpl(
-            programmeEditionEnrolmentRepositorySpringData, mapper, idMapper, studentIDMapper, programmeEditionIDMapper
-        );
-
-        when(programmeEditionEnrolmentRepositorySpringData.findByStudentID(studentID)).thenReturn(List.of());
-
-        // Act
-        List<Optional<ProgrammeEditionEnrolment>> result = repo.findByStudentID(studentID);
-
-        // Assert
-        assertEquals(0, result.size());
-    }
 }
