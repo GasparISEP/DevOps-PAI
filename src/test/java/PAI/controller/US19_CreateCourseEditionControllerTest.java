@@ -7,7 +7,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.service.DegreeType.IDegreeTypeService;
+import PAI.service.degreeType.IDegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
