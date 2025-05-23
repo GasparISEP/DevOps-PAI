@@ -1,5 +1,5 @@
 @startuml
-title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Logic View - Level 4 Granularity)
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Class Diagram)
 
 skinparam ranksep 60
 skinparam nodesep 60
@@ -7,39 +7,40 @@ skinparam linetype ortho
 
 ' ======= CONTROLLER =======
 
-class US30_AddCourseToProgrammeRESTController #FFBBFF{
+class US30_AddCourseToProgrammeRESTController {
       + US30_AddCourseToProgrammeController (service : IAddCourseToProgrammeService)
       + addCourseToProgramme(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): \nAddCourseToProgrammeResponseDTO
 }
 
 ' ======= SERVICE =======
 
-interface ICourseInStudyPlanService #C1FFC1{
+interface ICourseInStudyPlanService {
     + addCourseToProgramme(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): \n CourseInStudyPlan
 }
 
-class CourseInStudyPlanServiceImpl #C1FFC1{
-    + CourseInStudyPlanServiceImpl (factory: ICourseInStudyPlanFactory, repository: ICourseInStudyPlanRepository)
-    + addCourseToProgramme(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): CourseInStudyPlan
+class CourseInStudyPlanServiceImpl {
+    + CourseInStudyPlanServiceImpl (factory: ICourseInStudyPlanFactory,\n repository: ICourseInStudyPlanRepository,\n assembler: ICourseInStudyPlanAssembler)
+    + createCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): boolean
+    + createCourseInStudyPlan(command: CourseInStudyPlanCommand): boolean
 }
 
 ' ======= ASSEMBLER =======
 
-class CourseInStudyPlanAssemblerImpl #C1FFC1{
+class CourseInStudyPlanAssemblerImpl {
+    + toDomain(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): CourseInStudyPlanCommand
+    + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
+    + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
+    + toDTO(courseInStudyPlan: CourseInStudyPlan): AddCourseToProgrammeResponseDTO
+}
+
+interface ICourseInStudyPlanAssembler {
     + toDomain(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): CourseInStudyPlan
     + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
     + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
     + toDTO(courseInStudyPlan: CourseInStudyPlan): AddCourseToProgrammeResponseDTO
 }
 
-interface ICourseInStudyPlanAssembler #C1FFC1{
-    + toDomain(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): CourseInStudyPlan
-    + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
-    + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
-    + toDTO(courseInStudyPlan: CourseInStudyPlan): AddCourseToProgrammeResponseDTO
-}
-
-class CourseInStudyPlanRequestDTO #C1FFC1{
+class CourseInStudyPlanRequestDTO {
     - semester: String
     - curricularYear: String
     - courseID: String
@@ -48,7 +49,7 @@ class CourseInStudyPlanRequestDTO #C1FFC1{
     - quantityOfCreditsEcts: int
 }
 
-class CourseInStudyPlanResponseDTO #C1FFC1{
+class CourseInStudyPlanResponseDTO {
     - courseInStudyPlanID: UUID
     - semester: String
     - curricularYear: String
@@ -58,9 +59,12 @@ class CourseInStudyPlanResponseDTO #C1FFC1{
     - quantityOfCreditsEcts: int
 }
 
+class CourseInStudyPlanCommand {
+}
+
 ' ======= MAPPER =======
 
-class CourseInStudyPlanMapperImpl #C1FFC1{
+class CourseInStudyPlanMapperImpl {
     + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
     + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
 }
@@ -75,40 +79,41 @@ interface ICourseInStudyPlanIDMapper {
     + toDataModel(courseInStudyPlanID: CourseInStudyPlanID): CourseInStudyPlanIDDataModel
 }
 
-class CourseInStudyPlanIDMapperImpl #C1FFC1{
+class CourseInStudyPlanIDMapperImpl {
     + toDomain(courseInStudyPlanIDDataModel: CourseInStudyPlanIDDataModel): CourseInStudyPlanID
     + toDataModel(courseInStudyPlanID: CourseInStudyPlanID): CourseInStudyPlanIDDataModel
 }
 
 ' ======= REPOSITORY =======
 
-interface ICourseInStudyPlanRepository #E0FFFF{
+interface ICourseInStudyPlanRepository {
       + existsByCourseIDAndStudyPlanID(courseID: CourseID, studyPlanID: StudyPlanID): boolean
 }
 
-class CourseInStudyPlanRepositorySpringDataImpl #E0FFFF {
+class CourseInStudyPlanRepositorySpringDataImpl  {
    + save(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlan
    + existsByCourseIDAndStudyPlanID(courseID: CourseID, studyPlanID: StudyPlanID): boolean
 }
 
-interface ICourseInStudyPlanRepositorySpringData #E0FFFF{
+interface ICourseInStudyPlanRepositorySpringData {
       + existsByCourseIDAndStudyPlanID(courseID: CourseID, studyPlanID: StudyPlanID): boolean
 }
 
 ' ======= FACTORY =======
 
-interface ICourseInStudyPlanFactory  	#FAFAD2{
-  + createCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): CourseInStudyPlan
+interface ICourseInStudyPlanFactory	{
+  + newCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationCourseInCurricularYear,\n quantityOfCreditsEcts: CourseQuantityOfCreditsEcts): CourseInStudyPlan
+  + newCourseInStudyPlan(command: CourseInStudyPlanCommand): CourseInStudyPlan
 }
 
-class CourseInStudyPlanFactoryImpl #FAFAD2{
+class CourseInStudyPlanFactoryImpl {
   + createCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): CourseInStudyPlan
 }
 
 ' ======= AGGREGATE =======
 
 package "CourseInStudyPlan Aggregate"  {
-    Entity CourseInStudyPlan <<Root>> <<Entity>> #FFDAB9{
+    Entity CourseInStudyPlan <<Root>> <<Entity>> {
       + CourseInStudyPlan(id: CourseInStudyPlanID, semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts)
       + getSemester(): Semester
       + getCurricularYear(): CurricularYear
@@ -130,37 +135,37 @@ class CourseInStudyPlanID {
       + hashCode(): int
     }
 
-class Semester #FAFAD2{
+class Semester {
       + Semester(semester: String)
       + getSemester(): String
     }
 
-class CurricularYear #FAFAD2{
+class CurricularYear {
       + CurricularYear(curricularYear: String)
       + getCurricularYear(): String
     }
 
-class CourseID #FAFAD2{
+class CourseID {
       + CourseID(courseID: String)
       + getCourseID(): String
     }
 
-class StudyPlanID #FAFAD2{
+class StudyPlanID {
       + StudyPlanID(studyPlanID: String)
       + getStudyPlanID(): String
     }
 
-class DurationOfCourse #FAFAD2{
+class DurationOfCourse {
       + DurationOfCourse(durationOfCourse: String)
       + getDurationOfCourse(): String
     }
 
-class QuantityOfCreditsEcts #FAFAD2{
+class QuantityOfCreditsEcts {
       + QuantityOfCreditsEcts(quantityOfCreditsEcts: int)
       + getQuantityOfCreditsEcts(): int
     }
 
-class CourseInStudyPlanID #FAFAD2{
+class CourseInStudyPlanID {
        - _id: UUID
        + CourseInStudyPlanID()
        + getValue(): UUID
@@ -170,7 +175,7 @@ class CourseInStudyPlanID #FAFAD2{
 
 ' ======= DATAMODEL =======
 
-    class CourseInStudyPlanDataModel #E6E6FA{
+    class CourseInStudyPlanDataModel {
        - semester: String
        - curricularYear: String
        - courseID: String
@@ -188,7 +193,7 @@ class CourseInStudyPlanID #FAFAD2{
        + getQuantityOfCreditsEcts(): QuantityOfCreditsEcts
     }
 
-class CourseInStudyPlanIDDataModel #C1FFC1{
+class CourseInStudyPlanIDDataModel {
     - id: String
     + CourseInStudyPlanIDDataModel()
     + getValue(): String
@@ -196,29 +201,25 @@ class CourseInStudyPlanIDDataModel #C1FFC1{
 
 ' ======= NAVIGABILITY =======
 
-CourseInStudyPlanServiceImpl ...|> ICourseInStudyPlanService
-ICourseInStudyPlanService -down-> ICourseInStudyPlanRepository
-ICourseInStudyPlanRepository -down-> CourseInStudyPlanRepositorySpringDataImpl
-CourseInStudyPlanRepositorySpringDataImpl -down-> ICourseInStudyPlanRepositorySpringData
-
 ' ======= CourseInStudyPlanAggregate =======
-CourseInStudyPlan -right-> CourseInStudyPlanID
-CourseInStudyPlan -left-> Semester
-CourseInStudyPlan -left-> CurricularYear
+CourseInStudyPlan -down-> CourseInStudyPlanID
+CourseInStudyPlan -down-> Semester
+CourseInStudyPlan -down-> CurricularYear
 CourseInStudyPlan -down-> CourseID
 CourseInStudyPlan -down-> StudyPlanID
 CourseInStudyPlan -down-> DurationOfCourse
-CourseInStudyPlan -right-> QuantityOfCreditsEcts
+CourseInStudyPlan -down-> QuantityOfCreditsEcts
 
 ' ======= US30_AddCourseToProgrammeRESTController =======
-US30_AddCourseToProgrammeRESTController .down.> CourseInStudyPlanRequestDTO
-US30_AddCourseToProgrammeRESTController .down.> CourseInStudyPlanResponseDTO
+
 US30_AddCourseToProgrammeRESTController -down-> ICourseInStudyPlanService
 
 ' ======= Assembler =======
 CourseInStudyPlanAssemblerImpl ..> ICourseInStudyPlanAssembler
 ICourseInStudyPlanAssembler ..> CourseInStudyPlanRequestDTO
-ICourseInStudyPlanAssembler ..> CourseInStudyPlanResponseDTO
+ICourseInStudyPlanAssembler .left.> CourseInStudyPlanResponseDTO
+ICourseInStudyPlanAssembler ..> CourseInStudyPlan
+CourseInStudyPlanAssemblerImpl --> CourseInStudyPlanCommand
 
 ' ======= Factory =======
 CourseInStudyPlanFactoryImpl .down.> ICourseInStudyPlanFactory
@@ -228,6 +229,7 @@ ICourseInStudyPlanFactory ..> CourseInStudyPlan
 ' ======= Service =======
 CourseInStudyPlanServiceImpl ...|> ICourseInStudyPlanService
 ICourseInStudyPlanService -down-> ICourseInStudyPlanRepository
+ICourseInStudyPlanService --> CourseInStudyPlanAssemblerImpl
 
 ' ======= Mapper =======
 CourseInStudyPlanMapperImpl ..> ICourseInStudyPlanMapper
@@ -238,6 +240,10 @@ ICourseInStudyPlanIDMapper ..> CourseInStudyPlanID
 
 ' ======= DataModel =======
 CourseInStudyPlanDataModel --> CourseInStudyPlanIDDataModel
+
+' ======= Repository =======
+ICourseInStudyPlanRepository .down.|> CourseInStudyPlanRepositorySpringDataImpl
+CourseInStudyPlanRepositorySpringDataImpl .down.|> ICourseInStudyPlanRepositorySpringData
 
 
 @enduml
