@@ -1,6 +1,6 @@
 @startuml
 
-title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 Granularity)
+title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 - Containers)
 
 skinparam componentStyle component
 skinparam defaultTextAlignment center
@@ -10,10 +10,9 @@ autonumber
 
 actor ASC as ASC
 
-participant "Frontend" as frontend <<component>>
-participant "Backend" as backend <<component>>
+participant "Frontend" as frontend <<Container>>
+participant "Backend" as backend <<Container>>
 
-activate ASC
 ASC -> frontend: I want to create a programme edition for the current school year!
 activate frontend #E1F5FE
 
@@ -44,6 +43,5 @@ deactivate backend
 
 frontend --> ASC: Ok!
 deactivate frontend
-deactivate ASC
 
 @enduml
