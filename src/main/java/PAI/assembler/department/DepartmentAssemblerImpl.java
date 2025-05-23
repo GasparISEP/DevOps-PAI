@@ -6,6 +6,7 @@ import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
+import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.dto.department.RegisterDepartmentRequest;
 import PAI.persistence.datamodel.course.CourseDataModel;
@@ -51,5 +52,32 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         }
         return listDTO;
     }
+    @Override
+    public DepartmentWithDirectorDTO toDWDDTO (Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department cannot be null");
+        }
+        return new DepartmentWithDirectorDTO(
+                department.identity().getAcronym().getAcronym(),
+                department.getName().getName(),
+                department.getAcronym().getAcronym(),
+                department.getDirectorID().getTeacherAcronym().getAcronym()
+        );
+    }
+
+    @Override
+    public Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> listDepartment) {
+        if (listDepartment == null) {
+            return Collections.emptyList(); // evita null pointer exception e retorna uma lista vazia
+        }
+
+        List<DepartmentWithDirectorDTO> listDTO = new ArrayList<>();
+        for (Department department : listDepartment) {
+            DepartmentWithDirectorDTO departmentWithDirectorDTO = toDWDDTO(department);
+            listDTO.add(departmentWithDirectorDTO);
+        }
+        return listDTO;
+    }
+
 
 }
