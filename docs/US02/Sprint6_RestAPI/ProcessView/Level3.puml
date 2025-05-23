@@ -1,0 +1,86 @@
+@startuml
+
+title US02: As an Administrator, I want to configure degree access methods in the system.\n(Process View - Level 4 - Backend)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+
+autonumber
+
+participant ":Router" as router
+-> router: configureAccessMethod(JSON)
+activate router #LightBlue
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+
+participant ":US02_ConfigureAccessMethodRESTController" as Controller
+router -> Controller: configureAccessMethod(accessMethodRequestDTO)
+activate Controller #LightBlue 
+
+participant ":IAccessMethodService" as service
+Controller -> service: configureAccessMethod (accessMethodRequestDTO)
+activate service #LightBlue
+
+'create "nameVO:Assembler" as Assembler
+'service-> Assembler: RequestDTO2VO (accessMethodRequestDTO)
+'deactivate Assembler
+ref over service
+    Convert accessMethodRequestDTO to nameVO
+end
+
+participant ":IAccessMethodFactory" as Factory
+service -> Factory: createAccessMethod (nameVO)
+activate Factory #LightBlue 
+
+create "amID:AccessMethodID"
+Factory -> "amID:AccessMethodID": create ()
+
+create "am:AccessMethod"
+Factory -> "am:AccessMethod": create (amID, name)
+deactivate Factory
+
+participant ":IAccessMethodRepository" as Repository
+service -> Repository: getAccessMethodByName (am.name)
+activate Repository #LightBlue 
+Repository --> service: Optional.empty
+deactivate Repository
+
+service -> Repository: saveAccessMethod (am)
+activate Repository #LightBlue 
+
+ref over Repository
+    Convert am to DataModel
+end
+
+participant ":IAccessMethodRepositorySpringData" as springDataRepository
+Repository -> springDataRepository: save (amDataModel)
+activate springDataRepository #LightBlue 
+springDataRepository --> Repository : amDataModelSaved
+deactivate springDataRepository
+
+ref over Repository
+    Convert amDataModelSaved to Domain
+end
+
+Repository --> service: amSaved
+deactivate Repository
+
+'create "responseDTO:Assembler" as Assembler2
+'service -> Assembler2: VO2ResponseDTO (amSaved)
+ref over service
+    Convert amSaved to responseDTO
+end
+service --> Controller: responseDTO
+
+deactivate service
+
+Controller --> router: (201, Created) responseDTO
+deactivate Controller
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router: (201, Created) JSON
+deactivate router
+
+@enduml

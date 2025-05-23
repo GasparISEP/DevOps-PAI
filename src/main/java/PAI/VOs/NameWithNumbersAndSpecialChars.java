@@ -2,8 +2,6 @@ package PAI.VOs;
 
 import PAI.ddd.ValueObject;
 
-import java.util.Objects;
-
 public class NameWithNumbersAndSpecialChars implements ValueObject {
     private final String _nameWithNumbersAndSpecialChars;
 
@@ -26,6 +24,15 @@ public class NameWithNumbersAndSpecialChars implements ValueObject {
     }
 
     public String getnameWithNumbersAndSpecialChars() {
+        return _nameWithNumbersAndSpecialChars;
+    }
+
+    @Override
+    public String toString() {
+        return _nameWithNumbersAndSpecialChars;
+    }
+
+    public String getValue() {
         return _nameWithNumbersAndSpecialChars;
     }
 }

@@ -109,12 +109,12 @@ class AccessMethodFactoryImpl {
 
 '===== SERVICE =======
 interface IAccessMethodService {
-  registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+  configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodServiceImpl {
     +AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
-    + registerAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    + configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 '===ASSEMBLER===

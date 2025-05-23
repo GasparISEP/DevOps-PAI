@@ -6,7 +6,6 @@ import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import PAI.service.DegreeType.DegreeTypeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

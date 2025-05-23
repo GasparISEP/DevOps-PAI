@@ -1,0 +1,25 @@
+@startuml
+title REF: Get Teacher List (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":TeacherService" as TeacherService <<service>> #F6CBA5
+participant ":TeacherSpringDataImpl" as TeacherRepository <<repository>> #F6F1E7
+
+-> RestController
+activate RestController
+RestController -> TeacherService: **findAll**()
+activate TeacherService
+TeacherService -> TeacherRepository: **findAll**()
+activate TeacherRepository
+TeacherRepository -> : **findAll**()
+TeacherRepository <-- : teachersDMList
+TeacherRepository --> TeacherService: teachersList
+deactivate TeacherRepository
+TeacherService --> RestController: teachersList
+deactivate TeacherService
+<-- RestController
+deactivate RestController
+@enduml

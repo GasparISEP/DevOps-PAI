@@ -1,9 +1,12 @@
 package PAI.domain.repositoryInterfaces.programmeEnrolment;
 
-import PAI.VOs.*;
+import PAI.VOs.ProgrammeEnrolmentID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.ddd.IRepository;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnrolmentID, ProgrammeEnrolment> {
@@ -17,4 +20,6 @@ public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnro
     Optional<ProgrammeEnrolment> ofIdentity(ProgrammeEnrolmentID peID);
 
     boolean containsOfIdentity(ProgrammeEnrolmentID peID);
+
+    List<ProgrammeID> findProgrammesByStudent(StudentID studentID);
 }

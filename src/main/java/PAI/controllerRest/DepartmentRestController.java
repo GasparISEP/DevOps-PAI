@@ -44,5 +44,20 @@ public class DepartmentRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllDepartments() {
+        try {
+            Iterable<Department> departments = departmentRegistrationService.getAllDepartments();
+            Iterable<DepartmentDTO> departmentsDTOs = departmentAssembler.toDTOs(departments);
+            return ResponseEntity.ok(departmentsDTOs);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
 }
 

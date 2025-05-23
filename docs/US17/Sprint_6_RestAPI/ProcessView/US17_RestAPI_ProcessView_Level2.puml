@@ -17,13 +17,17 @@ participant ":Frontend" as FE <<component>>
 participant ":Backend" as BE <<component>>
 participant ":Database" as DB <<database>>
 
-ASC -> FE ++: Request enrolment form
-FE --> ASC --: Select student
-ASC -> FE ++: Select student
-FE --> ASC --: Select programme edition
-ASC -> FE ++: Select programme edition
+' Fase 1 – Consulta
+ASC -> FE ++: Request programme editions for a student
+FE -> BE ++: GET /students/{studentId}/programme-editions
+BE -> DB ++: query ProgrammeEditions from enrolments
+DB --> BE --: List of programme editions
+BE --> FE --: List<ProgrammeEditionDTO>
+FE --> ASC --: Show programme editions
 
-FE -> BE ++: POST /programmeeditions/{...}/enrolments\nBody: studentId
+' Fase 2 – Inscrição
+ASC -> FE ++: Select a programme edition
+FE -> BE ++: POST /programmeeditions/{programmeAcronym}/{programmeName}/{schoolYearId}/enrolments\nBody: studentId
 BE -> DB ++: save(ProgrammeEditionEnrolment)
 DB --> BE --: OK
 BE --> FE --: 201 Created

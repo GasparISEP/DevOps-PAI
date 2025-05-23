@@ -6,7 +6,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 
-import PAI.service.DegreeType.DegreeTypeService;
+import PAI.service.degreeType.DegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;

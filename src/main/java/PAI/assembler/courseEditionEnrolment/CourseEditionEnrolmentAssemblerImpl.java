@@ -2,7 +2,9 @@ package PAI.assembler.courseEditionEnrolment;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.time.LocalDate;
+
+import org.springframework.stereotype.Component;
+
 
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
@@ -20,7 +22,7 @@ import PAI.VOs.StudentID;
 import PAI.VOs.StudyPlanID;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 
-
+@Component
 public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolmentAssembler {
     
     private final ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory;

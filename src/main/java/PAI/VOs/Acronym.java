@@ -28,6 +28,14 @@ public class Acronym implements ValueObject {
     public String getAcronym() {
         return _acronym;
     }
+    public String getValue() {
+        return _acronym;
+    }
+
+    @Override
+    public String toString() {
+        return _acronym;
+    }
 
     @Override
     public boolean equals(Object objectToCompare) {

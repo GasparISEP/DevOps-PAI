@@ -1,0 +1,36 @@
+@startuml
+
+title Convert Access Method DataModel Saved to Domain
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":IAccessMethodRepository" as IAccessMethodRepository
+
+activate IAccessMethodRepository #LightBlue
+participant ":IAccessMethodMapper" as amMapper
+IAccessMethodRepository -> amMapper: toDomain (amDataModelSaved)
+activate amMapper #LightBlue
+
+participant ":IAccessMethodIDMapper" as amIDMapper
+amMapper -> amIDMapper: toVO (amDataModelSaved.getID())
+activate amIDMapper #LightBlue
+create "amID: AccessMethodID"
+amIDMapper -> "amID: AccessMethodID": create (id.getValue())
+deactivate amIDMapper
+
+create "name: NameWithNumbersAndSpecialChars"
+amMapper -> "name: NameWithNumbersAndSpecialChars": create (amDataModelSaved.getName())
+
+create "amDataModel: AccessMethodDataModel"
+amMapper -> "amDataModel: AccessMethodDataModel": create (amID, name)
+deactivate amMapper
+
+
+@enduml
