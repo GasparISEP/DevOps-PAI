@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import RegisterStudentPage from './pages/RegisterStudentPage'
 import './styles/RegisterStudentPage.css'
+import RegisterProgrammePage from "./pages/RegisterProgrammePage";
 
 
 
@@ -20,6 +21,9 @@ function App() {
                       path="/students"
                       element={<RegisterStudentPage />}
                   />
+
+                  {/* Formulário de programas */}
+                  <Route path="/programme" element={<RegisterProgrammePage />} />
               </Routes>
           </div>
       </Router>
