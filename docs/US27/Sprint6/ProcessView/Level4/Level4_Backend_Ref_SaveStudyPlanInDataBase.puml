@@ -1,0 +1,31 @@
+@startuml
+title REF: Save Study Plan In Database (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":StudyPlanSpringDataImpl" as StudyPlanRepository <<repository>> #F6F1E7
+participant ":StudyPlanMapper" as StudyPlanMapper <<mapper>>
+participant "StudyPlanDM:StudyPlanDataModel" as StudyPlanDataModel <<component>>
+participant ":StudyPlanFactory" as StudyPlanFactory <<factory>>
+participant "studyPlan:StudyPlan" as StudyPlan <<component>>
+
+activate StudyPlanRepository
+StudyPlanRepository -> StudyPlanMapper ++: toData(studyPlan)
+
+StudyPlanMapper -> StudyPlanDataModel**: createStudyPlanDataModel(studyPlan)
+activate StudyPlanDataModel
+StudyPlanDataModel --> StudyPlanMapper --: studyPlanDM
+StudyPlanMapper --> StudyPlanRepository --: studyPlanDM
+
+StudyPlanRepository -> : save(studyPlanDM)
+StudyPlanRepository <-- : studyPlanDM
+
+StudyPlanRepository -> StudyPlanMapper++ : toDomain(studyPlanDM)
+StudyPlanMapper -> StudyPlanFactory++ : createStudyPlanFromDataModel(programmeID, \nimplementationDate, durationInYears, maxEcts, studyPlanID)
+StudyPlanFactory -> StudyPlan** : createStudyPlan(programmeID, implementationDate, \ndurationInYears, maxEcts, studyPlanID)
+activate StudyPlan
+StudyPlan --> StudyPlanFactory --: studyPlan
+StudyPlanFactory --> StudyPlanMapper --: studyPlan
+StudyPlanMapper --> StudyPlanRepository --: studyPlan
+@enduml
