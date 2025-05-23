@@ -24,10 +24,8 @@ database "DB" as SpringDataRepo
 
 group Human Interaction
 ASC -> UI ++: Request to enroll a student
-UI --> ASC --: Prompt: "Enter student name"
-ASC -> UI ++: Input: "John Doe"
-UI --> ASC --: Display matching students
-ASC -> UI ++: Select student
+UI --> ASC --: Prompt: "Enter student ID"
+ASC -> UI ++: Input: "12345"
 UI --> ASC --: Display programme editions
 ASC -> UI ++: Select programme edition
 UI --> ASC --: Display course editions
