@@ -13,51 +13,51 @@ title US17: Enrol Student in a ProgrammeEdition (Process View – Level 4)
 
 actor ASC
 participant ":Router" as router <<component>> <<Router>>
-participant ":RESTController" as restController <<component>> <<RESTController>>
-participant ":Service" as service <<component>> <<Service>>
-participant ":Factory" as factory <<component>> <<Factory>>
-participant ":Domain" as domain <<component>> <<Aggregate>>
-participant ":Mapper" as mapper <<component>> <<Mapper>>
-participant ":DataModel" as datamodel <<component>> <<DataModel>>
-participant ":SpringDataRepository" as repo <<component>> <<SpringData>>
-participant "H2 Database" as db <<database>>
+participant ":StudentProgrammeEditionEnrolmentRestController" as controller <<component>> <<RESTController>>
+participant ":ProgrammeEditionEnrolmentServiceImpl" as service <<component>> <<Service>>
+participant ":ProgrammeEditionEnrolmentFactoryImpl" as factory <<component>> <<Factory>>
+participant ":ProgrammeEditionEnrolment" as domain <<component>> <<Aggregate>>
+participant ":ProgrammeEditionEnrolmentMapperImpl" as mapper <<component>> <<Mapper>>
+participant ":ProgrammeEditionEnrolmentDataModel" as datamodel <<component>> <<DataModel>>
+participant ":IProgrammeEditionEnrolmentRepositorySpringData" as springRepo <<component>> <<SpringData>>
+database "H2 Database" as db
 
 == Step 1: User submits form ==
 ASC -> router: POST /programmeeditions/{acr}/{name}/{year}/enrolments
 activate router
 
-router -> restController: enrolStudent(requestDTO)
-activate restController
+router -> controller: enrolStudent(requestDTO)
+activate controller
 
-restController -> service: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(VO)
+controller -> service: enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentId, programmeId, schoolYearId)
 activate service
 
-== Step 2: Domain and Repository checks ==
-service -> repo: isStudentEnrolled(studentID, programmeID)
-repo -> db: SELECT
-repo --> service: true
+== Step 2: Repository and Domain Validation ==
+service -> springRepo: isStudentEnrolled(studentId, programmeId)
+springRepo -> db: SELECT ...
+springRepo --> service: true
 
-service -> repo: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, year)
-repo -> db: SELECT
-repo --> service: ProgrammeEditionID
+service -> springRepo: findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId)
+springRepo -> db: SELECT ...
+springRepo --> service: programmeEditionId
 
-service -> repo: isStudentEnrolledInThisProgrammeEdition(studentID, peID)
-repo -> db: SELECT
-repo --> service: false
+service -> springRepo: isStudentEnrolledInThisProgrammeEdition(studentId, programmeEditionId)
+springRepo -> db: SELECT ...
+springRepo --> service: false
 
-== Step 3: Create and persist enrolment ==
-service -> factory: newProgrammeEditionEnrolment(studentID, peID)
+== Step 3: Create and Persist Enrolment ==
+service -> factory: newProgrammeEditionEnrolment(studentId, programmeEditionId)
 factory --> service: ProgrammeEditionEnrolment
 
-service -> mapper: toDataModel(enrolment)
+service -> mapper: toDataModel(ProgrammeEditionEnrolment)
 mapper --> datamodel: ProgrammeEditionEnrolmentDataModel
 
-service -> repo: save(datamodel)
-repo -> db: INSERT
-repo --> service: OK
+service -> springRepo: save(datamodel)
+springRepo -> db: INSERT INTO ...
+springRepo --> service: OK
 
-service --> restController: success
-restController --> router: HTTP 201 Created
+service --> controller: success
+controller --> router: HTTP 201 Created
 router --> ASC: Student successfully enrolled
 
 deactivate service
