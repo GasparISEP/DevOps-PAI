@@ -1,0 +1,44 @@
+@startuml
+title US02: As an Administrator, I want to configure degree access methods in the system. \n (Process View - Level 2 - Container)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor Administrator as admin #DeepSkyBlue
+participant "Frontend" as FE <<Container>> #LightBlue
+participant "Backend" as BE <<Container>> #LightGreen
+participant "Database" as DB <<Container>> #LightGray
+
+' Início do processo
+admin -> FE: I want to configure an access method!
+activate FE #LightBlue
+
+FE -> admin: What access method name?
+deactivate FE
+
+admin -> FE: Enter access method name!
+activate FE #LightBlue
+
+FE -> admin: Sure?
+deactivate FE
+
+admin -> FE: Yes!
+activate FE #LightBlue
+
+FE -> BE: (POST) Request configure an access method (amRequestDTO)
+activate BE #LightGreen
+
+BE -> DB: (INSERT) Persist Access method (name)
+activate DB #LightGray
+DB --> BE: access method
+deactivate DB
+
+BE --> FE: (201, Created) Access method configured!
+deactivate BE
+
+FE --> admin: Ok!
+deactivate FE
+
+@enduml

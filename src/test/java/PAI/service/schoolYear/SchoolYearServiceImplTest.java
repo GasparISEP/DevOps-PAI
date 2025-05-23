@@ -3,14 +3,20 @@ package PAI.service.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
+import PAI.domain.department.Department;
+import PAI.domain.department.IDepartmentFactory;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
+import PAI.service.department.DepartmentRegistrationServiceImpl;
+import PAI.service.department.IDepartmentRegistrationService;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -360,4 +366,65 @@ class SchoolYearServiceImplTest {
         assertEquals(0, result.size());
 
     }
+
+    @Test
+    void shouldReturnListOfSchoolYears () {
+        // Arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
+
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        SchoolYear schoolYear2 = mock(SchoolYear.class);
+        SchoolYear schoolYear3 = mock(SchoolYear.class);
+        List<SchoolYear> schoolYears = List.of(schoolYear1, schoolYear2, schoolYear3);
+        when(schoolYearRepository.findAll()).thenReturn(schoolYears);
+
+        SchoolYearDTO schoolYearDTO1 = mock(SchoolYearDTO.class);
+        SchoolYearDTO schoolYearDTO2 = mock(SchoolYearDTO.class);
+        SchoolYearDTO schoolYearDTO3 = mock(SchoolYearDTO.class);
+
+        when(schoolYearMapperDTO.toDTO(schoolYear1)).thenReturn(schoolYearDTO1);
+        when(schoolYearMapperDTO.toDTO(schoolYear2)).thenReturn(schoolYearDTO2);
+        when(schoolYearMapperDTO.toDTO(schoolYear3)).thenReturn(schoolYearDTO3);
+
+        // Act
+        Iterable<SchoolYearDTO> result = service.getAllSchoolYears();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        List<SchoolYearDTO> listResult = new ArrayList<>();
+        result.forEach(listResult::add);
+        assertEquals(3, listResult.size());
+        assertTrue(listResult.contains(schoolYearDTO1));
+        assertTrue(listResult.contains(schoolYearDTO2));
+        assertTrue(listResult.contains(schoolYearDTO3));
+    }
+
+    @Test
+    void shouldReturnEmptyListOfSchoolYearsIfThereAreNoSchoolYears () {
+        // Arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearMapperDTO);
+
+        List<SchoolYear> schoolYears = List.of();
+        when(schoolYearRepository.findAll()).thenReturn(schoolYears);
+
+        // Act
+        Iterable<SchoolYearDTO> result = service.getAllSchoolYears();
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
+        List<SchoolYearDTO> listResult = new ArrayList<>();
+        result.forEach(listResult::add);
+        assertEquals(0, listResult.size());
+    }
+
 }

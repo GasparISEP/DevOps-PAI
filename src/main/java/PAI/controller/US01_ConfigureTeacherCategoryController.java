@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.Name;
 import PAI.service.teacherCategory.ITeacherCategoryService;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,8 @@ public class US01_ConfigureTeacherCategoryController {
         this.service = service;
     }
 
-    public boolean configureTeacherCategory(String categoryName) throws Exception {
-        return service.registerCategory(categoryName);
+    public boolean configureTeacherCategory(Name categoryName) throws Exception {
+        service.configureTeacherCategory(categoryName);
+        return true;
     }
 }

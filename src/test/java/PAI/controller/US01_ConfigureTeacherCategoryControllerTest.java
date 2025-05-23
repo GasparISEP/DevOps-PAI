@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.Name;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.service.teacherCategory.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,24 +27,38 @@ public class US01_ConfigureTeacherCategoryControllerTest {
 
     @Test
     public void testConfigureTeacherCategorySuccess() throws Exception {
-        when(service.registerCategory("Matemática")).thenReturn(true);
 
-        boolean result = controller.configureTeacherCategory("Matemática");
+        //Arrange
+        Name doubleName = mock (Name.class);
+        when(doubleName.getName()).thenReturn("Assistant");
 
+        TeacherCategory doubleTeacherCategory = mock (TeacherCategory.class);
+
+        when(service.configureTeacherCategory(doubleName)).thenReturn(doubleTeacherCategory);
+
+        //Act
+        boolean result = controller.configureTeacherCategory(doubleName);
+
+        //Assert
         assertTrue(result);
-        verify(service).registerCategory("Matemática");
     }
 
     @Test
     public void testConfigureTeacherCategoryDuplicateThrows() throws Exception {
-        when(service.registerCategory("Física fisica")).thenThrow(new Exception("Category already exists or could not be registered."));
 
+        //Arrange
+        Name doubleName = mock (Name.class);
+        when(doubleName.getName()).thenReturn("Assistant");
+        when(service.configureTeacherCategory(doubleName)).thenThrow(new Exception("Teacher Category already exists or could not be registered."));
+
+        //Act
         Exception ex = assertThrows(Exception.class,
-                () -> controller.configureTeacherCategory("Física fisica")
+                () -> controller.configureTeacherCategory(doubleName)
         );
-        assertEquals("Category already exists or could not be registered.", ex.getMessage());
 
-        verify(service).registerCategory("Física fisica");
+        //Assert
+        assertEquals("Teacher Category already exists or could not be registered.", ex.getMessage());
+
     }
 
     @Test

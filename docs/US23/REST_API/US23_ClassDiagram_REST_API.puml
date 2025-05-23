@@ -1,6 +1,5 @@
 @startuml
 title US23: I want to know the approval percentage of a CourseEdition
-'left to right direction
 
 class CourseEditionRESTController {
     +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
@@ -29,40 +28,53 @@ class StudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
+class StudentGradeResponseDTO {
+    -grade : int
+    -date : String
+    -studentUniqueNumber : int
+    -courseEditionId : String
+    -studentGradeId : String
+    +getGrade()
+    +getDate()
+    +getStudentUniqueNumber()
+    +getCourseEditionId()
+    +getStudentGradeId()
+}
+
 
 package "StudentGrade" {
-entity "<<root>>\nGradeStudent"  {
-    +hasThisCourseEdition(CourseEdition : CourseEdition)
-    +knowCourseEdition()
-    +get_student()
-    +get_courseEdition()
-    +equals (objectToCompare: Object)
-
+    entity "<<root>>\nGradeStudent" {
+        +hasThisCourseEdition(CourseEdition : CourseEdition)
+        +knowCourseEdition()
+        +get_student()
+        +get_courseEdition()
+        +equals(objectToCompare: Object)
     }
-
 }
-class Grade <<ValueObject>> {
-        -grade: double
-        +knowGrade()
-    }
-    class LocalDate <<ValueObject>> {
-            -date: String
-            +isDateValid(String date)
-            +get_date()
-        }
 
- class StudentGradeId <<ValueObject>> {
+class Grade <<ValueObject>> {
+    -grade: double
+    +knowGrade()
+}
+
+class LocalDate <<ValueObject>> {
+    -date: String
+    +isDateValid(String date)
+    +get_date()
+}
+
+class StudentGradeId <<ValueObject>> {
     -courseEditionID
     -studentID
     +equals()
     +toString()
-        }
+}
 
 class StudentGradeRepository {
     +addGradeToStudent(Grade, Date, student, CourseEdition)
-    +knowAverageGrade(Course Edition)
-    +knowApprovalRate(Course Edition)
-    +findIdByStudent (StudentGrade studentGrade)
+    +knowAverageGrade(CourseEdition)
+    +knowApprovalRate(CourseEdition)
+    +findIdByStudent(StudentGrade studentGrade)
     +save(StudentGrade entity)
     +findAll()
     +ofIdentity(StudentGradeID id)
@@ -70,86 +82,84 @@ class StudentGradeRepository {
 }
 
 interface IStudentGradeRepositoryInterface {
-   +addGradeToStudent(Grade, Date, student, CourseEdition)
-   +knowAverageGrade(Course Edition)
-   +knowApprovalRate(Course Edition)
-   +findIdByStudent (StudentGrade studentGrade)
-       +save(StudentGrade entity)
-       +findAll()
-       +ofIdentity(StudentGradeID id)
-       +containsOfIdentity(StudentGradeID id)
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(CourseEdition)
+    +knowApprovalRate(CourseEdition)
+    +findIdByStudent(StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
 }
 
 interface IStudentGradeFactory {
     +newGradeStudent()
 }
 
-
 class StudentGradeFactoryImpl {
     +newGradeStudent()
 }
 
-
-
 class StudentId <<ValueObject>> {
-uniqueNumber: int
-+equals()
-+getUniqueNumber()
-+isEquals()
-            }
+    uniqueNumber: int
+    +equals()
+    +getUniqueNumber()
+    +isEquals()
+}
 
 package "Student" {
-entity "<<root>>\nStudent"  {
+    entity "<<root>>\nStudent" {
         +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
-         +isStudentRepeated(students: List<Student>)
-         +hasSameUniqueNumber(Student student)
-         +hasSameNIF (Student student)
-         +getUniqueNumber(): String
-         +hasThisUniqueNumber(String uniqueNumber)
-
+        +isStudentRepeated(students: List<Student>)
+        +hasSameUniqueNumber(Student student)
+        +hasSameNIF(Student student)
+        +getUniqueNumber(): String
+        +hasThisUniqueNumber(String uniqueNumber)
     }
+}
 
-    }
-    class Name <<ValueObject>> {
-                    -Name : String
-                    +getName()
-                    +equals()
-                    +hashCode()
-                }
-        class NIF <<ValueObject>> {
-                     -NIF : String
-                }
-        class Phone <<ValueObject>> {
-                         -CountryCode: String
-                         -Number: String
-                    }
-        class Email <<ValueObject>> {
-                         -Email: String
-                        }
-         class Address <<ValueObject>> {
-                         -Street
-                         -PostalCode
-                         -Location
-                         -Country
-                            }
+class Name <<ValueObject>> {
+    -Name: String
+    +getName()
+    +equals()
+    +hashCode()
+}
+
+class NIF <<ValueObject>> {
+    -NIF: String
+}
+
+class Phone <<ValueObject>> {
+    -CountryCode: String
+    -Number: String
+}
+
+class Email <<ValueObject>> {
+    -Email: String
+}
+
+class Address <<ValueObject>> {
+    -Street
+    -PostalCode
+    -Location
+    -Country
+}
+
 class CourseEditionId <<ValueObject>> {
--ProgrammeEdiitionID
--CourseInStudyPlanID
-+toString()
-+equals()
-            }
-
+    -ProgrammeEditionID
+    -CourseInStudyPlanID
+    +toString()
+    +equals()
+}
 
 package "CourseEdition" {
-entity "<<root>>\nCourseEdition"  {
+    entity "<<root>>\nCourseEdition" {
         +Equals(objectToCompare: Object)
-      +setRuc(Teacher: ruc)
-      +whatProgrammeEditionBelongsThisCourseEdition ()
-      +getCourse()
-
+        +setRuc(Teacher: ruc)
+        +whatProgrammeEditionBelongsThisCourseEdition()
+        +getCourse()
     }
-    }
-
+}
 
 "<<root>>\nStudent" "*" --> "1" Name
 "<<root>>\nStudent" "*" --> "1" NIF
@@ -158,28 +168,21 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nStudent" "*" --> "1" Address
 "<<root>>\nGradeStudent" "*" --> "1" Grade
 "<<root>>\nGradeStudent" "*" --> "1" LocalDate
-"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" StudentId : belongs
 "<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
 IStudentGradeService "1" ....> IStudentGradeFactory
 IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
-IStudentGradeFactory  <|..  StudentGradeFactoryImpl
-
+IStudentGradeFactory <|.. StudentGradeFactoryImpl
 
 "<<root>>\nGradeStudent" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
-IStudentGradeService <|..StudentGradeService
-IStudentGradeRepositoryInterface <|..StudentGradeRepository
+IStudentGradeService <|.. StudentGradeService
+IStudentGradeRepositoryInterface <|.. StudentGradeRepository
 IStudentGradeRepositoryInterface ....> IStudentGradeFactory
-
-
-
 IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
-
-
-
-
 IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
 CourseEditionRESTController "*" ..> "1" IStudentGradeService
+StudentGradeService ..> StudentGradeResponseDTO
 
 @enduml

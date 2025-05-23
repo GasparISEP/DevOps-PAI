@@ -1,5 +1,6 @@
 package PAI.initializer;
 
+import PAI.VOs.Name;
 import PAI.controller.US01_ConfigureTeacherCategoryController;
 import PAI.controller.US02_ConfigureAccessMethodController;
 import jakarta.annotation.PostConstruct;
@@ -23,10 +24,8 @@ public class TeacherCategoryInitializer {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String name = line.trim();
-                if (!name.isEmpty()) {
-                    controller.configureTeacherCategory(name);
-                }
+                Name name = new Name (line.trim());
+                controller.configureTeacherCategory(name);
             }
         } catch (Exception e) {
             e.printStackTrace();

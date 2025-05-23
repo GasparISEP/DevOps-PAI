@@ -29,6 +29,50 @@ class StudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
+class StudentGradeAssembler {
+    +domainToDTO(studentGrade : StudentGrade)
+    +dtoToDomain(studentGradeRequestDTO : StudentGradeRequestDTO)
+}
+
+class StudentGradeRequestDTO {
+    -grade : int
+    -date : String
+    -studentUniqueNumber : int
+    -courseEditionId : String
+    -studentGradeId : String
+    +getGrade()
+    +getDate()
+    +getStudentUniqueNumber()
+    +getCourseEditionId()
+    +getStudentGradeId()
+}
+
+class StudentGradeResponseDTO {
+    -grade : int
+    -date : String
+    -studentUniqueNumber : int
+    -courseEditionId : String
+    -studentGradeId : String
+    +getGrade()
+    +getDate()
+    +getStudentUniqueNumber()
+    +getCourseEditionId()
+    +getStudentGradeId()
+}
+
+class GradeStudentDTOCommand {
+    -grade : Grade
+    -date: Date
+    -studentID : StudentID
+    -courseEditionId : CourseEditionID
+    -studentGradeId : StudentGradeID
+    +getGrade()
+    +getDate()
+    +getStudentID()
+    +getCourseEditionID()
+    +getStudentGradeID()
+}
+
 
 package "StudentGrade" {
 entity "<<root>>\nGradeStudent"  {

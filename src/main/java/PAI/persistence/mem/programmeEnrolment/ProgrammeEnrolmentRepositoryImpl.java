@@ -1,9 +1,12 @@
 package PAI.persistence.mem.programmeEnrolment;
 
-import PAI.VOs.*;
+import PAI.VOs.ProgrammeEnrolmentID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.StudentID;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,4 +59,16 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
         }
         return true;
     };
+
+    @Override
+    public List<ProgrammeID> findProgrammesByStudent(StudentID studentID) {
+        List<ProgrammeID> programmes = new ArrayList<>();
+        for (ProgrammeEnrolment enrolment : _programmeEnrolmentList) {
+            if (enrolment.hasSameStudent(studentID)) {
+                programmes.add(enrolment.getProgrammeID());
+            }
+        }
+        return programmes;
+    }
+
 }

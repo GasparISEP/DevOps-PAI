@@ -1,0 +1,17 @@
+package PAI.service.teacherCareerProgression;
+
+import PAI.VOs.Date;
+import PAI.VOs.TeacherCategoryID;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
+import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
+import PAI.dto.teacherCareerProgression.TeacherCategoryUpdateResponseDTO;
+import PAI.dto.teacherCareerProgression.TeacherWorkingPercentageUpdateDTO;
+
+import java.util.Optional;
+
+public interface ITeacherCareerProgressionServiceV2 {
+    Optional<TeacherCareerProgression> createTeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception;
+    Optional<TeacherCategoryUpdateResponseDTO> updateTeacherCategoryInTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, TeacherID teacherAcronym) throws Exception;
+    Optional<TeacherWorkingPercentageUpdateDTO> updateTeacherWorkingPercentageInTeacherCareerProgression(Date date, WorkingPercentage workingPercentage, TeacherID teacherAcronym) throws Exception;
+}

@@ -14,7 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -142,4 +146,95 @@ class DepartmentRestControllerTest {
             assertEquals(500, response.getStatusCodeValue());
             assertEquals("Unexpected error occurred", response.getBody());
         }
+
+        @Test
+        void shouldReturnListOfDepartmentDTO () {
+            // Arrange
+            IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+            IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+            DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+            Department department1 = mock(Department.class);
+            Department department2 = mock(Department.class);
+            Department department3 = mock(Department.class);
+            DepartmentDTO departmentDTO1 = mock(DepartmentDTO.class);
+            DepartmentDTO departmentDTO2 = mock(DepartmentDTO.class);
+            DepartmentDTO departmentDTO3 = mock(DepartmentDTO.class);
+
+            List<Department> departments = List.of(department1, department2, department3);
+            List<DepartmentDTO> departmentDTOs = List.of(departmentDTO1, departmentDTO2, departmentDTO3);
+
+            when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
+            when(departmentAssembler.toDTOs(departments)).thenReturn(departmentDTOs);
+
+            // Act
+            ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+            // Assert
+            assertEquals(200, response.getStatusCodeValue());
+            assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
+            assertTrue(((Collection<?>) response.getBody()).contains(departmentDTO1));
+        }
+
+    @Test
+    void shouldReturnEmptyListOfDepartmentDTOIfThereAreNoDepartments () {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+
+        List<Department> departments = List.of();
+        List<DepartmentDTO> departmentDTOs = List.of();
+
+        when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
+        when(departmentAssembler.toDTOs(departments)).thenReturn(departmentDTOs);
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
     }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+        String errorMessage = "Invalid input data";
+
+        when(departmentRegistrationService.getAllDepartments()).thenThrow(new IllegalArgumentException(errorMessage));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCodeValue());
+        assertEquals(errorMessage, response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler);
+
+        when(departmentRegistrationService.getAllDepartments()).thenThrow(new RuntimeException("Database is down"));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.getAllDepartments();
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
+}

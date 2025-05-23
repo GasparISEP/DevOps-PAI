@@ -9,6 +9,10 @@ import PAI.dto.department.RegisterDepartmentCommand;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class DepartmentRegistrationServiceImpl implements IDepartmentRegistrationService {
 
@@ -38,5 +42,10 @@ public class DepartmentRegistrationServiceImpl implements IDepartmentRegistratio
         }
         departmentRepository.save(department);
         return department;
+    }
+
+    @Override
+    public Iterable<Department> getAllDepartments() {
+        return departmentRepository.findAll();
     }
 }

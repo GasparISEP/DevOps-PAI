@@ -2,7 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
-import PAI.service.DegreeType.DegreeTypeService;
+import PAI.service.degreeType.DegreeTypeService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 

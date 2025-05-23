@@ -15,13 +15,16 @@ title US17: Enrol a Student in a Programme Edition \n (Process View - Level 1)
 actor ASC
 participant ":System" as System <<component>>
 
-ASC -> System ++: I want to enrol a student
+ASC -> System ++: I want to enrol a student in a programme edition
 System --> ASC --: What student?
 ASC -> System ++: I select a student
-System --> ASC --: In which programme edition?
-ASC -> System ++: I select a programme edition
+
+System --> ASC --: Retrieving available programme editions
+ASC -> System ++: I select one edition
+
 System --> ASC --: Confirm enrolment?
-ASC -> System ++: Yes!
-System --> ASC --: Enrolled successfully
+ASC -> System ++: Yes, enrol student
+
+System --> ASC --: Student enrolled successfully
 
 @enduml

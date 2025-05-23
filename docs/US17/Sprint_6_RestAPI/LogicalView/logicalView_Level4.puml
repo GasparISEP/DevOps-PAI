@@ -7,81 +7,71 @@ skinparam nodesep 60
 skinparam linetype ortho
 
 ' === CONTROLLER ===
-class StudentProgrammeEditionEnrolmentController <<RESTController>> {
-    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(request: ProgrammeEditionEnrolmentRequest): ResponseEntity<?>
+class StudentProgrammeEditionEnrolmentRestController <<RESTController>> {
+    + getProgrammeEditionsStudentCanEnrollIn(studentId: String): ResponseEntity<List<StudentProgrammeEditionEnrolmentDTO>>
 }
 
 ' === SERVICE ===
-interface IProgrammeEditionEnrolmentService <<Service>> {
-    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID, ProgrammeID, SchoolYearID): boolean
+interface IStudentProgrammeEditionEnrolmentService <<Service>> {
+    + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
 }
 
-class ProgrammeEditionEnrolmentServiceImpl <<Service>> {
-    + enrolStudentInProgrammeEditionAndSetOfCoursesEditions(StudentID, ProgrammeID, SchoolYearID): boolean
+class StudentProgrammeEditionEnrolmentServiceImpl <<Service>> {
+    + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
+}
+
+' === ASSEMBLER ===
+interface IStudentProgrammeEditionEnrolmentAssembler <<Assembler>> {
+    + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
+}
+
+class StudentProgrammeEditionEnrolmentAssemblerImpl <<Assembler>> {
+    + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
 }
 
 ' === DTO ===
-class ProgrammeEditionEnrolmentRequest <<DTO>> {
-    - studentId: String
-    + getStudentId(): String
-}
-
-' === FACTORY ===
-interface IProgrammeEditionEnrolmentFactory <<Factory>> {
-    + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID): ProgrammeEditionEnrolment
-}
-
-class ProgrammeEditionEnrolmentFactoryImpl <<Factory>> {
-    + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID): ProgrammeEditionEnrolment
+class StudentProgrammeEditionEnrolmentDTO <<DTO>> {
+    - programmeAcronym: String
+    - programmeName: String
+    - schoolYearId: String
+    + getProgrammeAcronym(): String
+    + getProgrammeName(): String
+    + getSchoolYearId(): String
 }
 
 ' === AGGREGATE ===
-class ProgrammeEditionEnrolment <<Entity>> {
-    - programmeEditionID: ProgrammeEditionID
-    - studentID: StudentID
-    - enrolmentDate: Date
-    - isActive: EnrolmentStatus
-    + deactivateEnrolment(): void
-    + isEnrolmentActive(): boolean
+class ProgrammeEdition <<Entity>> {
+    + findProgrammeIDInProgrammeEdition(): ProgrammeID
+    + findSchoolYearIDInProgrammeEdition(): SchoolYearID
 }
 
 ' === VALUE OBJECTS ===
-class ProgrammeEditionID <<VO>>
 class ProgrammeID <<VO>>
 class SchoolYearID <<VO>>
 class StudentID <<VO>>
-class Date <<VO>>
-class EnrolmentStatus <<VO>>
 
 ' === REPOSITORIES ===
 interface IProgrammeEnrolmentRepository <<Repository>> {
-    + isStudentEnrolled(StudentID, ProgrammeID): boolean
+    + findProgrammesByStudent(StudentID): List<ProgrammeID>
 }
 
 interface IProgrammeEditionRepository <<Repository>> {
-    + findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID, SchoolYearID): Optional<ProgrammeEditionID>
+    + findByProgrammeIDs(List<ProgrammeID>): List<ProgrammeEdition>
 }
 
-interface IProgrammeEditionEnrolmentRepository <<Repository>> {
-    + isStudentEnrolledInThisProgrammeEdition(StudentID, ProgrammeEditionID): boolean
-    + save(ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
-}
+' === NAVIGATIONS ===
+StudentProgrammeEditionEnrolmentRestController --> IStudentProgrammeEditionEnrolmentService
+StudentProgrammeEditionEnrolmentRestController --> StudentID
 
-' === NAVIGABILITIES ===
-StudentProgrammeEditionEnrolmentController --> ProgrammeEditionEnrolmentRequest
-StudentProgrammeEditionEnrolmentController --> IProgrammeEditionEnrolmentService
+StudentProgrammeEditionEnrolmentServiceImpl ..|> IStudentProgrammeEditionEnrolmentService
+StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEnrolmentRepository
+StudentProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionRepository
+StudentProgrammeEditionEnrolmentServiceImpl --> StudentProgrammeEditionEnrolmentAssemblerImpl
 
-ProgrammeEditionEnrolmentServiceImpl ..|> IProgrammeEditionEnrolmentService
-ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEnrolmentRepository
-ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionRepository
-ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentRepository
-ProgrammeEditionEnrolmentServiceImpl --> IProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrolmentFactoryImpl ..|> IProgrammeEditionEnrolmentFactory
-ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionEnrolment
-
-ProgrammeEditionEnrolment --> ProgrammeEditionID
-ProgrammeEditionEnrolment --> StudentID
-ProgrammeEditionEnrolment --> Date
-ProgrammeEditionEnrolment --> EnrolmentStatus
+StudentProgrammeEditionEnrolmentAssemblerImpl ..|> IStudentProgrammeEditionEnrolmentAssembler
+StudentProgrammeEditionEnrolmentAssemblerImpl --> StudentProgrammeEditionEnrolmentDTO
+StudentProgrammeEditionEnrolmentAssemblerImpl --> ProgrammeEdition
+ProgrammeEdition --> ProgrammeID
+ProgrammeEdition --> SchoolYearID
 
 @enduml

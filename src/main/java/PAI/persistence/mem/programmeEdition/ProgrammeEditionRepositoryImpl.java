@@ -75,6 +75,16 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
         return programmeEditions;
     }
 
+    @Override
+    public List<ProgrammeEdition> findByProgrammeIDs(List<ProgrammeID> programmeIDs) {
+        List<ProgrammeEdition> result = new ArrayList<>();
+        for (ProgrammeEdition edition : this.programmeEditions) {
+            if (programmeIDs.contains(edition.findProgrammeIDInProgrammeEdition())) {
+                result.add(edition);
+            }
+        }
+        return result;
+    }
     public SchoolYearID getSchoolYearIDByProgrammeEdition (ProgrammeEdition programmeEdition) {
         return programmeEdition.findSchoolYearIDInProgrammeEdition();
     }

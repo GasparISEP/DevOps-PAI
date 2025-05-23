@@ -1,0 +1,32 @@
+@startuml
+
+title Convert Access Method to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":IAccessMethodRepository" as IAMRepository
+activate IAMRepository #LightBlue
+participant ":IAccessMethodMapper" as amMapper
+IAMRepository -> amMapper: toDataModel (am)
+activate amMapper #LightBlue
+
+participant ":IAccessMethodIDMapper" as amIDMapper
+amMapper -> amIDMapper: toDataModel (domain.identity())
+
+activate amIDMapper #LightBlue
+create "idDataModel: AccessMethodDataModel"
+amIDMapper -> "idDataModel: AccessMethodDataModel": create (id.getValue())
+deactivate amIDMapper
+
+create "amDataModel: AccessMethodDataModel" #LightBlue
+amMapper -> "amDataModel: AccessMethodDataModel": create (idDataModel, am.getName().getName())
+deactivate amMapper
+
+@enduml

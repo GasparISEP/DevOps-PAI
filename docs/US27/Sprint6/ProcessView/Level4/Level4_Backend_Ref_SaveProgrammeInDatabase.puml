@@ -1,0 +1,31 @@
+@startuml
+title REF: Save Programme In Database (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
+participant ":ProgrammeMapper" as ProgrammeMapper <<mapper>>
+participant "programmeDM1:ProgrammeDataModel" as ProgrammeDataModel
+participant ":ProgrammeFactory" as ProgrammeFactory <<factory>>
+participant "P1:Programme" as Programme <<component>>
+
+activate ProgrammeRepository
+ProgrammeRepository -> ProgrammeMapper ++: toData(P1)
+
+ProgrammeMapper -> ProgrammeDataModel**: createProgrammeDataModel(P1)
+activate ProgrammeDataModel
+ProgrammeDataModel --> ProgrammeMapper --: programmeDM1
+ProgrammeMapper --> ProgrammeRepository --: programmeDM1
+
+ProgrammeRepository -> : save(programmeDM1)
+ProgrammeRepository <-- : programmeDM1
+
+ProgrammeRepository -> ProgrammeMapper++ : toDomain(programmeDM1)
+ProgrammeMapper -> ProgrammeFactory++ : createProgrammeFromDataModel(name, acronym, quantEcts, \nquantSemesters, degreeTypeID, departmentID, teacherID, programmeID)
+ProgrammeFactory -> Programme** : createProgramme(name, acronym, quantEcts, \nquantSemesters, degreeTypeID, departmentID, \nteacherID, programmeID)
+activate Programme
+Programme --> ProgrammeFactory --: P1
+ProgrammeFactory --> ProgrammeMapper --: P1
+ProgrammeMapper --> ProgrammeRepository --: P1
+@enduml

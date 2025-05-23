@@ -23,4 +23,9 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 
+    List<ProgrammeEdition> findByProgrammeIDs(List<ProgrammeID> programmeIDs);
+
+    default Optional<ProgrammeEdition> findByID(ProgrammeEditionID id) {
+        return ofIdentity(id);
+    }
 }

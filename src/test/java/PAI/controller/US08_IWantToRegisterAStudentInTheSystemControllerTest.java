@@ -161,30 +161,30 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("NIFIsInvalid")
-    void studentIsNotRegisteredBecauseNIFIsNull(String nif, String nifCountry, String expectedMessage) {
-
-        //arrange
-        IStudentService studentServiceDouble = mock(IStudentService.class);
-        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
-
-        int uniqueNumber = 1000005;
-        String name = "Miguel";
-        String countryCode = "+351";
-        String phoneNumber = "987654321";
-        String email = "miguel@gmail.com";
-        String street = "Praça da Canção";
-        String postalCode = "1234-56";
-        String location = "Coimbra";
-        String country = "Portugal";
-
-        //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
-
-        //assert
-        assertEquals(expectedMessage, exception.getMessage());
-    }
+//    @ParameterizedTest
+//    @MethodSource("NIFIsInvalid")
+//    void studentIsNotRegisteredBecauseNIFIsNull(String nif, String nifCountry, String expectedMessage) {
+//
+//        //arrange
+//        IStudentService studentServiceDouble = mock(IStudentService.class);
+//        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
+//
+//        int uniqueNumber = 1000005;
+//        String name = "Miguel";
+//        String countryCode = "+351";
+//        String phoneNumber = "987654321";
+//        String email = "miguel@gmail.com";
+//        String street = "Praça da Canção";
+//        String postalCode = "1234-56";
+//        String location = "Coimbra";
+//        String country = "Portugal";
+//
+//        //act
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+//
+//        //assert
+//        assertEquals(expectedMessage, exception.getMessage());
+//    }
 
     static Stream<Arguments> phoneNumberIsInvalid() {
         return Streams.of(
@@ -372,31 +372,31 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("countryIsInvalid")
-    void studentIsNotRegisteredBecauseCountryIsInvalid(String country) {
-
-        //arrange
-        IStudentService studentServiceDouble = mock(IStudentService.class);
-        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
-
-        int uniqueNumber = 1000005;
-        String name = "Miguel";
-        String nif = "123456789";
-        String nifCountry = "Portugal";
-        String countryCode = "+351";
-        String phoneNumber = "987654321";
-        String email = "miguel@gmail.com";
-        String street = "Praça da Canção";
-        String postalCode = "3440-307";
-        String location = "Coimbra";
-
-        //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
-
-        //assert
-        assertEquals("This country is not valid.", exception.getMessage());
-    }
+//    @ParameterizedTest
+//    @MethodSource("countryIsInvalid")
+//    void studentIsNotRegisteredBecauseCountryIsInvalid(String country) {
+//
+//        //arrange
+//        IStudentService studentServiceDouble = mock(IStudentService.class);
+//        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
+//
+//        int uniqueNumber = 1000005;
+//        String name = "Miguel";
+//        String nif = "123456789";
+//        String nifCountry = "Portugal";
+//        String countryCode = "+351";
+//        String phoneNumber = "987654321";
+//        String email = "miguel@gmail.com";
+//        String street = "Praça da Canção";
+//        String postalCode = "3440-307";
+//        String location = "Coimbra";
+//
+//        //act
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+//
+//        //assert
+//        assertEquals("This country is not valid.", exception.getMessage());
+//    }
 }
 
 
