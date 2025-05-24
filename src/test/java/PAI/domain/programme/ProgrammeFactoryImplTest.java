@@ -13,7 +13,7 @@ class ProgrammeFactoryImplTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts maxOfEcts = mock(MaxEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department = mock(DepartmentID.class);
@@ -21,13 +21,13 @@ class ProgrammeFactoryImplTest {
 
         //act
         ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-        Programme programme = factory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
+        Programme programme = factory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID);
 
         //assert
         assertNotNull(programme);
         assertEquals(name, programme.getProgrammeName());
         assertEquals(acronym, programme.getAcronym());
-        assertEquals(quantityOfEcts, programme.getQuantEcts());
+        assertEquals(maxOfEcts, programme.getMaxEcts());
         assertEquals(quantityOfSemesters, programme.getQuantSemesters());
         assertEquals(degreeTypeID, programme.getDegreeTypeID());
         assertEquals(department, programme.getDepartment());
@@ -39,7 +39,7 @@ class ProgrammeFactoryImplTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts quantityOfEcts = mock(QuantEcts.class);
+        MaxEcts maxOfEcts = mock(MaxEcts.class);
         QuantSemesters quantityOfSemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department = mock(DepartmentID.class);
@@ -48,13 +48,13 @@ class ProgrammeFactoryImplTest {
 
         //act
         ProgrammeFactoryImpl factory = new ProgrammeFactoryImpl();
-        Programme programme = factory.reregisterProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID, programmeID);
+        Programme programme = factory.reregisterProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, department, programmeDirectorID, programmeID);
 
         //assert
         assertNotNull(programme);
         assertEquals(name, programme.getProgrammeName());
         assertEquals(acronym, programme.getAcronym());
-        assertEquals(quantityOfEcts, programme.getQuantEcts());
+        assertEquals(maxOfEcts, programme.getMaxEcts());
         assertEquals(quantityOfSemesters, programme.getQuantSemesters());
         assertEquals(degreeTypeID, programme.getDegreeTypeID());
         assertEquals(department, programme.getDepartment());

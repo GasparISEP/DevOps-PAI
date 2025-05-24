@@ -72,7 +72,7 @@ class ProgrammeRequestDTOTest {
         ProgrammeRequestDTO programmeRequestDTO = new ProgrammeRequestDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeID, data.departmentID, data.teacherID);
 
         //act
-        int quantOfECTS = programmeRequestDTO.getQuantECTS();
+        int quantOfECTS = programmeRequestDTO.getMaxECTS();
 
         //assert
         assertEquals(quantOfECTS, data.quantECTS);

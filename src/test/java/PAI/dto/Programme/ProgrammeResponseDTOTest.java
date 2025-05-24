@@ -9,7 +9,7 @@ class ProgrammeResponseDTOTest {
     static class ProgrammeTestData {
         String name = "Data Science";
         String acronym = "DSD";
-        int quantECTS = 30;
+        int maxECTS = 30;
         int quantSemesters = 6;
         String degreeTypeName = "Master";
         String departmentName = "Astronomy";
@@ -33,7 +33,7 @@ class ProgrammeResponseDTOTest {
         ProgrammeTestData data = new ProgrammeTestData();
 
         //act
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //assert
         assertNotNull(programmeResponseDTO);
@@ -43,7 +43,7 @@ class ProgrammeResponseDTOTest {
     void getNameShouldReturnName() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         String result = programmeResponseDTO.getName();
@@ -56,7 +56,7 @@ class ProgrammeResponseDTOTest {
     void getAcronymShouldReturnAcronym() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         String result = programmeResponseDTO.getAcronym();
@@ -69,20 +69,20 @@ class ProgrammeResponseDTOTest {
     void getQuantECTSShouldReturnQuantityOfECTSCredits() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
-        int result = programmeResponseDTO.getQuantECTS();
+        int result = programmeResponseDTO.getMaxECTS();
 
         //assert
-        assertEquals(result, data.quantECTS);
+        assertEquals(result, data.maxECTS);
     }
 
     @Test
     void getQuantSemestersShouldReturnQuantityOfSemesters() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         int result = programmeResponseDTO.getQuantSemesters();
@@ -95,7 +95,7 @@ class ProgrammeResponseDTOTest {
     void getDegreeTypeNameShouldReturnDegreeTypeName() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         String result = programmeResponseDTO.getDegreeTypeName();
@@ -108,7 +108,7 @@ class ProgrammeResponseDTOTest {
     void getDepartmentNameShouldReturnDepartmentName() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         String result = programmeResponseDTO.getDepartmentName();
@@ -121,7 +121,7 @@ class ProgrammeResponseDTOTest {
     void getTeacherNameShouldReturnTeacherName() {
         //arrange
         ProgrammeTestData data = new ProgrammeTestData();
-        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.quantECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
+        ProgrammeResponseDTO programmeResponseDTO = new ProgrammeResponseDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeName, data.departmentName, data.teacherName);
 
         //act
         String result = programmeResponseDTO.getTeacherName();

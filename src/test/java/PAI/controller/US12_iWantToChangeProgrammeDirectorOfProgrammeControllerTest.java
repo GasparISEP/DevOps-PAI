@@ -54,7 +54,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         //arrange
         NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("ABC");
         Acronym acronym = new Acronym("ABC");
-        QuantEcts quantEcts = new QuantEcts(12);
+        MaxEcts maxEcts = new MaxEcts(12);
         QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("ALG");
@@ -76,12 +76,9 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         Address address = new Address(street,postalCode,location,country);
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
 
-
         Teacher teacher2 = new Teacher(teacherID2,name,email,nif,phoneNumber,academicBackground,address,departmentID);
 
-
-
-        Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,quantEcts,quantSemesters,degreeTypeID,departmentID,teacherID, programmeID);
+        Programme programme = new Programme(nameWithNumbersAndSpecialChars,acronym,maxEcts,quantSemesters,degreeTypeID,departmentID,teacherID, programmeID);
         IProgrammeService programmeService = mock(IProgrammeService.class);
 
 

@@ -1,0 +1,26 @@
+@startuml
+
+title Convert AccessMethodDTO to AccessMethodCommand
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":AccessMethodRESTController" as Controller
+participant ":IAccessMethodAssembler" as amAssembler
+activate Controller #LightBlue
+
+Controller -> amAssembler: toCommand (accessMethodDTO)
+activate amAssembler #LightBlue
+
+create "accessMethodCommand: RegisterAccessMethodCommand"
+amAssembler -> "accessMethodCommand: RegisterAccessMethodCommand": create (dto.name())
+deactivate amAssembler
+deactivate Controller
+
+@enduml

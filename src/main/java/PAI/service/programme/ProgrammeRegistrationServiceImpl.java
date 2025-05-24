@@ -65,13 +65,13 @@ public class ProgrammeRegistrationServiceImpl implements IProgrammeRegistrationS
 
         NameWithNumbersAndSpecialChars name = programmeVOsDTO.getName();
         Acronym acronym = programmeVOsDTO.getAcronym();
-        QuantEcts quantityOfEcts = programmeVOsDTO.getQuantEcts();
+        MaxEcts maxOfEcts = programmeVOsDTO.getMaxEcts();
         QuantSemesters quantityOfSemesters = programmeVOsDTO.getQuantSemesters();
         DegreeTypeID degreeTypeID = programmeVOsDTO.getDegreeTypeID();
         DepartmentID departmentID = programmeVOsDTO.getDepartmentID();
         TeacherID teacherID = programmeVOsDTO.getTeacherID();
 
-        Programme programme = _programmeFactory.registerProgramme(name, acronym, quantityOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
+        Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
         if(_programmeRepository.containsOfIdentity(programme.identity()))
             throw new Exception("Programme is already registered");

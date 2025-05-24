@@ -84,19 +84,19 @@ export default function ProgrammeForm() {
                         </div>
 
                         <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type ID</label>
+                            <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type</label>
                             <input className="programme-form-input" id="degreeTypeID" name="degreeTypeID"
                                    value={form.degreeTypeID} onChange={handleChange} required/>
                         </div>
 
                         <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="departmentID">Department ID</label>
+                            <label className="programme-form-label" htmlFor="departmentID">Department</label>
                             <input className="programme-form-input" id="departmentID" name="departmentID"
                                    value={form.departmentID} onChange={handleChange} required/>
                         </div>
 
                         <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="teacherID">Teacher ID</label>
+                            <label className="programme-form-label" htmlFor="teacherID">Programme's Director</label>
                             <input className="programme-form-input" id="teacherID" name="teacherID" value={form.teacherID}
                                    onChange={handleChange} required/>
                         </div>

@@ -7,14 +7,14 @@ public class Programme implements AggregateRoot<ProgrammeID> {
 
     private NameWithNumbersAndSpecialChars _name;
     private QuantSemesters _quantSemesters;
-    private QuantEcts _quantEcts;
+    private MaxEcts _maxEcts;
     private Acronym _acronym;
     private DegreeTypeID _degreeTypeID;
     private DepartmentID _department;
     private TeacherID _programmeDirectorID;
     private ProgrammeID _programmeID;
 
-    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantityOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID programmeID) throws IllegalArgumentException {
+    public Programme(NameWithNumbersAndSpecialChars name, Acronym acronym, MaxEcts maxOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID, ProgrammeID programmeID) throws IllegalArgumentException {
         if(name==null) {
             throw new IllegalArgumentException("Programme name cannot be null");
         }
@@ -25,10 +25,10 @@ public class Programme implements AggregateRoot<ProgrammeID> {
         }
         _acronym = acronym;
 
-        if (quantityOfEcts == null) {
+        if (maxOfEcts == null) {
             throw new IllegalArgumentException("Number of ECTS must not be null");
         }
-        _quantEcts = quantityOfEcts;
+        _maxEcts = maxOfEcts;
 
         if (quantityOfSemesters==null) {
             throw new IllegalArgumentException("Quantity of Semesters must not be null");
@@ -81,8 +81,8 @@ public class Programme implements AggregateRoot<ProgrammeID> {
         return this._programmeID;
     }
 
-    public QuantEcts getQuantEcts() {
-        return _quantEcts;
+    public MaxEcts getMaxEcts() {
+        return _maxEcts;
     }
 
     public QuantSemesters getQuantSemesters() {return _quantSemesters;}
@@ -102,7 +102,6 @@ public class Programme implements AggregateRoot<ProgrammeID> {
 
     public NameWithNumbersAndSpecialChars getProgrammeName() {
         return _name;
-
     }
 
     public DegreeTypeID getDegreeTypeID() {

@@ -17,14 +17,14 @@ public class US11_RegisterProgrammeInTheSystemController {
         this.programmeService = programmeService;
     }
 
-    public boolean registerProgramme(String name, String acronym, int quantityOfEcts, int quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
+    public boolean registerProgramme(String name, String acronym, int maxOfEcts, int quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception {
 
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(name);
         Acronym programmeAcronym = new Acronym(acronym);
-        QuantEcts programmeQuantityOfEcts = new QuantEcts(quantityOfEcts);
+        MaxEcts programmeMaxOfEcts = new MaxEcts(maxOfEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, programmeQuantityOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        programmeService.registerProgramme(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
         return true;
     }

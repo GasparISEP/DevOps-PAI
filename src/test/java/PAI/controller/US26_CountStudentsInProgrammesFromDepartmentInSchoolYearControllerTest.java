@@ -397,10 +397,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -529,10 +529,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -661,10 +661,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -793,10 +793,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -905,10 +905,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -1038,10 +1038,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -1172,10 +1172,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -1305,10 +1305,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -1440,10 +1440,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
@@ -1575,10 +1575,10 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
 
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         Programme programme1 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP"),
-                new Acronym("APP"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
         Programme programme2 = programmeFactory.registerProgramme(new NameWithNumbersAndSpecialChars("PP2"),
-                new Acronym("APP2"), new QuantEcts(30), new QuantSemesters(30), new DegreeTypeID(),
+                new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
         ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());

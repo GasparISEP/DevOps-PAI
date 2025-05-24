@@ -858,7 +858,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
+        MaxEcts maxEcts = new MaxEcts(25);
         QuantSemesters quantSemesters = new QuantSemesters(6);
         DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(dAcronym);
@@ -867,8 +867,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         TeacherID teacherID1 = new TeacherID(tAcronym);
 
 
-        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        programmeService.registerProgramme(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        programmeService.registerProgramme(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
 
         // Act
         List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
@@ -937,7 +937,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        QuantEcts quantEcts = new QuantEcts(25);
+        MaxEcts maxEcts = new MaxEcts(25);
         QuantSemesters quantSemesters = new QuantSemesters(6);
         DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(dAcronym);
@@ -945,8 +945,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         TeacherAcronym tAcronym = new TeacherAcronym("AAA");
         TeacherID teacherID1 = new TeacherID(tAcronym);
 
-        programmeService.registerProgramme(name1, acronym1, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        programmeService.registerProgramme(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        programmeService.registerProgramme(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
 
         // Act
         List<ProgrammeID> programmes = controller.getAllProgrammesIDs();

@@ -39,7 +39,7 @@ class ProgrammeRegistrationServiceImplTest {
         ProgrammeVOsDTO programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);
         NameWithNumbersAndSpecialChars programmeNameDouble = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronymDouble = mock(Acronym.class);
-        QuantEcts quantityOfEctsDouble = mock(QuantEcts.class);
+        MaxEcts maxOfEctsDouble = mock(MaxEcts.class);
         QuantSemesters quantityOfSemestersDouble = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
         DegreeType degreeTypeDouble = mock(DegreeType.class);
@@ -102,13 +102,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(false);
@@ -142,13 +142,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(true);
@@ -168,13 +168,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(false);
@@ -193,13 +193,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(false);
@@ -223,13 +223,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(false);
@@ -258,13 +258,13 @@ class ProgrammeRegistrationServiceImplTest {
 
         when(data.programmeVOsDTODouble.getName()).thenReturn(data.programmeNameDouble);
         when(data.programmeVOsDTODouble.getAcronym()).thenReturn(data.acronymDouble);
-        when(data.programmeVOsDTODouble.getQuantEcts()).thenReturn(data.quantityOfEctsDouble);
+        when(data.programmeVOsDTODouble.getMaxEcts()).thenReturn(data.maxOfEctsDouble);
         when(data.programmeVOsDTODouble.getQuantSemesters()).thenReturn(data.quantityOfSemestersDouble);
         when(data.programmeVOsDTODouble.getDegreeTypeID()).thenReturn(data.degreeTypeIDDouble);
         when(data.programmeVOsDTODouble.getDepartmentID()).thenReturn(data.departmentIDDouble);
         when(data.programmeVOsDTODouble.getTeacherID()).thenReturn(data.teacherIDDouble);
 
-        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.quantityOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
+        when(data.programmeFactoryDouble.registerProgramme(data.programmeNameDouble, data.acronymDouble, data.maxOfEctsDouble, data.quantityOfSemestersDouble, data.degreeTypeIDDouble, data.departmentIDDouble, data.teacherIDDouble)).thenReturn(data.programmeDouble);
 
         when(data.programmeDouble.identity()).thenReturn(data.programmeIDDouble);
         when(data.programmeRepositoryDouble.containsOfIdentity(data.programmeIDDouble)).thenReturn(false);
