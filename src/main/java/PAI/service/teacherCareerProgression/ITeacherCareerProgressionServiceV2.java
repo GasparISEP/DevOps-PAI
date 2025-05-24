@@ -5,7 +5,6 @@ import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.dto.teacherCareerProgression.TeacherCategoryUpdateResponseDTO;
 import PAI.dto.teacherCareerProgression.TeacherWorkingPercentageUpdateDTO;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 
