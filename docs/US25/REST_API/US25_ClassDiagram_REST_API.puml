@@ -1,0 +1,300 @@
+@startuml
+title Combined Architecture: US22 (Grade), US23 (Approval), US25 (Average Grade)
+'left to right direction
+
+' --- Controller Layer ---
+class CourseEditionRESTController {
+    +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
+    +gradeAStudent(grade : double, date : String student : Student, courseEdition : CourseEdition): GradeStudent
+    +findApprovalPercentage (CourseEdition : CourseEdition) : ApprovalPercentage
+    +getAverageGradeInCourseEdition(
+        programmeAcronym: String,
+        schoolYearId: String,
+        courseAcronym: String,
+        studyPlanDate: String ' Parameters to identify CourseEdition for query
+    ): ResponseEntity<StudeentGradeResponseDTO>
+}
+
+' --- Application Service Layer ---
+interface IStudentGradeService {
+        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+        +knowAverageGrade(CourseEditionID)
+        +knowApprovalRate(CourseEditionID)
+        +findIdByStudent (StudentGrade studentGrade)
+        +save(StudentGrade entity)
+        +findAll()
+        +ofIdentity(StudentGradeID id)
+        +containsOfIdentity(StudentGradeID id)
+}
+
+class StudentGradeService {
+        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+        +knowAverageGrade(CourseEditionID)
+        +knowApprovalRate(CourseEditionID)
+        +findIdByStudent (StudentGrade studentGrade)
+        +save(StudentGrade entity)
+        +findAll()
+        +ofIdentity(StudentGradeID id)
+        +containsOfIdentity(StudentGradeID id)
+}
+
+' --- Assemblers/Mappers ---
+interface IStudentGradeAssembler {
+    +domainToDTO(studentGrade : StudentGrade)
+    +dtoToDomain(studentGradeRequestDTO : StudentGradeRequestDTO)
+}
+
+class StudentGradeAssembler {
+    +domainToDTO(studentGrade : StudentGrade)
+    +dtoToDomain(studentGradeRequestDTO : StudentGradeRequestDTO)
+}
+
+' --- DTOs (Data Transfer Objects - API Contracts) ---
+class StudentGradeRequestDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -studentUniqueNumber : int
+    -grade : int
+    -date : String
+}
+
+class StudentGradeResponseDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -studentUniqueNumber : int
+    -grade : int
+    -date : String
+}
+
+class CourseEditionRequestDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -teacherId : String
+}
+
+class CourseEditionResponseDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -teacherId : String
+}
+
+class CourseEditionAssembler {
+    -courseEditionId : CourseEditionsID
+    -courseInStudyPlanId : CourseInStudyPlanID
+    -programmeEditionId : ProgrammeEditionID
+    -teacherId : TeacherID
+}
+
+' --- New DTO for US25 ---
+'class AverageGradeResponseDTO {
+ '   +averageGrade : double
+'}
+
+' --- Domain Layer ---
+package "StudentGrade" {
+    entity "<<root>>\nGradeStudent"  {
+        +hasThisCourseEdition(CourseEdition : CourseEdition)
+        +knowCourseEdition()
+        +get_studentID()
+        +get_courseEdition()
+        +equals (objectToCompare: Object)
+    }
+}
+class Grade <<ValueObject>> {
+        -grade: double
+        +knowGrade()
+    }
+    class LocalDate <<ValueObject>> {
+            -date: String
+            +isDateValid(String date)
+            +get_date()
+        }
+
+ class StudentGradeId <<ValueObject>> {
+    -courseEditionID
+    -studentID
+    +equals()
+    +toString()
+        }
+
+class StudentGradeRepository {
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeRepositoryInterface {
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
+   +findIdByStudent (StudentGrade studentGrade)
+       +save(StudentGrade entity)
+       +findAll()
+       +ofIdentity(StudentGradeID id)
+       +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeFactory {
+    +newGradeStudent()
+}
+
+
+class StudentGradeFactoryImpl {
+    +newGradeStudent()
+}
+
+
+
+class StudentId <<ValueObject>> {
+uniqueNumber: int
++equals()
++getUniqueNumber()
++isEquals()
+            }
+
+package "Student" {
+entity "<<root>>\nStudent"  {
+        +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+         +isStudentRepeated(students: List<Student>)
+         +hasSameUniqueNumber(Student student)
+         +hasSameNIF (Student student)
+         +getUniqueNumber(): String
+         +hasThisUniqueNumber(String uniqueNumber)
+
+    }
+
+    }
+    class Name <<ValueObject>> {
+                    -Name : String
+                    +getName()
+                    +equals()
+                    +hashCode()
+                }
+        class NIF <<ValueObject>> {
+                     -NIF : String
+                }
+        class Phone <<ValueObject>> {
+                         -CountryCode: String
+                         -Number: String
+                    }
+        class Email <<ValueObject>> {
+                         -Email: String
+                        }
+         class Address <<ValueObject>> {
+                         -Street
+                         -PostalCode
+                         -Location
+                         -Country
+                            }
+class CourseEditionId <<ValueObject>> {
+-ProgrammeEdiitionID
+-CourseInStudyPlanID
++toString()
++equals()
+            }
+
+
+package "CourseEdition" {
+entity "<<root>>\nCourseEdition"  {
+        +Equals(objectToCompare: Object)
+      +setRuc(Teacher: ruc)
+      +whatProgrammeEditionBelongsThisCourseEdition ()
+      +getCourse()
+
+    }
+    }
+
+
+' --- Original Associations (from your previous diagram) ---
+"<<root>>\nStudent" "*" --> "1" Name
+"<<root>>\nStudent" "*" --> "1" NIF
+"<<root>>\nStudent" "*" --> "1" Email
+"<<root>>\nStudent" "*" --> "1" Phone
+"<<root>>\nStudent" "*" --> "1" Address
+"<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" "*" --> "1" LocalDate
+"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
+IStudentGradeService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IStudentGradeFactory <|.. StudentGradeFactoryImpl
+
+StudentGradeRequestDTO "1" --> "1" CourseEditionRESTController
+CourseEditionRESTController "1" --> "1" StudentGradeAssembler
+StudentGradeRequestDTO "1" --> "1" StudentGradeAssembler
+IStudentGradeAssembler "1" --> "1" StudentGradeAssembler
+StudentGradeAssembler "1" --> "1" StudentGradeService
+StudentGradeResponseDTO "1" --> "1" StudentGradeService
+
+
+CourseEditionRequestDTO "1" --> "1" CourseEditionRESTController
+CourseEditionRESTController "1" --> "1" CourseEditionAssembler
+CourseEditionRequestDTO "1" --> "1" CourseEditionAssembler
+CourseEditionResponseDTO "1" --> "1" StudentGradeService
+
+
+"<<root>>\nGradeStudent" --> "1" StudentGradeId
+"<<root>>\nCourseEdition" --> "1" CourseEditionId
+"<<root>>\nStudent" --> "1" StudentId
+IStudentGradeService <|..StudentGradeService
+IStudentGradeRepositoryInterface <|..StudentGradeRepository
+IStudentGradeRepositoryInterface ....> IStudentGradeFactory
+
+
+IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
+
+
+IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
+
+
+' --- Additions for US25 (Average Grade Query) ---
+
+' Controller calls service for the average grade
+CourseEditionRESTController "*" ..> "1" IStudentGradeService
+
+' Assembler creates the AverageGradeResponseDTO
+'IStudentGradeAssembler "1" --> "1" AverageGradeResponseDTO : Creates
+
+' Controller returns the AverageGradeResponseDTO
+'CourseEditionRESTController "1" --> "1" AverageGradeResponseDTO : Returns
+
+' StudentGradeService delegates to repository for the average
+StudentGradeService "1"-->"1" IStudentGradeRepositoryInterface
+
+' Repository queries the domain entity for the calculation
+IStudentGradeRepositoryInterface --> "<<root>>\nGradeStudent"
+
+' CourseEditionId (VO) is used as input by service and repository
+IStudentGradeService "1" --> "1" CourseEditionId
+IStudentGradeRepositoryInterface "1" --> "1" CourseEditionId
+
+@enduml
