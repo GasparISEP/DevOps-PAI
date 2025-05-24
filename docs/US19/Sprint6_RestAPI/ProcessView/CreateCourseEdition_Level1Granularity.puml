@@ -1,5 +1,5 @@
 @startuml
-title US19: As an ASC, I want to create a course edition\n(Process View – Level 1 Granularity)
+title US19: As an ASC, I want to create a course edition\n(Process View – Level 1 - System)
 autonumber
 
 skinparam {
@@ -15,7 +15,7 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 actor ASC  #LightBlue/White
-participant "<<component>>\nSystem" as SYSTEM #E1F5FE
+participant "<<System>>\nSystemPAI" as SYSTEM #E1F5FE
 
 ASC -> SYSTEM: I want to create a course edition
 activate SYSTEM
