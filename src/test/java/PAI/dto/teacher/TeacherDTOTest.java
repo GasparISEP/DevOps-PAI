@@ -13,6 +13,7 @@ class TeacherDTOTest {
         String name = "zacarias";
         String email = "abc";
         String nif = "123456789";
+        String countryCode = "+351";
         String phoneNumber = "987654321";
         String academicBackground = "LEI";
         String street = "Rua Numero 11";
@@ -22,7 +23,7 @@ class TeacherDTOTest {
         String departmentID = "1";
 
         //Act
-        TeacherDTO teacherDTO = new TeacherDTO(id, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, departmentID);
+        TeacherDTO teacherDTO = new TeacherDTO(id, name, email, nif, countryCode, phoneNumber, academicBackground, street, postalCode, location, country, departmentID);
 
         //Assert
         assertNotNull(teacherDTO);
@@ -30,6 +31,7 @@ class TeacherDTOTest {
         assertEquals(name, teacherDTO.name());
         assertEquals(email, teacherDTO.email());
         assertEquals(nif, teacherDTO.nif());
+        assertEquals(countryCode, teacherDTO.countryCode());
         assertEquals(phoneNumber, teacherDTO.phoneNumber());
         assertEquals(academicBackground, teacherDTO.academicBackground());
         assertEquals(street, teacherDTO.street());
@@ -42,7 +44,7 @@ class TeacherDTOTest {
     @Test
     void shouldAllowNullFields() {
         //Arrange + Act
-        TeacherDTO teacherDTO = new TeacherDTO(null, null, null, null, null, null, null, null, null, null, null);
+        TeacherDTO teacherDTO = new TeacherDTO(null, null, null, null, null, null, null, null, null, null, null, null);
 
         //Assert
         assertNotNull(teacherDTO);
@@ -50,6 +52,7 @@ class TeacherDTOTest {
         assertNull(teacherDTO.name());
         assertNull(teacherDTO.email());
         assertNull(teacherDTO.nif());
+        assertNull(teacherDTO.countryCode());
         assertNull(teacherDTO.phoneNumber());
         assertNull(teacherDTO.academicBackground());
         assertNull(teacherDTO.street());

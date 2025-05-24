@@ -46,7 +46,9 @@ class TeacherAssemblerImplTest {
 
         PhoneNumber phoneNumber = mock(PhoneNumber.class);
         when(teacher.getPhoneNumber()).thenReturn(phoneNumber);
+        when(phoneNumber.getCountryCode()).thenReturn("+351");
         when(phoneNumber.getNumber()).thenReturn("987654321");
+
 
         AcademicBackground academicBackground = mock(AcademicBackground.class);
         when(teacher.getAcademicBackground()).thenReturn(academicBackground);
@@ -87,6 +89,7 @@ class TeacherAssemblerImplTest {
         assertEquals("João", dto.name());
         assertEquals("JAB@isep.ipp.pt", dto.email());
         assertEquals("123456789", dto.nif());
+        assertEquals("+351", dto.countryCode());
         assertEquals("987654321", dto.phoneNumber());
         assertEquals("LEI", dto.academicBackground());
         assertEquals("Rua Numero 1", dto.street());
@@ -131,6 +134,7 @@ class TeacherAssemblerImplTest {
 
         PhoneNumber phoneNumber = mock(PhoneNumber.class);
         when(teacher.getPhoneNumber()).thenReturn(phoneNumber);
+        when(phoneNumber.getCountryCode()).thenReturn("+351");
         when(phoneNumber.getNumber()).thenReturn("987654321");
 
         AcademicBackground academicBackground = mock(AcademicBackground.class);
