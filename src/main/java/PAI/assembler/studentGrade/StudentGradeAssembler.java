@@ -1,6 +1,7 @@
 package PAI.assembler.studentGrade;
 
 import PAI.VOs.*;
+import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.StudentGradeRequestDTO;
 import PAI.dto.studentGrade.StudentGradeResponseDTO;
@@ -27,9 +28,15 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
         return new GradeAStudentCommand(grade, date, studentID, courseEditionID);
     }
 
+    public StudentGradeResponseDTO toDTO(
+            StudentGrade studentGrade, String programmeID, String schoolYearID, String courseID,
+            String studyPlanID, String courseInStudyPlanID, String programmeEditionID, String courseEditionID) {
 
-    public StudentGradeResponseDTO toDTO() {
-        return null;
+        int uniqueNumber = studentGrade.get_studentID().getUniqueNumber();
+        double grade = studentGrade.get_grade().knowGrade();
+        String date = studentGrade.get_date().toString();
+
+        return new StudentGradeResponseDTO(uniqueNumber, grade, date, courseEditionID, programmeEditionID, courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
     }
 
     private Grade createGrade (double grade) throws Exception {
