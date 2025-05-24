@@ -1,5 +1,5 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Process View - Level 2 - Containers)
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 2: Containers)
 autonumber
 
 skinparam {
@@ -76,7 +76,7 @@ activate Database
 Database --> Backend: Course edition persisted
 deactivate Database
 
-Backend --> Frontend: (201 Created) Course edition created
+Backend --> Frontend: (200 OK) Course edition created
 deactivate Backend
 Frontend --> ASC: Course edition created successfully!
 deactivate Frontend
