@@ -40,9 +40,10 @@ export default function ProgrammeForm() {
                 console.log("Fetched degree types:", degreeTypeData);
 
 
-                setDepartments(deptData._embedded?.departments || []);
-                setTeachers(teacherData._embedded?.teachers || []);
-                setDegreeTypes(degreeTypeData._embedded?.degreeTypes || []);
+                setDepartments(deptData);
+                setTeachers(teacherData);
+                setDegreeTypes(degreeTypeData);
+
 
 
             } catch (err) {
