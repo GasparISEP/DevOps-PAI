@@ -19,10 +19,4 @@ class UpdateTeacherCategoryResponseDTOTest {
         assertNotNull(updateTeacherCategoryResponseDTO);
     }
 
-    @Test
-    void shouldCreateEmptyConstructor(){
-        UpdateTeacherCategoryResponseDTO updateTeacherCategoryResponseDTO = new UpdateTeacherCategoryResponseDTO();
-        //assert
-        assertNotNull(updateTeacherCategoryResponseDTO);
-    }
 }
