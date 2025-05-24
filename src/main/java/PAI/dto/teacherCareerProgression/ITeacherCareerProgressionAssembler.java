@@ -10,5 +10,5 @@ public interface ITeacherCareerProgressionAssembler {
     TeacherCategoryID toTeacherCategoryID (TeacherCareerProgressionDTO teacherCareerProgressionDTO);
     WorkingPercentage toWorkingPercentage (TeacherCareerProgressionDTO teacherCareerProgressionDTO);
     TeacherID toTeacherID (TeacherCareerProgressionDTO teacherCareerProgressionDTO);
-    UpdateTeacherCategoryResponseDTO UpdateCategoryToDTO (TeacherCareerProgression teacherCareerProgression);
+    UpdateTeacherCategoryResponseDTO toUpdateCategoryDTO(TeacherCareerProgression teacherCareerProgression);
 }
