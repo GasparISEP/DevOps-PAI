@@ -17,14 +17,14 @@ skinparam shadowing true
 participant "<<component>>\n:Router" as router #E1F5FE
 
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
-participant "<<component>>\n:CourseEditionService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:CourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
-participant "<<component>>\n:CourseEditionRepository\n(Repository)" as Repository #E1F5FE
-participant "<<component>>\n:CourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
-participant "<<component>>\n:CourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
-participant "<<component>>\n:ProgrammeEditionMapper\n(Mapper)" as PEMapper #E1F5FE
-participant "<<component>>\n:CourseInStudyPlanMapper\n(Mapper)" as CSPMapper #E1F5FE
-participant "<<component>>\n:CourseEdition\nSpringDataRepository\n(JPARepository)" as SpringData #E1F5FE
+participant "<<component>>\n:ICourseEditionService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
+participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:ICourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
+participant "<<component>>\n:ICourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
+participant "<<component>>\n:IProgrammeEditionMapper\n(Mapper)" as PEMapper #E1F5FE
+participant "<<component>>\n:ICourseInStudyPlanMapper\n(Mapper)" as CSPMapper #E1F5FE
+participant "<<component>>\n:ICourseEdition\nSpringDataRepository\n(JPARepository)" as SpringData #E1F5FE
 
 database DB as Database #E1F5FE
 
@@ -143,7 +143,7 @@ Service -> SpringData : save(courseEditionDataModel)
 activate SpringData
 
 group Database
-SpringData -> Database: INSERT(...)
+SpringData -> Database: INSERT INTO course_edition (...)
 activate Database
 Database --> SpringData: success
 deactivate Database
