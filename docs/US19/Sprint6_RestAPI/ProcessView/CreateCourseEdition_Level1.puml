@@ -1,5 +1,5 @@
 @startuml
-title US19: As an ASC, I want to create a course edition\n(Process View – Level 1 - System)
+title US19: As an ASC, I want to create a course edition\n(Process View – Level 1: System)
 autonumber
 
 skinparam {

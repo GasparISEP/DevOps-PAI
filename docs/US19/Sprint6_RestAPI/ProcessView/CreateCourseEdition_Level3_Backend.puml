@@ -1,0 +1,170 @@
+@startuml
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Components (Backend focus))
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as router #E1F5FE
+
+participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:CourseEditionService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:CourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
+participant "<<component>>\n:CourseEditionRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:CourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
+participant "<<component>>\n:CourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
+participant "<<component>>\n:ProgrammeEditionMapper\n(Mapper)" as PEMapper #E1F5FE
+participant "<<component>>\n:CourseInStudyPlanMapper\n(Mapper)" as CSPMapper #E1F5FE
+participant "<<component>>\n:CourseEdition\nSpringDataRepository\n(JPARepository)" as SpringData #E1F5FE
+
+database DB as Database #E1F5FE
+
+-> router: GET /degree-types
+activate router
+router -> Controller: getAllDegreeTypes()
+activate Controller
+note over Controller #EEEEEE
+Spring Boot automatically converts
+ incoming JSON into DTOs
+end note
+ref over Controller
+   <b>List of Degree Types</b>
+end ref
+Controller --> router: degreeTypesList
+deactivate Controller
+<-- router: degreeTypesList
+deactivate router
+
+-> router: GET /programmes
+activate router
+router -> Controller: getProgrammesByDegreeTypeID\n(degreeTypeID)
+activate Controller
+note over Controller #EEEEEE
+Spring Boot automatically converts
+ incoming JSON into DTOs
+end note
+ref over Controller
+   <b>List of Programmes</b>
+end ref
+Controller --> router: programmesList
+deactivate Controller
+<-- router: programmesList
+deactivate router
+
+-> router: GET /courses-in-study-plan
+activate router
+router -> Controller: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
+activate Controller
+note over Controller #EEEEEE
+Spring Boot automatically converts
+ incoming JSON into DTOs
+end note
+ref over Controller
+   <b>List of Courses In Study Plan</b>
+end ref
+Controller --> router: coursesInStudyPlanList
+deactivate Controller
+<-- router: coursesInStudyPlanList
+deactivate router
+
+-> router: GET /programme-editions
+activate router
+router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeID)
+activate Controller
+note over Controller #EEEEEE
+Spring Boot automatically converts
+ incoming JSON into DTOs
+end note
+ref over Controller
+   <b>List of Programme Editions</b>
+end ref
+Controller --> router: programmeEditionsList
+deactivate Controller
+<-- router: programmeEditionsList
+deactivate router
+
+-> router: POST /course-editions
+activate router
+router -> Controller: createCourseEdition(JSON)
+
+activate Controller
+
+note over Controller #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs
+end note
+
+
+
+
+Controller -> Service: createAndSaveCourseEdition(dto)
+activate Service
+
+
+Service -> CourseEditionFactory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)\n(cSp1_ID, pE1_ID)
+activate CourseEditionFactory
+CourseEditionFactory --> Service -- : CourseEdition
+Service -> Repository: containsOfIdentity(courseEdition.identity())
+activate Repository
+Repository --> Service: false
+deactivate Repository
+
+
+
+Service -> Mapper : toDataModel(courseEdition)
+activate Mapper
+Mapper -> IDMapper : toDataModel(courseEditionID)
+activate IDMapper
+IDMapper -> PEMapper : toDataModel(programmeEditionID)
+activate PEMapper
+PEMapper --> IDMapper : ProgrammeEditionIdDataModel
+deactivate PEMapper
+IDMapper -> CSPMapper : toDataModel(courseInStudyPlanID)
+activate CSPMapper
+CSPMapper --> IDMapper : CourseInStudyPlanIDDataModel
+deactivate CSPMapper
+IDMapper --> Mapper : CourseEditionIDDataModel
+deactivate
+Mapper --> Service : CourseEditionDataModel
+deactivate
+
+
+
+Service -> SpringData : save(courseEditionDataModel)
+activate SpringData
+
+group Database
+SpringData -> Database: INSERT(...)
+activate Database
+Database --> SpringData: success
+deactivate Database
+end
+
+
+SpringData --> Service : CourseEditionDataModel
+deactivate
+
+
+Service -> Mapper : toDomain(courseEditionDataModel)
+activate Mapper
+Mapper --> Service : CourseEdition
+deactivate
+
+Service --> Controller : CourseEdition
+deactivate
+
+Controller --> router:  (200 OK) Course Edition\n created successfully!
+deactivate Controller
+
+<-- router:  (200 OK) Course Edition\n created successfully!
+@enduml
+
