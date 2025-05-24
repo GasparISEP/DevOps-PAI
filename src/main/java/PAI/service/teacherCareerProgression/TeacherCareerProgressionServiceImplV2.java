@@ -12,9 +12,10 @@ import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.TeacherWorkingPercentageUpdateDTO;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
