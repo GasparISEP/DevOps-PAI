@@ -12,15 +12,17 @@ public class ProgrammeEditionEnrolmentResponseDtoTest {
         int studentID = 1;
         String programmeName = "Programme 1";
         String programmeAcronym = "P1";
-        String schoolYear = "2024-2025";
+        String schoolYearDescription = "2024-2025";
+        String schoolYearID = "2024-2025";
 
         // act
-        ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentResponseDto(studentID, programmeName, programmeAcronym, schoolYear);
+        ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentResponseDto(studentID, programmeName, programmeAcronym, schoolYearDescription, schoolYearID);
 
         // assert
         assertEquals(studentID, programmeEditionEnrolmentResponseDto.studentID());
         assertEquals(programmeName, programmeEditionEnrolmentResponseDto.programmeName());
         assertEquals(programmeAcronym, programmeEditionEnrolmentResponseDto.programmeAcronym());
-        assertEquals(schoolYear, programmeEditionEnrolmentResponseDto.schoolYear());
+        assertEquals(schoolYearDescription, programmeEditionEnrolmentResponseDto.schoolYearDescription());
+        assertEquals(schoolYearID, programmeEditionEnrolmentResponseDto.schoolYearID());
     }
 }

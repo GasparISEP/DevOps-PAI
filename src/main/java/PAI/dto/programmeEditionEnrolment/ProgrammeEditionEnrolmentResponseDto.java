@@ -13,7 +13,11 @@ public record ProgrammeEditionEnrolmentResponseDto(
     String programmeAcronym,
 
     @NotBlank
-    String schoolYear
+    String schoolYearDescription,
+
+    @NotBlank
+    String schoolYearID
+
     ) {
 
 
