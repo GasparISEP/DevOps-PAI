@@ -4,6 +4,9 @@ import jakarta.validation.constraints.*;
 
 public record TeacherRequestDTO(
 
+        @NotBlank(message = "Teacher ID cannot be blank.")
+        String _teacherId,
+
         @NotBlank(message = "Teacher Name cannot be blank.")
         String _name,
 

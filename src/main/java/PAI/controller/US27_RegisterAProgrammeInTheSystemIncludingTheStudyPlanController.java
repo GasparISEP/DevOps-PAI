@@ -5,6 +5,7 @@ import PAI.domain.department.Department;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
+import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.degreeType.IDegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -50,7 +51,9 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         DepartmentID departmentID = department.identity();
         TeacherID programmeDirectorID = programmeDirector.identity();
 
-        _programmeService.registerProgramme(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+
+        _programmeService.registerProgramme(programmeVOsDTO);
 
         return true;
     }

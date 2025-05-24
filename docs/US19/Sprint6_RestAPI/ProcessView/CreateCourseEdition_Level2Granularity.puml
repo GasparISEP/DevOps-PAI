@@ -1,5 +1,5 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Process View - Level 2 Granularity)
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 2 - Containers)
 autonumber
 
 skinparam {
@@ -15,68 +15,68 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 actor ASC  #LightBlue/White
-participant "<<component>>\nFrontend" as Frontend #E1F5FE
-participant "<<component>>\nBackend" as Backend #E1F5FE
-participant "<<component>>\nDatabase" as Database #E1F5FE
+participant "<<Container>>\nFrontend" as Frontend #E1F5FE
+participant "<<Container>>\nBackend" as Backend #E1F5FE
+database "<<Container>>\nDatabase" as Database #E1F5FE
 
 ASC -> Frontend: I want to create a course edition
 activate Frontend
 
-Frontend -> Backend: GET (Request available degree types)
+Frontend -> Backend: (GET) Request available degree types
 activate Backend
-Backend -> Database: SELECT degree_types\n(Retrieve degree types)
+Backend -> Database: (SELECT) Retrieve all degree types
 activate Database
 Database --> Backend: List of degree types
 deactivate Database
-Backend --> Frontend: (200 OK) – List of degree types
+Backend --> Frontend: (200 OK) List of degree types
 deactivate Backend
 Frontend --> ASC: Please select degree type
 
 ASC -> Frontend: Select degree type
-Frontend -> Backend: GET (Request programmes for selected degree type)
+Frontend -> Backend: (GET) Request programmes for selected degree type
 activate Backend
-Backend -> Database: SELECT programmes\n(Retrieve programmes)
+Backend -> Database: (SELECT) Retrieve programmes
 activate Database
 Database --> Backend: List of programmes
 deactivate Database
-Backend --> Frontend: (200 OK) – List of programmes
+Backend --> Frontend: (200 OK) List of programmes
 deactivate Backend
 Frontend --> ASC: Please select programme
 
 ASC -> Frontend: Select programme
-Frontend -> Backend: GET (Request programme editions)
+Frontend -> Backend: (GET) Request programme editions
 activate Backend
-Backend -> Database: SELECT programme_editions\n(Retrieve programme editions)
+Backend -> Database: (SELECT) Retrieve programme editions
 activate Database
 Database --> Backend: List of programme editions
 deactivate Database
-Backend --> Frontend: (200 OK) – List of programme editions
+Backend --> Frontend: (200 OK) List of programme editions
 deactivate Backend
 Frontend --> ASC: Please select programme edition
 
 ASC -> Frontend: Select programme edition
-Frontend -> Backend: GET (Request courses from study plan)
+Frontend -> Backend: (GET) Request courses from study plan
 activate Backend
-Backend -> Database: SELECT courses_in_study_plan\n(Retrieve courses in study plan)
+Backend -> Database: (SELECT) Retrieve courses in study plan
 activate Database
 Database --> Backend: List of courses in study plan
 deactivate Database
-Backend --> Frontend: (200 OK) – List of courses in study plan
+Backend --> Frontend: (200 OK) List of courses in study plan
 deactivate Backend
 Frontend --> ASC: Please select course
 
 ASC -> Frontend: Confirm course edition creation
-Frontend -> Backend: POST /course-editions\n(Submit course edition details)
+Frontend -> Backend: (POST) Submit course edition creation
 activate Backend
   'Applies business rules:
 
 
-Backend -> Database: INSERT INTO CourseEdition\n(Submit course edition details)
+Backend -> Database: (INSERT) Persist course edition
 activate Database
 Database --> Backend: Course edition persisted
 deactivate Database
 
-Backend --> Frontend: (201 Created) – Course edition created
+Backend --> Frontend: (201 Created) Course edition created
 deactivate Backend
 Frontend --> ASC: Course edition created successfully!
 deactivate Frontend

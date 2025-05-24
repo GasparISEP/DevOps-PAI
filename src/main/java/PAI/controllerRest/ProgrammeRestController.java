@@ -4,7 +4,7 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.service.programme.IProgrammeRegistrationService;
+import PAI.service.programme.IProgrammeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/programmes")
 public class ProgrammeRestController {
 
-    private IProgrammeRegistrationService _programmeService;
+    private IProgrammeService _programmeService;
     private IProgrammeAssembler _programmeAssembler;
 
-    public ProgrammeRestController (IProgrammeRegistrationService programmeService, IProgrammeAssembler programmeAssembler){
+    public ProgrammeRestController (IProgrammeService programmeService, IProgrammeAssembler programmeAssembler){
         if (programmeService == null) {
             throw new IllegalArgumentException("ProgrammeService cannot be null.");
         }
