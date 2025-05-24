@@ -13,7 +13,7 @@ public class ProgrammeEditionEnrolmentResponseDtoTest {
         String programmeName = "Programme 1";
         String programmeAcronym = "P1";
         String schoolYearDescription = "2024-2025";
-        String schoolYearID = "2024-2025";
+        String schoolYearID = "1234567890";
 
         // act
         ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentResponseDto(studentID, programmeName, programmeAcronym, schoolYearDescription, schoolYearID);
