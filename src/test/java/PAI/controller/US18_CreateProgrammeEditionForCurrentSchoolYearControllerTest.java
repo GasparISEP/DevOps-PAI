@@ -1,6 +1,13 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.assembler.programme.IProgrammeAssembler;
+import PAI.assembler.programme.ProgrammeAssembler;
+import PAI.domain.degreeType.DegreeType;
+import PAI.domain.department.Department;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.programme.Programme;
@@ -12,6 +19,14 @@ import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
+import PAI.persistence.mem.degreeType.DegreeTypeRepositoryImpl;
+import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
+import PAI.persistence.mem.department.DepartmentListFactoryImpl;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.IDepartmentListFactory;
 import PAI.persistence.mem.schoolYear.ISchoolYearListFactory;
 import PAI.persistence.mem.schoolYear.SchoolYearListFactoryImpl;
 import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
@@ -24,6 +39,9 @@ import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.persistence.mem.teacher.ITeacherListFactory;
+import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
+import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -339,7 +357,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -362,7 +388,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -413,7 +447,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -441,7 +483,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -466,9 +516,35 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+        programmeService.registerProgramme(programmeVOsDTO2);
+        programmeService.registerProgramme(programmeVOsDTO3);
+
 
         // Act
         Iterable<Programme> listToTest = controller.getAllProgrammes();
@@ -491,7 +567,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -522,7 +606,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -573,7 +665,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -602,7 +702,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -644,7 +752,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -669,9 +785,34 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+        programmeService.registerProgramme(programmeVOsDTO2);
+        programmeService.registerProgramme(programmeVOsDTO3);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -710,7 +851,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -735,9 +884,34 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-        programmeService.registerProgramme(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+        programmeService.registerProgramme(programmeVOsDTO2);
+        programmeService.registerProgramme(programmeVOsDTO3);
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -774,7 +948,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -796,7 +978,32 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -833,7 +1040,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -855,7 +1070,31 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         TeacherAcronym teacherAcronym = new TeacherAcronym("JFC");
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -884,7 +1123,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -904,7 +1151,31 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();
@@ -935,7 +1206,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -955,7 +1234,31 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        Name dtname = new Name("Master");
+        DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
+        Name departmentName = new Name("Astronomy");
+        DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
+        Department department = new Department(dAcronym, departmentName);
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+
         Iterable<Programme> programmes = programmeRepository.findAll();
         Iterator<Programme> iterator = programmes.iterator();
         Programme programme = iterator.next();

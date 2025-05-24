@@ -1,86 +1,30 @@
 package PAI.dto.studentGrade;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.Grade;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import static org.mockito.Mockito.mock;
+
 class GradeAStudentCommandTest {
 
-    private Grade gradeDouble;
-    private Date dateDouble;
-    private StudentID studentIDDouble;
-    private CourseEditionID courseEditionIDDouble;
-
-    private void createDoubles() {
-        gradeDouble = mock(Grade.class);
-        dateDouble = mock(Date.class);
-        studentIDDouble = mock(StudentID.class);
-        courseEditionIDDouble = mock(CourseEditionID.class);
-    }
-
     @Test
-    void shouldCreateGradeAStudentCommand() {
-        //Arrange
-        createDoubles();
+    void shouldCreateGradeAStudentCommand() throws Exception {
+        // Arrange
+        Grade grade = new Grade(12.5);
+        Date date = new Date("01-01-2023");
+        StudentID studentID = new StudentID(1241321);
 
-        //Act
-        GradeAStudentCommand dto = new GradeAStudentCommand(gradeDouble, dateDouble, studentIDDouble, courseEditionIDDouble);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
-        //Assert
-        assertNotNull(dto);
-    }
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionIDDouble, courseInStudyPlanIDDouble);
 
-    @Test
-    void shouldGetGradeThroughGetter() {
-        //Arrange
-        createDoubles();
+        // Act
+        GradeAStudentCommand command = new GradeAStudentCommand(grade, date, studentID, courseEditionID);
+        GradeAStudentCommand expected = new GradeAStudentCommand(grade, date, studentID, courseEditionID);
 
-        //Act
-        GradeAStudentCommand dto = new GradeAStudentCommand(gradeDouble, dateDouble, studentIDDouble, courseEditionIDDouble);
-
-        //Assert
-        assertEquals(dto.getGrade(), gradeDouble);
-    }
-
-    @Test
-    void shouldGetDateThroughGetter() {
-        //Arrange
-        createDoubles();
-
-        //Act
-        GradeAStudentCommand dto = new GradeAStudentCommand(gradeDouble, dateDouble, studentIDDouble, courseEditionIDDouble);
-
-        //Assert
-        assertEquals(dto.getDate(), dateDouble);
-    }
-
-    @Test
-    void shouldGetStudentIDThroughGetter() {
-        //Arrange
-        createDoubles();
-
-        //Act
-        GradeAStudentCommand dto = new GradeAStudentCommand(gradeDouble, dateDouble, studentIDDouble, courseEditionIDDouble);
-
-        //Assert
-        assertEquals(dto.getStudentID(), studentIDDouble);
-    }
-
-    @Test
-    void shouldGetCourseEditionThroughGetter() {
-        //Arrange
-        createDoubles();
-
-        //Act
-        GradeAStudentCommand dto = new GradeAStudentCommand(gradeDouble, dateDouble, studentIDDouble, courseEditionIDDouble);
-
-        //Assert
-        assertEquals(dto.getCourseEditionID(), courseEditionIDDouble);
+        // Assert
+        assertEquals(expected, command);
     }
 }

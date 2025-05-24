@@ -21,6 +21,7 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
                 teacher.getName().getName(),
                 teacher.getEmail().getEmail(),
                 teacher.getNIF().getNIF(),
+                teacher.getPhoneNumber().getCountryCode(),
                 teacher.getPhoneNumber().getNumber(),
                 teacher.getAcademicBackground().getAcademicBackground(),
                 teacher.getAddress().getStreet().getStreet(),

@@ -1,36 +1,35 @@
 @startuml
 autonumber
 
-title US04: As an Administrator, I want to register a teacher in the system.
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US04: \n As an Administrator, I want to register a teacher in the system.
 
 actor Administrator
 participant "Frontend" as FE
 participant "Backend" as BE
-database DB #lightgray/gray
+database DB
 
-Administrator -> FE ++: I want to register a teacher.
-FE --> Administrator --: What are the Teacher's attributes?
+Administrator -> FE ++: Request to register Teacher.
+FE --> Administrator --: Request Teacher's attributes?
 
-Administrator -> FE ++: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, \n location, country, date, workingPercentage
-FE -> BE ++: (GET) Request list of categories
-BE -> DB ++: Fetch all categories
-DB --> BE --: List of categories
-BE --> FE --: List of categories
-FE --> Administrator --: Display categories
+Administrator -> FE ++: Enter Teacher: teacherID, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, \n location, country, date, workingPercentage
 
-Administrator -> FE ++: Select category
 FE -> BE ++: (GET) Request list of departments
-BE -> DB ++: Fetch all department
+BE -> DB ++: Fetch all departments
 DB --> BE --: List of department
 BE --> FE --: List of department
-FE --> Administrator --: Display department
+FE --> Administrator --: Display departments
 
 Administrator -> FE ++: Select department
 
-FE -> BE ++: (POST) Create teacher
-BE -> DB ++: Insert into teacher
-DB --> BE --: Insert confirmed
-BE --> FE --: (201 OK) Created successfuly
+FE -> BE ++: (POST) Register Teacher
+BE -> DB ++: Persist instance of teacher created
+DB --> BE --: Registry confirmed
+BE --> FE --: (200 OK) Registration successfully
 FE --> Administrator --: Teacher registered successfully!
 
 @enduml
