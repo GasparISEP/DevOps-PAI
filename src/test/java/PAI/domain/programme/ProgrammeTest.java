@@ -13,14 +13,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //assert
         assertNotNull(programme);
     }
@@ -30,14 +30,14 @@ class ProgrammeTest {
         // arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         DepartmentID department2 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         // act
         boolean result = programme.isInDepartment(department2);
         // assert
@@ -49,13 +49,13 @@ class ProgrammeTest {
         // arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department, programmeDirectorID, programmeID);
 
         // act
         boolean result = programme.isInDepartment(department);
@@ -67,7 +67,7 @@ class ProgrammeTest {
     void shouldNotCreateProgrammeIfNameIsNull() {
         //arrange
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
@@ -75,7 +75,7 @@ class ProgrammeTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(null, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+            new Programme(null, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         });
         //assert
         assertEquals("Programme name cannot be null", exception.getMessage());
@@ -85,7 +85,7 @@ class ProgrammeTest {
     void shouldNotCreateProgrammeIfAcronymIsNull() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
@@ -93,7 +93,7 @@ class ProgrammeTest {
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, null, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+            new Programme(name, null, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         });
         //assert
         assertEquals("Acronym must not be null", exception.getMessage());
@@ -122,14 +122,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, acronym, qtyEcts, null, degreeTypeID, department1, programmeDirectorID, programmeID);
+            new Programme(name, acronym, maxEcts, null, degreeTypeID, department1, programmeDirectorID, programmeID);
         });
         //assert
         assertEquals("Quantity of Semesters must not be null", exception.getMessage());
@@ -140,14 +140,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, acronym, qtyEcts, qtySemesters, null, department1, programmeDirectorID, programmeID);
+            new Programme(name, acronym, maxEcts, qtySemesters, null, department1, programmeDirectorID, programmeID);
         });
         //assert
         assertEquals("DegreeTypeID must not be null", exception.getMessage());
@@ -158,14 +158,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, null, programmeDirectorID, programmeID);
+            new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, null, programmeDirectorID, programmeID);
         });
         //assert
         assertEquals("DepartmentID must not be null", exception.getMessage());
@@ -176,14 +176,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, null, programmeID);
+            new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, null, programmeID);
         });
         //assert
         assertEquals("TeacherID must not be null", exception.getMessage());
@@ -194,14 +194,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, null);
+            new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, null);
         });
         //assert
         assertEquals("ProgrammeID must not be null", exception.getMessage());
@@ -214,14 +214,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.equals(CEE);
         //assert
@@ -234,8 +234,8 @@ class ProgrammeTest {
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
         Acronym acronym2 = mock(Acronym.class);
-        QuantEcts qtyEcts1 = mock(QuantEcts.class);
-        QuantEcts qtyEcts2 = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
+        MaxEcts maxEcts2 = mock(MaxEcts.class);
         QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
         QuantSemesters qtySemesters2 = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
@@ -244,8 +244,8 @@ class ProgrammeTest {
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        Programme CE = new Programme(name1, acronym1, qtyEcts1, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID1);
-        Programme CEE = new Programme(name1, acronym2, qtyEcts2, qtySemesters2, degreeTypeID2, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name1, acronym1, maxEcts, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID1);
+        Programme CEE = new Programme(name1, acronym2, maxEcts2, qtySemesters2, degreeTypeID2, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.equals(CEE);
         //assert
@@ -257,13 +257,13 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
-        QuantEcts qtyEcts1 = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name1, acronym1, qtyEcts1, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name1, acronym1, maxEcts, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID);
         Programme CEE = null;
         //act
         boolean result = CE.equals(CEE);
@@ -276,13 +276,13 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.isEquals(CE.getProgrammeID());
         //assert
@@ -296,15 +296,15 @@ class ProgrammeTest {
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         Acronym acronym1 = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID1);
-        Programme CEE = new Programme(name1, acronym1, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID1);
+        Programme CEE = new Programme(name1, acronym1, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.isEquals(CEE.getProgrammeID());
         //assert
@@ -316,13 +316,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         TeacherID teacher1 = mock(TeacherID.class);
         //act
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -335,13 +335,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         TeacherID teacher1 = null;
         //act
         boolean result = CE.newProgrammeDirector(teacher1);
@@ -354,17 +354,17 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = new QuantEcts(6);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
-        QuantEcts result = CE.getQuantEcts();
+        MaxEcts result = CE.getMaxEcts();
         //assert
-        assertEquals(qtyEcts, result);
+        assertEquals(maxEcts, result);
     }
 
     @Test
@@ -372,13 +372,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = new QuantSemesters(6);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         QuantSemesters result = CE.getQuantSemesters();
         //assert
@@ -390,14 +390,14 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisProgrammeName(CEE.getProgrammeName());
         //assert
@@ -410,14 +410,14 @@ class ProgrammeTest {
         NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
         NameWithNumbersAndSpecialChars name2 = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name1, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name2, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name1, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name2, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisProgrammeName(CEE.getProgrammeName());
         //assert
@@ -429,13 +429,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         Acronym result = CE.getAcronym();
         //assert
@@ -447,13 +447,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         DegreeTypeID result = CE.getDegreeTypeID();
         //assert
@@ -465,13 +465,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         DepartmentID result = CE.getDepartment();
         //assert
@@ -483,13 +483,13 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         TeacherID result = CE.getProgrammeDirectorID();
         //assert
@@ -500,14 +500,14 @@ class ProgrammeTest {
     void testIdentityWithSameID() {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
 
 
         assertEquals(programmeID, programme.identity());
@@ -517,14 +517,14 @@ class ProgrammeTest {
     void testIdentityWithDifferentID() {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
 
 
         assertNotEquals(programmeID1, programme.identity());
@@ -535,14 +535,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
 
-        Programme programme = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
 
         //act + assert
         assertTrue(programme.sameAs(programme));
@@ -553,14 +553,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
 
-        Programme programme1 = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme1 = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         Programme programme2 = mock(Programme.class);
         //act + assert
         assertFalse(programme1.sameAs(programme2));
@@ -571,14 +571,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
 
-        Programme programme1 = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme1 = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         Programme programme2 = null;
         //act + assert
         assertFalse(programme1.sameAs(programme2));
@@ -589,14 +589,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
 
-        Programme programme1 = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme1 = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         String string = "hello";
         //act + assert
         assertFalse(programme1.sameAs(string));
@@ -624,7 +624,7 @@ class ProgrammeTest {
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Science");
         Acronym acronym = new Acronym("CS");
         ProgrammeID expectedId = new ProgrammeID(name, acronym);
-        Programme programme = new Programme(name, acronym, mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), expectedId);
+        Programme programme = new Programme(name, acronym, mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), expectedId);
 
         //act + assert
         assertEquals(expectedId, programme.identity());
@@ -634,7 +634,7 @@ class ProgrammeTest {
     void newProgrammeDirectorShouldUpdateDirector() throws Exception {
 
         TeacherID newDirector = mock(TeacherID.class);
-        Programme programme = new Programme(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(QuantEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), mock(ProgrammeID.class));
+        Programme programme = new Programme(mock(NameWithNumbersAndSpecialChars.class), mock(Acronym.class), mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), mock(ProgrammeID.class));
 
         programme.newProgrammeDirector(newDirector);
         assertEquals(newDirector, programme.getProgrammeDirectorID());
@@ -645,14 +645,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisProgrammeAcronym(CEE.getAcronym());
         //assert
@@ -664,15 +664,15 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
-        Acronym acronym2     = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        Acronym acronym2 = mock(Acronym.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym1, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym2, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym1, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym2, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisProgrammeAcronym(CEE.getAcronym());
         //assert
@@ -684,14 +684,14 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisDegreeTypeID(CEE.getDegreeTypeID());
         //assert
@@ -704,15 +704,15 @@ class ProgrammeTest {
         //arrenge
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym1 = mock(Acronym.class);
-        QuantEcts qtyEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters qtySemesters = mock(QuantSemesters.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        Programme CE = new Programme(name, acronym1, qtyEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
-        Programme CEE = new Programme(name, acronym1, qtyEcts, qtySemesters, degreeTypeID1, department1, programmeDirectorID, programmeID);
+        Programme CE = new Programme(name, acronym1, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme CEE = new Programme(name, acronym1, maxEcts, qtySemesters, degreeTypeID1, department1, programmeDirectorID, programmeID);
         //act
         boolean result = CE.hasThisDegreeTypeID(CEE.getDegreeTypeID());
         //assert

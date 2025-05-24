@@ -50,7 +50,7 @@ public class ProgrammeMapperImplTest {
 
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
-        QuantEcts quantEcts = mock(QuantEcts.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
         QuantSemesters quantSemesters = mock(QuantSemesters.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
@@ -75,8 +75,8 @@ public class ProgrammeMapperImplTest {
         when(programme.getAcronym()).thenReturn(acronym);
         when(acronym.getAcronym()).thenReturn("OLA");
 
-        when(programme.getQuantEcts()).thenReturn(quantEcts);
-        when(quantEcts.getQuantEcts()).thenReturn(30);
+        when(programme.getMaxEcts()).thenReturn(maxEcts);
+        when(maxEcts.getMaxEcts()).thenReturn(30);
 
         when(programme.getQuantSemesters()).thenReturn(quantSemesters);
         when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
@@ -148,7 +148,7 @@ public class ProgrammeMapperImplTest {
         when(factory.reregisterProgramme(
                 any(NameWithNumbersAndSpecialChars.class),
                 any(Acronym.class),
-                any(QuantEcts.class),
+                any(MaxEcts.class),
                 any(QuantSemesters.class),
                 eq(degreeTypeID),
                 eq(departmentID),
@@ -165,7 +165,7 @@ public class ProgrammeMapperImplTest {
 
         when(dataModel.getAcronym()).thenReturn("OLA");
 
-        when(dataModel.getQuantEcts()).thenReturn(30);
+        when(dataModel.getMaxEcts()).thenReturn(30);
 
         when(dataModel.getQuantSemesters()).thenReturn(6);
 

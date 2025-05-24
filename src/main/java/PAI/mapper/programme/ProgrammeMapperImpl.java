@@ -38,14 +38,14 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
         DegreeTypeIDDataModel degreeTIDDM = _degreeTypeIDMapper.toDataModel(programme.getDegreeTypeID());
 
         return new ProgrammeDataModel(progIDDM, programme.getProgrammeID().getName().getnameWithNumbersAndSpecialChars(), programme.getAcronym().getAcronym(), programme.getQuantSemesters().getQuantityOfSemesters(),
-                programme.getQuantEcts().getQuantEcts(), degreeTIDDM, departIDDM, teacherIDDM);
+                programme.getMaxEcts().getMaxEcts(), degreeTIDDM, departIDDM, teacherIDDM);
     }
 
     public Programme toDomain(ProgrammeDataModel programmeDataModel){
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeDataModel.getName());
         Acronym acronym = new Acronym(programmeDataModel.getAcronym());
         QuantSemesters quantSemesters = new QuantSemesters(programmeDataModel.getQuantSemesters());
-        QuantEcts quantEcts = new QuantEcts(programmeDataModel.getQuantEcts());
+        MaxEcts maxEcts = new MaxEcts(programmeDataModel.getMaxEcts());
 
         DegreeTypeID degreeTypeID = _degreeTypeIDMapper.toDomain(programmeDataModel.getDegreeTypeID());
 
@@ -55,7 +55,7 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
 
         ProgrammeID programmeID = _progIDMapper.toDomain(programmeDataModel.getProgID());
 
-        return _factory.reregisterProgramme(name,acronym,quantEcts,quantSemesters,degreeTypeID,departID,teacherID,programmeID);
+        return _factory.reregisterProgramme(name,acronym,maxEcts,quantSemesters,degreeTypeID,departID,teacherID,programmeID);
     }
 
 }

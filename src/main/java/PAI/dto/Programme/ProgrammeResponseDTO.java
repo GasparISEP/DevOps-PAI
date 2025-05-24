@@ -4,7 +4,7 @@ public class ProgrammeResponseDTO {
 
     private String name;
     private String acronym;
-    private int quantECTS;
+    private int maxECTS;
     private int quantSemesters;
     private String degreeTypeName;
     private String departmentName;
@@ -12,10 +12,10 @@ public class ProgrammeResponseDTO {
 
     public ProgrammeResponseDTO() {}
 
-    public ProgrammeResponseDTO(String name, String acronym, int quantECTS, int quantSemesters, String degreeTypeName, String departmentName, String teacherName) {
+    public ProgrammeResponseDTO(String name, String acronym, int maxECTS, int quantSemesters, String degreeTypeName, String departmentName, String teacherName) {
         this.name = name;
         this.acronym = acronym;
-        this.quantECTS = quantECTS;
+        this.maxECTS = maxECTS;
         this.quantSemesters = quantSemesters;
         this.degreeTypeName = degreeTypeName;
         this.departmentName = departmentName;
@@ -30,8 +30,8 @@ public class ProgrammeResponseDTO {
         return acronym;
     }
 
-    public int getQuantECTS() {
-        return quantECTS;
+    public int getMaxECTS() {
+        return maxECTS;
     }
 
     public int getQuantSemesters() {

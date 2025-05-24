@@ -6,16 +6,16 @@ public class ProgrammeVOsDTO {
 
     private NameWithNumbersAndSpecialChars name;
     private Acronym acronym;
-    private QuantEcts quantEcts;
+    private MaxEcts maxEcts;
     private QuantSemesters quantSemesters;
     private DegreeTypeID degreeTypeID;
     private DepartmentID departmentID;
     private TeacherID teacherID;
 
-    public ProgrammeVOsDTO(NameWithNumbersAndSpecialChars name, Acronym acronym, QuantEcts quantEcts, QuantSemesters quantSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID teacherID) {
+    public ProgrammeVOsDTO(NameWithNumbersAndSpecialChars name, Acronym acronym, MaxEcts maxEcts, QuantSemesters quantSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID teacherID) {
         this.name = name;
         this.acronym = acronym;
-        this.quantEcts = quantEcts;
+        this.maxEcts = maxEcts;
         this.quantSemesters = quantSemesters;
         this.degreeTypeID = degreeTypeID;
         this.departmentID = departmentID;
@@ -30,8 +30,8 @@ public class ProgrammeVOsDTO {
         return acronym;
     }
 
-    public QuantEcts getQuantEcts() {
-        return quantEcts;
+    public MaxEcts getMaxEcts() {
+        return maxEcts;
     }
 
     public QuantSemesters getQuantSemesters() {

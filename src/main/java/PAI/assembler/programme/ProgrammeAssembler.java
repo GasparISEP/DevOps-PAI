@@ -14,7 +14,7 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
 
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeRequestDTO.getName());
         Acronym acronym = new Acronym(programmeRequestDTO.getAcronym());
-        QuantEcts quantEcts = new QuantEcts(programmeRequestDTO.getQuantECTS());
+        MaxEcts maxEcts = new MaxEcts(programmeRequestDTO.getMaxECTS());
         QuantSemesters quantSemesters = new QuantSemesters(programmeRequestDTO.getQuantSemesters());
         DegreeTypeID degreeTypeID = new DegreeTypeID(programmeRequestDTO.getDegreeTypeID());
         DepartmentAcronym departmentAcronym = new DepartmentAcronym(programmeRequestDTO.getDepartmentID());
@@ -22,17 +22,17 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
         TeacherAcronym teacherAcronym = new TeacherAcronym(programmeRequestDTO.getTeacherID());
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        return new ProgrammeVOsDTO(name, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
+        return new ProgrammeVOsDTO(name, acronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
     }
 
     public ProgrammeResponseDTO fromDomainToDTO (Programme programme, String degreeTypeName, String departmentName, String teacherName) {
 
         String name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
         String acronym = programme.getAcronym().getAcronym();
-        int quantECTS = programme.getQuantEcts().getQuantEcts();
+        int maxECTS = programme.getMaxEcts().getMaxEcts();
         int quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();
 
-        return new ProgrammeResponseDTO(name, acronym, quantECTS, quantSemesters, degreeTypeName, departmentName, teacherName);
+        return new ProgrammeResponseDTO(name, acronym, maxECTS, quantSemesters, degreeTypeName, departmentName, teacherName);
 
     }
 }

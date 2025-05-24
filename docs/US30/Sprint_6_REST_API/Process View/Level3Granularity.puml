@@ -4,12 +4,12 @@ title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (
 
 autonumber
 
-participant ":Router" as router <<component>> <<Router>> #lightblue
-participant ":RESTController" as restController <<component>> <<RESTController>> #teal
-participant ":Service" as service <<component>> <<Service>> #lightgreen
-participant ":Domain" as domain <<component>> <<Domain>> #orange
-participant ":Repository" as repository <<component>> <<Repository>> #grey
-
+participant ":Router" as router <<component>> <<Router>> #teal
+participant ":CourseInStudyPlanRESTController" as restController <<component>> <<RESTController>> #teal
+participant ":CourseInStudyPlanService" as service <<component>> <<Service>> #teal
+participant ":CourseInStudyPlanFactory" as factory <<component>> <<Factory>> #teal
+participant ":Domain" as domain <<component>> <<Domain>> #teal
+participant ":Repository" as repository <<component>> <<Repository>> #teal
 
 note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
 
@@ -23,14 +23,22 @@ router -> restController: addCourseToProgramme (DTO)
 activate restController #E1F5FE
 
 ref over restController
-    Convert addCourseToProgrammeRequestDTO to addCourseToProgrammeRequestVO
+    Convert addCourseToProgrammeRequestDTO
+    to CourseInStudyPlanCommmand
 end
 
-restController -> service: addCourseToProgramme (VO)
+restController -> service: addCourseToProgramme (command)
 activate service #E1F5FE
+
+service --> factory: createCourseInStudyPlan (command)
+activate factory #E1F5FE
+factory --> service: createCourseInStudyPlan (VO)
+deactivate factory
 
 service -> domain: addCourseToProgramme (VO)
 activate domain #E1F5FE
+
+'CRIAR LIGAÇÃO DE SERVICE A COMMAND
 
 domain -> service: courseInStudyPlan
 deactivate domain

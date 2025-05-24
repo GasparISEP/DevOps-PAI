@@ -34,7 +34,7 @@ public class DegreeTypeAssemblerImpl implements IDegreeTypeAssembler{
 
         return new DegreeTypeDTO(
                 degreeType.identity().getDTID(),
-                degreeType.getName().toString(),
+                degreeType.getName().getName(),
                 degreeType.getMaxEcts().getMaxEcts()
         );
     }

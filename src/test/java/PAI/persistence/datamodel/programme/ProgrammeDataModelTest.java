@@ -124,7 +124,7 @@ public class ProgrammeDataModelTest {
         assertNull(dataModel.getName());
         assertNull(dataModel.getAcronym());
         assertEquals(0, dataModel.getQuantSemesters());
-        assertEquals(0, dataModel.getQuantEcts());
+        assertEquals(0, dataModel.getMaxEcts());
         assertNull(dataModel.getDegreeTypeID());
         assertNull(dataModel.getDepartmentID());
         assertNull(dataModel.getProgrammeDirectorID());
@@ -187,7 +187,7 @@ public class ProgrammeDataModelTest {
         ProgrammeDataModel programmeDataModel = new ProgrammeDataModel(programmeIDDM, "name", "ACR", 6, 30, degreeTypeIDDataModel, departmentIDDataModel, teacherIDDataModel);
 
         // Assert
-        assertEquals(30, programmeDataModel.getQuantEcts());
+        assertEquals(30, programmeDataModel.getMaxEcts());
     }
 
     @Test

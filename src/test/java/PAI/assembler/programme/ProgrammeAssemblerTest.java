@@ -21,7 +21,7 @@ class ProgrammeAssemblerTest {
 
         String name = "Data Science";
         String acronym = "DSD";
-        int quantECTS = 30;
+        int maxECTS = 30;
         int quantSemesters = 6;
         String degreeTypeID = "123e4567-e89b-12d3-a456-426614174000";
         String departmentID = "DEI";
@@ -29,7 +29,7 @@ class ProgrammeAssemblerTest {
 
         when(programmeRequestDTODouble.getName()).thenReturn(name);
         when(programmeRequestDTODouble.getAcronym()).thenReturn(acronym);
-        when(programmeRequestDTODouble.getQuantECTS()).thenReturn(quantECTS);
+        when(programmeRequestDTODouble.getMaxECTS()).thenReturn(maxECTS);
         when(programmeRequestDTODouble.getQuantSemesters()).thenReturn(quantSemesters);
         when(programmeRequestDTODouble.getDegreeTypeID()).thenReturn(degreeTypeID);
         when(programmeRequestDTODouble.getDepartmentID()).thenReturn(departmentID);
@@ -43,7 +43,7 @@ class ProgrammeAssemblerTest {
 
                 () -> assertEquals(name, result.getName().getnameWithNumbersAndSpecialChars()),
                 () -> assertEquals(acronym, result.getAcronym().getAcronym()),
-                () -> assertEquals(quantECTS, result.getQuantEcts().getQuantEcts()),
+                () -> assertEquals(maxECTS, result.getMaxEcts().getMaxEcts()),
                 () -> assertEquals(quantSemesters, result.getQuantSemesters().getQuantityOfSemesters()),
                 () -> assertEquals(degreeTypeID, result.getDegreeTypeID().getDTID()),
                 () -> assertEquals(departmentID, result.getDepartmentID().getAcronym().getAcronym()),
@@ -59,7 +59,7 @@ class ProgrammeAssemblerTest {
 
         NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronymDouble = mock(Acronym.class);
-        QuantEcts quantEctsDouble = mock(QuantEcts.class);
+        MaxEcts maxEctsDouble = mock(MaxEcts.class);
         QuantSemesters quantSemestersDouble = mock(QuantSemesters.class);
         String degreeTypeName = "Master";
         String departmentName = "Astronomy";
@@ -69,8 +69,8 @@ class ProgrammeAssemblerTest {
         when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Data Science");
         when(programmeDouble.getAcronym()).thenReturn(acronymDouble);
         when(acronymDouble.getAcronym()).thenReturn("DSD");
-        when(programmeDouble.getQuantEcts()).thenReturn(quantEctsDouble);
-        when(quantEctsDouble.getQuantEcts()).thenReturn(30);
+        when(programmeDouble.getMaxEcts()).thenReturn(maxEctsDouble);
+        when(maxEctsDouble.getMaxEcts()).thenReturn(30);
         when(programmeDouble.getQuantSemesters()).thenReturn(quantSemestersDouble);
         when(quantSemestersDouble.getQuantityOfSemesters()).thenReturn(6);
 
@@ -81,7 +81,7 @@ class ProgrammeAssemblerTest {
         assertAll(
                 () -> assertEquals("Data Science", programmeResponseDTO.getName()),
                 () -> assertEquals("DSD", programmeResponseDTO.getAcronym()),
-                () -> assertEquals(30, programmeResponseDTO.getQuantECTS()),
+                () -> assertEquals(30, programmeResponseDTO.getMaxECTS()),
                 () -> assertEquals(6, programmeResponseDTO.getQuantSemesters()),
                 () -> assertEquals("Master", programmeResponseDTO.getDegreeTypeName()),
                 () -> assertEquals("Astronomy", programmeResponseDTO.getDepartmentName()),

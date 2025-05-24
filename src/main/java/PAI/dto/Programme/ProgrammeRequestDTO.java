@@ -4,7 +4,7 @@ public class ProgrammeRequestDTO {
 
     private String name;
     private String acronym;
-    private int quantECTS;
+    private int maxECTS;
     private int quantSemesters;
     private String degreeTypeID;
     private String departmentID;
@@ -12,10 +12,10 @@ public class ProgrammeRequestDTO {
 
     public ProgrammeRequestDTO() {}
 
-    public ProgrammeRequestDTO(String name, String acronym, int quantECTS, int quantSemesters, String degreeTypeID, String departmentID, String teacherID) {
+    public ProgrammeRequestDTO(String name, String acronym, int maxECTS, int quantSemesters, String degreeTypeID, String departmentID, String teacherID) {
         this.name = name;
         this.acronym = acronym;
-        this.quantECTS = quantECTS;
+        this.maxECTS = maxECTS;
         this.quantSemesters = quantSemesters;
         this.degreeTypeID = degreeTypeID;
         this.departmentID = departmentID;
@@ -30,8 +30,8 @@ public class ProgrammeRequestDTO {
         return acronym;
     }
 
-    public int getQuantECTS() {
-        return quantECTS;
+    public int getMaxECTS() {
+        return maxECTS;
     }
 
     public int getQuantSemesters() {
