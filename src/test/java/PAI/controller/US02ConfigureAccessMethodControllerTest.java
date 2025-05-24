@@ -1,9 +1,12 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.assembler.accessMethod.IAccessMethodAssembler;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
+import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
 import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
 import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
@@ -35,13 +38,14 @@ class US02ConfigureAccessMethodControllerTest {
 
     @Autowired private IAccessMethodFactory accessMethodFactory;
     @Autowired private IRepositoryAccessMethod accessMethodRepository;
+    @Autowired private IAccessMethodAssembler accessMethodAssembler;
 
     private IAccessMethodService accessMethodService;
     private US02_ConfigureAccessMethodController controller;
 
     @BeforeEach
     void setUp() {
-        accessMethodService = new AccessMethodServiceImpl(accessMethodFactory, accessMethodRepository);
+        accessMethodService = new AccessMethodServiceImpl(accessMethodFactory, accessMethodRepository, accessMethodAssembler );
         controller = new US02_ConfigureAccessMethodController(accessMethodService);
     }
 
@@ -69,18 +73,19 @@ class US02ConfigureAccessMethodControllerTest {
         // arrange
         String accessMethodName = "M23";
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
+        AccessMethodResponseDTO dto = mock(AccessMethodResponseDTO.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
         AccessMethod accessMethod = mock(AccessMethod.class);
 
-        ArgumentCaptor<NameWithNumbersAndSpecialChars> nameCaptor = ArgumentCaptor.forClass(NameWithNumbersAndSpecialChars.class);
-        when(accessMethodService.registerAccessMethod(nameCaptor.capture())).thenReturn(Optional.of(accessMethod));
+        ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
+        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.of(dto));
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);
 
         // assert
         assertTrue(result);
-        assertNotNull(nameCaptor.getValue());
+        assertNotNull(commandCaptor.getValue());
     }
 
     @Test
@@ -90,15 +95,15 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
 
-        ArgumentCaptor<NameWithNumbersAndSpecialChars> nameCaptor = ArgumentCaptor.forClass(NameWithNumbersAndSpecialChars.class);
-        when(accessMethodService.registerAccessMethod(nameCaptor.capture())).thenReturn(Optional.empty());
+        ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
+        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.empty());
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);
 
         // assert
         assertFalse(result);
-        assertNotNull(nameCaptor.getValue());
+        assertEquals(accessMethodName, commandCaptor.getValue().name());
     }
 
     @Test
@@ -118,8 +123,8 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         US02_ConfigureAccessMethodController ctrl = new US02_ConfigureAccessMethodController(accessMethodService);
         String accessMethodName = "M23";
-        when(accessMethodService.registerAccessMethod(any()))
-            .thenThrow(new IllegalArgumentException("Service error"));
+        when(accessMethodService.configureAccessMethod(any(RegisterAccessMethodCommand.class)))
+                .thenThrow(new IllegalArgumentException("Service error"));
 
         // act
         boolean result = ctrl.configureAccessMethod(accessMethodName);
@@ -134,7 +139,12 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
         IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
         IAccessMethodFactory factory = new AccessMethodFactoryImpl();
-        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository);
+        IAccessMethodAssembler assembler = mock(IAccessMethodAssembler.class);
+
+        AccessMethodResponseDTO responseDTO = mock(AccessMethodResponseDTO.class);
+        when(assembler.toDto(any(AccessMethod.class))).thenReturn(responseDTO);
+
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assembler);
         US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
 
         String accessMethodName = "M23";
@@ -155,7 +165,8 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
         IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
         IAccessMethodFactory factory = new AccessMethodFactoryImpl();
-        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository);
+        IAccessMethodAssembler assembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assembler);
         US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
 
         String accessMethodName = "M23";
