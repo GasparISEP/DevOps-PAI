@@ -50,12 +50,12 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
         return new TeacherID(new TeacherAcronym(teacherCareerProgressionDTO.getTeacherid()));
     }
 
-    public TeacherCategoryUpdateResponseDTO UpdateCategoryToDTO (TeacherCareerProgression teacherCareerProgression){
+    public UpdateTeacherCategoryResponseDTO UpdateCategoryToDTO (TeacherCareerProgression teacherCareerProgression){
 
         String date = teacherCareerProgression.getDate().toString();
         String teacherID = teacherCareerProgression.getTeacherID().toString();
         String teacherCategory = teacherCareerProgression.getTeacherCategoryID().toString();
         int workingPercent = teacherCareerProgression.getWorkingPercentage().getValue();
-        return new TeacherCategoryUpdateResponseDTO(date,teacherID,teacherCategory,workingPercent);
+        return new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategory,workingPercent);
     }
 }

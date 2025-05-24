@@ -102,7 +102,7 @@ class TeacherCareerProgressionAssemblerTest {
         when(date.toString()).thenReturn("12-02-2024");
 
         // Act
-        TeacherCategoryUpdateResponseDTO dto = mapper.UpdateCategoryToDTO(teacherCareerProgression);
+        UpdateTeacherCategoryResponseDTO dto = mapper.UpdateCategoryToDTO(teacherCareerProgression);
 
         // Assert
         assertNotNull(dto);

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TeacherCategoryUpdateResponseDTOTest {
+class UpdateTeacherCategoryResponseDTOTest {
     @Test
     void shouldCreateConstructor(){
         //arrange
@@ -13,16 +13,16 @@ class TeacherCategoryUpdateResponseDTOTest {
         String teacherCategory = "1234567";
         int workingPercentage = 80;
 
-        TeacherCategoryUpdateResponseDTO teacherCategoryUpdateResponseDTO = new TeacherCategoryUpdateResponseDTO(date,teacherID,teacherCategory,workingPercentage);
+        UpdateTeacherCategoryResponseDTO updateTeacherCategoryResponseDTO = new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategory,workingPercentage);
 
         //assert
-        assertNotNull(teacherCategoryUpdateResponseDTO);
+        assertNotNull(updateTeacherCategoryResponseDTO);
     }
 
     @Test
     void shouldCreateEmptyConstructor(){
-        TeacherCategoryUpdateResponseDTO teacherCategoryUpdateResponseDTO = new TeacherCategoryUpdateResponseDTO();
+        UpdateTeacherCategoryResponseDTO updateTeacherCategoryResponseDTO = new UpdateTeacherCategoryResponseDTO();
         //assert
-        assertNotNull(teacherCategoryUpdateResponseDTO);
+        assertNotNull(updateTeacherCategoryResponseDTO);
     }
 }
