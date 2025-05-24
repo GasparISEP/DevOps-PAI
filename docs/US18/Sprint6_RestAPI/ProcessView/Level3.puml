@@ -6,7 +6,7 @@ skinparam shadowing true
 
 participant ":Router" as Router
 participant ":ProgrammeEditionRESTController" as CPEC
-participant ":IProgrammeEditionService" as PES
+participant ":IProgrammeEditionRegistrationService" as PES
 participant ":IProgrammeEditionFactory" as PEF
 
 
@@ -18,14 +18,20 @@ note over Router: The conversion from JSON to DTO is done automatically through 
 
 '''''''''''''''''''''''''''''''''''''''''
 Router -> CPEC: createAProgrammeEditionForTheCurrentSchoolYear(peRequestDTO)
-ref over CPEC
-    Convert peRequestDTO to programmeID and schoolYearID
-end
+
 
 'create programmeEdition for current School Year
 activate CPEC #E1F5FE
-CPEC -> PES:createProgrammeEditionAndSave(programmeID, schoolYearID)
+CPEC -> PES:createProgrammeEditionAndSave(peRequestDTO)
+ref over PES
+    Convert peRequestDTO to programmeID and schoolYearID
+end
 activate PES #E1F5FE
+ref over PES
+    Validate if programmeID and schoolYearID exist in respective Repositories
+end
+
+alt programmeExists && schoolYearExists
 PES -> PEF: createProgrammeEdition(programmeID, schoolYearID)
 activate PEF #E1F5FE
 create "pe1ID:ProgrammeEditionID" as PEID
@@ -71,15 +77,18 @@ PEMapper --> PER: Optional <ProgrammeEditionDataModel>
 deactivate PEMapper
 alt isPresent
 participant ":IProgrammeEditionSpringDataRepository" as IPER
-PER -> IPER: save(pe1)
+PER -> IPER: save(pe1DataModel)
 activate IPER #E1F5FE
+ref over PER
+Convert pe1DataModel to Domain
+end
 IPER--> PER: pe1
 deactivate IPER
 end
 PER --> PES: pe1
 deactivate PER
 participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler
-PES --> ProgrammeEditionAssembler: toDTO(pe1)
+PES --> ProgrammeEditionAssembler: toDTO(pe1ID, syID)
 activate ProgrammeEditionAssembler #E1F5FE
 create "peResponseDTO:ProgrammeEditionResponseDTO" as peResponseDTO
 
@@ -92,7 +101,9 @@ ProgrammeEditionAssembler --> PES: peResponseDTO
 deactivate ProgrammeEditionAssembler
 
 end
+end
 PES --> CPEC: peResponseDTO
+
 deactivate PES
 CPEC --> Router : (201, Created) peResponseJSON
 deactivate CPEC

@@ -173,4 +173,57 @@ class TeacherCategoryRepositorySpringDataImplTest {
         assertEquals(teacherCategory, result.get(0));
     }
 
+    @Test
+    public void testGetTeacherCategoryNameByID() throws Exception {
+        Name name = mock(Name.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        TeacherCategory teacherCategory1 = new TeacherCategory(teacherCategoryID, name);
+        TeacherCategoryIDDataModel teacherCategoryIDDataModel = mock(TeacherCategoryIDDataModel.class);
+        TeacherCategoryDataModel dataModel = mock(TeacherCategoryDataModel.class);
+
+        // Arrange
+        when(idMapper.toDataModel(teacherCategoryID)).thenReturn(teacherCategoryIDDataModel);
+        when(jpaRepository.findById(teacherCategoryIDDataModel)).thenReturn(Optional.of(dataModel));
+        when(mapper.toDomainModel(dataModel)).thenReturn(teacherCategory1);
+
+        // Act
+        Optional<Name> result = repository.findNameByID(teacherCategoryID);
+
+        // Assert
+        assertEquals(Optional.of(teacherCategory1.getName()), result);
+    }
+
+    @Test
+    public void testCantGetTeacherCategoryNameByIDIfEmpty() throws Exception {
+        //Arrange
+        Name name = mock(Name.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        TeacherCategory teacherCategory1 = new TeacherCategory(teacherCategoryID, name);
+        TeacherCategoryIDDataModel teacherCategoryIDDataModel = mock(TeacherCategoryIDDataModel.class);
+        TeacherCategoryDataModel dataModel = mock(TeacherCategoryDataModel.class);
+        when(idMapper.toDataModel(teacherCategoryID)).thenReturn(teacherCategoryIDDataModel);
+        when(mapper.toDomainModel(dataModel)).thenReturn(teacherCategory1);
+        // Act
+        Optional<Name> result = repository.findNameByID(teacherCategoryID);
+        // Assert
+        assertEquals(Optional.empty() ,result);
+    }
+
+    @Test
+    void testFindNameByID_shouldThrowRuntimeException() {
+        // Arrange
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);  // Mock do ID
+
+        // Simula o comportamento do idMapper, mas faz ele lançar uma exceção
+        when(idMapper.toDataModel(teacherCategoryID)).thenThrow(new IllegalArgumentException("Domain ID cannot be null"));
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            repository.findNameByID(teacherCategoryID);
+        });
+
+        // Verifique se a mensagem da exceção está correta
+        assertEquals("Failed to retrieve and map Name by ID", exception.getMessage());
+        assertInstanceOf(RuntimeException.class, exception.getCause());
+    }
 }
