@@ -56,7 +56,7 @@ class DegreeTypeAssemblerImplTest {
         when(id.getDTID()).thenReturn(uuid);
 
         Name name = mock(Name.class);
-        when(name.toString()).thenReturn("Mestrado");
+        when(name.getName()).thenReturn("Mestrado");
 
         MaxEcts maxEcts = mock(MaxEcts.class);
         when(maxEcts.getMaxEcts()).thenReturn(180);
@@ -92,7 +92,7 @@ class DegreeTypeAssemblerImplTest {
         DegreeTypeID id1 = mock(DegreeTypeID.class);
         when(id1.getDTID()).thenReturn(UUID.randomUUID().toString());
         Name name1 = mock(Name.class);
-        when(name1.toString()).thenReturn("Licenciatura");
+        when(name1.getName()).thenReturn("Licenciatura");
         MaxEcts maxEcts1 = mock(MaxEcts.class);
         when(maxEcts1.getMaxEcts()).thenReturn(180);
         DegreeType degreeType1 = mock(DegreeType.class);
@@ -103,7 +103,7 @@ class DegreeTypeAssemblerImplTest {
         DegreeTypeID id2 = mock(DegreeTypeID.class);
         when(id2.getDTID()).thenReturn(UUID.randomUUID().toString());
         Name name2 = mock(Name.class);
-        when(name2.toString()).thenReturn("Mestrado");
+        when(name2.getName()).thenReturn("Mestrado");
         MaxEcts maxEcts2 = mock(MaxEcts.class);
         when(maxEcts2.getMaxEcts()).thenReturn(120);
         DegreeType degreeType2 = mock(DegreeType.class);
