@@ -9,6 +9,7 @@ import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.TeacherCategoryUpdateResponseDTO;
 import PAI.dto.teacherCareerProgression.TeacherWorkingPercentageUpdateDTO;
+import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -156,40 +157,43 @@ class TeacherCareerProgressionServiceImplV2Test {
     }
 
     @Test
-    void shouldReturnOptionalOfTeacherCareerProgressionDTO() throws Exception {
+    void shouldReturnOptionalOfTeacherCareerProgression() throws Exception {
         // Arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
         ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
 
         Date date = mock(Date.class);
-        TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        TeacherCategoryID teacherCategoryID2 = mock(TeacherCategoryID.class);
         TeacherID teacherID = mock(TeacherID.class);
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
         TeacherCareerProgression previousTCP = mock(TeacherCareerProgression.class);
         WorkingPercentage wp = mock(WorkingPercentage.class);
         TeacherCareerProgression newTCP = mock(TeacherCareerProgression.class);
-        TeacherCategoryUpdateResponseDTO teacherCategoryUpdateResponseDTO = mock(TeacherCategoryUpdateResponseDTO.class);
 
-
-
+        when(command.date()).thenReturn(date);
+        when(command.teacherCategoryID()).thenReturn(teacherCategoryID);
+        when(command.teacherID()).thenReturn(teacherID);
         when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
         when(teacherCategoryRepository.containsOfIdentity(teacherCategoryID)).thenReturn(true);
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(previousTCP));
         when(previousTCP.isLastDateEqualOrBeforeNewDate(date)).thenReturn(true);
         when(previousTCP.getWorkingPercentage()).thenReturn(wp);
-        when(previousTCP.getTeacherCategoryID()).thenReturn(mock(TeacherCategoryID.class));
+        when(previousTCP.getTeacherCategoryID()).thenReturn(teacherCategoryID2);
         when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
-        when(assembler.UpdateCategoryToDTO(newTCP)).thenReturn(teacherCategoryUpdateResponseDTO);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategoryID, teacherID);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+
         // Assert
         assertTrue(result.isPresent());
-        assertEquals(teacherCategoryUpdateResponseDTO, result.get());
+        assertEquals(newTCP, result.get());
     }
+
 
 
     @Test
@@ -202,16 +206,11 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
         ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
         TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
-        Date date = mock(Date.class);
-        TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
-        TeacherID teacherID = mock(TeacherID.class);
-
-
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
         when(teacherRepository.containsOfIdentity(any())).thenReturn(false);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date,teacherCategoryID,teacherID);
-
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -225,17 +224,13 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
         ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
         TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
-
-        Date date = mock(Date.class);
-        TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
-        TeacherID teacherID = mock(TeacherID.class);
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(false);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date,teacherCategoryID,teacherID);
-
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -248,22 +243,18 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
         ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
         TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
-        TeacherCategoryUpdateResponseDTO teacherCategoryUpdateResponseDTO = mock(TeacherCategoryUpdateResponseDTO.class);
 
         when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.empty());
-
-        Date date = mock(Date.class);
-        TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
-        TeacherID teacherID = mock(TeacherID.class);
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategoryID, teacherID);
-
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
         // Assert
         assertTrue(result.isEmpty());
     }
+
     @Test
     void shouldReturnEmptyWhenDateNotAfterLast() throws Exception {
         // Arrange
@@ -278,6 +269,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
         TeacherID teacherID = mock(TeacherID.class);
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.of(tcp));
         when(tcp.isLastDateEqualOrBeforeNewDate(any())).thenReturn(false);
@@ -286,8 +278,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategoryID, teacherID);
-
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -300,23 +291,29 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
         ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
         TeacherID teacherID = mock(TeacherID.class);
-        TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
+        TeacherCareerProgression previousTCP = mock(TeacherCareerProgression.class);
+        WorkingPercentage wp = mock(WorkingPercentage.class);
+        TeacherCareerProgression newTCP = mock(TeacherCareerProgression.class);
 
-        when(tcp.isLastDateEqualOrBeforeNewDate(any())).thenReturn(true);
-        when(tcp.getTeacherCategoryID()).thenReturn(teacherCategoryID);
-
-        when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.of(tcp));
-        when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
+        when(command.date()).thenReturn(date);
+        when(command.teacherCategoryID()).thenReturn(teacherCategoryID);
+        when(command.teacherID()).thenReturn(teacherID);
+        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
+        when(teacherCategoryRepository.containsOfIdentity(teacherCategoryID)).thenReturn(true);
+        when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(previousTCP));
+        when(previousTCP.isLastDateEqualOrBeforeNewDate(date)).thenReturn(true);
+        when(previousTCP.getWorkingPercentage()).thenReturn(wp);
+        when(previousTCP.getTeacherCategoryID()).thenReturn(teacherCategoryID);
+        when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
 
         // Act
-        Optional<TeacherCategoryUpdateResponseDTO> result = service.updateTeacherCategoryInTeacherCareerProgression(date, teacherCategoryID, teacherID);
-
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
         // Assert
         assertTrue(result.isEmpty());
     }
