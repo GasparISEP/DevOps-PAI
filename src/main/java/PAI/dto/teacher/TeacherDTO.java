@@ -5,6 +5,7 @@ public record TeacherDTO (
         String name,
         String email,
         String nif,
+        String countryCode,
         String phoneNumber,
         String academicBackground,
         String street,
