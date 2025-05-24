@@ -6,6 +6,8 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 
+import PAI.dto.Programme.ProgrammeResponseDTO;
+import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.degreeType.DegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -186,21 +188,14 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
-        Programme programmeDouble = mock(Programme.class);
+        ProgrammeResponseDTO programmeResponseDTO = mock(ProgrammeResponseDTO.class);
+        ProgrammeVOsDTO programmeVOsDTO = mock(ProgrammeVOsDTO.class);
 
         when(degreeType.identity()).thenReturn(degreeTypeID);
         when(department.identity()).thenReturn(departmentID);
         when(programmeDirector.identity()).thenReturn(teacherID);
 
-        when(programmeService.registerProgramme(
-                any(NameWithNumbersAndSpecialChars.class),
-                any(Acronym.class),
-                any(MaxEcts.class),
-                any(QuantSemesters.class),
-                eq(degreeTypeID),
-                eq(departmentID),
-                eq(teacherID)
-        )).thenReturn(programmeDouble);
+        when(programmeService.registerProgramme(programmeVOsDTO)).thenReturn(programmeResponseDTO);
 
         //act
         boolean result = controller.registerProgramme(name, acronym, maxEcts, qtySemesters, degreeType, department, programmeDirector);
