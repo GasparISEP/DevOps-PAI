@@ -13,7 +13,7 @@ participant ":ProgrammeEditionEnrolmentFactory" as peeFactory
 database DB
 
 peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentId(studentId)
-peeService -> peeRepo ++: findByStudentId(studentId)
+peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(studentId)
 peeRepo -> DB ++: SELECT * FROM programme_edition_enrollments\nWHERE student_id = studentId
 DB --> peeRepo --: List<Optional<ProgrammeEditionEnrolmentDataModel>>
 
