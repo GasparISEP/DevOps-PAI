@@ -159,9 +159,9 @@ class TeacherRequestDTOTest {
 
     @Test
     void shouldFailValidationWhenAllFieldsAreBlank() {
-        TeacherRequestDTO request = new TeacherRequestDTO("1"," ", " ", " ", " ", " ", " ", " ", " ", " ", " ");
+        TeacherRequestDTO request = new TeacherRequestDTO(" "," "," ", " ", " ", " ", " ", " ", " ", " ", " ");
         Set<ConstraintViolation<TeacherRequestDTO>> violations = validator.validate(request);
 
-        assertEquals(10, violations.size());
+        assertEquals(11, violations.size());
     }
 }
