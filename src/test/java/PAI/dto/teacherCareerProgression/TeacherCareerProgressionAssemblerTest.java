@@ -116,4 +116,21 @@ class TeacherCareerProgressionAssemblerTest {
         assertNotNull(result);
 
     }
+
+    @Test
+    void shouldReturnCommand(){
+        //arrange
+        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
+        UpdateTeacherCategoryRequestDTO requestDTO = mock(UpdateTeacherCategoryRequestDTO.class);
+
+        when(requestDTO.date()).thenReturn("22-02-2022");
+        when(requestDTO.teacherID()).thenReturn("ABC");
+        when(requestDTO.teacherCategoryID()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
+
+        //act
+        UpdateTeacherCategoryCommand result = assembler.toUpdateTeacherCategoryCommand(requestDTO);
+
+        //assert
+        assertNotNull(result);
+    }
 }
