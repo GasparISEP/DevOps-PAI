@@ -1,0 +1,10 @@
+@startuml
+left to right direction
+
+actor ASC as "Academic Services Collaborator"
+
+    usecase "Register Programme In The System" as UC1
+
+ASC --> UC1
+
+@enduml
