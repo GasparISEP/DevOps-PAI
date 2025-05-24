@@ -1,18 +1,11 @@
 @startuml
-title Combined Architecture: US22 (Grade), US23 (Approval), US25 (Average Grade)
+title US25: I Want to Know the Average Grade of a Course Edition
 'left to right direction
 
 ' --- Controller Layer ---
 class CourseEditionRESTController {
     +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
     +gradeAStudent(grade : double, date : String student : Student, courseEdition : CourseEdition): GradeStudent
-    +findApprovalPercentage (CourseEdition : CourseEdition) : ApprovalPercentage
-    +getAverageGradeInCourseEdition(
-        programmeAcronym: String,
-        schoolYearId: String,
-        courseAcronym: String,
-        studyPlanDate: String ' Parameters to identify CourseEdition for query
-    ): ResponseEntity<StudeentGradeResponseDTO>
 }
 
 ' --- Application Service Layer ---
