@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 public record StudentGradeRequestDTO(
 
         @Positive(message = "Grade must be a positive number.")
-        int grade,
+        double grade,
 
         @NotBlank(message = "Date is required.")
         String date,
