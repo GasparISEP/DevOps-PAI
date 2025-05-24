@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { registerProgramme } from '../../services/programmeService';
 import formImage from '../../assets/images/form-image.jpg';
 
@@ -13,13 +13,56 @@ export default function ProgrammeForm() {
         teacherID: ''
     });
 
+    const [departments, setDepartments] = useState([]);
+    const [teachers, setTeachers] = useState([]);
+    const [degreeTypes, setDegreeTypes] = useState([]);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
 
+    useEffect(() => {
+        async function fetchOptions() {
+            try {
+                const [deptRes, teacherRes, degreeTypeRes] = await Promise.all([
+                    fetch(`${process.env.REACT_APP_API_URL}/departments`),
+                    fetch(`${process.env.REACT_APP_API_URL}/teachers`),
+                    fetch(`${process.env.REACT_APP_API_URL}/degreetypes`)
+
+
+                ]);
+                const deptData = await deptRes.json();
+                const teacherData = await teacherRes.json();
+                const degreeTypeData = await degreeTypeRes.json();
+
+                console.log("Fetched departments:", deptData);
+                console.log("Fetched teachers:", teacherData);
+                console.log("Fetched degree types:", degreeTypeData);
+
+
+                setDepartments(deptData);
+                setTeachers(teacherData);
+                setDegreeTypes(degreeTypeData);
+
+
+
+            } catch (err) {
+                console.error("Failed to load options:", err);
+            }
+        }
+        fetchOptions();
+    }, []);
+
     function handleChange(e) {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+
+        console.log(form.degreeTypeID)
     }
+
+    useEffect(() => {
+        console.log("API URL:", process.env.REACT_APP_API_URL);
+    }, []);
+
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -85,31 +128,45 @@ export default function ProgrammeForm() {
 
                         <div className="programme-form-group">
                             <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type</label>
-                            <input className="programme-form-input" id="degreeTypeID" name="degreeTypeID"
-                                   value={form.degreeTypeID} onChange={handleChange} required/>
+                            <select className="programme-form-input" id="degreeTypeID" name="degreeTypeID"
+                                    value={form.degreeTypeID} onChange={handleChange} required>
+                                <option value="">Select Degree Type</option>
+                                {degreeTypes.map(d => (
+                                    <option key={d.id} value={d.id}>{d.name}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="programme-form-group">
                             <label className="programme-form-label" htmlFor="departmentID">Department</label>
-                            <input className="programme-form-input" id="departmentID" name="departmentID"
-                                   value={form.departmentID} onChange={handleChange} required/>
+                            <select className="programme-form-input" id="departmentID" name="departmentID"
+                                    value={form.departmentID} onChange={handleChange} required>
+                                <option value="">Select Department</option>
+                                {departments.map(d => (
+                                    <option key={d.id} value={d.id}>{d.name}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="teacherID">Programme's Director</label>
-                            <input className="programme-form-input" id="teacherID" name="teacherID" value={form.teacherID}
-                                   onChange={handleChange} required/>
+                            <label className="programme-form-label" htmlFor="teacherID">Teacher</label>
+                            <select className="programme-form-input" id="teacherID" name="teacherID"
+                                    value={form.teacherID} onChange={handleChange} required>
+                                <option value="">Select Teacher</option>
+                                {teachers.map(t => (
+                                    <option key={t.id} value={t.id}>{t.name}</option>
+                                ))}
+                            </select>
                         </div>
-                    </div>
 
-                    {error && <div className="error">{error}</div>}
+                        {error && <div className="error">{error}</div>}
 
-                    <div className="programme-form-actions">
-                        <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
-                                disabled={loading}>
-                            CANCEL
-                        </button>
-                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                        <div className="programme-form-actions">
+                            <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
+                                    disabled={loading}>
+                                CANCEL
+                            </button>
+                            <button type="submit" className="btn btn-primary" disabled={loading}>
                             {loading ? 'Registering…' : 'REGISTER'}
                         </button>
                     </div>
@@ -120,6 +177,7 @@ export default function ProgrammeForm() {
                         Programme registered successfully!
                     </div>
                 )}
+                </div>
             </form>
         </div>
         </div>

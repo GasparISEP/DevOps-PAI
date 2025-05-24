@@ -1,35 +1,63 @@
 @startuml
 
+title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 4)
 skinparam sequencemessagealign center
 autonumber
 
 actor RUC
 participant ":UI" as ui #application
 participant "ceRESTctrllr:CourseEditionRESTController" as ctrlrREST #motivation
+participant "sgAssembler1:StudentGradeAssemblerImpl" as assembler #physical
 participant ":StudentGradeServiceImpl" as sr #business
 participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #technology
 participant ":CourseEditionEnrolmentMapperImpl" as ceemp #strategy
 participant ":StudentGradeFactoryImpl" as sgf #implementation
 participant "sg1:StudentGrade" as gs #physical
+participant "ceRepo1:CourseEditionRepositorySpringData" as courseEditionRepo
+participant "ceRepoInterface:ICourseEditionRepositorySpringData" as icourseEditionRepo
 participant "sgRepo1:StudentGradeRepositorySpringData" as sgr #lightgray
 participant "iSGRepo:IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #lightcoral
 participant "sgMapper:StudentGradeMapper" as sgmp #mistyrose
 
-RUC -> ui : I want to grade a Student in a Course Edition
-activate ui
-ui --> RUC : What is the Grade, Date, CourseEditionID and StudentID?
-deactivate ui
-RUC -> ui : grade, date, courseEditionID, studentID!
-activate ui
-ui -> ctrlrREST : registerStudentGrade (Grade, Date, StudentID, CourseEditionID)
-activate ctrlrREST
-ctrlrREST -> sr : newStudentGrade (grade, date, studentID, courseEditionID)
 
+RUC -> ui : I want to **grade a Student** in a Course Edition
+activate ui
+ui -> ctrlrREST : (GET) \n Retrieve all CourseEditions
+activate ctrlrREST
+ctrlrREST -> sr : findAll()
+activate sr
+sr -> courseEditionRepo : findAll()
+activate courseEditionRepo
+courseEditionRepo -> icourseEditionRepo : findAll()
+activate icourseEditionRepo
+icourseEditionRepo --> courseEditionRepo : all CourseEditions
+deactivate icourseEditionRepo
+courseEditionRepo --> sr : all CourseEditions
+deactivate courseEditionRepo
+sr --> ctrlrREST : all CourseEditions
+deactivate sr
+ctrlrREST --> ui : all CourseEditions
+deactivate ctrlrREST
+
+
+ui -> RUC : What is the Grade, Date, StudentID?
+RUC -> ui : grade, date, courseEditionID, studentID!
+ui -> ctrlrREST : registerStudentGrade (Grade, Date, StudentID, CourseEditionID)
+
+activate ctrlrREST
+ctrlrREST -> assembler : toDomain(studentGradeRequestDTO)
+activate assembler
+ref over assembler : \t \t \t \t \t \t Convert StudentGradeRequestDTO to GradeAStudentCommand
+assembler --> ctrlrREST : gradeAStudentCommand
+deactivate assembler
+
+
+ctrlrREST -> sr : newStudentGrade (grade, date, studentID, courseEditionID)
 activate sr
 sr -> ceer : isStudentEnrolledInCourseEdition (studentID, courseEditionID)
 activate ceer
 
-ceer -> ceer: findAll
+ceer -> ceer: findAll()
 ceer -> ceemp :  DataModel CEE
 activate ceemp
 ceemp --> ceer : List <CEE>
@@ -60,8 +88,8 @@ deactivate sgmp
 IStudentGradeRepoSpringData --> sgr : sg1
 deactivate IStudentGradeRepoSpringData
 sgr --> sr -- : sg1
-sr --> ctrlrREST -- : true
-ctrlrREST --> ui -- : true
+sr --> ctrlrREST -- : Status Code 200 (OK!)
+ctrlrREST --> ui -- : Status Code 200 (OK!)
 ui --> RUC : Success!
 deactivate ui
 
