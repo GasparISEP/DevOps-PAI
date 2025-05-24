@@ -1,0 +1,85 @@
+@startuml
+
+title "PAI - Logical View Level 4"
+
+component "<<Component>>\nBackend " {
+    package "Framework and Drivers Layer" {
+        component "<<component>>\nPersistence" as Persistence{
+        }
+        component "<<component>>\nRouter" as Router{
+        }
+    }
+
+    package "Interface Adapters Layer" {
+        component "<<component>>\nControllers" as Controllers{
+        }
+        component "<<component>>\nRepositories" as Repositories{
+        }
+        component "<<component>>\n Mappers" as Mappers{
+        }
+        component "<<component>>\n Assemblers" as Assemblers{
+        }
+        component "<<component>>\nDTOs" as DTOs{
+        }
+        component "<<component>> \n DataModels" as DataModels{
+        }
+    }
+
+    package "Application Layer" {
+        component "<<component>>\n Service" as Services{
+        }
+    }
+    package "Domain Layer" {
+        component "<<component>>\n Domain" as Domain{
+        }
+        component "<<component>>\n Factories" as Factories{
+        }
+    }
+
+    portin " " as port1
+    portin " " as port2
+
+    interface " " as ControllerAPI
+    interface " " as DatamodelAPI
+    interface " " as PersistenceAPI
+    interface " " as DTOsAPI
+    interface " " as DomainAPI
+    interface " " as IAssemblers
+    interface " " as IFactory
+    interface " " as IMappers
+    interface " " as IRepository
+    interface " " as IService
+}
+
+port1 -u- "API"
+port2 -u-( "Database API"
+
+Router --- port1
+Persistence -- port2
+
+Controllers -up- ControllerAPI
+DataModels -up- DatamodelAPI
+Persistence -down- PersistenceAPI
+Persistence -down-( DatamodelAPI
+Repositories -up-( DatamodelAPI
+Repositories -up-( PersistenceAPI
+Router -down-( ControllerAPI
+
+DTOs -down- DTOsAPI
+Mappers -down- IMappers
+Repositories -down- IRepository
+Services -up- IService
+Assemblers -down- IAssemblers
+Controllers -down-( IService
+Controllers -up-( DTOsAPI
+Services -up-( DTOsAPI
+Services -up-( IMappers
+Services -up-( IAssemblers
+Services -up-( IRepository
+
+Domain -up- DomainAPI
+Factories -up- IFactory
+Repositories -down-( DomainAPI
+Services -down-( DomainAPI
+Services -down-( IFactory
+@enduml
