@@ -1,5 +1,6 @@
 package PAI.domain.courseInStudyPlan;
 
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
 import org.springframework.stereotype.Component;
 
@@ -19,5 +20,35 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
         return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
 
+    }
+
+    @Override
+    public CourseInStudyPlan newCourseInStudyPlan(CourseInStudyPlanCommand command) throws Exception {
+        if (command == null) {
+            throw new IllegalArgumentException("Command cannot be null");
+        }
+
+        Semester semester = new Semester(command.semester());
+        CurricularYear curricularYear = new CurricularYear(command.curricularYear());
+        CourseID courseID = new CourseID(new Acronym(command.courseAcronym()), new Name(command.courseName()));
+        StudyPlanID studyPlanID = new StudyPlanID(
+                new ProgrammeID(
+                        new NameWithNumbersAndSpecialChars(command.programmeName()),
+                        new Acronym(command.programmeAcronym())
+                ),
+                new PAI.VOs.Date(command.studyPlanDate())
+        );
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(command.duration());
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(command.credits());
+
+        return new CourseInStudyPlan(
+                semester,
+                curricularYear,
+                courseID,
+                studyPlanID,
+                new CourseInStudyPlanID(courseID, studyPlanID),
+                durationOfCourse,
+                quantityOfCreditsEcts
+        );
     }
 }
