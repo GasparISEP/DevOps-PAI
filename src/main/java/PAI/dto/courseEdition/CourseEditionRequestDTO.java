@@ -7,13 +7,21 @@ import java.util.UUID;
 import java.util.Date;
 
 public record CourseEditionRequestDTO(
-        @NotBlank String programmeName,
-        @NotBlank String programmeAcronym,
-        @NotNull UUID schoolYearID,
+        @NotBlank(message = "Programme name cannot be blank")
+        String programmeName,
 
-        @NotBlank String courseAcronym,
-        @NotBlank String courseName,
-        @NotBlank String studyPlanProgrammeName,
-        @NotBlank String studyPlanProgrammeAcronym,
-        @NotNull Date studyPlanImplementationDate
+        @NotBlank(message = "Programme acronym cannot be blank")
+        String programmeAcronym,
+
+        @NotNull(message = "School Year ID is required")
+        UUID schoolYearID,
+
+        @NotBlank(message = "Course acronym cannot be blank")
+        String courseAcronym,
+
+        @NotBlank(message = "Course name cannot be blank")
+        String courseName,
+
+        @NotNull(message = "Study plan implementation date is required")
+        Date studyPlanImplementationDate
 ) { }

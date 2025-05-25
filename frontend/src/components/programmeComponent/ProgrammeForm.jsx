@@ -104,13 +104,13 @@ export default function ProgrammeForm() {
 
                         <div className="programme-form-group">
                             <label className="programme-form-label" htmlFor="name">Name</label>
-                            <input className="programme-form-input" placeholder="Enter your name" id="name" name="name"
+                            <input className="programme-form-input" placeholder="Enter Programme's name" id="name" name="name"
                                    value={form.name} onChange={handleChange} required/>
                         </div>
 
                         <div className="programme-form-group">
                             <label className="programme-form-label" htmlFor="acronym">Acronym</label>
-                            <input className="programme-form-input" id="acronym" name="acronym" value={form.acronym}
+                            <input className="programme-form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym" value={form.acronym}
                                    onChange={handleChange} required/>
                         </div>
 
@@ -122,7 +122,7 @@ export default function ProgrammeForm() {
 
                         <div className="programme-form-group">
                             <label className="programme-form-label" htmlFor="quantSemesters">Semesters</label>
-                            <input className="programme-form-input" id="quantSemesters" name="quantSemesters" type="number"
+                            <input className="programme-form-input" placeholder="Enter number of semesters" id="quantSemesters" name="quantSemesters" type="number"
                                    value={form.quantSemesters} onChange={handleChange} required/>
                         </div>
 
@@ -149,7 +149,7 @@ export default function ProgrammeForm() {
                         </div>
 
                         <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="teacherID">Teacher</label>
+                            <label className="programme-form-label" htmlFor="teacherID">Programme's Director</label>
                             <select className="programme-form-input" id="teacherID" name="teacherID"
                                     value={form.teacherID} onChange={handleChange} required>
                                 <option value="">Select Teacher</option>
