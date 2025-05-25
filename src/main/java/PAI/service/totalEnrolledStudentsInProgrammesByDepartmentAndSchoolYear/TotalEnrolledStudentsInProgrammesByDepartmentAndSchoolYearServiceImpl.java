@@ -63,22 +63,17 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
 
         int count = 0;
         if (isDepartmentIdAndSchoolYearIdValid(departmentID, schoolYearID)){
+
             List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
             if (programmeIDList.isEmpty())
                 return 0;
+
             List<ProgrammeEditionID> programmeEditionIDList = getProgrammeEditionIdsForProgrammesAndSchoolYear(programmeIDList, schoolYearID);
             if (programmeEditionIDList.isEmpty())
                 return 0;
 
             Iterable <ProgrammeEditionEnrolment> enrols = programmeEditionEnrolmentRepository.findAll();
-            for (ProgrammeEditionEnrolment enrolment : enrols){
-                for(ProgrammeEditionID id : programmeEditionIDList){
-                    if (enrolment.hasSameProgrammeEdition(id)) {
-                        count++;
-                        break;
-                    }
-                }
-            }
+            return countEnrollmentsMatchingProgrammeEditions(enrols, programmeEditionIDList);
         }
         return count;
     }
@@ -98,5 +93,22 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
             }
         }
         return programmeEditionIDList;
+    }
+
+    private int countEnrollmentsMatchingProgrammeEditions(
+
+        Iterable<ProgrammeEditionEnrolment> enrolments,
+        List<ProgrammeEditionID> programmeEditionIDs) {
+
+        int count = 0;
+        for (ProgrammeEditionEnrolment enrolment : enrolments) {
+            for (ProgrammeEditionID id : programmeEditionIDs) {
+                if (enrolment.hasSameProgrammeEdition(id)) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
     }
 }
