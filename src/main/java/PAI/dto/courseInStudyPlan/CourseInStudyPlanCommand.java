@@ -9,20 +9,19 @@ public record CourseInStudyPlanCommand(
         Name courseName,
         ProgrammeID programmeAcronym,
         Date implementationDate,
-        Date date,
-        int duration,
-        double credits
+        DurationCourseInCurricularYear duration,
+        CourseQuantityCreditsEcts credits
 ) {
     public StudyPlanID studyPlanID() {
         return new StudyPlanID(programmeAcronym, implementationDate);
     }
 
     public DurationCourseInCurricularYear durationOfCourse() {
-        return new DurationCourseInCurricularYear(duration);
+        return duration;
     }
 
     public CourseQuantityCreditsEcts quantityOfCreditsEcts() throws Exception {
-        return new CourseQuantityCreditsEcts(credits);
+        return credits;
     }
 
     public CourseID courseID() {
