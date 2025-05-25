@@ -7,6 +7,7 @@ import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
@@ -195,5 +196,40 @@ class SchoolYearRestControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
         assertEquals("Unexpected error occurred", response.getBody());
+    }
+
+    @Test
+    void shouldReturnCurrentSchoolYearDTO() {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
+
+        when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.of(currentSchoolYearResponseDTO));
+
+        // Act
+        ResponseEntity<?> response = syRestController.getCurrentSchoolYear();
+
+        //Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    void shouldReturnNotFoundIfNoCurrentSchoolYearDTO() {
+        // Arrange
+        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
+        ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+
+        when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<?> response = syRestController.getCurrentSchoolYear();
+
+        //Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("No current School Year", response.getBody());
     }
 }
