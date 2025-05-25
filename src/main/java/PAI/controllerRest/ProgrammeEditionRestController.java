@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/programmeEditions")
+@RequestMapping("/programmeeditions")
 public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
