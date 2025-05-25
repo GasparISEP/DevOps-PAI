@@ -1,5 +1,5 @@
 package PAI.controllerRest;
-
+import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,12 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -112,5 +115,33 @@ class CourseEditionRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void whenRemoveStudentEnrolmentFromACourseEdition_thenReturnsSuccess() throws Exception {
+        //arrange
+        //arrange
+        //ProgrammeEditionID
+        String programmeName = "programmeName";
+        String programmeAcronym = "LEI";
+        UUID schoolYearId = UUID.randomUUID();
+
+        //CourseInStudyPlan
+        String courseAcronym = "SAS";
+        String courseName = "Desenvolvimento de Software";
+        String studyPlanProgrammeName = "studyPlanProgrammeName";
+        String studyPlanProgrammeAcronym  = "LEI1";
+        String studyPlanImplementationDate = "01-10-2024";
+
+        int studentID = 1241924;
+
+        RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO = new RemoveCourseEditionEnrolmentDTO(programmeName, programmeAcronym, schoolYearId, courseAcronym, courseName, studyPlanProgrammeName, studyPlanProgrammeAcronym, studyPlanImplementationDate, studentID);
+        when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(true);
+        //act + assert
+        mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(removeCourseEditionEnrolmentDTO)))
+                .andExpect(status().isAccepted());
+
     }
 }

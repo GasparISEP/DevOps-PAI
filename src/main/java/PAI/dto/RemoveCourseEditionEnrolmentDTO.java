@@ -2,7 +2,7 @@ package PAI.dto;
 import java.util.UUID;
 
 public record RemoveCourseEditionEnrolmentDTO(
-        //Switch for CourseEditionIdDTO
+        //ToDO Switch for CourseEditionIdDTO, colocar verificações
         //ProgrammeEditionID
         String programmeName,
         String programmeAcronym,

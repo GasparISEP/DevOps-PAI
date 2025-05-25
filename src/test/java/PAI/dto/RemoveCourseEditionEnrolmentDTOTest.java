@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RemoveCourseEditionEnrolmentDTOTest {
 
     @Test
-    void shouldCreateCourseEditionIdDTO() throws Exception {
+    void shouldCreateCourseEditionIdDTO(){
         //arrange
         //ProgrammeEditionID
         String programmeName = "programmeName";
