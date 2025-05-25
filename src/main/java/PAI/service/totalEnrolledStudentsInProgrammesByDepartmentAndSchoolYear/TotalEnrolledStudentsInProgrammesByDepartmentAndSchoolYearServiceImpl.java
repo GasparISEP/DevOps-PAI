@@ -49,6 +49,15 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
     @Override
     public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) throws Exception {
 
+        if (command == null)
+            throw new IllegalArgumentException("TotalEnrolledStudentsCommand must not be null");
+
+        if (command.departmentID() == null)
+            throw new IllegalArgumentException("Department ID cannot be null");
+
+        if (command.schoolYearID() == null)
+            throw new IllegalArgumentException("School Year ID cannot be null");
+
         DepartmentID departmentID = command.departmentID();
         SchoolYearID schoolYearID = command.schoolYearID();
 

@@ -103,6 +103,72 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
     }
 
     @Test
+    void shouldThrowExceptionWhenCommandReceivedIsNull() {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepos = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepos, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = null;
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);});
+
+        // Assert
+        assertEquals("TotalEnrolledStudentsCommand must not be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDepartmentIDReceivedIsNull() {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepos = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepos, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
+
+        when(command.departmentID()).thenReturn(null);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);});
+
+        // Assert
+        assertEquals("Department ID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchoolYearIDReceivedIsNull() {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepos = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepos, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
+
+        when(command.departmentID()).thenReturn(mock(DepartmentID.class));
+        when(command.schoolYearID()).thenReturn(null);
+
+        // Act
+        Exception exception = assertThrows(Exception.class, () -> {service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);});
+
+        // Assert
+        assertEquals("School Year ID cannot be null", exception.getMessage());
+    }
+
+    //business logic tests
+    @Test
     void shouldReturnTheSumOfStudentsEnrolInProgrammesByDepartmentAndSchoolYear() throws Exception{
         // Arrange
         IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
