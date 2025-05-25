@@ -8,12 +8,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseEditionResponseDTOTest {
+class CreateCourseEditionCommandTest {
 
     @Test
-    void shouldCreateCourseEditionRequestDTOCorrectly() {
+    void shouldCreateCommandSuccessfully() {
         //arrange
-        String courseEditionID = "PROG2023-COURSE123";
         String programmeName = "Software Development";
         String programmeAcronym = "MEI";
         UUID schoolYearID = UUID.randomUUID();
@@ -23,8 +22,7 @@ class CourseEditionResponseDTOTest {
         LocalDate studyPlanImplementationDate = LocalDate.now();
 
         //act
-        CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
-                courseEditionID,
+        CreateCourseEditionCommand dto = new CreateCourseEditionCommand(
                 programmeName,
                 programmeAcronym,
                 schoolYearID,
@@ -34,7 +32,6 @@ class CourseEditionResponseDTOTest {
         );
 
         //assert
-        assertEquals(courseEditionID, dto.courseEditionID());
         assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearID, dto.schoolYearID());
@@ -42,5 +39,4 @@ class CourseEditionResponseDTOTest {
         assertEquals(courseName, dto.courseName());
         assertEquals(studyPlanImplementationDate, dto.studyPlanImplementationDate());
     }
-
 }

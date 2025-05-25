@@ -2,6 +2,7 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 
@@ -18,5 +19,6 @@ public interface IProgrammeService {
     Iterable<Programme> findAll();
     Optional <Programme> getProgrammeByID(ProgrammeID id);
     ProgrammeResponseDTO registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
+    List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
 }
 

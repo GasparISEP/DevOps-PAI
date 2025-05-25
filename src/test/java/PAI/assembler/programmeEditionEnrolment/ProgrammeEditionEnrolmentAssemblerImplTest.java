@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import PAI.VOs.*;
-import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
@@ -30,27 +29,26 @@ public class ProgrammeEditionEnrolmentAssemblerImplTest {
     @Test
     void toDtoList_ShouldConvertEnrolmentsToDtoList() throws Exception {
         // Arrange
-        List<ProgrammeEditionEnrolment> enrolments = new ArrayList<>();
+        List<ProgrammeEditionID> programmeEditionIDs = new ArrayList<>();
+        StudentID studentId = new StudentID(1000001);
         
         // Create test data
-        StudentID studentId = new StudentID(1000001);
         ProgrammeID programmeId = new ProgrammeID(
             new NameWithNumbersAndSpecialChars("Test Programme"),
             new Acronym("TP")
         );
         SchoolYearID schoolYearId = new SchoolYearID(UUID.randomUUID());
         ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
-        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentId, programmeEditionId);
-        enrolments.add(enrolment);
+        programmeEditionIDs.add(programmeEditionId);
 
         // Mock school year repository response
         SchoolYear schoolYear = mock(SchoolYear.class);
         Description description = new Description("2024-2025");
         when(schoolYear.getDescription()).thenReturn(description);
-        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(java.util.Optional.of(schoolYear));
+        when(schoolYearRepository.findBySchoolYearID(schoolYearId)).thenReturn(java.util.Optional.of(schoolYear));
 
         // Act
-        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(enrolments);
+        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(programmeEditionIDs, studentId);
 
         // Assert
         assertNotNull(result);
@@ -60,8 +58,9 @@ public class ProgrammeEditionEnrolmentAssemblerImplTest {
     @Test
     void toDtoList_ShouldThrowException_WhenEnrolmentsIsNull() {
         // Act & Assert
+        StudentID studentId = mock(StudentID.class);    
         Exception exception = assertThrows(Exception.class, () -> {
-            assembler.toDtoList(null);
+            assembler.toDtoList(null, studentId);
         });
         
         assertEquals("Programme edition enrolment is null", exception.getMessage());
@@ -70,10 +69,11 @@ public class ProgrammeEditionEnrolmentAssemblerImplTest {
     @Test
     void toDtoList_ShouldReturnEmptyList_WhenEnrolmentsIsEmpty() throws Exception {
         // Arrange
-        List<ProgrammeEditionEnrolment> emptyList = new ArrayList<>();
+        List<ProgrammeEditionID> emptyList = new ArrayList<>();
+        StudentID studentId = mock(StudentID.class);
 
         // Act
-        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(emptyList);
+        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(emptyList, studentId);
 
         // Assert
         assertNotNull(result);

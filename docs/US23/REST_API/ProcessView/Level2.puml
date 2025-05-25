@@ -3,7 +3,7 @@ autonumber
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title: I want to know the approval percentage of a Course Edition \n (Process View Level 2)
-actor RUC as RUC
+actor RUC as RUC #lightgrey
 
 participant "Frontend" as FE #application
 participant "Backend" as BE #strategy
@@ -12,8 +12,17 @@ database DB
 
 RUC -> FE : Find the approval percentage of a Course Edition
 activate FE
+FE -> BE : (GET) \n Retrieve all Course Editions
+activate BE
+BE --> DB : (GET) \n Retrieve all Course Editions
+activate DB
+DB --> BE : All Course Editions
+deactivate DB
+BE --> FE : All Course Editions
+deactivate BE
 FE --> RUC : Which Course Edition?
 deactivate FE
+
 RUC -> FE: Course Edition!
 activate FE
 FE -> BE : (GET) \n Approval rate of Course Edition

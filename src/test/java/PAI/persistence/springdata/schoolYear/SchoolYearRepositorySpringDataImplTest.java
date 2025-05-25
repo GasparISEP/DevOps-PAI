@@ -525,4 +525,65 @@ class SchoolYearRepositorySpringDataImplTest {
         assertFalse(result);
     }
 
+    @Test
+    void shouldFindSchoolYearByIDWhenItExists() {
+        // Arrange
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData = mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearRepositorySpringDataImpl repository = new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        SchoolYearDataModel schoolYearDataModel = mock(SchoolYearDataModel.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        when(schoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearIDDataModel)).thenReturn(Optional.of(schoolYearDataModel));
+        when(schoolYearMapper.toDomain(schoolYearDataModel)).thenReturn(schoolYear);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(schoolYearID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(schoolYear, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenSchoolYearIDDoesNotExist() {
+        // Arrange
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData = mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearRepositorySpringDataImpl repository = new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+
+        when(schoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iSchoolYearRepositorySpringData.findById(schoolYearIDDataModel)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(schoolYearID);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenSchoolYearIDIsNull() {
+        // Arrange
+        ISchoolYearRepositorySpringData iSchoolYearRepositorySpringData = mock(ISchoolYearRepositorySpringData.class);
+        ISchoolYearMapper schoolYearMapper = mock(ISchoolYearMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        SchoolYearRepositorySpringDataImpl repository = new SchoolYearRepositorySpringDataImpl(iSchoolYearRepositorySpringData, schoolYearMapper, schoolYearIDMapper);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(null);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
 }

@@ -6,55 +6,58 @@ autonumber
 
 actor RUC
 participant ":UI" as ui #application
-participant "ceRESTctrllr:CourseEditionRESTController" as ctrlrREST #motivation
-participant "sgAssembler1:StudentGradeAssemblerImpl" as assembler #physical
-participant ":StudentGradeServiceImpl" as sr #business
-participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #technology
+participant ":CourseEditionRESTController" as ctrlrREST #business
+participant ":StudentGradeAssemblerImpl" as assembler #implementation
+participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #physical
 participant ":CourseEditionEnrolmentMapperImpl" as ceemp #strategy
-participant ":StudentGradeFactoryImpl" as sgf #implementation
-participant "sg1:StudentGrade" as gs #physical
-participant "ceRepo1:CourseEditionRepositorySpringData" as courseEditionRepo
-participant "ceRepoInterface:ICourseEditionRepositorySpringData" as icourseEditionRepo
-participant "sgRepo1:StudentGradeRepositorySpringData" as sgr #lightgray
-participant "iSGRepo:IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #lightcoral
-participant "sgMapper:StudentGradeMapper" as sgmp #mistyrose
+participant ":StudentGradeFactoryImpl" as sgf #technology
+participant "sg1:StudentGrade" as gs #skyblue
+participant ":CourseEditionRepositorySpringData" as courseEditionRepo #lightsteelblue
+participant ":ICourseEditionRepositorySpringData" as icourseEditionRepo #wheat
+participant ":StudentGradeRepositorySpringData" as sgr #lightcoral
+participant ":StudentGradeMapper" as sgmp #mistyrose
+participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
 
 
 RUC -> ui : I want to **grade a Student** in a Course Edition
 activate ui
 ui -> ctrlrREST : (GET) \n Retrieve all CourseEditions
 activate ctrlrREST
-ctrlrREST -> sr : findAll()
-activate sr
-sr -> courseEditionRepo : findAll()
+ctrlrREST -> service : findAll()
+activate service
+service -> courseEditionRepo : findAll()
 activate courseEditionRepo
 courseEditionRepo -> icourseEditionRepo : findAll()
 activate icourseEditionRepo
-icourseEditionRepo --> courseEditionRepo : all CourseEditions
+icourseEditionRepo ->  : findAll()
+icourseEditionRepo <--  : all CourseEditions
+icourseEditionRepo -> courseEditionRepo : all CourseEditions
 deactivate icourseEditionRepo
-courseEditionRepo --> sr : all CourseEditions
+courseEditionRepo --> service : all CourseEditions
 deactivate courseEditionRepo
-sr --> ctrlrREST : all CourseEditions
-deactivate sr
+service --> ctrlrREST : all CourseEditions
+deactivate service
 ctrlrREST --> ui : all CourseEditions
 deactivate ctrlrREST
 
+ui --> RUC : Which CourseEdition?
+RUC -> ui : This CourseEdition!
 
-ui -> RUC : What is the Grade, Date, StudentID?
+ui --> RUC : Grade, Date, CourseEditionID, StudentID?
 RUC -> ui : grade, date, courseEditionID, studentID!
-ui -> ctrlrREST : registerStudentGrade (Grade, Date, StudentID, CourseEditionID)
-
+ui -> ctrlrREST : gradeAStudent (grade, date, studentID, courseEditionID)
 activate ctrlrREST
 ctrlrREST -> assembler : toDomain(studentGradeRequestDTO)
 activate assembler
-ref over assembler : \t \t \t \t \t \t Convert StudentGradeRequestDTO to GradeAStudentCommand
+ref over assembler : \t \t \t \t  Convert StudentGradeRequestDTO \n \t \t \t  into GradeAStudentCommand
 assembler --> ctrlrREST : gradeAStudentCommand
 deactivate assembler
 
 
-ctrlrREST -> sr : newStudentGrade (grade, date, studentID, courseEditionID)
-activate sr
-sr -> ceer : isStudentEnrolledInCourseEdition (studentID, courseEditionID)
+ctrlrREST -> service : gradeAStudent (grade, date, studentID, courseEditionID)
+activate service
+service -> ceer : isStudentEnrolledInCourseEdition (studentID, courseEditionID)
 activate ceer
 
 ceer -> ceer: findAll()
@@ -62,33 +65,39 @@ ceer -> ceemp :  DataModel CEE
 activate ceemp
 ceemp --> ceer : List <CEE>
 deactivate ceemp
-ceer --> sr : true
+ceer --> service : true
 deactivate ceer
 
-sr -> sr : isDateGradeInRangeWithSchoolYear()
-sr -> sr : hasStudentAlreadyGradeAtThisCourseEdition()
+service -> service : isDateGradeInRangeWithSchoolYear()
+service -> service : hasStudentAlreadyGradeAtThisCourseEdition()
 
-sr -> sgf : newGradeStudent (Grade,Date, StudentID, CourseEditionID)
+service -> sgf : newGradeStudent (Grade,Date, StudentID, CourseEditionID)
 activate sgf
 create gs
 sgf -> gs : <Create> (Grade,Date, StudentID, CourseEditionID)
 activate gs
 gs --> sgf : sg1
 deactivate gs
-sgf --> sr : sg1
+sgf --> service : sg1
 deactivate sgf
-sr -> sgr : save(sg1)
+service -> sgr : save(sg1)
 activate sgr
-sgr -> IStudentGradeRepoSpringData : save(sg1)
-activate IStudentGradeRepoSpringData
-IStudentGradeRepoSpringData -> sgmp : toData(sg1)
+sgr -> sgmp : toData(sg1)
 activate sgmp
-sgmp --> IStudentGradeRepoSpringData : studentDataModel
+sgmp --> sgr : studentGradeDataModel
 deactivate sgmp
+sgr -> IStudentGradeRepoSpringData : save(studentGradeDataModel)
+activate IStudentGradeRepoSpringData
+IStudentGradeRepoSpringData ->  : save In Database
+IStudentGradeRepoSpringData <--  : studentGradeDataModel
 IStudentGradeRepoSpringData --> sgr : sg1
 deactivate IStudentGradeRepoSpringData
-sgr --> sr -- : sg1
-sr --> ctrlrREST -- : Status Code 200 (OK!)
+sgr -> sgmp : toDomain(studentGradeDataModel)
+activate sgmp
+sgmp --> sgr : sg1
+deactivate sgmp
+sgr --> service -- : sg1
+service --> ctrlrREST -- : Status Code 200 (OK!)
 ctrlrREST --> ui -- : Status Code 200 (OK!)
 ui --> RUC : Success!
 deactivate ui

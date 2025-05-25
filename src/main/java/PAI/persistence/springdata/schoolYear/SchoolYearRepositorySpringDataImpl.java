@@ -102,4 +102,13 @@ public class SchoolYearRepositorySpringDataImpl implements ISchoolYearRepository
         //If present return Optional com SchoolYear, else return Empty
         return schoolYearDataModelFromCurrentSchoolYear.map(schoolYearMapper::toDomain);
     }
+
+    @Override
+    public Optional<SchoolYear> findBySchoolYearID(SchoolYearID schoolYearID) {
+        if (schoolYearID == null) {
+            return Optional.empty();
+        }
+        Optional<SchoolYearDataModel> schoolYearDataModel = schoolYearRepositorySpringData.findById(schoolYearIDMapper.toDataModel(schoolYearID));
+        return schoolYearDataModel.map(schoolYearMapper::toDomain);
+    }
 }
