@@ -19,8 +19,6 @@ class CourseEditionResponseDTOTest {
 
         String courseAcronym = "AP";
         String courseName = "Advanced Programming";
-        String studyPlanProgrammeName = "Software Development";
-        String studyPlanProgrammeAcronym = "MEI";
         Date studyPlanImplementationDate = new Date();
 
         //act
@@ -31,8 +29,6 @@ class CourseEditionResponseDTOTest {
                 schoolYearID,
                 courseAcronym,
                 courseName,
-                studyPlanProgrammeName,
-                studyPlanProgrammeAcronym,
                 studyPlanImplementationDate
         );
 
@@ -43,8 +39,6 @@ class CourseEditionResponseDTOTest {
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
         assertEquals(courseName, dto.courseName());
-        assertEquals(studyPlanProgrammeName, dto.studyPlanProgrammeName());
-        assertEquals(studyPlanProgrammeAcronym, dto.studyPlanProgrammeAcronym());
         assertEquals(studyPlanImplementationDate, dto.studyPlanImplementationDate());
     }
 

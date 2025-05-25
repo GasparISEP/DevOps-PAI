@@ -12,8 +12,6 @@ public record CourseEditionResponseDTO(
 
         String courseAcronym,
         String courseName,
-        String studyPlanProgrammeName,
-        String studyPlanProgrammeAcronym,
         Date studyPlanImplementationDate
 ) {
 }
