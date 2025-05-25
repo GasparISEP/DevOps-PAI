@@ -6,7 +6,6 @@ export default function ProgrammeForm() {
     const [form, setForm] = useState({
         name: '',
         acronym: '',
-        quantECTS: '',
         quantSemesters: '',
         degreeTypeID: '',
         departmentID: '',
@@ -70,10 +69,12 @@ export default function ProgrammeForm() {
         setSuccess(null);
         setLoading(true);
         try {
+            const selectedDegreeType = degreeTypes.find(dt => dt.id === form.degreeTypeID);
+
             // Converte quantECTS e quantSemesters para número
             const payload = {
                 ...form,
-                quantECTS: parseInt(form.quantECTS),
+                quantECTS: selectedDegreeType.maxECTS,
                 quantSemesters: parseInt(form.quantSemesters)
             };
 
@@ -112,12 +113,6 @@ export default function ProgrammeForm() {
                             <label className="programme-form-label" htmlFor="acronym">Acronym</label>
                             <input className="programme-form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym" value={form.acronym}
                                    onChange={handleChange} required/>
-                        </div>
-
-                        <div className="programme-form-group">
-                            <label className="programme-form-label" htmlFor="quantECTS">ECTS</label>
-                            <input className="programme-form-input" id="quantECTS" name="quantECTS" type="number"
-                                   value={form.quantECTS} onChange={handleChange} required/>
                         </div>
 
                         <div className="programme-form-group">
