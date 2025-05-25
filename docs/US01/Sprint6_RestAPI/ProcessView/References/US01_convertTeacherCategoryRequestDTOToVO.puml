@@ -1,6 +1,6 @@
 @startuml
 
-title Convert Teacher Category Saved to DTO
+title Convert Teacher Category Request DTO to VO
 
 autonumber
 skinparam {
@@ -14,13 +14,13 @@ skinparam shadowing true
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
 participant ":ITeacherCategoryAssembler" as tcAssembler
 activate Controller #E1F5FE
-Controller -> tcAssembler: toDTO (tc)
+Controller -> tcAssembler: toVO (tc)
 activate tcAssembler #E1F5FE
 
-create "tcResponseDTO: TeacherCategoryResponseDTO"
-tcAssembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create (tc.getId().getValue().toString(), \n tc.getName().getName())
+create "nameVO: Name"
+tcAssembler -> "nameVO: Name": create (tcRequestDTO.name())
 
-tcAssembler --> Controller: tcResponseDTO
+tcAssembler --> Controller: nameVO
 deactivate tcAssembler
 deactivate Controller
 
