@@ -2,6 +2,7 @@ package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,6 @@ public interface ICourseInStudyPlanService {
     List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) throws Exception;
 
     Optional<CourseInStudyPlan> findById(CourseInStudyPlanID courseInStudyPlanID);
+
+    CourseInStudyPlan createCourseInStudyPlan(CourseInStudyPlanCommand command) throws Exception;
 }

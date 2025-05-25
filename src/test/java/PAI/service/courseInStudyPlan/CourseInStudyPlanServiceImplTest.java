@@ -1,9 +1,11 @@
 package PAI.service.courseInStudyPlan;
 
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
+import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -141,5 +143,293 @@ class CourseInStudyPlanServiceImplTest {
         //assert
         assertFalse(result);
         verify(repository, never()).save(any());
+    }
+
+    @Test
+    void should_Not_CreateCourseInStudyPlan_WhenTotalCreditsExceedsLimits() throws Exception {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023"); // Corrected date format
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(5.0);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        CourseID courseID = new CourseID(new Acronym("CS101"), new Name("Computer Science"));
+        StudyPlanID studyPlanID = new StudyPlanID(
+                new ProgrammeID(
+                        new NameWithNumbersAndSpecialChars("Computer Science Programme"),
+                        new Acronym("CS")
+                ),
+                new PAI.VOs.Date("01-01-2023") // Corrected date format
+        );
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(5.0);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(29.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_WhenTotalCreditsDoesNotExceedLimits() throws Exception {
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023"); // Corrected date format
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(5.0);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        CourseID courseID = new CourseID(new Acronym("CS101"), new Name("Computer Science"));
+        StudyPlanID studyPlanID = new StudyPlanID(
+                new ProgrammeID(
+                        new NameWithNumbersAndSpecialChars("Computer Science Programme"),
+                        new Acronym("CS")
+                ),
+                new PAI.VOs.Date("01-01-2023")
+        );
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(5.0);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.createCourseInStudyPlan(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_WhenTotalCreditsDoesNotReachLimit() throws Exception {
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023"); // Corrected date format
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        CourseID courseID = new CourseID(new Acronym("CS101"), new Name("Computer Science"));
+        StudyPlanID studyPlanID = new StudyPlanID(
+                new ProgrammeID(
+                        new NameWithNumbersAndSpecialChars("Computer Science Programme"),
+                        new Acronym("CS")
+                ),
+                new PAI.VOs.Date("01-01-2023")
+        );
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(3.0);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.createCourseInStudyPlan(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_ifCourseDoesntExist() throws Exception {
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023"); // Corrected date format
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        CourseID courseID = new CourseID(new Acronym("CS101"), new Name("Computer Science"));
+        StudyPlanID studyPlanID = new StudyPlanID(
+                new ProgrammeID(
+                        new NameWithNumbersAndSpecialChars("Computer Science Programme"),
+                        new Acronym("CS")
+                ),
+                new PAI.VOs.Date("01-01-2023")
+        );
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(3.0);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.createCourseInStudyPlan(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifSemesterIsNotValid() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(0);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023");
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifCurricularYearIsInvalid() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(0);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023");
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifCourseIsNull() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn(null);
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023");
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifStudyPlanIDIsNull() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn(null);
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(3.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifDurationOfCourseIsInvalid() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023");
+        when(command.duration()).thenReturn(0);
+        when(command.credits()).thenReturn(3.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifQuantityOfCreditsECTSIsInvalid() throws IllegalArgumentException {
+
+        // arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        when(command.semester()).thenReturn(1);
+        when(command.curricularYear()).thenReturn(1);
+        when(command.courseAcronym()).thenReturn("CS101");
+        when(command.courseName()).thenReturn("Computer Science");
+        when(command.programmeAcronym()).thenReturn("CS");
+        when(command.programmeName()).thenReturn("Computer Science Programme");
+        when(command.studyPlanDate()).thenReturn("01-01-2023");
+        when(command.duration()).thenReturn(1);
+        when(command.credits()).thenReturn(0.0);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseInStudyPlan(command);
+        });
     }
 }
