@@ -1,5 +1,6 @@
 package PAI.dto.courseEdition;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +13,6 @@ public record CourseEditionResponseDTO(
 
         String courseAcronym,
         String courseName,
-        Date studyPlanImplementationDate
+        LocalDate studyPlanImplementationDate
 ) {
 }

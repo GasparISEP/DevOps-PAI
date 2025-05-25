@@ -7,6 +7,7 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +33,7 @@ class CourseEditionRequestDTOTest {
 
         String courseAcronym = "AP";
         String courseName = "Advanced Programming";
-        Date studyPlanImplementationDate = new Date();
+        LocalDate studyPlanImplementationDate = LocalDate.now();
 
         //act
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
@@ -62,7 +63,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -82,7 +83,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -102,7 +103,7 @@ class CourseEditionRequestDTOTest {
                 null,
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -122,7 +123,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -142,7 +143,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "",
-                new Date()
+                LocalDate.now()
         );
 
         //act
