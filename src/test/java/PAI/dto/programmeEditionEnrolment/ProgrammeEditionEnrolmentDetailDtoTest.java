@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ProgrammeEditionEnrolmentResponseDtoTest {
+public class ProgrammeEditionEnrolmentDetailDtoTest {
 
     @Test
     public void shouldCreateProgrammeEditionEnrolmentResponseDto() {
@@ -16,7 +16,7 @@ public class ProgrammeEditionEnrolmentResponseDtoTest {
         String schoolYearID = "1234567890";
 
         // act
-        ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentResponseDto(studentID, programmeName, programmeAcronym, schoolYearDescription, schoolYearID);
+        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentDetailDto(studentID, programmeName, programmeAcronym, schoolYearDescription, schoolYearID);
 
         // assert
         assertEquals(studentID, programmeEditionEnrolmentResponseDto.studentID());

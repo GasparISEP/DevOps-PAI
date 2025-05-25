@@ -35,11 +35,11 @@ peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionEnrolment>)
 
 loop for ProgrammeEditionEnrolment[i]
     note over of peeAssembler
-        Invokes ProgrammeEditionEnrolmentDTO
+        Invokes ProgrammeEditionEnrolmentDetailDTO
              to construct object
     end note
 end
-peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDTO>
+peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
 
 legend right
   DTO = Data Transfer Object
