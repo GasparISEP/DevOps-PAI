@@ -74,7 +74,7 @@ public class TeacherRestController {
         }
     }
 
-    @PostMapping("/teacherCategories")
+    @PostMapping("/careerprogressions/{teacherID}/categories")
     public ResponseEntity<?> updateTeacherCategory(@Valid @RequestBody UpdateTeacherCategoryRequestDTO request) {
         try {
             UpdateTeacherCategoryCommand command = careerAssembler.toUpdateTeacherCategoryCommand(request);

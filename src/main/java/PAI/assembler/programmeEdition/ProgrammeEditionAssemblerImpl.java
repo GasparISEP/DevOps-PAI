@@ -3,12 +3,14 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Component
 public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler {
     public ProgrammeEditionAssemblerImpl(){}
 

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @RestController
 @RequestMapping("/access-methods")
 public class AccessMethodRestController {
@@ -24,8 +26,8 @@ public class AccessMethodRestController {
     private final IAccessMethodAssembler assembler;
 
     public AccessMethodRestController(IAccessMethodService accessMethodService, IAccessMethodAssembler assembler) {
-        this.accessMethodService = accessMethodService;
-        this.assembler = assembler;
+        this.accessMethodService = validateNotNull(accessMethodService, "AccessMethodService");
+        this.assembler = validateNotNull(assembler, "AccessMethodAssembler");
     }
 
     @PostMapping
@@ -36,4 +38,5 @@ public class AccessMethodRestController {
                 .map(responseDTO -> ResponseEntity.status(HttpStatus.CREATED).body(responseDTO))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
+
 }

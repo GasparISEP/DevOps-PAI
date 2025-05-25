@@ -11,6 +11,10 @@ public class TeacherCategoryAssemblerImpl implements ITeacherCategoryAssembler {
 
     public TeacherCategoryResponseDTO toDTO (TeacherCategory teacherCategory) {
 
+        if (teacherCategory == null) {
+            throw new IllegalArgumentException("Teacher Category cannot be null");
+        }
+
         String id = teacherCategory.getId().getValue().toString();
         String name = teacherCategory.getName().getName();
 
@@ -21,12 +25,10 @@ public class TeacherCategoryAssemblerImpl implements ITeacherCategoryAssembler {
     public Name toVO(TeacherCategoryRequestDTO teacherCategoryRequestDTO) {
 
         if (teacherCategoryRequestDTO == null) {
-            throw new IllegalArgumentException("TeacherCategoryRequestDTO cannot be null");
+            throw new IllegalArgumentException("Teacher Category Request DTO cannot be null");
         }
 
-        String name = teacherCategoryRequestDTO.name();
-
-        return new Name (name);
+        return new Name (teacherCategoryRequestDTO.name());
     }
 }
 

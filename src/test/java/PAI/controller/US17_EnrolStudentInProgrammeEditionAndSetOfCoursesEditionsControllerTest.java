@@ -4,6 +4,8 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.ProgrammeEditionAssemblerImpl;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.department.Department;
@@ -739,6 +741,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory);
+        IProgrammeEditionAssembler programmeEditionAssembler = new ProgrammeEditionAssemblerImpl();
 
         // Programme
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
@@ -815,7 +818,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
 
 
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,schoolYearRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler);
         ProgrammeEdition createdEdition = programmeEditionService.createProgrammeEdition(programmeId, schoolYearId);
         programmeEditionService.saveProgrammeEdition(createdEdition);
         Optional<ProgrammeEditionID> pe1Opt = programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
