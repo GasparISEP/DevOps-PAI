@@ -24,6 +24,12 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
             IProgrammeEditionRepository programmeEditionRepository,
             IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository) {
 
+        if (departmentRepository == null) throw new IllegalArgumentException("Department Repository cannot be null");
+        if (schoolYearRepository == null) throw new IllegalArgumentException("School Year Repository cannot be null");
+        if (programmeRepository == null) throw new IllegalArgumentException("Programme Repository cannot be null");
+        if (programmeEditionRepository == null) throw new IllegalArgumentException("Programme Edition Repository cannot be null");
+        if (programmeEditionEnrolmentRepository == null) throw new IllegalArgumentException("Programme Edition Enrolment Repository cannot be null");
+
         this.departmentRepository = departmentRepository;
         this.schoolYearRepository = schoolYearRepository;
         this.programmeRepository = programmeRepository;
