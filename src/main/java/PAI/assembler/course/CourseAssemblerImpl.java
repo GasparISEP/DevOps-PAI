@@ -1,0 +1,31 @@
+package PAI.assembler.course;
+
+import PAI.VOs.Acronym;
+import PAI.VOs.CourseID;
+import PAI.VOs.Name;
+import PAI.domain.course.Course;
+import PAI.dto.course.CourseDTOCommand;
+import PAI.dto.course.CourseRequestDTO;
+import PAI.dto.course.CourseResponseDTO;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CourseAssemblerImpl implements ICourseAssembler {
+
+    public CourseDTOCommand toDomain (CourseRequestDTO requestDTO) {
+
+        Acronym acronym = new Acronym(requestDTO._acronym());
+        Name name = new Name(requestDTO._name());
+        CourseID courseID = new CourseID(acronym, name);
+
+        return new CourseDTOCommand(courseID, name, acronym);
+    }
+
+    public CourseResponseDTO toDTO (Course course) {
+
+        String acronym = course.getAcronym().getAcronym();
+        String name = course.getName().getName();
+
+        return new CourseResponseDTO(acronym, name);
+    }
+}
