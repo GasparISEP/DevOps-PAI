@@ -1,14 +1,28 @@
 package PAI.dto.courseEdition;
 
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseEditionRequestDTOTest {
+
+    private Validator validator;
+
+    @BeforeEach
+    void setup() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     void shouldCreateCourseEditionRequestDTOCorrectly() {
@@ -44,5 +58,26 @@ class CourseEditionRequestDTOTest {
         assertEquals(studyPlanProgrammeName, dto.studyPlanProgrammeName());
         assertEquals(studyPlanProgrammeAcronym, dto.studyPlanProgrammeAcronym());
         assertEquals(studyPlanImplementationDate, dto.studyPlanImplementationDate());
+    }
+
+    @Test
+    void validationFailsWhenFieldsAreNullOrBlank () {
+        //arrange
+        CourseEditionRequestDTO invalidDTO = new CourseEditionRequestDTO(
+                "",
+                "",
+                null,
+                "",
+                "",
+                "",
+                "",
+                null
+        );
+
+        //act
+        Set<ConstraintViolation<CourseEditionRequestDTO>> violations = validator.validate(invalidDTO);
+
+        //assert
+        assertEquals(8, violations.size());
     }
 }

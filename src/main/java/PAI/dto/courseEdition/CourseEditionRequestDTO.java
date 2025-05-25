@@ -1,16 +1,19 @@
 package PAI.dto.courseEdition;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.UUID;
 import java.util.Date;
 
 public record CourseEditionRequestDTO(
-        String programmeName,
-        String programmeAcronym,
-        UUID schoolYearID,
+        @NotBlank String programmeName,
+        @NotBlank String programmeAcronym,
+        @NotNull UUID schoolYearID,
 
-        String courseAcronym,
-        String courseName,
-        String studyPlanProgrammeName,
-        String studyPlanProgrammeAcronym,
-        Date studyPlanImplementationDate
+        @NotBlank String courseAcronym,
+        @NotBlank String courseName,
+        @NotBlank String studyPlanProgrammeName,
+        @NotBlank String studyPlanProgrammeAcronym,
+        @NotNull Date studyPlanImplementationDate
 ) { }
