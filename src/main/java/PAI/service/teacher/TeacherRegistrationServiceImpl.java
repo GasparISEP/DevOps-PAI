@@ -31,8 +31,7 @@ public class TeacherRegistrationServiceImpl implements ITeacherRegistrationServi
             teacherCommandDTO.academicBackground() == null || teacherCommandDTO.street() == null ||
             teacherCommandDTO.postalCode() == null || teacherCommandDTO.location() == null ||
             teacherCommandDTO.country() == null || teacherCommandDTO.departmentID() == null) {
-            throw new IllegalArgumentException("All fields are required");
-        }
+            throw new IllegalArgumentException("All fields are required");}
 
         Teacher teacher = teacherFactory.createTeacher(teacherCommandDTO.id(), teacherCommandDTO.name(),
                 teacherCommandDTO.email(), teacherCommandDTO.nif(), teacherCommandDTO.phoneNumber(),
@@ -40,12 +39,14 @@ public class TeacherRegistrationServiceImpl implements ITeacherRegistrationServi
                 teacherCommandDTO.location(), teacherCommandDTO.country(), teacherCommandDTO.departmentID());
 
         if(teacher == null){
-            throw new IllegalArgumentException("Failed to create teacher");
-        }
+            throw new IllegalArgumentException("Failed to create teacher");}
         if (teacherRepository.existsByTeacherIdOrNif(teacher.identity(), teacher.getNIF())) {
-            throw new BusinessRuleViolationException("Teacher with the provided Acronym or Nif is already registered.");
-        }
+            throw new BusinessRuleViolationException("Teacher with the provided Acronym or Nif is already registered.");}
         teacherRepository.save(teacher);
         return teacher;
+    }
+
+    public Iterable<Teacher> getAllTeachers() {
+        return teacherRepository.findAll();
     }
 }

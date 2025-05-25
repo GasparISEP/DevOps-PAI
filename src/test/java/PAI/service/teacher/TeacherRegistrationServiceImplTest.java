@@ -8,6 +8,8 @@ import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -604,5 +606,42 @@ class TeacherRegistrationServiceImplTest {
 
         // Act & Assert
         assertThrows(BusinessRuleViolationException.class, () -> teacherRegistrationService.createAndSaveTeacher(registerTeacherCommandDTO));
+    }
+
+    @Test
+    void shouldReturnAllTeachersWhenCallingGetAllTeachers(){
+        //Arrange
+        ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        TeacherRegistrationServiceImpl teacherRegistrationService = new TeacherRegistrationServiceImpl(teacherFactoryDouble, teacherRepositoryDouble);
+
+        Teacher teacherDouble1 = mock(Teacher.class);
+        Teacher teacherDouble2 = mock(Teacher.class);
+        List<Teacher> teachersList = List.of(teacherDouble1, teacherDouble2);
+        when(teacherRepositoryDouble.findAll()).thenReturn(teachersList);
+
+        //Act
+        Iterable<Teacher> result = teacherRegistrationService.getAllTeachers();
+
+        //Assert
+        List<Teacher> resultList = (List<Teacher>) result;
+        assertEquals(2, resultList.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoTeachersExistWhenCallingGetAllTeachers() {
+        // Arrange
+        ITeacherFactory teacherFactoryDouble = mock(ITeacherFactory.class);
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        TeacherRegistrationServiceImpl teacherRegistrationService = new TeacherRegistrationServiceImpl(teacherFactoryDouble, teacherRepositoryDouble);
+
+        when(teacherRepositoryDouble.findAll()).thenReturn(List.of());
+
+        // Act
+        Iterable<Teacher> result = teacherRegistrationService.getAllTeachers();
+
+        // Assert
+        List<Teacher> resultList = (List<Teacher>) result;
+        assertTrue(resultList.isEmpty());
     }
 }
