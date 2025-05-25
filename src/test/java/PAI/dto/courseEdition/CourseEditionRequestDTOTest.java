@@ -1,6 +1,5 @@
 package PAI.dto.courseEdition;
 
-import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
