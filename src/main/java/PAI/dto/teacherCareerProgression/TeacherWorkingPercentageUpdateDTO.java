@@ -2,13 +2,13 @@ package PAI.dto.teacherCareerProgression;
 
 public class TeacherWorkingPercentageUpdateDTO {
     private String date;
-    private int workingpercentage;
-    private String teacherid;
+    private int workingPercentage;
+    private String teacherID;
 
-    public TeacherWorkingPercentageUpdateDTO(String date, int workingpercentage, String teacherid) {
+    public TeacherWorkingPercentageUpdateDTO(String date, int workingPercentage, String teacherID) {
         this.date = date;
-        this.workingpercentage = workingpercentage;
-        this.teacherid = teacherid;
+        this.workingPercentage = workingPercentage;
+        this.teacherID = teacherID;
     }
 
 
@@ -16,11 +16,11 @@ public class TeacherWorkingPercentageUpdateDTO {
         return date;
     }
 
-    public int getWorkingpercentage() {
-        return workingpercentage;
+    public int getWorkingPercentage() {
+        return workingPercentage;
     }
 
-    public String getTeacherid() {
-        return teacherid;
+    public String getTeacherID() {
+        return teacherID;
     }
 }

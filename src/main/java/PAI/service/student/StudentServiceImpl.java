@@ -26,12 +26,12 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     public Student registerStudent (StudentID studentID, Name name, NIF nif, PhoneNumber phoneNumber, Email email, Street street,
-                                    PostalCode postalCode, Location location, Country country, StudentAcademicEmail academicEmail) throws Exception {
+                                    PostalCode postalCode, Location location, Country country, StudentAcademicEmail academicEmail) throws IllegalArgumentException {
 
         Student student = _studentFactory.newStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, academicEmail);
 
         if(_studentRepository.existsByStudentIDOrNIF(studentID, nif))
-            throw new Exception ("Student with this information is already registered!");
+            throw new IllegalArgumentException ("Student with this information is already registered!");
 
         return _studentRepository.save(student);
     }

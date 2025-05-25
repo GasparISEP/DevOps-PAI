@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
 import { registerStudent } from '../../services/studentService';
-
+import studentImage from '../../assets/images/form-image.jpg';
 
 const initialForm = {
     studentID: '',
@@ -17,13 +16,11 @@ const initialForm = {
     email: ''
 };
 
-
 export default function StudentForm() {
     const [form, setForm] = useState(initialForm);
     const [loading, setLoading] = useState(false);
-    const [error, setError]     = useState('');
-    const [errorMsg, setErrorMsg]   = useState('');
-    const [successMsg, setSuccessMsg] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(null);
 
     function handleChange(e) {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -32,131 +29,94 @@ export default function StudentForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
-        setErrorMsg('');
-        setSuccessMsg('');
+        setSuccess(null);
         setLoading(true);
 
+        const payload = {
+            ...form,
+            studentID: Number(form.studentID),
+            academicEmail: `${form.studentID}@isep.ipp.pt`
+        };
 
-          const payload = {
-                ...form,
-                studentID: Number(form.studentID),
-                academicEmail: `${form.studentID}@isep.ipp.pt`
-          };
         try {
-            // Aqui chamarias o teu studentService.registerStudent(form)
-            // const resp = await registerStudent(form);
-            // setSuccess(resp);
-            const respDTO = await registerStudent(payload);
-            setSuccessMsg(`Student ${respDTO.name} (ID ${respDTO.studentID}) registered!`);
-
+            const resp = await registerStudent(payload);
+            setSuccess(resp);
         } catch (err) {
-            setErrorMsg(err.message);
+            setError(err.message);
         } finally {
             setLoading(false);
         }
     }
 
-    const firstFields = [
-        { label: 'Student ID',   name: 'studentID',  type: 'number', required: true },
-        { label: 'Name',         name: 'name',       type: 'text',   required: true },
-        { label: 'NIF',          name: 'nif',        type: 'text',   required: true },
-        { label: 'NIF Country',  name: 'nifCountry', type: 'text',   required: true },
-    ];
-
-    const restFields = [
-        'street',
-        'postalCode',
-        'location',
-        'addressCountry',
-        'phoneCountryCode',
-        'phoneNumber',
-        'email'
-    ];
-
     return (
-        <form className="student-form" onSubmit={handleSubmit}>
-            <div className="form-grid">
-                {firstFields.map(f => (
-                    <div className="form-group" key={f.name}>
-                        <label htmlFor={f.name}>{f.label}</label>
-                        <input
-                            id={f.name}
-                            name={f.name}
-                            type={f.type}
-                            required={f.required}
-                            value={form[f.name]}
-                            onChange={handleChange}
-                        />
+        <div className="student-main-component-div">
+            <div className="student-main-grid">
+
+                <div className="img-main-div">
+                    <img className="form-img" src={studentImage} alt="Student registration visual" />
+                </div>
+
+                <form className="student-form" onSubmit={handleSubmit}>
+                    <h1>Register Student</h1>
+
+                    <div className="student-form-and-buttons-main-div">
+                        <div className="student-form-div">
+                            {[
+                                { label: 'Student ID', name: 'studentID', type: 'number' },
+                                { label: 'Name', name: 'name' },
+                                { label: 'NIF', name: 'nif' },
+                                { label: 'NIF Country', name: 'nifCountry' },
+                                { label: 'Street', name: 'street' },
+                                { label: 'Postal Code', name: 'postalCode' },
+                                { label: 'Location', name: 'location' },
+                                { label: 'Address Country', name: 'addressCountry' },
+                                { label: 'Phone Country Code', name: 'phoneCountryCode' },
+                                { label: 'Phone Number', name: 'phoneNumber' },
+                                { label: 'Email', name: 'email', type: 'email' }
+                            ].map(({ label, name, type = 'text' }) => (
+                                <div className="student-form-group" key={name}>
+                                    <label className="student-form-label" htmlFor={name}>{label}</label>
+                                    <input
+                                        className="student-form-input"
+                                        id={name}
+                                        name={name}
+                                        type={type}
+                                        value={form[name]}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            ))}
+
+                            {error && <div className="error">⚠️ {error}</div>}
+
+                            <div className="student-form-actions">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => window.history.back()}
+                                    disabled={loading}
+                                >
+                                    CANCEL
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={loading}
+                                >
+                                    {loading ? 'Registering…' : 'REGISTER'}
+                                </button>
+                            </div>
+
+                            {success && (
+                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                                    Student {success.name} (ID {success.studentID}) registered successfully!
+                                </div>
+                            )}
+                        </div>
                     </div>
-                ))}
-                {restFields.map(name => (
-                    <div className="form-group" key={name}>
-                        <label htmlFor={name}>
-                            {name.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}
-                        </label>
-                        <input
-                            id={name}
-                            name={name}
-                            type={name === 'email' ? 'email' : 'text'}
-                            value={form[name]}
-                            onChange={handleChange}
-                        />
-                    </div>
-                ))}
+                </form>
             </div>
-
-            {error && <div className="error">{error}</div>}
-
-            <div className="form-actions">
-                <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => window.history.back()}
-                    disabled={loading}
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={loading}
-                >
-                    {loading ? 'Registering…' : 'Register'}
-                </button>
-            </div>
-
-            {successMsg && (
-                <Modal
-                    message={successMsg}
-                    onClose={() => {
-                        setSuccessMsg('');
-                        setForm({
-                            studentID: '',
-                            name: '',
-                            NIF: '',
-                            NIFCountry: '',
-                            street: '',
-                            postalCode: '',
-                            location: '',
-                            addressCountry: '',
-                            phoneCountryCode: '',
-                            phoneNumber: '',
-                            email: ''
-                        });
-                    }}
-                    />
-                  )}
-
-            {errorMsg && (
-                <Modal
-                    message={errorMsg}
-                    onClose={() => {
-                        setErrorMsg('');
-                    }}
-                />
-            )}
-
-        </form>
+        </div>
     );
 }
