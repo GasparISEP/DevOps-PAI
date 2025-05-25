@@ -167,7 +167,103 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         assertEquals("School Year ID cannot be null", exception.getMessage());
     }
 
-    //business logic tests
+    @Test
+    void shouldReturnZeroWhenDepartmentGivenIsNotInTheRepository() throws Exception {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepo, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(command.departmentID()).thenReturn(departmentID);
+        when(command.schoolYearID()).thenReturn(schoolYearID);
+        when(depRepo.containsOfIdentity(departmentID)).thenReturn(false);
+        when(sYRepo.containsOfIdentity(schoolYearID)).thenReturn(true);
+
+        // Act
+        int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
+
+        // Assert
+        assertEquals(0, result);
+        assertNotEquals(1, result);
+        verify(depRepo, times(1)).containsOfIdentity(departmentID);
+        verifyNoInteractions(sYRepo, progERepo, progEERepo);
+        verify(depRepo).containsOfIdentity(departmentID);
+    }
+
+    @Test
+    void shouldReturnZeroWhenSchoolYearGivenIsNotInTheRepository() throws Exception {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepo, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(command.departmentID()).thenReturn(departmentID);
+        when(command.schoolYearID()).thenReturn(schoolYearID);
+        when(depRepo.containsOfIdentity(departmentID)).thenReturn(true);
+        when(sYRepo.containsOfIdentity(schoolYearID)).thenReturn(false);
+
+        // Act
+        int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
+
+        // Assert
+        assertEquals(0, result);
+        assertNotEquals(1, result);
+        verify(depRepo).containsOfIdentity(departmentID);
+        verify(sYRepo).containsOfIdentity(schoolYearID);
+        verify(depRepo, times(1)).containsOfIdentity(departmentID);
+        verify(sYRepo, times(1)).containsOfIdentity(schoolYearID);
+        verifyNoInteractions(progRepo, progERepo, progEERepo);
+    }
+
+    @Test
+    void shouldReturnZeroWhenSchoolYearAndDepartmentGivenAreNotInTheRepository() throws Exception {
+        // Arrange
+        IDepartmentRepository depRepo = mock(IDepartmentRepository.class);
+        ISchoolYearRepository sYRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository progRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
+
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepo, progERepo, progEERepo);
+
+        TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(command.departmentID()).thenReturn(departmentID);
+        when(command.schoolYearID()).thenReturn(schoolYearID);
+        when(depRepo.containsOfIdentity(departmentID)).thenReturn(false);
+        when(sYRepo.containsOfIdentity(schoolYearID)).thenReturn(false);
+
+        // Act
+        int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
+
+        // Assert
+        assertEquals(0, result);
+        assertNotEquals(1, result);
+        verify(depRepo).containsOfIdentity(departmentID);
+        verify(depRepo, times(1)).containsOfIdentity(departmentID);
+        verify(sYRepo, times(0)).containsOfIdentity(schoolYearID);
+        verifyNoInteractions(sYRepo, progERepo, progEERepo);
+    }
+
+    //BUSINESS LOGIC TESTS
     @Test
     void shouldReturnTheSumOfStudentsEnrolInProgrammesByDepartmentAndSchoolYear() throws Exception{
         // Arrange
@@ -255,6 +351,12 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
 
         // Assert
         assertEquals(4, result);
+        assertNotEquals(1, result);
+
+        verify(depRepo).containsOfIdentity(departmentID);
+        verify(sYRepo).containsOfIdentity(schoolYearID);
+        verify(depRepo, times(1)).containsOfIdentity(departmentID);
+        verify(sYRepo, times(1)).containsOfIdentity(schoolYearID);
 
         verify(Enrolment1, times(2)).hasSameProgrammeEdition(any());
         verify(Enrolment2, times(1)).hasSameProgrammeEdition(any());
@@ -299,6 +401,7 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
 
         // Assert
         assertEquals(0, result);
+        assertNotEquals(1, result);
 
         verify(depRepo).containsOfIdentity(departmentID);
         verify(sYRepo).containsOfIdentity(schoolYearID);
@@ -344,6 +447,7 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
 
         // Assert
         assertEquals(0, result);
+        assertNotEquals(1, result);
 
         verify(depRepo).containsOfIdentity(departmentID);
         verify(sYRepo).containsOfIdentity(schoolYearID);
@@ -353,7 +457,4 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
 
         verifyNoInteractions(progEERepo);
     }
-
-
-
 }
