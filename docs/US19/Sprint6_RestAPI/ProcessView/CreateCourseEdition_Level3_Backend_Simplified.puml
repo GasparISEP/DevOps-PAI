@@ -1,5 +1,7 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Components (Backend focus))
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Core Flow Only - Backend)
+
+
 autonumber
 
 skinparam {
@@ -13,6 +15,7 @@ skinparam sequence {
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
+
 
 participant "<<component>>\n:Router" as router #E1F5FE
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
@@ -28,69 +31,16 @@ participant "<<component>>\n:ICourseEdition\nSpringDataRepository\n(JPARepositor
 
 database DB as Database #E1F5FE
 
--> router: GET /degree-types
-activate router
-router -> Controller: getAllDegreeTypes()
-activate Controller
-note over Controller #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
+note over router
+This simplified version of the diagram focuses only
+on the core backend flow for creating a course edition.
+Supporting GET endpoints (e.g., programmes,
+courses) are omitted for clarity.
 end note
-ref over Controller
-   <b>List of Degree Types</b>
-end ref
-Controller --> router: degreeTypesList
-deactivate Controller
-<-- router: degreeTypesList
-deactivate router
 
--> router: GET /programmes
-activate router
-router -> Controller: getProgrammesByDegreeTypeID\n(degreeTypeID)
-activate Controller
-note over Controller #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over Controller
-   <b>List of Programmes</b>
-end ref
-Controller --> router: programmesList
-deactivate Controller
-<-- router: programmesList
-deactivate router
+== Step 1: HTTP Request ==
 
--> router: GET /courses-in-study-plan
-activate router
-router -> Controller: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
-activate Controller
-note over Controller #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over Controller
-   <b>List of Courses In Study Plan</b>
-end ref
-Controller --> router: coursesInStudyPlanList
-deactivate Controller
-<-- router: coursesInStudyPlanList
-deactivate router
-
--> router: GET /programme-editions
-activate router
-router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeID)
-activate Controller
-note over Controller #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over Controller
-   <b>List of Programme Editions</b>
-end ref
-Controller --> router: programmeEditionsList
-deactivate Controller
-<-- router: programmeEditionsList
-deactivate router
+' --- GET endpoints omitted for brevity ---
 
 -> router: POST /course-editions
 activate router
@@ -104,6 +54,8 @@ incoming JSON to
 CourseEditionRequestDTO
 end note
 
+== Step 2: Assemble to Command ==
+
 Controller -> Assembler: toCommand(requestDTO)
 activate Assembler
 Assembler --> Controller: createCourseEditionCommand
@@ -114,6 +66,7 @@ deactivate Assembler
 Controller -> Service: createAndSaveCourseEdition(dto)
 activate Service
 
+== Step 3: Application Service & Factory ==
 
 Service -> CourseEditionFactory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)\n(cSp1_ID, pE1_ID)
 activate CourseEditionFactory
@@ -124,6 +77,7 @@ Repository --> Service: false
 deactivate Repository
 
 
+== Step 4: Persistence ==
 
 Service -> Mapper : toDataModel(courseEdition)
 activate Mapper
@@ -158,6 +112,7 @@ end
 SpringData --> Service : CourseEditionDataModel
 deactivate
 
+== Step 5: Return DTO ==
 
 Service -> Mapper : toDomain(courseEditionDataModel)
 activate Mapper
