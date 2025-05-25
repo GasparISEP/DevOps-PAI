@@ -1,7 +1,9 @@
 package PAI.assembler.programme;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programme.Programme;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
@@ -88,4 +90,34 @@ class ProgrammeAssemblerTest {
                 () -> assertEquals("AAA", programmeResponseDTO.getTeacherName())
         );
     }
+
+    @Test
+    void shouldCreateProgrammeIDDTOFromProgrammeID() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        when(programmeIDDouble.getProgrammeName()).thenReturn("Computer Science");
+        when(programmeIDDouble.getProgrammeAcronym()).thenReturn("CSE");
+
+        // Act
+        ProgrammeIDDTO programmeIDDTO = programmeAssembler.toDTO(programmeIDDouble);
+
+        // Assert
+        assertNotNull(programmeIDDTO);
+        assertEquals(programmeIDDTO.name(), "Computer Science");
+        assertEquals(programmeIDDTO.acronym(), "CSE");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeIDIsNull() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeID programmeIDDouble = null;
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            programmeAssembler.toDTO(programmeIDDouble);
+        });
+    }
+
 }

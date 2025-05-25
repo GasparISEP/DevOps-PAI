@@ -11,6 +11,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -654,4 +655,43 @@ class ProgrammeServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals(_programmeDouble, result.get());
     }
+
+    @Test
+    void shouldGetAllProgrammeIDDTOs(){
+        createDoubles();
+        ProgrammeIDDTO programmeIDDTO1 = mock(ProgrammeIDDTO.class);
+        ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
+        when(_programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
+        when(_programme2Double.getProgrammeID()).thenReturn(_programme2IDDouble);
+        when(_programmeRepositoryDouble.findAll()).thenReturn(Arrays.asList(_programmeDouble, _programme2Double));
+        when(_programmeAssemblerDouble.toDTO(_programmeIDDouble)).thenReturn(programmeIDDTO1);
+        when(_programmeAssemblerDouble.toDTO(_programme2IDDouble)).thenReturn(programmeIDDTO2);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_degreeTypeRepositoryDouble,_departmentRepositoryDouble,_teacherRepositoryDouble,_programmeAssemblerDouble);
+
+        List<ProgrammeIDDTO> result = programmeService.getAllProgrammeIDDTOs();
+
+        //Assert
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoProgrammeIDInRepository(){
+        createDoubles();
+        ProgrammeIDDTO programmeIDDTO1 = mock(ProgrammeIDDTO.class);
+        ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
+        when(_programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
+        when(_programme2Double.getProgrammeID()).thenReturn(_programme2IDDouble);
+        when(_programmeRepositoryDouble.findAll()).thenReturn(List.of());
+        when(_programmeAssemblerDouble.toDTO(_programmeIDDouble)).thenReturn(programmeIDDTO1);
+        when(_programmeAssemblerDouble.toDTO(_programme2IDDouble)).thenReturn(programmeIDDTO2);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_degreeTypeRepositoryDouble,_departmentRepositoryDouble,_teacherRepositoryDouble,_programmeAssemblerDouble);
+
+        List<ProgrammeIDDTO> result = programmeService.getAllProgrammeIDDTOs();
+
+        //Assert
+        assertEquals(0, result.size());
+    }
+
 }

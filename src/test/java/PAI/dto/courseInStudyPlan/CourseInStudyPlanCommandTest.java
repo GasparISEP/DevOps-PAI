@@ -20,10 +20,9 @@ class CourseInStudyPlanCommandTest {
                 mock(Acronym.class),
                 mock(Name.class),
                 programmeID,
-                implementationDate,
                 new Date("01-09-2024"),
-                6,
-                6.0
+                mock(DurationCourseInCurricularYear.class),
+                mock(CourseQuantityCreditsEcts.class)
         );
 
         // act

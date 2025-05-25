@@ -2,6 +2,7 @@ package PAI.controllerRest;
 
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
@@ -9,6 +10,9 @@ import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -120,5 +124,36 @@ class ProgrammeRestControllerTest {
 
         //Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnListOfProgrammeIDSDTOs() {
+        //Arrange
+        createDoubles();
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
+        ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
+        when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of(programmeIDDTO, programmeIDDTO2));
+        //Act
+        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertNotNull(result.getBody());
+        assertEquals(2, result.getBody().size());
+    }
+
+    @Test
+    void shouldReturnNotFoundIfNoProgrammeIDSDTOs() {
+        //Arrange
+        createDoubles();
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+
+        when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of());
+        //Act
+        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+
+        //Assert
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 }
