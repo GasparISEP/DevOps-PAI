@@ -16,10 +16,10 @@ public record CourseInStudyPlanResponseDTO(
         String courseName,
         @NotBlank(message = "Programme acronym cannot be blank!")
         String programmeAcronym,
-        @NotBlank(message = "Implementation date cannot be blank!")
-        String implementationDate,
-        @NotNull(message = "Date cannot be null!")
-        LocalDate date,
+        @NotBlank(message = "Programme Name is required")
+        String programmeName,
+        @NotNull(message = "Date is required")
+        String studyPlanDate,
         int duration,
         double credits,
         CourseID courseId,
