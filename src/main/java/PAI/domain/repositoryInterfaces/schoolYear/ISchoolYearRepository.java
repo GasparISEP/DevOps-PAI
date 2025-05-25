@@ -15,4 +15,6 @@ public interface ISchoolYearRepository extends IRepository<SchoolYearID, SchoolY
 
     List<SchoolYearID> getAllSchoolYearsIDs();
 
+    Optional<SchoolYear> findBySchoolYearID(SchoolYearID schoolYearID);
+
 }

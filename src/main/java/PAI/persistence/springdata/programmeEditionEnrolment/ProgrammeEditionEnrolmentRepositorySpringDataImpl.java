@@ -39,6 +39,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         this.programmeEditionIdMapper = validate(programmeEditionIdMapper, "ProgrammeEditionIdMapper");
     }
 
+    @Override
     public boolean isStudentEnrolledInThisProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId) {
         if (studentId == null || programmeEditionId == null)
             return false;
@@ -57,6 +58,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return false;
     }
 
+    @Override
     public List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId) {
         List<ProgrammeEditionID> ProgrammeEditionsThatStudentIsEnrolled = new ArrayList<>();
 
@@ -75,6 +77,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return ProgrammeEditionsThatStudentIsEnrolled;
     }
 
+    @Override
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
         Set<StudentID> studentIDs = new HashSet<>();
         List<ProgrammeEditionEnrolment> enrollmentList = findAll();
@@ -87,7 +90,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return studentIDs.size();
     }
 
-
+    @Override
     public List<ProgrammeEditionEnrolment> getAllProgrammeEditionsEnrollmentByProgrammeEditionID(ProgrammeEditionID programmeEditionId) throws Exception {
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = programmeEditionIdMapper.toDataModel(programmeEditionId);
         List<ProgrammeEditionEnrolmentDataModel> allProgrammeEditionEnrolmentsDataModel = _peeRepositorySpringData.findAllById_ProgrammeEditionIdDataModel(programmeEditionIdDataModel);
@@ -135,6 +138,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
         return internalSet;
     }
 
+    @Override
     public ProgrammeEditionEnrolment save(ProgrammeEditionEnrolment enrolment) {
         if (enrolment == null) {
             throw new IllegalArgumentException("ProgrammeEditionEnrolment cannot be null");
@@ -149,6 +153,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
                 .orElseThrow(() -> new IllegalStateException("Failed to map saved entity back to domain"));
     }
 
+    @Override
     public Optional<ProgrammeEditionEnrolment> ofIdentity(ProgrammeEditionEnrolmentID peeID) {
         if (peeID == null) return Optional.empty();
 
@@ -169,6 +174,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
 
 
     // For each item in the list, turn it into a domain and give me a new list at the end
+    @Override
     public List<ProgrammeEditionEnrolment> findAll() {
         return this._peeRepositorySpringData.findAll().stream()
                 .map(peeDataModel -> this._peeMapper.toDomain(peeDataModel)
@@ -176,6 +182,7 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
                 .collect(Collectors.toList());
     }
 
+    @Override
     public boolean containsOfIdentity(ProgrammeEditionEnrolmentID peeID) {
         if (peeID == null)
             return false;

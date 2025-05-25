@@ -3,7 +3,10 @@ package PAI.assembler.programmeEditionEnrolment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.SchoolYearID;
+import PAI.VOs.StudentID;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.SchoolYear;
@@ -22,20 +25,20 @@ public class ProgrammeEditionEnrolmentAssemblerImpl implements IProgrammeEdition
 
     
     @Override
-    public List<ProgrammeEditionEnrolmentDetailDto> toDtoList(List<ProgrammeEditionEnrolment> programmeEditionEnrolments) throws Exception {
+    public List<ProgrammeEditionEnrolmentDetailDto> toDtoList(List<ProgrammeEditionID> programmeEditionEnrolments, StudentID studentID) throws Exception {
         if (programmeEditionEnrolments == null) {
             throw new Exception("Programme edition enrolment is null");
         }
         List<ProgrammeEditionEnrolmentDetailDto> programmeEditionEnrolmentDetailDtos = new ArrayList<>();
 
-        for(ProgrammeEditionEnrolment programmeEditionEnrolment : programmeEditionEnrolments) {
-            String programmeName = programmeEditionEnrolment.identity().getProgrammeEditionId().getProgrammeID().getProgrammeName();
-            String programmeAcronym = programmeEditionEnrolment.identity().getProgrammeEditionId().getProgrammeID().getProgrammeAcronym();
-            SchoolYearID schoolYearID = programmeEditionEnrolment.identity().getProgrammeEditionId().getSchoolYearID();
+        for(ProgrammeEditionID programmeEditionId : programmeEditionEnrolments) {
+            String programmeName =  programmeEditionId.getProgrammeID().getProgrammeName();
+            String programmeAcronym = programmeEditionId.getProgrammeID().getProgrammeAcronym();
+            SchoolYearID schoolYearID = programmeEditionId.getSchoolYearID();
             String schoolYearDescription = getSchoolYearDescription(schoolYearID);
-            int studentID = programmeEditionEnrolment.identity().getStudentiD().getUniqueNumber();
+            int studentUniqueNumber = studentID.getUniqueNumber();
             ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentDetailDto = new ProgrammeEditionEnrolmentDetailDto(
-                studentID,
+                studentUniqueNumber,
                 programmeName,
                 programmeAcronym,
                 schoolYearDescription,
@@ -47,7 +50,7 @@ public class ProgrammeEditionEnrolmentAssemblerImpl implements IProgrammeEdition
     }
 
     private String getSchoolYearDescription(SchoolYearID schoolYearID) {
-        Optional<SchoolYear> schoolYear = iSchoolYearRepository.getCurrentSchoolYear();
+        Optional<SchoolYear> schoolYear = iSchoolYearRepository.findBySchoolYearID(schoolYearID);
         if (schoolYear.isPresent()) {
             return schoolYear.get().getDescription().getDescription();
         }
