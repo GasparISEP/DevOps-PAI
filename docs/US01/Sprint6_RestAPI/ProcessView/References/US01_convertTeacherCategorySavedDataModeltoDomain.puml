@@ -23,6 +23,7 @@ tcMapper -> tcIDMapper: toDomain (tcDataModelSaved.getID())
 activate tcIDMapper #E1F5FE
 create "tcID: TeacherCategoryID"
 tcIDMapper -> "tcID: TeacherCategoryID": create (id.getValue())
+tcIDMapper --> tcMapper: tcID
 deactivate tcIDMapper
 
 create "name: Name"
@@ -30,6 +31,8 @@ tcMapper -> "name: Name": create (tcDataModelSaved.getName())
 
 create "tcDataModel: TeacherCategoryDataModel"
 tcMapper -> "tcDataModel: TeacherCategoryDataModel": create (tcID, name)
+
+tcMapper --> ITeacherCategoryRepository: tcDataModel
 deactivate tcMapper
 deactivate tcMapper
 

@@ -19,6 +19,8 @@ activate tcAssembler #E1F5FE
 
 create "tcResponseDTO: TeacherCategoryResponseDTO"
 tcAssembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create (tc.getId().getValue().toString(), \n tc.getName().getName())
+
+tcAssembler --> Controller: tcResponseDTO
 deactivate tcAssembler
 deactivate Controller
 

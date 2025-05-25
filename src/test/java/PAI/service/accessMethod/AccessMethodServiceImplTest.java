@@ -144,6 +144,6 @@ class AccessMethodServiceImplTest {
             new AccessMethodServiceImpl(factoryMock, repositoryMock, null);
         });
 
-        assertEquals("assembler cannot be null", thrown.getMessage());
+        assertEquals("AccessMethodAssembler cannot be null.", thrown.getMessage());
     }
 }

@@ -1,0 +1,27 @@
+@startuml
+
+title Convert Teacher Category Request DTO to VO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+participant ":ITeacherCategoryAssembler" as tcAssembler
+activate Controller #E1F5FE
+Controller -> tcAssembler: toVO (tc)
+activate tcAssembler #E1F5FE
+
+create "nameVO: Name"
+tcAssembler -> "nameVO: Name": create (tcRequestDTO.name())
+
+tcAssembler --> Controller: nameVO
+deactivate tcAssembler
+deactivate Controller
+
+@enduml

@@ -2,39 +2,42 @@ package PAI.dto.teacher;
 
 import jakarta.validation.constraints.*;
 
-public record TeacherRequestDTO(
+public record RegisterTeacherRequestDTO(
 
         @NotBlank(message = "Teacher ID cannot be blank.")
-        String _teacherId,
+        String id,
 
         @NotBlank(message = "Teacher Name cannot be blank.")
-        String _name,
+        String name,
 
         @NotBlank(message = "Email cannot be blank.")
-        String _email,
+        String email,
 
         @NotBlank(message = "NIF cannot be blank.")
-        String _nif,
+        String nif,
+
+        @NotBlank(message = "CountryCode cannot be blank.")
+        String countryCode,
 
         @NotBlank(message = "Phone Number cannot be blank.")
-        String _phoneNumber,
+        String phoneNumber,
 
         @NotBlank(message = "Academic Background cannot be blank.")
-        String _academicBackground,
+        String academicBackground,
 
         @NotBlank(message = "Street cannot be blank.")
-        String _street,
+        String street,
 
         @NotBlank(message = "Postal Code cannot be blank.")
-        String _postalCode,
+        String postalCode,
 
         @NotBlank(message = "Location cannot be blank.")
-        String _location,
+        String location,
 
         @NotBlank(message = "Country cannot be blank.")
-        String _country,
+        String country,
 
         @NotBlank(message = "Department ID cannot be blank.")
-        String _departmentID
+        String departmentID
 
 ) {}

@@ -8,7 +8,7 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router
--> router: configureTeacherCategory (tcRequestDTO)
+-> router: configureTeacherCategory (tcJSON)
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework

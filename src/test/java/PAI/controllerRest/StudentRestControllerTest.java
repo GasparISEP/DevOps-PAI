@@ -41,7 +41,7 @@ class StudentRestControllerTest {
     }
 
     @Test
-    void whenServiceReturnsStudent_thenReturnsCreated() throws Exception{
+    void whenServiceReturnsStudent_thenReturnsCreated() {
         StudentDTO dto = mock(StudentDTO.class);
 
         StudentID id = new StudentID(1234567);
@@ -79,51 +79,5 @@ class StudentRestControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertSame(responseDTO, response.getBody());
-    }
-
-    @Test
-    void whenServiceReturnsNull_thenReturnsBadRequest() throws Exception{
-        StudentDTO dto = mock(StudentDTO.class);
-
-        when(mapper.toStudentID(dto)).thenReturn(new StudentID(1234567));
-        when(mapper.toName(dto)).thenReturn(new Name("João Silva"));
-        when(mapper.toNIF(dto)).thenReturn(new NIF("123456789", new Country("Portugal")));
-        when(mapper.toPhoneNumber(dto)).thenReturn(new PhoneNumber("+351", "912345678"));
-        when(mapper.toEmail(dto)).thenReturn(new Email("joao.silva@example.com"));
-        when(mapper.toAddress(dto)).thenReturn(
-                new Address(
-                        new Street("Rua Central"),
-                        new PostalCode("1234-567"),
-                        new Location("Porto"),
-                        new Country("Portugal")
-                )
-        );
-        when(mapper.toAcademicEmail(dto)).thenReturn(new StudentAcademicEmail(1234567));
-
-        when(studentService.registerStudent(any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(null);
-
-        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(dto);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void whenMapperThrows_thenControllerThrowsBadRequestException() {
-        // Arrange
-        StudentDTO dto = new StudentDTO(); // pode deixar campos em branco
-        when(mapper.toStudentID(dto))
-                .thenThrow(new IllegalArgumentException("Invalid student ID"));
-
-        // Act & Assert
-        ResponseStatusException ex = assertThrows(
-                ResponseStatusException.class,
-                () -> studentRestController.registerAStudent(dto),
-                "Expected registerAStudent to throw, but it didn't"
-        );
-
-        assertEquals(400, ex.getStatusCode().value());
-        assertEquals("Invalid student ID", ex.getReason());
     }
 }

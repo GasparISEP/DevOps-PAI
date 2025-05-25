@@ -1,38 +1,35 @@
 package PAI.dto.teacherCareerProgression;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 public class TeacherCareerProgressionDTO {
 
-    private String tcpid;
+    private String tcpID;
     private String date;
-    private String tcid;
-    private int workingpercentage;
-    private String teacherid;
+    private String tcID;
+    private int workingPercentage;
+    private String teacherID;
 
-    public TeacherCareerProgressionDTO(String tcpid, String date, String tcid, int workingpercentage, String teacherid) {
-        this.tcpid = tcpid;
+    public TeacherCareerProgressionDTO(String tcpID, String date, String tcID, int workingPercentage, String teacherID) {
+        this.tcpID = tcpID;
         this.date = date;
-        this.tcid = tcid;
-        this.workingpercentage = workingpercentage;
-        this.teacherid = teacherid;
+        this.tcID = tcID;
+        this.workingPercentage = workingPercentage;
+        this.teacherID = teacherID;
     }
 
-    public String getTcpid() {
-        return tcpid;
+    public String getTcpID() {
+        return tcpID;
     }
 
     public String getDate() {
         return date;
     }
-    public String getTcid() {
-        return tcid;
+    public String getTcID() {
+        return tcID;
     }
-    public int getWorkingpercentage() {
-        return workingpercentage;
+    public int getWorkingPercentage() {
+        return workingPercentage;
     }
-    public String getTeacherid() {
-        return teacherid;
+    public String getTeacherID() {
+        return teacherID;
     }
 }

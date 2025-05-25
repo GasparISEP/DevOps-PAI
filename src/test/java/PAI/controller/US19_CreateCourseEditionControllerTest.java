@@ -7,12 +7,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.service.degreeType.IDegreeTypeService;
-import PAI.service.studyPlan.IStudyPlanService;
-import PAI.service.courseEdition.ICourseEditionService;
-import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
-import PAI.service.programme.IProgrammeService;
-import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.courseEdition.ICreateCourseEditionService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -28,123 +23,23 @@ class US19_CreateCourseEditionControllerTest {
     void shouldCreateControllerSuccessfully() {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
 
         // Act
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         // Assert
         assertNotNull(us19Controller);
     }
 
     @Test
-    void shouldThrowExceptionIfDegreeTypeServiceIsNull() {
+    void shouldThrowExceptionIfCourseEditionServiceIsNull() {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = null;
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        ICreateCourseEditionService courseEditionService = null;
 
         // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
-
-        // Assert
-        assertEquals("degreeTypeService cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfProgrammeServiceIsNull() {
-        // SUT = Controller
-        // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = null;
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
-
-        // Assert
-        assertEquals("programmeService cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfStudyPlanServiceIsNull() {
-        // SUT = Controller
-        // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = null;
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
-
-        // Assert
-        assertEquals("studyPlanService cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfCourseInStudyPlanServiceIsNull() {
-        // SUT = Controller
-        // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = null;
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
-
-        // Assert
-        assertEquals("courseInStudyPlanService cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfProgrammeEditionServiceIsNull() {
-        // SUT = Controller
-        // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = null;
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
-
-        // Assert
-        assertEquals("programmeEditionService cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfCourseEditionRepositoryIsNull() {
-        // SUT = Controller
-        // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = null;
-
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);});
+        Exception exception = assertThrows(Exception.class, () -> {new US19_CreateCourseEditionController(courseEditionService);});
 
         // Assert
         assertEquals("courseEditionService cannot be null", exception.getMessage());
@@ -155,20 +50,15 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAListWithAllDegreeTypesInTheSystem() {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         DegreeType degreeType1 = mock(DegreeType.class);
         DegreeType degreeType2 = mock(DegreeType.class);
         DegreeType degreeType3 = mock(DegreeType.class);
 
         List<DegreeType> degreeTypes = List.of(degreeType1, degreeType2, degreeType3);
-        when(degreeTypeService.getAllDegreeTypes()).thenReturn(degreeTypes);
+        when(courseEditionService.getAllDegreeTypes()).thenReturn(degreeTypes);
 
         // Act
         List<DegreeType> result = us19Controller.getAllDegreeTypes();
@@ -185,16 +75,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAnEmptyListIfTheSystemHasNoDegreeTypes() {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         List<DegreeType> degreeTypes = List.of();
-        when(degreeTypeService.getAllDegreeTypes()).thenReturn(degreeTypes);
+        when(courseEditionService.getAllDegreeTypes()).thenReturn(degreeTypes);
 
         // Act
         List<DegreeType> result = us19Controller.getAllDegreeTypes();
@@ -209,20 +94,15 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAListWithAllProgrammesInTheSystemThatHaveTheDegreeTypeGiven() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
         Programme programme3 = mock(Programme.class);
         List<Programme> programmes = List.of(programme1, programme2, programme3);
-        when(programmeService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
+        when(courseEditionService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
 
         // Act
         List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeID);
@@ -239,17 +119,12 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAnEmptyListIfTheSystemHasNoProgrammeWithTheTheDegreeTypeGiven() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         List<Programme> programmes = List.of();
-        when(programmeService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
+        when(courseEditionService.getProgrammesByDegreeTypeID(degreeTypeID)).thenReturn(programmes);
 
         // Act
         List<Programme> result = us19Controller.getProgrammesByDegreeTypeID(degreeTypeID);
@@ -263,13 +138,8 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAnEmptyListIfTheTheDegreeTypeIDGivenIsNull() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         DegreeTypeID degreeTypeID = null;
 
@@ -286,13 +156,8 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnEmptyListIfProgrammeIDGivenIsNull() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = null;
 
@@ -308,16 +173,11 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnEmptyListIfTheProgrammeIDGivenHasNoStudyPlanAssociatedToIt() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(null);
+        when(courseEditionService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(null);
 
         // Act
         List<CourseInStudyPlan> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeID);
@@ -331,18 +191,13 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnEmptyListIfLatestStudyPlanOfTheProgrammeIDGivenHasNoCoursesInIt() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(List.of());
+        when(courseEditionService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(courseEditionService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(List.of());
 
         // Act
         List<CourseInStudyPlan> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeID);
@@ -356,22 +211,17 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAListWithCoursesInTheLatestStudyPlanFromTheGivenProgrammeID() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(courseEditionService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
         CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
         CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
         CourseInStudyPlan course3 = mock(CourseInStudyPlan.class);
         List<CourseInStudyPlan> courses = List.of(course1, course2, course3);
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(courses);
+        when(courseEditionService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(courses);
 
         // Act
         List<CourseInStudyPlan> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeID);
@@ -388,18 +238,13 @@ class US19_CreateCourseEditionControllerTest {
     void shouldReturnAnEmptyListIfThereAreNoCoursesInTheLatestStudyPlanFromTheGivenProgrammeID() throws Exception {
         // SUT = Controller
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(List.of());
+        when(courseEditionService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(courseEditionService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(List.of());
 
         // Act
         List<CourseInStudyPlan> result = us19Controller.getCoursesInStudyPlanByProgrammeID(programmeID);
@@ -414,15 +259,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnAnEmptyListIfProgrammeIdGivenIsNull() throws Exception {
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = null;
 
@@ -437,19 +276,13 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnAnEmptyListIfTheSystemHasNoProgrammeEditionsWithTheProgrammeGiven() throws Exception {
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         List<ProgrammeEdition> programmeEditions = List.of();
-        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
+        when(courseEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
 
         // Act
         List<ProgrammeEdition> result = us19Controller.getProgrammeEditionsByProgrammeID(programmeID);
@@ -462,15 +295,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnAListWithAllProgrammeEditionsInTheSystemThatHaveTheProgrammeGiven() throws Exception {
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeEdition programmeEdition1 = mock(ProgrammeEdition.class);
@@ -478,7 +305,7 @@ class US19_CreateCourseEditionControllerTest {
         ProgrammeEdition programmeEdition3 = mock(ProgrammeEdition.class);
 
         List<ProgrammeEdition> programmeEditions = List.of(programmeEdition1, programmeEdition2, programmeEdition3);
-        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
+        when(courseEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(programmeEditions);
 
         // Act
         List<ProgrammeEdition> result = us19Controller.getProgrammeEditionsByProgrammeID(programmeID);
@@ -497,15 +324,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfCourseInStudyPlanIsNullWhenCreateCourseEditionMethodIsCalled() throws Exception {
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         CourseInStudyPlanID courseInStudyPlanID = null;
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
@@ -520,15 +341,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseIfProgrammeIsNullWhenCreateCourseEditionMethodIsCalled() throws Exception {
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = null;
@@ -543,15 +358,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnFalseWhenCreateCourseEditionMethodIsCalled(){
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
@@ -569,15 +378,9 @@ class US19_CreateCourseEditionControllerTest {
     @Test
     void shouldReturnTrueWhenCreateCourseEditionMethodIsCalled(){
         // SUT = Controller
-
         // Arrange
-        IDegreeTypeService degreeTypeService = mock(IDegreeTypeService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
-        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(degreeTypeService, programmeService,studyPlanService, courseInStudyPlanService, programmeEditionService, courseEditionService);
+        ICreateCourseEditionService courseEditionService = mock(ICreateCourseEditionService.class);
+        US19_CreateCourseEditionController us19Controller = new US19_CreateCourseEditionController(courseEditionService);
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);

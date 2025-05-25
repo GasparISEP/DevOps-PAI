@@ -1,10 +1,9 @@
 package PAI.controllerRest;
+import PAI.VOs.*;
+import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
@@ -37,5 +36,29 @@ public class CourseEditionRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PatchMapping("/enrolments/students/remove")
+    public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO) throws Exception {
+            //For mapper-------------------
+            CourseEditionID courseEditionID =
+                    new CourseEditionID(new ProgrammeEditionID(
+                        new ProgrammeID(new NameWithNumbersAndSpecialChars(removeCourseEditionEnrolmentDTO.programmeName()), new Acronym(removeCourseEditionEnrolmentDTO.programmeAcronym())),
+                        new SchoolYearID(removeCourseEditionEnrolmentDTO.schoolYearId())
+            ),
+                    new CourseInStudyPlanID(
+                            new CourseID(new Acronym(removeCourseEditionEnrolmentDTO.courseAcronym()), new Name(removeCourseEditionEnrolmentDTO.courseName())),
+                            new StudyPlanID(new ProgrammeID(new NameWithNumbersAndSpecialChars(removeCourseEditionEnrolmentDTO.studyPlanProgrammeName()), new Acronym(removeCourseEditionEnrolmentDTO.studyPlanProgrammeAcronym())),
+                                    new Date(removeCourseEditionEnrolmentDTO.studyPlanProgrammeDate()))
+                    ));
+
+            StudentID studentID = new StudentID(removeCourseEditionEnrolmentDTO.studentID());
+            //--------------
+
+            boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
+    }
+
+
 }
 

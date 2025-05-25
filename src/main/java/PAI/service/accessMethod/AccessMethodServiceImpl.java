@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class AccessMethodServiceImpl implements IAccessMethodService {
 
@@ -21,18 +23,10 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
     public AccessMethodServiceImpl(IAccessMethodFactory accessMethodFactory, IRepositoryAccessMethod repositoryAccessMethod,
                                    IAccessMethodAssembler assembler) {
 
-        if(accessMethodFactory == null) {
-            throw new IllegalArgumentException("accessMethodFactory cannot be null");
-        }
-        if(repositoryAccessMethod == null) {
-            throw new IllegalArgumentException("repositoryAccessMethod cannot be null");
-        }
-        if(assembler == null) {
-            throw new IllegalArgumentException("assembler cannot be null");
-        }
-        this.accessMethodFactory = accessMethodFactory;
-        this.repositoryAccessMethod = repositoryAccessMethod;
-        this.assembler = assembler;
+
+        this.accessMethodFactory = validateNotNull(accessMethodFactory, "AccessMethodFactory");
+        this.repositoryAccessMethod = validateNotNull(repositoryAccessMethod, "RepositoryAccessMethod");
+        this.assembler = validateNotNull(assembler, "AccessMethodAssembler");
     }
 
 
@@ -49,5 +43,6 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
         return saved.map(assembler::toDto);
     }
+
 }
 

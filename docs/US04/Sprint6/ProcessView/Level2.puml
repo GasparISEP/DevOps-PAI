@@ -6,7 +6,7 @@ skinparam sequence {
    LifelineBackgroundColor LightBlue
  }
 
-title US04: \n As an Administrator, I want to register a teacher in the system.
+title US04: \n As an Administrator, I want to register a teacher in the system. \n Process View Level 2
 
 actor Administrator
 participant "Frontend" as FE
@@ -16,7 +16,7 @@ database DB
 Administrator -> FE ++: Request to register Teacher.
 FE --> Administrator --: Request Teacher's attributes?
 
-Administrator -> FE ++: Enter Teacher: teacherID, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, \n location, country, date, workingPercentage
+Administrator -> FE ++: Enter teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country
 
 FE -> BE ++: (GET) Request list of departments
 BE -> DB ++: Fetch all departments
