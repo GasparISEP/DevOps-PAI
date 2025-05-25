@@ -8,32 +8,19 @@ activate peeCtrl
 participant ":ProgrammeEditionEnrolmentService" as peeService
 participant ":ProgrammeEditionEnrolmentRepository" as peeRepo
 participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
-participant ":ProgrammeEditionEnrolmentMapper" as peeMapper
-participant ":ProgrammeEditionEnrolmentFactory" as peeFactory
 database DB
 
 peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentId(studentId)
 peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(studentId)
-peeRepo -> DB ++: SELECT * FROM programme_edition_enrollments\nWHERE student_id = studentId
-DB --> peeRepo --: List<Optional<ProgrammeEditionEnrolmentDataModel>>
+peeRepo -> DB ++: SELECT programme_edition_id FROM programme_edition_enrollments\nWHERE student_id = studentId
+DB --> peeRepo --: List<ProgrammeEditionID>
 
-loop for Optional<ProgrammeEditionEnrolmentDataModel>[i]
-    peeRepo -> peeMapper ++: toDomain(ProgrammeEditionEnrolmentDataModel[i])
-    peeMapper -> peeFactory ++: newProgrammeEditionEnrolment(id, studentId, programmeEditionId, status)
-    note over of peeFactory
-        Creates a new
-        ProgrammeEditionEnrolment object
-    end note
-    peeFactory --> peeMapper --: ProgrammeEditionEnrolment
-    peeMapper --> peeRepo --: ProgrammeEditionEnrolment
-end
+peeRepo --> peeService --: List<ProgrammeEditionID>
+peeService --> peeCtrl --: List<ProgrammeEditionID>
 
-peeRepo --> peeService --: List<ProgrammeEditionEnrolment>
-peeService --> peeCtrl --: List<ProgrammeEditionEnrolment>
+peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionID>)
 
-peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionEnrolment>)
-
-loop for ProgrammeEditionEnrolment[i]
+loop for ProgrammeEditionID[i]
     note over of peeAssembler
         Invokes ProgrammeEditionEnrolmentDetailDTO
              to construct object
@@ -43,7 +30,6 @@ peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
 
 legend right
   DTO = Data Transfer Object
-  Mapper = Convert DataModel to Domain
   Assembler = Convert Domain to DTO
 end legend
 
