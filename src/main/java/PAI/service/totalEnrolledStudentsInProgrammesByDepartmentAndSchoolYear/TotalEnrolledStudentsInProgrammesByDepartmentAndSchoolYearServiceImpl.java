@@ -62,7 +62,7 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
         SchoolYearID schoolYearID = command.schoolYearID();
 
         int count = 0;
-        if (departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID)){
+        if (isDepartmentIdAndSchoolYearIdValid(departmentID, schoolYearID)){
             List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
             if (programmeIDList.isEmpty())
                 return 0;
@@ -88,5 +88,9 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
             }
         }
         return count;
+    }
+
+    private boolean isDepartmentIdAndSchoolYearIdValid(DepartmentID departmentID, SchoolYearID schoolYearID) {
+        return departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID);
     }
 }
