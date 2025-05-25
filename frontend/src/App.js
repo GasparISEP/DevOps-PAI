@@ -25,7 +25,7 @@ function App() {
                   />
 
                   {/* Formulário de programas */}
-                  <Route path="/programme" element={<RegisterProgrammePage />} />
+                  <Route path="/programmes" element={<RegisterProgrammePage />} />
               </Routes>
           </div>
       </Router>
