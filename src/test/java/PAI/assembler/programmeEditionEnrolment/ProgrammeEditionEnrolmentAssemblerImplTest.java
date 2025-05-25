@@ -1,44 +1,82 @@
 package PAI.assembler.programmeEditionEnrolment;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-import PAI.VOs.ProgrammeEditionEnrolmentID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import PAI.VOs.*;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 
 public class ProgrammeEditionEnrolmentAssemblerImplTest {
 
+    private ISchoolYearRepository schoolYearRepository;
+    private ProgrammeEditionEnrolmentAssemblerImpl assembler;
+
+    @BeforeEach
+    void setUp() {
+        schoolYearRepository = mock(ISchoolYearRepository.class);
+        assembler = new ProgrammeEditionEnrolmentAssemblerImpl(schoolYearRepository);
+    }
+
     @Test
-    public void shouldReturnProgrammeEditionEnrolmentID() throws Exception {
-        // arrange
-        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentDetailDto(
-        1000001, 
-        "Programme 1",
-        "P1",
-        "2024-2025",
-        "550e8400-e29b-41d4-a716-446655440000"
+    void toDtoList_ShouldConvertEnrolmentsToDtoList() throws Exception {
+        // Arrange
+        List<ProgrammeEditionEnrolment> enrolments = new ArrayList<>();
+        
+        // Create test data
+        StudentID studentId = new StudentID(1000001);
+        ProgrammeID programmeId = new ProgrammeID(
+            new NameWithNumbersAndSpecialChars("Test Programme"),
+            new Acronym("TP")
         );
-        ProgrammeEditionEnrolmentAssemblerImpl programmeEditionEnrolmentAssembler = new ProgrammeEditionEnrolmentAssemblerImpl();
+        SchoolYearID schoolYearId = new SchoolYearID(UUID.randomUUID());
+        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
+        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentId, programmeEditionId);
+        enrolments.add(enrolment);
 
-        // act
-        ProgrammeEditionEnrolmentID programmeEditionEnrolmentID = programmeEditionEnrolmentAssembler.toProgrammeEditionEnrolmentID(programmeEditionEnrolmentResponseDto);
+        // Mock school year repository response
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Description description = new Description("2024-2025");
+        when(schoolYear.getDescription()).thenReturn(description);
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(java.util.Optional.of(schoolYear));
 
-        // assert
-        assertEquals("Programme 1", programmeEditionEnrolmentID.getProgrammeEditionId().getProgrammeID().getProgrammeName());
-    }   
+        // Act
+        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(enrolments);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
 
     @Test
-    public void shouldThrowExceptionWhenProgrammeEditionEnrolmentResponseDtoIsNull() {
-        // arrange
-        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = null;
-        ProgrammeEditionEnrolmentAssemblerImpl programmeEditionEnrolmentAssembler = new ProgrammeEditionEnrolmentAssemblerImpl();
+    void toDtoList_ShouldThrowException_WhenEnrolmentsIsNull() {
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            assembler.toDtoList(null);
+        });
+        
+        assertEquals("Programme edition enrolment is null", exception.getMessage());
+    }
 
-        // act
-        Exception exception = assertThrows(Exception.class, () -> programmeEditionEnrolmentAssembler.toProgrammeEditionEnrolmentID(programmeEditionEnrolmentResponseDto));
+    @Test
+    void toDtoList_ShouldReturnEmptyList_WhenEnrolmentsIsEmpty() throws Exception {
+        // Arrange
+        List<ProgrammeEditionEnrolment> emptyList = new ArrayList<>();
 
-        // assert
-        assertEquals("Programme edition enrolment response dto is null", exception.getMessage());
+        // Act
+        List<ProgrammeEditionEnrolmentDetailDto> result = assembler.toDtoList(emptyList);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }
