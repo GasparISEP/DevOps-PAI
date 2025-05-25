@@ -1,6 +1,12 @@
 package PAI.controllerRest;
 import PAI.VOs.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
+import PAI.dto.courseEdition.CourseEditionRequestDTO;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.service.courseEdition.ICreateCourseEditionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +16,23 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/courseeditions")
 public class CourseEditionRestController {
 
     private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
     private final ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler;
+    private final ICreateCourseEditionService createCourseEditionService;
+    private final ICourseEditionAssembler courseEditionAssembler;
 
-    public CourseEditionRestController(ICourseEditionEnrolmentService courseEditionEnrolmentService, ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler) {
+    public CourseEditionRestController(ICourseEditionEnrolmentService courseEditionEnrolmentService, ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
+                                       ICreateCourseEditionService createCourseEditionService, ICourseEditionAssembler courseEditionAssembler) {
         this.courseEditionEnrolmentService = courseEditionEnrolmentService;
         this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
+        this.createCourseEditionService = createCourseEditionService;
+        this.courseEditionAssembler = courseEditionAssembler;
     }
 
     @PostMapping("/students/enrolments")
@@ -59,6 +72,42 @@ public class CourseEditionRestController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
     }
 
+    @PostMapping
+    public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
+        // Using ResponseEntity<?> to allow different response types:
+        // - CourseEditionResponseDTO on success
+        // - String or other object for error messages
+        try {
+            CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
+            ProgrammeID programmeID = new ProgrammeID(
+                    new NameWithNumbersAndSpecialChars(command.programmeName()),
+                    new Acronym(command.programmeAcronym()));
 
+            CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
+                    new CourseID(
+                            new Acronym(command.courseAcronym()),
+                            new Name(command.courseName())),
+                    new StudyPlanID(programmeID, new Date(command.studyPlanImplementationDate())));
+
+            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
+                    programmeID,
+                    new SchoolYearID(command.schoolYearID()));
+
+            CourseEdition created = createCourseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+            if (created == null) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            CourseEditionResponseDTO responseDTO = courseEditionAssembler.toResponseDTO(created);
+
+            return ResponseEntity
+                    .created(URI.create("/courseeditions/" + responseDTO.courseEditionID()))
+                    .body(responseDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
 
