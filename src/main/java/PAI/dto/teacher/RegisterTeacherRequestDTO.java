@@ -2,7 +2,7 @@ package PAI.dto.teacher;
 
 import jakarta.validation.constraints.*;
 
-public record TeacherRequestDTO(
+public record RegisterTeacherRequestDTO(
 
         @NotBlank(message = "Teacher ID cannot be blank.")
         String id,
