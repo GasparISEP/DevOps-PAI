@@ -1,6 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.programme.IProgrammeService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,9 @@ public class US11_RegisterProgrammeInTheSystemController {
         MaxEcts programmeMaxOfEcts = new MaxEcts(maxOfEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
 
-        programmeService.registerProgramme(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+        ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
+
+        programmeService.registerProgramme(programmeVOsDTO);
 
         return true;
     }

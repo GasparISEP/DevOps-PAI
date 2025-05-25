@@ -5,7 +5,7 @@ import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeRequestDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.service.programme.IProgrammeRegistrationService;
+import PAI.service.programme.IProgrammeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import static org.mockito.Mockito.when;
 
 class ProgrammeRestControllerTest {
 
-    private IProgrammeRegistrationService _programmeServiceDouble;
+    private IProgrammeService _programmeServiceDouble;
     private IProgrammeAssembler _programmeAssemblerDouble;
     private ProgrammeRequestDTO _programmeRequestDTODouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
     private ProgrammeResponseDTO _programmeResponseDTODouble;
 
     private void createDoubles() {
-        _programmeServiceDouble = mock(IProgrammeRegistrationService.class);
+        _programmeServiceDouble = mock(IProgrammeService.class);
         _programmeAssemblerDouble = mock(ProgrammeAssembler.class);
         _programmeRequestDTODouble = mock(ProgrammeRequestDTO.class);
         _programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);

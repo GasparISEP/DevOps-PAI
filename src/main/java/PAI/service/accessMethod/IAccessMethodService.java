@@ -1,10 +1,11 @@
 package PAI.service.accessMethod;
 
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.accessMethod.AccessMethod;
+import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.dto.accessMethod.AccessMethodResponseDTO;
 
 import java.util.Optional;
 
 public interface IAccessMethodService {
-    Optional<AccessMethod> registerAccessMethod(NameWithNumbersAndSpecialChars accessMethodName);
+
+    Optional<AccessMethodResponseDTO> configureAccessMethod(RegisterAccessMethodCommand command);
 }

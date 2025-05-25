@@ -2,11 +2,26 @@ package PAI.controller;
 
 
 import PAI.VOs.*;
+import PAI.assembler.programme.IProgrammeAssembler;
+import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.degreeType.DegreeType;
+import PAI.domain.department.Department;
 import PAI.domain.programmeEnrolment.*;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
+import PAI.persistence.mem.degreeType.DegreeTypeRepositoryImpl;
+import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
+import PAI.persistence.mem.department.DepartmentListFactoryImpl;
+import PAI.persistence.mem.department.DepartmentRepositoryImpl;
+import PAI.persistence.mem.department.IDepartmentListFactory;
 import PAI.persistence.mem.programmeEditionEnrolment.ProgrammeEditionEnrolmentListFactoryImpl;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.courseEditionEnrolment.*;
@@ -44,6 +59,9 @@ import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRep
 import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.persistence.mem.teacher.ITeacherListFactory;
+import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
+import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
 import PAI.service.courseEdition.CourseEditionServiceImpl;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEditionEnrolment.CourseEditionEnrolmentServiceImpl;
@@ -329,6 +347,13 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
 
         // Course Edition
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
@@ -366,7 +391,11 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(
                 programmeFactory,
-                programmeRepository);
+                programmeRepository,
+                degreeTypeRepository,
+                departmentRepository,
+                teacherRepository,
+                programmeAssembler);
 
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactoryImpl, schoolYearMapperDTO);
 
@@ -451,7 +480,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -526,7 +562,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
@@ -605,7 +649,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
@@ -692,7 +744,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
@@ -811,7 +871,14 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -863,12 +930,33 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(dAcronym);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
+        Name name = new Name("Master");
+        Name departmentName = new Name("Astronomy");
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
         TeacherAcronym tAcronym = new TeacherAcronym("AAA");
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
         TeacherID teacherID1 = new TeacherID(tAcronym);
+        DegreeType degreeType = new DegreeType(degreeTypeID, name, maxEcts);
+        Department department = new Department(dAcronym, departmentName);
+        Teacher teacher = new Teacher(teacherID1, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
 
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
 
-        programmeService.registerProgramme(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+        programmeService.registerProgramme(programmeVOsDTO2);
 
         // Act
         List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
@@ -890,7 +978,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -944,9 +1040,32 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
         TeacherAcronym tAcronym = new TeacherAcronym("AAA");
         TeacherID teacherID1 = new TeacherID(tAcronym);
+        Name name = new Name("Master");
+        Name departmentName = new Name("Astronomy");
+        Name teacherName = new Name("AAA");
+        Email email = new Email ("aaa@gmail.com");
+        Country country = new Country("Portugal");
+        NIF nif = new NIF("123456789", country);
+        PhoneNumber phoneNumber = new PhoneNumber("+351", "912345678");
+        AcademicBackground academicBackground = new AcademicBackground("Mestrado ISEP 2024");
+        Street street = new Street("Rua das Flores");
+        PostalCode postalCode = new PostalCode("4450-789");
+        Location location = new Location("Coimbra");
+        Address address = new Address(street, postalCode, location, country);
+        DegreeType degreeType = new DegreeType(degreeTypeID, name, maxEcts);
+        Department department = new Department(dAcronym, departmentName);
+        Teacher teacher = new Teacher(teacherID1, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
 
-        programmeService.registerProgramme(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
-        programmeService.registerProgramme(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        degreeTypeRepository.save(degreeType);
+        departmentRepository.save(department);
+        teacherRepository.save(teacher);
+
+        ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(name1, acronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+        ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(name2, acronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID1);
+
+        programmeService.registerProgramme(programmeVOsDTO1);
+        programmeService.registerProgramme(programmeVOsDTO2);
+
 
         // Act
         List<ProgrammeID> programmes = controller.getAllProgrammesIDs();
@@ -969,7 +1088,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -1042,7 +1169,15 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IProgrammeService programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository);
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
+        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
+        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
+        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();

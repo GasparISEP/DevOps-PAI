@@ -1,0 +1,12 @@
+package PAI.controllerRest;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/programmeEdition")
+public class ProgrammeEditionRestController {
+
+
+
+    }

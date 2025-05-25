@@ -1,0 +1,16 @@
+package PAI.assembler.course;
+
+import PAI.VOs.Acronym;
+import PAI.VOs.CourseID;
+import PAI.VOs.Name;
+import PAI.domain.course.Course;
+import PAI.dto.course.CourseDTOCommand;
+import PAI.dto.course.CourseRequestDTO;
+import PAI.dto.course.CourseResponseDTO;
+
+public interface ICourseAssembler {
+
+    CourseDTOCommand toDomain (CourseRequestDTO requestDTO);
+
+    CourseResponseDTO toDTO (Course course);
+}

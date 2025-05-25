@@ -11,23 +11,32 @@ class StudentGradeResponseDTOTest {
     @BeforeEach
     void setUp() {
         dto = new StudentGradeResponseDTO(
-                "sg123",
+                1234567,
+                95.0,
+                "2025-05-21",
                 "ce456",
                 "pe789",
                 "csp101",
                 "pr456",
                 "sy2025",
                 "c999",
-                "sp2023",
-                1234567,
-                95,
-                "2025-05-21"
+                "sp2023"
         );
     }
 
     @Test
-    void shouldReturnCorrectStudentGradeId() {
-        assertEquals("sg123", dto._studentGradeId());
+    void shouldReturnCorrectStudentUniqueNumber() {
+        assertEquals(1234567, dto._studentUniqueNumber());
+    }
+
+    @Test
+    void shouldReturnCorrectGrade() {
+        assertEquals(95, dto._grade());
+    }
+
+    @Test
+    void shouldReturnCorrectDate() {
+        assertEquals("2025-05-21", dto._date());
     }
 
     @Test
@@ -63,21 +72,6 @@ class StudentGradeResponseDTOTest {
     @Test
     void shouldReturnCorrectStudyPlanId() {
         assertEquals("sp2023", dto._studyPlanId());
-    }
-
-    @Test
-    void shouldReturnCorrectStudentUniqueNumber() {
-        assertEquals(1234567, dto._studentUniqueNumber());
-    }
-
-    @Test
-    void shouldReturnCorrectGrade() {
-        assertEquals(95, dto._grade());
-    }
-
-    @Test
-    void shouldReturnCorrectDate() {
-        assertEquals("2025-05-21", dto._date());
     }
 
 }

@@ -49,13 +49,19 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
     public TeacherID toTeacherID (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
         return new TeacherID(new TeacherAcronym(teacherCareerProgressionDTO.getTeacherid()));
     }
-
-    public TeacherCategoryUpdateResponseDTO UpdateCategoryToDTO (TeacherCareerProgression teacherCareerProgression){
-
+    @Override
+    public UpdateTeacherCategoryResponseDTO toUpdateCategoryDTO(TeacherCareerProgression teacherCareerProgression){
         String date = teacherCareerProgression.getDate().toString();
-        String teacherID = teacherCareerProgression.getTeacherID().toString();
-        String teacherCategory = teacherCareerProgression.getTeacherCategoryID().toString();
-        int workingPercent = teacherCareerProgression.getWorkingPercentage().getValue();
-        return new TeacherCategoryUpdateResponseDTO(date,teacherID,teacherCategory,workingPercent);
+        String teacherID = teacherCareerProgression.getTeacherID().getTeacherAcronym().getAcronym();
+        String teacherCategoryID = teacherCareerProgression.getTeacherCategoryID().toString();
+        int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
+        return new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
+    }
+    @Override
+    public UpdateTeacherCategoryCommand toUpdateTeacherCategoryCommand(UpdateTeacherCategoryRequestDTO request) {
+        Date date = new Date(request.date());
+        TeacherID teacherID = new TeacherID(new TeacherAcronym(request.teacherID()));
+        TeacherCategoryID teacherCategoryID = new TeacherCategoryID(UUID.fromString(request.teacherCategoryID()));
+        return new UpdateTeacherCategoryCommand(date,teacherID,teacherCategoryID);
     }
 }

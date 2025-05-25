@@ -2,12 +2,13 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.dto.Programme.ProgrammeResponseDTO;
+import PAI.dto.Programme.ProgrammeVOsDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IProgrammeService {
-    Programme registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, MaxEcts maxOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) throws Exception;
     boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception;
     List<ProgrammeID> findProgrammeByDepartment(DepartmentID id);
     List<Programme> getProgrammesByDegreeTypeID(DegreeTypeID id) throws Exception;
@@ -16,5 +17,6 @@ public interface IProgrammeService {
     List<ProgrammeID> getAllProgrammeIDs();
     Iterable<Programme> findAll();
     Optional <Programme> getProgrammeByID(ProgrammeID id);
+    ProgrammeResponseDTO registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
 }
 

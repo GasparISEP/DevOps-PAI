@@ -6,6 +6,7 @@ import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.mapper.teacherCategory.ITeacherCategoryMapper;
 import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
+import PAI.persistence.datamodel.teacherCategory.TeacherCategoryDataModel;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import org.springframework.stereotype.Repository;
@@ -94,4 +95,18 @@ public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategory
         return jpaRepository.findByName(name.getName())
                 .map(data -> idMapper.toDomainModel(data.getId()));
     }
+
+    public Optional<Name> findNameByID(TeacherCategoryID teacherCategoryID) {
+        try {
+            TeacherCategoryIDDataModel dataModel = idMapper.toDataModel(teacherCategoryID);
+            Optional<TeacherCategoryDataModel> dataModelOptional = jpaRepository.findById(dataModel);
+            if (dataModelOptional.isPresent()) {
+                return Optional.of(mapper.toDomainModel(dataModelOptional.get()).getName());
+            }
+            return Optional.empty();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve and map Name by ID", e);
+        }
+    }
+
 }
