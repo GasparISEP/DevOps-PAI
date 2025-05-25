@@ -10,20 +10,22 @@ participant ":ProgrammeEditionEnrolmentRepository" as peeRepo
 participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
 database DB
 
-peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentId(studentId)
-peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(studentId)
-peeRepo -> DB ++: SELECT programme_edition_id FROM programme_edition_enrollments\nWHERE student_id = studentId
+peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentID(StudentID)
+peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(StudentID)
+peeRepo -> DB ++: SELECT programme_edition_id FROM programme_edition_enrollments\nWHERE student_id = StudentID
 DB --> peeRepo --: List<ProgrammeEditionID>
 
 peeRepo --> peeService --: List<ProgrammeEditionID>
 peeService --> peeCtrl --: List<ProgrammeEditionID>
 
-peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionID>)
+peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionID>, StudentID)
 
 loop for ProgrammeEditionID[i]
     note over of peeAssembler
         Invokes ProgrammeEditionEnrolmentDetailDTO
-             to construct object
+             to construct object using
+             ProgrammeEditionID and StudentID
+            
     end note
 end
 peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
