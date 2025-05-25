@@ -4,5 +4,5 @@ import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 
 public interface ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService {
 
-    int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear (TotalEnrolledStudentsCommand command);
+    int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear (TotalEnrolledStudentsCommand command) throws Exception;
 }

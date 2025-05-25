@@ -1,5 +1,10 @@
 package PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear;
 
+import PAI.VOs.DepartmentID;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
@@ -7,6 +12,10 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl implements  ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService {
@@ -38,7 +47,37 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
     }
 
     @Override
-    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) {
-        return 0;
+    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) throws Exception {
+
+        DepartmentID departmentID = command.departmentID();
+        SchoolYearID schoolYearID = command.schoolYearID();
+
+        int count = 0;
+        if (departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID)){
+            List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
+            if (programmeIDList.isEmpty())
+                return 0;
+            List<ProgrammeEditionID> programmeEditionIDList = new ArrayList<>();
+            for (ProgrammeID programmeID : programmeIDList){
+                Optional<ProgrammeEditionID> programmeEditionIDOpt = programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
+                if (programmeEditionIDOpt.isPresent()){
+                    ProgrammeEditionID programmeEditionID = programmeEditionIDOpt.get();
+                    programmeEditionIDList.add(programmeEditionID);
+                }
+            }
+            if (programmeEditionIDList.isEmpty())
+                return 0;
+
+            Iterable <ProgrammeEditionEnrolment> enrols = programmeEditionEnrolmentRepository.findAll();
+            for (ProgrammeEditionEnrolment enrolment : enrols){
+                for(ProgrammeEditionID id : programmeEditionIDList){
+                    if (enrolment.hasSameProgrammeEdition(id)) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+        return count;
     }
 }
