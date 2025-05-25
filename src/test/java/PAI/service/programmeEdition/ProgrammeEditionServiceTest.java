@@ -3,11 +3,15 @@ package PAI.service.programmeEdition;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,8 +27,12 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         //act
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
         //assert
         assertNotNull(programmeEditionService);
     }
@@ -34,8 +42,12 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = null;
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
     }
 
     @Test
@@ -43,8 +55,64 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = null;
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
+    }
+
+    @Test
+    void nullProgrammeRepositoryThrowsException() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = null;
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
+    }
+
+    @Test
+    void nullSchoolYearRepositoryThrowsException() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = null;
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
+    }
+
+    @Test
+    void nullProgrammeEditionEnrollmentRepositoryThrowsException() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = null;
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
+    }
+
+    @Test
+    void nullProgrammeEditionAssemblerThrowsException() {
+        //arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = null;
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler));
     }
 
     @Test
@@ -52,7 +120,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -69,7 +141,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID = null;
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -82,7 +158,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = null;
@@ -95,7 +175,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID = null;
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -110,7 +194,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID = null;
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -124,7 +212,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository,programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(false);
@@ -142,7 +234,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository,programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeEdition programmeEdition = null;
         //act
@@ -157,7 +253,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository,programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         when(programmeEditionRepository.containsOfIdentity(programmeEdition.identity())).thenReturn(true);
@@ -174,7 +274,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(false);
@@ -193,7 +297,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository,programmeEditionEnrolmentRepository, programmeEditionAssembler);
         ProgrammeID programmeID = null;
         //act
         List<ProgrammeEdition> result = programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID);
@@ -206,7 +314,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository,programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
 
@@ -231,7 +343,11 @@ class ProgrammeEditionServiceTest {
         //arrange
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
+        ProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
 

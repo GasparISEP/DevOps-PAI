@@ -2,9 +2,13 @@ package PAI.service.programmeEdition;
 
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
+import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +18,17 @@ import java.util.Optional;
 public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
     private final IProgrammeEditionRepository programmeEditionRepository;
+    private final IProgrammeRepository programmeRepository;
+    private final ISchoolYearRepository schoolYearRepository;
+    private final IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
+    private final IProgrammeEditionAssembler programmeEditionAssembler;
 
-    public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionRepository programmeEditionRepository) {
+    public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
+                                    IProgrammeEditionRepository programmeEditionRepository,
+                                    IProgrammeRepository programmeRepository,
+                                    ISchoolYearRepository schoolYearRepository,
+                                    IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
+                                    IProgrammeEditionAssembler programmeEditionAssembler) {
         if(programmeEditionFactory == null){
             throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
         }
@@ -25,6 +38,26 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             throw new IllegalArgumentException("ProgrammeEditionRepository cannot be null!");
         }
         this.programmeEditionRepository = programmeEditionRepository;
+
+        if(programmeRepository == null){
+            throw new IllegalArgumentException("ProgrammeRepository cannot be null!");
+        }
+        this.programmeRepository = programmeRepository;
+
+        if(schoolYearRepository == null){
+            throw new IllegalArgumentException("SchoolYearRepository cannot be null!");
+        }
+        this.schoolYearRepository = schoolYearRepository;
+
+        if(programmeEditionEnrolmentRepository == null){
+            throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepository cannot be null!");
+        }
+        this.programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
+
+        if(programmeEditionAssembler == null){
+            throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
+        }
+        this.programmeEditionAssembler = programmeEditionAssembler;
     }
 
     @Override
