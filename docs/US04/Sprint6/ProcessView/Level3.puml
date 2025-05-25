@@ -13,7 +13,7 @@ skinparam sequence {
 }
 
 actor Administrator
-participant ":FrontEnd" as UI
+participant ":FrontEnd" as FE
 participant ":Controller" as CT
 participant ":Service" as SE
 participant ":Domain" as DM
@@ -22,52 +22,55 @@ participant ":Repository" as RE
 
 
 group Human Interaction
-Administrator -> UI ++: Request to register Teacher.
-UI --> Administrator --: Prompt: "Enter Teacher's Information"
-Administrator -> UI ++: Input: "teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country"
+Administrator -> FE ++: Request to register Teacher.
+FE --> Administrator --: Prompt: "Enter Teacher's Information"
+Administrator -> FE ++: Input: "teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country"
 end group
 
 group HTTP Request
-UI -> CT ++: (GET) /departments
+FE -> CT ++: (GET) /departments
 end group
 
 group Application Service Invocation
-CT -> DS ++: findDepartments(searchTerm)
-DS -> DR ++: findDepartments(searchTerm)
+CT -> SE ++: getAllDepartments()
 
-DR --> DS --: List<Department>
+group Persistence
+SE -> RE ++: findAll()
+RE --> SE --: List<Department>
+end group
 
-DS --> CT --: List<Department>
-
-CT -> DA ++: toDto(Department)
-
-DA --> CT --: DepartmentDto
+SE --> CT --: List<Department>
 end group
 
 group HTTP Response
-CT --> UI--:  200 OK (List<DepartmentDto>)
+CT --> FE--:  HTTP 200 OK + (List<DepartmentDto>)
 end group
 
 group Human Interaction
-UI --> Administrator --: Display Department List. \n Prompt: "Select one Department.
-Administrator -> UI ++: Select Department
+FE --> Administrator --: Display Department List. \n Prompt: "Select one Department.
+Administrator -> FE ++: Select Department
 end group
 
 group HTTP Request
-UI -> CT ++: (POST) /teachers with JSON {request}
+FE -> CT ++: (POST) /teachers with JSON {request}
 end group
 
 group Application Service Invocation
-RC -> SE ++: createAndSaveTeacher(command)
-SE -> DM ++: Teacher teacher = new Teacher(teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country)
+CT -> SE ++: createAndSaveTeacher(command)
+group Domain Logic
+SE -> DM ++: Teacher teacher = new Teacher(command)
 DM --> SE --: teacher
+end group
+group Persistence
 SE -> RE ++: save(teacher)
 RE --> SE --: Persisted teacher
+end group
 SE --> CT --: teacher
-
-
-CT --> UI --: HTTP 200 OK + teacherDTO
-UI --> Administrator --: Teacher registered successfully
-TA --> RC --: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
-
+end group
+group HTTP Response
+CT --> FE --: HTTP 201 CREATED + teacherDTO
+end group
+FE --> Administrator --: Teacher registered successfully
+'TA --> RC --: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
+'
 @enduml
