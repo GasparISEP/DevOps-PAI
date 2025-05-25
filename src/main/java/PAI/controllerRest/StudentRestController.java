@@ -33,29 +33,20 @@ public class StudentRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        try {
-            StudentID studentID = mapper.toStudentID(studentDTO);
-            Name name = mapper.toName(studentDTO);
-            NIF nif = mapper.toNIF(studentDTO);
-            PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
-            Email email = mapper.toEmail(studentDTO);
-            Address address = mapper.toAddress(studentDTO);
-            StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
+
+        StudentID studentID = mapper.toStudentID(studentDTO);
+        Name name = mapper.toName(studentDTO);
+        NIF nif = mapper.toNIF(studentDTO);
+        PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
+        Email email = mapper.toEmail(studentDTO);
+        Address address = mapper.toAddress(studentDTO);
+        StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
 
 
-            Student student = service.registerStudent(studentID,name,nif,phoneNumber,email,address.getStreet(),address.getPostalCode(),address.getLocation(), address.getCountry(), studentAcademicEmail);
+        Student student = service.registerStudent(studentID, name, nif, phoneNumber, email, address.getStreet(), address.getPostalCode(), address.getLocation(), address.getCountry(), studentAcademicEmail);
 
-            if(student!=null){
-                StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);
-                return new ResponseEntity<>(studentResponseDTO, HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
 
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);
+        return new ResponseEntity<>(studentResponseDTO, HttpStatus.CREATED);
     }
 }
