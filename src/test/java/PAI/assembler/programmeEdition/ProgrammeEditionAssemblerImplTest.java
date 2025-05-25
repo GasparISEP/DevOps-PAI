@@ -31,7 +31,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
         assertEquals("Programme", dto.programmeName());
-        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
+        assertEquals(schoolYearID.getSchoolYearID(), dto.schoolYearID());
     }
     @Test
     void shouldThrowExceptionIfProgrammeEditionIsNull(){
@@ -47,7 +47,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         String programmeName = "Programme";
         String programmeAcronym = "PPP";
-        String schoolYearID = UUID.randomUUID().toString();
+        UUID schoolYearID = UUID.randomUUID();
 
         CountStudentsInProgrammeEditionDto dto= new CountStudentsInProgrammeEditionDto(programmeName,programmeAcronym,schoolYearID);
 
@@ -57,7 +57,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Assert
         assertEquals("PPP", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeAcronym());
         assertEquals("Programme",programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeName());
-        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition().getSchoolYearID().toString());
+        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition().getSchoolYearID());
     }
     @Test
     void shouldThrowExceptionIfProgrammeEditionDTOIsNull(){
@@ -107,7 +107,7 @@ class ProgrammeEditionAssemblerImplTest {
         CountStudentsInProgrammeEditionDto dto = result.get(0);
         assertEquals("Engineering", dto.programmeName());
         assertEquals("ENG", dto.programmeAcronym());
-        assertEquals(schoolYearID.toString(), dto.schoolYearID());
+        assertEquals(schoolYearID,new SchoolYearID(dto.schoolYearID()));
     }
 
 
