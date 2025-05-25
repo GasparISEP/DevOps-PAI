@@ -2,7 +2,7 @@ package PAI.dto.programmeEditionEnrolment;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record ProgrammeEditionEnrolmentResponseDto(
+public record ProgrammeEditionEnrolmentDetailDto(
     @NotBlank
     int studentID,
 

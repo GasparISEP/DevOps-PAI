@@ -1,10 +1,10 @@
 package PAI.assembler.programmeEditionEnrolment;
 
 import PAI.VOs.ProgrammeEditionEnrolmentID;
-import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentResponseDto;
+import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 
 public interface IProgrammeEditionEnrolmentAssembler {
     
-    ProgrammeEditionEnrolmentID toProgrammeEditionEnrolmentID(ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto) throws Exception;
+    ProgrammeEditionEnrolmentID toProgrammeEditionEnrolmentID(ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto) throws Exception;
 }
 

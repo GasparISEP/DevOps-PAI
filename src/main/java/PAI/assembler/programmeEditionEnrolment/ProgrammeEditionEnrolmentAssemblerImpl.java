@@ -9,13 +9,13 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.VOs.StudentID;
-import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentResponseDto;
+import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 
 public class ProgrammeEditionEnrolmentAssemblerImpl implements IProgrammeEditionEnrolmentAssembler {
 
     
     @Override
-    public ProgrammeEditionEnrolmentID toProgrammeEditionEnrolmentID(ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto) throws Exception {
+    public ProgrammeEditionEnrolmentID toProgrammeEditionEnrolmentID(ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto) throws Exception {
         if (programmeEditionEnrolmentResponseDto == null) {
             throw new Exception("Programme edition enrolment response dto is null");
         }

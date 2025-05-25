@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Test;
 
 import PAI.VOs.ProgrammeEditionEnrolmentID;
-import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentResponseDto;
+import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 
 public class ProgrammeEditionEnrolmentAssemblerImplTest {
 
     @Test
     public void shouldReturnProgrammeEditionEnrolmentID() throws Exception {
         // arrange
-        ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentResponseDto(
+        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentDetailDto(
         1000001, 
         "Programme 1",
         "P1",
@@ -32,7 +32,7 @@ public class ProgrammeEditionEnrolmentAssemblerImplTest {
     @Test
     public void shouldThrowExceptionWhenProgrammeEditionEnrolmentResponseDtoIsNull() {
         // arrange
-        ProgrammeEditionEnrolmentResponseDto programmeEditionEnrolmentResponseDto = null;
+        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = null;
         ProgrammeEditionEnrolmentAssemblerImpl programmeEditionEnrolmentAssembler = new ProgrammeEditionEnrolmentAssemblerImpl();
 
         // act
