@@ -1,6 +1,9 @@
 package PAI.assembler.teacher;
 
+import PAI.VOs.*;
 import PAI.domain.teacher.Teacher;
+import PAI.dto.teacher.RegisterTeacherCommandDTO;
+import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +13,26 @@ import java.util.List;
 
 @Component
 public class TeacherAssemblerImpl implements ITeacherAssembler{
+
+    @Override
+    public RegisterTeacherCommandDTO toRegisterTeacherCommandDTO(RegisterTeacherRequestDTO requestDTO) {
+        if(requestDTO == null){
+            throw new IllegalArgumentException("TeacherRequestDTO cannot be null");
+        }
+        TeacherID teacherID = new TeacherID(new TeacherAcronym(requestDTO.id()));
+        Name name = new Name(requestDTO.name());
+        Email email = new Email(requestDTO.email());
+        NIF nif = new NIF(requestDTO.nif(), new Country(requestDTO.country()));
+        PhoneNumber phoneNumber = new PhoneNumber(requestDTO.countryCode(), requestDTO.phoneNumber());
+        AcademicBackground academicBackground = new AcademicBackground(requestDTO.academicBackground());
+        Street street = new Street(requestDTO.street());
+        PostalCode postalCode = new PostalCode(requestDTO.postalCode());
+        Location location = new Location(requestDTO.location());
+        Country country = new Country(requestDTO.country());
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(requestDTO.departmentID()));
+
+        return new RegisterTeacherCommandDTO(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, departmentID);
+    }
 
     @Override
     public TeacherDTO toDTO(Teacher teacher) {

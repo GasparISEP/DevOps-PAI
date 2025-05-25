@@ -2,6 +2,8 @@ package PAI.assembler.teacher;
 
 import PAI.VOs.*;
 import PAI.domain.teacher.Teacher;
+import PAI.dto.teacher.RegisterTeacherCommandDTO;
+import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +22,43 @@ class TeacherAssemblerImplTest {
 
         //Act + Assert
         assertNotNull(teacherAssembler);
+    }
+
+    @Test
+    void shouldConvertRegisterTeacherRequestDTOToRegisterTeacherCommandDTO() {
+        // Arrange
+        RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
+        when(requestDTO.id()).thenReturn("ABC");
+        when(requestDTO.name()).thenReturn("João Silva");
+        when(requestDTO.email()).thenReturn("ABC@isep.ipp.pt");
+        when(requestDTO.nif()).thenReturn("123456789");
+        when(requestDTO.countryCode()).thenReturn("+351");
+        when(requestDTO.phoneNumber()).thenReturn("987654321");
+        when(requestDTO.academicBackground()).thenReturn("MEI");
+        when(requestDTO.street()).thenReturn("Rua das Flores");
+        when(requestDTO.postalCode()).thenReturn("4470-147");
+        when(requestDTO.location()).thenReturn("Porto");
+        when(requestDTO.country()).thenReturn("Portugal");
+        when(requestDTO.departmentID()).thenReturn("DEI");
+
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+
+        // Act
+        RegisterTeacherCommandDTO registerDepartmentCommandDTO = teacherAssembler.toRegisterTeacherCommandDTO(requestDTO);
+
+        // Assert
+        assertNotNull(registerDepartmentCommandDTO);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRegisterTeacherRequestDTOIsNull() {
+        // Arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            teacherAssembler.toRegisterTeacherCommandDTO(null);
+        });
     }
 
     @Test
@@ -199,3 +238,4 @@ class TeacherAssemblerImplTest {
     }
 
 }
+
