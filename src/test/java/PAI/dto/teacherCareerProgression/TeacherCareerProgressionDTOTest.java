@@ -2,9 +2,6 @@ package PAI.dto.teacherCareerProgression;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -43,10 +40,10 @@ class TeacherCareerProgressionDTOTest {
         TeacherCareerProgressionDTO teacherCareerProgressionDTO = new TeacherCareerProgressionDTO(tcpid, date, tcid, workingpercentage, teacherid);
 
         //Assert
-        assertEquals(tcpid, teacherCareerProgressionDTO.getTcpid());
+        assertEquals(tcpid, teacherCareerProgressionDTO.getTcpID());
         assertEquals(date, teacherCareerProgressionDTO.getDate());
-        assertEquals(tcid, teacherCareerProgressionDTO.getTcid());
-        assertEquals(workingpercentage, teacherCareerProgressionDTO.getWorkingpercentage());
-        assertEquals(teacherid, teacherCareerProgressionDTO.getTeacherid());
+        assertEquals(tcid, teacherCareerProgressionDTO.getTcID());
+        assertEquals(workingpercentage, teacherCareerProgressionDTO.getWorkingPercentage());
+        assertEquals(teacherid, teacherCareerProgressionDTO.getTeacherID());
     }
 }

@@ -32,11 +32,11 @@ class TeacherCareerProgressionAssemblerTest {
         TeacherCareerProgression progression = assembler.toDomain(dto);
 
         assertNotNull(progression);
-        assertEquals(dto.getTcpid(), progression.getID().toString());
+        assertEquals(dto.getTcpID(), progression.getID().toString());
         assertEquals(dto.getDate(), progression.getDate().toString());
-        assertEquals(dto.getTcid(), progression.getTeacherCategoryID().toString());
-        assertEquals(dto.getWorkingpercentage(), progression.getWorkingPercentage().getValue());
-        assertEquals(dto.getTeacherid(), progression.getTeacherID().getTeacherAcronym().toString());
+        assertEquals(dto.getTcID(), progression.getTeacherCategoryID().toString());
+        assertEquals(dto.getWorkingPercentage(), progression.getWorkingPercentage().getValue());
+        assertEquals(dto.getTeacherID(), progression.getTeacherID().getTeacherAcronym().toString());
     }
 
     @Test
@@ -46,14 +46,14 @@ class TeacherCareerProgressionAssemblerTest {
 
         assertNotNull(responseDTO);
         assertEquals(dto.getDate(), responseDTO.getDate());
-        assertEquals(dto.getWorkingpercentage(), responseDTO.getWorkingpercentage());
-        assertEquals(dto.getTeacherid(), responseDTO.getTeacherid());
+        assertEquals(dto.getWorkingPercentage(), responseDTO.getWorkingPercentage());
+        assertEquals(dto.getTeacherID(), responseDTO.getTeacherID());
     }
 
     @Test
     void testToDomainID() {
         TeacherCareerProgressionID id = assembler.toTeacherCareerProgressionID(dto);
-        assertEquals(dto.getTcpid(), id.toString());
+        assertEquals(dto.getTcpID(), id.toString());
     }
 
     @Test
@@ -65,19 +65,19 @@ class TeacherCareerProgressionAssemblerTest {
     @Test
     void testToTeacherCategoryID() {
         TeacherCategoryID categoryID = assembler.toTeacherCategoryID(dto);
-        assertEquals(dto.getTcid(), categoryID.toString());
+        assertEquals(dto.getTcID(), categoryID.toString());
     }
 
     @Test
     void testToWorkingPercentage() {
         WorkingPercentage wp = assembler.toWorkingPercentage(dto);
-        assertEquals(dto.getWorkingpercentage(), wp.getValue());
+        assertEquals(dto.getWorkingPercentage(), wp.getValue());
     }
 
     @Test
     void testToTeacherID() {
         TeacherID teacherID = assembler.toTeacherID(dto);
-        assertEquals(dto.getTeacherid(), teacherID.getTeacherAcronym().toString());
+        assertEquals(dto.getTeacherID(), teacherID.getTeacherAcronym().toString());
     }
 
     @Test
