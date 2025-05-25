@@ -6,4 +6,6 @@ import PAI.dto.teacher.RegisterTeacherCommandDTO;
 public interface ITeacherRegistrationService {
 
     Teacher createAndSaveTeacher(RegisterTeacherCommandDTO registerTeacherCommandDTO) throws Exception;
+
+    Iterable<Teacher> getAllTeachers();
 }
