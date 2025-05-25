@@ -15,8 +15,8 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 participant "<<component>>\n:Router" as router #E1F5FE
-
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
 participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
 participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
@@ -100,9 +100,14 @@ activate Controller
 
 note over Controller #EEEEEE
 Spring Boot automatically converts
-incoming JSON into DTOs
+incoming JSON to
+CourseEditionRequestDTO
 end note
 
+Controller -> Assembler: toCommand(requestDTO)
+activate Assembler
+Assembler --> Controller: createCourseEditionCommand
+deactivate Assembler
 
 
 
@@ -159,7 +164,12 @@ activate Mapper
 Mapper --> Service : CourseEdition
 deactivate
 
-Service --> Controller : CourseEdition
+Service -> Assembler: toDTO(courseEdition)
+activate Assembler
+Assembler --> Service: responseDTO
+deactivate Assembler
+
+Service --> Controller : responseDTO
 deactivate
 
 Controller --> router:  (200 OK) Course Edition\n created successfully!
