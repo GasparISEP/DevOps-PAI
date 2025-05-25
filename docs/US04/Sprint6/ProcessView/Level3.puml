@@ -1,90 +1,73 @@
 @startuml
 
-title US04: As an Administrator, I want to register a teacher in the system.
+title US04: \n As an Administrator, I want to register a teacher in the system. \n Process View Level 3
 autonumber
 
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
 actor Administrator
-participant ":UI" as UI
-participant ":US04_IWantToRegisterATeacherInTheSystemRestController" as RC
-participant ":DepartmentRestController" as DRC
-participant ":IDepartmentService" as DS
-participant ":IDepartmentRepository" as DR
-participant ":IDepartmentAssembler" as DA
-participant ":ITeacherService" as TS
-participant ":ITeacherRepository" as TR
-participant ":ITeacherAssembler" as TA
-participant IDepartmentRepository
-participant ":ITeacherFactory" as TF
+participant ":FrontEnd" as UI
+participant ":Controller" as CT
+participant ":Service" as SE
+participant ":Domain" as DM
+participant ":Repository" as RE
 
 
-Administrator -> UI: I want to register a teacher.
-activate UI #E1F5FE
-UI --> Administrator --: What are the Teacher's attributes?
-deactivate UI
-Administrator -> UI: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, \n location, country
-activate UI #E1F5FE
-UI -> DRC: GET /api/departments?search={searchTerm}
-activate DRC #E1F5FE
-DRC -> DS: findDepartments(searchTerm)
-activate DS #E1F5FE
-DS -> DR: findDepartments(searchTerm)
-activate DR #E1F5FE
-DR --> DS: List<Department>
-deactivate DR
-DS --> DRC: List<Department>
-deactivate DS
-DRC -> DA: toDto(Department)
-activate DA #E1F5FE
-DA --> DRC: DepartmentDto
-deactivate DA
-DRC --> UI--:  200 OK (List<DepartmentDto>)
-deactivate DRC
-UI --> Administrator--: Here are the Departments. Select One.
-deactivate UI
 
-Administrator -> UI: Select Department
-activate UI #E1F5FE
-UI -> RC: POST /api/teacher
-activate RC #E1F5FE
+group Human Interaction
+Administrator -> UI ++: Request to register Teacher.
+UI --> Administrator --: Prompt: "Enter Teacher's Information"
+Administrator -> UI ++: Input: "teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country"
+end group
 
-RC -> TA: toDomain(TeacherDTO)
-activate TA #E1F5FE
-TA --> RC: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
-deactivate TA
+group HTTP Request
+UI -> CT ++: (GET) /departments
+end group
+
+group Application Service Invocation
+CT -> DS ++: findDepartments(searchTerm)
+DS -> DR ++: findDepartments(searchTerm)
+
+DR --> DS --: List<Department>
+
+DS --> CT --: List<Department>
+
+CT -> DA ++: toDto(Department)
+
+DA --> CT --: DepartmentDto
+end group
+
+group HTTP Response
+CT --> UI--:  200 OK (List<DepartmentDto>)
+end group
+
+group Human Interaction
+UI --> Administrator --: Display Department List. \n Prompt: "Select one Department.
+Administrator -> UI ++: Select Department
+end group
+
+group HTTP Request
+UI -> CT ++: (POST) /teachers with JSON {request}
+end group
+
+group Application Service Invocation
+RC -> SE ++: createAndSaveTeacher(command)
+SE -> DM ++: Teacher teacher = new Teacher(teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country)
+DM --> SE --: teacher
+SE -> RE ++: save(teacher)
+RE --> SE --: Persisted teacher
+SE --> CT --: teacher
 
 
-RC -> TS: registerATeacherInTheSystem(TeacherDTO)
-activate TS #E1F5FE
-
-
-TS -> IDepartmentRepository: isDepartmentInDepartmentRepository(departmentID)
-activate IDepartmentRepository #E1F5FE
-ref over IDepartmentRepository
-    Convert Domain to DataModel
-end ref
-IDepartmentRepository -> IDepartmentRepository:containsOfIdentity(DepartmentID)
-
-IDepartmentRepository --> TS : True
-deactivate IDepartmentRepository
-TS -> TF :createTeacher(teacherID, name, email, nif, phoneNumber, \n academicBackground, street, postalCode, location, country, departmentID)
-activate TF #E1F5FE
-TF --> TS : Teacher
-deactivate TF
-
-TS -> TR : existsByTeacherIdOrNif(teacher.identity(), nif)
-activate TR #E1F5FE
-TR --> TS : False
-deactivate TR
-TS -> TR : save(teacher)
-activate TR #E1F5FE
-TR --> TS : void
-deactivate TR
-TS -> RC : True
-deactivate TS
-
-RC --> UI: 201 Created
-deactivate RC
-UI --> Client: Teacher successfully registered!
-deactivate UI
+CT --> UI --: HTTP 200 OK + teacherDTO
+UI --> Administrator --: Teacher registered successfully
+TA --> RC --: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
 
 @enduml
