@@ -26,7 +26,7 @@ class CourseInStudyPlanRequestDTOTest {
     @Test
     void whenCourseAcronymIsBlank_thenValidationFails() {
         CourseInStudyPlanRequestDTO dto = new CourseInStudyPlanRequestDTO(
-                1, 1, " ", "Some Name", "PAI", "Programme Name", Date.now(), 1, 5.0);
+                1, 1, " ", "Some Name", "PAI", "Programme Name", "01-01-2024", 1, 5.0);
         Set<ConstraintViolation<CourseInStudyPlanRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Course Acronym is required")));
@@ -35,7 +35,7 @@ class CourseInStudyPlanRequestDTOTest {
     @Test
     void whenCourseNameIsBlank_thenValidationFails() {
         CourseInStudyPlanRequestDTO dto = new CourseInStudyPlanRequestDTO(
-                1, 1, "CS101", "  ", "PAI", "Programme Name", Date.now(), 1, 5.0);
+                1, 1, "CS101", "  ", "PAI", "Programme Name", "01-01-2024", 1, 5.0);
         Set<ConstraintViolation<CourseInStudyPlanRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Course Name is required")));
@@ -44,7 +44,7 @@ class CourseInStudyPlanRequestDTOTest {
     @Test
     void whenProgrammeAcronymIsBlank_thenValidationFails() {
         CourseInStudyPlanRequestDTO dto = new CourseInStudyPlanRequestDTO(
-                1, 1, "CS101", "Course Name", "   ", "Programme Name", Date.now(), 1, 5.0);
+                1, 1, "CS101", "Course Name", "   ", "Programme Name", "01-01-2024", 1, 5.0);
         Set<ConstraintViolation<CourseInStudyPlanRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Programme Acronym is required")));
@@ -53,7 +53,7 @@ class CourseInStudyPlanRequestDTOTest {
     @Test
     void whenProgrammeNameIsBlank_thenValidationFails() {
         CourseInStudyPlanRequestDTO dto = new CourseInStudyPlanRequestDTO(
-                1, 1, "CS101", "Course Name", "PAI", "  ", Date.now(), 1, 5.0);
+                1, 1, "CS101", "Course Name", "PAI", "  ", "01-01-2024", 1, 5.0);
         Set<ConstraintViolation<CourseInStudyPlanRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Programme Name is required")));
@@ -71,7 +71,7 @@ class CourseInStudyPlanRequestDTOTest {
     @Test
     void whenAllFieldsValid_thenValidationSucceeds() {
         CourseInStudyPlanRequestDTO dto = new CourseInStudyPlanRequestDTO(
-                1, 1, "CS101", "Course Name", "PAI", "Programme Name", Date.now(), 1, 5.0);
+                1, 1, "CS101", "Course Name", "PAI", "Programme Name", "01-01-2024", 1, 5.0);
         Set<ConstraintViolation<CourseInStudyPlanRequestDTO>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty());
     }

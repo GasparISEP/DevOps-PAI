@@ -5,11 +5,14 @@ import PAI.VOs.SchoolYearID;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -102,4 +105,15 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         return programmeEditionRepository.findAll();
     }
 
+    @Override
+    public Iterable<CountStudentsInProgrammeEditionDto> getAllProgrammeEditions(){
+        return programmeEditionAssembler.toCountStudentsInProgrammeEditionDTOList(programmeEditionRepository.findAll());
+    }
+    @Override
+    public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsInProgrammeEditionDto programmeEditionDTO) throws Exception {
+        ProgrammeEdition programmeEdition = programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
+        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
+        return allProgrammeEditionEnrolment.size();
+    }
 }
+

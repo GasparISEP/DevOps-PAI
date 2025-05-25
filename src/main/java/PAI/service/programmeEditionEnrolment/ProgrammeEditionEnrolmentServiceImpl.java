@@ -122,7 +122,7 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         }
         return instance;
     }
-
+    @Override
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYearID,List<ProgrammeID> programmeIDs){
         int result;
         if(schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty()){

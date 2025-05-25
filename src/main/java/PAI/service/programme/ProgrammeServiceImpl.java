@@ -11,6 +11,7 @@ import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -84,6 +85,16 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         String teacherName = findTeacherByID(teacherID);
 
         return _programmeAssembler.fromDomainToDTO(programmeCreated, degreeTypeName, departmentName, teacherName);
+    }
+
+    @Override
+    public List<ProgrammeIDDTO> getAllProgrammeIDDTOs() {
+        List<ProgrammeIDDTO> programmeIDDTOs = new ArrayList<>();
+        for (Programme programme : _programmeRepository.findAll()) {
+            ProgrammeIDDTO programmeIDDTO = _programmeAssembler.toDTO(programme.getProgrammeID());
+        programmeIDDTOs.add(programmeIDDTO);
+        }
+        return programmeIDDTOs;
     }
 
     private String findDegreeTypeNameByID (DegreeTypeID degreeTypeID) {

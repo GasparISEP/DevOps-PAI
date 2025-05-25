@@ -1,15 +1,20 @@
 package PAI.controllerRest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
+import PAI.dto.teacher.RegisterTeacherCommandDTO;
+import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
 import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryRequestDTO;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryResponseDTO;
-import PAI.service.teacher.ITeacherService;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.service.teacher.ITeacherRegistrationService;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +33,7 @@ class TeacherRestControllerTest {
     @Test
     void shouldCreateTeacherRestController() {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -40,7 +45,7 @@ class TeacherRestControllerTest {
     @Test
     void shouldReturnListOfTeacherDTO() {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -75,7 +80,7 @@ class TeacherRestControllerTest {
     @Test
     void shouldReturnEmptyListOfTeacherDTOIfNoTeachersExist() {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -97,9 +102,9 @@ class TeacherRestControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequesteIfIllegalArgumentExceptionIsThrown() {
+    void shouldReturnBadRequestIfIllegalArgumentExceptionIsThrown() {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -121,7 +126,7 @@ class TeacherRestControllerTest {
     @Test
     void shouldReturnInternalServerErrorIfUnexpectedExceptionIsThrown() {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -139,9 +144,230 @@ class TeacherRestControllerTest {
     }
 
     @Test
+    void shouldReturnCreatedTeacherDTOIfSuccessful() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
+        when(requestDTO.id()).thenReturn("JAB");
+        when(requestDTO.name()).thenReturn("João");
+        when(requestDTO.email()).thenReturn("JAB@isep.ipp.pt");
+        when(requestDTO.nif()).thenReturn("123456789");
+        when(requestDTO.countryCode()).thenReturn("+351");
+        when(requestDTO.phoneNumber()).thenReturn("987654321");
+        when(requestDTO.academicBackground()).thenReturn("LEI");
+        when(requestDTO.street()).thenReturn("Rua Numero 1");
+        when(requestDTO.postalCode()).thenReturn("4000-100");
+        when(requestDTO.location()).thenReturn("Porto");
+        when(requestDTO.country()).thenReturn("Portugal");
+        when(requestDTO.departmentID()).thenReturn("DEI");
+
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("JAB");
+
+        Name name = mock(Name.class);
+        when(name.getName()).thenReturn("João");
+
+        Email email = mock(Email.class);
+        when(email.getEmail()).thenReturn("JAB@isep.ipp.pt");
+
+        NIF nif = mock(NIF.class);
+        when(nif.getNIF()).thenReturn("123456789");
+
+        PhoneNumber phoneNumber = mock(PhoneNumber.class);
+        when(phoneNumber.getCountryCode()).thenReturn("+351");
+        when(phoneNumber.getNumber()).thenReturn("987654321");
+
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        when(academicBackground.getAcademicBackground()).thenReturn("LEI");
+
+        Street street = mock(Street.class);
+        when(street.getStreet()).thenReturn("Rua Numero 1");
+
+        PostalCode postalCode = mock(PostalCode.class);
+        when(postalCode.getPostalCode()).thenReturn("4000-100");
+
+        Location location = mock(Location.class);
+        when(location.getLocation()).thenReturn("Porto");
+
+        Country country = mock(Country.class);
+        when(country.getCountryName()).thenReturn("Portugal");
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        DepartmentAcronym departmentAcronym = mock(DepartmentAcronym.class);
+        when(departmentID.getAcronym()).thenReturn(departmentAcronym);
+        when(departmentAcronym.getAcronym()).thenReturn("DEI");
+
+        RegisterTeacherCommandDTO commandDTO = mock(RegisterTeacherCommandDTO.class);
+        when(commandDTO.id()).thenReturn(teacherID);
+        when(commandDTO.name()).thenReturn(name);
+        when(commandDTO.email()).thenReturn(email);
+        when(commandDTO.nif()).thenReturn(nif);
+        when(commandDTO.phoneNumber()).thenReturn(phoneNumber);
+        when(commandDTO.academicBackground()).thenReturn(academicBackground);
+        when(commandDTO.street()).thenReturn(street);
+        when(commandDTO.postalCode()).thenReturn(postalCode);
+        when(commandDTO.location()).thenReturn(location);
+        when(commandDTO.country()).thenReturn(country);
+        when(commandDTO.departmentID()).thenReturn(departmentID);
+
+        Teacher teacher = mock(Teacher.class);
+        TeacherDTO teacherDTO = mock(TeacherDTO.class);
+
+        when(teacherDTO.id()).thenReturn("JAB");
+        when(teacherDTO.name()).thenReturn("João");
+        when(teacherDTO.email()).thenReturn("JAB@isep.ipp.pt");
+        when(teacherDTO.nif()).thenReturn("123456789");
+        when(teacherDTO.countryCode()).thenReturn("+351");
+        when(teacherDTO.phoneNumber()).thenReturn("987654321");
+        when(teacherDTO.academicBackground()).thenReturn("LEI");
+        when(teacherDTO.street()).thenReturn("Rua Numero 1");
+        when(teacherDTO.postalCode()).thenReturn("4000-100");
+        when(teacherDTO.location()).thenReturn("Porto");
+        when(teacherDTO.country()).thenReturn("Portugal");
+        when(teacherDTO.departmentID()).thenReturn("DEI");
+
+        when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenReturn(commandDTO);
+        when(teacherService.createAndSaveTeacher(commandDTO)).thenReturn(teacher);
+        when(teacherAssembler.toDTO(teacher)).thenReturn(teacherDTO);
+
+        // Act
+        ResponseEntity<?> response = teacherRestController.registerTeacher(requestDTO);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(teacherDTO, response.getBody());
+    }
+
+    @Test
+    void shouldReturnConflictWhenBusinessRuleViolation() throws Exception {
+        //Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
+        when(requestDTO.id()).thenReturn("JAB");
+        when(requestDTO.name()).thenReturn("João");
+        when(requestDTO.email()).thenReturn("JAB@isep.ipp.pt");
+        when(requestDTO.nif()).thenReturn("123456789");
+        when(requestDTO.countryCode()).thenReturn("+351");
+        when(requestDTO.phoneNumber()).thenReturn("987654321");
+        when(requestDTO.academicBackground()).thenReturn("LEI");
+        when(requestDTO.street()).thenReturn("Rua Numero 1");
+        when(requestDTO.postalCode()).thenReturn("4000-100");
+        when(requestDTO.location()).thenReturn("Porto");
+        when(requestDTO.country()).thenReturn("Portugal");
+        when(requestDTO.departmentID()).thenReturn("DEI");
+
+        RegisterTeacherCommandDTO commandDTO = mock(RegisterTeacherCommandDTO.class);
+        when(commandDTO.id()).thenReturn(mock(TeacherID.class));
+        when(commandDTO.name()).thenReturn(mock(Name.class));
+        when(commandDTO.email()).thenReturn(mock(Email.class));
+        when(commandDTO.nif()).thenReturn(mock(NIF.class));
+        when(commandDTO.phoneNumber()).thenReturn(mock(PhoneNumber.class));
+        when(commandDTO.academicBackground()).thenReturn(mock(AcademicBackground.class));
+        when(commandDTO.street()).thenReturn(mock(Street.class));
+        when(commandDTO.postalCode()).thenReturn(mock(PostalCode.class));
+        when(commandDTO.location()).thenReturn(mock(Location.class));
+        when(commandDTO.country()).thenReturn(mock(Country.class));
+        when(commandDTO.departmentID()).thenReturn(mock(DepartmentID.class));
+
+        when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenReturn(commandDTO);
+        when(teacherService.createAndSaveTeacher(commandDTO)).thenReturn(mock(Teacher.class));
+        when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenReturn(commandDTO);
+        when(teacherService.createAndSaveTeacher(commandDTO)).thenThrow(new BusinessRuleViolationException("Teacher already exists"));
+
+        // Act
+        ResponseEntity<?> response = teacherRestController.registerTeacher(requestDTO);
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals(409, response.getStatusCodeValue());
+        assertEquals("Teacher already exists", response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgument() {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
+        when(requestDTO.id()).thenReturn("JAB");
+        when(requestDTO.name()).thenReturn("João");
+        when(requestDTO.email()).thenReturn("JAB@isep.ipp.pt");
+        when(requestDTO.nif()).thenReturn("123456789");
+        when(requestDTO.countryCode()).thenReturn("+351");
+        when(requestDTO.phoneNumber()).thenReturn("987654321");
+        when(requestDTO.academicBackground()).thenReturn("LEI");
+        when(requestDTO.street()).thenReturn("Rua Numero 1");
+        when(requestDTO.postalCode()).thenReturn("4000-100");
+        when(requestDTO.location()).thenReturn("Porto");
+        when(requestDTO.country()).thenReturn("Portugal");
+        when(requestDTO.departmentID()).thenReturn("DEI");
+
+        when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenThrow(new IllegalArgumentException("Invalid id"));
+
+        // Act
+        ResponseEntity<?> response = teacherRestController.registerTeacher(requestDTO);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Invalid id", response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedException() {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
+        when(requestDTO.id()).thenReturn("JAB");
+        when(requestDTO.name()).thenReturn("João");
+        when(requestDTO.email()).thenReturn("JAB@isep.ipp.pt");
+        when(requestDTO.nif()).thenReturn("123456789");
+        when(requestDTO.countryCode()).thenReturn("+351");
+        when(requestDTO.phoneNumber()).thenReturn("987654321");
+        when(requestDTO.academicBackground()).thenReturn("LEI");
+        when(requestDTO.street()).thenReturn("Rua Numero 1");
+        when(requestDTO.postalCode()).thenReturn("4000-100");
+        when(requestDTO.location()).thenReturn("Porto");
+        when(requestDTO.country()).thenReturn("Portugal");
+        when(requestDTO.departmentID()).thenReturn("DEI");
+
+        when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenThrow(new RuntimeException("Unexpected error occurred"));
+
+        // Act
+        ResponseEntity<?> response = teacherRestController.registerTeacher(requestDTO);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(500, response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
+
+    @Test
     void ShouldReturnCreatForUpdateTeacherCategory() throws Exception{
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -165,7 +391,7 @@ class TeacherRestControllerTest {
     @Test
     void ShouldReturnBadRequestWhenOptionalOfTeacherCareerProgressionIsEmpty() throws Exception{
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -185,7 +411,7 @@ class TeacherRestControllerTest {
     @Test
     void ShouldReturnBadRequestWhenAssemblerThrowsIllegalArgumentException() throws Exception {
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
@@ -205,7 +431,7 @@ class TeacherRestControllerTest {
     @Test
     void ShouldThrowInternalServerErrorWhenServiceThrowsUnexpectedException() throws Exception{
         // Arrange
-        ITeacherService teacherService = mock(ITeacherService.class);
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);

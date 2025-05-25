@@ -16,7 +16,7 @@ public record CourseInStudyPlanRequestDTO(
         @NotBlank(message = "Programme Name is required")
         String programmeName,
         @NotNull(message = "Date is required")
-        Date date,
+        String studyPlanDate,
         int duration,
         double credits
 
