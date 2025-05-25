@@ -40,6 +40,20 @@ class TeacherCategoryAssemblerImplTest {
         assertNotNull(result);
     }
 
+    @Test
+    void shouldReturnAnExceptionWhenTeacherCategoryIsNull() {
+        // arrange
+        TeacherCategoryAssemblerImpl teacherCategoryAssembler = new TeacherCategoryAssemblerImpl();
+
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            teacherCategoryAssembler.toDTO(null);
+        });
+
+        // assert
+        assertEquals("Teacher Category cannot be null", exception.getMessage());
+    }
+
     //testing method toVO
 
     @Test
@@ -62,9 +76,12 @@ class TeacherCategoryAssemblerImplTest {
         // arrange
         TeacherCategoryAssemblerImpl teacherCategoryAssembler = new TeacherCategoryAssemblerImpl();
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             teacherCategoryAssembler.toVO(null);
         });
+
+        // assert
+        assertEquals("Teacher Category Request DTO cannot be null", exception.getMessage());
     }
 }
