@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -14,24 +15,29 @@ import static org.mockito.Mockito.mock;
 
 class CourseInStudyPlanResponseDTOTest {
 
+    private Validator validator;
+    private Acronym acronym;
+    private Name name;
+    private ProgrammeID programmeID;
+
+    @BeforeEach
+    void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+        acronym = mock(Acronym.class);
+        name = mock(Name.class);
+        programmeID = mock(ProgrammeID.class);
+    }
+
     @Test
     void testValidCourseInStudyPlanResponseDTO() {
-
-        //arrange
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Acronym acronym = mock(Acronym.class);
-        Name name = mock(Name.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-
-        // act
         CourseInStudyPlanResponseDTO dto = new CourseInStudyPlanResponseDTO(
                 1,
                 1,
                 "CS101",
                 "Computer Science",
                 "CS",
-                "Informa",
+                "Informatics",
                 "2023-09-01",
                 4,
                 6.0,
@@ -39,22 +45,12 @@ class CourseInStudyPlanResponseDTOTest {
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        // assert
         Set<ConstraintViolation<CourseInStudyPlanResponseDTO>> violations = validator.validate(dto);
-        assertTrue(violations.isEmpty(), "DTO should be valid");
+        assertTrue(violations.isEmpty(), "DTO should be valid when all required fields are provided correctly");
     }
 
     @Test
     void testInvalidCourseInStudyPlanResponseDTO_BlankFields() {
-
-        // arrange
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Acronym acronym = mock(Acronym.class);
-        Name name = mock(Name.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-
-        // act
         CourseInStudyPlanResponseDTO dto = new CourseInStudyPlanResponseDTO(
                 1,
                 1,
@@ -62,34 +58,32 @@ class CourseInStudyPlanResponseDTOTest {
                 "",
                 "",
                 "",
-                "",
+                null,
                 4,
                 6.0,
                 new CourseID(acronym, name),
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        // assert
         Set<ConstraintViolation<CourseInStudyPlanResponseDTO>> violations = validator.validate(dto);
-        assertFalse(violations.isEmpty(), "DTO should have validation errors");
-        assertEquals(4, violations.size(), "There should be 4 violations for blank fields");
+        assertFalse(violations.isEmpty(), "DTO should have validation errors due to blank and null fields");
+
+        long notBlankViolations = violations.stream()
+                .filter(v -> v.getMessage().contains("cannot be blank") || v.getMessage().contains("is required"))
+                .count();
+
+        assertEquals(5, notBlankViolations, "There should be 5 violations related to @NotBlank and @NotNull constraints");
     }
 
     @Test
     void testCourseDurationBusinessRule() {
-
-        // arrange
-        Acronym acronym = mock(Acronym.class);
-        Name name = mock(Name.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-
-        CourseInStudyPlanResponseDTO invalidDto = new CourseInStudyPlanResponseDTO(
-                0,
+        CourseInStudyPlanResponseDTO dtoInvalid = new CourseInStudyPlanResponseDTO(
+                0, // invalid duration
                 1,
                 "CS101",
                 "Computer Science",
                 "CS",
-                "Informa",
+                "Informatics",
                 "2023-09-01",
                 0,
                 6.0,
@@ -97,64 +91,55 @@ class CourseInStudyPlanResponseDTOTest {
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        CourseInStudyPlanResponseDTO validDto = new CourseInStudyPlanResponseDTO(
-                1, // Valid duration
+        CourseInStudyPlanResponseDTO dtoValid = new CourseInStudyPlanResponseDTO(
+                1,
                 1,
                 "CS101",
                 "Computer Science",
                 "CS",
-                "Informa",
+                "Informatics",
                 "2023-09-01",
-                4, // Valid credits
+                2,
                 6.0,
                 new CourseID(acronym, name),
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        // act & assert
-        assertTrue(validDto.duration() >= 1, "Duration should be at least 1 semester");
-        assertFalse(invalidDto.duration() >= 1, "Invalid duration should fail the business rule");
+        assertTrue(dtoValid.duration() >= 1, "Duration must be at least 1");
+        assertFalse(dtoInvalid.duration() >= 1, "Duration less than 1 should be invalid according to business rule");
     }
 
     @Test
     void testCourseCreditsBusinessRule() {
-
-        // arrange
-        Acronym acronym = mock(Acronym.class);
-        Name name = mock(Name.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-
-        CourseInStudyPlanResponseDTO invalidDto = new CourseInStudyPlanResponseDTO(
-                1, // Valid duration
+        CourseInStudyPlanResponseDTO dtoInvalid = new CourseInStudyPlanResponseDTO(
+                1,
                 1,
                 "CS101",
                 "Computer Science",
                 "CS",
-                "Informa",
+                "Informatics",
                 "2023-09-01",
-                4, // Valid duration
-                0.0, // Invalid credits
+                2,
+                0.0, // Invalid
                 new CourseID(acronym, name),
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        CourseInStudyPlanResponseDTO validDto = new CourseInStudyPlanResponseDTO(
-                1, // Valid duration
+        CourseInStudyPlanResponseDTO dtoValid = new CourseInStudyPlanResponseDTO(
+                1,
                 1,
                 "CS101",
                 "Computer Science",
                 "CS",
-                "Informa",
+                "Informatics",
                 "2023-09-01",
-                4, // Valid duration
-                6.0, // Valid credits
+                2,
+                6.0,
                 new CourseID(acronym, name),
                 new StudyPlanID(programmeID, Date.now())
         );
 
-        // act & assert
-        assertTrue(validDto.credits() > 0, "Credits should be greater than 0");
-        assertFalse(invalidDto.credits() > 0, "Invalid credits should fail the business rule");
+        assertTrue(dtoValid.credits() > 0, "Credits must be greater than 0");
+        assertFalse(dtoInvalid.credits() > 0, "Credits of 0.0 should be invalid according to business rule");
     }
-
 }

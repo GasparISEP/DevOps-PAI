@@ -24,4 +24,12 @@ public record CourseInStudyPlanResponseDTO(
         double credits,
         CourseID courseId,
         StudyPlanID studyPlanId
-) {}
+) {
+        public CourseID courseID() {
+                return courseId;
+        }
+
+        public StudyPlanID studyPlanID() {
+                return studyPlanId;
+        }
+}
