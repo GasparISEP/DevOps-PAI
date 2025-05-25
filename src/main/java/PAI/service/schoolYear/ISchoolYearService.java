@@ -6,6 +6,7 @@ import PAI.VOs.SchoolYearID;
 
 import java.util.List;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 
 import java.util.Optional;
@@ -17,4 +18,5 @@ public interface ISchoolYearService {
     boolean schoolYearExistsById(SchoolYearID schoolYearID);
     List<SchoolYearID> getAllSchoolYearsIDs();
     Iterable<SchoolYearDTO> getAllSchoolYears();
+    Optional<CurrentSchoolYearResponseDTO> getCurrentSchoolYear();
 }

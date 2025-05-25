@@ -10,6 +10,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.service.department.DepartmentRegistrationServiceImpl;
@@ -425,6 +426,46 @@ class SchoolYearServiceImplTest {
         List<SchoolYearDTO> listResult = new ArrayList<>();
         result.forEach(listResult::add);
         assertEquals(0, listResult.size());
+    }
+
+    @Test
+    void shouldReturnCurrentSchoolYearDTO(){
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
+
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.of(schoolYear1));
+        when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear1)).thenReturn(currentSchoolYearResponseDTO);
+
+        //act
+        Optional<CurrentSchoolYearResponseDTO> result = service.getCurrentSchoolYear();
+
+        //assert
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfNoCurrentSchoolYearInRepository(){
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
+        SchoolYear schoolYear1 = mock(SchoolYear.class);
+        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
+
+        when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
+        when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear1)).thenReturn(currentSchoolYearResponseDTO);
+
+        //act
+        Optional<CurrentSchoolYearResponseDTO> result = service.getCurrentSchoolYear();
+
+        //assert
+        assertFalse(result.isPresent());
     }
 
 }
