@@ -70,10 +70,10 @@ class ProgrammeIDDTOTest {
     }
 
     @Test
-    public void testBlackAcronym() {
+    public void testBlankAcronym() {
         ProgrammeIDDTO dto = new ProgrammeIDDTO("Engineering", "");
         Set<ConstraintViolation<ProgrammeIDDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
-        assertEquals("Programme Acronym is required", violations.iterator().next().getMessage());
+        assertEquals("Acronym must have 3 characters", violations.iterator().next().getMessage());
     }
 }
