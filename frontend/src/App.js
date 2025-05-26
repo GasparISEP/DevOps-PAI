@@ -5,7 +5,7 @@ import RegisterStudentPage from './pages/RegisterStudentPage'
 import './styles/RegisterStudentPage.css'
 import RegisterProgrammePage from "./pages/RegisterProgrammePage";
 import './styles/RegisterProgrammePage.css'
-import RegisterTeacherPage from "./pages/RegisterTeacherPage";
+import RegisterTeacherPage from "./pages/teacherPage/RegisterTeacherPage";
 import TeacherDisplay from './components/teacherComponent/TeacherDisplay';
 
 function App() {
