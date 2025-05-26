@@ -44,18 +44,7 @@ deactivate Backend
 Frontend --> ASC: Please select programme
 
 ASC -> Frontend: Select programme
-Frontend -> Backend: (GET) Request programme editions
-activate Backend
-Backend -> Database: (SELECT) Retrieve programme editions
-activate Database
-Database --> Backend: List of programme editions
-deactivate Database
-Backend --> Frontend: (200 OK) List of programme editions
-deactivate Backend
-Frontend --> ASC: Please select programme edition
-
-ASC -> Frontend: Select programme edition
-Frontend -> Backend: (GET) Request courses from study plan
+Frontend -> Backend: (GET) Request courses from study plan for selected programme
 activate Backend
 Backend -> Database: (SELECT) Retrieve courses in study plan
 activate Database
@@ -63,7 +52,19 @@ Database --> Backend: List of courses in study plan
 deactivate Database
 Backend --> Frontend: (200 OK) List of courses in study plan
 deactivate Backend
-Frontend --> ASC: Please select course
+Frontend --> ASC: Please select programme edition
+
+ASC -> Frontend: Select programme edition
+Frontend -> Backend: (GET) Request programme editions for selected programme
+activate Backend
+Backend -> Database: (SELECT) Retrieve programme editions
+activate Database
+Database --> Backend: List of programme editions
+deactivate Database
+Backend --> Frontend: (200 OK) List of programme editions
+deactivate Backend
+Frontend --> ASC: Programme edition selected
+
 
 ASC -> Frontend: Confirm course edition creation
 Frontend -> Backend: (POST) Submit course edition creation

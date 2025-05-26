@@ -1,0 +1,50 @@
+@startuml
+title Detailed Flow: Retrieve Programmes by Degree Type ID \n(GET /programmes/{degreeTypeID})
+
+participant "<<component>>\nRouter" as Router
+participant "<<component>>\nIProgrammeRestController\n(REST Controller)" as Controller
+participant "<<component>>\nIProgrammeService\n(Service)" as Service
+participant "<<component>>\nIProgrammeRepository\n(Repository)" as Repository
+database "Database" as DB
+
+-> Router: GET /programmes/{degreeTypeID}
+activate Router
+
+Router -> Controller: getProgrammesByDegreeTypeID(degreeTypeID)
+activate Controller
+
+Controller -> Service: getProgrammesByDegreeTypeID(degreeTypeID)
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository -> DB: SELECT * FROM programmes
+activate DB
+
+DB --> Repository: List<ProgrammeDataModel>
+deactivate DB
+
+Repository --> Service: List<Programme>
+deactivate Repository
+
+note over Service #EEEEEE
+Filters Programmes that match
+the given DegreeTypeID
+end note
+
+Service --> Controller: List<Programme>
+deactivate Service
+
+note over Controller #EEEEEE
+Converts domain objects to JSON via DTOs
+(Spring handles this automatically)
+end note
+
+Controller --> Router: programmesList (JSON)
+deactivate Controller
+
+<-- Router: programmesList (JSON)
+deactivate Router
+
+@enduml

@@ -3,7 +3,6 @@ package PAI.persistence.springdata.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.mapper.teacherCategory.ITeacherCategoryMapper;
 import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryDataModel;
@@ -22,30 +21,16 @@ public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategory
 
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
-    private final ITeacherCategoryFactory factory;
     private final TeacherCategoryIDMapperImpl idMapper;
 
     public TeacherCategoryRepositorySpringDataImpl(
             ITeacherCategoryRepositorySpringData jpaRepository,
             ITeacherCategoryMapper mapper,
-            ITeacherCategoryFactory factory,
             TeacherCategoryIDMapperImpl idMapper
     ) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;
-        this.factory = factory;
         this.idMapper = idMapper;
-    }
-
-    @Override
-    public boolean registerTeacherCategory(Name name) {
-        if (jpaRepository.existsByName(name.getName())) {
-            return false;
-        }
-
-        TeacherCategory category = factory.createTeacherCategory(name);
-        jpaRepository.save(mapper.toDataModel(category));
-        return true;
     }
 
     @Override

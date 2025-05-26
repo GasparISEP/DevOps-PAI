@@ -42,7 +42,7 @@ end note
 
 ' --- GET endpoints omitted for brevity ---
 
--> router: POST /course-editions
+-> router: POST /courseeditions
 activate router
 router -> Controller: createCourseEdition(JSON)
 
