@@ -93,10 +93,13 @@ public class StudentRepositorySpringDataImpl implements IStudentRepository {
     @Override
     public boolean existsByStudentIDOrNIF(StudentID studentID, NIF nif) {
         StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
-        NIFDataModel nifDataModel = nifMapper.domainToDataModel(nif);
+        String nifNumber = nif.getNIF();
+        String nifCountry = nif.getCountry().toString();
 
-        return studentRepositorySpringData.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel);
-        }
+        return studentRepositorySpringData.existsByStudentID(studentIDDataModel)
+                || studentRepositorySpringData.existsByNIF_NifNumberAndNIF_NifCountry(nifNumber, nifCountry);
+    }
+
 }
 
 

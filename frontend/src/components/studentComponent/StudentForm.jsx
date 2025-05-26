@@ -64,8 +64,8 @@ export default function StudentForm() {
                             {[
                                 { label: 'Student ID', name: 'studentID', type: 'number' },
                                 { label: 'Name', name: 'name' },
-                                { label: 'NIF', name: 'nif' },
-                                { label: 'NIF Country', name: 'nifCountry' },
+                                { label: 'NIF', name: 'nif', type: 'number' },
+                                { label: 'NIF Country', name: 'nifcountry', type:'text' },
                                 { label: 'Street', name: 'street' },
                                 { label: 'Postal Code', name: 'postalCode' },
                                 { label: 'Location', name: 'location' },
