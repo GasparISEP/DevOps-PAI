@@ -3,9 +3,11 @@ package PAI.service.course;
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
+import PAI.assembler.course.ICourseAssembler;
 import PAI.domain.course.Course;
 
 import PAI.domain.course.ICourseFactory;
+import PAI.dto.course.CourseIDDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.domain.repositoryInterfaces.course.ICourseRepository;
 import org.junit.jupiter.api.Test;
@@ -23,9 +25,10 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
 
         //Act + Assert
-        assertDoesNotThrow(() -> new CourseServiceImpl(factory, repository));
+        assertDoesNotThrow(() -> new CourseServiceImpl(factory, repository, assembler));
     }
 
     @Test
@@ -33,18 +36,81 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = null;
         ICourseRepository repository = mock(ICourseRepository.class);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(null, repository));
+        assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(null, repository, assembler));
     }
 
     @Test
     void should_throw_exception_when_repository_is_null() {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(factory, null));
+        assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(factory, null, assembler));
+    }
+
+    @Test
+    void should_throw_exception_when_assembler_is_null() {
+        //Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseRepository repository = mock(ICourseRepository.class);
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new CourseServiceImpl(factory, repository, null));
+    }
+
+    @Test
+    void should_return_list_of_CourseIDDTOs() {
+        // Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseRepository repository = mock(ICourseRepository.class);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
+
+        Course course1 = mock(Course.class);
+        Course course2 = mock(Course.class);
+        CourseID id1 = new CourseID(new Acronym("ABC"), new Name("Programacao"));
+        CourseID id2 = new CourseID(new Acronym("DEF"), new Name("Direito"));
+        CourseIDDTO dto1 = new CourseIDDTO("ABC", "Programacao");
+        CourseIDDTO dto2 = new CourseIDDTO("DEF", "Direito");
+
+        when(repository.findAll()).thenReturn(List.of(course1, course2));
+        when(course1.identity()).thenReturn(id1);
+        when(course2.identity()).thenReturn(id2);
+        when(assembler.toIDDTO(id1)).thenReturn(dto1);
+        when(assembler.toIDDTO(id2)).thenReturn(dto2);
+
+        // Act
+        List<CourseIDDTO> result = service.getAllCourseIDDTOs();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(dto1));
+        assertTrue(result.contains(dto2));
+        verify(repository).findAll();
+        verify(assembler).toIDDTO(id1);
+        verify(assembler).toIDDTO(id2);
+    }
+
+    @Test
+    void should_return_empty_list_when_no_courses() {
+        // Arrange
+        ICourseFactory factory = mock(ICourseFactory.class);
+        ICourseRepository repository = mock(ICourseRepository.class);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
+
+        when(repository.findAll()).thenReturn(List.of());
+
+        // Act
+        List<CourseIDDTO> result = service.getAllCourseIDDTOs();
+
+        // Assert
+        assertTrue(result.isEmpty());
+        verify(repository).findAll();
+        verifyNoInteractions(assembler);
     }
 
     @Test
@@ -53,7 +119,8 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository,assembler);
 
         Name name = new Name("Programação");
         Acronym acronym = new Acronym("LEI");
@@ -79,7 +146,8 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
 
         List<Course> courseList = List.of(mock(Course.class), mock(Course.class));
         when(repository.findAll()).thenReturn(courseList);
@@ -100,7 +168,8 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
         // Act
         Optional<Course> result = service.ofIdentity(null);
         // Assert
@@ -112,7 +181,8 @@ class CourseServiceImplTest {
         // Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
 
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
         Course course = mock(Course.class);
@@ -134,7 +204,8 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("Programacao"));
         Course course = mock(Course.class);
         when(repository.ofIdentity(courseID)).thenReturn(Optional.of(course));
@@ -149,7 +220,8 @@ class CourseServiceImplTest {
         //Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
 
         CourseID courseID = new CourseID(new Acronym("LEI"), new Name("ABCDEF"));
         when(repository.ofIdentity(courseID)).thenReturn(Optional.empty());
@@ -163,7 +235,8 @@ class CourseServiceImplTest {
         // Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
 
         Name name = new Name("Programação");
         Acronym acronym = new Acronym("LEI");
@@ -181,7 +254,8 @@ class CourseServiceImplTest {
         // Arrange
         ICourseFactory factory = mock(ICourseFactory.class);
         ICourseRepository repository = mock(ICourseRepository.class);
-        CourseServiceImpl service = new CourseServiceImpl(factory, repository);
+        ICourseAssembler assembler = mock(ICourseAssembler.class);
+        CourseServiceImpl service = new CourseServiceImpl(factory, repository, assembler);
 
         Name name = new Name("Programação");
         Acronym acronym = new Acronym("LEI");

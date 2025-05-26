@@ -3,12 +3,17 @@ package PAI.service.course;
 import PAI.VOs.Acronym;
 import PAI.VOs.CourseID;
 import PAI.VOs.Name;
+import PAI.assembler.course.ICourseAssembler;
 import PAI.domain.course.Course;
 import PAI.domain.course.ICourseFactory;
+import PAI.dto.course.CourseDTOCommand;
+import PAI.dto.course.CourseIDDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.domain.repositoryInterfaces.course.ICourseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,8 +21,9 @@ public class CourseServiceImpl implements ICourseService {
 
     private final ICourseFactory courseFactory;
     private final ICourseRepository courseRepository;
+    private final ICourseAssembler courseAssembler;
 
-    public CourseServiceImpl (ICourseFactory icourseFactory, ICourseRepository icourseRepository) {
+    public CourseServiceImpl (ICourseFactory icourseFactory, ICourseRepository icourseRepository, ICourseAssembler courseAssembler) {
 
         if (icourseFactory != null)
             this.courseFactory = icourseFactory;
@@ -28,6 +34,11 @@ public class CourseServiceImpl implements ICourseService {
             this.courseRepository = icourseRepository;
         else
             throw new IllegalArgumentException("Course Repository cannot be null.");
+
+        if(courseAssembler != null)
+            this.courseAssembler = courseAssembler;
+        else
+            throw new IllegalArgumentException("Course Assembler cannot be null.");
     }
 
     public Course createAndSaveCourse (Name name, Acronym acronym) throws Exception {
@@ -41,6 +52,15 @@ public class CourseServiceImpl implements ICourseService {
             throw new BusinessRuleViolationException ("A course with this acronym already exists.");
         }
         return this.courseRepository.save(course);
+    }
+
+    public List<CourseIDDTO> getAllCourseIDDTOs() {
+        List<CourseIDDTO> courseIDDTOs = new ArrayList<>();
+        for (Course course : this.courseRepository.findAll()) {
+            CourseIDDTO courseIDDTO = this.courseAssembler.toIDDTO(course.identity());
+            courseIDDTOs.add(courseIDDTO);
+        }
+        return courseIDDTOs;
     }
 
     public Iterable <Course> findAll() {
