@@ -41,6 +41,7 @@
 .teacher-form h1 {
     color: #333;
     align-self: flex-start;
+    font-size: 2.6rem;
 
 }
 
@@ -69,6 +70,7 @@
 .teacher-form-label {
     color: #333;
     font-weight: 600;
+    font-size: 1.4rem;
 }
 
 .teacher-form-input {

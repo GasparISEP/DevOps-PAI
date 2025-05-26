@@ -8,15 +8,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14rem;
-  max-width: 80rem;
+  gap: 22.4rem;
+  max-width: 120rem;
 }
 
 .logo-div {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10rem;
+  width: 16rem;
 }
 
 .logo-img {
@@ -27,12 +27,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1.8rem;
   list-style: none;
 }
 
 .navbar-ghost-div {
-  width: 10rem;
+  width: 16rem;
 }
 
 .navbar-link {
@@ -40,6 +40,7 @@
   color: #333;
   transition: all 0.3s ease, transform 0.3s ease;
   font-weight: 500;
+  font-size: 1.8rem;
 }
 
 .navbar-link:hover {

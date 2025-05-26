@@ -12,7 +12,6 @@ import RegisterTeacherPage from "./pages/RegisterTeacherPage";
 function App() {
   return (
       <Router>
-          <>
               <Routes>
                   {/* Página inicial */}
                   <Route path="/" element={<Home />} />
@@ -29,7 +28,6 @@ function App() {
                   {/* Formulário de programas */}
                   <Route path="/programmes" element={<RegisterProgrammePage />} />
               </Routes>
-          </>
       </Router>
   );
 }
