@@ -1,9 +1,12 @@
 package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CourseInStudyPlanFactoryImplTest {
@@ -48,4 +51,49 @@ class CourseInStudyPlanFactoryImplTest {
         assertNotNull(courseInStudyPlan);
     }
 
+    @Test
+    void should_ThrowException_When_QuantityOfCreditsEctsIsZero() {
+        // act & assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CourseQuantityCreditsEcts(0.0);
+        });
+
+        assertEquals("quantityCreditsEcts can only have a value between 1 and 60", exception.getMessage());
+    }
+
+    @Test
+    void should_ThrowException_When_NumberOfCreditsAsMoreThanOneDecimal(){
+        // act & assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CourseQuantityCreditsEcts(10.012);
+        });
+
+        assertEquals("quantityCreditsEcts can only have 1 decimal place", exception.getMessage());
+    }
+
+    @Test
+    void should_ThrowException_When_CommandIsNull() {
+        // act & assert
+        ICourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            courseInStudyPlanFactory.newCourseInStudyPlan(null);
+        });
+
+        assertEquals("Command cannot be null", exception.getMessage());
+    }
+    @Test
+    void should_CreateCourseInStudyPlan_When_AllValuesAreValid() throws Exception {
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(30.0);
+
+        ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
+        CourseInStudyPlan courseInStudyPlan = factory.newCourseInStudyPlan(
+                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityCreditsEcts);
+
+        assertNotNull(courseInStudyPlan);
+    }
 }

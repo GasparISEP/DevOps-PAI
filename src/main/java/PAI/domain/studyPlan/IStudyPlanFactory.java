@@ -4,7 +4,7 @@ import PAI.VOs.*;
 
 public interface IStudyPlanFactory {
 
-    StudyPlan createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts);
+    StudyPlan createStudyPlan(ProgrammeID programmeID, Date startDate, QuantSemesters quantSemesters, MaxEcts maxEcts) throws Exception;
 
-    StudyPlan createStudyPlanFromDataModel(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID);
+    StudyPlan createStudyPlanFromDataModel(ProgrammeID programmeID, Date startDate, DurationInYears durationInYears, MaxEcts MaxEcts, StudyPlanID studyPlanID);
 }

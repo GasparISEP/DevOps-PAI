@@ -6,15 +6,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudyPlanFactoryImpl implements IStudyPlanFactory {
 
-    public StudyPlan createStudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts) {
+    public StudyPlan createStudyPlan(ProgrammeID programmeID, Date startDate, QuantSemesters quantSemesters, MaxEcts maxEcts) throws Exception {
 
-        StudyPlanID studyPlanID = new StudyPlanID(programmeID, implementationDate);
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
+        DurationInYears durationInYears = new DurationInYears(quantSemesters.getQuantityOfSemesters());
 
-        return new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+        return new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
     }
 
-    public StudyPlan createStudyPlanFromDataModel(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID) {
+    public StudyPlan createStudyPlanFromDataModel(ProgrammeID programmeID, Date startDate, DurationInYears durationInYears, MaxEcts maxEcts, StudyPlanID studyPlanID) {
 
-        return new StudyPlan(programmeID, implementationDate, durationInYears, quantityOfEcts, studyPlanID);
+        return new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
     }
 }

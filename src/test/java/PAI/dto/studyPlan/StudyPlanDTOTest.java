@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class StudyPlanResponseDTOTest {
+class StudyPlanDTOTest {
 
     private String _programmeName;
     private String _programmeAcronym;
     private LocalDate _dateDouble;
-    private StudyPlanResponseDTO _studyPlanResponseDTO;
+    private StudyPlanDTO _studyPlanDTO;
     private int _durationInYearsDouble;
     private int _MaxEtcsDouble;
 
@@ -25,8 +25,8 @@ class StudyPlanResponseDTOTest {
         _dateDouble = mock(LocalDate.class);
         _durationInYearsDouble = 3;
         _MaxEtcsDouble = 30;
-        _studyPlanResponseDTO = new StudyPlanResponseDTO(_programmeName, _programmeAcronym,
-                _dateDouble, _durationInYearsDouble, _MaxEtcsDouble);
+        _studyPlanDTO = new StudyPlanDTO(_programmeName, _programmeAcronym,
+                                        _dateDouble, _durationInYearsDouble, _MaxEtcsDouble);
     }
 
     @Test
@@ -34,7 +34,7 @@ class StudyPlanResponseDTOTest {
         // Arrange
 
         // Act
-        String result = _studyPlanResponseDTO.getProgrammeName();
+        String result = _studyPlanDTO.getProgrammeName();
 
         // Assert
         assertSame(result, _programmeName);
@@ -45,7 +45,7 @@ class StudyPlanResponseDTOTest {
         // Arrange
 
         // Act
-        String result = _studyPlanResponseDTO.getProgrammeAcronym();
+        String result = _studyPlanDTO.getProgrammeAcronym();
 
         // Assert
         assertSame(result, _programmeAcronym);
@@ -56,7 +56,7 @@ class StudyPlanResponseDTOTest {
         // Arrange
 
         // Act
-        LocalDate result = _studyPlanResponseDTO.getStartDate();
+        LocalDate result = _studyPlanDTO.getStartDate();
 
         // Assert
         assertSame(result, _dateDouble);
@@ -67,7 +67,7 @@ class StudyPlanResponseDTOTest {
         // Arrange
 
         // Act
-        int result = _studyPlanResponseDTO.getDurationInYears();
+        int result = _studyPlanDTO.getDurationInYears();
 
         // Assert
         assertSame(result, _durationInYearsDouble);
@@ -78,7 +78,7 @@ class StudyPlanResponseDTOTest {
         //Arrange
 
         // Act
-        int result = _studyPlanResponseDTO.getMaxEcts();
+        int result = _studyPlanDTO.getMaxEcts();
 
         // Assert
         assertSame(result, _MaxEtcsDouble);

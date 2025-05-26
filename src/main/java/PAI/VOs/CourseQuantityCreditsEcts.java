@@ -43,4 +43,8 @@ public class CourseQuantityCreditsEcts implements ValueObject {
     }
 
     public double getQuantity() { return _quantityCreditsEcts; }
+
+    public double toDouble() {
+        return _quantityCreditsEcts;
+    }
 }
