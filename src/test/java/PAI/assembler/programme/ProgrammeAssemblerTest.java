@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 class ProgrammeAssemblerTest {
 
     @Test
-    void shouldCreateProgrammeVOsDTOFromProgrammeRequestDTO() throws Exception {
+    void shouldCreateProgrammeVOsDTOFromProgrammeDTO() {
         //arrange
         ProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
         ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
@@ -42,13 +42,13 @@ class ProgrammeAssemblerTest {
         //assert
         assertAll(
 
-                () -> assertEquals(name, result.getName().getnameWithNumbersAndSpecialChars()),
-                () -> assertEquals(acronym, result.getAcronym().getAcronym()),
-                () -> assertEquals(maxECTS, result.getMaxEcts().getMaxEcts()),
-                () -> assertEquals(quantSemesters, result.getQuantSemesters().getQuantityOfSemesters()),
-                () -> assertEquals(degreeTypeID, result.getDegreeTypeID().getDTID()),
-                () -> assertEquals(departmentID, result.getDepartmentID().getAcronym().getAcronym()),
-                () -> assertEquals(teacherID, result.getTeacherID().getTeacherAcronym().getAcronym())
+                () -> assertEquals(name, result.name().getnameWithNumbersAndSpecialChars()),
+                () -> assertEquals(acronym, result.acronym().getAcronym()),
+                () -> assertEquals(maxECTS, result.maxEcts().getMaxEcts()),
+                () -> assertEquals(quantSemesters, result.quantSemesters().getQuantityOfSemesters()),
+                () -> assertEquals(degreeTypeID, result.degreeTypeID().getDTID()),
+                () -> assertEquals(departmentID, result.departmentID().getAcronym().getAcronym()),
+                () -> assertEquals(teacherID, result.teacherID().getTeacherAcronym().getAcronym())
         );
     }
 

@@ -37,10 +37,13 @@ class ProgrammeDTOTest {
 
     @Test
     void shouldCreateProgrammeDTOWithValidValues() {
+        //arrange
         ProgrammeTestData data = new ProgrammeTestData();
 
+        //act
         ProgrammeDTO programmeDTO = new ProgrammeDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeID, data.departmentID, data.teacherID);
 
+        //assert
         assertEquals(data.name, programmeDTO.name());
         assertEquals(data.acronym, programmeDTO.acronym());
         assertEquals(data.maxECTS, programmeDTO.maxECTS());
@@ -52,10 +55,15 @@ class ProgrammeDTOTest {
 
     @Test
     void shouldPassValidationWhenAllFieldsAreValid() {
+        //arrange
         ProgrammeTestData data = new ProgrammeTestData();
+
+        //act
         ProgrammeDTO programmeDTO = new ProgrammeDTO(data.name, data.acronym, data.maxECTS, data.quantSemesters, data.degreeTypeID, data.departmentID, data.teacherID);
 
         Set<ConstraintViolation<ProgrammeDTO>> violations = validator.validate(programmeDTO);
+
+        //assert
         assertTrue(violations.isEmpty());
     }
 
@@ -74,20 +82,28 @@ class ProgrammeDTOTest {
     @ParameterizedTest
     @MethodSource("invalidFields")
     void shouldFailValidationWithExpectedMessage(String name, String acronym, int maxECTS, int quantSemesters, String degreeTypeID, String departmentID, String teacherID, String expectedMessage) {
+        //assert
 
+        //act
         ProgrammeDTO programmeDTO = new ProgrammeDTO(name, acronym, maxECTS, quantSemesters, degreeTypeID, departmentID, teacherID);
         Set<ConstraintViolation<ProgrammeDTO>> violations = validator.validate(programmeDTO);
 
         String actualMessage = violations.iterator().next().getMessage();
+
+        //assert
         assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
     void shouldFailValidationWhenAllFieldsAreInvalid() {
+        //arrange
+
+        //act
         ProgrammeDTO programmeDTO = new ProgrammeDTO("", "", 0, 0, "", "", "");
 
         Set<ConstraintViolation<ProgrammeDTO>> violations = validator.validate(programmeDTO);
 
+        //assert
         assertEquals(7, violations.size());
     }
 

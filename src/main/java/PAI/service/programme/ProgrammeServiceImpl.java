@@ -65,13 +65,13 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     public ProgrammeResponseDTO registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
 
-        NameWithNumbersAndSpecialChars name = programmeVOsDTO.getName();
-        Acronym acronym = programmeVOsDTO.getAcronym();
-        MaxEcts maxOfEcts = programmeVOsDTO.getMaxEcts();
-        QuantSemesters quantityOfSemesters = programmeVOsDTO.getQuantSemesters();
-        DegreeTypeID degreeTypeID = programmeVOsDTO.getDegreeTypeID();
-        DepartmentID departmentID = programmeVOsDTO.getDepartmentID();
-        TeacherID teacherID = programmeVOsDTO.getTeacherID();
+        NameWithNumbersAndSpecialChars name = programmeVOsDTO.name();
+        Acronym acronym = programmeVOsDTO.acronym();
+        MaxEcts maxOfEcts = programmeVOsDTO.maxEcts();
+        QuantSemesters quantityOfSemesters = programmeVOsDTO.quantSemesters();
+        DegreeTypeID degreeTypeID = programmeVOsDTO.degreeTypeID();
+        DepartmentID departmentID = programmeVOsDTO.departmentID();
+        TeacherID teacherID = programmeVOsDTO.teacherID();
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
