@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.time.LocalDate;
 
@@ -203,4 +204,93 @@ class GradeAStudentServiceImplTest {
         // Assert
         assertNotNull(result);
     }
+    @Test
+    public void shouldGetApprovalRateOf100() throws Exception {
+        // Arrange
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        StudentGrade studentGrade3 = mock(StudentGrade.class);
+
+        Grade grade10 = mock(Grade.class);
+        Grade grade20 = mock(Grade.class);
+
+        when(grade10.knowGrade()).thenReturn(10.0);
+        when(grade20.knowGrade()).thenReturn(20.0);
+
+        when(studentGrade1.get_grade()).thenReturn(grade10);
+        when(studentGrade2.get_grade()).thenReturn(grade20);
+        when(studentGrade3.get_grade()).thenReturn(grade20);
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGrade3.hasThisCourseEditionID(courseEditionID)).thenReturn(false);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3));
+
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        // Act
+        double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
+
+        // Assert
+        assertEquals(100, approvalRate, 0.01);
+    }
+
+    @Test
+    public void shouldGetApprovalRateOf50() throws Exception {
+        // Arrange
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        StudentGrade studentGrade3 = mock(StudentGrade.class);
+
+        Grade grade8 = mock(Grade.class);
+        Grade grade20 = mock(Grade.class);
+
+        when(grade8.knowGrade()).thenReturn(8.0);
+        when(grade20.knowGrade()).thenReturn(20.0);
+
+        when(studentGrade1.get_grade()).thenReturn(grade8);
+        when(studentGrade2.get_grade()).thenReturn(grade20);
+        when(studentGrade3.get_grade()).thenReturn(grade20);
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
+        when(studentGrade3.hasThisCourseEditionID(courseEditionID)).thenReturn(false);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3));
+
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        // Act
+        double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
+
+        // Assert
+        assertEquals(50, approvalRate, 0.01);
+    }
+
+    @Test
+    public void shouldNotGetApprovalRateWith0Students() throws Exception {
+        // Arrange
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
+
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        // Act
+        double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
+
+        // Assert
+        assertEquals(0, approvalRate);
+    }
+
+
+
 }

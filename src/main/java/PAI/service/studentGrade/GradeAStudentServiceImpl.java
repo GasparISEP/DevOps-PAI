@@ -136,4 +136,27 @@ public class GradeAStudentServiceImpl {
         }
         return false;
     }
+
+    public double knowApprovalRate(CourseEditionID courseEditionID) throws Exception {
+        int totalApprovalStudents = 0;
+        int totalOfStudents = 0;
+
+        for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                totalOfStudents++;
+                Grade grade1 = studentGrade.get_grade();
+                if (grade1.knowGrade() >= 10) {
+                    totalApprovalStudents++;
+                }
+            }
+        }
+
+        if (totalOfStudents == 0) {
+            return 0.0;
+        }
+
+        return ((double) totalApprovalStudents / totalOfStudents) * 100;
+    }
+
+
 }
