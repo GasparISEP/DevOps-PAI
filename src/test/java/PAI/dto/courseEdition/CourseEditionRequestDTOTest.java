@@ -71,7 +71,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeName")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeName") &&
+                v.getMessage().equals("Programme name cannot be blank")));
     }
 
     @Test
@@ -91,7 +92,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeAcronym")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeAcronym") &&
+                v.getMessage().equals("Programme acronym cannot be blank")));
     }
 
     @Test
@@ -111,7 +113,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("schoolYearID")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("schoolYearID") &&
+                v.getMessage().equals("School Year ID is required")));
     }
 
     @Test
@@ -131,7 +134,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseAcronym")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseAcronym") &&
+                v.getMessage().equals("Course acronym cannot be blank")));
     }
 
     @Test
@@ -151,7 +155,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseName")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseName") &&
+                v.getMessage().equals("Course name cannot be blank")));
     }
 
     @Test
@@ -171,6 +176,7 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("studyPlanImplementationDate")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("studyPlanImplementationDate") &&
+                v.getMessage().equals("Study plan implementation date is required")));
     }
 }
