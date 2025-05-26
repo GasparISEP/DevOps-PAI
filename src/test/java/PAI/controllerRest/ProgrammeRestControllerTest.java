@@ -6,7 +6,7 @@ import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeRequestDTO;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
@@ -44,7 +44,7 @@ class ProgrammeRestControllerTest {
     private IProgrammeAssembler _programmeAssemblerDouble;
     private IStudyPlanService _studyPlanServiceDouble;
     private IStudyPlanAssembler _studyPlanAssemblerDouble;
-    private ProgrammeRequestDTO _programmeRequestDTODouble;
+    private ProgrammeDTO _programmeDTODouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
     private ProgrammeResponseDTO _programmeResponseDTODouble;
     private RegisterStudyPlanCommand _studyPlanCommandDouble;
@@ -65,7 +65,7 @@ class ProgrammeRestControllerTest {
     }
 
     private void createProgrammeDoubles() {
-        _programmeRequestDTODouble = mock(ProgrammeRequestDTO.class);
+        _programmeDTODouble = mock(ProgrammeDTO.class);
         _programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);
         _programmeResponseDTODouble = mock(ProgrammeResponseDTO.class);
     }
@@ -124,11 +124,11 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
+        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeResponseDTODouble);
 
         //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeRequestDTODouble);
+        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
 
         //Assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -154,11 +154,11 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
+        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(null);
 
         //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeRequestDTODouble);
+        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
 
         //Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
@@ -170,11 +170,11 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
+        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenThrow(new Exception("Programme is already registered."));
 
         //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeRequestDTODouble);
+        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
 
         //Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());

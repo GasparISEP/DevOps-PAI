@@ -1,10 +1,9 @@
 package PAI.assembler.programme;
 
 import PAI.VOs.*;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeRequestDTO;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
@@ -16,10 +15,10 @@ import static org.mockito.Mockito.when;
 class ProgrammeAssemblerTest {
 
     @Test
-    void shouldCreateProgrammeVOsDTOFromProgrammeRequestDTO() throws Exception {
+    void shouldCreateProgrammeVOsDTOFromProgrammeDTO() {
         //arrange
         ProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeRequestDTO programmeRequestDTODouble = mock(ProgrammeRequestDTO.class);
+        ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
 
         String name = "Data Science";
         String acronym = "DSD";
@@ -29,27 +28,27 @@ class ProgrammeAssemblerTest {
         String departmentID = "DEI";
         String teacherID = "AAA";
 
-        when(programmeRequestDTODouble.getName()).thenReturn(name);
-        when(programmeRequestDTODouble.getAcronym()).thenReturn(acronym);
-        when(programmeRequestDTODouble.getMaxECTS()).thenReturn(maxECTS);
-        when(programmeRequestDTODouble.getQuantSemesters()).thenReturn(quantSemesters);
-        when(programmeRequestDTODouble.getDegreeTypeID()).thenReturn(degreeTypeID);
-        when(programmeRequestDTODouble.getDepartmentID()).thenReturn(departmentID);
-        when(programmeRequestDTODouble.getTeacherID()).thenReturn(teacherID);
+        when(programmeDTODouble.name()).thenReturn(name);
+        when(programmeDTODouble.acronym()).thenReturn(acronym);
+        when(programmeDTODouble.maxECTS()).thenReturn(maxECTS);
+        when(programmeDTODouble.quantSemesters()).thenReturn(quantSemesters);
+        when(programmeDTODouble.degreeTypeID()).thenReturn(degreeTypeID);
+        when(programmeDTODouble.departmentID()).thenReturn(departmentID);
+        when(programmeDTODouble.teacherID()).thenReturn(teacherID);
 
         //act
-        ProgrammeVOsDTO result = programmeAssembler.fromDTOToDomain(programmeRequestDTODouble);
+        ProgrammeVOsDTO result = programmeAssembler.fromDTOToDomain(programmeDTODouble);
 
         //assert
         assertAll(
 
-                () -> assertEquals(name, result.getName().getnameWithNumbersAndSpecialChars()),
-                () -> assertEquals(acronym, result.getAcronym().getAcronym()),
-                () -> assertEquals(maxECTS, result.getMaxEcts().getMaxEcts()),
-                () -> assertEquals(quantSemesters, result.getQuantSemesters().getQuantityOfSemesters()),
-                () -> assertEquals(degreeTypeID, result.getDegreeTypeID().getDTID()),
-                () -> assertEquals(departmentID, result.getDepartmentID().getAcronym().getAcronym()),
-                () -> assertEquals(teacherID, result.getTeacherID().getTeacherAcronym().getAcronym())
+                () -> assertEquals(name, result.name().getnameWithNumbersAndSpecialChars()),
+                () -> assertEquals(acronym, result.acronym().getAcronym()),
+                () -> assertEquals(maxECTS, result.maxEcts().getMaxEcts()),
+                () -> assertEquals(quantSemesters, result.quantSemesters().getQuantityOfSemesters()),
+                () -> assertEquals(degreeTypeID, result.degreeTypeID().getDTID()),
+                () -> assertEquals(departmentID, result.departmentID().getAcronym().getAcronym()),
+                () -> assertEquals(teacherID, result.teacherID().getTeacherAcronym().getAcronym())
         );
     }
 

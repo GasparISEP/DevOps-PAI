@@ -1,11 +1,16 @@
 @startuml
 
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Scenario View - Level 1 - System)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
 left to right direction
 skinparam packageStyle rectangle
 
 actor "Administrator" as admin
 
-rectangle "PAI System" {
+rectangle "<<PAI System>>" {
     usecase "I want to configure teacher categories in the system" as UC01
 }
 

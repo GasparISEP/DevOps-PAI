@@ -6,8 +6,8 @@ participant "pMapper:ProgrammeAssembler" as PA #lightgreen
 participant "programmeVOsDTO:ProgrammeVOsDTO" as PDTO
 
 activate PS
-PS -> PA ++: fromDTOToDomain(ProgrammeRequestDTO)
-PA -> PDTO**: newProgrammeVOsDTO (nameVO, acronymVO, quantECTSVO \nquantSemestersVO, degreeTypeID, departmentID, teacherID)
+PS -> PA ++: fromDTOToDomain(ProgrammeDTO)
+PA -> PDTO**: newProgrammeVOsDTO (nameVO, acronymVO, maxECTSVO \nquantSemestersVO, degreeTypeID, departmentID, teacherID)
 activate PDTO
 PDTO --> PA--: programmeVOsDTO
 PA --> PS--: programmeVOsDTO
