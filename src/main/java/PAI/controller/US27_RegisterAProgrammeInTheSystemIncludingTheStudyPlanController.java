@@ -1,93 +1,65 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.department.Department;
-import PAI.domain.teacher.Teacher;
-import PAI.domain.degreeType.DegreeType;
-import PAI.domain.programme.Programme;
+import PAI.assembler.studyPlan.IStudyPlanAssembler;
+import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.service.degreeType.IDegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
-    IDegreeTypeService _degreeTypeService;
-    IProgrammeService _programmeService;
-    IStudyPlanService _studyPlanService;
+    private final IProgrammeService _programmeService;
+    private final IStudyPlanService _studyPlanService;
+    private final IStudyPlanAssembler _studyPlanAssembler;
 
-    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeService programmeService, IStudyPlanService studyPlanService, IDegreeTypeService degreeTypeService) throws Exception {
+
+    public US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(IProgrammeService programmeService, IStudyPlanService studyPlanService, IStudyPlanAssembler studyPlanAssembler) throws Exception {
 
         if (programmeService == null) {
             throw new Exception("Programme Service cannot be null.");
         }
-
-        _programmeService = programmeService;
-
         if (studyPlanService == null) {
             throw new Exception("Study Plan Service cannot be null.");
         }
-
-        _studyPlanService = studyPlanService;
-
-
-        if (degreeTypeService == null) {
-            throw new Exception("Degree Type Repository cannot be null.");
+        if (studyPlanAssembler == null) {
+            throw new Exception("Study Plan Assembler cannot be null.");
         }
 
-        _degreeTypeService = degreeTypeService;
+        this._programmeService = programmeService;
+        this._studyPlanService = studyPlanService;
+        this._studyPlanAssembler = studyPlanAssembler;
     }
 
-    public boolean registerProgramme(String name, String acronym, int maxOfEcts, int quantityOfSemesters, DegreeType degreeType, Department department, Teacher programmeDirector) throws Exception {
+    public boolean registerProgrammeIncludingStudyPlan(String name, String acronym, int maxEcts,
+                                       int quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID,
+                                       TeacherID programmeDirectorID, String studyPlanStartDate) {
 
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(name);
         Acronym programmeAcronym = new Acronym(acronym);
-        MaxEcts programmeMaxOfEcts = new MaxEcts(maxOfEcts);
+        MaxEcts programmeMaxOfEcts = new MaxEcts(maxEcts);
         QuantSemesters programmeQuantityOfSemesters = new QuantSemesters(quantityOfSemesters);
-        DegreeTypeID degreeTypeID = degreeType.identity();
-        DepartmentID departmentID = department.identity();
-        TeacherID programmeDirectorID = programmeDirector.identity();
 
         ProgrammeVOsDTO programmeVOsDTO = new ProgrammeVOsDTO(programmeName, programmeAcronym, programmeMaxOfEcts, programmeQuantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID);
 
-        _programmeService.registerProgramme(programmeVOsDTO);
-
-        return true;
-    }
-
-    public boolean createStudyPlan(ProgrammeID programmeID, LocalDate date) throws Exception {
-
-        Programme programme;
-
         try {
-            Optional<Programme> optionalProgramme = _programmeService.getProgrammeByID(programmeID);
-            programme = optionalProgramme.orElseThrow(() -> new IllegalArgumentException("Programme with ID " + programmeID + " not found"));
-        } catch (IllegalArgumentException e) {
+            _programmeService.registerProgramme(programmeVOsDTO);
+        } catch (Exception e) {
+            System.err.println("Failed to register programme: " + e.getMessage());
             return false;
         }
 
-        DegreeTypeID degreeTypeID = programme.getDegreeTypeID();
-        DegreeType degreeType;
+        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(name, acronym, LocalDate.parse(studyPlanStartDate));
 
         try {
-            Optional<DegreeType> optionalDegreeType = _degreeTypeService.getDegreeTypeById(degreeTypeID);
-            degreeType = optionalDegreeType.orElseThrow(() -> new IllegalArgumentException("Degree Type with ID " + degreeTypeID + " not found"));
-        } catch (IllegalArgumentException e) {
+            _studyPlanService.createStudyPlan(studyPlanCommand);
+            System.out.println("Programme, including study plan registered successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to register study plan: " + e.getMessage());
             return false;
         }
-
-        Date implementationDate = new Date(date);
-
-        int quantSemester = programme.getQuantSemesters().getQuantityOfSemesters();
-        DurationInYears durationInYears = new DurationInYears(quantSemester);
-
-        int quantityOfEcts = degreeType.getMaxEcts().getMaxEcts();
-        MaxEcts quantityOfEctsDegreeType = new MaxEcts(quantityOfEcts);
-
-        _studyPlanService.createStudyPlan(programmeID, implementationDate, durationInYears, quantityOfEctsDegreeType);
-        return true;
     }
 }

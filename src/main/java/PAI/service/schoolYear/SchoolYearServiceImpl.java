@@ -7,6 +7,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         return schoolYearRepository.save(newSchoolYear);
     }
 
-     // Validate that a given dependency is not null
+    // Validate that a given dependency is not null
     private <T> T validateNotNull(T dependency, String name) {
         if (dependency == null) {
             throw new IllegalArgumentException(name + " cannot be null");
@@ -53,13 +54,13 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
 
     @Override
     public Optional<SchoolYearID> getCurrentSchoolYearID() {
-        try{
+        try {
             Optional<SchoolYear> schoolYear = schoolYearRepository.getCurrentSchoolYear();
             if (schoolYear.isPresent()) {
                 return Optional.of(schoolYear.get().identity());
             }
             return Optional.empty();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
@@ -91,5 +92,15 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
             schoolYearDTOs.add(schoolYearDTO);
         }
         return schoolYearDTOs;
+    }
+
+    @Override
+    public Optional<CurrentSchoolYearResponseDTO> getCurrentSchoolYear() {
+        Optional<SchoolYear> schoolYear = schoolYearRepository.getCurrentSchoolYear();
+        if (schoolYear.isPresent()) {
+            return Optional.of(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear.get()));
+        } else {
+            return Optional.empty();
+        }
     }
 }

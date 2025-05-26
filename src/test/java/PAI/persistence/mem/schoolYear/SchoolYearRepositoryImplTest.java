@@ -582,4 +582,76 @@ class SchoolYearRepositoryImplTest {
         assertEquals(0, schoolYearIDs.size());
     }
 
+    @Test
+    void shouldFindSchoolYearByIDWhenItExists() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        
+        when(schoolYear.identity()).thenReturn(schoolYearID);
+        repository.save(schoolYear);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(schoolYearID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(schoolYear, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenSchoolYearIDSearchedDoesNotExist() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearID otherID = mock(SchoolYearID.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        
+        when(schoolYear.identity()).thenReturn(schoolYearID);
+        repository.save(schoolYear);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(otherID);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenRepositoryIsEmpty() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(schoolYearID);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenSchoolYearIDIsNull() {
+        // Arrange
+        SchoolYearListFactoryImpl schoolYearListFactoryImplDouble = mock(SchoolYearListFactoryImpl.class);
+        SchoolYearRepositoryImpl repository = new SchoolYearRepositoryImpl(schoolYearListFactoryImplDouble);
+        
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        repository.save(schoolYear);
+
+        // Act
+        Optional<SchoolYear> result = repository.findBySchoolYearID(null);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+    
+
 }

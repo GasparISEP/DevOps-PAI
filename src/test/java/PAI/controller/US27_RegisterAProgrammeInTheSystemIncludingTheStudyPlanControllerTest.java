@@ -1,281 +1,153 @@
 package PAI.controller;
 
 import PAI.VOs.*;
-import PAI.domain.department.Department;
-import PAI.domain.teacher.Teacher;
-import PAI.domain.degreeType.DegreeType;
+import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
 
+import PAI.dto.studyPlan.RegisterStudyPlanCommand;
+import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.service.degreeType.DegreeTypeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
 
+    private IProgrammeService _programmeServiceDouble;
+    private IStudyPlanService _studyPlanServiceDouble;
+    private IStudyPlanAssembler _studyPlanAssemblerDouble;
+    private DegreeTypeID _degreeTypeIDDouble;
+    private DepartmentID _departmentIDDouble;
+    private TeacherID _teacherIDDouble;
+    private String _programmeName;
+    private String _programmeAcronym;
+    private int _maxEtcs;
+    private int _quantityOfSemesters;
+    private String _studyPlanStartDate;
+    private RegisterStudyPlanCommand _studyPlanCommandDouble;
+    private StudyPlanDTO _studyPlanDTODouble;
+    private ProgrammeResponseDTO _programmeResponseDTO;
+    private US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController _controllerDouble;
+
+    @BeforeEach
+    void setup(){
+        _programmeServiceDouble = mock(IProgrammeService.class);
+        _studyPlanServiceDouble = mock(IStudyPlanService.class);
+        _studyPlanAssemblerDouble = mock(IStudyPlanAssembler.class);
+    }
+
+    private void createDoubles() throws Exception {
+        _degreeTypeIDDouble = mock(DegreeTypeID.class);
+        _departmentIDDouble = mock(DepartmentID.class);
+        _teacherIDDouble = mock(TeacherID.class);
+        _programmeName = "Software Engineering";
+        _programmeAcronym = "SE";
+        _maxEtcs = 180;
+        _quantityOfSemesters = 2;
+        _studyPlanStartDate = "2025-09-01";
+        _studyPlanCommandDouble = mock(RegisterStudyPlanCommand.class);
+        _studyPlanDTODouble = mock(StudyPlanDTO.class);
+        _programmeResponseDTO = mock(ProgrammeResponseDTO.class);
+        _controllerDouble = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble,
+                                                                _studyPlanServiceDouble, _studyPlanAssemblerDouble);
+    }
+
     @Test
     void registerProgrammeInTheSystemControllerFailureWithNullProgrammeRepo() throws Exception {
         //arrange
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(null, studyPlanService, degreeTypeService));
+                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(null, _studyPlanServiceDouble, _studyPlanAssemblerDouble));
 
         assertEquals("Programme Service cannot be null.", exception.getMessage());
     }
 
     @Test
-    void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanRepo() throws Exception {
+    void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanService() {
         //arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, null, degreeTypeService));
+                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble, null, _studyPlanAssemblerDouble));
 
         assertEquals("Study Plan Service cannot be null.", exception.getMessage());
 
     }
 
     @Test
-    void registerProgrammeInTheSystemControllerFailureWithNullDegreeTypeRepo() throws Exception {
+    void registerProgrammeInTheSystemControllerFailureWithNullStudyPlanAssembler() {
         //arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
 
         //act + assert
         Exception exception = assertThrows(Exception.class, () ->
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, null));
+                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble, _studyPlanServiceDouble, null));
 
-        assertEquals("Degree Type Repository cannot be null.", exception.getMessage());
+        assertEquals("Study Plan Assembler cannot be null.", exception.getMessage());
 
     }
 
     @Test
-    void registerProgrammeInTheSystemControllerCorrectly() throws Exception {
+    void shouldCreateRegisterProgrammeInTheSystemControllerCorrectly() throws Exception {
         //arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
 
-        //act
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, degreeTypeService);
-
-        //assert
-        assertNotNull(controller);
-    }
-
-   @Test
-    void createStudyPlanWithSuccess() throws Exception {
-        // Arrange
-       IProgrammeService programmeService = mock(IProgrammeService.class);
-       IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-       DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
-
-       US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
-               new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, degreeTypeService);
-
-       Programme programme = mock(Programme.class);
-       DegreeType degreeType = mock(DegreeType.class);
-       QuantSemesters quantSemesters = mock(QuantSemesters.class);
-       DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-       ProgrammeID programmeID = mock(ProgrammeID.class);
-       LocalDate implementationDate = mock(LocalDate.class);
-       MaxEcts maxEctsDouble = mock(MaxEcts.class);
-
-       when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(programme));
-       when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
-       when(degreeTypeService.getDegreeTypeById(degreeTypeID)).thenReturn(Optional.of(degreeType));
-
-       when(degreeType.getMaxEcts()).thenReturn(maxEctsDouble);
-       when(maxEctsDouble.getMaxEcts()).thenReturn(180);
-
-       when(programme.getQuantSemesters()).thenReturn(quantSemesters);
-       when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
-
-       // Act
-       boolean result = controller.createStudyPlan(programmeID, implementationDate);
-
-       // Assert
-       assertTrue(result);
+        //act & Assert
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
+                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble);
     }
 
     @Test
-    void createStudyPlanProgrammeNotFound() throws Exception {
+    void shouldRegisterProgrammeAndStudyPlanSuccessfully() throws Exception {
         // Arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
-
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, degreeTypeService);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        LocalDate implementationDate = mock(LocalDate.class);
-
-
-        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.empty());
+        createDoubles();
+        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeResponseDTO);
+        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
 
         // Act
-        boolean result = controller.createStudyPlan(programmeID, implementationDate);
+        boolean result = _controllerDouble.registerProgrammeIncludingStudyPlan(_programmeName, _programmeAcronym,
+                _maxEtcs, _quantityOfSemesters, _degreeTypeIDDouble, _departmentIDDouble, _teacherIDDouble, _studyPlanStartDate);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldFailWhenProgrammeFailsToRegister() throws Exception {
+        // Arrange
+        createDoubles();
+        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenThrow(new Exception("Exception"));
+        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+
+
+        // Act
+        boolean result = _controllerDouble.registerProgrammeIncludingStudyPlan(_programmeName, _programmeAcronym,
+                _maxEtcs, _quantityOfSemesters, _degreeTypeIDDouble, _departmentIDDouble, _teacherIDDouble, _studyPlanStartDate);
 
         // Assert
         assertFalse(result);
     }
 
     @Test
-    void createStudyPlanDegreeTypeNotFound() throws Exception {
+    void shouldFailWhenStudyPlanFailsToRegister() throws Exception {
         // Arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
-
-
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, degreeTypeService);
-
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        LocalDate implementationDate = mock(LocalDate.class);
-
-        Programme programme =mock(Programme.class);
-
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-
-        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(programme));
-        when(programme.getDegreeTypeID()).thenReturn(degreeTypeID);
-        when(degreeTypeService.getDegreeTypeById(degreeTypeID)).thenReturn(Optional.empty());
+        createDoubles();
+        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeResponseDTO);
+        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new Exception("Exception"));
 
         // Act
-        boolean result = controller.createStudyPlan(programmeID, implementationDate);
+        boolean result = _controllerDouble.registerProgrammeIncludingStudyPlan(_programmeName, _programmeAcronym,
+                _maxEtcs, _quantityOfSemesters, _degreeTypeIDDouble, _departmentIDDouble, _teacherIDDouble, _studyPlanStartDate);
 
         // Assert
         assertFalse(result);
     }
-
-
-    @Test
-    void registerProgrammeInTheSystemWithSuccess() throws Exception {
-        //arrange
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        DegreeTypeService degreeTypeService = mock(DegreeTypeService.class);
-
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller =
-                new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(programmeService, studyPlanService, degreeTypeService);
-
-        String name = "Programme";
-        String acronym = "PRG";
-        int maxEcts = 30;
-        int qtySemesters = 6;
-        DegreeType degreeType = mock(DegreeType.class);
-        Department department = mock(Department.class);
-        Teacher programmeDirector = mock(Teacher.class);
-
-        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
-        DepartmentID departmentID = mock(DepartmentID.class);
-        TeacherID teacherID = mock(TeacherID.class);
-        ProgrammeResponseDTO programmeResponseDTO = mock(ProgrammeResponseDTO.class);
-        ProgrammeVOsDTO programmeVOsDTO = mock(ProgrammeVOsDTO.class);
-
-        when(degreeType.identity()).thenReturn(degreeTypeID);
-        when(department.identity()).thenReturn(departmentID);
-        when(programmeDirector.identity()).thenReturn(teacherID);
-
-        when(programmeService.registerProgramme(programmeVOsDTO)).thenReturn(programmeResponseDTO);
-
-        //act
-        boolean result = controller.registerProgramme(name, acronym, maxEcts, qtySemesters, degreeType, department, programmeDirector);
-
-        //assert
-        assertTrue(result);
-    }
-
-    /*@Test
-    void registerProgrammeInTheSystemSuccessIntegrationTest() throws Exception {
-        //arrange
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("ABC");
-        Acronym acronym = new Acronym("ABC");
-        QuantEcts quantEcts = new QuantEcts(12);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
-        DepartmentAcronym departmentAcronym = new DepartmentAcronym("ALG");
-        DepartmentID departmentID = new DepartmentID(departmentAcronym);
-        TeacherAcronym teacherAcronym = new TeacherAcronym("ALP");
-        TeacherID teacherID = new TeacherID(teacherAcronym);
-
-        IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
-
-        IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
-        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
-
-        IDegreeTypeFactory factoryDegreeType = new DegreeTypeFactoryImpl();
-        IDegreeTypeListFactory listFactoryDegreeType = new DegreeTypeListFactoryImpl();
-        DegreeTypeRepositoryImpl degreeTypeRepository = new DegreeTypeRepositoryImpl(factoryDegreeType, listFactoryDegreeType);
-
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeRepository, iStudyPlanRepository, degreeTypeRepository);
-
-        //act
-        boolean result = controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-
-        //assert
-        assertTrue(result);
-    }*/
-
-    /*@Test
-    void createStudyPlanIntegrationTest() throws Exception {
-        //arrange
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("ABC");
-        Acronym acronym = new Acronym("ABC");
-        QuantEcts quantEcts = new QuantEcts(12);
-        QuantSemesters quantSemesters = new QuantSemesters(2);
-        DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
-        MaxEcts maxEcts = new MaxEcts(180);
-        Name name = new Name("Licenciatura");
-        DepartmentAcronym departmentAcronym = new DepartmentAcronym("ALG");
-        DepartmentID departmentID = new DepartmentID(departmentAcronym);
-        TeacherAcronym teacherAcronym = new TeacherAcronym("ALP");
-        TeacherID teacherID = new TeacherID(teacherAcronym);
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
-        Date implemtationDate = new Date("21-03-2025");
-
-        IProgrammeFactory iProgrammeFactory = new ProgrammeFactoryImpl();
-        IProgrammeRepositoryListFactory iProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
-        IProgrammeRepository iProgrammeRepository = new ProgrammeRepositoryImpl(iProgrammeFactory, iProgrammeRepositoryListFactory);
-
-        IStudyPlanFactory iStudyPlanFactory = new StudyPlanFactoryImpl();
-        IStudyPlanListFactory iStudyPlanListFactory = new StudyPlanListFactoryImpl();
-        IStudyPlanRepository iStudyPlanRepository = new StudyPlanRepositoryImpl(iStudyPlanFactory, iStudyPlanListFactory);
-
-        IDegreeTypeFactory factoryDegreeType = new DegreeTypeFactoryImpl();
-        IDegreeTypeListFactory listFactoryDegreeType = new DegreeTypeListFactoryImpl();
-        DegreeTypeRepositoryImpl degreeTypeRepository = new DegreeTypeRepositoryImpl(factoryDegreeType, listFactoryDegreeType);
-
-        degreeTypeRepository.registerDegreeType(degreeTypeID, name, maxEcts);
-
-        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(iProgrammeRepository, iStudyPlanRepository, degreeTypeRepository);
-        controller.registerAProgrammeDDDInTheSystem(nameWithNumbersAndSpecialChars, acronym, quantEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
-
-        //act
-        boolean result = controller.createStudyPlanDDD(programmeID, implemtationDate);
-
-        //assert
-        assertTrue(result);
-    }*/
 }

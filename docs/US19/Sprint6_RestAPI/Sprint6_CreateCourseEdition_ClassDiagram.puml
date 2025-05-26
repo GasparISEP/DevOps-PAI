@@ -15,7 +15,7 @@ skinparam rectangle {
 skinparam classBorderColor Black
 left to right direction
 
-package "Controller Layer" #F5EEF8 {
+package "REST Controller Layer" #F5EEF8 {
   class CourseEditionRestController {
     +createCourseEdition(dto:\n CourseEditionDTO): ResponseEntity
     +getAllDegreeTypes(): List<DegreeTypeDTO>
@@ -51,7 +51,7 @@ package "Assembler / DTO" {
     - schoolYearID : UUID
     - courseAcronym : String
     - courseName : String
-    - studyPlanImplementationDate : Date
+    - studyPlanImplementationDate : LocalDate
   }
 
   class CourseEditionResponseDTO {
@@ -61,8 +61,19 @@ package "Assembler / DTO" {
     - schoolYearID : UUID
     - courseAcronym : String
     - courseName : String
-    - studyPlanImplementationDate : Date
+    - studyPlanImplementationDate : LocalDate
   }
+}
+
+package "Commands" {
+class CreateCourseEditionCommand {
+    - programmeName : String
+    - programmeAcronym : String
+    - schoolYearID : UUID
+    - courseAcronym : String
+    - courseName : String
+    - studyPlanImplementationDate : LocalDate
+}
 }
 
 package "Domain Layer" {
@@ -119,7 +130,7 @@ package "Repository Interfaces" {
 
   interface "<<interface>>\nIProgrammeEditionRepository" as IProgrammeEditionRepository
 
-  interface "<<interface>>\nISpringDataCourseEditionRepository" as ISpringDataCourseEditionRepository
+  interface "<<interface>>\nICourseEditionRepositorySpringData" as ICourseEditionRepositorySpringData
   }
 
   package "Repository Implementations"{
@@ -150,7 +161,7 @@ package "Repository Interfaces" {
     +getProgrammeEditionsByProgrammeID(programmeID:\n ProgrammeID): List<ProgrammeEdition>
   }
 
-  class SpringDataCourseEditionRepositoryImpl {
+  class CourseEditionRepositorySpringDataImpl {
     +save(data: CourseEditionDataModel): CourseEditionDataModel
   }
 }
@@ -165,11 +176,12 @@ ICourseEditionAssembler <|.. CourseEditionAssemblerImpl
 CreateCourseEditionServiceImpl --> ICourseEditionFactory
 ICourseEditionFactory <|.. CourseEditionFactoryImpl
 
-CreateCourseEditionServiceImpl --> ICourseEditionMapper
+CourseEditionRepositorySpringDataImpl --> ICourseEditionMapper
 ICourseEditionMapper <|.. CourseEditionMapperImpl
 
 CreateCourseEditionServiceImpl --> ICourseEditionRepository
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
+ICourseEditionRepository <|.. CourseEditionRepositorySpringDataImpl
 
 CreateCourseEditionServiceImpl --> IDegreeTypeRepository
 IDegreeTypeRepository <|.. DegreeTypeRepositoryImpl
@@ -182,17 +194,19 @@ ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepositoryImpl
 
 CreateCourseEditionServiceImpl --> IProgrammeEditionRepository
 IProgrammeEditionRepository <|.. ProgrammeEditionRepositoryImpl
+
+CreateCourseEditionServiceImpl --> IStudyPlanRepository
 IStudyPlanRepository <|.. StudyPlanRepositoryImpl
 
 CourseEditionMapperImpl --> ICourseEditionIDMapper
+CourseEditionMapperImpl --> IProgrammeEditionIDMapper
+CourseEditionMapperImpl --> ICourseInStudyPlanIDMapper
+
 ICourseInStudyPlanIDMapper <|.. CourseInStudyPlanIDMapperImpl
 IProgrammeEditionIDMapper <|.. ProgrammeEditionIDMapperImpl
 
 ICourseEditionIDMapper <|.. CourseEditionIDMapperImpl
 
-ICourseEditionIDMapper <|.. ProgrammeEditionIDMapperImpl
-
-ICourseEditionIDMapper <|.. CourseInStudyPlanIDMapperImpl
 
 CourseEditionMapperImpl --> CourseEditionDataModel
 CourseEditionMapperImpl --> CourseEdition
@@ -202,13 +216,16 @@ CourseEdition --> ProgrammeEditionID
 CourseEdition --> CourseInStudyPlanID
 CourseEditionDataModel --> CourseEditionIDDataModel
 
-SpringDataCourseEditionRepositoryImpl --> CourseEditionDataModel
+CourseEditionRepositorySpringDataImpl --> CourseEditionDataModel
 
-ISpringDataCourseEditionRepository <|.. SpringDataCourseEditionRepositoryImpl
+ICourseEditionRepositorySpringData <|.. CourseEditionRepositorySpringDataImpl
 
 CourseEditionRestController --> CourseEditionRequestDTO
 CourseEditionRestController --> CourseEditionResponseDTO
 CourseEditionAssemblerImpl --> CourseEditionRequestDTO
 CourseEditionAssemblerImpl --> CourseEditionResponseDTO
+
+ICourseEditionAssembler -> CreateCourseEditionCommand
+CourseEditionRestController ..> CreateCourseEditionCommand
 
 @enduml

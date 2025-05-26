@@ -4,8 +4,11 @@ import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class SchoolYearAssembler implements ISchoolYearAssembler {
@@ -34,6 +37,18 @@ public class SchoolYearAssembler implements ISchoolYearAssembler {
         String endDate = sy.getEndDate().getLocalDate().toString();
 
         return new SchoolYearDTO(description,startDate,endDate);
+    }
+
+    @Override
+    public CurrentSchoolYearResponseDTO toCurrentSchoolYearDTO(SchoolYear sy) {
+        if (sy == null) {
+            throw new IllegalArgumentException("SchoolYear cannot be null");
+        }
+        String id = sy.identity().getSchoolYearID().toString();
+        String description = sy.getDescription().getDescription();
+        LocalDate startDate = sy.getStartDate().getLocalDate();
+        LocalDate endDate = sy.getEndDate().getLocalDate();
+        return new CurrentSchoolYearResponseDTO(id,description,startDate,endDate);
     }
 
     public Description toDescription(SchoolYearDTO syDTO) {

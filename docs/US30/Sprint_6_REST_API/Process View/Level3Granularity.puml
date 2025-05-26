@@ -7,7 +7,6 @@ autonumber
 participant ":Router" as router <<component>> <<Router>> #teal
 participant ":CourseInStudyPlanRESTController" as restController <<component>> <<RESTController>> #teal
 participant ":CourseInStudyPlanService" as service <<component>> <<Service>> #teal
-participant ":CourseInStudyPlanFactory" as factory <<component>> <<Factory>> #teal
 participant ":Domain" as domain <<component>> <<Domain>> #teal
 participant ":Repository" as repository <<component>> <<Repository>> #teal
 
@@ -17,7 +16,6 @@ note over router: JSON payload includes the following attributes:\n semester, cu
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
-
 
 router -> restController: addCourseToProgramme (DTO)
 activate restController #E1F5FE
@@ -30,33 +28,30 @@ end
 restController -> service: addCourseToProgramme (command)
 activate service #E1F5FE
 
-service --> factory: createCourseInStudyPlan (command)
-activate factory #E1F5FE
-factory --> service: createCourseInStudyPlan (VO)
-deactivate factory
+ref over service
+    Convert CourseInStudyPlanCommand to CourseInStudyPlanVO
+end
 
-service -> domain: addCourseToProgramme (VO)
+service -> domain: addCourseToProgramme(VO)
 activate domain #E1F5FE
 
-'CRIAR LIGAÇÃO DE SERVICE A COMMAND
-
-domain -> service: courseInStudyPlan
+domain -> service: courseInStudyPlan(VO)
 deactivate domain
 
-service --> repository: save(courseInStudyPlan)
+service --> repository: save(courseInStudyPlanVO)
 activate repository #E1F5FE
 
-repository --> service: courseInStudyPlan
+repository --> service: courseInStudyPlan(VO)
 deactivate repository
 
 ref over restController
-    Convert courseInStudyPlanVO to courseInStudyPlanDTO
+    Convert courseInStudyPlanVO to courseInStudyPlanResponseDTO
 end
 
-service --> restController: courseInStudyPlan
+service --> restController: courseInStudyPlanResponseDTO
 deactivate service
 
-restController --> router: (201, Created) courseInStudyPlanDTO
+restController --> router: (201, Created) courseInStudyPlanResponseDTO
 deactivate restController
 
 <-- router: (201, Created) courseInStudyPlanJSON

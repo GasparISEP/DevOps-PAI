@@ -34,6 +34,10 @@ public class StudyPlanID implements DomainId {
         return _implementationDate.getLocalDate();
     }
 
+    public Date getDate() {
+        return _implementationDate;
+    }
+
     public ProgrammeID getProgrammeID() {
         return _programmeID;
     }

@@ -102,4 +102,13 @@ public class SchoolYearRepositoryImpl implements ISchoolYearRepository {
         return schoolYearsIds;
     }
 
+    @Override
+    public Optional<SchoolYear> findBySchoolYearID(SchoolYearID schoolYearID) {
+        if (schoolYearID == null) {
+            return Optional.empty();
+        }
+        return _schoolYearList.stream()
+                .filter(sy -> sy.identity().equals(schoolYearID))
+                .findAny();
+    }   
 }

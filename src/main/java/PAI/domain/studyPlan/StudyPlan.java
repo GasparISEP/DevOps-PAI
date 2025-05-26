@@ -9,7 +9,7 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
     private DurationInYears _durationInYears;
     private ProgrammeID _programmeID;
     private StudyPlanID _studyPlanID;
-    private MaxEcts _quantityOfEcts;
+    private MaxEcts _maxEcts;
 
     public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID) {
 
@@ -31,7 +31,7 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         if (quantityOfEcts == null) {
             throw new IllegalArgumentException("Quantity Of ECTs cannot be null");
         }
-        this._quantityOfEcts = quantityOfEcts;
+        this._maxEcts = quantityOfEcts;
 
         if (studyPlanID == null) {
             throw new IllegalArgumentException("Study Plan ID cannot be null");
@@ -40,8 +40,8 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         this._studyPlanID = studyPlanID;
     }
 
-    public MaxEcts getQuantityOfEcts() {
-        return this._quantityOfEcts;
+    public MaxEcts getMaxEcts() {
+        return this._maxEcts;
     }
 
     public ProgrammeID getProgrammeID() {
@@ -52,12 +52,12 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
         return this._durationInYears;
     }
 
-    public Date getStartDate(){
+    public Date getStartDate() {
         return this._startDate;
     }
 
     @Override
-    public boolean equals (Object o) {
+    public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         StudyPlan studyPlan = (StudyPlan) o;
         return this._studyPlanID.equals(studyPlan._studyPlanID);
@@ -70,12 +70,12 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
 
     @Override
     public boolean sameAs(Object object) {
-    if (object instanceof StudyPlan) {
-        StudyPlan studyPlan = (StudyPlan) object;
+        if (object instanceof StudyPlan) {
+            StudyPlan studyPlan = (StudyPlan) object;
 
-        if (this._programmeID.equals(studyPlan._programmeID) && (this._startDate.equals(studyPlan._startDate)) )
-            return true;
-    }
-    return false;
+            if (this._programmeID.equals(studyPlan._programmeID) && (this._startDate.equals(studyPlan._startDate)))
+                return true;
+        }
+        return false;
     }
 }

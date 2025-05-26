@@ -65,16 +65,16 @@ end
 Repository --> service: amSaved
 deactivate Repository
 
-'create "responseDTO:Assembler" as Assembler2
-'service -> Assembler2: VO2ResponseDTO (amSaved)
+
 ref over service
-    Convert amSaved to responseDTO
+    Convert Access Method Saved to ServiceResponse<AccessMethodResponseDTO>
 end
-service --> Controller: responseDTO
+
+service --> Controller: amResponse
 
 deactivate service
 
-Controller --> router: (201, Created) responseDTO
+Controller --> router: (201, Created) amResponse
 deactivate Controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework

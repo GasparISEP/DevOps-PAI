@@ -2,6 +2,10 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
+import PAI.assembler.studyPlan.IStudyPlanAssembler;
+import PAI.assembler.studyPlan.StudyPlanAssemblerImpl;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.domain.course.Course;
@@ -249,7 +253,6 @@ public class US03AddCourseToProgrammeControllerTest {
     }
 
 
-
     // INTEGRATION TESTS
 
     private IProgrammeService programmeService;
@@ -271,6 +274,7 @@ public class US03AddCourseToProgrammeControllerTest {
 
     private IStudyPlanService studyPlanService;
     private IStudyPlanRepository studyPlanRepository;
+    private IStudyPlanAssembler studyPlanAssembler;
     private IStudyPlanListFactory studyPlanRepositoryListFactory;
     private IStudyPlanFactory studyPlanFactory;
 
@@ -301,13 +305,15 @@ public class US03AddCourseToProgrammeControllerTest {
         studyPlanFactory = new StudyPlanFactoryImpl();
         studyPlanRepositoryListFactory = new StudyPlanListFactoryImpl();
         studyPlanRepository = new StudyPlanRepositoryImpl(studyPlanRepositoryListFactory);
-        studyPlanService = new StudyPlanServiceImpl(studyPlanRepository, studyPlanFactory);
+        studyPlanAssembler = new StudyPlanAssemblerImpl();
+        studyPlanService = new StudyPlanServiceImpl(studyPlanRepository, studyPlanFactory, studyPlanAssembler,
+                                                    programmeRepository, degreeTypeRepository);
 
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         courseInStudyPlanRepositoryListFactory = new CourseInStudyPlanListFactoryImpl();
         courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(courseInStudyPlanRepositoryListFactory);
-        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory);
-    }
+        ICourseInStudyPlanAssembler courseInStudyPlanAssembler = new CourseInStudyPlanAssemblerImpl();
+        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory, courseInStudyPlanAssembler);    }
 
     @Test
     void shouldCreateUS03AddCourseToProgrammeController() {
@@ -337,8 +343,8 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
-        DurationInYears durationInYears = new DurationInYears(6);
-        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, durationInYears, maxQuantEcts);
+        QuantSemesters quantityOfSemesters = new QuantSemesters(2);
+        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
         // act
         boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
@@ -366,8 +372,8 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
-        DurationInYears durationInYears = new DurationInYears(6);
-        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, durationInYears, maxQuantEcts);
+        QuantSemesters quantityOfSemesters = new QuantSemesters(2);
+        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
         // act
         boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
@@ -410,8 +416,8 @@ public class US03AddCourseToProgrammeControllerTest {
 
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
-        DurationInYears durationInYears = new DurationInYears(6);
-        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, durationInYears, maxQuantEcts);
+        QuantSemesters quantityOfSemesters = new QuantSemesters(2);
+        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
         studyPlanRepository.save(studyPlan);
 
         // act
@@ -440,8 +446,8 @@ public class US03AddCourseToProgrammeControllerTest {
         ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
-        DurationInYears durationInYears = new DurationInYears(6);
-        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, durationInYears, maxQuantEcts);
+        QuantSemesters quantityOfSemesters = new QuantSemesters(2);
+        StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
         controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
 

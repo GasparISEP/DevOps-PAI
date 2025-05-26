@@ -3,6 +3,7 @@ package PAI.dto.courseEdition;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.Date;
 
@@ -23,5 +24,5 @@ public record CourseEditionRequestDTO(
         String courseName,
 
         @NotNull(message = "Study plan implementation date is required")
-        Date studyPlanImplementationDate
+        LocalDate studyPlanImplementationDate
 ) { }

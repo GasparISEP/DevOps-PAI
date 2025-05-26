@@ -8,6 +8,7 @@ import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -126,5 +127,43 @@ class SchoolYearMapperDTOTest {
 
         //assert
         assertNotNull(res);
+    }
+
+    @Test
+    void shouldCreateCurrentSchoolYearDTO() {
+        // Arrange
+        SchoolYearID schoolyearId = mock(SchoolYearID.class);
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(syFactory);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        when(schoolyearId.getSchoolYearID()).thenReturn(UUID.randomUUID());
+        when(schoolYear.identity()).thenReturn(schoolyearId);
+        when(schoolYear.getDescription()).thenReturn(description);
+        when(schoolYear.getStartDate()).thenReturn(startDate);
+        when(schoolYear.getEndDate()).thenReturn(endDate);
+
+        // act
+        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
+
+        // assert
+        assertNotNull(currentSchoolYearResponseDTO);
+    }
+
+    @Test
+    void shouldThrowIfSchoolYearIsNull() {
+        // Arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(syFactory);
+        SchoolYear schoolYear = null;
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+           schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
+        });
     }
 }

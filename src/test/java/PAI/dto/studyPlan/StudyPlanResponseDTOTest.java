@@ -10,51 +10,77 @@ import static org.mockito.Mockito.mock;
 
 class StudyPlanResponseDTOTest {
 
+    private String _programmeName;
+    private String _programmeAcronym;
     private LocalDate _dateDouble;
     private StudyPlanResponseDTO _studyPlanResponseDTO;
     private int _durationInYearsDouble;
-    private int _quantityOfEtcsDouble;
+    private int _MaxEtcsDouble;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         // Arrange
+        _programmeName = "Biology";
+        _programmeAcronym = "BIO2";
         _dateDouble = mock(LocalDate.class);
         _durationInYearsDouble = 3;
-        _quantityOfEtcsDouble = 30;
-        _studyPlanResponseDTO = new StudyPlanResponseDTO(_dateDouble, _durationInYearsDouble, _quantityOfEtcsDouble);
+        _MaxEtcsDouble = 30;
+        _studyPlanResponseDTO = new StudyPlanResponseDTO(_programmeName, _programmeAcronym,
+                _dateDouble, _durationInYearsDouble, _MaxEtcsDouble);
     }
 
     @Test
-    void shouldReturnStartDateWhenGetStartDateIsCalled(){
+    void shouldReturnProgrammeNameWhenGetProgrammeNameIsCalled() {
+        // Arrange
+
+        // Act
+        String result = _studyPlanResponseDTO.getProgrammeName();
+
+        // Assert
+        assertSame(result, _programmeName);
+    }
+
+    @Test
+    void shouldReturnProgrammeAcronymWhenGetProgrammeAcronymIsCalled() {
+        // Arrange
+
+        // Act
+        String result = _studyPlanResponseDTO.getProgrammeAcronym();
+
+        // Assert
+        assertSame(result, _programmeAcronym);
+    }
+
+    @Test
+    void shouldReturnStartDateWhenGetStartDateIsCalled() {
         // Arrange
 
         // Act
         LocalDate result = _studyPlanResponseDTO.getStartDate();
 
         // Assert
-        assertEquals(result, _dateDouble);
+        assertSame(result, _dateDouble);
     }
 
     @Test
-    void shouldReturnDurationInyearsWhenGetDurationInYearsIsCalled(){
+    void shouldReturnDurationInyearsWhenGetDurationInYearsIsCalled() {
         // Arrange
 
         // Act
         int result = _studyPlanResponseDTO.getDurationInYears();
 
         // Assert
-        assertEquals(result, _durationInYearsDouble);
+        assertSame(result, _durationInYearsDouble);
     }
 
     @Test
-    void shouldReturnQuantityOfEtcsWhenGetQuantityOfEtcsIsCalled(){
+    void shouldReturnMaxEtcsWhenGetMaxEtcsIsCalled() {
         //Arrange
 
         // Act
-        int result = _studyPlanResponseDTO.getQuantityOfEtcs();
+        int result = _studyPlanResponseDTO.getMaxEcts();
 
         // Assert
-        assertEquals(result, _quantityOfEtcsDouble);
-
+        assertSame(result, _MaxEtcsDouble);
     }
 }

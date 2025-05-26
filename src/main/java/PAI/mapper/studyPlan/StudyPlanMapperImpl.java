@@ -27,7 +27,7 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
         StudyPlanIDDataModel studyPlanIDDataModel = _studyPlanIDMapper.toDataModel(studyPlan.identity());
 
-        MaxEcts maxECTS = studyPlan.getQuantityOfEcts();
+        MaxEcts maxECTS = studyPlan.getMaxEcts();
         DurationInYears durationInYears = studyPlan.getDurationInYears();
 
         return new StudyPlanDataModel(studyPlanIDDataModel, maxECTS, durationInYears);

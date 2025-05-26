@@ -2,6 +2,7 @@ package PAI.dto.courseEdition;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ class CreateCourseEditionCommandTest {
 
         String courseAcronym = "AP";
         String courseName = "Advanced Programming";
-        Date studyPlanImplementationDate = new Date();
+        LocalDate studyPlanImplementationDate = LocalDate.now();
 
         //act
         CreateCourseEditionCommand dto = new CreateCourseEditionCommand(

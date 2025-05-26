@@ -122,7 +122,7 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         }
         return instance;
     }
-
+    @Override
     public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYearID,List<ProgrammeID> programmeIDs){
         int result;
         if(schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty()){
@@ -130,5 +130,14 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         }else{
             result=programmeEditionEnrolmentRepository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
         } return result;
+    }
+
+    @Override
+    public List<ProgrammeEditionID> getProgrammeEditionEnrolmentsByStudentID(StudentID studentID) throws Exception {
+        if (studentID == null) {
+            throw new IllegalArgumentException("StudentID cannot be null");
+        }
+        List<ProgrammeEditionID> listOfProgrammeEditionEnrolments = programmeEditionEnrolmentRepository.findProgrammeEditionsThatStudentIsEnrolled(studentID);
+        return listOfProgrammeEditionEnrolments;
     }
 }

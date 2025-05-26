@@ -1,6 +1,6 @@
 @startuml
 
-title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 2 Granularity)
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 2)
 
 skinparam componentStyle component
 skinparam defaultTextAlignment center
@@ -10,9 +10,9 @@ autonumber
 
 actor ASC as asc #teal
 
-participant "Frontend" as frontend <<component>> #teal
-participant "Backend" as backend <<component>> #teal
-participant "Database" as db <<component>> #teal
+participant "Frontend" as frontend <<conteiner>> #teal
+participant "Backend" as backend <<conteiner>> #teal
+participant "Database" as db <<conteiner>> #teal
 
 asc -> frontend: I want to add Course to a Programme!
 activate frontend #E1F5FE
@@ -63,10 +63,10 @@ deactivate frontend
 asc -> frontend: Yes!
 activate frontend #E1F5FE
 
-frontend -> backend: (POST) add Course to a Programme (semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
+frontend -> backend: (POST) add Course to a Programme (semester, curricularYear,\n courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
 activate backend #E1F5FE
 
-backend -> db: (INSERT) Persist CourseInStudyPlan (semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
+backend -> db: (INSERT) Persist CourseInStudyPlan (semester, curricularYear,\n courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
 activate db #E1F5FE
 db --> backend: courseInStudyPlan
 deactivate db

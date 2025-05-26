@@ -16,8 +16,8 @@ Legend:
 end legend
 '===== CONTROLLER =======
 class US02_ConfigureAccessMethod_RESTController {
-    +US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
-    +configureAccessMethod(accessMethoDTO: AccessMethodRequestDTO): AccessMethodResponseDTO
+    + US02_ConfigureAccessMethod_Controller(accessMethodService: IAccessMethodService)
+    + configureAccessMethod(accessMethoDTO: AccessMethodRequestDTO): AccessMethodResponseDTO
 }
 
 '===DTO===
@@ -46,23 +46,37 @@ class AccessMethodAssemblerImpl {
 
 '===== SERVICE =======
 interface IAccessMethodService {
-  configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+   + configureAccessMethod(command: RegisterAccessMethodCommand): ServiceResponse<AccessMethodResponseDTO>
+
 }
 
 class AccessMethodServiceImpl #lightGreen {
-    +AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
-    + configureAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    + AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
+    + configureAccessMethod(command: RegisterAccessMethodCommand): ServiceResponse<AccessMethodResponseDTO>
+
+}
+
+'=== SERVICE RESPONSE ===
+class ServiceResponse <<Generic>> #lightGreen {
+    - success: boolean
+    - object: T
+    - messages: List<String>
+    + isSuccess(): boolean
+    + getObject(): T
+    + getMessages(): List<String>
+    + success(T, message: String): ServiceResponse<T>
+    + failure(message: String): ServiceResponse<T>
 }
 
 ' ======= FACTORY =======
 interface IAccessMethodFactory #lightYellow{
-    +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-    +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+    + CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+    + CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 class AccessMethodFactoryImpl #lightYellow{
-     +CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
-     +CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
+     + CreateAccessMethod(accessMethodName: NameWithNumbersAndSpecialChars)
+     + CreateAccessMethod(accessMethodID: AccessMethodID,\n accessMethodName: NameWithNumbersAndSpecialChars)
 }
 
 '===AGGREGATE===
@@ -138,10 +152,11 @@ class AccessMethodIDDataModel <<DataModel>> {
 
 '===NAVIGABILITY===
 
-US02_ConfigureAccessMethod_RESTController "1"-u->"1..*" IAccessMethodService
+US02_ConfigureAccessMethod_RESTController "1"-u->"1" IAccessMethodService
 US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodRequestDTO
 US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodResponseDTO
 US02_ConfigureAccessMethod_RESTController "1"..> "1" IAccessMethodAssembler
+US02_ConfigureAccessMethod_RESTController "1" ..> "1" RegisterAccessMethodCommand
 
 AccessMethodServiceImpl " "...|>" " IAccessMethodService
 AccessMethodServiceImpl "1".u..>"1" IAccessMethodRepository
@@ -174,5 +189,8 @@ IAccessMethodAssembler "1" ..> "1" AccessMethodRequestDTO
 IAccessMethodAssembler "1" ..> "1" AccessMethodResponseDTO
 AccessMethodDataModel "1" -u-> "1" AccessMethodIDDataModel
 IAccessMethodIDMapper "1" ..> "1" AccessMethodIDDataModel
+
+IAccessMethodService "1" --> "1" ServiceResponse
+AccessMethodServiceImpl "1" --> "1" ServiceResponse
 
 @enduml

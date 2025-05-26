@@ -186,5 +186,6 @@ class NameTest {
         Name name2 = new Name("Jane Galliano");
         assertNotEquals(name1.hashCode(), name2.hashCode());
     }
+
 }
 

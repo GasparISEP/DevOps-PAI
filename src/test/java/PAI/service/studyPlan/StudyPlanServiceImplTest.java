@@ -1,9 +1,18 @@
 package PAI.service.studyPlan;
 
 import PAI.VOs.*;
+import PAI.assembler.studyPlan.IStudyPlanAssembler;
+import PAI.domain.degreeType.DegreeType;
+import PAI.domain.programme.Programme;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
+import PAI.dto.studyPlan.RegisterStudyPlanCommand;
+import PAI.dto.studyPlan.StudyPlanDTO;
+import PAI.exception.BusinessRuleViolationException;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,50 +34,110 @@ class StudyPlanServiceImplTest {
     @Mock
     private IStudyPlanFactory factory;
 
+    @Mock
+    private IStudyPlanAssembler assembler;
+
+    @Mock
+    private IProgrammeRepository programmeRepository;
+
+    @Mock
+    private IDegreeTypeRepository degreeTypeRepository;
+
     @InjectMocks
     private StudyPlanServiceImpl service;
 
     private Date date;
     private ProgrammeID programmeID;
-    private StudyPlan candidate;
-    private StudyPlanID candidateId;
+    private StudyPlan studyPlan;
+    private StudyPlanID studyPlanID;
     private DurationInYears durationInYears;
     private MaxEcts maxEcts;
+    private QuantSemesters quantSemestersDouble;
+    private Programme programmeDouble;
+    private DegreeTypeID degreeTypeIDDouble;
+    private DegreeType degreeTypeDouble;
+    private StudyPlanDTO studyPlanDTO;
+    private RegisterStudyPlanCommand studyPlanCommand;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         date = mock(Date.class);
         durationInYears = mock(DurationInYears.class);
+        programmeDouble = mock(Programme.class);
         programmeID = mock(ProgrammeID.class);
         maxEcts = mock(MaxEcts.class);
+        quantSemestersDouble = mock(QuantSemesters.class);
+        degreeTypeIDDouble = mock(DegreeTypeID.class);
+        degreeTypeDouble = mock(DegreeType.class);
+        studyPlanDTO = mock(StudyPlanDTO.class);
+        studyPlanCommand = mock(RegisterStudyPlanCommand.class);
 
-        candidate = mock(StudyPlan.class);
-        candidateId = mock(StudyPlanID.class);
+        studyPlan = mock(StudyPlan.class);
+        studyPlanID = mock(StudyPlanID.class);
 
-        when(candidate.identity()).thenReturn(candidateId);
-        when(factory.createStudyPlan(programmeID, date, durationInYears, maxEcts))
-                .thenReturn(candidate);
+        when(studyPlan.identity()).thenReturn(studyPlanID);
+        when(programmeDouble.getProgrammeID()).thenReturn(programmeID);
+        when(studyPlanCommand.getStartDate()).thenReturn(date);
+        when(programmeDouble.getQuantSemesters()).thenReturn(quantSemestersDouble);
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(maxEcts);
+        when(factory.createStudyPlan(programmeID, date, quantSemestersDouble, maxEcts)).thenReturn(studyPlan);
+    }
+
+    private void createStudyPlanStubConfigurations() throws Exception {
+        Optional<Programme> programmeOptional = Optional.of(programmeDouble);
+        Optional<DegreeType> degreeTypeOptional = Optional.of(degreeTypeDouble);
+        when(studyPlanCommand.getProgrammeId()).thenReturn(programmeID);
+        when(programmeDouble.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(programmeOptional);
+        when(degreeTypeRepository.ofIdentity(degreeTypeIDDouble)).thenReturn(degreeTypeOptional);
+        when(repository.save(studyPlan)).thenReturn(studyPlan);
+        when(assembler.toDTO(studyPlan)).thenReturn(studyPlanDTO);
     }
 
     @Test
     void createStudyPlan_SuccessWhenNotExists() throws Exception {
-        when(repository.containsOfIdentity(candidateId)).thenReturn(false);
+        // Arrange
+        createStudyPlanStubConfigurations();
+        when(repository.containsOfIdentity(studyPlanID)).thenReturn(false);
 
-        boolean result = service.createStudyPlan(programmeID, date,durationInYears, maxEcts);
+        // Act
+        StudyPlanDTO result = service.createStudyPlan(studyPlanCommand);
 
-        assertTrue(result);
-        verify(repository).save(candidate);
+        // Assert
+        assertSame(studyPlanDTO, result);
     }
 
     @Test
     void createStudyPlan_FailsWhenAlreadyExists() throws Exception {
-        when(repository.containsOfIdentity(candidateId)).thenReturn(true);
+        // Arrange
+        createStudyPlanStubConfigurations();
+        when(repository.containsOfIdentity(studyPlanID)).thenReturn(true);
 
-        boolean result = service.createStudyPlan(programmeID, date,durationInYears, maxEcts);
+        // Act & Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.createStudyPlan(studyPlanCommand));
+    }
 
-        assertFalse(result);
-        verify(repository, never()).save(any());
+    @Test
+    void shouldThrowEntityNotFoundExceptionWhenProgramDoesNotExist(){
+        // Arrange
+        when(studyPlanCommand.getProgrammeId()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> service.createStudyPlan(studyPlanCommand));
+    }
+
+    @Test
+    void shouldThrowEntityNotFoundExceptionWhenDegreeTypeDoesNotExist(){
+        // Arrange
+        when(studyPlanCommand.getProgrammeId()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programmeDouble));
+        when(programmeDouble.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
+        when(degreeTypeRepository.ofIdentity(degreeTypeIDDouble)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> service.createStudyPlan(studyPlanCommand));
     }
 
     @Test
@@ -108,29 +177,28 @@ class StudyPlanServiceImplTest {
 
     @Test
     void findById_ReturnsOptionalFromRepository() {
-        when(repository.ofIdentity(candidateId)).thenReturn(Optional.of(candidate));
+        when(repository.ofIdentity(studyPlanID)).thenReturn(Optional.of(studyPlan));
 
-        Optional<StudyPlan> opt = service.findByID(candidateId);
+        Optional<StudyPlan> opt = service.findByID(studyPlanID);
 
         assertTrue(opt.isPresent());
-        assertSame(candidate, opt.get());
+        assertSame(studyPlan, opt.get());
     }
 
     @Test
     void findById_ReturnsEmptyWhenNotFound() {
-        when(repository.ofIdentity(candidateId)).thenReturn(Optional.empty());
+        when(repository.ofIdentity(studyPlanID)).thenReturn(Optional.empty());
 
-        Optional<StudyPlan> opt = service.findByID(candidateId);
+        Optional<StudyPlan> opt = service.findByID(studyPlanID);
 
         assertFalse(opt.isPresent());
     }
 
     @Test
     void constructorThrowsWhenRepositoryIsNull() {
-        IStudyPlanFactory factory = mock(IStudyPlanFactory.class);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlanServiceImpl(null, factory);
+            new StudyPlanServiceImpl(null, factory, assembler, programmeRepository, degreeTypeRepository);
         });
 
         assertEquals("Repository cannot be null", exception.getMessage());
@@ -138,13 +206,45 @@ class StudyPlanServiceImplTest {
 
     @Test
     void constructorThrowsWhenFactoryIsNull() {
-        IStudyPlanRepository repository = mock(IStudyPlanRepository.class);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlanServiceImpl(repository, null);
+            new StudyPlanServiceImpl(repository, null, assembler, programmeRepository, degreeTypeRepository);
         });
 
         assertEquals("Factory cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void constructorThrowsWhenAssemblerIsNull() {
+        // Arrange
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudyPlanServiceImpl(repository, factory, null, programmeRepository, degreeTypeRepository);
+        });
+        // Assert
+        assertEquals("Assembler cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void constructorThrowsWhenProgrammeRepositoryIsNull() {
+        // Arrange
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudyPlanServiceImpl(repository, factory, assembler, null, degreeTypeRepository);
+        });
+        // Assert
+        assertEquals("Programme repository cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void constructorThrowsWhenDegreeTypeRepositoryIsNull() {
+        // Arrange
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new StudyPlanServiceImpl(repository, factory, assembler, programmeRepository, null);
+        });
+        // Assert
+        assertEquals("Degree type repository cannot be null", exception.getMessage());
     }
 
     @Test

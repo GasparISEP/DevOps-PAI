@@ -7,6 +7,7 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +33,7 @@ class CourseEditionRequestDTOTest {
 
         String courseAcronym = "AP";
         String courseName = "Advanced Programming";
-        Date studyPlanImplementationDate = new Date();
+        LocalDate studyPlanImplementationDate = LocalDate.now();
 
         //act
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
@@ -62,7 +63,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -70,7 +71,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeName")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeName") &&
+                v.getMessage().equals("Programme name cannot be blank")));
     }
 
     @Test
@@ -82,7 +84,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -90,7 +92,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeAcronym")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeAcronym") &&
+                v.getMessage().equals("Programme acronym cannot be blank")));
     }
 
     @Test
@@ -102,7 +105,7 @@ class CourseEditionRequestDTOTest {
                 null,
                 "CS101",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -110,7 +113,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("schoolYearID")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("schoolYearID") &&
+                v.getMessage().equals("School Year ID is required")));
     }
 
     @Test
@@ -122,7 +126,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "",
                 "Intro to Programming",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -130,7 +134,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseAcronym")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseAcronym") &&
+                v.getMessage().equals("Course acronym cannot be blank")));
     }
 
     @Test
@@ -142,7 +147,7 @@ class CourseEditionRequestDTOTest {
                 UUID.randomUUID(),
                 "CS101",
                 "",
-                new Date()
+                LocalDate.now()
         );
 
         //act
@@ -150,7 +155,8 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseName")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("courseName") &&
+                v.getMessage().equals("Course name cannot be blank")));
     }
 
     @Test
@@ -170,6 +176,7 @@ class CourseEditionRequestDTOTest {
 
         //assert
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("studyPlanImplementationDate")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("studyPlanImplementationDate") &&
+                v.getMessage().equals("Study plan implementation date is required")));
     }
 }

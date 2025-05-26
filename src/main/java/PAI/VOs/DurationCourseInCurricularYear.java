@@ -35,4 +35,8 @@ public class DurationCourseInCurricularYear implements ValueObject {
     public int getDuration() {
         return _duration;
     }
+
+    public int toInt() {
+        return _duration;
+    }
 }
