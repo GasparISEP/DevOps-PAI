@@ -1,14 +1,14 @@
 @startuml
-title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /coursesinstudyplan?programmeID=...)
+title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /coursesinstudyplan/{programmeID})
 
 participant "<<component>>\nRouter" as Router
-participant "<<component>>\nCourseEditionRestController\n(REST Controller)" as Controller
-participant "<<component>>\nCreateCourseEditionService\n(Service)" as Service
-participant "<<component>>\nStudyPlanRepository\n(Repository)" as StudyPlanRepo
-participant "<<component>>\nCourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo
+participant "<<component>>\nICourseInStudyPlanRestController\n(REST Controller)" as Controller
+participant "<<component>>\nICreateCourseEditionService\n(Service)" as Service
+participant "<<component>>\nIStudyPlanRepository\n(Repository)" as StudyPlanRepo
+participant "<<component>>\nICourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo
 database "Database" as DB
 
--> Router: GET /coursesinstudyplan?programmeID=...
+-> Router: GET /coursesinstudyplan/{programmeID}
 activate Router
 
 Router -> Controller: getCoursesInStudyPlanByProgrammeID(programmeID)
