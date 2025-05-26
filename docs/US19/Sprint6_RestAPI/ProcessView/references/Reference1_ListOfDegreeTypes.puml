@@ -2,9 +2,9 @@
 title Detailed Flow: Retrieve List of Degree Types \n(GET /degreetypes)
 
 participant "<<component>>\nRouter" as Router
-participant "<<component>>\nCourseEditionRestController\n(REST Controller)" as Controller
-participant "<<component>>\nCreateCourseEditionService\n(Service)" as Service
-participant "<<component>>\nDegreeTypeRepository\n(Repository)" as Repository
+participant "<<component>>\nIDegreeTypeRestController\n(REST Controller)" as Controller
+participant "<<component>>\nIDegreeTypeRegistrationService\n(Service)" as Service
+participant "<<component>>\nIDegreeTypeRepository\n(Repository)" as Repository
 database "Database" as DB
 
 -> Router: GET /degreetypes
@@ -16,7 +16,7 @@ activate Controller
 Controller -> Service: getAllDegreeTypes()
 activate Service
 
-Service -> Repository: getAllDegreeTypes()
+Service -> Repository: findAll()
 activate Repository
 
 Repository -> DB: SELECT * FROM degree_types
