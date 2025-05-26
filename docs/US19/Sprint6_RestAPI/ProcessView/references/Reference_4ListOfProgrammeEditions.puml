@@ -31,7 +31,8 @@ Service --> Controller: List<ProgrammeEdition>
 deactivate Service
 
 note over Controller #EEEEEE
-Spring automatically converts\nlist to JSON format
+Spring automatically converts
+list to JSON format
 end note
 
 Controller --> Router: programmeEditionsList (JSON)
