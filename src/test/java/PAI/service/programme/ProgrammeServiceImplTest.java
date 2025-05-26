@@ -136,13 +136,13 @@ class ProgrammeServiceImplTest {
         String departmentName = "Astronomy";
         String teacherName = "AAA";
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -176,13 +176,13 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _degreeTypeRepositoryDouble, _departmentRepositoryDouble, _teacherRepositoryDouble, _programmeAssemblerDouble);
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -202,13 +202,13 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _degreeTypeRepositoryDouble, _departmentRepositoryDouble, _teacherRepositoryDouble, _programmeAssemblerDouble);
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -226,13 +226,13 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _degreeTypeRepositoryDouble, _departmentRepositoryDouble, _teacherRepositoryDouble, _programmeAssemblerDouble);
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -257,13 +257,13 @@ class ProgrammeServiceImplTest {
 
         String degreeTypeName = "Master";
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -292,13 +292,13 @@ class ProgrammeServiceImplTest {
         String degreeTypeName = "Master";
         String departmentName = "Astronomy";
 
-        when(_programmeVOsDTODouble.getName()).thenReturn(_nameDouble);
-        when(_programmeVOsDTODouble.getAcronym()).thenReturn(_acronymDouble);
-        when(_programmeVOsDTODouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_programmeVOsDTODouble.getQuantSemesters()).thenReturn(_quantityOfSemestersDouble);
-        when(_programmeVOsDTODouble.getDegreeTypeID()).thenReturn(_degreeTypeIDDouble);
-        when(_programmeVOsDTODouble.getDepartmentID()).thenReturn(_departmentIDDouble);
-        when(_programmeVOsDTODouble.getTeacherID()).thenReturn(_programmeDirectorIDDouble);
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);

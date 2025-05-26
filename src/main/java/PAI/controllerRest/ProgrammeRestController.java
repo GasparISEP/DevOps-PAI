@@ -6,7 +6,7 @@ import PAI.VOs.TeacherID;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeRequestDTO;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
@@ -20,14 +20,12 @@ import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.ObjectNotFoundException;
 import PAI.service.teacher.ITeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,13 +69,13 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeRequestDTO programmeRequestDTO){
-        if (programmeRequestDTO == null){
+    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO){
+        if (programmeDTO == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
-            ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeRequestDTO);
+            ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
 
             ProgrammeResponseDTO programmeResponseDTO = _programmeService.registerProgramme(programmeVOsDto);
 

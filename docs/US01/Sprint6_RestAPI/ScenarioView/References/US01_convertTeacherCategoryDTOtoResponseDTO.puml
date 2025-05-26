@@ -1,0 +1,27 @@
+@startuml
+
+title Convert Teacher Category Saved DTO to ResponseDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+participant ":ITeacherCategoryExternalAssembler" as tcAssembler
+activate Controller #E1F5FE
+Controller -> tcAssembler: toResponseDTO (tcSavedDTO)
+activate tcAssembler #E1F5FE
+
+create "tcSavedResponseDTO: TeacherCategoryResponseDTO"
+tcAssembler -> "tcSavedResponseDTO: TeacherCategoryResponseDTO": create (tcSavedDTO.id(), \n tcSavedDTO.name())
+
+tcAssembler --> Controller: tcSavedResponseDTO
+deactivate tcAssembler
+deactivate Controller
+
+@enduml

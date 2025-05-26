@@ -54,7 +54,7 @@ public class CourseServiceImpl implements ICourseService {
         return this.courseRepository.save(course);
     }
 
-    public List<CourseIDDTO> getAllCourseIDDTOs() {
+    public List<CourseIDDTO> getAllCourseIDDTO() {
         List<CourseIDDTO> courseIDDTOs = new ArrayList<>();
         for (Course course : this.courseRepository.findAll()) {
             CourseIDDTO courseIDDTO = this.courseAssembler.toIDDTO(course.identity());

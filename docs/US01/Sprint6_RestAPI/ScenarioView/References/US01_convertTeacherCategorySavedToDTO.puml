@@ -11,17 +11,17 @@ skinparam {
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
-participant ":ITeacherCategoryAssembler" as tcAssembler
-activate Controller #E1F5FE
-Controller -> tcAssembler: toDTO (tc)
+participant ":ITeacherCategoryService" as Service
+participant ":ITeacherCategoryInternalAssembler" as tcAssembler
+activate Service #E1F5FE
+Service -> tcAssembler: toDTO (tc)
 activate tcAssembler #E1F5FE
 
-create "tcResponseDTO: TeacherCategoryResponseDTO"
-tcAssembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create (tc.getId().getValue().toString(), \n tc.getName().getName())
+create "tcSavedDTO: TeacherCategoryDTO"
+tcAssembler -> "tcSavedDTO: TeacherCategoryDTO": create (tc.getId().getValue().toString(), \n tc.getName().getName())
 
-tcAssembler --> Controller: tcResponseDTO
+tcAssembler --> Service: tcSavedDTO
 deactivate tcAssembler
-deactivate Controller
+deactivate Service
 
 @enduml
