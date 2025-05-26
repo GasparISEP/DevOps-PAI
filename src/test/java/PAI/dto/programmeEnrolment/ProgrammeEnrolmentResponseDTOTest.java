@@ -23,6 +23,7 @@ class ProgrammeEnrolmentResponseDTOTest {
 
         // Assert
         assertNotNull(programmeEnrolmentResponseDTO);
+        assertEquals(studentid, programmeEnrolmentResponseDTO.getStudentID());
     }
 
 }
