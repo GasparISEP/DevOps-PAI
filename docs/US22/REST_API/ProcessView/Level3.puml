@@ -31,14 +31,14 @@ controller --> ui : All Course Editions
 deactivate controller
 
 
-ui --> RUC : Choose a Course Edition
-
-RUC -> ui : Fill in the **Student grading** information \n (grade, date, studentID)
-
-ui -> controller : **(POST)** \n Submit Student grading information
+ui --> RUC : Which Course Edition?
+RUC -> ui : This Course Edition!
+ui --> RUC : Fill in the **Student grading** information
+RUC -> ui : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+ui -> controller : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
 
 activate controller
-controller -> service : Create a new Student grade
+controller -> service : Create a new Student grade \n (grade, date, studentID, courseEditionID)
 
 activate service
 service -> repo : Validate grading constraints
