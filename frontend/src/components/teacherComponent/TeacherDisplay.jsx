@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllTeachers } from '../../services/teacherService';
 import '../../styles/TeacherDisplay.css';
 import '../../styles/Buttons.css';
+import { Link } from 'react-router-dom';
 
 export default function TeacherDisplay() {
     const [teachers, setTeachers] = useState([]);
@@ -13,7 +14,35 @@ export default function TeacherDisplay() {
     const totalPages = Math.ceil(teachers.length / teachersPerPage);
     const startIndex = (currentPage - 1) * teachersPerPage;
     const endIndex = startIndex + teachersPerPage;
-    const teachersToShow = teachers.slice(startIndex, endIndex);
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
+    function handleSort(key) {
+        setSortConfig(prev => {
+            if (prev.key === key) {
+                // Toggle direction
+                return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+            } else {
+                return { key, direction: 'asc' };
+            }
+        });
+    }
+
+    function getSortedTeachers() {
+        if (!sortConfig.key) return teachers;
+        const sorted = [...teachers].sort((a, b) => {
+            let aValue = a[sortConfig.key];
+            let bValue = b[sortConfig.key];
+            if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+            if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+            if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+            return 0;
+        });
+        return sorted;
+    }
+
+    const sortedTeachers = getSortedTeachers();
+    const teachersToShow = sortedTeachers.slice(startIndex, endIndex);
 
     useEffect(() => {
         async function fetchTeachers() {
@@ -38,7 +67,7 @@ export default function TeacherDisplay() {
 
     function PaginationButton({ onClick, disabled, children }) {
         return (
-            <button className="pagination-btn" onClick={onClick} disabled={disabled}>
+            <button className="pagination-btn pagination-btn-primary" onClick={onClick} disabled={disabled}>
                 {children}
             </button>
         );
@@ -47,7 +76,7 @@ export default function TeacherDisplay() {
     function PerPageButton({ value, selected, onClick }) {
         return (
             <button
-                className={`pagination-btn per-page-btn${selected ? ' selected' : ''}`}
+                className={`pagination-btn pagination-btn-primary per-page-btn${selected ? ' selected' : ''}`}
                 onClick={onClick}
             >
                 {value}
@@ -60,20 +89,45 @@ export default function TeacherDisplay() {
             <div className="teacher-main-grid teacher-main-grid-center">
                 <div className="teacher-form teacher-display-table-wrapper">
                     <h1>Teachers</h1>
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '1rem' }}>
+                        <Link to="/" className="btn btn-primary" style={{ minWidth: 'unset', padding: '0.5rem 1.5rem', fontSize: '1rem' }}>
+                            Back to Main Page
+                        </Link>
+                    </div>
                     <div className="teacher-table-center-wrapper">
                         <table className="teacher-form-table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Acronym</th>
-                                    <th>Email</th>
-                                    <th>NIF</th>
-                                    <th>Academic Background</th>
-                                    <th>Street</th>
-                                    <th>Postal Code</th>
-                                    <th>Location</th>
-                                    <th>Country</th>
-                                    <th>Department</th>
+                                    <th className={`sortable${sortConfig.key === 'name' ? ' selected' : ''}`} onClick={() => handleSort('name')}>
+                                        Name {sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'id' ? ' selected' : ''}`} onClick={() => handleSort('id')}>
+                                        Acronym {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'email' ? ' selected' : ''}`} onClick={() => handleSort('email')}>
+                                        Email {sortConfig.key === 'email' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'nif' ? ' selected' : ''}`} onClick={() => handleSort('nif')}>
+                                        NIF {sortConfig.key === 'nif' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'academicBackground' ? ' selected' : ''}`} onClick={() => handleSort('academicBackground')}>
+                                        Academic Background {sortConfig.key === 'academicBackground' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'street' ? ' selected' : ''}`} onClick={() => handleSort('street')}>
+                                        Street {sortConfig.key === 'street' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'postalCode' ? ' selected' : ''}`} onClick={() => handleSort('postalCode')}>
+                                        Postal Code {sortConfig.key === 'postalCode' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'location' ? ' selected' : ''}`} onClick={() => handleSort('location')}>
+                                        Location {sortConfig.key === 'location' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'country' ? ' selected' : ''}`} onClick={() => handleSort('country')}>
+                                        Country {sortConfig.key === 'country' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`sortable${sortConfig.key === 'departmentID' ? ' selected' : ''}`} onClick={() => handleSort('departmentID')}>
+                                        Department {sortConfig.key === 'departmentID' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
