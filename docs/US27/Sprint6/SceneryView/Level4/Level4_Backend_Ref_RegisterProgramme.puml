@@ -1,0 +1,40 @@
+@startuml
+title Ref: Register Programme (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
+participant ":ProgrammeFactory" as ProgrammeFactory <<factory>>
+participant "PIDVO1:ProgrammeID" as ProgrammeID <<component>>
+participant "p1:Programme" as Programme <<component>>
+participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
+
+activate ProgrammeService
+ProgrammeService -> ProgrammeFactory ++: **registerProgramme**(nameVO, acronymVO, \nquantityOfEctsVO, quantityOfSemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
+
+ProgrammeFactory -> ProgrammeID **: **createProgrammeID**(nameVO, acronymVO)
+activate ProgrammeID
+ProgrammeID --> ProgrammeFactory --: \t PIDVO1
+|||
+ProgrammeFactory -> Programme **: **createProgramme**(nameVO, acronymVO, \nquantityOfEctsVO, quantityOfSemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO, PIDVO1)
+activate Programme
+
+Programme --> ProgrammeFactory --: p1
+ProgrammeFactory --> ProgrammeService --: p1
+
+ProgrammeService -> ProgrammeRepository++: **containsOfIdentity**(PIDVO1)
+ProgrammeRepository -> : **existsById**(PIDVO1)
+ProgrammeRepository <-- : False
+ProgrammeRepository --> ProgrammeService-- : False
+|||
+ProgrammeService -> ProgrammeRepository ++: **saveProgramme**(p1)
+
+ref over ProgrammeRepository
+       \t\t\t\t   **Save programme in Database**:
+    \t \t \t Convert domain object to
+    \t\t\t\t      DataModel and persist using JPA\t
+end ref
+
+ProgrammeRepository --> ProgrammeService --: p1
+@enduml

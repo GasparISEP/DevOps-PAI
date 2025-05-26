@@ -1,0 +1,145 @@
+@startuml
+title Register a Programme, including Study Plan (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":DegreeTypeRestController" as DegreeTypeRestController <<controller>> #82CFFD
+participant ":DepartmentRestController" as DepartmentRestController <<controller>> #82CFFD
+participant ":TeacherRestController" as TeacherRestController <<controller>> #82CFFD
+participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
+participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>>
+participant "studyPlanCommand:RegisterStudyPlanCommand" as Command <<component>>
+participant ":StudyPlanService" as StudyPlanService <<service>> #F6CBA5
+participant ":StudyPlanRepositorySpringDataImpl" as StudyPlanRepository <<repository>> #F6F1E7
+participant ":Programme" as Programme <<component>>
+participant ":DegreeType" as DegreeType <<component>>
+participant ":StudyPlanFactory" as StudyPlanFactory <<factory>>
+participant "studyPlan1:StudyPlan" as StudyPlan <<component>>
+participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
+participant ":DegreeTypeSpringDataImpl" as DegreeTypeRepository <<repository>> #F6F1E7
+
+-> DegreeTypeRestController: **(GET) getAllDegreeTypes**()
+activate DegreeTypeRestController
+ref over DegreeTypeRestController
+  \t\t\t    **Get Degree Type List**
+end ref
+<-- DegreeTypeRestController: degreeTypesDTOList
+deactivate DegreeTypeRestController
+|||
+-> DepartmentRestController: **(GET) getAllDepartments**()
+activate DepartmentRestController
+ref over DepartmentRestController
+  \t\t\t    **Get Department List**
+end ref
+<-- DepartmentRestController: departmentsDTOList
+deactivate DepartmentRestController
+|||
+-> TeacherRestController: **(GET) getAllTeachers**()
+activate TeacherRestController
+ref over TeacherRestController
+  \t\t\t    **Get Teacher List**
+end ref
+<-- TeacherRestController: teachersDTOList
+deactivate TeacherRestController
+|||
+
+/'------------------------------------------
+ Register Programme, including Study Plan --'/
+
+-> RestController: **(POST) registerProgramme**\n(programmeRequestDTO)
+activate RestController
+note left of RestController
+  Receive as JSON format
+  Converted to
+  programmeRequestDTO
+end note
+|||
+ref over RestController
+    \t\t\t    **Input DTO Transformation Process**:
+    \t    programmeStudyPlanDTO is
+    \t\t      converted into programmeVOsDTO
+end ref
+|||
+RestController -> ProgrammeService ++: **registerProgramme**(ProgrammeVOsDTO)
+|||
+ref over ProgrammeService
+  \t\t\t **RegisterProgramme**\t
+
+end ref
+
+|||
+ref over ProgrammeService
+  \t\t\t**Convert Programme to DTO**
+
+end ref
+ProgrammeService --> RestController --: programmeResponseDTO1
+<-- RestController --: 201 Created \n+ \nprogrammeResponseDTO1
+
+/'------------------------------------------
+ -------------- Study Plan ----------------'/
+
+-> RestController ++: **(POST) registerStudyPlan** \n(programmeName, programmeAcronym, startDate)
+RestController -> StudyPlanAssembler ++: **toCommand**(programmeName, programmeAcronym, startDate)
+StudyPlanAssembler -> Command **: createRegisterStudyPlanCommand(programmeId, startDateVO)
+activate Command
+Command --> StudyPlanAssembler --: studyPlanCommand
+StudyPlanAssembler --> RestController --: studyPlanCommand
+
+RestController -> StudyPlanService : **registerStudyPlan**(studyPlanCommand)
+activate StudyPlanService
+StudyPlanService -> ProgrammeRepository ++: **ofIdentity**(programmeID)
+ProgrammeRepository -> : **findById**(programmeIDDM)
+ProgrammeRepository <-- : programmeDM
+ProgrammeRepository --> StudyPlanService --: programme
+
+StudyPlanService -> DegreeTypeRepository ++: **ofIdentity**(degreeTypeId)
+DegreeTypeRepository -> : **findById**(degreeTypeIdDM)
+DegreeTypeRepository <-- : degreeTypeDM
+DegreeTypeRepository --> StudyPlanService --: degreeType
+StudyPlanService -> Programme ++: **programme.getQuantSemesters**()
+Programme --> StudyPlanService --: quantityOfSemesters
+StudyPlanService -> DegreeType ++: **degreeType.getMaxEcts()**
+DegreeType --> StudyPlanService --: maxEcts
+|||
+
+StudyPlanService -> StudyPlanFactory: createStudyPlan(programmeID, startDate, quantityOfSemesters, maxEcts)
+activate StudyPlanFactory
+StudyPlanFactory -> StudyPlan ++: createStudyPlan(programmeID, startDate,\ndurationInYears, maxEcts)
+StudyPlan --> StudyPlanFactory --: studyPlan1
+StudyPlanFactory --> StudyPlanService: studyPlan1
+deactivate StudyPlanFactory
+|||
+StudyPlanService -> StudyPlanRepository: save(studyPlan)
+activate StudyPlanRepository
+|||
+ref over StudyPlanRepository
+       \t\t\t\t **Save Study Plan in Database**:
+    \t \t \t Convert domain object to
+    \t\t\t\t     DataModel and persist using JPA\t
+
+end ref
+
+StudyPlanRepository --> StudyPlanService: studyPlan
+deactivate StudyPlanRepository
+|||
+ref over StudyPlanService
+  \t\t    **Convert Study Plan to DTO**
+
+end ref
+StudyPlanService --> RestController: studyPlanDTO1
+deactivate StudyPlanService
+|||
+ref over RestController
+  \t\t\t    **Convert DTO to ResponseDTO**\t
+
+end ref
+<-- RestController: 201 Created \n+ \nstudyPlanResponseDTO1\t
+deactivate RestController
+note left RestController
+  Send as
+  ProgrammeStudyPlanResponseDTO,
+  Converted to JSON
+end note
+@enduml

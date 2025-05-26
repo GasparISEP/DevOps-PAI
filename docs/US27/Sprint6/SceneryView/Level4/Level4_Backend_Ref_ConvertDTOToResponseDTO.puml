@@ -1,0 +1,18 @@
+@startuml
+title Ref: Convert DTO to Response DTO (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeRestController" as ProgrammeRestController <<controller>> #F6CBA5
+participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>>
+participant "studyPlanResponseDTO1:StudyPlanResponseDTO" as StudyPlanResponseDTO <<component>>
+
+activate ProgrammeRestController
+ProgrammeRestController -> StudyPlanAssembler ++: **toResponseDTO**(studyPlanDTO)
+StudyPlanAssembler -> StudyPlanResponseDTO **: createStudyPlanResponseDTO(programmeName, programmeAcronym, startDate, durationInYears, maxEcts)
+activate StudyPlanResponseDTO
+StudyPlanResponseDTO --> StudyPlanAssembler: studyPlanResponseDTO1
+deactivate StudyPlanResponseDTO
+StudyPlanAssembler --> ProgrammeRestController --: studyPlanResponseDTO1
+@enduml
