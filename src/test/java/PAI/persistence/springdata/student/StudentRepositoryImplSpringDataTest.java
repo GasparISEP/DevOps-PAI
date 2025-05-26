@@ -161,20 +161,21 @@ public class StudentRepositoryImplSpringDataTest {
         assertTrue(result);
     }
 
-//    @Test
-//    public void testContainsByStudentIDOrNIF() {
-//        // Arrange
-//        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-//        when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
-//        when(repoMock.existsByStudentIDOrNIF(studentIDDataModel, nifDataModel)).thenReturn(true);
-//        when(nif.getCountry()).thenReturn(mock(Country.class));
-//
-//        // Act
-//        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
-//
-//        // Assert
-//        assertTrue(result);
-//    }
+    @Test
+    public void testContainsByStudentIDOrNIF() {
+        // Arrange
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
+        when(repoMock.existsByStudentID(studentIDDataModel)).thenReturn(true);
+        when(repoMock.existsByNIF_NifNumberAndNIF_NifCountry(anyString(), anyString())).thenReturn(false);
+        when(nif.getCountry()).thenReturn(mock(Country.class));
+
+        // Act
+        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
+
+        // Assert
+        assertTrue(result);
+    }
 
     @Test
     public void testContainsOfIdentityReturnsFalseWhenStudentDoesNotExist() {
