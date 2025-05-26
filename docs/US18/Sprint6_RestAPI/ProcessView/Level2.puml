@@ -1,6 +1,6 @@
 @startuml
 
-title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 - Containers)
+title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 - Container)
 
 skinparam componentStyle component
 skinparam defaultTextAlignment center
@@ -10,8 +10,9 @@ autonumber
 
 actor ASC as ASC
 
-participant "Frontend" as frontend <<Container>>
-participant "Backend" as backend <<Container>>
+participant "Frontend" as frontend <<Component>>
+participant "Backend" as backend <<Component>>
+participant "Database" as DB <<Component>>
 
 ASC -> frontend: I want to create a programme edition for the current school year!
 activate frontend #E1F5FE
@@ -37,6 +38,11 @@ frontend --> ASC: Sure?
 ASC -> frontend: Yes!
 
 frontend -> backend: (POST) Request create programme edition (name, uuid)
+
+backend -> DB: (INSERT) Persist ProgrammeEdition (programmeEdition)
+activate DB #LightGray
+DB --> backend: programmeEdition
+deactivate DB
 
 backend --> frontend: (201, Created) programmeEdition created!
 deactivate backend

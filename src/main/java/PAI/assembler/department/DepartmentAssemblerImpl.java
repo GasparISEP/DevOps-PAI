@@ -3,6 +3,8 @@ package PAI.assembler.department;
 
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
+import PAI.VOs.TeacherAcronym;
+import PAI.VOs.TeacherID;
 import PAI.domain.course.Course;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
@@ -77,6 +79,19 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
             listDTO.add(departmentWithDirectorDTO);
         }
         return listDTO;
+    }
+
+    public Department updateDepartmentWithDirector(Department department, TeacherAcronym teacherID) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department cannot be null");
+        }
+        if (teacherID == null ) {
+            throw new IllegalArgumentException("TeacherID cannot be null or blank");
+        }
+
+        TeacherID directorID = new TeacherID(teacherID);
+        department.setDirectorID(directorID);
+        return department;
     }
 
 

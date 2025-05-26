@@ -111,6 +111,50 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
     }
 
     @Test
+    void enrolStudentInProgrammeEdition_shouldReturnBadRequest_whenServiceThrowsException() {
+        // Arrange
+        String studentId = "123";
+        String acronym = "LEI";
+        String name = "Licenciatura em Engenharia Informática";
+        String schoolYearId = UUID.randomUUID().toString();
+
+        ProgrammeEditionEnrolmentRequest request = new ProgrammeEditionEnrolmentRequest(
+                studentId, acronym, name, schoolYearId
+        );
+
+        // Simula exceção no service
+        doThrow(new RuntimeException("Simulated exception"))
+                .when(service)
+                .enrolStudentInProgrammeEdition(any(), any(), any());
+
+        // Act
+        ResponseEntity<Void> response = controller.enrolStudentInProgrammeEdition(request);
+
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        verify(service).enrolStudentInProgrammeEdition(any(), any(), any());
+    }
+    @Test
+    void enrolStudentInProgrammeEdition_invalidStudentId_returns400BadRequest() {
+        // Arrange
+        String invalidStudentId = "abc";
+        String acronym = "LEI";
+        String name = "Licenciatura em Engenharia Informática";
+        String schoolYearId = UUID.randomUUID().toString();
+
+        ProgrammeEditionEnrolmentRequest request = new ProgrammeEditionEnrolmentRequest(
+                invalidStudentId, acronym, name, schoolYearId
+        );
+
+        // Act
+        ResponseEntity<Void> response = controller.enrolStudentInProgrammeEdition(request);
+
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        assertNull(response.getBody());
+    }
+
+    @Test
     void shouldReturn200OKAndListOfProgrammeEditionEnrolments_whenGetProgrammeEditionEnrollmentsByStudentID_validStudentId() throws Exception {
         // Arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);

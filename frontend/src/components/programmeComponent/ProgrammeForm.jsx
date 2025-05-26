@@ -38,12 +38,9 @@ export default function ProgrammeForm() {
                 console.log("Fetched teachers:", teacherData);
                 console.log("Fetched degree types:", degreeTypeData);
 
-
                 setDepartments(deptData);
                 setTeachers(teacherData);
                 setDegreeTypes(degreeTypeData);
-
-
 
             } catch (err) {
                 console.error("Failed to load options:", err);
@@ -62,7 +59,6 @@ export default function ProgrammeForm() {
         console.log("API URL:", process.env.REACT_APP_API_URL);
     }, []);
 
-
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
@@ -70,16 +66,19 @@ export default function ProgrammeForm() {
         setLoading(true);
         try {
             const selectedDegreeType = degreeTypes.find(dt => dt.id === form.degreeTypeID);
-
+            console.log("selectedDegreeType:", selectedDegreeType);
             // Converte quantECTS e quantSemesters para número
             const payload = {
                 ...form,
-                quantECTS: selectedDegreeType.maxECTS,
+                maxECTS: parseInt(selectedDegreeType.maxEcts),
                 quantSemesters: parseInt(form.quantSemesters)
             };
 
+            console.log("Payload sent:", payload);
             const response = await registerProgramme(payload);
             setSuccess(response);
+            console.log("Response:", response);
+
         } catch (err) {
             setError(err.message);
         } finally {
@@ -166,12 +165,18 @@ export default function ProgrammeForm() {
                         </button>
                     </div>
                 </div>
-
-                {success && (
-                    <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                        Programme registered successfully!
-                    </div>
-                )}
+                    {success && (
+                        <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                            <h3>Programme registered successfully!</h3>
+                            <p><strong>Name:</strong> {success.name}</p>
+                            <p><strong>Acronym:</strong> {success.acronym}</p>
+                            <p><strong>Department:</strong> {success.departmentName}</p>
+                            <p><strong>Programme's Director:</strong> {success.teacherName}</p>
+                            <p><strong>Degree Type:</strong> {success.degreeTypeName}</p>
+                            <p><strong>ECTS:</strong> {success.maxECTS}</p>
+                            <p><strong>Semesters:</strong> {success.quantSemesters}</p>
+                        </div>
+                    )}
                 </div>
             </form>
         </div>

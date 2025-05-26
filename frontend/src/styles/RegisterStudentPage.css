@@ -10,7 +10,7 @@
 .student-main-grid {
     width: 95%;
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: 45% 55%;
     box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
     border-radius: 5px;
 }
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .form-img {
@@ -41,6 +41,7 @@
 .student-form h1 {
     color: #333;
     align-self: flex-start;
+    font-size: 2.6rem;
 }
 
 .student-form-div {
@@ -68,6 +69,7 @@
 .student-form-label {
     color: #333;
     font-weight: 600;
+    font-size: 1.4rem;
 }
 
 .student-form-input {

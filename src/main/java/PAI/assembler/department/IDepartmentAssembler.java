@@ -1,5 +1,6 @@
 package PAI.assembler.department;
 
+import PAI.VOs.TeacherAcronym;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
@@ -18,5 +19,6 @@ public interface IDepartmentAssembler {
 
     Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> departments);
 
+    Department updateDepartmentWithDirector(Department department, TeacherAcronym teacherID);
 }
 

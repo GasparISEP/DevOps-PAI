@@ -1,0 +1,67 @@
+@startuml
+
+skinparam componentStyle component
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Logical View Level 3"
+
+    interface "REST API" as RESTAPI
+    interface "FileIO" as FileIO
+    interface "BD API" as BDAPI
+
+component "Backend" {
+    portin " " as p1
+    portin " " as p3
+    portin " " as p2
+
+  rectangle "Drivers and frameworks" {
+
+    component Drivers
+    component "Router"
+
+    Router -up- p1
+    Drivers -up- p2
+    Drivers -up- p3
+
+    interface " " as IDrivers
+
+    Drivers -down- IDrivers
+  }
+
+  rectangle "                        Interface Adapters                       " {
+    component Repository
+    component Controller
+
+    interface " " as IController
+
+    Controller -up- IController
+  }
+
+  rectangle "Service layer" {
+    component Service
+    interface " " as IService
+
+    Service -up- IService
+  }
+
+  rectangle "Domain layer" {
+    component Domain
+    interface " " as IDomain
+
+    Domain -up- IDomain
+  }
+
+  p1 -up-( RESTAPI
+  p2 -up-( FileIO
+  p3 -up-( BDAPI
+
+  Router -left-( IController
+  Repository -up-( IDrivers
+
+  Controller -down-( IService
+  Service -down-( IDomain
+
+  Repository -.|> Domain
+}
+@enduml

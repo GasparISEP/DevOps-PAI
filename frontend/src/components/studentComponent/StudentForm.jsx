@@ -6,9 +6,10 @@ const initialForm = {
     studentID: '',
     name: '',
     nif: '',
-    nifCountry: '',
+    nifcountry: '',
     street: '',
-    postalCode: '',
+    postalCodePart1: '',
+    postalCodePart2: '',
     location: '',
     addressCountry: '',
     phoneCountryCode: '',
@@ -34,6 +35,7 @@ export default function StudentForm() {
 
         const payload = {
             ...form,
+            postalCode: form.postalCodePart1 + '-' + form.postalCodePart2,
             studentID: Number(form.studentID),
             academicEmail: `${form.studentID}@isep.ipp.pt`
         };
@@ -64,10 +66,53 @@ export default function StudentForm() {
                             {[
                                 { label: 'Student ID', name: 'studentID', type: 'number' },
                                 { label: 'Name', name: 'name' },
-                                { label: 'NIF', name: 'nif' },
-                                { label: 'NIF Country', name: 'nifCountry' },
+                                { label: 'NIF', name: 'nif', type: 'number' },
+                                { label: 'NIF Country', name: 'nifcountry', type:'text' },
                                 { label: 'Street', name: 'street' },
-                                { label: 'Postal Code', name: 'postalCode' },
+                            ].map(({ label, name, type = 'text' }) => (
+                                <div className="student-form-group" key={name}>
+                                    <label className="student-form-label" htmlFor={name}>{label}</label>
+                                    <input
+                                        className="student-form-input"
+                                        id={name}
+                                        name={name}
+                                        type={type}
+                                        value={form[name]}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            ))}
+
+                            <div className="student-form-group postal-code-group">
+                                <label className="student-form-label" htmlFor="postalCodePart1">Postal Code</label>
+                                <div className="postal-code-inputs">
+                                    <input
+                                        id="postalCodePart1"
+                                        name="postalCodePart1"
+                                        type="text"
+                                        value={form.postalCodePart1 || ''}
+                                        onChange={handleChange}
+                                        pattern="\d{4}"
+                                        maxLength="4"
+                                        required
+                                        className="postal-code-input"
+                                    />
+                                    <span className="postal-code-separator">-</span>
+                                    <input
+                                        id="postalCodePart2"
+                                        name="postalCodePart2"
+                                        type="text"
+                                        value={form.postalCodePart2 || ''}
+                                        onChange={handleChange}
+                                        pattern="\d{3}"
+                                        maxLength="3"
+                                        required
+                                        className="postal-code-input"
+                                    />
+                                </div>
+                            </div>
+                            {[
                                 { label: 'Location', name: 'location' },
                                 { label: 'Address Country', name: 'addressCountry' },
                                 { label: 'Phone Country Code', name: 'phoneCountryCode' },
@@ -87,6 +132,7 @@ export default function StudentForm() {
                                     />
                                 </div>
                             ))}
+
 
                             {error && <div className="error">⚠️ {error}</div>}
 

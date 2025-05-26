@@ -7,8 +7,10 @@ import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.utils.ServiceResponse;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,11 +83,10 @@ class AccessMethodServiceImplTest {
                 .thenReturn(responseDTO);
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        ServiceResponse<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
 
         // assert
-        assertTrue(result.isPresent());
-        assertEquals(responseDTO, result.get());
+        assertEquals(responseDTO, result.getObject());
     }
 
     @Test
@@ -106,10 +107,12 @@ class AccessMethodServiceImplTest {
         when(iRepositoryAccessMethod.saveAccessMethod(accessMethod)).thenReturn(Optional.empty());
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        ServiceResponse<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
 
         // assert
-        assertTrue(result.isEmpty());
+        assertFalse(result.isSuccess());
+        assertNull(result.getObject());
+        assertTrue(result.getMessages().contains("Failed to save access method."));
     }
 
     @Test
@@ -126,13 +129,16 @@ class AccessMethodServiceImplTest {
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
         AccessMethod existingAccessMethod = mock(AccessMethod.class);
 
-        when(iRepositoryAccessMethod.getAccessMethodByName(vo)).thenReturn(Optional.of(existingAccessMethod));
+        when(iRepositoryAccessMethod.getAccessMethodByName(any(NameWithNumbersAndSpecialChars.class)))
+                .thenReturn(Optional.of(existingAccessMethod));
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        ServiceResponse<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
 
         // assert
-        assertTrue(result.isEmpty());
+        assertFalse(result.isSuccess());
+        assertNull(result.getObject());
+        assertEquals(List.of("Access method already exists."), result.getMessages());
     }
 
     @Test

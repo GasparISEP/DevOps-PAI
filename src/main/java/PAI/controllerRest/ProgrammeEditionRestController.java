@@ -28,9 +28,9 @@ public class ProgrammeEditionRestController {
 
     @GetMapping("/{programmeName}/{programmeAcronym}/{schoolYearID}/students")
     public ResponseEntity<Integer> getNumberOfStudents(
-            @PathVariable String programmeName,
-            @PathVariable String programmeAcronym,
-            @PathVariable UUID schoolYearID) throws Exception {
+            @PathVariable("programmeName") String programmeName,
+            @PathVariable("programmeAcronym") String programmeAcronym,
+            @PathVariable("schoolYearID") UUID schoolYearID) throws Exception {
 
         CountStudentsInProgrammeEditionDto dto =
                 new CountStudentsInProgrammeEditionDto(programmeName, programmeAcronym, schoolYearID);
