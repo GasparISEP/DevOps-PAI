@@ -44,8 +44,5 @@ public class Name implements ValueObject {
         return Objects.hash(_name);
     }
 
-    public String getValue() {
-        return _name;
-    }
 }
 
