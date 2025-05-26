@@ -48,13 +48,6 @@ export default function TeacherDisplay() {
         return (
             <button
                 className={`pagination-btn per-page-btn${selected ? ' selected' : ''}`}
-                style={{
-                    background: selected ? '#9a1a24' : '#fff',
-                    color: selected ? '#fff' : '#9a1a24',
-                    border: '1px solid #9a1a24',
-                    margin: '0 0.25rem',
-                    fontWeight: selected ? 700 : 500
-                }}
                 onClick={onClick}
             >
                 {value}
@@ -64,43 +57,45 @@ export default function TeacherDisplay() {
 
     return (
         <div className="teacher-main-component-div">
-            <div className="teacher-main-grid">
+            <div className="teacher-main-grid teacher-main-grid-center">
                 <div className="teacher-form teacher-display-table-wrapper">
                     <h1>Teachers</h1>
-                    <table className="teacher-form-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Acronym</th>
-                                <th>Email</th>
-                                <th>NIF</th>
-                                <th>Academic Background</th>
-                                <th>Street</th>
-                                <th>Postal Code</th>
-                                <th>Location</th>
-                                <th>Country</th>
-                                <th>Department</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {teachersToShow.map(teacher => (
-                                <tr key={teacher.id}>
-                                    <td>{teacher.name}</td>
-                                    <td>{teacher.id}</td>
-                                    <td>{teacher.email}</td>
-                                    <td>{teacher.nif}</td>
-                                    <td>{teacher.academicBackground}</td>
-                                    <td>{teacher.street}</td>
-                                    <td>{teacher.postalCode}</td>
-                                    <td>{teacher.location}</td>
-                                    <td>{teacher.country}</td>
-                                    <td>{teacher.departmentID}</td>
+                    <div className="teacher-table-center-wrapper">
+                        <table className="teacher-form-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Acronym</th>
+                                    <th>Email</th>
+                                    <th>NIF</th>
+                                    <th>Academic Background</th>
+                                    <th>Street</th>
+                                    <th>Postal Code</th>
+                                    <th>Location</th>
+                                    <th>Country</th>
+                                    <th>Department</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', gap: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                            </thead>
+                            <tbody>
+                                {teachersToShow.map(teacher => (
+                                    <tr key={teacher.id}>
+                                        <td>{teacher.name}</td>
+                                        <td>{teacher.id}</td>
+                                        <td>{teacher.email}</td>
+                                        <td>{teacher.nif}</td>
+                                        <td>{teacher.academicBackground}</td>
+                                        <td>{teacher.street}</td>
+                                        <td>{teacher.postalCode}</td>
+                                        <td>{teacher.location}</td>
+                                        <td>{teacher.country}</td>
+                                        <td>{teacher.departmentID}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="teacher-pagination-bar">
+                        <div className="teacher-pagination-controls teacher-pagination-left">
                             <PaginationButton onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                                 Previous
                             </PaginationButton>
@@ -109,8 +104,8 @@ export default function TeacherDisplay() {
                                 Next
                             </PaginationButton>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <span style={{ fontWeight: 600, color: '#9a1a24', marginRight: '0.5rem' }}>Show:</span>
+                        <div className="teacher-per-page-controls teacher-pagination-right">
+                            <span className="teacher-per-page-label">Show:</span>
                             {teachersPerPageOptions.map(opt => (
                                 <PerPageButton
                                     key={opt}
@@ -119,7 +114,7 @@ export default function TeacherDisplay() {
                                     onClick={() => setTeachersPerPage(opt)}
                                 />
                             ))}
-                            <span style={{ color: '#333', marginLeft: '0.5rem' }}>per page</span>
+                            <span className="teacher-per-page-label-end">per page</span>
                         </div>
                     </div>
                 </div>
