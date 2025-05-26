@@ -314,8 +314,7 @@ public class US03AddCourseToProgrammeControllerTest {
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         courseInStudyPlanRepositoryListFactory = new CourseInStudyPlanListFactoryImpl();
         courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(courseInStudyPlanRepositoryListFactory);
-        ICourseInStudyPlanAssembler courseInStudyPlanAssembler = new CourseInStudyPlanAssemblerImpl();
-        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory, courseInStudyPlanAssembler);    }
+        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory);    }
 
     @Test
     void shouldCreateUS03AddCourseToProgrammeController() {

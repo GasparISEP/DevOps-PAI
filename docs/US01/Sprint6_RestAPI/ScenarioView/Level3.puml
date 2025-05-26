@@ -1,11 +1,13 @@
 @startuml
 
-title US01: As an Administrator, I want to configure teacher categories in the system
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Scenario View - Level 3)
 
 skinparam backgroundColor white
 skinparam ranksep 60
 skinparam nodesep 60
 skinparam linetype ortho
+skinparam defaultTextAlignment center
+skinparam shadowing true
 
 legend left
 Legend:
@@ -143,19 +145,32 @@ class TeacherCategoryResponseDTO <<record>> #E0FFFF {
     + _name: String
 }
 
+class TeacherCategoryDTO <<record>> #E0FFFF {
+    + _id: String
+    + _name: String
+}
+
 class TeacherCategoryRequestDTO <<record>> #E0FFFF {
     + _name: String
 }
 
 ' ======= Assembler =======
 
-interface ITeacherCategoryAssembler #E0FFFF  {
-    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+interface ITeacherCategoryInternalAssembler #E0FFFF  {
+    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryDTO
+}
+
+class TeacherCategoryInternalAssemblerImpl #E0FFFF {
+    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryDTO
+}
+
+interface ITeacherCategoryExternalAssembler #E0FFFF  {
+    + toResponseDTO (teacherCategoryDTO: TeacherCategoryDTO): TeacherCategoryResponseDTO
     + toVO (teacherCategoryRequestDTO: TeacherCategoryRequestDTO): Name
 }
 
-class TeacherCategoryAssemblerImpl #E0FFFF {
-    + toDTO (teacherCategory: TeacherCategory): TeacherCategoryResponseDTO
+class TeacherCategoryExternalAssemblerImpl #E0FFFF {
+    + toResponseDTO (teacherCategoryDTO: TeacherCategoryDTO): TeacherCategoryResponseDTO
     + toVO (teacherCategoryRequestDTO: TeacherCategoryRequestDTO): Name
 }
 
@@ -164,15 +179,19 @@ class TeacherCategoryAssemblerImpl #E0FFFF {
 US01_ConfigureTeacherCategoryRESTController "1" -u-> "_service  1             " ITeacherCategoryService
 US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryResponseDTO
 US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
-US01_ConfigureTeacherCategoryRESTController "1"--> "_assembler   1          " ITeacherCategoryAssembler
+US01_ConfigureTeacherCategoryRESTController "1"--> "_assembler 1" ITeacherCategoryExternalAssembler
 
-TeacherCategoryAssemblerImpl ..|> ITeacherCategoryAssembler
-ITeacherCategoryAssembler "1"..> "1" TeacherCategory
-ITeacherCategoryAssembler "1"..> "1" TeacherCategoryRequestDTO
+TeacherCategoryExternalAssemblerImpl ..|> ITeacherCategoryExternalAssembler
+ITeacherCategoryExternalAssembler "1"..> "1" TeacherCategoryDTO
+ITeacherCategoryExternalAssembler "1"..> "1" TeacherCategoryRequestDTO
 
 TeacherCategoryServiceImpl ..|> ITeacherCategoryService
-TeacherCategoryServiceImpl "1"--> "1 _factory" ITeacherCategoryFactory
+TeacherCategoryServiceImpl "1"--> "_factory 1             " ITeacherCategoryFactory
 TeacherCategoryServiceImpl "1" --> "_repository 1        " ITeacherCategoryRepository
+TeacherCategoryServiceImpl "1" --> "_assembler 1        " ITeacherCategoryInternalAssembler
+TeacherCategoryInternalAssemblerImpl ..|> ITeacherCategoryInternalAssembler
+
+ITeacherCategoryInternalAssembler "1"..> "1" TeacherCategory
 
 TeacherCategoryFactoryImpl..|> ITeacherCategoryFactory
 ITeacherCategoryFactory "1"..> "1" TeacherCategory

@@ -143,7 +143,17 @@ class CourseEditionMapperImplTest {
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         TeacherID teacherID = mock(TeacherID.class);
 
+        CourseEditionIDDataModel ceIdDM = mock(CourseEditionIDDataModel.class);
+        ProgrammeEditionIdDataModel peIdDM = mock(ProgrammeEditionIdDataModel.class);
+        CourseInStudyPlanIDDataModel cispIdDM = mock(CourseInStudyPlanIDDataModel.class);
+        TeacherIDDataModel tIdDM = mock(TeacherIDDataModel.class);
+
         CourseEditionDataModel courseEditionDataModel = mock(CourseEditionDataModel.class);
+
+        when(courseEditionDataModel.getCourseEditionIDDataModel()).thenReturn(ceIdDM);
+        when(courseEditionDataModel.getProgrammeEditionIDDataModel()).thenReturn(peIdDM);
+        when(courseEditionDataModel.getCourseInStudyPlanIDDataModel()).thenReturn(cispIdDM);
+        when(courseEditionDataModel.getTeacherIDDataModel()).thenReturn(tIdDM);
 
         when(iCourseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel())).thenReturn(courseEditionID);
         when(iProgrammeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel())).thenReturn(programmeEditionID);
@@ -163,7 +173,7 @@ class CourseEditionMapperImplTest {
 
     // Tests if exception is thrown when method toDomain is called with courseEditionDataModel as null
     @Test
-    void shouldThrowExceptionIfCourseEditionDataModelGivenAsArgumentInToDomainMethodIsNull() throws Exception{
+    void shouldThrowExceptionIfCourseEditionDataModelGivenAsArgumentInToDomainMethodIsNull(){
         // Arrange
         ICourseEditionIDMapper iCourseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
@@ -198,6 +208,10 @@ class CourseEditionMapperImplTest {
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
 
         CourseEdition courseEdition = mock(CourseEdition.class);
+        TeacherID teacherID = mock(TeacherID.class);
+
+        when(courseEdition.getRuc()).thenReturn(teacherID);
+        when(teacherIDMapper.toDataModel(teacherID)).thenReturn(teacherIDDataModel);
 
         when(iCourseEditionIDMapper.toDataModel(courseEdition.identity())).thenReturn(courseEditionIDDataModel);
         when(courseEditionIDDataModel.getProgrammeEditionIDDataModel()).thenReturn(programmeEditionIdDataModel);
@@ -219,7 +233,7 @@ class CourseEditionMapperImplTest {
 
     // Tests if exception is thrown when method toDataModel is called with courseEdition as null
     @Test
-    void shouldThrowExceptionIfCourseEditionGivenAsArgumentInToDataModelMethodIsNull() throws Exception {
+    void shouldThrowExceptionIfCourseEditionGivenAsArgumentInToDataModelMethodIsNull() {
         // Arrange
         ICourseEditionIDMapper iCourseEditionIDMapper = mock(ICourseEditionIDMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
@@ -235,5 +249,36 @@ class CourseEditionMapperImplTest {
 
         // Assert
         assertEquals("courseEdition cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnCourseEditionDataModelWithoutTeacherWhenRucIsNull() throws Exception {
+        // Arrange
+        ICourseEditionIDMapper iCourseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(
+                iCourseEditionIDMapper,
+                iProgrammeEditionIdMapper,
+                iCourseInStudyPlanIDMapper,
+                courseEditionFactory,
+                teacherIDMapper
+        );
+
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(courseEdition.getRuc()).thenReturn(null);
+        when(iCourseEditionIDMapper.toDataModel(courseEdition.identity())).thenReturn(courseEditionIDDataModel);
+        // Act
+        CourseEditionDataModel result = iCourseEditionMapper.toDataModel(courseEdition);
+        // Assert
+        assertNotNull(result);
+        assertEquals(courseEditionIDDataModel, result.getCourseEditionIDDataModel());
+        assertNull(result.getTeacherIDDataModel());
     }
 }

@@ -19,5 +19,5 @@ public interface ICourseService {
 
     boolean containsOfIdentity(CourseID courseID);
 
-    List<CourseIDDTO> getAllCourseIDDTOs();
+    List<CourseIDDTO> getAllCourseIDDTO();
 }

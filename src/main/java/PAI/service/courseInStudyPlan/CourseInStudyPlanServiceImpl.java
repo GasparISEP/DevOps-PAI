@@ -18,11 +18,8 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
 
     private final ICourseInStudyPlanRepository _repository;
     private final ICourseInStudyPlanFactory _factory;
-    private final ICourseInStudyPlanAssembler assembler;
 
-    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory,
-                                        ICourseInStudyPlanAssembler assembler) {
-        this.assembler = assembler;
+    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory) {
         if (repository == null) {
             throw new IllegalArgumentException("Repository cannot be null");
         }
