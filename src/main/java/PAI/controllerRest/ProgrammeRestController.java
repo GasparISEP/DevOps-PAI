@@ -1,5 +1,6 @@
 package PAI.controllerRest;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
 import PAI.assembler.programme.IProgrammeAssembler;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/programmes")
@@ -98,4 +100,21 @@ public class ProgrammeRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{degreeTypeID}")
+    public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeId) throws Exception {
+        DegreeTypeID id = new DegreeTypeID(degreeTypeId);
+        List<Programme> programmes = _programmeService.getProgrammesByDegreeTypeID(id);
+
+        List<ProgrammeIDDTO> programmeIDDTOS = programmes.stream()
+                .map(p -> _programmeAssembler.toDTO(p.getProgrammeID()))
+                .collect(Collectors.toList());
+
+        if (programmeIDDTOS.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(programmeIDDTOS);
+    }
+
 }
