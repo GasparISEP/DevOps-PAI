@@ -15,13 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebMvcTest(StudentProgrammeEditionEnrolmentRestController.class)
 class StudentProgrammeEditionEnrolmentRestControllerTest {
@@ -113,7 +114,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
     @Test
     void enrolStudentInProgrammeEdition_shouldReturnBadRequest_whenServiceThrowsException() {
         // Arrange
-        String studentId = "123";
+        String studentId = "1000001";
         String acronym = "LEI";
         String name = "Licenciatura em Engenharia Informática";
         String schoolYearId = UUID.randomUUID().toString();
@@ -122,18 +123,27 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
                 studentId, acronym, name, schoolYearId
         );
 
-        // Simula exceção no service
+        // Mock the service with specific parameters
         doThrow(new RuntimeException("Simulated exception"))
                 .when(service)
-                .enrolStudentInProgrammeEdition(any(), any(), any());
+                .enrolStudentInProgrammeEdition(
+                    new StudentID(Integer.parseInt(studentId)),
+                    new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                    new SchoolYearID(UUID.fromString(schoolYearId))
+                );
 
         // Act
         ResponseEntity<Void> response = controller.enrolStudentInProgrammeEdition(request);
 
         // Assert
         assertEquals(400, response.getStatusCodeValue());
-        verify(service).enrolStudentInProgrammeEdition(any(), any(), any());
+        verify(service).enrolStudentInProgrammeEdition(
+            new StudentID(Integer.parseInt(studentId)),
+            new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+            new SchoolYearID(UUID.fromString(schoolYearId))
+        );
     }
+
     @Test
     void enrolStudentInProgrammeEdition_invalidStudentId_returns400BadRequest() {
         // Arrange
