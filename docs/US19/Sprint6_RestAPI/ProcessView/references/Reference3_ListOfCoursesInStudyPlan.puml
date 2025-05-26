@@ -1,0 +1,68 @@
+@startuml
+title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /coursesinstudyplan?programmeID=...)
+
+participant "<<component>>\nRouter" as Router
+participant "<<component>>\nCourseEditionRestController\n(REST Controller)" as Controller
+participant "<<component>>\nCreateCourseEditionService\n(Service)" as Service
+participant "<<component>>\nStudyPlanRepository\n(Repository)" as StudyPlanRepo
+participant "<<component>>\nCourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo
+database "Database" as DB
+
+-> Router: GET /coursesinstudyplan?programmeID=...
+activate Router
+
+Router -> Controller: getCoursesInStudyPlanByProgrammeID(programmeID)
+activate Controller
+
+Controller -> Service: getLatestStudyPlanIDByProgrammeID(programmeID)
+activate Service
+
+Service -> StudyPlanRepo: findAll()
+activate StudyPlanRepo
+
+StudyPlanRepo -> DB: SELECT * FROM study_plans
+activate DB
+DB --> StudyPlanRepo: List<StudyPlanDataModel>
+deactivate DB
+StudyPlanRepo --> Service: List<StudyPlan>
+deactivate StudyPlanRepo
+
+note over Service #EEEEEE
+Filters by ProgrammeID and selects
+the most recent StudyPlan
+end note
+
+Service --> Controller: latestStudyPlanID
+deactivate Service
+
+Controller -> Service: getCoursesByStudyPlanId(studyPlanID)
+activate Service
+
+Service -> CourseInSPRepo: findAll()
+activate CourseInSPRepo
+
+CourseInSPRepo -> DB: SELECT * FROM courses_in_study_plan
+activate DB
+DB --> CourseInSPRepo: List<CourseInStudyPlanDataModel>
+deactivate DB
+CourseInSPRepo --> Service: List<CourseInStudyPlan>
+deactivate CourseInSPRepo
+
+note over Service #EEEEEE
+Filters only courses with the given StudyPlanID
+end note
+
+Service --> Controller: List<CourseInStudyPlan>
+deactivate Service
+
+note over Controller #EEEEEE
+Spring converts response to JSON
+end note
+
+Controller --> Router: coursesInStudyPlanList (JSON)
+deactivate Controller
+
+<-- Router: coursesInStudyPlanList (JSON)
+deactivate Router
+
+@enduml
