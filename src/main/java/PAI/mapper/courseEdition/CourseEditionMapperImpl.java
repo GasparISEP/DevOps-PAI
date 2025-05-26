@@ -52,7 +52,10 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
         CourseEditionID courseEditionID = _courseEditionIDMapper.toDomain(courseEditionDataModel.getCourseEditionIDDataModel());
         ProgrammeEditionID programmeEditionID = _programmeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel());
         CourseInStudyPlanID courseInStudyPlanID = _courseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel());
-        TeacherID teacherID = _teacherIDMapper.toDomain(courseEditionDataModel.getTeacherIDDataModel());
+
+        TeacherIDDataModel teacherIDDataModel = courseEditionDataModel.getTeacherIDDataModel();
+        TeacherID teacherID = teacherIDDataModel != null ? _teacherIDMapper.toDomain(teacherIDDataModel) : null;
+
         CourseEdition result = _courseEditionFactory.createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID, teacherID);
 
         return result;
@@ -65,9 +68,15 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
             throw new IllegalArgumentException("courseEdition cannot be null");
 
         CourseEditionIDDataModel courseEditionIDDataModel = _courseEditionIDMapper.toDataModel(courseEdition.identity());
-        TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(courseEdition.getRuc());
 
-        CourseEditionDataModel result = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
-        return result;
+        TeacherID ruc = courseEdition.getRuc();
+
+        if (ruc == null) {
+            return new CourseEditionDataModel(courseEditionIDDataModel);
+        }
+        else {
+            TeacherIDDataModel teacherIDDataModel = _teacherIDMapper.toDataModel(ruc);
+            return new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        }
     }
 }
