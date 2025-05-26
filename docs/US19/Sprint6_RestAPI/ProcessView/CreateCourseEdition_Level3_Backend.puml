@@ -24,7 +24,7 @@ participant "<<component>>\n:ICourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
 participant "<<component>>\n:ICourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
 participant "<<component>>\n:IProgrammeEditionIDMapper\n(Mapper)" as PEMapper #E1F5FE
 participant "<<component>>\n:ICourseInStudyPlanIDMapper\n(Mapper)" as CSPMapper #E1F5FE
-participant "<<component>>\n:ICourseEdition\nSpringDataRepository\n(JPARepository)" as SpringData #E1F5FE
+participant "<<component>>\n:ICourseEdition\nRepositorySpringData\n(JPARepository)" as SpringData #E1F5FE
 
 database DB as Database #E1F5FE
 
@@ -104,6 +104,7 @@ incoming JSON to
 CourseEditionRequestDTO
 end note
 
+
 Controller -> Assembler: toCommand(requestDTO)
 activate Assembler
 Assembler --> Controller: createCourseEditionCommand
@@ -115,7 +116,7 @@ Controller -> Service: createAndSaveCourseEdition(dto)
 activate Service
 
 
-Service -> CourseEditionFactory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)\n(cSp1_ID, pE1_ID)
+Service -> CourseEditionFactory: createCourseEditionToDomain\n(cSp1_ID, pE1_ID)
 activate CourseEditionFactory
 CourseEditionFactory --> Service -- : CourseEdition
 Service -> Repository: containsOfIdentity(courseEdition.identity())
@@ -124,53 +125,58 @@ Repository --> Service: false
 deactivate Repository
 
 
-
-Service -> Mapper : toDataModel(courseEdition)
+Service -> Repository : save(courseEdition)
+activate Repository
+Repository -> Mapper : toDataModel\n(courseEdition)
 activate Mapper
-Mapper -> IDMapper : toDataModel(courseEditionID)
+Mapper -> IDMapper : toDataModel\n(courseEditionID)
 activate IDMapper
-IDMapper -> PEMapper : toDataModel(programmeEditionID)
+IDMapper -> PEMapper : toDataModel\n(programmeEditionID)
 activate PEMapper
-PEMapper --> IDMapper : ProgrammeEditionIdDataModel
+PEMapper --> IDMapper : ProgrammeEdition\nIDDataModel
 deactivate PEMapper
-IDMapper -> CSPMapper : toDataModel(courseInStudyPlanID)
+IDMapper -> CSPMapper : toDataModel\n(courseInStudyPlanID)
 activate CSPMapper
-CSPMapper --> IDMapper : CourseInStudyPlanIDDataModel
+CSPMapper --> IDMapper : CourseInStudyPlan\nIDDataModel
 deactivate CSPMapper
-IDMapper --> Mapper : CourseEditionIDDataModel
-deactivate
-Mapper --> Service : CourseEditionDataModel
-deactivate
+IDMapper --> Mapper : CourseEdition\nIDDataModel
+deactivate IDMapper
+Mapper --> Repository : CourseEditionDataModel
+deactivate Mapper
 
 
 
-Service -> SpringData : save(courseEditionDataModel)
+
+Repository -> SpringData : save(courseEditionDataModel)
 activate SpringData
 
 group Database
-SpringData -> Database: INSERT INTO course_edition (...)
+SpringData -> Database: INSERT INTO\n course_edition (...)
 activate Database
 Database --> SpringData: success
 deactivate Database
 end
 
 
-SpringData --> Service : CourseEditionDataModel
+SpringData --> Repository : saved
 deactivate
 
 
-Service -> Mapper : toDomain(courseEditionDataModel)
+Repository -> Mapper : toDomain\n(courseEditionDataModel)
 activate Mapper
-Mapper --> Service : CourseEdition
+Mapper --> Repository : CourseEdition
 deactivate
 
-Service -> Assembler: toDTO(courseEdition)
+Repository --> Service : CourseEdition
+deactivate
+
+Service --> Controller : CourseEdition
+deactivate Service
+
+Controller -> Assembler : toDTO(courseEdition)
 activate Assembler
-Assembler --> Service: responseDTO
+Assembler --> Controller : responseDTO
 deactivate Assembler
-
-Service --> Controller : responseDTO
-deactivate
 
 Controller --> router:  (200 OK) Course Edition\n created successfully!
 deactivate Controller
