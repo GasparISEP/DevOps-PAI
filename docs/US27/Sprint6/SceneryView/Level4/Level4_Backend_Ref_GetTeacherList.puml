@@ -4,7 +4,7 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 autonumber
 
-participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":TeacherRestController" as RestController <<controller>> #82CFFD
 participant ":TeacherService" as TeacherService <<service>> #F6CBA5
 participant ":TeacherSpringDataImpl" as TeacherRepository <<repository>> #F6F1E7
 

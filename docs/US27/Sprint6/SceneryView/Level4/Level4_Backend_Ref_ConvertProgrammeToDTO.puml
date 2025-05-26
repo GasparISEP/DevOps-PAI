@@ -1,0 +1,55 @@
+@startuml
+title Ref: Convert Programme to DTO (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
+participant ":DegreeTypeRepository" as DegreeTypeRepository <<repository>>
+participant ":DegreeType" as DegreeType <<component>>
+participant ":DepartmentNameRepository" as DepartmentRepository <<repository>>
+participant ":Department" as Department <<component>>
+participant ":TeacherRepository" as TeacherRepository <<repository>>
+participant ":Teacher" as Teacher <<component>>
+participant ":Name" as Name <<component>>
+participant ":ProgrammeAssembler" as ProgrammeAssembler <<mapper>>
+participant "programmeResponseDTO1:ProgrammeResponseDTO" as ProgrammeResponseDTO <<component>>
+
+activate ProgrammeService
+ProgrammeService -> DegreeTypeRepository ++: **ofIdentity**(degreeTypeID)
+DegreeTypeRepository -> : **findById**(degreeTypeDMID)
+DegreeTypeRepository <--: degreeTypeDM
+DegreeTypeRepository --> ProgrammeService --: degreeType
+
+ProgrammeService -> DegreeType++: **degreeType.getName**()
+DegreeType --> ProgrammeService--: degreeTypeName
+ProgrammeService -> Name++: **degreeTypeName.getName**()
+Name --> ProgrammeService --: degreeTypeNameString
+
+ProgrammeService -> DepartmentRepository ++: **ofIdentity**(departmentID)
+DepartmentRepository -> : **findById**(departmentDMID)
+DepartmentRepository <-- : departmentDM
+DepartmentRepository --> ProgrammeService --: department
+
+ProgrammeService -> Department ++: **department.getName**()
+Department --> ProgrammeService --: departmentName
+ProgrammeService -> Name++: **departmentName.getName**()
+Name --> ProgrammeService --: departmentNameString
+
+ProgrammeService -> TeacherRepository ++: **ofIdentity**(teacherID)
+TeacherRepository -> : **findById**(teacherIDDM)
+TeacherRepository <-- : teacherDM
+TeacherRepository --> ProgrammeService --: teacher
+
+ProgrammeService -> Teacher ++: **teacher.getName**()
+Teacher --> ProgrammeService --: teacherName
+ProgrammeService -> Name++: **teacherName.getName**()
+Name --> ProgrammeService --: teacherNameNameString
+
+ProgrammeService -> ProgrammeAssembler ++: **fromDomainToDTO**(p1, degreeTypeNameString, departmentNameString, teacherNameNameString)
+ProgrammeAssembler -> ProgrammeResponseDTO **: **createProgrammeResponseDTO**(name, acronym, quantECTS \nquantSemesters, degreeTypeName, departmentId, \ndepartmentName, teacherId, teacherName)
+activate ProgrammeResponseDTO
+ProgrammeResponseDTO --> ProgrammeAssembler: programmeResponseDTO1
+deactivate ProgrammeResponseDTO
+ProgrammeAssembler --> ProgrammeService --: programmeResponseDTO1
+@enduml

@@ -4,13 +4,13 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 autonumber
 
-participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":DepartmentRestController" as RestController <<controller>> #82CFFD
 participant ":DepartmentService" as DepartmentService <<service>> #F6CBA5
 participant ":DepartmentSpringDataImpl" as DepartmentRepository <<repository>> #F6F1E7
 
 -> RestController
 activate RestController
-RestController -> DepartmentService: **findAll**()
+RestController -> DepartmentService: **getAllDepartments**()
 activate DepartmentService
 DepartmentService -> DepartmentRepository: **findAll**()
 activate DepartmentRepository
