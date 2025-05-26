@@ -28,7 +28,7 @@ participant "<<component>>\n:ICourseEdition\nRepositorySpringData\n(JPARepositor
 
 database DB as Database #E1F5FE
 
--> router: GET /degree-types
+-> router: GET /degreetypes
 activate router
 router -> Controller: getAllDegreeTypes()
 activate Controller
@@ -37,6 +37,7 @@ Spring Boot automatically converts
  incoming JSON into DTOs
 end note
 ref over Controller
+<<Reference1_ListOfDegreeTypes>>
    <b>List of Degree Types</b>
 end ref
 Controller --> router: degreeTypesList
@@ -53,6 +54,7 @@ Spring Boot automatically converts
  incoming JSON into DTOs
 end note
 ref over Controller
+<<Reference2_ListOfProgrammes>>
    <b>List of Programmes</b>
 end ref
 Controller --> router: programmesList
@@ -60,7 +62,7 @@ deactivate Controller
 <-- router: programmesList
 deactivate router
 
--> router: GET /courses-in-study-plan
+-> router: GET /coursesinstudyplan
 activate router
 router -> Controller: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
 activate Controller
@@ -69,6 +71,7 @@ Spring Boot automatically converts
  incoming JSON into DTOs
 end note
 ref over Controller
+<<Reference3_ListOfCoursesInStudyPlan>>
    <b>List of Courses In Study Plan</b>
 end ref
 Controller --> router: coursesInStudyPlanList
@@ -76,7 +79,7 @@ deactivate Controller
 <-- router: coursesInStudyPlanList
 deactivate router
 
--> router: GET /programme-editions
+-> router: GET /programmeeditions
 activate router
 router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeID)
 activate Controller
@@ -85,6 +88,7 @@ Spring Boot automatically converts
  incoming JSON into DTOs
 end note
 ref over Controller
+<<Reference4_ListOfProgrammeEditions>>
    <b>List of Programme Editions</b>
 end ref
 Controller --> router: programmeEditionsList
@@ -92,7 +96,7 @@ deactivate Controller
 <-- router: programmeEditionsList
 deactivate router
 
--> router: POST /course-editions
+-> router: POST /courseeditions
 activate router
 router -> Controller: createCourseEdition(JSON)
 
