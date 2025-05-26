@@ -1,0 +1,70 @@
+package PAI.service.courseEdition;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.TeacherID;
+import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
+import PAI.domain.teacher.Teacher;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class DefineRucServiceImpl implements IDefineRucService {
+
+    private final ICourseEditionRepository courseEditionRepository;
+    private final ITeacherRepository teacherRepository;
+
+    public DefineRucServiceImpl(ICourseEditionRepository courseEditionRepository, ITeacherRepository teacherRepository) {
+        if (teacherRepository==null)
+            throw new IllegalArgumentException("TeacherRepository cannot be null");
+        if (courseEditionRepository == null)
+            throw new IllegalArgumentException("CourseEditionRepository cannot be null");
+
+        this.teacherRepository = teacherRepository;
+        this.courseEditionRepository = courseEditionRepository;
+    }
+
+    public Iterable<CourseEdition> findAll() {
+        return courseEditionRepository.findAll();
+    }
+
+    public Iterable <Teacher> findAllTeachers() {
+        return teacherRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
+        if (!teacherRepository.containsOfIdentity(teacherId)) {
+            throw new IllegalArgumentException("Teacher with given ID does not exist.");
+        }
+
+        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
+
+        if (optionalEdition.isEmpty()) {
+            return false;
+        }
+
+        CourseEdition courseEdition = optionalEdition.get();
+        boolean success = courseEdition.setRuc(teacherId);
+
+        if (success) {
+            try {
+                courseEditionRepository.save(courseEdition);
+            } catch (Exception e) {
+                throw new RuntimeException("Error when persisting CourseEdition with new RUC", e);
+            }
+        }
+        return success;
+    }
+
+    @Override
+    public boolean containsOfIdentity(CourseEditionID courseEditionID) {
+        if (courseEditionID == null)
+            return false;
+
+        return courseEditionRepository.containsOfIdentity(courseEditionID);
+    }
+}
