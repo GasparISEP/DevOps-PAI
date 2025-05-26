@@ -11,7 +11,6 @@ import TeacherDisplay from './components/teacherComponent/TeacherDisplay';
 function App() {
   return (
       <Router>
-          <>
               <Routes>
                   {/* Página inicial */}
                   <Route path="/" element={<Home />} />
@@ -30,7 +29,6 @@ function App() {
                   {/* Formulário de programas */}
                   <Route path="/programmes" element={<RegisterProgrammePage />} />
               </Routes>
-          </>
       </Router>
   );
 }
