@@ -70,7 +70,6 @@ class CourseEditionAssemblerImplTest {
         String programmeAcronym = "SE";
         String courseAcronym = "CS101";
         String courseName = "Intro to Programming";
-        LocalDate schoolYearDate = LocalDate.of(2023, 9, 1);
         LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
 
         when(programmeID.getProgrammeName()).thenReturn(programmeName);
