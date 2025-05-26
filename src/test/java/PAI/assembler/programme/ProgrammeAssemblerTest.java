@@ -1,10 +1,9 @@
 package PAI.assembler.programme;
 
 import PAI.VOs.*;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeRequestDTO;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class ProgrammeAssemblerTest {
     void shouldCreateProgrammeVOsDTOFromProgrammeRequestDTO() throws Exception {
         //arrange
         ProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeRequestDTO programmeRequestDTODouble = mock(ProgrammeRequestDTO.class);
+        ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
 
         String name = "Data Science";
         String acronym = "DSD";
@@ -29,16 +28,16 @@ class ProgrammeAssemblerTest {
         String departmentID = "DEI";
         String teacherID = "AAA";
 
-        when(programmeRequestDTODouble.getName()).thenReturn(name);
-        when(programmeRequestDTODouble.getAcronym()).thenReturn(acronym);
-        when(programmeRequestDTODouble.getMaxECTS()).thenReturn(maxECTS);
-        when(programmeRequestDTODouble.getQuantSemesters()).thenReturn(quantSemesters);
-        when(programmeRequestDTODouble.getDegreeTypeID()).thenReturn(degreeTypeID);
-        when(programmeRequestDTODouble.getDepartmentID()).thenReturn(departmentID);
-        when(programmeRequestDTODouble.getTeacherID()).thenReturn(teacherID);
+        when(programmeDTODouble.name()).thenReturn(name);
+        when(programmeDTODouble.acronym()).thenReturn(acronym);
+        when(programmeDTODouble.maxECTS()).thenReturn(maxECTS);
+        when(programmeDTODouble.quantSemesters()).thenReturn(quantSemesters);
+        when(programmeDTODouble.degreeTypeID()).thenReturn(degreeTypeID);
+        when(programmeDTODouble.departmentID()).thenReturn(departmentID);
+        when(programmeDTODouble.teacherID()).thenReturn(teacherID);
 
         //act
-        ProgrammeVOsDTO result = programmeAssembler.fromDTOToDomain(programmeRequestDTODouble);
+        ProgrammeVOsDTO result = programmeAssembler.fromDTOToDomain(programmeDTODouble);
 
         //assert
         assertAll(

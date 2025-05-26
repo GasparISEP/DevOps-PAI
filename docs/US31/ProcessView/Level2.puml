@@ -5,28 +5,28 @@ autonumber
 title As an ASC I want to register a Programme \n (Process View Level 2)
 
 actor ASC as Admin
-participant "<<Container>> \nFrontend" as FE #lightblue
-participant "<<Container>> \nBackend" as BE #lightgreen
-participant "<<Container>> \nDatabase" as BD #lightyellow
+participant "<<Container>> \n:Frontend" as FE #lightblue
+participant "<<Container>> \n:Backend" as BE #lightgreen
+participant "<<Container>> \n:Database" as BD #lightyellow
 
 activate Admin
 Admin -> FE ++: I want to register a Programme \nin the System
 FE -> BE ++: (GET) Request Degree Types
-BE -> BD ++: Retrieve all Degree Types
+BE -> BD ++: (SELECT) Retrieve all Degree Types
 BD --> BE --: List of Degree Types
 BE --> FE --: (OK, 200) List of Degree Types
 FE --> Admin --: Choose a Degree Type
 Admin -> FE ++: Degree Type
 
 FE -> BE ++: (GET) Request Departments
-BE -> BD ++: Retrieve all Departments
+BE -> BD ++: (SELECT) Retrieve all Departments
 BD --> BE --: List of Departments
 BE --> FE --: (OK, 200) List of Departments
 FE --> Admin --: Choose a Department
 Admin -> FE ++: Department
 
 FE -> BE ++: (GET) Request Teachers
-BE -> BD ++: Retrieve all Teachers
+BE -> BD ++: (SELECT) Retrieve all Teachers
 BD --> BE --: List of Teachers
 BE --> FE --: (OK, 200) List of Teachers
 FE --> Admin --: Choose a Programme Director
