@@ -11,7 +11,7 @@ public interface IGradeAStudentService {
 
     Iterable<CourseEdition> findAllCourseEditions ();
 
-    double getApprovalPercentage(CourseEditionID courseEditionID) throws Exception;
+    double knowApprovalRate (CourseEditionID courseEditionID) throws Exception;
 
 
 }
