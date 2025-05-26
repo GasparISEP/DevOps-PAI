@@ -3,7 +3,7 @@ autonumber
 
 participant "pCtrl:ProgrammeRestController" as C #implementation
 participant "pMapper:ProgrammeAssembler" as PA #lightgreen
-participant "programmeResponseDTO:ProgrammeResponseDTO" as PDTO
+participant "programmeDTO:ProgrammeDTO" as PDTO
 
 activate C
 C -> PA ++: fromDomainToDTO(Programme)
