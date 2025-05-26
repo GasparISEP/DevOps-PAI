@@ -16,41 +16,28 @@ class ProgrammeAssemblerImpl {
     +fromDTOtoDomain(programmeRequestDTO: ProgrammeRequestDTO)
 }
 
-class ProgrammeRequestDTO {
+class ProgrammeDTO {
     -_name: String
     -_acronym: String
-    -_quantityOfEcts: Integer
+    -_maxOfEcts: Integer
     -_quantityOfSemesters: Integer
     -_degreeTypeID: String
     -_departmentID: String
     -_programmeDirectorID: String
-    +ProgrammeRequestDTO(name: String, acronym: String, quantityOfEcts: Integer, quantityOfSemesters: Integer,
+    +ProgrammeDTO(name: String, acronym: String, maxOfEcts: Integer, quantityOfSemesters: Integer,
     degreeTypeID: String, departmentID: String, programmeDirectorID: String)
 }
 
 class ProgrammeVOsDTO {
     -_name: Name
     -_acronym: Acronym
-    -_quantityOfEcts: QuantECTS
+    -_maxOfEcts: MaxECTS
     -_quantityOfSemesters: QuantSemesters
     -_degreeTypeID: DegreeTypeID
     -_departmentID: DepartmentID
     -_programmeDirectorID: TeacherID
-    +ProgrammeVOsDTO(name: Name, acronym: Acronym, quantityOfEcts: QuantECTS, quantityOfSemesters: QuantSemesters,
+    +ProgrammeVOsDTO(name: Name, acronym: Acronym, maxOfEcts: QuantECTS, quantityOfSemesters: QuantSemesters,
     degreeTypeID: DegreeTypeID, departmentID: DepartmentID, programmeDirectorID: TeacherID)
-}
-
-class ProgrammeResponseDTO {
-    -_programmeID: String
-    -_name: String
-    -_acronym: String
-    -_quantityOfEcts: Integer
-    -_quantityOfSemesters: Integer
-    -_degreeTypeName: String
-    -_departmentName: String
-    -_programmeDirectorName: String
-    +ProgrammeResponseDTO(programmeID: String, name: String, acronym: String, quantityOfEcts: Integer, quantityOfSemesters: Integer,
-    degreeTypeName: String, departmentName: String, programmeDirectorName: String)
 }
 
 interface IProgrammeService {
@@ -117,9 +104,9 @@ class ProgrammeIDMapperImpl {
 
 package "Programme Aggregate" {
     class "<<root>>\nProgramme" {
-        +Programme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \nquantityOfEcts: QuantEcts, quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \ndepartmentID: DepartmentID, programmeDirectorID: TeacherID)
+        +Programme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \nmaxOfEcts: MaxEcts, quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \ndepartmentID: DepartmentID, programmeDirectorID: TeacherID)
         +getProgrammeID()
-        +getQuantEcts()
+        +getMaxEcts()
         +getQuantSemesters()
         +getAcronym()
         +getProgrammeName()
@@ -132,8 +119,8 @@ package "Programme Aggregate" {
 class ProgrammeID <<ValueObject>> {
     -_progID: String
     +ProgrammeID()
-    +getProgrammeID(): String
-    +equals(Object o): boolean
+    +getProgrammeID()
+    +equals(programmeID: Object)
 }
 
 class DepartmentID <<ValueObject>> {}
@@ -142,7 +129,7 @@ class Acronym <<ValueObject>> {}
 
 class NameWithNumbersAndSpecialChars <<ValueObject>> {}
 
-class quantEcts <<ValueObject>> {}
+class MaxEcts <<ValueObject>> {}
 
 class QuantSemesters <<ValueObject>> {}
 
@@ -154,14 +141,14 @@ class ProgrammeDataModel {
     -_name: String
     -_acronym: String
     -_quantSemesters: Integer
-    -_quantEcts: Integer
+    -_maxEcts: Integer
     +ProgrammeDataModel()
-    +ProgrammeDataModel(programmeID: ProgrammeIDDataModel, name: String, acronym: String, quantSemesters: Integer, quantEcts: Integer,
+    +ProgrammeDataModel(programmeID: ProgrammeIDDataModel, name: String, acronym: String, quantSemesters: Integer, maxEcts: Integer,
     degreeTypeID: DegreeTypeIDDataModel, departmentID: DepartmentIDDataModel, progDirectorID: TeacherIDDataModel)
     +getName()
     +getAcronym()
     +getQuantSemesters()
-    +getQuantEcts()
+    +getMaxEcts()
     +getDegreeTypeID()
     +getDepartmentID()
     +getProgrammeDirectorID()
@@ -199,19 +186,16 @@ class TeacherIDDataModel {
 
 ProgrammeRestController "*" -u--> "_programmeService\n1" IProgrammeService
 ProgrammeRestController "*" ---> "_programmeDTOMapper\n1" IProgrammeAssembler
-ProgrammeRestController "1" ..> "*" ProgrammeRequestDTO
+ProgrammeRestController "1" ..> "*" ProgrammeDTO
 ProgrammeRestController "1" ..> "*" ProgrammeVOsDTO
-ProgrammeRestController "1" ..> "*" ProgrammeResponseDTO
-
+ProgrammeRestController "1" ..> "*" "<<root>>\nProgramme"
 
 IProgrammeAssembler <|.. ProgrammeAssemblerImpl
-IProgrammeAssembler "1" .u.> "*" ProgrammeRequestDTO
+IProgrammeAssembler "1" .u.> "*" ProgrammeDTO
 IProgrammeAssembler "1" .u.> "*" ProgrammeVOsDTO
-IProgrammeAssembler "1" .u.> "*" ProgrammeResponseDTO
 
 IProgrammeService <|.- ProgrammeServiceImpl
 IProgrammeService "1" ..> "*" ProgrammeVOsDTO
-IProgrammeService "1" ..> "*" ProgrammeResponseDTO
 
 IProgrammeService "*" -r--> "1" IProgrammeRepository
 
@@ -242,7 +226,7 @@ IProgrammeIDMapper "1" ..> "*" ProgrammeIDDataModel
 "<<root>>\nProgramme" "*" ---> "1" DegreeTypeID
 "<<root>>\nProgramme" "*" ---> "1" DepartmentID
 "<<root>>\nProgramme" "*" ---> "1" QuantSemesters
-"<<root>>\nProgramme" "*" ---> "1" quantEcts
+"<<root>>\nProgramme" "*" ---> "1" MaxEcts
 "<<root>>\nProgramme" "1" ---> "1" Acronym
 "<<root>>\nProgramme" "1" ---> "1" NameWithNumbersAndSpecialChars
 "<<root>>\nProgramme" "1" ---> "1" ProgrammeID
