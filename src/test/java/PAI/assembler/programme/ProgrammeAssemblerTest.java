@@ -4,7 +4,6 @@ import PAI.VOs.*;
 import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
 
@@ -53,40 +52,51 @@ class ProgrammeAssemblerTest {
     }
 
     @Test
-    void shouldCreateProgrammeResponseDTOFromProgramme() {
+    void shouldCreateProgrammeDTOFromProgramme() {
         //arrange
         ProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
         Programme programmeDouble = mock(Programme.class);
 
         NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronymDouble = mock(Acronym.class);
+        Acronym acronymDouble1 = mock(Acronym.class);
         MaxEcts maxEctsDouble = mock(MaxEcts.class);
         QuantSemesters quantSemestersDouble = mock(QuantSemesters.class);
-        String degreeTypeName = "Master";
-        String departmentName = "Astronomy";
-        String teacherName = "AAA";
+        DegreeTypeID degreeTypeIDDouble = mock(DegreeTypeID.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        DepartmentAcronym departmentAcronymDouble = mock(DepartmentAcronym.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherAcronym teacherAcronymDouble = mock(TeacherAcronym.class);
+
 
         when(programmeDouble.getProgrammeName()).thenReturn(nameDouble);
         when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Data Science");
-        when(programmeDouble.getAcronym()).thenReturn(acronymDouble);
-        when(acronymDouble.getAcronym()).thenReturn("DSD");
+        when(programmeDouble.getAcronym()).thenReturn(acronymDouble1);
+        when(acronymDouble1.getAcronym()).thenReturn("DSD");
         when(programmeDouble.getMaxEcts()).thenReturn(maxEctsDouble);
         when(maxEctsDouble.getMaxEcts()).thenReturn(30);
         when(programmeDouble.getQuantSemesters()).thenReturn(quantSemestersDouble);
         when(quantSemestersDouble.getQuantityOfSemesters()).thenReturn(6);
+        when(programmeDouble.getDegreeTypeID()).thenReturn(degreeTypeIDDouble);
+        when(degreeTypeIDDouble.getDTID()).thenReturn("DTID");
+        when(programmeDouble.getDepartment()).thenReturn(departmentIDDouble);
+        when(departmentIDDouble.getAcronym()).thenReturn(departmentAcronymDouble);
+        when(departmentAcronymDouble.getAcronym()).thenReturn("AAA");
+        when(programmeDouble.getProgrammeDirectorID()).thenReturn(teacherID);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronymDouble);
+        when(teacherAcronymDouble.getAcronym()).thenReturn("ABC");
 
         //act
-        ProgrammeResponseDTO programmeResponseDTO = programmeAssembler.fromDomainToDTO(programmeDouble, degreeTypeName, departmentName, teacherName);
+        ProgrammeDTO programmeDTO = programmeAssembler.fromDomainToDTO(programmeDouble);
 
         //assert
         assertAll(
-                () -> assertEquals("Data Science", programmeResponseDTO.getName()),
-                () -> assertEquals("DSD", programmeResponseDTO.getAcronym()),
-                () -> assertEquals(30, programmeResponseDTO.getMaxECTS()),
-                () -> assertEquals(6, programmeResponseDTO.getQuantSemesters()),
-                () -> assertEquals("Master", programmeResponseDTO.getDegreeTypeName()),
-                () -> assertEquals("Astronomy", programmeResponseDTO.getDepartmentName()),
-                () -> assertEquals("AAA", programmeResponseDTO.getTeacherName())
+                () -> assertEquals("Data Science", programmeDTO.name()),
+                () -> assertEquals("DSD", programmeDTO.acronym()),
+                () -> assertEquals(30, programmeDTO.maxECTS()),
+                () -> assertEquals(6, programmeDTO.quantSemesters()),
+                () -> assertEquals("DTID", programmeDTO.degreeTypeID()),
+                () -> assertEquals("AAA", programmeDTO.departmentID()),
+                () -> assertEquals("ABC", programmeDTO.teacherID())
         );
     }
 

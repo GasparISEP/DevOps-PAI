@@ -18,7 +18,7 @@ public interface IProgrammeService {
     List<ProgrammeID> getAllProgrammeIDs();
     Iterable<Programme> findAll();
     Optional <Programme> getProgrammeByID(ProgrammeID id);
-    ProgrammeResponseDTO registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
+    Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
     List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
 }
 

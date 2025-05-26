@@ -25,6 +25,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     private IStudyPlanAssembler _studyPlanAssemblerDouble;
     private DegreeTypeID _degreeTypeIDDouble;
     private DepartmentID _departmentIDDouble;
+    private Programme _programmeDouble;
     private TeacherID _teacherIDDouble;
     private String _programmeName;
     private String _programmeAcronym;
@@ -55,6 +56,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         _studyPlanCommandDouble = mock(RegisterStudyPlanCommand.class);
         _studyPlanDTODouble = mock(StudyPlanDTO.class);
         _programmeResponseDTO = mock(ProgrammeResponseDTO.class);
+        _programmeDouble = mock(Programme.class);
         _controllerDouble = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble,
                                                                 _studyPlanServiceDouble, _studyPlanAssemblerDouble);
     }
@@ -107,7 +109,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void shouldRegisterProgrammeAndStudyPlanSuccessfully() throws Exception {
         // Arrange
         createDoubles();
-        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeResponseDTO);
+        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeDouble);
         when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
 
@@ -139,7 +141,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void shouldFailWhenStudyPlanFailsToRegister() throws Exception {
         // Arrange
         createDoubles();
-        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeResponseDTO);
+        when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeDouble);
         when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new Exception("Exception"));
 

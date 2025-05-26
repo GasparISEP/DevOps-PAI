@@ -77,10 +77,12 @@ public class ProgrammeRestController {
         try {
             ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
 
-            ProgrammeResponseDTO programmeResponseDTO = _programmeService.registerProgramme(programmeVOsDto);
+            Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
 
-            if(programmeResponseDTO!=null){
-                return new ResponseEntity<>(programmeResponseDTO, HttpStatus.CREATED);
+            ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
+
+            if(newProgrammeDTO!=null){
+                return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
             }
             else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
