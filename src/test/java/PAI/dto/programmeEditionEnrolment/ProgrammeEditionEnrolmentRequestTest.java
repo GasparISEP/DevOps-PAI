@@ -23,4 +23,27 @@ class ProgrammeEditionEnrolmentRequestTest {
         assertEquals(name, request.getProgrammeName());
         assertEquals(schoolYearId, request.getSchoolYearId());
     }
+
+    @Test
+    void gettersAndSetters_shouldWorkCorrectly() {
+        // Arrange
+        String studentId = "123456";
+        String acronym = "LEI";
+        String programmeName = "Engenharia Informática";
+        String schoolYearId = "a1b2c3d4-e5f6-7890-1234-56789abcdef0";
+
+        ProgrammeEditionEnrolmentRequest request = new ProgrammeEditionEnrolmentRequest();
+        request.setStudentId(studentId);
+        request.setProgrammeAcronym(acronym);
+        request.setProgrammeName(programmeName);
+        request.setSchoolYearId(schoolYearId);
+
+        // Assert (testa os getters diretamente)
+        assertEquals(studentId, request.getStudentId());
+        assertEquals(acronym, request.getProgrammeAcronym());
+        assertEquals(programmeName, request.getProgrammeName());
+        assertEquals(schoolYearId, request.getSchoolYearId());
+    }
+
+
 }

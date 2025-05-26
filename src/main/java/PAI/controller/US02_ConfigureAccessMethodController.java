@@ -1,6 +1,8 @@
 package PAI.controller;
+import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.service.accessMethod.IAccessMethodService;
+import PAI.utils.ServiceResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +25,8 @@ public class US02_ConfigureAccessMethodController {
         RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(accessMethodName);
 
         try {
-            return accessMethodService.configureAccessMethod(command).isPresent();
+            ServiceResponse<AccessMethodResponseDTO> response = accessMethodService.configureAccessMethod(command);
+            return response.isSuccess();
         } catch (Exception e) {
 
             return false;

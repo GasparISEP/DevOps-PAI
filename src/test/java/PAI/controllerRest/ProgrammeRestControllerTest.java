@@ -1,12 +1,14 @@
 package PAI.controllerRest;
 
+import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
+import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
-import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeRequestDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
-import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.domain.programme.Programme;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
+import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +28,9 @@ class ProgrammeRestControllerTest {
     private ProgrammeRequestDTO _programmeRequestDTODouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
     private ProgrammeResponseDTO _programmeResponseDTODouble;
+    private IProgrammeDirectorAssembler _programmeDirectorAssemblerDouble;
+    private ITeacherService _teacherServiceDouble;
+
 
     private void createDoubles() {
         _programmeServiceDouble = mock(IProgrammeService.class);
@@ -32,6 +38,8 @@ class ProgrammeRestControllerTest {
         _programmeRequestDTODouble = mock(ProgrammeRequestDTO.class);
         _programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);
         _programmeResponseDTODouble = mock(ProgrammeResponseDTO.class);
+        _programmeDirectorAssemblerDouble = mock(IProgrammeDirectorAssembler.class);
+        _teacherServiceDouble = mock(ITeacherService.class);
     }
 
     @Test
@@ -40,7 +48,7 @@ class ProgrammeRestControllerTest {
         createDoubles();
 
         //Act
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         //Assert
         assertNotNull(programmeRestCtrl);
@@ -52,7 +60,7 @@ class ProgrammeRestControllerTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(null, _programmeAssemblerDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(null, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble));
     }
 
     @Test
@@ -61,14 +69,14 @@ class ProgrammeRestControllerTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(_programmeServiceDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(_programmeServiceDouble, null, _programmeDirectorAssemblerDouble, _teacherServiceDouble));
     }
 
     @Test
     void shouldSendProgrammeResponseDTO() throws Exception {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble,_programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeResponseDTODouble);
@@ -85,7 +93,7 @@ class ProgrammeRestControllerTest {
     void shouldSendBadResponseIfProgrammeRequestDTOIsNull() {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         //Act
         ResponseEntity<ProgrammeResponseDTO> result = programmeRestCtrl.registerProgramme(null);
@@ -98,7 +106,7 @@ class ProgrammeRestControllerTest {
     void shouldSendBadResponseIfProgrammeResponseDTOIsNull() throws Exception {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(null);
@@ -114,7 +122,7 @@ class ProgrammeRestControllerTest {
     void shouldSendBadResponseIfAnyExceptionIsThrown() throws Exception {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeRequestDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenThrow(new Exception("Programme is already registered."));
@@ -130,7 +138,7 @@ class ProgrammeRestControllerTest {
     void shouldReturnListOfProgrammeIDSDTOs() {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of(programmeIDDTO, programmeIDDTO2));
@@ -147,7 +155,7 @@ class ProgrammeRestControllerTest {
     void shouldReturnNotFoundIfNoProgrammeIDSDTOs() {
         //Arrange
         createDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of());
         //Act
@@ -156,4 +164,157 @@ class ProgrammeRestControllerTest {
         //Assert
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
+
+    @Test
+    void shouldReturnProgrammeDirectorResponseDTO() {
+        // Arrange
+        IProgrammeService programmeServiceDouble = mock(IProgrammeService.class);
+        IProgrammeAssembler programmeAssemblerDouble = mock(IProgrammeAssembler.class);
+        IProgrammeDirectorAssembler programmeDirectorAssemblerDouble = mock(IProgrammeDirectorAssembler.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+
+        Programme programmeMock = mock(Programme.class);
+        Teacher teacherMock = mock(Teacher.class);
+        ProgrammeDirectorResponseDTO responseMock = mock(ProgrammeDirectorResponseDTO.class);
+
+        when(programmeServiceDouble.findAll()).thenReturn(List.of(programmeMock));
+        when(teacherServiceDouble.getAllTeachers()).thenReturn(List.of(teacherMock));
+        when(programmeDirectorAssemblerDouble.fromDomainToDTO(List.of(programmeMock), List.of(teacherMock)))
+                .thenReturn(responseMock);
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                programmeServiceDouble,
+                programmeAssemblerDouble,
+                programmeDirectorAssemblerDouble,
+                teacherServiceDouble
+        );
+
+        // Act
+        ResponseEntity<ProgrammeDirectorResponseDTO> response = controller.getProgrammeDirectorInfo();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(responseMock, response.getBody());
+    }
+
+    @Test
+    void shouldAssignProgrammeDirectorSuccessfully() {
+        IProgrammeService programmeServiceDouble = mock(IProgrammeService.class);
+        IProgrammeAssembler programmeAssemblerDouble = mock(IProgrammeAssembler.class);
+        IProgrammeDirectorAssembler programmeDirectorAssemblerDouble = mock(IProgrammeDirectorAssembler.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+
+        ProgrammeDirectorRequestDTO requestDto = mock(ProgrammeDirectorRequestDTO.class);
+        ProgrammeDirectorVOsDTO vosDto = mock(ProgrammeDirectorVOsDTO.class);
+
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Data Science");
+        Acronym acronym = new Acronym("DSE");
+        TeacherAcronym teacherAcronym = new TeacherAcronym("TCH");
+
+        when(programmeDirectorAssemblerDouble.fromDTOToDomain(requestDto)).thenReturn(vosDto);
+        when(vosDto.getProgrammeName()).thenReturn(name);
+        when(vosDto.getProgrammeAcronym()).thenReturn(acronym);
+        when(vosDto.getTeacherAcronym()).thenReturn(teacherAcronym);
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                programmeServiceDouble,
+                programmeAssemblerDouble,
+                programmeDirectorAssemblerDouble,
+                teacherServiceDouble
+        );
+
+        ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnBadRequestIfAssignProgrammeDirectorDtoIsNull() {
+        // Arrange
+        IProgrammeService programmeServiceDouble = mock(IProgrammeService.class);
+        IProgrammeAssembler programmeAssemblerDouble = mock(IProgrammeAssembler.class);
+        IProgrammeDirectorAssembler programmeDirectorAssemblerDouble = mock(IProgrammeDirectorAssembler.class);
+        ITeacherService teacherServiceDouble = mock(ITeacherService.class);
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                programmeServiceDouble,
+                programmeAssemblerDouble,
+                programmeDirectorAssemblerDouble,
+                teacherServiceDouble
+        );
+
+        // Act
+        ResponseEntity<Void> response = controller.assignProgrammeDirector(null);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnProgrammesByDegreeTypeID() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "123";
+        DegreeTypeID degreeTypeId = new DegreeTypeID(degreeTypeIdStr);
+
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDTO dto = new ProgrammeIDDTO("Name", "Acr");
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of(programme));
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+        when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto);
+
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals("Name", response.getBody().get(0).name());
+        assertEquals("Acr", response.getBody().get(0).acronym());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenNoProgrammesFound() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "123";
+        DegreeTypeID degreeTypeId = new DegreeTypeID(degreeTypeIdStr);
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of()); // Empty list
+
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+
+    @Test
+    void shouldReturnBadRequestWhenExceptionIsThrown() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "invalid-id";
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> controller.getProgrammesByDegreeTypeID(degreeTypeIdStr));
+    }
+
+
+
 }

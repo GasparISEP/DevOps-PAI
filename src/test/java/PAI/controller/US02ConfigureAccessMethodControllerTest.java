@@ -14,6 +14,7 @@ import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.service.accessMethod.AccessMethodServiceImpl;
 import PAI.service.accessMethod.IAccessMethodService;
 
+import PAI.utils.ServiceResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -78,7 +79,8 @@ class US02ConfigureAccessMethodControllerTest {
         AccessMethod accessMethod = mock(AccessMethod.class);
 
         ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
-        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.of(dto));
+        when(accessMethodService.configureAccessMethod(commandCaptor.capture()))
+                .thenReturn(ServiceResponse.success(dto));
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);
@@ -96,7 +98,8 @@ class US02ConfigureAccessMethodControllerTest {
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
 
         ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
-        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.empty());
+        when(accessMethodService.configureAccessMethod(commandCaptor.capture()))
+                .thenReturn(ServiceResponse.failure("Access method already exists"));
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);

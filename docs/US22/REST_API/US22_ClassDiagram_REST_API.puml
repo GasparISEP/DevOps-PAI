@@ -3,8 +3,10 @@ title US22: I want to grade a student in a CourseEdition
 'left to right direction
 
 class CourseEditionRESTController {
-    +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
-    +gradeAStudent(grade : int, date : String student : Student, courseEdition : CourseEdition): GradeStudent
+    +enrolStudentInCourseEdition(courseEditionEnrolmentDTO : CourseEditionEnrolmentDto)
+    +removeStudentEnrolmentFromACourseEdition(removeCourseEditionEnrolmentDTO : RemoveCourseEditionEnrolmentDTO)
+    +createCourseEdition(dto : CourseEditionRequestDTO)
+    +gradeAStudent(request : GradeAStudentRequestDTO)
 }
 
 interface IGradeAStudentService {
@@ -30,15 +32,15 @@ interface ISchoolYearRepository
 
 interface IStudentGradeAssembler {
     +domainToDTO(studentGrade : StudentGrade)
-    +dtoToDomain(studentGradeRequestDTO : StudentGradeRequestDTO)
+    +dtoToDomain(gradeAstudentRequestDTO : GradeAStudentRequestDTO)
 }
 
 class StudentGradeAssembler {
     +domainToDTO(studentGrade : StudentGrade)
-    +dtoToDomain(studentGradeRequestDTO : StudentGradeRequestDTO)
+    +dtoToDomain(gradeAStudentRequestDTO : GradeAStudentRequestDTO)
 }
 
-class StudentGradeRequestDTO {
+class GradeAStudentRequestDTO {
     -studentGradeId : String
     -courseEditionId : String
     -programmeEditionId : String
@@ -52,7 +54,7 @@ class StudentGradeRequestDTO {
     -date : String
 }
 
-class StudentGradeResponseDTO {
+class GradeAStudentResponseDTO {
     -studentGradeId : String
     -courseEditionId : String
     -programmeEditionId : String
@@ -239,13 +241,13 @@ IGradeAStudentService "1" ....> IStudentGradeFactory
 IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
 IStudentGradeFactory  <|..  StudentGradeFactoryImpl
 
-StudentGradeRequestDTO "1" --> "1" CourseEditionRESTController
+GradeAStudentRequestDTO "1" --> "1" CourseEditionRESTController
 CourseEditionRESTController "1" --> "1" StudentGradeAssembler
-StudentGradeRequestDTO "1" --> "1" StudentGradeAssembler
+GradeAStudentRequestDTO "1" --> "1" StudentGradeAssembler
 StudentGradeAssembler "1" --> "1" GradeAStudentCommand
 IStudentGradeAssembler "1" --> "1" StudentGradeAssembler
 StudentGradeAssembler "1" --> "1" GradeAStudentServiceImpl
-StudentGradeResponseDTO "1" --> "1" GradeAStudentServiceImpl
+GradeAStudentResponseDTO "1" --> "1" GradeAStudentServiceImpl
 
 
 CourseEditionRequestDTO "1" --> "1" CourseEditionRESTController
@@ -274,7 +276,7 @@ GradeAStudentCommand "1" --> "1" StudentID
 GradeAStudentCommand "1" --> "1" CourseEditionID
 
 GradeAStudentServiceImpl "1" ..> "1" GradeAStudentCommand
-GradeAStudentServiceImpl "1" ..> "1" StudentGradeResponseDTO
+GradeAStudentServiceImpl "1" ..> "1" GradeAStudentResponseDTO
 GradeAStudentServiceImpl "1" ..> "1" StudentGrade
 
 GradeAStudentServiceImpl "1" --> "1" IStudentGradeFactory
