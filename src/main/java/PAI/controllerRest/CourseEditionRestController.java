@@ -70,7 +70,12 @@ public class CourseEditionRestController {
 
             boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
+            if (removed) {
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Student is not enrolled in that course edition"); //406 Not Acceptable
+            }
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

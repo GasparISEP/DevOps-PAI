@@ -187,6 +187,32 @@ class CourseEditionRestControllerTest {
     }
 
     @Test
+    void shouldReturnNotAcceptableWhenRemoveCourseEditionEnrolmentCannotBeRemoved() throws Exception {
+        //arrange
+        //ProgrammeEditionID
+        String programmeName = "programmeName";
+        String programmeAcronym = "LEI";
+        UUID schoolYearId = UUID.randomUUID();
+
+        //CourseInStudyPlan
+        String courseAcronym = "SAS";
+        String courseName = "Desenvolvimento de Software";
+        String studyPlanProgrammeName = "studyPlanProgrammeName";
+        String studyPlanProgrammeAcronym  = "LEI1";
+        String studyPlanImplementationDate = "01-10-2024";
+
+        int studentID = 1241924;
+
+        RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO = new RemoveCourseEditionEnrolmentDTO(programmeName, programmeAcronym, schoolYearId, courseAcronym, courseName, studyPlanProgrammeName, studyPlanProgrammeAcronym, studyPlanImplementationDate, studentID);
+        when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(false);
+        //act + assert
+        mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(removeCourseEditionEnrolmentDTO)))
+                .andExpect(status().isNotAcceptable());
+    }
+
+    @Test
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
