@@ -5,61 +5,83 @@ autonumber
 title As an ASC I want to register a Programme \n (Process View Level 3)
 
 
-
-participant "<<Component>>\nController" as C #lightgreen
-participant "<<Component>>\nService" as S #lightblue
-participant "<<Component>>\nRepository" as R #lightyellow
-participant "<<Component>>\nDomain" as D #lightpink
-participant "<<Component>>\nDatabase" as BD #lightyellow
-
-
- -> C ++: (GET) Request Degree Types
-C -> S ++: Get Degree Types
-S -> R ++: Get Degree Types
-R -> BD ++: Retrieve all Degree Types
-BD --> R --: List of Degree Types
-R --> S --: List of Degree Types
-S --> C --: List of Degree Types
- <-- C --: (OK, 200) List of Degree Types
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:Controller" as C #lightgreen
+participant "<<Component>>\n:Service" as S #lightblue
+participant "<<Component>>\n:Repository" as R #lightyellow
+participant "<<Component>>\n:Domain" as D #lightpink
+participant "Programme1:Programme" as P
+participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
 
- -> C ++: (GET) Request Departments
-C -> S ++: Get Departments
-S -> R ++: Get Departments
-R -> BD ++: Retrieve all Departments
-BD --> R --: List of Departments
-R --> S --: List of Departments
-S --> C --: List of Departments
-<-- C --: (OK, 200) List of Departments
-
--> C ++: (GET) Request Teachers
-C -> S ++: Get Teachers
-S -> R ++: Get Teachers
-R -> BD ++: Retrieve all Teachers
-BD --> R --: List of Teachers
-R --> S --: List of Teachers
-S --> C --: List of Teachers
-<-- C --: (OK, 200) List of Teachers
-
--> C ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
+ -> RT ++: (GET) Request Degree Types
+ RT -> C ++: getAllDegreeTypes()
+C -> S ++: getAllDegreeTypes()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<DegreeTypes>
+Drivers --> R --: List<DegreeTypes>
+R --> S --: List<DegreeTypes>
+S --> C --: List<DegreeTypes>
+RT <-- C --: List<DegreeTypes>
+ <-- RT --: (OK, 200) List<DegreeTypes>
 
 
-C -> S ++: Register Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
+ -> RT ++: (GET) Request Departments
+RT -> C ++: getAllDepartments()
+C -> S ++: getAllDepartments()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<Departments>
+Drivers --> R --: List<Departments>
+R --> S --: List<Departments>
+S --> C --: List<Departments>
+C --> RT --: List<Departments>
+<-- RT --: (OK, 200) List<Departments>
 
-S -> D ++: Create Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
-D --> S --: Programme
+-> RT ++: (GET) Request Teachers
+RT -> C ++: getAllTeachers()
+C -> S ++: getAllTeachers()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<Teachers>
+Drivers --> R --: List<Teachers>
+R --> S --: List<Teachers>
+S --> C --: List<Teachers>
+C --> RT --: List<Teachers>
+<-- RT --: (OK, 200) List<Teachers>
 
-S -> R ++: Check if Programme exists (Programme)
-R -> BD ++: Check if Programme exists (Programme)
-BD --> R --: Programme does not exist
-R --> S --: Programme does not exist
+-> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
 
-S -> R ++: Save Programme (Programme)
-R -> BD ++: Save Programme (Programme)
-BD --> R --: Registered Programme
-R --> S --: Registered Programme
+RT -> C ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+C -> S ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
 
-S --> C --: Registered Programme
-<-- C --: (201, Created) Registered Programme
+S -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+activate P
+P --> D: Programme1
+deactivate P
+D --> S --: Programme1
+
+S -> R ++: containsOfIdentity(Programme1.identity())
+R -> Drivers ++: containsOfIdentity(Programme1.identity())
+Drivers -> : containsOfIdentity(Programme1.identity())
+Drivers <-- : False
+Drivers --> R --: False
+R --> S --: False
+
+S -> R ++: save(Programme1)
+R -> Drivers ++: save(Programme1)
+Drivers -> : save(Programme1)
+Drivers <-- : Programme1
+Drivers --> R --: Programme1
+R --> S --: Programme1
+
+S --> C --: Programme1
+C --> RT --: Programme1
+<-- RT --: (201, Created) Programme1
 
 @enduml
