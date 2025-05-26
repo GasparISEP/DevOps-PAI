@@ -7,9 +7,9 @@ participant "programmeResponseDTO:ProgrammeResponseDTO" as PDTO
 
 activate C
 C -> PA ++: fromDomainToDTO(Programme)
-PA -> PDTO**: newProgrammeResponseDTO (name, acronym, quantECTS \nquantSemesters, degreeTypeName, departmentName, teacherName)
+PA -> PDTO**: newProgrammeDTO (name, acronym, maxECTS \nquantSemesters, degreeTypeID, departmentID, teacherID)
 activate PDTO
-PDTO --> PA--: programmeResponseDTO
-PA --> C--: programmeResponseDTO
+PDTO --> PA--: programmeDTO
+PA --> C--: programmeDTO
 
 @enduml
