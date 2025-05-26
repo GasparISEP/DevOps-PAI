@@ -38,5 +38,8 @@ class StudentResponseDTOTest {
         assertEquals(addressCountry, result.getAddressCountry());
         assertEquals(phoneCountryCode, result.getPhoneCountryCode());
         assertEquals(phoneNumber, result.getPhoneNumber());
+        assertEquals(email, result.getEmail());
+        assertEquals(acamedicEmail, result.getAcademicEmail());
+
     }
 }
