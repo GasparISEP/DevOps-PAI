@@ -9,7 +9,11 @@
   text-align: left;
 }
 .teacher-form-table th {
-  background: #f5f5f5;
+  background: #9a1a24;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  text-align: left;
 }
 .teacher-form-table tr {
   background: #fff;
