@@ -49,7 +49,7 @@ deactivate DegreeTypeController
 <-- router: degreeTypesList
 deactivate router
 
--> router: GET /programmes
+-> router: GET /programmes/{degreeTypeID}
 activate router
 router -> ProgrammeController: getProgrammesByDegreeTypeID\n(degreeTypeID)
 activate ProgrammeController

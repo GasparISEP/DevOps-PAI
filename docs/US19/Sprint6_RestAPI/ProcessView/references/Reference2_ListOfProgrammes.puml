@@ -1,13 +1,13 @@
 @startuml
-title Detailed Flow: Retrieve Programmes by Degree Type ID \n(GET /programmes?degreeTypeID=...)
+title Detailed Flow: Retrieve Programmes by Degree Type ID \n(GET /programmes/{degreeTypeID})
 
 participant "<<component>>\nRouter" as Router
-participant "<<component>>\nCourseEditionRestController\n(REST Controller)" as Controller
-participant "<<component>>\nCreateCourseEditionService\n(Service)" as Service
-participant "<<component>>\nProgrammeRepository\n(Repository)" as Repository
+participant "<<component>>\nIProgrammeRestController\n(REST Controller)" as Controller
+participant "<<component>>\nIProgrammeService\n(Service)" as Service
+participant "<<component>>\nIProgrammeRepository\n(Repository)" as Repository
 database "Database" as DB
 
--> Router: GET /programmes?degreeTypeID=...
+-> Router: GET /programmes/{degreeTypeID}
 activate Router
 
 Router -> Controller: getProgrammesByDegreeTypeID(degreeTypeID)
@@ -37,8 +37,8 @@ Service --> Controller: List<Programme>
 deactivate Service
 
 note over Controller #EEEEEE
-Spring automatically converts domain
-objects to JSON (DTOs if applicable)
+Converts domain objects to JSON via DTOs
+(Spring handles this automatically)
 end note
 
 Controller --> Router: programmesList (JSON)
