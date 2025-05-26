@@ -10,4 +10,6 @@ public interface ITeacherCategoryAssembler {
     TeacherCategoryResponseDTO toDTO (TeacherCategory teacherCategory);
 
     Name toVO (TeacherCategoryRequestDTO teacherCategoryRequestDTO);
+
+    Iterable<TeacherCategoryResponseDTO> toDTOs(Iterable<TeacherCategory> teacherCategories);
 }

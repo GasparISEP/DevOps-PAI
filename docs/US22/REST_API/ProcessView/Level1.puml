@@ -4,13 +4,17 @@ skinparam sequencemessagealign center
 
 title As a RUC, I want to grade a Student in a CourseEdition \n (Process View Level 1)
 
-participant ":System" as System
+participant ":System" as System #lightblue
 
-RUC -> System  : Select Student grading in a Course Edition
+RUC -> System  : Select "Student grading in a Course Edition"
 activate System
-System --> RUC  : Student, Grade, Date, Course Edition?
+System --> RUC  : Which CourseEdition?
 deactivate System
-RUC -> System : Student, Grade, Date, Course Edition !
+RUC -> System : Course Edition!
+activate System
+System --> RUC : Student Grading form
+deactivate System
+RUC -> System : grade, date, studentID
 activate System
 System --> RUC : Confirm?
 deactivate System

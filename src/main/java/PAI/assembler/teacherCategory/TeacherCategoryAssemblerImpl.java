@@ -1,10 +1,15 @@
 package PAI.assembler.teacherCategory;
 
 import PAI.VOs.Name;
+import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class TeacherCategoryAssemblerImpl implements ITeacherCategoryAssembler {
@@ -30,5 +35,18 @@ public class TeacherCategoryAssemblerImpl implements ITeacherCategoryAssembler {
 
         return new Name (teacherCategoryRequestDTO.name());
     }
+
+    @Override
+    public Iterable<TeacherCategoryResponseDTO> toDTOs(Iterable<TeacherCategory> teacherCategories){
+        if (teacherCategories == null) {
+            return Collections.emptyList();}
+
+            List<TeacherCategoryResponseDTO> listDto = new ArrayList<>();
+            for (TeacherCategory existingTeacherCategory : teacherCategories){
+                TeacherCategoryResponseDTO responseDto = toDTO(existingTeacherCategory);
+                listDto.add(responseDto);
+            }
+            return listDto;
+        }
 }
 

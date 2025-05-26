@@ -1,8 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.TeacherAcronym;
+import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
@@ -19,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -250,4 +249,72 @@ class ProgrammeRestControllerTest {
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    void shouldReturnProgrammesByDegreeTypeID() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "123";
+        DegreeTypeID degreeTypeId = new DegreeTypeID(degreeTypeIdStr);
+
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDTO dto = new ProgrammeIDDTO("Name", "Acr");
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of(programme));
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+        when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto);
+
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals("Name", response.getBody().get(0).name());
+        assertEquals("Acr", response.getBody().get(0).acronym());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenNoProgrammesFound() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "123";
+        DegreeTypeID degreeTypeId = new DegreeTypeID(degreeTypeIdStr);
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of()); // Empty list
+
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+
+    @Test
+    void shouldReturnBadRequestWhenExceptionIsThrown() throws Exception {
+        // Arrange
+        createDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String degreeTypeIdStr = "invalid-id";
+
+        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> controller.getProgrammesByDegreeTypeID(degreeTypeIdStr));
+    }
+
+
+
 }
