@@ -1,0 +1,33 @@
+.home-page-cta-section {
+    max-width: 120rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.cta-main-div {
+    background-image: url("../assets/images/home-page-main-img.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 6.4rem 2.2rem;
+    width: 100%;
+    margin-top: 4.2rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+
+.cta-main-div span {
+    font-size: 3.2rem;
+}
+
+.cta-main-div h1 {
+    color: #fff;
+    font-size: 4.6rem;
+}

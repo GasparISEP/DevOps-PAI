@@ -15,6 +15,10 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 participant "<<component>>\n:Router" as router #E1F5FE
+participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as DegreeTypeController #E1F5FE
+participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as ProgrammeController #E1F5FE
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as CSPController #E1F5FE
+participant "<<component>>\n:ProgrammeEditionRestController\n(REST Controller)" as PEController #E1F5FE
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
@@ -28,71 +32,75 @@ participant "<<component>>\n:ICourseEdition\nRepositorySpringData\n(JPARepositor
 
 database DB as Database #E1F5FE
 
--> router: GET /degree-types
+-> router: GET /degreetypes
 activate router
-router -> Controller: getAllDegreeTypes()
-activate Controller
-note over Controller #EEEEEE
+router -> DegreeTypeController: getAllDegreeTypes()
+activate DegreeTypeController
+note over DegreeTypeController #EEEEEE
 Spring Boot automatically converts
  incoming JSON into DTOs
 end note
-ref over Controller
+ref over DegreeTypeController
+<<Reference1_ListOfDegreeTypes>>
    <b>List of Degree Types</b>
 end ref
-Controller --> router: degreeTypesList
-deactivate Controller
+DegreeTypeController --> router: degreeTypesList
+deactivate DegreeTypeController
 <-- router: degreeTypesList
 deactivate router
 
--> router: GET /programmes
+-> router: GET /programmes/{degreeTypeID}
 activate router
-router -> Controller: getProgrammesByDegreeTypeID\n(degreeTypeID)
-activate Controller
-note over Controller #EEEEEE
+router -> ProgrammeController: getProgrammesByDegreeTypeID\n(degreeTypeID)
+activate ProgrammeController
+note over ProgrammeController #EEEEEE
 Spring Boot automatically converts
  incoming JSON into DTOs
 end note
-ref over Controller
+ref over ProgrammeController
+<<Reference2_ListOfProgrammes>>
    <b>List of Programmes</b>
 end ref
-Controller --> router: programmesList
-deactivate Controller
+ProgrammeController --> router: programmesList
+deactivate ProgrammeController
 <-- router: programmesList
 deactivate router
 
--> router: GET /courses-in-study-plan
+-> router: GET /coursesinstudyplan/{programmeID}
 activate router
-router -> Controller: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
-activate Controller
-note over Controller #EEEEEE
+router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
+activate CSPController
+note over CSPController #EEEEEE
 Spring Boot automatically converts
  incoming JSON into DTOs
 end note
-ref over Controller
+ref over CSPController
+<<Reference3_ListOfCoursesInStudyPlan>>
    <b>List of Courses In Study Plan</b>
 end ref
-Controller --> router: coursesInStudyPlanList
-deactivate Controller
+CSPController --> router: coursesInStudyPlanList
+deactivate CSPController
 <-- router: coursesInStudyPlanList
 deactivate router
 
--> router: GET /programme-editions
+-> router: GET /programmeeditions/{programmeID}
 activate router
-router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeID)
-activate Controller
-note over Controller #EEEEEE
+router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeID)
+activate PEController
+note over PEController #EEEEEE
 Spring Boot automatically converts
  incoming JSON into DTOs
 end note
-ref over Controller
+ref over PEController
+<<Reference4_ListOfProgrammeEditions>>
    <b>List of Programme Editions</b>
 end ref
-Controller --> router: programmeEditionsList
-deactivate Controller
+PEController --> router: programmeEditionsList
+deactivate PEController
 <-- router: programmeEditionsList
 deactivate router
 
--> router: POST /course-editions
+-> router: POST /courseeditions
 activate router
 router -> Controller: createCourseEdition(JSON)
 

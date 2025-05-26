@@ -1,0 +1,45 @@
+@startuml
+title Detailed Flow: Retrieve List of Degree Types \n(GET /degreetypes)
+
+participant "<<component>>\nRouter" as Router
+participant "<<component>>\nIDegreeTypeRestController\n(REST Controller)" as Controller
+participant "<<component>>\nIDegreeTypeRegistrationService\n(Service)" as Service
+participant "<<component>>\nIDegreeTypeRepository\n(Repository)" as Repository
+database "Database" as DB
+
+-> Router: GET /degreetypes
+activate Router
+
+Router -> Controller: getAllDegreeTypes()
+activate Controller
+
+Controller -> Service: getAllDegreeTypes()
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository -> DB: SELECT * FROM degree_types
+activate DB
+
+DB --> Repository: List<DegreeTypeDataModel>
+deactivate DB
+
+Repository --> Service: List<DegreeType>
+deactivate Repository
+
+Service --> Controller: List<DegreeType>
+deactivate Service
+
+note over Controller #EEEEEE
+Converts domain objects to JSON via DTOs
+(Spring handles this automatically)
+end note
+
+Controller --> Router: degreeTypesList (JSON)
+deactivate Controller
+
+<-- Router : degreeTypesList (JSON)
+deactivate Router
+
+@enduml

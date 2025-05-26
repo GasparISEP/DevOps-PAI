@@ -17,8 +17,6 @@ public interface ITeacherCategoryRepository extends IRepository<TeacherCategoryI
 
     boolean existsByName(Name name);
 
-    boolean registerTeacherCategory(Name name);
-
     TeacherCategory save(TeacherCategory entity);
 
     List<TeacherCategory> getTeacherCategoryList();

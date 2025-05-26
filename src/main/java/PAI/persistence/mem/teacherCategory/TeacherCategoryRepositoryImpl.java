@@ -3,7 +3,6 @@ package PAI.persistence.mem.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 
 import java.util.List;
@@ -11,46 +10,16 @@ import java.util.Optional;
 
 public class TeacherCategoryRepositoryImpl implements ITeacherCategoryRepository {
 
-    private final ITeacherCategoryFactory teacherCategoryFactory;
     private final List<TeacherCategory> teacherCategories;
 
-    public TeacherCategoryRepositoryImpl(ITeacherCategoryFactory teacherCategoryFactory,
-                                         ITeacherCategoryListFactory teacherCategoryListFactory) {
-        if (teacherCategoryFactory == null || teacherCategoryListFactory == null) {
+    public TeacherCategoryRepositoryImpl(ITeacherCategoryListFactory teacherCategoryListFactory) {
+
+        if (teacherCategoryListFactory == null) {
             throw new IllegalArgumentException("Factory instances cannot be null.");
         }
-        this.teacherCategoryFactory = teacherCategoryFactory;
+
         this.teacherCategories = teacherCategoryListFactory.getTeacherCategoryList();
     }
-
-    /**
-     * Attempts to register a new TeacherCategory.
-     * It creates the aggregate via the factory, checks for duplicates, and then saves it.
-     *
-     * @param teacherCategoryName the name for the new teacher category
-     * @return true if successfully registered, false if a duplicate exists
-     * @throws IllegalArgumentException if teacherCategoryName is null
-     */
-    @Override
-    public boolean registerTeacherCategory(Name teacherCategoryName) {
-        if (teacherCategoryName == null) {
-            throw new IllegalArgumentException("Name cannot be null.");
-        }
-
-        try {
-            if (existsByName(teacherCategoryName)) {
-                return false;
-            }
-
-            TeacherCategory teacherCategory = teacherCategoryFactory.createTeacherCategory(teacherCategoryName);
-            save(teacherCategory);
-            return true;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 
     @Override
     public TeacherCategory save(TeacherCategory teacherCategory) {
@@ -87,8 +56,10 @@ public class TeacherCategoryRepositoryImpl implements ITeacherCategoryRepository
 
     @Override
     public boolean containsOfIdentity(TeacherCategoryID id) {
-        return teacherCategories.stream()
-                .anyMatch(tc -> tc.identity().equals(id));
+        if (!ofIdentity(id).isPresent()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
