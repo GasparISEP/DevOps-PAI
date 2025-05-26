@@ -187,11 +187,5 @@ class NameTest {
         assertNotEquals(name1.hashCode(), name2.hashCode());
     }
 
-    @Test
-    void shouldReturnCorrectNameValue() {
-        Name name = new Name("Programming Fundamentals");
-        assertEquals("Programming Fundamentals", name.getValue());
-    }
-
 }
 

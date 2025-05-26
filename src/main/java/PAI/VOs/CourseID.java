@@ -50,10 +50,10 @@ public class CourseID implements DomainId {
     }
 
     public String getCourseAcronymValue() {
-        return _acronym.getValue();
+        return _acronym.getAcronym();
     }
 
     public String getCourseNameValue() {
-        return _name.getValue();
+        return _name.getName();
     }
 }
