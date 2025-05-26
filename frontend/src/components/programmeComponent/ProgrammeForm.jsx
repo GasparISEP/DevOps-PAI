@@ -66,11 +66,11 @@ export default function ProgrammeForm() {
         setLoading(true);
         try {
             const selectedDegreeType = degreeTypes.find(dt => dt.id === form.degreeTypeID);
-
+            console.log("selectedDegreeType:", selectedDegreeType);
             // Converte quantECTS e quantSemesters para número
             const payload = {
                 ...form,
-                maxECTS: parseInt(selectedDegreeType.maxECTS),
+                maxECTS: parseInt(selectedDegreeType.maxEcts),
                 quantSemesters: parseInt(form.quantSemesters)
             };
 
