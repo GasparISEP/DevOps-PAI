@@ -1,6 +1,7 @@
 package PAI.persistence.springdata.teacherCategory;
 
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.TeacherCategoryFactorySpringImpl;
 import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
@@ -11,15 +12,17 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @Import({
         TeacherCategoryRepositorySpringDataImpl.class,
         TeacherCategoryMapperImpl.class,
-        TeacherCategoryIDMapperImpl.class,
-        TeacherCategoryFactorySpringImpl.class
+        TeacherCategoryIDMapperImpl.class
 })
 class TeacherCategoryRepositoryPersistenceTest {
 
@@ -30,13 +33,15 @@ class TeacherCategoryRepositoryPersistenceTest {
     void shouldPersistAndRetrieveTeacherCategory() {
         // Arrange
         Name name = new Name("Professor Auxiliar");
+        TeacherCategoryID id = new TeacherCategoryID(UUID.randomUUID());
+        TeacherCategory teacherCategory = new TeacherCategory(id, name);
 
         // Act
-        boolean registered = repository.registerTeacherCategory(name);
+        TeacherCategory registered = repository.save(teacherCategory);
         List<TeacherCategory> allCategories = repository.getTeacherCategoryList();
 
         // Assert
-        assertTrue(registered);
+        assertNotNull(registered);
         assertEquals(1, allCategories.size());
         assertEquals("Professor Auxiliar", allCategories.get(0).getNameValue());
     }
@@ -44,14 +49,18 @@ class TeacherCategoryRepositoryPersistenceTest {
     @Test
     void shouldNotRegisterDuplicateTeacherCategory() {
         // Arrange
-        Name name = new Name("Professor Associado");
-        repository.registerTeacherCategory(name);
+        Name name = new Name("Assistant Professor");
+        TeacherCategoryID id1 = new TeacherCategoryID(UUID.randomUUID());
+        TeacherCategory category1 = new TeacherCategory(id1,name);
+        TeacherCategory category2 = new TeacherCategory(id1,name);
+
+        repository.save(category1);
 
         // Act
-        boolean secondTry = repository.registerTeacherCategory(name);
+        TeacherCategory secondTry = repository.save(category2);
 
         // Assert
-        assertFalse(secondTry);
+        assertNotNull(secondTry);
         assertEquals(1, repository.getTeacherCategoryList().size());
     }
 }
