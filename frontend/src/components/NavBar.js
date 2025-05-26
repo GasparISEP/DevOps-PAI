@@ -12,6 +12,7 @@ const NavBar = () => {
   return (
     <div className="main-navbar-div">
       <nav className="navbar">
+
         <div className="logo-div">
           <img className="logo-img" src={logoImage} alt="ISEP logo"/>
         </div>
@@ -51,6 +52,7 @@ const NavBar = () => {
         </ul>
         <div className="navbar-ghost-div"></div>
       </nav>
+
     </div>
   );
 };
