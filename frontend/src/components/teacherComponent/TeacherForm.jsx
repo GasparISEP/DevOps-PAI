@@ -54,6 +54,11 @@ export default function TeacherForm() {
     function handleChange(e) {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
+        // If you want to log the selected department ID
+        // if (e.target.name === 'departmentID') {
+        //     console.log('Selected department ID:', e.target.value);
+        // }
+
         console.log(form.departmentID)
     }
 

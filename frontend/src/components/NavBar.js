@@ -17,9 +17,13 @@ const NavBar = () => {
         </button>
         {isOpen && (
           <div className="dropdown-menu">
-            <Link to="/teachers" className="dropdown-item">
+            <div className="dropdown-item">
               Teacher
-            </Link>
+              <div className="dropdown-submenu">
+                <Link to="/teachers/register" className="dropdown-subitem">Registrar Professor</Link>
+                <Link to="/teachers/all" className="dropdown-subitem">Mostrar Professores</Link>
+              </div>
+            </div>
             <Link to="/students" className="dropdown-item">
               Student
             </Link>
@@ -37,3 +41,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
