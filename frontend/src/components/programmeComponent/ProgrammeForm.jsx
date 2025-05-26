@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { registerProgramme } from '../../services/programmeService';
 import formImage from '../../assets/images/form-image.jpg';
+import NavBar from "../NavBar";
 
 export default function ProgrammeForm() {
     const [form, setForm] = useState({

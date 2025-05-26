@@ -1,9 +1,14 @@
 import React from 'react';
 import ProgrammeForm from '../components/programmeComponent/ProgrammeForm';
-import '../styles/RegisterStudentPage.css'; // ou cria um novo CSS para programmes
+import '../styles/RegisterStudentPage.css';
+import NavBar from "../components/NavBar";
 
 export default function RegisterProgrammePage() {
     return (
+        <>
+            <NavBar />
             <ProgrammeForm />
+        </>
+
     );
 }
