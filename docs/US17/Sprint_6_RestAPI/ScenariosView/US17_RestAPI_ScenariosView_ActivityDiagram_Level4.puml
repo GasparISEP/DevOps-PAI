@@ -1,0 +1,20 @@
+
+@startuml
+title US17 - Activity Diagram (Caminho feliz + exceções)
+
+(*) --> "ASC preenche formulário"
+--> "Frontend envia POST"
+--> "Controller valida dados"
+
+if "ID de inscrição já existe?" then
+  -->[Sim] "Devolve erro 409
+(Conflito)"
+  --> (*)
+else
+  -->[Não] "Criar Aggregate via Factory"
+  --> "Persistir aggregate"
+  --> "Responder com sucesso"
+  --> (*)
+endif
+
+@enduml
