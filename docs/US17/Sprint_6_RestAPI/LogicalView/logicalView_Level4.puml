@@ -1,95 +1,101 @@
-@startuml
 
-' Logical View - US17: Enrol a Student in a ProgrammeEdition
+@startuml
+title Logical View - US17: Enrol a Student (Organizado por Camadas)
 
 skinparam ranksep 60
 skinparam nodesep 60
 skinparam linetype ortho
 
-' === CONTROLLER ===
-class StudentProgrammeEditionEnrolmentRestController <<RESTController>> {
-    + getProgrammeEditionsStudentCanEnrollIn(studentId: String): ResponseEntity<List<StudentProgrammeEditionEnrolmentDTO>>
-    + enrolStudentInProgrammeEdition(request: ProgrammeEditionEnrolmentRequest): ResponseEntity<Void>
+' === APPLICATION LAYER ===
+rectangle "Application Layer" {
+    class StudentProgrammeEditionEnrolmentRestController <<RESTController>> {
+        + getProgrammeEditionsStudentCanEnrollIn(studentId: String): ResponseEntity<List<StudentProgrammeEditionEnrolmentDTO>>
+        + enrolStudentInProgrammeEdition(request: ProgrammeEditionEnrolmentRequest): ResponseEntity<Void>
+    }
+
+    interface IStudentProgrammeEditionEnrolmentService <<Service>> {
+        + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
+        + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
+    }
+
+    class StudentProgrammeEditionEnrolmentServiceImpl <<Service>> {
+        + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
+        + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
+    }
 }
 
-' === SERVICE ===
-interface IStudentProgrammeEditionEnrolmentService <<Service>> {
-    + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
-    + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
+' === DOMAIN LAYER ===
+rectangle "Domain Layer" {
+    interface IProgrammeEditionEnrolmentFactory <<Factory>> {
+        + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
+    }
+
+    class ProgrammeEditionEnrolmentFactoryImpl <<Factory>> {
+        + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
+    }
+
+    class ProgrammeEdition <<Entity>> {
+        + findProgrammeIDInProgrammeEdition(): ProgrammeID
+        + findSchoolYearIDInProgrammeEdition(): SchoolYearID
+    }
+
+    class ProgrammeEditionEnrolment <<Entity>>
+    class ProgrammeID <<VO>>
+    class SchoolYearID <<VO>>
+    class StudentID <<VO>>
+    class ProgrammeEditionID <<VO>>
+    class ProgrammeEditionEnrolmentID <<VO>>
 }
 
-class StudentProgrammeEditionEnrolmentServiceImpl <<Service>> {
-    + findAvailableProgrammeEditionsForStudent(StudentID): List<StudentProgrammeEditionEnrolmentDTO>
-    + enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID): void
+' === INFRASTRUCTURE LAYER ===
+rectangle "Infrastructure Layer" {
+    interface IProgrammeEnrolmentRepository <<Repository>> {
+        + findProgrammesByStudent(StudentID): List<ProgrammeID>
+    }
+
+    interface IProgrammeEditionRepository <<Repository>> {
+        + findByProgrammeIDs(List<ProgrammeID>): List<ProgrammeEdition>
+        + findByID(ProgrammeEditionID): Optional<ProgrammeEdition>
+    }
+
+    interface IProgrammeEditionEnrolmentRepository <<Repository>> {
+        + existsByID(ProgrammeEditionEnrolmentID): boolean
+        + save(ProgrammeEditionEnrolment): void
+    }
 }
 
-' === FACTORY ===
-interface IProgrammeEditionEnrolmentFactory <<Factory>> {
-    + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
-}
+' === MAPPER / ASSEMBLER ===
+rectangle "Assembler" {
+    interface IStudentProgrammeEditionEnrolmentAssembler <<Assembler>> {
+        + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
+    }
 
-class ProgrammeEditionEnrolmentFactoryImpl <<Factory>> {
-    + create(id, studentId, programmeEditionId): ProgrammeEditionEnrolment
-}
-
-' === ASSEMBLER ===
-interface IStudentProgrammeEditionEnrolmentAssembler <<Assembler>> {
-    + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
-}
-
-class StudentProgrammeEditionEnrolmentAssemblerImpl <<Assembler>> {
-    + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
+    class StudentProgrammeEditionEnrolmentAssemblerImpl <<Assembler>> {
+        + toDTO(ProgrammeEdition): StudentProgrammeEditionEnrolmentDTO
+    }
 }
 
 ' === DTOs ===
-class StudentProgrammeEditionEnrolmentDTO <<DTO>> {
-    - programmeAcronym: String
-    - programmeName: String
-    - schoolYearId: String
-    + getProgrammeAcronym(): String
-    + getProgrammeName(): String
-    + getSchoolYearId(): String
+rectangle "DTOs" {
+    class StudentProgrammeEditionEnrolmentDTO <<DTO>> {
+        - programmeAcronym: String
+        - programmeName: String
+        - schoolYearId: String
+        + getProgrammeAcronym(): String
+        + getProgrammeName(): String
+        + getSchoolYearId(): String
+    }
+
+    class ProgrammeEditionEnrolmentRequest <<DTO>> {
+        - studentId: String
+        - programmeAcronym: String
+        - programmeName: String
+        - schoolYearId: String
+        + getters()
+    }
 }
 
-class ProgrammeEditionEnrolmentRequest <<DTO>> {
-    - studentId: String
-    - programmeAcronym: String
-    - programmeName: String
-    - schoolYearId: String
-    + getters()
-}
-
-' === AGGREGATE ===
-class ProgrammeEdition <<Entity>> {
-    + findProgrammeIDInProgrammeEdition(): ProgrammeID
-    + findSchoolYearIDInProgrammeEdition(): SchoolYearID
-}
-
-class ProgrammeEditionEnrolment <<Entity>>
-
-' === VALUE OBJECTS ===
-class ProgrammeID <<VO>>
-class SchoolYearID <<VO>>
-class StudentID <<VO>>
-class ProgrammeEditionID <<VO>>
-class ProgrammeEditionEnrolmentID <<VO>>
-
-' === REPOSITORIES ===
-interface IProgrammeEnrolmentRepository <<Repository>> {
-    + findProgrammesByStudent(StudentID): List<ProgrammeID>
-}
-
-interface IProgrammeEditionRepository <<Repository>> {
-    + findByProgrammeIDs(List<ProgrammeID>): List<ProgrammeEdition>
-    + findByID(ProgrammeEditionID): Optional<ProgrammeEdition>
-}
-
-interface IProgrammeEditionEnrolmentRepository <<Repository>> {
-    + existsByID(ProgrammeEditionEnrolmentID): boolean
-    + save(ProgrammeEditionEnrolment): void
-}
-
-' === NAVIGATIONS ===
+' === RELAÇÕES ===
 StudentProgrammeEditionEnrolmentRestController --> IStudentProgrammeEditionEnrolmentService
 StudentProgrammeEditionEnrolmentRestController --> ProgrammeEditionEnrolmentRequest
 

@@ -291,6 +291,114 @@ class GradeAStudentServiceImplTest {
         assertEquals(0, approvalRate);
     }
 
+    @Test
+    public void shouldGetCourseEditionAverageOf12() throws Exception {
+        //Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
 
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        StudentGrade studentGrade3 = mock(StudentGrade.class);
+        StudentGrade studentGrade4 = mock(StudentGrade.class);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3, studentGrade4));
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+        when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
+        when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
+        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
+        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
+        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
+        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+
+        when(studentGrade1.knowGrade()).thenReturn(10.0);
+        when(studentGrade2.knowGrade()).thenReturn(12.0);
+        when(studentGrade3.knowGrade()).thenReturn(14.0);
+        when(studentGrade4.knowGrade()).thenReturn(20.0);
+
+        //Act
+        double result = gradeAStudentService.getAverageGrade(courseEditionIDDouble);
+
+        //Assert
+        assertEquals(12.0, result);
+    }
+
+    @Test
+    public void shouldGetCourseEditionAverageOf12WhenOnly2StudentsHaveCourseEdition() throws Exception {
+        //Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        StudentGrade studentGrade3 = mock(StudentGrade.class);
+        StudentGrade studentGrade4 = mock(StudentGrade.class);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3, studentGrade4));
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+        when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
+        when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
+        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
+        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
+        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
+        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+
+        when(studentGrade1.knowGrade()).thenReturn(10.0);
+        when(studentGrade2.knowGrade()).thenReturn(12.0);
+        when(studentGrade3.knowGrade()).thenReturn(14.0);
+        when(studentGrade4.knowGrade()).thenReturn(20.0);
+
+        //Act
+        double result = gradeAStudentService.getAverageGrade(courseEditionIDDouble);
+
+        //Assert
+        assertEquals(12.0, result);
+    }
+
+    @Test
+    public void shouldReturnNullWhenNumberOfStudentsGradesIsZero() throws Exception {
+        //Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+
+        GradeAStudentServiceImpl gradeAStudentService = new GradeAStudentServiceImpl(studentGradeFactory, studentGradeRepo,
+                courseEditionRepo, courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        StudentGrade studentGrade1 = mock(StudentGrade.class);
+        StudentGrade studentGrade2 = mock(StudentGrade.class);
+        StudentGrade studentGrade3 = mock(StudentGrade.class);
+        StudentGrade studentGrade4 = mock(StudentGrade.class);
+
+        when(studentGradeRepo.findAll()).thenReturn(Arrays.asList(studentGrade1, studentGrade2, studentGrade3, studentGrade4));
+
+        when(studentGrade1.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+        when(studentGrade2.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+        when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+        when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
+        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
+        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
+        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
+        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+
+        when(studentGrade1.knowGrade()).thenReturn(10.0);
+        when(studentGrade2.knowGrade()).thenReturn(12.0);
+        when(studentGrade3.knowGrade()).thenReturn(14.0);
+        when(studentGrade4.knowGrade()).thenReturn(20.0);
+
+        //Act
+        Double result = gradeAStudentService.getAverageGrade(courseEditionIDDouble);
+
+        //Assert
+        assertEquals(null, result);
+    }
 }

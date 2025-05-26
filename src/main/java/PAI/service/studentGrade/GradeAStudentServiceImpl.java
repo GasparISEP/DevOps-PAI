@@ -158,5 +158,21 @@ public class GradeAStudentServiceImpl {
         return ((double) totalApprovalStudents / totalOfStudents) * 100;
     }
 
+    public Double getAverageGrade(CourseEditionID courseEditionID) {
+        int numOfStudent = 0;
+        double sumGrade = 0;
 
+        for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
+            if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
+                Grade grade1 = studentGrade.get_grade();
+                double grade = grade1.knowGrade();
+                sumGrade += grade;
+                numOfStudent++;
+            }
+        }
+        if (numOfStudent == 0) {
+            return null;
+        }
+        return sumGrade / numOfStudent;
+    }
 }

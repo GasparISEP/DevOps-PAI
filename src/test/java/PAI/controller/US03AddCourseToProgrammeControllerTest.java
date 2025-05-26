@@ -2,6 +2,7 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
@@ -300,7 +301,8 @@ public class US03AddCourseToProgrammeControllerTest {
         courseFactory = new CourseFactoryImpl();
         courseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
         courseRepository = new CourseRepositoryImpl(courseRepositoryListFactory);
-        courseService = new CourseServiceImpl(courseFactory, courseRepository);
+        ICourseAssembler courseAssembler = new PAI.assembler.course.CourseAssemblerImpl();
+        courseService = new CourseServiceImpl(courseFactory, courseRepository, courseAssembler);
 
         studyPlanFactory = new StudyPlanFactoryImpl();
         studyPlanRepositoryListFactory = new StudyPlanListFactoryImpl();

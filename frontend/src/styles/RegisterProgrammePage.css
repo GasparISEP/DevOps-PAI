@@ -1,6 +1,6 @@
 .programme-main-component-div {
-    margin-top: 4.2rem;
-    margin-bottom: 4.2rem;
+    margin-top: 6.8rem;
+    margin-bottom: 6.8rem;
     max-width: 120rem;
     display: flex;
     align-items: center;
@@ -35,19 +35,20 @@
 .programme-form {
     display: flex;
     flex-direction: column;
-    padding: 2.2rem 6.2rem;
+    padding: 3.6rem 10rem;
 }
 
 .programme-form h1 {
     color: #333;
     align-self: flex-start;
+    font-size: 2.6rem;
 
 }
 
 .programme-form-div {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.2rem;
     align-items: flex-start;
 }
 
@@ -62,13 +63,14 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.2rem;
+    gap: 0.6rem;
     width: 70%;
 }
 
 .programme-form-label {
     color: #333;
     font-weight: 600;
+    font-size: 1.4rem;
 }
 
 .programme-form-input {
@@ -86,5 +88,5 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 2.4rem;
 }

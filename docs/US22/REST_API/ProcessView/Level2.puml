@@ -8,45 +8,30 @@ skinparam sequencemessagealign center
 actor RUC as RUC
 participant "Frontend" as FE #application
 participant "Backend" as BE #strategy
-database DB
 
-
-''RUC -> FE: Grade a Student in a Course Edition
-''activate FE
-''FE --> RUC: Grade details?
-''RUC -> FE: grade, date, studentID
-''FE --> RUC : Which Course Edition?
-''deactivate FE
-
-RUC -> FE : Grade a Student in a Course Edition
-activate FE
-FE -> BE : (GET) \n Retrieve all Course Editions
-activate BE
-BE --> DB : (GET) \n Retrieve all Course Editions
-activate DB
-DB --> BE : All Course Editions
-deactivate DB
-BE --> FE : All Course Editions
-deactivate BE
-FE --> RUC : Choose a Course Edition
-deactivate FE
 
 RUC -> FE : Request to grade a Student in the Course Edition
 activate FE
-FE --> RUC: Grade details?
-deactivate FE
-RUC -> FE: grade, date, studentID
-activate FE
-FE -> BE : (POST) \n Grade a Student in a Course Edition
+
+
+FE -> BE : Retrieve all Course Editions
 activate BE
-BE -> DB: (INSERT) \n Save Student's grade in Course Edition to Database
-activate DB
-DB --> BE: StudentGrade
-deactivate DB
-BE --> FE: Created StudentGrade!
+BE --> : Retrieve all Course Editions
+BE <--  : All Course Editions
+BE --> FE : All Course Editions
+deactivate BE
+FE --> RUC : Which Course Edition?
+RUC -> FE : This Course Edition!
+
+FE --> RUC: Student Grading form
+RUC -> FE: grade, date, studentID
+FE -> BE : Grade a Student in the Course Edition \n (grade, date, studentID)
+activate BE
+BE ->  : Save Student's grade in Database \n (grade, date, studentID)
+BE <--  : StudentGrade \n (grade, date, studentID)
+BE --> FE: Created StudentGrade \n (grade, date, studentID)
 deactivate BE
 FE --> RUC: Student graded successfully!
 deactivate FE
-
 
 @enduml

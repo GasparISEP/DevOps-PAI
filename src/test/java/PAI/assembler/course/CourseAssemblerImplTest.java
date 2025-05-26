@@ -1,18 +1,50 @@
 package PAI.assembler.course;
 
 import PAI.VOs.Acronym;
+import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.domain.course.Course;
 import PAI.dto.course.CourseDTOCommand;
+import PAI.dto.course.CourseIDDTO;
 import PAI.dto.course.CourseRequestDTO;
 import PAI.dto.course.CourseResponseDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class CourseAssemblerImplTest {
+
+    @Test
+    void toIDDTOShouldReturnCourseIDDTO() {
+        // Arrange
+        CourseID courseIDDouble = mock(CourseID.class);
+        when(courseIDDouble.getCourseAcronymValue()).thenReturn("DSOFT");
+        when(courseIDDouble.getCourseNameValue()).thenReturn("Desenvolvimento de Software");
+
+        CourseAssemblerImpl assembler = new CourseAssemblerImpl();
+
+        // Act
+        CourseIDDTO result = assembler.toIDDTO(courseIDDouble);
+
+        // Assert
+        assertInstanceOf(CourseIDDTO.class, result);
+        assertEquals("DSOFT", result.acronym());
+        assertEquals("Desenvolvimento de Software", result.name());
+    }
+
+    @Test
+    void toIDDTOShouldThrowExceptionWhenCourseIDIsNull() {
+        // Arrange
+        CourseAssemblerImpl assembler = new CourseAssemblerImpl();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> assembler.toIDDTO(null));
+        assertEquals("Course ID cannot be null", exception.getMessage());
+    }
 
     @Test
     void toDomainShouldReturnCourseDTOCommand () {
