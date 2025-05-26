@@ -6,43 +6,30 @@ skinparam defaultTextAlignment center
 
 title "PAI - Logical View Level 3"
 
-  interface "API" as API
-  interface "BD API" as BDAPI
+  interface "REST API" as RESTAPI
 
-component "Backend" as backend {
+component "Backend" {
     portin " " as p1
-    portin " " as p3
 
-  rectangle "Drivers and frameworks " {
+  rectangle "Drivers and frameworks" {
 
     component "Router"
-    component Drivers
 
-    Router -- p1
-    Drivers -- p3
-
-    interface " " as IDrivers
-
-    Drivers -- IDrivers
+    Router -up- p1
   }
 
-  rectangle "Application layer" {
+  rectangle "Interface Adapters" {
     component Controller
-    component Repository
-    interface " " as IRepo
     interface " " as IController
 
-
-    Repository -- IRepo
-    Controller -right- IController
-
+    Controller -up- IController
   }
 
   rectangle "Service layer" {
     component Service
     interface " " as IService
 
-    Service - IService
+    Service -up- IService
   }
 
   rectangle "Domain layer" {
@@ -52,14 +39,11 @@ component "Backend" as backend {
     Domain -up- IDomain
   }
 
-  p1 -up- API
-  p3 -up-( BDAPI
+  p1 -up-( RESTAPI
 
   Router -down-( IController
-  Repository -up-( IDrivers
 
   Controller -down-( IService
-  Service -up-( IRepo
   Service -down-( IDomain
 }
 
