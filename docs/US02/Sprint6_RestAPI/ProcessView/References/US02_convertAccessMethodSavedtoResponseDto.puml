@@ -1,6 +1,6 @@
 @startuml
 
-title Convert Access Method Saved to ResponseDTO
+title Convert Access Method Saved to ServiceResponse with ResponseDTO
 
 autonumber
 skinparam {
@@ -11,15 +11,19 @@ skinparam {
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant ":ConfigureAccessMethodRESTController" as Controller
+participant ":IAccessMethodService" as Service
 participant ":IAccessMethodAssembler" as amAssembler
-activate Controller #lightBlue
-Controller -> amAssembler: toDTO (accessMethod)
+activate Service #lightBlue
+
+Service -> amAssembler: toDTO(accessMethod)
 activate amAssembler #lightBlue
 
 create "amResponseDTO: AccessMethodResponseDTO"
-amAssembler -> "amResponseDTO: AccessMethodResponseDTO": create (acessMethod.identity().toString, \n accessMethod.getName().getNameWithNumbersAndSpecialChars());
+amAssembler -> "amResponseDTO: AccessMethodResponseDTO": create(accessMethod.identity().toString, \n accessMethod.getName().getnameWithNumbersAndSpecialChars())
 deactivate amAssembler
-deactivate Controller
+
+create "amResponse: ServiceResponse<AccessMethodResponseDTO>"
+Service -> "amResponse: ServiceResponse<AccessMethodResponseDTO>": success(amResponseDTO, "Access method created successfully.")
+deactivate Service
 
 @enduml
