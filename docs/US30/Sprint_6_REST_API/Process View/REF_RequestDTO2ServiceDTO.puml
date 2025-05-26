@@ -12,11 +12,11 @@ participant ":RESTController" as restController <<component>> <<RESTController>>
 participant ":IAssembler" as assembler <<component>> <<Assembler>> #teal
 
 activate restController #LightBlue
-restController -> assembler: toCommand (courseRequestDTO)
+restController -> assembler: toServiceCommand (courseRequestDTO)
 
 activate assembler #LightBlue
-create "courseInStudyPlanCommand: CourseInStudyPlanCommand"
-assembler -> "courseInStudyPlanCommand: CourseInStudyPlanCommand": createCourseInStudyPlan (requestDto.name,\n requestDto.code,\n requestDto.ects,\n requestDto.semester,\n requestDto.year,\n requestDto.programmeId)
+create "courseInStudyPlanServiceCommand: CourseInStudyPlanServiceCommand"
+assembler -> "courseInStudyPlanServiceCommand: CourseInStudyPlanServiceCommand": createCourseInStudyPlan (requestDto.name,\n requestDto.code,\n requestDto.ects,\n requestDto.semester,\n requestDto.year,\n requestDto.programmeId)
 
 deactivate assembler
 deactivate restController

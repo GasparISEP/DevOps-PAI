@@ -12,7 +12,7 @@ participant ":RESTController" as restController <<component>> <<RESTController>>
 participant ":IAssembler" as assembler <<component>> <<Assembler>> #teal
 
 activate restController #LightBlue
-restController -> assembler: toResponseDTO (courseVO)
+restController -> assembler: toResponseDTO (courseServiceDTO)
 
 activate assembler #LightBlue
 
