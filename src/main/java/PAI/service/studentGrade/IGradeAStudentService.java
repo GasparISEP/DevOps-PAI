@@ -13,5 +13,5 @@ public interface IGradeAStudentService {
 
     double knowApprovalRate (CourseEditionID courseEditionID) throws Exception;
 
-
+    double getAverageGrade(CourseEditionID courseEditionID) throws Exception;
 }
