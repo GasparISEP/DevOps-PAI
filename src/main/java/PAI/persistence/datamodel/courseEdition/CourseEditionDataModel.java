@@ -22,6 +22,14 @@ public class CourseEditionDataModel implements Serializable {
 
     protected CourseEditionDataModel() {}
 
+    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel) {
+
+        if (courseEditionIDDataModel == null)
+            throw new IllegalArgumentException("courseEditionIDDataModel cannot be null");
+
+        this._courseEditionIDDataModel = courseEditionIDDataModel;
+    }
+
     public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, TeacherIDDataModel teacherIDDataModel) {
 
         if (courseEditionIDDataModel == null)

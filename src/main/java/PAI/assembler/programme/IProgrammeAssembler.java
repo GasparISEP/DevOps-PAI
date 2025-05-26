@@ -11,7 +11,7 @@ public interface IProgrammeAssembler {
 
     ProgrammeVOsDTO fromDTOToDomain (ProgrammeDTO programmeDTO);
 
-    ProgrammeResponseDTO fromDomainToDTO (Programme programme, String degreeTypeName, String departmentName, String teacherName);
+    ProgrammeDTO fromDomainToDTO (Programme programme);
 
     ProgrammeIDDTO toDTO (ProgrammeID programmeID);
 }

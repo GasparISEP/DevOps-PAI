@@ -63,7 +63,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         this._programmeAssembler = programmeAssembler;
     }
 
-    public ProgrammeResponseDTO registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
+    public Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
 
         NameWithNumbersAndSpecialChars name = programmeVOsDTO.name();
         Acronym acronym = programmeVOsDTO.acronym();
@@ -78,13 +78,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         if(_programmeRepository.containsOfIdentity(programme.identity()))
             throw new Exception("Programme is already registered");
 
-        Programme programmeCreated = _programmeRepository.save(programme);
-
-        String degreeTypeName = findDegreeTypeNameByID(degreeTypeID);
-        String departmentName = findDepartmentByID(departmentID);
-        String teacherName = findTeacherByID(teacherID);
-
-        return _programmeAssembler.fromDomainToDTO(programmeCreated, degreeTypeName, departmentName, teacherName);
+        return _programmeRepository.save(programme);
     }
 
     @Override
@@ -95,45 +89,6 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         programmeIDDTOs.add(programmeIDDTO);
         }
         return programmeIDDTOs;
-    }
-
-    private String findDegreeTypeNameByID (DegreeTypeID degreeTypeID) {
-
-        Optional<DegreeType> degreeType = _degreeTypeRepository.ofIdentity(degreeTypeID);
-        String degreeTypeName;
-
-        if (degreeType.isPresent())
-            degreeTypeName = degreeType.get().getName().getName();
-        else
-            throw new EntityNotFoundException("Degree Type not found");
-
-        return degreeTypeName;
-    }
-
-    private String findDepartmentByID (DepartmentID departmentID) {
-
-        Optional <Department> department = _departmentRepository.ofIdentity(departmentID);
-        String departmentName;
-
-        if(department.isPresent())
-            departmentName = department.get().getName().getName();
-        else
-            throw new EntityNotFoundException("Department not found");
-
-        return departmentName;
-    }
-
-    private String findTeacherByID (TeacherID teacherID) {
-
-        Optional <Teacher> programmeDirector = _teacherRepository.ofIdentity(teacherID);
-        String programmeDirectorName;
-
-        if(programmeDirector.isPresent())
-            programmeDirectorName = programmeDirector.get().getName().getName();
-        else
-            throw new EntityNotFoundException("Teacher not found");
-
-        return programmeDirectorName;
     }
 
     public boolean changeProgrammeDirector(ProgrammeID programmeID, TeacherID programmeDirectorID) throws Exception {

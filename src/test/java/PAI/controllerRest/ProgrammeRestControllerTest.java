@@ -7,7 +7,6 @@ import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
@@ -46,12 +45,12 @@ class ProgrammeRestControllerTest {
     private IStudyPlanAssembler _studyPlanAssemblerDouble;
     private ProgrammeDTO _programmeDTODouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
-    private ProgrammeResponseDTO _programmeResponseDTODouble;
     private RegisterStudyPlanCommand _studyPlanCommandDouble;
     private StudyPlanDTO _studyPlanDTODouble;
     private StudyPlanResponseDTO _studyPlanResponseDTODouble;
     private IProgrammeDirectorAssembler _programmeDirectorAssemblerDouble;
     private ITeacherService _teacherServiceDouble;
+    private Programme _programmeDouble;
 
 
     @BeforeEach
@@ -67,7 +66,7 @@ class ProgrammeRestControllerTest {
     private void createProgrammeDoubles() {
         _programmeDTODouble = mock(ProgrammeDTO.class);
         _programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);
-        _programmeResponseDTODouble = mock(ProgrammeResponseDTO.class);
+        _programmeDouble = mock(Programme.class);
     }
 
     private void createStudyPlanDoubles() {
@@ -125,14 +124,15 @@ class ProgrammeRestControllerTest {
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
-        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeResponseDTODouble);
+        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeDouble);
+        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(_programmeDTODouble);
 
         //Act
         ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
 
         //Assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(_programmeResponseDTODouble, result.getBody());
+        assertEquals(_programmeDTODouble, result.getBody());
     }
 
     @Test

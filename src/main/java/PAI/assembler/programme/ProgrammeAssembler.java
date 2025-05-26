@@ -26,14 +26,17 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
         return new ProgrammeVOsDTO(name, acronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
     }
 
-    public ProgrammeResponseDTO fromDomainToDTO(Programme programme, String degreeTypeName, String departmentName, String teacherName) {
+    public ProgrammeDTO fromDomainToDTO(Programme programme) {
 
         String name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
         String acronym = programme.getAcronym().getAcronym();
         int maxECTS = programme.getMaxEcts().getMaxEcts();
         int quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();
+        String degreeTypeID = programme.getDegreeTypeID().getDTID();
+        String departmentID = programme.getDepartment().getAcronym().getAcronym();
+        String teacherID = programme.getProgrammeDirectorID().getTeacherAcronym().getAcronym();
 
-        return new ProgrammeResponseDTO(name, acronym, maxECTS, quantSemesters, degreeTypeName, departmentName, teacherName);
+        return new ProgrammeDTO(name, acronym, maxECTS, quantSemesters, degreeTypeID, departmentID, teacherID);
 
     }
 
