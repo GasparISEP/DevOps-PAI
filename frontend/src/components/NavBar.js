@@ -12,45 +12,47 @@ const NavBar = () => {
   return (
     <div className="main-navbar-div">
       <nav className="navbar">
+
         <div className="logo-div">
           <img className="logo-img" src={logoImage} alt="ISEP logo"/>
         </div>
         <ul className="navbar-links-list-div">
           <li className="navbar-dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <span className="navbar-link" tabIndex={0}>
-              Teacher
+              <i className="fas fa-chalkboard-teacher"></i> Teacher
             </span>
             <ul className={`navbar-dropdown-menu${isOpen ? ' show' : ''}`}>
               <li>
                 <Link to="/teachers/register" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  Register Teacher
+                  <i className="fas fa-user-plus"></i> Register Teacher
                 </Link>
               </li>
               <li>
                 <Link to="/teachers/all" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  Display Teachers
+                  <i className="fas fa-users"></i> Display Teachers
                 </Link>
               </li>
             </ul>
           </li>
           <li>
             <Link to="/students" className="navbar-link">
-              Student
+              <i className="fas fa-user-graduate"></i> Student
             </Link>
           </li>
           <li>
             <Link to="/courses" className="navbar-link">
-              Course
+              <i className="fas fa-book-open"></i> Course
             </Link>
           </li>
           <li>
             <Link to="/programmes" className="navbar-link">
-              Programme
+              <i className="fas fa-graduation-cap"></i> Programme
             </Link>
           </li>
         </ul>
         <div className="navbar-ghost-div"></div>
       </nav>
+
     </div>
   );
 };
