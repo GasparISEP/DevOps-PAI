@@ -83,7 +83,7 @@ class CourseServiceImplTest {
         when(assembler.toIDDTO(id2)).thenReturn(dto2);
 
         // Act
-        List<CourseIDDTO> result = service.getAllCourseIDDTOs();
+        List<CourseIDDTO> result = service.getAllCourseIDDTO();
 
         // Assert
         assertEquals(2, result.size());
@@ -105,7 +105,7 @@ class CourseServiceImplTest {
         when(repository.findAll()).thenReturn(List.of());
 
         // Act
-        List<CourseIDDTO> result = service.getAllCourseIDDTOs();
+        List<CourseIDDTO> result = service.getAllCourseIDDTO();
 
         // Assert
         assertTrue(result.isEmpty());
