@@ -5,9 +5,7 @@ import '../styles/RegisterStudentPage.css';
 
 function Home() {
     return (
-        <div className="App">
             <NavBar />
-        </div>
     );
 }
 

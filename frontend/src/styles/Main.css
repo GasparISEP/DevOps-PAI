@@ -24,14 +24,14 @@
 }
 
 .btn-primary {
-    background: #800000;
-    border: 2px solid #800000;
+    background: #9a1a24;
+    border: 2px solid #9a1a24;
     color: #fff;
 }
 
 .btn-primary:hover {
     background: #fff;
-    color: #800000;
+    color: #9a1a24;
 }
 
 .btn-primary:disabled {

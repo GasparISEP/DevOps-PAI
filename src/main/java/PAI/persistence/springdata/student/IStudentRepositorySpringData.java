@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IStudentRepositorySpringData extends JpaRepository<StudentDataModel, StudentIDDataModel> {
 
     boolean existsByStudentIDOrNIF(StudentIDDataModel studentIDDataModel, NIFDataModel nifDataModel);
+    boolean existsByStudentID(StudentIDDataModel studentIDDataModel);
+    boolean existsByNIF_NifNumberAndNIF_NifCountry(String nifNumber, String nifCountry);
+
 }

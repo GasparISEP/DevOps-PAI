@@ -169,4 +169,15 @@ class CourseIDTest {
         //Assert
         assertEquals(nameDouble, result);
     }
+
+    @Test
+    void shouldReturnCorrectAcronymAndNameValues() {
+        Acronym acronym = new Acronym("CS101");
+        Name name = new Name("Intro to Programming");
+        CourseID courseID = new CourseID(acronym, name);
+
+        assertEquals("CS101", courseID.getCourseAcronymValue());
+        assertEquals("Intro to Programming", courseID.getCourseNameValue());
+    }
+
 }

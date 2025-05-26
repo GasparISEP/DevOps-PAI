@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
     @Override
     public CreateCourseEditionCommand toCommand(CourseEditionRequestDTO dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("CourseEditionRequestDTO cannot be null");
+        }
         return new CreateCourseEditionCommand(
                 dto.programmeName(),
                 dto.programmeAcronym(),
@@ -23,6 +26,9 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     @Override
     public CourseEditionResponseDTO toResponseDTO(CourseEdition courseEdition) {
+        if (courseEdition == null) {
+            throw new IllegalArgumentException("CourseEdition cannot be null");
+        }
         CourseInStudyPlanID cspID = courseEdition.getCourseInStudyPlanID();
         ProgrammeEditionID peID = courseEdition.getProgrammeEditionID();
 
@@ -32,12 +38,12 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
         return new CourseEditionResponseDTO(
                 courseEdition.identity().toString(),
 
-                programmeID.getProgrammeName().toString(),
-                programmeID.getProgrammeAcronym().toString(),
+                programmeID.getProgrammeName(),
+                programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
 
-                cspID.getCourseID().getAcronym().toString(),
-                cspID.getCourseID().getName().toString(),
+                cspID.getCourseID().getCourseAcronymValue(),
+                cspID.getCourseID().getCourseNameValue(),
                 cspID.getStudyPlanID().getLocalDate()
         );
     }

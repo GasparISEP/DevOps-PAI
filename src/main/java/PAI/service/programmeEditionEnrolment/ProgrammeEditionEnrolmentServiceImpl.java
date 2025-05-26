@@ -131,4 +131,13 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
             result=programmeEditionEnrolmentRepository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
         } return result;
     }
+
+    @Override
+    public List<ProgrammeEditionID> getProgrammeEditionEnrolmentsByStudentID(StudentID studentID) throws Exception {
+        if (studentID == null) {
+            throw new IllegalArgumentException("StudentID cannot be null");
+        }
+        List<ProgrammeEditionID> listOfProgrammeEditionEnrolments = programmeEditionEnrolmentRepository.findProgrammeEditionsThatStudentIsEnrolled(studentID);
+        return listOfProgrammeEditionEnrolments;
+    }
 }

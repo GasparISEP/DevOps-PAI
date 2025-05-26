@@ -7,6 +7,7 @@ participant ":ProgrammeEditionEnrolmentController" as peeCtrl
 activate peeCtrl
 participant ":ProgrammeEditionEnrolmentService" as peeService
 participant ":ProgrammeEditionEnrolmentRepository" as peeRepo
+participant ":SchoolYearRepository" as syRepo
 participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
 database DB
 
@@ -27,6 +28,11 @@ loop for ProgrammeEditionID[i]
              ProgrammeEditionID and StudentID
             
     end note
+    
+    peeAssembler -> syRepo ++: findBySchoolYearID(SchoolYearID)
+    syRepo -> DB ++: SELECT * FROM school_years\nWHERE id = SchoolYearID
+    DB --> syRepo --: SchoolYearDataModel
+    syRepo --> peeAssembler --: SchoolYear
 end
 peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
 

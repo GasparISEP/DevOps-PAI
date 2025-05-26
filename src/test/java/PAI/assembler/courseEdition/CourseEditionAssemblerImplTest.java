@@ -1,6 +1,8 @@
 package PAI.assembler.courseEdition;
 
 import PAI.VOs.*;
+import PAI.assembler.accessMethod.AccessMethodAssemblerImpl;
+import PAI.assembler.teacher.TeacherAssemblerImpl;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
@@ -21,14 +23,13 @@ class CourseEditionAssemblerImplTest {
     @Test
     void toCommand_ShouldMapCorrectly() {
         // Arrange
-        CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
-                "SE",
-                UUID.randomUUID(),
-                "CS101",
-                "Intro to Programming",
-                LocalDate.of(2023, 9, 1)
-        );
+        CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
+        when(dto.programmeName()).thenReturn("Software Engineering");
+        when(dto.programmeAcronym()).thenReturn("SE");
+        when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto.courseAcronym()).thenReturn("CS101");
+        when(dto.courseName()).thenReturn("Intro to Programming");
+        when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.of(2023, 9, 1));
 
         // Act
         CreateCourseEditionCommand command = assembler.toCommand(dto);
@@ -42,68 +43,71 @@ class CourseEditionAssemblerImplTest {
         assertEquals(dto.studyPlanImplementationDate(), command.studyPlanImplementationDate());
     }
 
-//    @Test
-//    void toResponseDTO_ShouldMapCorrectly_WithMocks() {
-//        // Arrange
-//        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
-//
-//        CourseEdition courseEdition = mock(CourseEdition.class);
-//        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-//        ProgrammeID programmeID = mock(ProgrammeID.class);
-//        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-//        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-//        CourseID courseID = mock(CourseID.class);
-//        StudyPlanID studyPlanID = mock(StudyPlanID.class);
-//
-//        // Fake values
-//        UUID uuid = UUID.randomUUID();
-//        String programmeName = "Software Engineering";
-//        String programmeAcronym = "SE";
-//        String courseAcronym = "CS101";
-//        String courseName = "Intro to Programming";
-//        LocalDate date = LocalDate.of(2023, 9, 1);
-//
-//        // VOs
-//        Acronym courseAcronymVO = mock(Acronym.class);
-//        Name courseNameVO = mock(Name.class);
-//
-//        // Setup mocks
-//        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-//        when(courseEdition.identity()).thenReturn(courseEditionID);
-//        when(courseEdition.identity().toString()).thenReturn(uuid.toString());
-//
-//        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
-//        when(programmeEditionID.getProgrammeID()).thenReturn(programmeID);
-//        when(programmeEditionID.getSchoolYearID()).thenReturn(schoolYearID);
-//
-//        when(programmeID.getProgrammeName()).thenReturn(programmeName);
-//
-//        when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
-//
-//        when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
-//
-//        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
-//        when(courseInStudyPlanID.getCourseID()).thenReturn(courseID);
-//        when(courseInStudyPlanID.getStudyPlanID()).thenReturn(studyPlanID);
-//
-//        when(courseID.getAcronym()).thenReturn(courseAcronymVO);
-//        when(courseAcronymVO.toString()).thenReturn(courseAcronym);
-//
-//        when(courseID.getName()).thenReturn(courseNameVO);
-//        when(courseNameVO.toString()).thenReturn(courseName);
-//
-//        when(studyPlanID.getLocalDate()).thenReturn(date);
-//
-//        // Act
-//        CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
-//
-//        // Assert
-//        assertEquals(uuid.toString(), dto.courseEditionID());
-//        assertEquals(programmeName, dto.programmeName());
-//        assertEquals(programmeAcronym, dto.programmeAcronym());
-//        assertEquals(uuid, dto.schoolYearID());
-//        assertEquals(courseAcronym, dto.courseAcronym());
-//        assertEquals(courseName, dto.courseName());
-//        assertEquals(date, dto.studyPlanImplementationDate());
-//    }
+    @Test
+    void shouldThrowExceptionWhenCourseEditionRequestDTOIsNull() {
+        // Arrange
+        CourseEditionAssemblerImpl courseEditionAssembler = new CourseEditionAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionAssembler.toCommand(null);
+        });
+    }
+
+    @Test
+    void toResponseDTO_ShouldMapCorrectly() throws Exception {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        UUID uuid = UUID.randomUUID();
+        String programmeName = "Software Engineering";
+        String programmeAcronym = "SE";
+        String courseAcronym = "CS101";
+        String courseName = "Intro to Programming";
+        LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
+
+        when(programmeID.getProgrammeName()).thenReturn(programmeName);
+        when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
+        when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
+        when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
+        when(courseID.getCourseAcronymValue()).thenReturn(courseAcronym);
+        when(courseID.getCourseNameValue()).thenReturn(courseName);
+
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+
+        // Act
+        CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
+
+        // Assert
+        assertEquals(courseEditionID.toString(), dto.courseEditionID());
+        assertEquals(programmeName, dto.programmeName());
+        assertEquals(programmeAcronym, dto.programmeAcronym());
+        assertEquals(uuid, dto.schoolYearID());
+        assertEquals(courseAcronym, dto.courseAcronym());
+        assertEquals(courseName, dto.courseName());
+        assertEquals(studyPlanDate, dto.studyPlanImplementationDate());
+    }
+
+    @Test
+    void shouldThrowExceptionCourseEditionIsNull() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toResponseDTO(null);
+        });
+    }
 }
