@@ -1,0 +1,20 @@
+@startuml
+title US19: As an ASC, I want to create a course edition\n(Scenario View - Level 1)
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+actor ASC #LightBlue/White
+
+usecase "Create Course Edition\n(US19)" as UC19 #E1F5FE
+
+ASC --> UC19
+
+@enduml

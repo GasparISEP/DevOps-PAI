@@ -20,3 +20,12 @@ export async function registerTeacher(teacherDTO) {
 
     return response.json();
 }
+
+export async function getAllTeachers() {
+    const response = await fetch(`${API_URL}/teachers`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch teachers');
+    }
+    return response.json();
+}
+

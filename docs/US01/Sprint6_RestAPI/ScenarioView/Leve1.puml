@@ -1,0 +1,14 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Administrator" as admin
+
+rectangle "PAI System" {
+    usecase "I want to configure teacher categories in the system" as UC01
+}
+
+admin --> UC01
+
+@enduml

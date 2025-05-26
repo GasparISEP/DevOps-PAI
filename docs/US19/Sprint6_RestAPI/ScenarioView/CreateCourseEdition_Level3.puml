@@ -1,5 +1,6 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Class Diagram - Full View)\nSprint 6
+title: US19: As an ASC, I want to create a course edition\n(Scenario View - Level 3)
+
 
 ' ========== SETTINGS ==========
 skinparam classBackgroundColor #E1F5FE
@@ -18,31 +19,21 @@ left to right direction
 package "REST Controller Layer" #F5EEF8 {
   class CourseEditionRestController {
     +createCourseEdition(dto:\n CourseEditionDTO): ResponseEntity
-    +getAllDegreeTypes(): List<DegreeTypeDTO>
-    +getProgrammesByDegreeTypeID(id)
-    +getCoursesInStudyPlanByProgrammeID(id)
-    +getProgrammeEditionsByProgrammeID(id)
   }
 }
 
 package "Service Layer" {
   interface "<<interface>>\nICreateCourseEditionService" as ICreateCourseEditionService
   class CreateCourseEditionServiceImpl {
-    +createAndSaveCourseEdition(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID: ProgrammeEditionID): CourseEdition
-    +getAllDegreeTypes(): List<DegreeType>
-    +getProgrammesByDegreeTypeID(id: DegreeTypeID):\n List<Programme>
-    +getStudyPlansByProgrammeID(programmeID: ProgrammeID):\n List<StudyPlan>
-    +getLatestStudyPlanIDByProgrammeID(programmeID: ProgrammeID):\n StudyPlanID
-    +getCoursesByStudyPlanId(studyPlanID: StudyPlanID):\n List<CourseInStudyPlan>
-    +getProgrammeEditionsByProgrammeID(programmeID: ProgrammeID):\n List<ProgrammeEdition>
+    +createAndSaveCourseEdition\n(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID: ProgrammeEditionID):\n CourseEdition
   }
 }
 
 package "Assembler / DTO" {
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
-    +toDomain(dto: CourseEditionDTO): CourseEdition
-    +toDTO(domain: CourseEdition): CourseEditionDTO
+    +toCommand(dto:\n CourseEditionRequestDTO): CourseEdition
+    +toResponseDTO(domain:\n CourseEdition): CourseEditionDTO
   }
 
   class CourseEditionRequestDTO {
@@ -82,24 +73,20 @@ package "Domain Layer" {
     -programmeEditionID: ProgrammeEditionID
     -courseInStudyPlanID: CourseInStudyPlanID
   }
-
-  class CourseEditionID
-  class ProgrammeEditionID
-  class CourseInStudyPlanID
 }
 
 package "Factory Layer" {
   interface "<<interface>>\nICourseEditionFactory" as ICourseEditionFactory
   class CourseEditionFactoryImpl {
-    +createCourseEditionToDomain(courseInStudyPlanID,\n programmeEditionID): CourseEdition
+    +createCourseEditionToDomain\n(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID:ProgrammeEditionID):\n CourseEdition
   }
 }
 
 package "Mapper Layer" {
   interface "<<interface>>\nICourseEditionMapper" as ICourseEditionMapper
   class CourseEditionMapperImpl {
-    +toDataModel(domain: CourseEdition): CourseEditionDataModel
-    +toDomain(data: CourseEditionDataModel): CourseEdition
+    +toDataModel(domain:\n CourseEdition): CourseEditionDataModel
+    +toDomain(data:\n CourseEditionDataModel): CourseEdition
   }
 
   interface "<<interface>>\nICourseEditionIDMapper" as ICourseEditionIDMapper
@@ -119,16 +106,16 @@ package "Persistence Layer" {
 package "Repository Interfaces" {
   interface "<<interface>>\nICourseEditionRepository" as ICourseEditionRepository
 
-  interface "<<interface>>\nIDegreeTypeRepository" as IDegreeTypeRepository
+'  interface "<<interface>>\nIDegreeTypeRepository" as IDegreeTypeRepository
 
-  interface "<<interface>>\nIProgrammeRepository" as IProgrammeRepository
+'  interface "<<interface>>\nIProgrammeRepository" as IProgrammeRepository
 
 
-  interface "<<interface>>\nIStudyPlanRepository" as IStudyPlanRepository
+ ' interface "<<interface>>\nIStudyPlanRepository" as IStudyPlanRepository
 
-  interface "<<interface>>\nICourseInStudyPlanRepository" as ICourseInStudyPlanRepository
+'  interface "<<interface>>\nICourseInStudyPlanRepository" as ICourseInStudyPlanRepository
 
-  interface "<<interface>>\nIProgrammeEditionRepository" as IProgrammeEditionRepository
+'  interface "<<interface>>\nIProgrammeEditionRepository" as IProgrammeEditionRepository
 
   interface "<<interface>>\nICourseEditionRepositorySpringData" as ICourseEditionRepositorySpringData
   }
@@ -137,34 +124,23 @@ package "Repository Interfaces" {
 
 
   class CourseEditionRepositoryImpl {
-    +containsOfIdentity(id: CourseEditionID): boolean
-    +save(courseEdition: CourseEdition): CourseEdition
+    +containsOfIdentity(id:\n CourseEditionID): boolean
+    +save(courseEdition:\n CourseEdition): CourseEdition
   }
 
-  class DegreeTypeRepositoryImpl {
-    +getAllDegreeTypes(): List<DegreeType>
-  }
 
-  class ProgrammeRepositoryImpl {
-    +findAll(): List<Programme>
-  }
-
-  class StudyPlanRepositoryImpl {
-    +findAll(): List<StudyPlan>
-  }
-
-  class CourseInStudyPlanRepositoryImpl {
-    +findAll(): List<CourseInStudyPlan>
-  }
-
-  class ProgrammeEditionRepositoryImpl {
-    +getProgrammeEditionsByProgrammeID(programmeID:\n ProgrammeID): List<ProgrammeEdition>
-  }
 
   class CourseEditionRepositorySpringDataImpl {
-    +save(data: CourseEditionDataModel): CourseEditionDataModel
+    +save(data: CourseEditionDataModel):\n CourseEditionDataModel
   }
 }
+
+note top of CourseEditionRestController
+This diagram shows only the essential components involved
+in the creation (POST) of a CourseEdition.
+It excludes the components used for auxiliary GET requests,
+as this is a focused ("zoomed-in") view on the creation action.
+end note
 
 ' Relationships
 CourseEditionRestController --> ICreateCourseEditionService
@@ -183,24 +159,18 @@ CreateCourseEditionServiceImpl --> ICourseEditionRepository
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ICourseEditionRepository <|.. CourseEditionRepositorySpringDataImpl
 
-CreateCourseEditionServiceImpl --> IDegreeTypeRepository
-IDegreeTypeRepository <|.. DegreeTypeRepositoryImpl
+'CreateCourseEditionServiceImpl --> IDegreeTypeRepository
 
-CreateCourseEditionServiceImpl --> IProgrammeRepository
-IProgrammeRepository <|.. ProgrammeRepositoryImpl
+'CreateCourseEditionServiceImpl --> IProgrammeRepository
 
-CreateCourseEditionServiceImpl --> ICourseInStudyPlanRepository
-ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepositoryImpl
+'CreateCourseEditionServiceImpl --> ICourseInStudyPlanRepository
 
-CreateCourseEditionServiceImpl --> IProgrammeEditionRepository
-IProgrammeEditionRepository <|.. ProgrammeEditionRepositoryImpl
+'CreateCourseEditionServiceImpl --> IProgrammeEditionRepository
 
-CreateCourseEditionServiceImpl --> IStudyPlanRepository
-IStudyPlanRepository <|.. StudyPlanRepositoryImpl
+'CreateCourseEditionServiceImpl --> IStudyPlanRepository
 
-CourseEditionMapperImpl --> ICourseEditionIDMapper
-CourseEditionMapperImpl --> IProgrammeEditionIDMapper
-CourseEditionMapperImpl --> ICourseInStudyPlanIDMapper
+CourseEditionMapperImpl ..> IProgrammeEditionIDMapper
+CourseEditionMapperImpl ..> ICourseInStudyPlanIDMapper
 
 ICourseInStudyPlanIDMapper <|.. CourseInStudyPlanIDMapperImpl
 IProgrammeEditionIDMapper <|.. ProgrammeEditionIDMapperImpl
@@ -210,18 +180,18 @@ ICourseEditionIDMapper <|.. CourseEditionIDMapperImpl
 
 CourseEditionMapperImpl --> CourseEditionDataModel
 CourseEditionMapperImpl --> CourseEdition
+CourseEditionRepositoryImpl --> CourseEdition
+CourseEditionRepositorySpringDataImpl --> CourseEdition
 
-CourseEdition --> CourseEditionID
-CourseEdition --> ProgrammeEditionID
-CourseEdition --> CourseInStudyPlanID
+
 CourseEditionDataModel --> CourseEditionIDDataModel
 
-CourseEditionRepositorySpringDataImpl --> CourseEditionDataModel
+CourseEditionMapperImpl ..> ICourseEditionIDMapper
 
 ICourseEditionRepositorySpringData <|.. CourseEditionRepositorySpringDataImpl
 
-CourseEditionRestController --> CourseEditionRequestDTO
-CourseEditionRestController --> CourseEditionResponseDTO
+'CourseEditionRestController --> CourseEditionRequestDTO
+'CourseEditionRestController --> CourseEditionResponseDTO
 CourseEditionAssemblerImpl --> CourseEditionRequestDTO
 CourseEditionAssemblerImpl --> CourseEditionResponseDTO
 
