@@ -3,11 +3,11 @@ package PAI.service.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.schoolYear.SchoolYear;
-import PAI.domain.schoolYear.ISchoolYearFactory;
-import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Service;
 
@@ -95,7 +95,7 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     }
 
     @Override
-    public Optional<CurrentSchoolYearResponseDTO> getCurrentSchoolYear() {
+    public Optional<CurrentSchoolYearDTO> getCurrentSchoolYear() {
         Optional<SchoolYear> schoolYear = schoolYearRepository.getCurrentSchoolYear();
         if (schoolYear.isPresent()) {
             return Optional.of(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear.get()));
