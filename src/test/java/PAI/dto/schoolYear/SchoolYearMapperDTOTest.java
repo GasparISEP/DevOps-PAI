@@ -1,6 +1,8 @@
 package PAI.dto.schoolYear;
 
-import PAI.VOs.*;
+import PAI.VOs.Date;
+import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
@@ -10,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -148,10 +151,10 @@ class SchoolYearMapperDTOTest {
         when(schoolYear.getEndDate()).thenReturn(endDate);
 
         // act
-        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
+        CurrentSchoolYearDTO currentSchoolYearDTO = schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
 
         // assert
-        assertNotNull(currentSchoolYearResponseDTO);
+        assertNotNull(currentSchoolYearDTO);
     }
 
     @Test
@@ -164,6 +167,43 @@ class SchoolYearMapperDTOTest {
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
            schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
+        });
+    }
+
+    @Test
+    void shouldReturnCurrentSchoolYearDTO(){
+        // Arrange
+        String schoolYearId = UUID.randomUUID().toString();
+        String description = "2024-2025";
+        LocalDate startDate = LocalDate.of(2025, 5, 4);
+        LocalDate endDate = LocalDate.of(2025, 5, 6);
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(syFactory);
+        CurrentSchoolYearDTO currentSchoolYearDTO = mock(CurrentSchoolYearDTO.class);
+
+        when(currentSchoolYearDTO.id()).thenReturn(schoolYearId);
+        when(currentSchoolYearDTO.description()).thenReturn(description);
+        when(currentSchoolYearDTO.startDate()).thenReturn(startDate);
+        when(currentSchoolYearDTO.endDate()).thenReturn(endDate);
+
+        // act
+        CurrentSchoolYearResponseDTO result = schoolYearAssembler.toResponseDTO(currentSchoolYearDTO);
+
+        // assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void shouldThrowIfCurrentSchoolYearDTOIsNull() {
+        // Arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(syFactory);
+        CurrentSchoolYearDTO currentSchoolYearDTO = null;
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            schoolYearAssembler.toResponseDTO(currentSchoolYearDTO);
         });
     }
 }
