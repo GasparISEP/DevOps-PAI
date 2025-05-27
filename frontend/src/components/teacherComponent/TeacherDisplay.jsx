@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllTeachers } from '../../services/teacherService';
-import '../../styles/TeacherDisplay.css';
+import '../../styles/DisplayTeacherPage.css';
 import '../../styles/Buttons.css';
 import { Link } from 'react-router-dom';
 
