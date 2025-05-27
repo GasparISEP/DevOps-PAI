@@ -107,8 +107,16 @@ export default function ProgrammeForm() {
 
                             <div className="programme-form-group">
                                 <label className="programme-form-label" htmlFor="quantSemesters">Semesters</label>
-                                <input className="programme-form-input" placeholder="Enter number of semesters" id="quantSemesters" name="quantSemesters"
-                                       type="number" value={form.quantSemesters} onChange={handleChange} required />
+                                <input className="programme-form-input"
+                                       placeholder="Enter number of semesters"
+                                       id="quantSemesters"
+                                       name="quantSemesters"
+                                       type="number"
+                                       min="1"
+                                       max="10"
+                                       value={form.quantSemesters}
+                                       onChange={handleChange}
+                                       required />
                             </div>
 
                             <div className="programme-form-group">
@@ -128,7 +136,9 @@ export default function ProgrammeForm() {
                                         value={form.departmentID} onChange={handleChange} required>
                                     <option value="">Select Department</option>
                                     {departments.map(d => (
-                                        <option key={d.id} value={d.id}>{d.name}</option>
+                                        <option key={d.id} value={d.id}>
+                                            {d.name} ({d.acronym})
+                                        </option>
                                     ))}
                                 </select>
                             </div>
@@ -139,7 +149,9 @@ export default function ProgrammeForm() {
                                         value={form.teacherID} onChange={handleChange} required>
                                     <option value="">Select Teacher</option>
                                     {teachers.map(t => (
-                                        <option key={t.id} value={t.id}>{t.name}</option>
+                                        <option key={t.id} value={t.id}>
+                                            {t.name}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
