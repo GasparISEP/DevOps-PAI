@@ -14,6 +14,7 @@ import PAI.service.department.IUpdateDepartmentDirectorService;
 import PAI.VOs.DepartmentID;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import PAI.VOs.TeacherID;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

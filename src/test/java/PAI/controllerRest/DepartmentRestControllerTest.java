@@ -270,7 +270,7 @@ class DepartmentRestControllerTest {
         IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
 
         DepartmentRestController departmentRestController =
-                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService);
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
 
         // Arrange Request
         DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
@@ -317,7 +317,7 @@ class DepartmentRestControllerTest {
         IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
 
         DepartmentRestController controller =
-                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService);
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
 
         // Arrange Request
         DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
