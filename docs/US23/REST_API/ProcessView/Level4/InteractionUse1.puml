@@ -1,0 +1,53 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title Convert CourseEditionDataModel to CourseEdition
+
+participant "mapper:CourseEditionMapperImpl" as Mapper #burlywood
+participant "ceDM:CourseEditionDataModel" as CEDataModel #lightyellow
+
+participant "courseEditionIDMapper" as CEIDMapper #orange
+participant "programmeEditionIDMapper" as PEIDMapper #orange
+participant "courseInStudyPlanIDMapper" as CSPIDMapper #orange
+participant "teacherIDMapper" as TIDMapper #orange
+participant "factory:ICourseEditionFactory" as Factory #pink
+
+Mapper -> CEDataModel : getCourseEditionIDDataModel()
+CEDataModel --> Mapper : courseEditionIDDM
+
+Mapper -> CEIDMapper : toDomain(courseEditionIDDM)
+activate CEIDMapper
+CEIDMapper --> Mapper : CourseEditionID
+deactivate CEIDMapper
+
+Mapper -> CEDataModel : getProgrammeEditionIDDataModel()
+CEDataModel --> Mapper : programmeEditionIDDM
+
+Mapper -> PEIDMapper : toDomain(programmeEditionIDDM)
+activate PEIDMapper
+PEIDMapper --> Mapper : ProgrammeEditionID
+deactivate PEIDMapper
+
+Mapper -> CEDataModel : getCourseInStudyPlanIDDataModel()
+CEDataModel --> Mapper : courseInStudyPlanIDDM
+
+Mapper -> CSPIDMapper : toDomain(courseInStudyPlanIDDM)
+activate CSPIDMapper
+CSPIDMapper --> Mapper : CourseInStudyPlanID
+deactivate CSPIDMapper
+
+Mapper -> CEDataModel : getTeacherIDDataModel()
+CEDataModel --> Mapper : teacherIDDM
+
+Mapper -> TIDMapper : toDomain(teacherIDDM)
+activate TIDMapper
+TIDMapper --> Mapper : TeacherID
+deactivate TIDMapper
+
+Mapper -> Factory : createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID, teacherID)
+activate Factory
+Factory --> Mapper : CourseEdition
+deactivate Factory
+
+@enduml
