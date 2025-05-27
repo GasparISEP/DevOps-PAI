@@ -427,7 +427,7 @@ class CourseEditionRestControllerTest {
     void gradeAStudentMethodShouldGradeAStudentSuccessfully_AndReturn201() throws Exception {
         // Arrange
         GradeAStudentRequestDTO requestDTO = new GradeAStudentRequestDTO(
-                18, "12-04-2025", 1234567, "Engenharia Informática", "EI",
+                1234567, 18, "12-04-2025", "Engenharia Informática", "EI",
                 "6a7c6ce1-850d-428e-92e1-a8c9de5e3c21", "DSOFT",
                 "Desenvolvimento de Software", "12-04-2025");
         GradeAStudentCommand command = mock(GradeAStudentCommand.class);
