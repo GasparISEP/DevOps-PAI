@@ -24,22 +24,17 @@ import java.util.stream.Collectors;
 public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
-    private final IProgrammeEditionAssembler programmeEditionAssembler;
     private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionAssembler programmeEditionAssembler, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler) {
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler) {
         if (programmeEditionService == null) {
             throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
-        }
-        if (programmeEditionAssembler == null) {
-            throw new IllegalArgumentException("ProgrammeEdition assembler cannot be null");
         }
         if (programmeEditionControllerAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
         }
 
         this.programmeEditionService = programmeEditionService;
-        this.programmeEditionAssembler = programmeEditionAssembler;
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
     }
 
@@ -74,14 +69,13 @@ public class ProgrammeEditionRestController {
                 new Acronym(programmeAcronym)
         );
 
-        List<ProgrammeEdition> programmeEditions = programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID);
-
-        List<ProgrammeEditionDTO> dtos = programmeEditions.stream()
-                .map(pe -> programmeEditionAssembler.toDTO(pe.identity().getProgrammeID(), pe.identity().getSchoolYearID()))
-                .collect(Collectors.toList());
+        List<ProgrammeEditionDTO> dtos = programmeEditionService
+                .getProgrammeEditionIDsByProgrammeID(programmeID)
+                .stream()
+                .map(id -> programmeEditionControllerAssembler.toDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID()))
+                .toList();
 
         return ResponseEntity.ok(dtos);
     }
-
 }
 
