@@ -20,7 +20,7 @@ participant ":IDepartmentAssembler" as Mapper
 participant ":IDepartmentHateoasAssembler" as HAAssembler
 participant "rdrrVo1:RegisterDepartmentRequestVOs" as Request #LightYellow
 participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
-participant "d1HateoasDTO:DepartmentHateoasDTO" as DepartmentHateoasDTO #LightYellow
+participant "d1HateoasDTO:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentDataModelMapper" as DataModelMapper
 participant ":DepartmentFactory" as Factory
@@ -94,7 +94,7 @@ Controller -> Mapper ++: toDTO(d1)
 Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name, teacherID)
 Mapper --> Controller --: d1DTO
 Controller -> HAAssembler ++: toHateoasDTO(d1DTO)
-HAAssembler -> DepartmentHateoasDTO **: <create> DepartmentHateoasDTO(d1DTO)
+HAAssembler -> DepartmentHateoasDTO **: <create> EntityModel<DepartmentDTO>(d1DTO)
 HAAssembler --> Controller --: d1HateoasDTO
 end group
 
