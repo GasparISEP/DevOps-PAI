@@ -10,6 +10,8 @@ import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,5 +111,71 @@ class CourseEditionAssemblerImplTest {
         assertThrows(IllegalArgumentException.class, () -> {
             assembler.toResponseDTO(null);
         });
+    }
+
+    @Test
+    void toResponseDTOList_ShouldMapCorrectly() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+
+        // Act
+        List<CourseEditionResponseDTO> dtoList = assembler.toResponseDTOList(Collections.emptyList());   
+
+        // Assert
+        assertEquals(0, dtoList.size());
+    }
+
+    @Test
+    void toResponseDTOList_WithOneCourseEdition_ShouldMapCorrectly() throws Exception {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+
+        UUID uuid = UUID.randomUUID();
+        String programmeName = "Software Engineering";
+        String programmeAcronym = "SE";
+        String courseAcronym = "CS101";
+        String courseName = "Intro to Programming";
+        LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
+
+        when(courseEditionID.toString()).thenReturn("CE-1");
+        when(courseEditionID.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEditionID.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+
+        when(programmeEditionID.getProgrammeID()).thenReturn(programmeID);
+        when(programmeEditionID.getSchoolYearID()).thenReturn(schoolYearID);
+
+        when(programmeID.getProgrammeName()).thenReturn(programmeName);
+        when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
+        
+        when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
+
+        when(courseInStudyPlanID.getCourseID()).thenReturn(courseID);
+        when(courseInStudyPlanID.getStudyPlanID()).thenReturn(studyPlanID);
+
+        when(courseID.getCourseNameValue()).thenReturn(courseName);
+        when(courseID.getCourseAcronymValue()).thenReturn(courseAcronym);
+        
+        when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
+
+        // Act
+        List<CourseEditionResponseDTO> result = assembler.toResponseDTOList(List.of(courseEditionID));
+
+        // Assert
+        assertEquals(1, result.size());
+        CourseEditionResponseDTO dto = result.get(0);
+        assertEquals("CE-1", dto.courseEditionID());
+        assertEquals(programmeName, dto.programmeName());
+        assertEquals(programmeAcronym, dto.programmeAcronym());
+        assertEquals(uuid, dto.schoolYearID());
+        assertEquals(courseAcronym, dto.courseAcronym());
+        assertEquals(courseName, dto.courseName());
+        assertEquals(studyPlanDate, dto.studyPlanImplementationDate());
     }
 }
