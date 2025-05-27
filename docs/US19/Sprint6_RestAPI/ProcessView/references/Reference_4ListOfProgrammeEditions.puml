@@ -1,5 +1,5 @@
 @startuml
-title Detailed Flow: Retrieve Programme Editions by Programme ID \n(GET /programmeeditions/{programmeID})
+title Detailed Flow: Retrieve Programme Editions by Programme ID \n(GET /programmeeditions/programme/{programmeName}/{programmeAcronym})
 
 participant "<<component>>\nRouter" as Router
 participant "<<component>>\nIProgrammeEditionRestController\n(REST Controller)" as Controller
@@ -7,7 +7,7 @@ participant "<<component>>\nIProgrammeEditionService\n(Service)" as Service
 participant "<<component>>\nIProgrammeEditionRepository\n(Repository)" as Repository
 database "Database" as DB
 
--> Router: GET /programmeeditions/{programmeID}
+-> Router: GET /programmeeditions/programme/\n{programmeName}/{programmeAcronym}
 activate Router
 
 Router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeID)

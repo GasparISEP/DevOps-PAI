@@ -8,62 +8,38 @@ skinparam {
   BoxPadding 2
 }
 skinparam sequence {
-  LifeLineBorderColor Grey
-  LifeLineBackgroundColor HoneyDew
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-actor ASC #LightBlue/White
-participant "<<component>>\n:Router" as router #E1F5FE
-participant "<<component>>\n:IDegreeTypeRestController\n(REST Controller)" as DegreeTypeController #E1F5FE
-participant "<<component>>\n:IProgrammeRestController\n(REST Controller)" as ProgrammeController #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanRestController\n(REST Controller)" as CSPController #E1F5FE
-participant "<<component>>\n:IProgrammeEditionRestController\n(REST Controller)" as PEController #E1F5FE
-participant "<<component>>\n:ICourseEditionRestController\n(REST Controller)" as CourseEditionController #E1F5FE
+actor User #LightBlue/White
+participant "<<component>>\n:CourseEditionForm.jsx" as CourseEditionForm #E1F5FE
+participant "<<component>>\n:CourseEditionAPIService.js" as CEApiService #E1F5FE
+participant "<<component>>\n:REST API" as BackendAPI #E1F5FE
 
-ASC -> router: GET /degreetypes
-activate router
-router -> DegreeTypeController: getAllDegreeTypes()
-activate DegreeTypeController
-DegreeTypeController --> router: List of Degree Types
-deactivate DegreeTypeController
-router --> ASC: 200 OK - List of Degree Types
-deactivate router
+note over CourseEditionForm
+This diagram focuses only on the core frontend
+flow for creating (POST) a course edition.
+Supporting GET requests (endpoints) are omitted
+for clarity, as this is a zoomed-in view on
+the creation action.
+end note
 
-ASC -> router: GET /programmes/{degreeTypeID}
-activate router
-router -> ProgrammeController: getProgrammesByDegreeTypeID(degreeTypeID)
-activate ProgrammeController
-ProgrammeController --> router: List of Programmes
-deactivate ProgrammeController
-router --> ASC: 200 OK - List of Programmes
-deactivate router
 
-ASC -> router: GET /coursesinstudyplan/{programmeID}
-activate router
-router -> CSPController: getCoursesInStudyPlanByProgrammeID(programmeID)
-activate CSPController
-CSPController --> router: List of Courses In Study Plan
-deactivate CSPController
-router --> ASC: 200 OK - List of Courses In Study Plan
-deactivate router
 
-ASC -> router: GET /programmeeditions/{programmeID}
-activate router
-router -> PEController: getProgrammeEditionsByProgrammeID(programmeID)
-activate PEController
-PEController --> router: List of Programme Editions
-deactivate PEController
-router --> ASC: 200 OK - List of Programme Editions
-deactivate router
+User -> CourseEditionForm: Fill form and submit
+activate CourseEditionForm
+CourseEditionForm -> CEApiService: createCourseEdition(data)
+activate CEApiService
+CEApiService -> BackendAPI: POST /courseeditions (data)
+activate BackendAPI
+BackendAPI --> CEApiService: (200 OK) Course edition\n created successfully!
+deactivate
+CEApiService --> CourseEditionForm: Success response
+deactivate
+CourseEditionForm --> User: Show success message
+deactivate
 
-ASC -> router: POST /courseeditions
-activate router
-router -> CourseEditionController: createCourseEdition(JSON)
-activate CourseEditionController
-CourseEditionController --> router: 200 OK - Course Edition created
-deactivate CourseEditionController
-router --> ASC: 200 OK - Course Edition created
-deactivate router
 @enduml
