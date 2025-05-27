@@ -1,0 +1,52 @@
+@startuml
+title <size:30>"REF 1.1 | DepartmentDataModel -> ToDomainList<Department>"</size>
+
+|||
+participant ":UpdateDepartmentDirector\nService" as Service
+participant ":DepartmentRepository\nSpringData" as Repository
+database "Database" as DB #application
+participant ":DepartmentMapper" as DM
+participant ":DepartmentIDMapper" as DIDM
+participant ":DepartmentFactory" as Factory
+
+skinparam sequenceLifeLineBackgroundColor #application
+|||
+
+Service -> Repository++ : findAllDepartments()
+Service ++
+Repository -> DB ++ : SELECT * FROM departments
+DB --> Repository -- : List<DepartmentDataModel>
+
+Repository -> DM ++ : toDomain(List<DepartmentDataModel>)
+create ": List<Department>" as DomainList #application
+DM -> DomainList : list = new ArrayList<>()
+
+== Iterar cada DataModel ==
+
+loop for each departmentDataModel
+    DM -> DIDM ++ : toDomain(departmentDataModel.getId())
+    DIDM --> DM -- : departmentID
+
+    DM -> DM : toDomain(departmentDataModel.getAcronym())
+
+    DM -> DM : toDomain(departmentDataModel.getName())
+
+    DM -> DM : toDomain(departmentDataModel.getDirectorId())
+
+    DM -> Factory ++ : registerDepartment(departmentID, name, acronym, teacherID)
+    create "department : Department" as D
+    Factory -> D : <create>()
+    Factory --> DM -- : department
+
+    DM -> DomainList ++ : list.add(department)
+    DomainList --> DM -- : list
+end
+
+DM --> Repository -- : list (DomainModel list)
+Repository --> Service -- : list (DomainModel list)
+
+Service --
+
+|||
+
+@enduml
