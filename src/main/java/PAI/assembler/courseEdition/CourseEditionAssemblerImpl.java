@@ -5,6 +5,12 @@ import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,6 +52,26 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
                 cspID.getCourseID().getCourseNameValue(),
                 cspID.getStudyPlanID().getLocalDate()
         );
+    }
+
+    @Override
+    public List<CourseEditionResponseDTO> toResponseDTOList(List<CourseEditionID> courseEditionIDs){
+        if (courseEditionIDs == null) {
+            throw new IllegalArgumentException("CourseEditionIDs cannot be null");
+        }
+        List<CourseEditionResponseDTO> courseEditionResponseDTOs = new ArrayList<>();
+        for (CourseEditionID courseEditionID : courseEditionIDs) {
+            String courseEditionIDToDto = courseEditionID.toString();
+            String programmeName = courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeName();
+            String programmeAcronym = courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeAcronym();
+            UUID schoolYearID = courseEditionID.getProgrammeEditionID().getSchoolYearID().getSchoolYearID();
+            String courseName = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue();
+            String courseAcronym = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseAcronymValue();
+            LocalDate studyPlanImplementationDate = courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getLocalDate();
+            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(courseEditionIDToDto, programmeName, programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate); 
+            courseEditionResponseDTOs.add(courseEditionResponseDTO);
+        }
+        return courseEditionResponseDTOs;
     }
 }
 

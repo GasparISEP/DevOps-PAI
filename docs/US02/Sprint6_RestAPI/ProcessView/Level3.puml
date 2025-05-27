@@ -8,12 +8,12 @@ skinparam shadowing true
 
 autonumber
 
-participant ":Router" as router
+participant ":Router" as router <<Component>>
 -> router: configureAccessMethod(JSON)
 activate router #LightBlue
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
-participant ":AccessMethodRESTController" as Controller
+participant ":AccessMethodRESTController" as Controller <<Component>>
 router -> Controller: configureAccessMethod(accessMethodRequestDTO)
 activate Controller #LightBlue
 
@@ -21,58 +21,57 @@ ref over Controller
     Convert accessMethodRequestDTO to accessMethodCommand
 end
 
-participant ":IAccessMethodService" as service
-Controller -> service: configureAccessMethod\n (accessMethodCommand)
-activate service #LightBlue
+participant ":IAccessMethodService" as Service <<Component>>
+Controller -> Service: configureAccessMethod\n (accessMethodCommand)
+activate Service #LightBlue
 
-create "nameVO:NameWithNumbersAndSpecialCharsVO"
-service -> "nameVO:NameWithNumbersAndSpecialCharsVO": create(command.name())
 
-participant ":IAccessMethodFactory" as Factory
-service -> Factory: createAccessMethod (nameVO)
-activate Factory #LightBlue 
+participant ":Domain" as Domain <<Component>>
+Service -> Domain: createAccessMethod (nameVO)
 
-create "amID:AccessMethodID"
-Factory -> "amID:AccessMethodID": create ()
+activate Domain #LightBlue
 
-create "am:AccessMethod"
-Factory -> "am:AccessMethod": create (amID, name)
-deactivate Factory
+Domain --> Service: accessMethodCreated
 
-participant ":IAccessMethodRepository" as Repository
-service -> Repository: getAccessMethodByName (am.name)
+
+participant ":IAccessMethodRepository" as Repository <<Component>>
+Service -> Repository: getAccessMethodByName (am.name)
 activate Repository #LightBlue 
-Repository --> service: Optional.empty
+Repository --> Service: Optional.empty
 deactivate Repository
 
-service -> Repository: saveAccessMethod (am)
+Service -> Repository: saveAccessMethod (am)
 activate Repository #LightBlue 
 
 ref over Repository
     Convert am to DataModel
 end
 
-participant ":IAccessMethodRepositorySpringData" as springDataRepository
-Repository -> springDataRepository: save (amDataModel)
-activate springDataRepository #LightBlue 
-springDataRepository --> Repository : amDataModelSaved
-deactivate springDataRepository
+
+ Repository -> :  save (amDataModel)
+
+Repository <-- : amDataModelSaved
+
 
 ref over Repository
     Convert amDataModelSaved to Domain
 end
 
-Repository --> service: amSaved
+Repository --> Service: amSaved
 deactivate Repository
 
 
-ref over service
-    Convert Access Method Saved to ServiceResponse<AccessMethodResponseDTO>
+ref over Service
+    Convert amSaved to amServiceDTO
 end
 
-service --> Controller: amResponse
+Service --> Controller: amServiceDTO
 
-deactivate service
+deactivate Service
+
+ref over Controller
+    Convert amServiceDTO to amRequestDTO
+end
 
 Controller --> router: (201, Created) amResponse
 deactivate Controller

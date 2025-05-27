@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllTeachers } from '../../services/teacherService';
-import '../../styles/TeacherDisplay.css';
+import '../../styles/DisplayTeacherPage.css';
 import '../../styles/Buttons.css';
 import { Link } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ export default function TeacherDisplay() {
     const startIndex = (currentPage - 1) * teachersPerPage;
     const endIndex = startIndex + teachersPerPage;
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [filterField, setFilterField] = useState('name');
+    const [filterValue, setFilterValue] = useState('');
 
     function handleSort(key) {
         setSortConfig(prev => {
@@ -42,7 +44,15 @@ export default function TeacherDisplay() {
     }
 
     const sortedTeachers = getSortedTeachers();
-    const teachersToShow = sortedTeachers.slice(startIndex, endIndex);
+    const filteredTeachers = sortedTeachers.filter(teacher => {
+        if (!filterValue) return true;
+        const value = teacher[filterField];
+        if (typeof value === 'string') {
+            return value.toLowerCase().includes(filterValue.toLowerCase());
+        }
+        return false;
+    });
+    const teachersToShow = filteredTeachers.slice(startIndex, endIndex);
 
     useEffect(() => {
         async function fetchTeachers() {
@@ -62,7 +72,17 @@ export default function TeacherDisplay() {
         setCurrentPage(1); // Reset to first page when teachersPerPage changes
     }, [teachersPerPage]);
 
-    if (loading) return <div>Loading teachers...</div>;
+    if (loading) return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '60vh',
+            width: '100%'
+        }}>
+            <div className="loader"></div>
+        </div>
+    );
     if (error) return <div>{error}</div>;
 
     function PaginationButton({ onClick, disabled, children }) {
@@ -78,6 +98,7 @@ export default function TeacherDisplay() {
             <button
                 className={`pagination-btn pagination-btn-primary per-page-btn${selected ? ' selected' : ''}`}
                 onClick={onClick}
+                disabled={selected}
             >
                 {value}
             </button>
@@ -88,11 +109,44 @@ export default function TeacherDisplay() {
         <div className="teacher-main-component-div">
             <div className="teacher-main-grid teacher-main-grid-center">
                 <div className="teacher-form teacher-display-table-wrapper">
-                    <h1>Teachers</h1>
-                    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '1rem' }}>
-                        <Link to="/" className="btn btn-primary" style={{ minWidth: 'unset', padding: '0.5rem 1.5rem', fontSize: '1rem' }}>
-                            Back to Main Page
-                        </Link>
+                    <div className="teacher-table-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                            <Link to="/" className="pagination-btn pagination-btn-primary" >
+                                Back to Main Page
+                            </Link>
+                        </div>
+                        <h1 style={{ margin: 0 }}>Teachers</h1>
+                        <div className="teacher-table-filter-bar" style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'flex-end' }}>
+                            <select
+                                value={filterField}
+                                onChange={e => setFilterField(e.target.value)}
+                                className="teacher-table-filter-select"
+                                style={{ fontSize: '1.4rem', padding: '0.5rem 1rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                            >
+                                <option value="name">Name</option>
+                                <option value="id">Acronym</option>
+                                <option value="email">Email</option>
+                                <option value="nif">NIF</option>
+                                <option value="academicBackground">Academic Background</option>
+                                <option value="street">Street</option>
+                                <option value="postalCode">Postal Code</option>
+                                <option value="location">Location</option>
+                                <option value="country">Country</option>
+                                <option value="departmentID">Department</option>
+                            </select>
+                            <input
+                                type="text"
+                                value={filterValue}
+                                onChange={e => setFilterValue(e.target.value)}
+                                placeholder={`Search by ${
+                                    filterField === 'id' ? 'Acronym' : 
+                                    filterField === 'academicBackground' ? 'Academic Background' : 
+                                    filterField === 'postalCode' ? 'Postal Code' : 
+                                    filterField === 'departmentID' ? 'Department' :
+                                filterField.charAt(0).toUpperCase() + filterField.slice(1)}`}
+                                className="teacher-table-filter-input"
+                            />
+                        </div>
                     </div>
                     <div className="teacher-table-center-wrapper">
                         <table className="teacher-form-table">
@@ -153,7 +207,7 @@ export default function TeacherDisplay() {
                             <PaginationButton onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                                 Previous
                             </PaginationButton>
-                            <span style={{ minWidth: '120px', textAlign: 'center', display: 'inline-block' }}>Page {currentPage} of {totalPages}</span>
+                            <span className="pagination-page-info" style={{ minWidth: '120px', textAlign: 'center', display: 'inline-block' }}>Page {currentPage} of {totalPages}</span>
                             <PaginationButton onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>
                                 Next
                             </PaginationButton>
