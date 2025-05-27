@@ -29,26 +29,29 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
         }
 
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(courseInStudyPlanCommand.programmeName()),
-                new Acronym(courseInStudyPlanCommand.programmeAcronym()));
+                courseInStudyPlanCommand.programmeName(),
+                courseInStudyPlanCommand.programmeAcronym()
+        );
 
         StudyPlanID studyPlanID = studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID);
 
-        Semester semester = new Semester(courseInStudyPlanCommand.semester());
-        CurricularYear curricularYear = new CurricularYear(courseInStudyPlanCommand.curricularYear());
+        Semester semester = courseInStudyPlanCommand.semester();
+        CurricularYear curricularYear = courseInStudyPlanCommand.curricularYear();
         CourseID courseID = new CourseID(
-                new Acronym(courseInStudyPlanCommand.courseAcronym()),
-                new Name(courseInStudyPlanCommand.courseName()));
+                courseInStudyPlanCommand.courseAcronym(),
+                courseInStudyPlanCommand.courseName()
+        );
 
-        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(courseInStudyPlanCommand.curricularYear());
-        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanCommand.credits());
+        DurationCourseInCurricularYear durationOfCourse = courseInStudyPlanCommand.duration();
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = courseInStudyPlanCommand.credits();
 
-        if (studyPlanService.getLatestStudyPlanIDByProgrammeID(studyPlanID.getProgrammeID()) == null) {
+        if (studyPlanID == null) {
             throw new BusinessRuleViolationException("No study plan found for the given programme ID.");
         }
 
         CourseInStudyPlan courseInStudyPlan = factory.newCourseInStudyPlan(
-                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
+                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts
+        );
 
         CourseInStudyPlanID courseInStudyPlanID = courseInStudyPlan.identity();
 

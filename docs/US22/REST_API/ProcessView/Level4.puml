@@ -22,20 +22,17 @@ ref over ui : \t    **Interaction Use #1** \n \n \t **(GET)** \n \t \t Retrieves
 ui --> RUC : Which CourseEdition?
 RUC -> ui : This CourseEdition!
 
-ui --> RUC : Grade, Date, CourseEditionID, StudentID?
+ui --> RUC : Fill in the **Student grading** information
 RUC -> ui : grade, date, courseEditionID, studentID!
 ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
 activate ctrlrREST
-ctrlrREST -> assembler : toDomain(gradeAStudentRequestDTO)
-activate assembler
-ref over assembler : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert StudentGradeRequestDTO \n \t \t \t \t      into GradeAStudentCommand
-assembler --> ctrlrREST : gradeAStudentCommand
-deactivate assembler
+
+ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert StudentGradeRequestDTO \n \t \t \t \t      into GradeAStudentCommand
 
 
 ctrlrREST -> service : gradeAStudent (gradeAStudentCommand)
 activate service
-ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t          Validate Business Rules and \n \t \t \t \t  Create **StudentGrade** Entity
+ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t          Validate Grading Business Rules and \n \t \t \t \t  Create **StudentGrade** Entity
 service -> sgr : save(studentGrade1)
 activate sgr
 sgr -> sgmp : toData(studentGrade1)

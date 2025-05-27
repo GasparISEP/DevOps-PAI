@@ -1,6 +1,6 @@
 @startuml
 
-title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 4)
+title Validate Grading Business Rules and Create StudentGrade - (Interaction Use #3)
 skinparam sequencemessagealign center
 
 participant ":CourseEditionRESTController" as ctrlrREST #business

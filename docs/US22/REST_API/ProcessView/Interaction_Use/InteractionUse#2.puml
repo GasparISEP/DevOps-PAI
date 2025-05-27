@@ -1,11 +1,19 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
-autonumber
+title Convert Request into Command - (Interaction Use #2)
+skinparam sequencemessagealign center
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":GradeAStudentAssemblerImpl" as assembler #implementation
+participant "command1:GradeAStudentCommand" as command #wheat
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+service -> assembler : toDomain(gradeAStudentRequestDTO)
+activate assembler
+assembler -> command** : <Create> GradeAStudentCommand
+activate command
+command --> assembler : gradeAStudentRequestDTO
+deactivate command
+assembler --> service : gradeAStudentRequestDTO
+deactivate assembler
+
 @enduml

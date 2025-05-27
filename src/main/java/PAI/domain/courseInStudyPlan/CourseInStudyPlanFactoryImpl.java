@@ -28,18 +28,15 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
             throw new IllegalArgumentException("Command cannot be null");
         }
 
-        Semester semester = new Semester(command.semester());
-        CurricularYear curricularYear = new CurricularYear(command.curricularYear());
-        CourseID courseID = new CourseID(new Acronym(command.courseAcronym()), new Name(command.courseName()));
+        Semester semester = command.semester();
+        CurricularYear curricularYear = command.curricularYear();
+        CourseID courseID = new CourseID(command.courseAcronym(), command.courseName());
         StudyPlanID studyPlanID = new StudyPlanID(
-                new ProgrammeID(
-                        new NameWithNumbersAndSpecialChars(command.programmeName()),
-                        new Acronym(command.programmeAcronym())
-                ),
-                new PAI.VOs.Date(command.studyPlanDate())
+                new ProgrammeID(command.programmeName(), command.programmeAcronym()),
+                command.studyPlanDate()
         );
-        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(command.duration());
-        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(command.credits());
+        DurationCourseInCurricularYear durationOfCourse = command.duration();
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = command.credits();
 
         return new CourseInStudyPlan(
                 semester,

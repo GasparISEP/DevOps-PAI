@@ -5,75 +5,60 @@ import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.teacher.Teacher;
 import PAI.service.courseEdition.ICourseEditionService;
+import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.teacher.ITeacherService;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 /**
- * Controller de domínio para orquestrar a atribuição de um RUC (coordenador)
- * a uma edição de curso, usando serviços de CourseEdition e Teacher.
+ * Domain controller responsible for orchestrating the assignment of a RUC (coordinator)
+ * to a course edition, using services for CourseEdition and Teacher.
  */
+@Component
 public class US20_DefineRucForCourseEditionController {
 
-    private final ICourseEditionService courseService;
-    private final ITeacherService       teacherService;
+    private final IDefineRucService defineRucService;
 
     /**
-     * @param courseService  serviço para operações em CourseEdition
-     * @param teacherService serviço para operações em Teacher
+     * @param defineRucService
      */
-    public US20_DefineRucForCourseEditionController(
-            ICourseEditionService courseService,
-            ITeacherService       teacherService
-    ) {
-        this.courseService  = Objects.requireNonNull(courseService,  "courseService não pode ser nulo");
-        this.teacherService = Objects.requireNonNull(teacherService, "teacherService não pode ser nulo");
+    public US20_DefineRucForCourseEditionController(IDefineRucService defineRucService) {
+        this.defineRucService  = Objects.requireNonNull(defineRucService,  "defineRucService cannot be null");
     }
 
     /**
-     * Retorna todos os professores disponíveis.
+     * Returns all available teachers.
      *
-     * @return lista de Teacher
+     * @return list of Teacher
      */
     public Iterable<Teacher> getAllTeachers() {
-        return teacherService.getAllTeachers();
+        return defineRucService.findAllTeachers();
     }
 
     /**
-     * Retorna todas as edições de curso existentes.
+     * Returns all existing course editions.
      *
-     * @return lista de CourseEdition
+     * @return list of CourseEdition
      */
     public Iterable<CourseEdition> getAllCourseEditions() {
-        return courseService.findAll();
+        return defineRucService.findAll();
     }
 
     /**
-     * Define um RUC (coordenador) para a edição de curso identificada.
+     * Assigns a RUC (coordinator) to the given course edition.
      *
-     * @param courseEditionID ID da edição de curso
-     * @param teacherID       ID do professor a ser atribuído como RUC
-     * @return true se a atribuição for bem-sucedida; false caso o registro não exista
-     * @throws IllegalArgumentException se os IDs forem nulos ou não encontrados
+     * @param courseEditionID courseEditionID  ID of the course edition
+     * @param teacherID teacherID              ID of the teacher to be assigned as RUC
+     * @return true if the assignment is successful; false if the record does not exist
+     * @throws IllegalArgumentException IllegalArgumentException if the IDs are null or not found
      */
-    public boolean defineRucForCourseEdition(
-            CourseEditionID courseEditionID,
-            TeacherID       teacherID
-    ) {
-        Objects.requireNonNull(courseEditionID, "courseEditionID não pode ser nulo");
-        Objects.requireNonNull(teacherID,       "teacherID não pode ser nulo");
 
-        // 1. Valida pré-existência
-        if (!courseService.containsOfIdentity(courseEditionID)) {
-            throw new IllegalArgumentException(
-                    "Edição de curso não encontrada: " + courseEditionID);
-        }
-        if (!teacherService.existsById(teacherID)) {
-            throw new IllegalArgumentException(
-                    "Professor não encontrado: " + teacherID);
-        }
+    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID,TeacherID teacherID) {
 
-        // 2. Delegação ao serviço de domínio
-        return courseService.assignRucToCourseEdition(teacherID, courseEditionID);
+        Objects.requireNonNull(courseEditionID,"courseEditionID cannot be null");
+        Objects.requireNonNull(teacherID,"teacherID cannot be null");
+
+        return defineRucService.assignRucToCourseEdition(teacherID, courseEditionID);
     }
 }
