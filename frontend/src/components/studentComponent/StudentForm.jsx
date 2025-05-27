@@ -96,11 +96,13 @@ export default function StudentForm() {
                             {[
                                 { label: 'Student ID', name: 'studentID', type: 'number' },
                                 { label: 'Name', name: 'name' },
-                                { label: 'NIF', name: 'nif', type: 'text' }
+                                { label: 'NIF', name: 'nif', type: 'number' },
+                                { label: 'NIF Country', name: 'nifcountry', type:'text' },
+                                { label: 'Street', name: 'street' },
                             ].map(({ label, name, type = 'text' }) => (
                                 <div className="student-form-group" key={name}>
                                     <label className="student-form-label" htmlFor={name}>{label}</label>
-                                    <input className="student-form-input" id={name} name={name} type={type} value={form[name]} onChange={handleChange} required />
+                                    <input className="student-form-input" placeholder="Enter required information" id={name} name={name} type={type} value={form[name]} onChange={handleChange} required />
                                 </div>
                             ))}
 
@@ -128,7 +130,7 @@ export default function StudentForm() {
 
                             <div className="student-form-group">
                                 <label className="student-form-label" htmlFor="street">Street</label>
-                                <input className="student-form-input" id="street" name="street" value={form.street} onChange={handleChange} required />
+                                <input className="student-form-input" placeholder="Enter Street" id="street" name="street" value={form.street} onChange={handleChange} required />
                             </div>
 
                             <div className="student-form-group postal-code-group">
@@ -142,7 +144,7 @@ export default function StudentForm() {
 
                             <div className="student-form-group">
                                 <label className="student-form-label" htmlFor="location">Location</label>
-                                <input className="student-form-input" id="location" name="location" value={form.location} onChange={handleChange} required />
+                                <input className="student-form-input" placeholder="Enter Location" id="location" name="location" value={form.location} onChange={handleChange} required />
                             </div>
 
                             <div className="student-form-group">
@@ -193,7 +195,7 @@ export default function StudentForm() {
 
                             <div className="student-form-group">
                                 <label className="student-form-label" htmlFor="email">E-mail</label>
-                                <input className="student-form-input" id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
+                                <input className="student-form-input" placeholder="Enter Email" id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
                             </div>
 
                             {error && <div className="error">⚠️ {error}</div>}

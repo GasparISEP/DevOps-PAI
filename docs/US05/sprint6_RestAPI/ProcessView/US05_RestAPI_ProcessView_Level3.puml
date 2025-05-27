@@ -21,21 +21,19 @@ participant ":Repository" as RE
 
 group Human Interaction
 ADM -> FE ++: Request to register a department
-FE --> ADM --: Prompt: "Enter department acronym"
-ADM -> FE ++: Input: "DEI"
-FE --> ADM --: Prompt: "Enter department name"
-ADM -> FE ++: Input: "Software Engineering Department"
+FE --> ADM --: Prompt: "Fill in department details"
+ADM -> FE ++: Enter name and acronym
 end group
 
 group HTTP Request
-FE -> CT ++: (POST) /departments with JSON {request}
+FE -> CT ++: (POST) /departments {request}
 end group
 
 group Application Service Invocation
-CT -> SE ++: createAndSaveDepartment(command)
+CT -> SE ++: createAndSaveDepartment(requestVOs)
 
 group Domain Logic
-SE -> DM ++: Department department = new Department(command.acronym(), command.name())
+SE -> DM ++: new Department
 DM --> SE --: department
 end group
 
@@ -48,7 +46,7 @@ SE --> CT --: department
 end group
 
 group HTTP Response
-CT --> FE --: HTTP 201 Created + DepartmentDTO
+CT --> FE --: HTTP 201 Created + \nobject + Hypermedia links
 FE --> ADM --: Department registered successfully
 end group
 

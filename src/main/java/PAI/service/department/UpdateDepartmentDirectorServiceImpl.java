@@ -7,10 +7,8 @@ import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
+
 
 @Service
 public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDirectorService {
@@ -38,6 +36,7 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
         }
 
         // Check if the department exists
+
         Optional<Department> optionalDepartment = departmentRepository.findDepartmentByID(departmentID);
         if (optionalDepartment.isEmpty()) {
             throw new IllegalArgumentException("Department not found for the given ID.");
@@ -45,34 +44,19 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
 
         Department department = optionalDepartment.get();
 
-
         // Check if the teacher belongs to the department
 
-// Check if the teacher belongs to the department
-        boolean teacherBelongsToDepartment = StreamSupport.stream(
-                        teacherRepository.findAllByDepartmentId(departmentID).spliterator(), false)
-                .anyMatch(teacher -> teacher.identity().equals(teacherID));
-
-        if (!teacherBelongsToDepartment) {
-            throw new IllegalArgumentException("The specified teacher does not belong to the given department.");
+        Optional <Teacher> teacherOpt = teacherRepository.ofIdentity(teacherID);
+        if (teacherOpt.isEmpty()) {
+            throw new IllegalArgumentException("Teacher not found for the given ID.");
         }
-
+        Teacher teacher = teacherOpt.get();
+        if (teacher.isInDepartment(departmentID)){
+            department.changeDirector(teacherID);
+            departmentRepository.save(department);
+        }
         // Update or add the director
-        department.setDirectorID(teacherID);
-        departmentRepository.save(department);
-        return department;
+               return department;
     }
 
-    @Override
-    public Set<DepartmentID> getDepartmentIDs() {
-        return departmentRepository.getDepartmentIDs();
-    }
-
-    @Override
-    public Iterable<Teacher> listTeachersByDepartment(DepartmentID departmentID) {
-        if (departmentID == null) {
-            throw new IllegalArgumentException("Department ID cannot be null.");
-        }
-        return teacherRepository.findAllByDepartmentId(departmentID);
-    }
 }

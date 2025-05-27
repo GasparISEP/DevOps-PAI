@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class RegisterDepartmentCommandTest {
+class RegisterDepartmentRequestVOsTest {
 
     @Test
     void shouldCreatRegisterDepartmentCommandCorrectly() {
@@ -20,7 +20,7 @@ class RegisterDepartmentCommandTest {
         when(acronym.getAcronym()).thenReturn("DEI");
 
         // Act
-        RegisterDepartmentCommand command = new RegisterDepartmentCommand(name, acronym);
+        RegisterDepartmentRequestVOs command = new RegisterDepartmentRequestVOs(name, acronym);
 
         // Assert
         assertEquals(name, command.name());
@@ -35,7 +35,7 @@ class RegisterDepartmentCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentCommand(null, acronym);
+            new RegisterDepartmentRequestVOs(null, acronym);
         });
         assertEquals("Name is required", exception.getMessage());
     }
@@ -50,7 +50,7 @@ class RegisterDepartmentCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentCommand(name, acronym);
+            new RegisterDepartmentRequestVOs(name, acronym);
         });
         assertEquals("Name is required", exception.getMessage());
     }
@@ -63,7 +63,7 @@ class RegisterDepartmentCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentCommand(name, null);
+            new RegisterDepartmentRequestVOs(name, null);
         });
         assertEquals("Acronym is required", exception.getMessage());
     }
@@ -78,7 +78,7 @@ class RegisterDepartmentCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentCommand(name, acronym);
+            new RegisterDepartmentRequestVOs(name, acronym);
         });
         assertEquals("Acronym is required", exception.getMessage());
     }

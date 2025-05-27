@@ -4,11 +4,11 @@ package PAI.dto.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 
-public record RegisterDepartmentCommand (
+public record RegisterDepartmentRequestVOs(
         Name name,
         DepartmentAcronym acronym
 ) {
-    public RegisterDepartmentCommand {
+    public RegisterDepartmentRequestVOs {
         if (name == null || name.getName().isBlank()) {
             throw new IllegalArgumentException("Name is required");
         }
