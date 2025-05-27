@@ -7,12 +7,13 @@ import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.DefineRucRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,6 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/courseeditions")
@@ -41,18 +41,27 @@ public class CourseEditionRestController {
     private final IGradeAStudentService gradeAStudentService;
     private final IStudentGradeAssembler studentGradeAssembler;
     private final IProgrammeEditionAssembler programmeEditionAssembler;
+    private final IDefineRucService defineRucService;
 
-    public CourseEditionRestController(ICourseEditionEnrolmentService courseEditionEnrolmentService, ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
-                                       ICreateCourseEditionService createCourseEditionService, ICourseEditionAssembler courseEditionAssembler, IGradeAStudentService gradeAStudentService,
-                                       IStudentGradeAssembler studentGradeAssembler, IProgrammeEditionAssembler programmeEditionAssembler) {
-        this.courseEditionEnrolmentService = courseEditionEnrolmentService;
-        this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
-        this.createCourseEditionService = createCourseEditionService;
-        this.courseEditionAssembler = courseEditionAssembler;
-        this.gradeAStudentService = gradeAStudentService;
-        this.studentGradeAssembler = studentGradeAssembler;
-        this.programmeEditionAssembler = programmeEditionAssembler;
-    }
+public CourseEditionRestController(
+        ICourseEditionEnrolmentService courseEditionEnrolmentService,
+        ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
+        ICreateCourseEditionService createCourseEditionService,
+        ICourseEditionAssembler courseEditionAssembler,
+        IGradeAStudentService gradeAStudentService,
+        IStudentGradeAssembler studentGradeAssembler,
+        IProgrammeEditionAssembler programmeEditionAssembler,
+        IDefineRucService defineRucService
+) {
+    this.courseEditionEnrolmentService = courseEditionEnrolmentService;
+    this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
+    this.createCourseEditionService = createCourseEditionService;
+    this.courseEditionAssembler = courseEditionAssembler;
+    this.gradeAStudentService = gradeAStudentService;
+    this.studentGradeAssembler = studentGradeAssembler;
+    this.programmeEditionAssembler = programmeEditionAssembler;
+    this.defineRucService = defineRucService;
+}
 
     @PostMapping("/students/enrolments")
     public ResponseEntity<String> enrolStudentInCourseEdition(@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) throws Exception {
@@ -137,6 +146,19 @@ public class CourseEditionRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
+    }
+
+    @PatchMapping("/ruc")
+    public ResponseEntity<String> defineRucForCourseEdition (@RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
+        TeacherID teacherID= courseEditionAssembler.createTeacherID(defineRucRequestDTO.teacherID());
+        CourseEditionID courseEditionID= courseEditionAssembler.fromDtoToCourseEditionID(defineRucRequestDTO.courseEditionDTO());
+        try {
+            defineRucService.assignRucToCourseEdition(teacherID, courseEditionID);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("RUC successfully updated");
     }
 
     @GetMapping("/programmeditions")
