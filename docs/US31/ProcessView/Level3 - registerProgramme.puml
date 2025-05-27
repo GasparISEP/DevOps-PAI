@@ -1,0 +1,42 @@
+@startuml
+
+autonumber
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:ProgrammeRestController" as C #lightgreen
+participant "<<Component>>\n:ProgrammeService" as S #lightblue
+participant "<<Component>>\n:ProgrammeRepository" as R #lightyellow
+participant "<<Component>>\n:Domain" as D #lightpink
+participant "Programme1:Programme" as P
+participant "<<Component>>\n:Drivers" as Drivers #lightyellow
+
+-> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
+
+RT -> C ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+C -> S ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+
+S -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+activate P
+P --> D: Programme1
+deactivate P
+D --> S --: Programme1
+
+S -> R ++: containsOfIdentity(Programme1.identity())
+R -> Drivers ++: containsOfIdentity(Programme1.identity())
+Drivers -> : containsOfIdentity(Programme1.identity())
+Drivers <-- : False
+Drivers --> R --: False
+R --> S --: False
+
+S -> R ++: save(Programme1)
+R -> Drivers ++: save(Programme1)
+Drivers -> : save(Programme1)
+Drivers <-- : Programme1
+Drivers --> R --: Programme1
+R --> S --: Programme1
+
+S --> C --: Programme1
+C --> RT --: Programme1
+<-- RT --: (201, Created) Programme1
+@enduml
