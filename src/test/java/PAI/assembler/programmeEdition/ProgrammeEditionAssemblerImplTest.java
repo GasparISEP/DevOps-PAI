@@ -5,6 +5,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
@@ -223,5 +224,18 @@ class ProgrammeEditionAssemblerImplTest {
         assertThrows(IllegalArgumentException.class, () -> {
             assembler.toDTO(programmeID,schoolYearID);
         });
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionIdDto programmeEditionIdDto = mock(ProgrammeEditionIdDto.class);
+        when(programmeEditionIdDto.programmeName()).thenReturn("Computer Science");
+        when(programmeEditionIdDto.programmeAcronym()).thenReturn("CSE");
+        when(programmeEditionIdDto.schoolYearId()).thenReturn(UUID.randomUUID().toString());
+        // Act
+        ProgrammeEditionID result = assembler.toProgrammeEditionID(programmeEditionIdDto);
+        // Assert
+        assertNotNull(result);
     }
 }
