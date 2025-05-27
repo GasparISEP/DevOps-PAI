@@ -29,6 +29,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/courseeditions")
@@ -202,5 +203,34 @@ public CourseEditionRestController(
             // Return 400 Status Code (Bad Request) for business rule violations
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/averagegrade")
+    public ResponseEntity<Double> getCourseEditionAverageGrade(
+            @RequestParam("programmeAcronym") String programmeAcronym,
+            @RequestParam("schoolYearId") String schoolYearId,
+            @RequestParam("courseAcronym") String courseAcronym,
+            @RequestParam("studyPlanDate") String studyPlanDate
+    ) throws Exception {
+
+        UUID schoolYearUUID = UUID.fromString(schoolYearId);
+        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+
+        ProgrammeID programmeID = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Placeholder Name"), //Dummies
+                new Acronym(programmeAcronym));
+
+        CourseEditionID courseEditionID = new CourseEditionID(
+                new ProgrammeEditionID(programmeID, schoolYearID),
+                new CourseInStudyPlanID(
+                        new CourseID(new Acronym(courseAcronym), new Name("Some Placeholder Name")),
+                        new StudyPlanID(programmeID, new Date(studyPlanDate))));
+
+        Double averageGrade = gradeAStudentService.getAverageGrade(courseEditionID);
+
+        if (averageGrade == null) {
+            return ResponseEntity.ok(null);
+        }
+        return ResponseEntity.ok(averageGrade);
     }
 }
