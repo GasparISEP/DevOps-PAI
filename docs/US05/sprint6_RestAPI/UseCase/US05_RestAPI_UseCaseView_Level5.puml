@@ -18,7 +18,7 @@ participant ":DepartmentRestController" as Controller
 participant ":IDepartmentRegistrationService" as Service
 participant ":IDepartmentAssembler" as Mapper
 participant ":IDepartmentHateoasAssembler" as HAAssembler
-participant "rdrrVo1:RegisterDepartmentRequestVOs" as Request #LightYellow
+participant "rdrVo1:RegisterDepartmentRequestVOs" as Request #LightYellow
 participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
 participant "d1HateoasDTO:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
 participant ":IDepartmentRepository" as Repository
