@@ -2,6 +2,7 @@ package PAI.assembler.department;
 
 import PAI.VOs.*;
 import PAI.domain.department.Department;
+import PAI.dto.department.*;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.dto.department.RegisterDepartmentRequestVOs;
@@ -245,7 +246,31 @@ class DepartmentAssemblerImplTest {
         //Assert
         assertNotNull(departmentDWDDTO);
     }
+    @Test
+    void shouldConvertRequestToDepartmentWithDirectorCommand() {
+        // Arrange
+        DepartmentWithDirectorRequest requestDouble = mock(DepartmentWithDirectorRequest.class);
+        when(requestDouble.name()).thenReturn("Software Engineering Department");
+        when(requestDouble.acronym()).thenReturn("DEI");
+        when(requestDouble.teacherID()).thenReturn("MAJ");
 
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act
+        DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(requestDouble);
+
+        // Assert
+        assertNotNull(command);
+    }
+    @Test
+    void shouldThrowExceptionWhenRequestIsNull() {
+        //Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.fromRequestToCommand(null);
+        });
+    }
 
 
 }
