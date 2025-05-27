@@ -1,12 +1,18 @@
 package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.studentGrade.GradeAStudentCommand;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.studentGrade.IGradeAStudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +27,8 @@ import jakarta.validation.Valid;
 
 import java.net.URI;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/courseeditions")
@@ -30,14 +38,19 @@ public class CourseEditionRestController {
     private final ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler;
     private final ICreateCourseEditionService createCourseEditionService;
     private final ICourseEditionAssembler courseEditionAssembler;
-    private final IProgrammeEditionAssembler programmeEditionAssembler; 
+    private final IGradeAStudentService gradeAStudentService;
+    private final IStudentGradeAssembler studentGradeAssembler;
+    private final IProgrammeEditionAssembler programmeEditionAssembler;
 
     public CourseEditionRestController(ICourseEditionEnrolmentService courseEditionEnrolmentService, ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
-                                ICreateCourseEditionService createCourseEditionService, ICourseEditionAssembler courseEditionAssembler, IProgrammeEditionAssembler programmeEditionAssembler) {
+                                       ICreateCourseEditionService createCourseEditionService, ICourseEditionAssembler courseEditionAssembler, IGradeAStudentService gradeAStudentService,
+                                       IStudentGradeAssembler studentGradeAssembler, IProgrammeEditionAssembler programmeEditionAssembler) {
         this.courseEditionEnrolmentService = courseEditionEnrolmentService;
         this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
         this.createCourseEditionService = createCourseEditionService;
         this.courseEditionAssembler = courseEditionAssembler;
+        this.gradeAStudentService = gradeAStudentService;
+        this.studentGradeAssembler = studentGradeAssembler;
         this.programmeEditionAssembler = programmeEditionAssembler;
     }
 
@@ -138,5 +151,34 @@ public class CourseEditionRestController {
             return ResponseEntity.badRequest().build();
         }
     }
-}
 
+    @GetMapping
+    public ResponseEntity<?> findAllCourseEditions () {
+        // Retrieves all Domain Course Editions
+        Iterable<CourseEdition> allCourseEditions = createCourseEditionService.findAll();
+
+        List<CourseEditionResponseDTO> dtoList = new ArrayList<>();
+        // For each Domain CourseEdition, it converts into a ResponseDTO and adds to list
+        for (CourseEdition courseEdition : allCourseEditions) {
+            dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
+        }
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @PostMapping("/studentGrades")
+    public ResponseEntity<?> gradeAStudent (@RequestBody @Valid GradeAStudentRequestDTO request) {
+
+        try {
+            // Convert requestDTO to command
+            GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
+            // Call Service to Grade a Student
+            GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
+            // Return 201 Status Code (Ok!)
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            // Return 400 Status Code (Bad Request) for business rule violations
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+}

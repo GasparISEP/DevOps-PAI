@@ -30,5 +30,5 @@ public record GradeAStudentRequestDTO(
         String courseName,
 
         @NotBlank(message = "Study plan date is required.")
-        String studyPlanDate
+        String studyPlanImplementationDate
 ) {}
