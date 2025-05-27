@@ -3,26 +3,25 @@ package PAI.exception;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
-    private String message;
-    private LocalDateTime timestamp;
-    private int status;
+    private String _code;
+    private String _message;
+    private LocalDateTime _timestamp;
 
-    public ErrorResponse(String message, int status) {
-        this.message = message;
-        this.status = status;
-        this.timestamp = LocalDateTime.now();
+    public ErrorResponse(String code, String message) {
+        this._code = code;
+        this._message = message;
+        this._timestamp = LocalDateTime.now();
     }
 
+    public String getCode() {
+        return _code;
+    }
 
     public String getMessage() {
-        return message;
+        return _message;
     }
 
     public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int getStatus() {
-        return status;
+        return _timestamp;
     }
 }
