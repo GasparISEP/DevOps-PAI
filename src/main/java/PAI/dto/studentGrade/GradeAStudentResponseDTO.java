@@ -1,6 +1,6 @@
 package PAI.dto.studentGrade;
 
-public record StudentGradeResponseDTO(
+public record GradeAStudentResponseDTO(
         int _studentUniqueNumber,
         double _grade,
         String _date,

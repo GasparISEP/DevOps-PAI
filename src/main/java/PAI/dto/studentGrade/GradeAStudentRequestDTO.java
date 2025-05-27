@@ -3,7 +3,7 @@ package PAI.dto.studentGrade;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-public record StudentGradeRequestDTO(
+public record GradeAStudentRequestDTO(
 
         @Positive(message = "Grade must be a positive number.")
         double grade,

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StudentGradeRequestDTOTest {
+class GradeAStudentRequestDTOTest {
 
     private Validator validator;
 
@@ -23,7 +23,7 @@ class StudentGradeRequestDTOTest {
 
     @Test
     void shouldPassValidationWithValidData() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -35,13 +35,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty(), "DTO should pass with valid data.");
     }
 
     @Test
     void shouldFailValidationWhenGradeIsZero() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 0,
                 "2025-05-23",
                 1234567,
@@ -53,13 +53,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenDateIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 " ",
                 1234567,
@@ -71,13 +71,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenStudentUniqueNumberIsNegative() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 -1,
@@ -89,13 +89,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenProgrammeNameIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -107,13 +107,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenProgrammeAcronymIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -125,13 +125,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenSchoolYearIdIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -143,13 +143,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenCourseAcronymIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -161,13 +161,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenCourseNameIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -179,13 +179,13 @@ class StudentGradeRequestDTOTest {
                 "2023-09-01"
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenStudyPlanDateIsBlank() {
-        StudentGradeRequestDTO dto = new StudentGradeRequestDTO(
+        GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
                 18,
                 "2025-05-23",
                 1234567,
@@ -197,7 +197,7 @@ class StudentGradeRequestDTOTest {
                 " "
         );
 
-        Set<ConstraintViolation<StudentGradeRequestDTO>> violations = validator.validate(dto);
+        Set<ConstraintViolation<GradeAStudentRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
     }
 }
