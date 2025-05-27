@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -80,4 +82,21 @@ class StudentRestControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertSame(responseDTO, response.getBody());
     }
+    @Test
+    void whenGetLastStudentID_thenReturnsExpectedValueInMap() {
+        // Arrange
+        int lastStudentID = 1234567;
+        when(studentService.getLastStudentID()).thenReturn(lastStudentID);
+
+        // Act
+        ResponseEntity<Map<String, Integer>> response = studentRestController.getLastStudentID();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().containsKey("lastStudentID"));
+        assertEquals(lastStudentID, response.getBody().get("lastStudentID"));
+    }
+
+
 }

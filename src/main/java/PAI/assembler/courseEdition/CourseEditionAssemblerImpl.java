@@ -2,6 +2,7 @@ package PAI.assembler.courseEdition;
 
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 
 @Component
 public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
@@ -72,6 +74,32 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             courseEditionResponseDTOs.add(courseEditionResponseDTO);
         }
         return courseEditionResponseDTOs;
+    }
+
+    public TeacherID createTeacherID (String teacherID) {
+        return new TeacherID(new TeacherAcronym(teacherID));
+    }
+
+    public CourseEditionID fromDtoToCourseEditionID (SelectedCourseEditionIdDTO courseEditionDTO) throws Exception{
+        ProgrammeID programmeID= new ProgrammeID(
+                new NameWithNumbersAndSpecialChars(courseEditionDTO.programmeName()),
+                new Acronym(courseEditionDTO.programmeAcronym()));
+        SchoolYearID schoolYearID= new SchoolYearID(courseEditionDTO.schoolYearID());
+        ProgrammeEditionID programmeEditionID= new ProgrammeEditionID(programmeID, schoolYearID);
+
+        CourseID courseID= new CourseID(
+                new Acronym(courseEditionDTO.courseAcronym()),
+                new Name(courseEditionDTO.courseName()));
+
+        LocalDate localDate = courseEditionDTO.studyPlanImplementationDate();
+
+        Date studyPlanDate = new Date(localDate);
+
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+
+        CourseInStudyPlanID courseInStudyPlanID= new CourseInStudyPlanID(courseID, studyPlanID);
+
+        return new CourseEditionID(programmeEditionID, courseInStudyPlanID);
     }
 }
 

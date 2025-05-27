@@ -8,6 +8,7 @@ import PAI.dto.department.*;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.assembler.department.IDepartmentAssembler;
+import PAI.assembler.department.IDepartmentHateoasAssembler;
 import PAI.domain.department.Department;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.department.IDepartmentRegistrationService;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -38,7 +40,9 @@ class DepartmentRestControllerTest {
         IDepartmentRegistrationService departmentRegistrationServiceDouble = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationServiceDouble, departmentAssemblerDouble, updateDepartmentDirectorServiceDouble);
+        IDepartmentHateoasAssembler departmentHateoasAssemblerDouble = mock(IDepartmentHateoasAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationServiceDouble, departmentAssemblerDouble, updateDepartmentDirectorServiceDouble, departmentHateoasAssemblerDouble);
 
 
         // Act + Assert
@@ -51,6 +55,9 @@ class DepartmentRestControllerTest {
     @Mock
     private IDepartmentAssembler departmentAssembler;
 
+    @Mock
+    private IDepartmentHateoasAssembler departmentHateoasAssembler;
+
     @InjectMocks
     private DepartmentRestController controller;
 
@@ -60,7 +67,7 @@ class DepartmentRestControllerTest {
     }
 
     @Test
-    void shouldReturnCreatedDTOIfSuccessful() throws Exception {
+    void shouldReturnCreatedHateoasDTOIfSuccessful() throws Exception {
         // Arrange
         RegisterDepartmentRequest request = mock(RegisterDepartmentRequest.class);
         when(request.name()).thenReturn("Software Engineering Department");
@@ -78,6 +85,9 @@ class DepartmentRestControllerTest {
 
         Department department = mock(Department.class);
         DepartmentDTO dto = mock(DepartmentDTO.class);
+        EntityModel<DepartmentDTO> hateoasModel = mock(EntityModel.class);
+        when(hateoasModel.getContent()).thenReturn(dto);
+
 
         when(dto.name()).thenReturn("Software Engineering Department");
         when(dto.acronym()).thenReturn("DEI");
@@ -85,13 +95,14 @@ class DepartmentRestControllerTest {
             when(departmentAssembler.toRegisterDepartmentRequestVOs(request)).thenReturn(requestVOs);
             when(registrationService.createAndSaveDepartment(requestVOs)).thenReturn(department);
             when(departmentAssembler.toDTO(department)).thenReturn(dto);
+            when(departmentHateoasAssembler.toModel(dto)).thenReturn(hateoasModel);
 
         // Act
         ResponseEntity<?> response = controller.registerDepartment(request);
 
         // Assert
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(dto, response.getBody());
+        assertEquals(hateoasModel, response.getBody());
     }
 
         @Test
@@ -162,7 +173,8 @@ class DepartmentRestControllerTest {
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble);
+        IDepartmentHateoasAssembler departmentHateoasAssemblerDouble = mock(IDepartmentHateoasAssembler.class);
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssemblerDouble);
 
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
@@ -192,7 +204,8 @@ class DepartmentRestControllerTest {
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble);
+        IDepartmentHateoasAssembler departmentHateoasAssemblerDouble = mock(IDepartmentHateoasAssembler.class);
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssemblerDouble);
 
 
         List<Department> departments = List.of();
@@ -215,7 +228,9 @@ class DepartmentRestControllerTest {
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble);
+        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssembler);
 
         String errorMessage = "Invalid input data";
 
@@ -234,7 +249,9 @@ class DepartmentRestControllerTest {
         // Arrange
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble);
+        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
+
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssembler);
 
         when(departmentRegistrationService.getAllDepartments()).thenThrow(new RuntimeException("Database is down"));
 

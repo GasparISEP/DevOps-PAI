@@ -1,17 +1,19 @@
 package PAI.initializer;
+
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.util.UUID;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
 
 class CourseEditionInitializerTest {
 
@@ -27,41 +29,67 @@ class CourseEditionInitializerTest {
     }
 
     @Test
-    void shouldCallCreateAndSaveCorrectly() throws Exception {
+    void shouldProcessValidCSVLine() throws Exception {
         // Arrange
-        ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Data Science"),
-                new Acronym("DSD")
-        );
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString("22222222-2222-2222-2222-222222222222"));
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
+                "01-07-2023,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
+        
+        InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
 
-        Date date = new Date("01-07-2023");
-        StudyPlanID studyPlanID = new StudyPlanID(programmeID, date);
-
-        CourseID courseID = new CourseID(new Acronym("ARIT"), new Name("Arithmancy"));
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+        // Mock the resource stream
+        CourseEditionInitializer spyInitializer = spy(initializer);
+        doReturn(inputStream).when(spyInitializer).getResourceAsStream(anyString());
 
         CourseEdition courseEdition = mock(CourseEdition.class);
+        when(courseEditionService.createAndSaveCourseEdition(any(), any())).thenReturn(courseEdition);
 
-        when(courseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID))
-                .thenReturn(courseEdition);
         // Act
-        initializer.init();
+        spyInitializer.init();
+
         // Assert
-        verify(courseEditionService).createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+        verify(courseEditionService, times(1)).createAndSaveCourseEdition(any(), any());
     }
 
     @Test
-    void shouldInitializeAndSaveAllCourseEditions() throws Exception {
+    void shouldSkipInvalidCSVLine() throws Exception {
+        // Arrange
+        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
+                "invalid-date,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
+        
+        InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
+
+        // Mock the resource stream
+        CourseEditionInitializer spyInitializer = spy(initializer);
+        doReturn(inputStream).when(spyInitializer).getResourceAsStream(anyString());
+
+        // Act
+        spyInitializer.init();
+
+        // Assert
+        verify(courseEditionService, never()).createAndSaveCourseEdition(any(), any());
+    }
+
+    @Test
+    void shouldSkipEmptyLines() throws Exception {
+        // Arrange
+        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
+                "\n" +
+                "01-07-2023,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
+        
+        InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
+
+        // Mock the resource stream
+        CourseEditionInitializer spyInitializer = spy(initializer);
+        doReturn(inputStream).when(spyInitializer).getResourceAsStream(anyString());
+
         CourseEdition courseEdition = mock(CourseEdition.class);
-        when(courseEditionService.createAndSaveCourseEdition(any(CourseInStudyPlanID.class), any(ProgrammeEditionID.class))).thenReturn(courseEdition);
+        when(courseEditionService.createAndSaveCourseEdition(any(), any())).thenReturn(courseEdition);
 
-        initializer.init();
+        // Act
+        spyInitializer.init();
 
-        verify(courseEditionService, times(4)).createAndSaveCourseEdition(any(CourseInStudyPlanID.class), any(ProgrammeEditionID.class));
+        // Assert
+        verify(courseEditionService, times(1)).createAndSaveCourseEdition(any(), any());
     }
 }
-
-
 

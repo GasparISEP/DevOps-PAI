@@ -37,7 +37,7 @@ Admin -> FE ++: name, acronym, quantSemesters
 FE -> BE ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
 BE -> BD ++: (INSERT) Persist Programme to Database (Programme)
 BD --> BE --: Programme
-BE --> FE --: (201, Created) Registered Programme
-FE --> Admin --: Programme registered successfully!
+BE --> FE --: (201, Created) Programme
+FE --> Admin --: Programme registered successfully! \n(Display Programme details)
 
 @enduml

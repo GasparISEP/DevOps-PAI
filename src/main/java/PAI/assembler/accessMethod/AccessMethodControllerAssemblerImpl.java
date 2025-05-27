@@ -1,7 +1,6 @@
 package PAI.assembler.accessMethod;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.domain.accessMethod.AccessMethod;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Component
-public class AccessMethodAssemblerImpl implements IAccessMethodAssembler {
+public class AccessMethodControllerAssemblerImpl implements IAccessMethodControllerAssembler {
 
     @Override
     public RegisterAccessMethodCommand toCommand(AccessMethodRequestDTO dto) {
@@ -19,17 +18,6 @@ public class AccessMethodAssemblerImpl implements IAccessMethodAssembler {
         NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(dto.name());
         return new RegisterAccessMethodCommand(nameVO);
     }
-
-    @Override
-    public AccessMethodServiceDTO toDto(AccessMethod accessMethod) {
-        validateNotNull(accessMethod, "AccessMethod");
-
-        return new AccessMethodServiceDTO(
-                accessMethod.identity().toString(),
-                accessMethod.getAccessMethodName().getnameWithNumbersAndSpecialChars());
-
-    }
-
 
     @Override
     public AccessMethodResponseDTO toResponseDto(AccessMethodServiceDTO amServiceDTO) {

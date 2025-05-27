@@ -5,14 +5,14 @@ import jakarta.validation.constraints.Positive;
 
 public record GradeAStudentRequestDTO(
 
+        @Positive(message = "Student unique number must be positive.")
+        int studentUniqueNumber,
+
         @Positive(message = "Grade must be a positive number.")
         double grade,
 
         @NotBlank(message = "Date is required.")
         String date,
-
-        @Positive(message = "Student unique number must be positive.")
-        int studentUniqueNumber,
 
         @NotBlank(message = "Programme name is required.")
         String programmeName,
@@ -30,5 +30,5 @@ public record GradeAStudentRequestDTO(
         String courseName,
 
         @NotBlank(message = "Study plan date is required.")
-        String studyPlanDate
+        String studyPlanImplementationDate
 ) {}

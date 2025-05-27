@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TeacherWithRelevantDataServiceImpl {
+public class TeacherWithRelevantDataServiceImpl implements ITeacherWithRelevantDataService {
 
     private ITeacherCategoryRepository _teacherCategoryRepository;
     private ITeacherCareerProgressionRepository _teacherCareerProgressionRepository;

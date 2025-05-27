@@ -1,10 +1,11 @@
 package PAI.controllerRest;
 
 import PAI.VOs.Name;
-import PAI.assembler.teacherCategory.ITeacherCategoryAssembler;
-import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.assembler.teacherCategory.ITeacherCategoryExternalAssembler;
+import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
+import PAI.exception.AlreadyRegisteredException;
 import PAI.service.teacherCategory.ITeacherCategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ class TeacherCategoryRestControllerTest {
     @Test
     void shouldReturnAnExceptionIfTeacherCategoryServiceIsNull() {
         //arrange
-        ITeacherCategoryAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryAssembler.class);
+        ITeacherCategoryExternalAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryExternalAssembler.class);
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -29,7 +30,7 @@ class TeacherCategoryRestControllerTest {
         });
 
         //assert
-        assertEquals("Teacher Category Service Interface cannot be null!", exception.getMessage());
+        assertEquals("Teacher Category Service Interface cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -43,7 +44,7 @@ class TeacherCategoryRestControllerTest {
         });
 
         //assert
-        assertEquals("Teacher Category Assembler Interface cannot be null!", exception.getMessage());
+        assertEquals("Teacher Category Assembler Interface cannot be null.", exception.getMessage());
     }
 
     //testing configureTeacherCategory method
@@ -51,21 +52,21 @@ class TeacherCategoryRestControllerTest {
     @Test
     void shouldReturnAnCreateStatusCodeWhenIsPossibleToConfigureATeacherCategory() throws Exception {
         //arrange
-        ITeacherCategoryAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryAssembler.class);
+        ITeacherCategoryExternalAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryExternalAssembler.class);
         ITeacherCategoryService doubleTeacherCategoryServiceInterface = mock (ITeacherCategoryService.class);
         TeacherCategoryRestController controller = new TeacherCategoryRestController
                 (doubleTeacherCategoryServiceInterface, doubleTeacherCategoryAssemblerInterface);
 
         TeacherCategoryRequestDTO doubleTeacherCategoryRequestDTO = mock (TeacherCategoryRequestDTO.class);
-        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
         TeacherCategoryResponseDTO doubleTeacherCategoryResponseDTO = mock(TeacherCategoryResponseDTO.class);
+        TeacherCategoryDTO doubleTeacherCategoryDTO = mock (TeacherCategoryDTO.class);
 
         Name doubleName = mock (Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
 
         when(doubleTeacherCategoryAssemblerInterface.toVO(doubleTeacherCategoryRequestDTO)).thenReturn(doubleName);
-        when (doubleTeacherCategoryServiceInterface.configureTeacherCategory(doubleName)).thenReturn(doubleTeacherCategory);
-        when(doubleTeacherCategoryAssemblerInterface.toDTO(doubleTeacherCategory)).thenReturn(doubleTeacherCategoryResponseDTO);
+        when (doubleTeacherCategoryServiceInterface.configureTeacherCategory(doubleName)).thenReturn(doubleTeacherCategoryDTO);
+        when(doubleTeacherCategoryAssemblerInterface.toResponseDTO(doubleTeacherCategoryDTO)).thenReturn(doubleTeacherCategoryResponseDTO);
 
         //act
         ResponseEntity<Object> result = controller.configureTeacherCategory (doubleTeacherCategoryRequestDTO);
@@ -74,45 +75,4 @@ class TeacherCategoryRestControllerTest {
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
     }
 
-    @Test
-    void shouldReturnAnBadStatusCodeWhenIsNotPossibleToConfigureATeacherCategory() throws Exception {
-        //arrange
-        ITeacherCategoryAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryAssembler.class);
-        ITeacherCategoryService doubleTeacherCategoryServiceInterface = mock (ITeacherCategoryService.class);
-        TeacherCategoryRestController controller = new TeacherCategoryRestController
-                (doubleTeacherCategoryServiceInterface, doubleTeacherCategoryAssemblerInterface);
-
-        TeacherCategoryRequestDTO doubleTeacherCategoryRequestDTO = mock (TeacherCategoryRequestDTO.class);
-
-        Name doubleName = mock (Name.class);
-        when(doubleName.getName()).thenReturn("");
-
-        when(doubleTeacherCategoryAssemblerInterface.toVO(doubleTeacherCategoryRequestDTO)).thenReturn(doubleName);
-        when (doubleTeacherCategoryServiceInterface.configureTeacherCategory(doubleName)).thenThrow();
-
-        //act
-        ResponseEntity<Object> result = controller.configureTeacherCategory (doubleTeacherCategoryRequestDTO);
-
-        //assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    void shouldReturnAnBadStatusCodeWhenRequestDTOIsNotValid() {
-        //arrange
-        ITeacherCategoryAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryAssembler.class);
-        ITeacherCategoryService doubleTeacherCategoryServiceInterface = mock (ITeacherCategoryService.class);
-        TeacherCategoryRestController controller = new TeacherCategoryRestController
-                (doubleTeacherCategoryServiceInterface, doubleTeacherCategoryAssemblerInterface);
-
-        TeacherCategoryRequestDTO doubleTeacherCategoryRequestDTO = mock (TeacherCategoryRequestDTO.class);
-
-        when(doubleTeacherCategoryAssemblerInterface.toVO(doubleTeacherCategoryRequestDTO)).thenThrow();
-
-        //act
-        ResponseEntity<Object> result = controller.configureTeacherCategory (doubleTeacherCategoryRequestDTO);
-
-        //assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
 }

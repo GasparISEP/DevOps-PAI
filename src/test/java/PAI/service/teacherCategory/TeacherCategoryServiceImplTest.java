@@ -2,9 +2,12 @@ package PAI.service.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
+import PAI.assembler.teacherCategory.ITeacherCategoryInternalAssembler;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+import PAI.dto.teacherCategory.TeacherCategoryDTO;
+import PAI.exception.AlreadyRegisteredException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +19,10 @@ import static org.mockito.Mockito.*;
 class TeacherCategoryServiceImplTest {
 
     private ITeacherCategoryRepository repository;
+
     private ITeacherCategoryFactory factory;
+
+    private ITeacherCategoryInternalAssembler assembler;
 
     private TeacherCategoryServiceImpl service; // SUT
 
@@ -24,7 +30,8 @@ class TeacherCategoryServiceImplTest {
     void setUp() {
         repository = mock(ITeacherCategoryRepository.class);
         factory = mock(ITeacherCategoryFactory.class);
-        service = new TeacherCategoryServiceImpl(repository, factory);
+        assembler = mock(ITeacherCategoryInternalAssembler.class);
+        service = new TeacherCategoryServiceImpl(repository, factory, assembler);
     }
 
     // Testing configureTeacherCategory method
@@ -35,28 +42,37 @@ class TeacherCategoryServiceImplTest {
         //Arrange
         Name doubleName = mock (Name.class);
         TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        TeacherCategoryDTO doubleTeacherCategoryDTO = mock(TeacherCategoryDTO.class);
 
         when(repository.existsByName(doubleName)).thenReturn(false);
         when(factory.createTeacherCategory(doubleName)).thenReturn(doubleTeacherCategory);
         when(repository.save(doubleTeacherCategory)).thenReturn(doubleTeacherCategory);
+        when(assembler.toDTO(doubleTeacherCategory)).thenReturn(doubleTeacherCategoryDTO);
 
         //Act
-        TeacherCategory result = service.configureTeacherCategory(doubleName);
+        TeacherCategoryDTO result = service.configureTeacherCategory(doubleName);
 
         //Assert
         assertNotNull(result);
     }
 
     @Test
-    void whenRegisterExistingCategory_thenThrowsException() {
+    void whenRegisterExistingCategory_thenThrowsAlreadyRegisteredException() throws Exception {
+        // Arrange
+        Name doubleName = mock(Name.class);
+        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
 
-        //Arrange
-        Name doubleName = mock (Name.class);
         when(repository.existsByName(doubleName)).thenReturn(true);
+        when(factory.createTeacherCategory(doubleName)).thenReturn(doubleTeacherCategory);
 
-        //Act & Assert
-        Exception ex = assertThrows(Exception.class, () -> service.configureTeacherCategory(doubleName));
-        assertTrue(ex.getMessage().contains("already exists"));
+        // Act
+        AlreadyRegisteredException ex = assertThrows(
+                AlreadyRegisteredException.class,
+                () -> service.configureTeacherCategory(doubleName)
+        );
+
+        // Assert
+        assertTrue(ex.getMessage().contains("Teacher Category Name"));
     }
 
 
@@ -125,12 +141,50 @@ class TeacherCategoryServiceImplTest {
     // Testing TeacherCategoryServiceImpl Constructor
 
     @Test
-    void constructorShouldThrowIfDependenciesAreNull() {
+    void shouldReturnAnExceptionIfTeacherCategoryFactoryIsNull() {
+        //arrange
+        ITeacherCategoryRepository doubleTeacherCategoryRepositoryInterface = mock (ITeacherCategoryRepository.class);
+        ITeacherCategoryInternalAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryInternalAssembler.class);
 
-        // Arrange
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCategoryServiceImpl(doubleTeacherCategoryRepositoryInterface, null,
+                    doubleTeacherCategoryAssemblerInterface);
+        });
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(null, factory));
-        assertThrows(IllegalArgumentException.class, () -> new TeacherCategoryServiceImpl(repository, null));
+        //assert
+        assertEquals("Teacher Category Factory Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCategoryRepositoryIsNull() {
+        //arrange
+        ITeacherCategoryFactory doubleTeacherCategoryFactoryInterface = mock (ITeacherCategoryFactory.class);
+        ITeacherCategoryInternalAssembler doubleTeacherCategoryAssemblerInterface = mock (ITeacherCategoryInternalAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCategoryServiceImpl(null, doubleTeacherCategoryFactoryInterface,
+                    doubleTeacherCategoryAssemblerInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Category Repository Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCategoryAssemblerIsNull() {
+        //arrange
+        ITeacherCategoryFactory doubleTeacherCategoryFactoryInterface = mock (ITeacherCategoryFactory.class);
+        ITeacherCategoryRepository doubleTeacherCategoryRepositoryInterface = mock (ITeacherCategoryRepository.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCategoryServiceImpl(doubleTeacherCategoryRepositoryInterface, doubleTeacherCategoryFactoryInterface,
+                    null);
+        });
+
+        //assert
+        assertEquals("Teacher Category Assembler Interface cannot be null.", exception.getMessage());
     }
 }

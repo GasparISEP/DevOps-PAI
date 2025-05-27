@@ -1,12 +1,22 @@
 package PAI.controllerRest;
+import PAI.VOs.*;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
+import PAI.dto.studentGrade.GradeAStudentCommand;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
+import PAI.dto.courseEdition.*;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +32,11 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,11 +69,16 @@ class CourseEditionRestControllerTest {
     private ICourseEditionAssembler courseEditionAssembler;
 
     @MockBean
+    private IDefineRucService defineRucService;
+
+    @MockBean
     private IGradeAStudentService gradeAStudentService;
 
     @MockBean
     private IStudentGradeAssembler studentGradeAssembler;
 
+    @MockBean
+    private IProgrammeEditionAssembler programmeEditionAssembler;
 
     private CourseEditionEnrolmentDto validEnrolmentDto;
 
@@ -334,5 +353,229 @@ class CourseEditionRestControllerTest {
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void whenGetStudentsEnrolledInCourseEdition_thenReturnsListOfStudents() throws Exception {
+    //Arrange
+    ProgrammeEditionIdDto programmeEditionIdDto = new ProgrammeEditionIdDto("LEIC", "L.EIC", UUID.randomUUID().toString());
+    ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+    CourseEditionID courseEditionID = mock(CourseEditionID.class);
+    CourseEditionResponseDTO courseEditionResponseDTO = mock(CourseEditionResponseDTO.class);
+
+    when(programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto)).thenReturn(programmeEditionID);
+    when(courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID)).thenReturn(List.of(courseEditionID));
+    when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
+
+    String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
+
+    //Act + Assert
+    mockMvc.perform(get("/courseeditions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(programmeEditionIdDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(expectedJson));
+    }
+    @Test
+    void findAllCourseEditionsShouldReturnAllCourseEditions() throws Exception {
+        // Arrange
+        CourseEdition courseEditionDouble1 = mock(CourseEdition.class);
+        CourseEdition courseEditionDouble2 = mock(CourseEdition.class);
+
+        CourseEditionResponseDTO responseDouble1 = new CourseEditionResponseDTO(
+            "courseEdition123",
+            "Programme1",
+            "PRG1",
+            UUID.randomUUID(),
+            "Course1",
+            "Course Name 1",
+            LocalDate.of(2024, 1, 1)
+        );
+
+        CourseEditionResponseDTO responseDouble2 = new CourseEditionResponseDTO(
+            "courseEdition456",
+            "Programme2",
+            "PRG2",
+            UUID.randomUUID(),
+            "Course2",
+            "Course Name 2",
+            LocalDate.of(2024, 1, 1)
+        );
+
+        when(createCourseEditionService.findAll()).thenReturn(List.of(courseEditionDouble1, courseEditionDouble2));
+        when(courseEditionAssembler.toResponseDTO(courseEditionDouble1)).thenReturn(responseDouble1);
+        when(courseEditionAssembler.toResponseDTO(courseEditionDouble2)).thenReturn(responseDouble2);
+
+        // Act
+        MvcResult result = mockMvc.perform(get("/courseeditions"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        // Assert
+        String jsonResponse = result.getResponse().getContentAsString();
+        List<CourseEditionResponseDTO> actualResponse = objectMapper.readValue(jsonResponse,
+            objectMapper.getTypeFactory().constructCollectionType(List.class, CourseEditionResponseDTO.class));
+
+        assertEquals(2, actualResponse.size());
+    }
+
+    @Test
+    void gradeAStudentMethodShouldGradeAStudentSuccessfully_AndReturn201() throws Exception {
+        // Arrange
+        GradeAStudentRequestDTO requestDTO = new GradeAStudentRequestDTO(
+                1234567, 18, "12-04-2025", "Engenharia Informática", "EI",
+                "6a7c6ce1-850d-428e-92e1-a8c9de5e3c21", "DSOFT",
+                "Desenvolvimento de Software", "12-04-2025");
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+        GradeAStudentResponseDTO responseDTO = new GradeAStudentResponseDTO(1234567, 18, "12-04-2025", "courseEdition123", "programmeEdition123", "courseInStudyPlan123", "programme123", "schoolYear123", "course123", "studyPlan123");
+
+        when(studentGradeAssembler.toDomain(requestDTO)).thenReturn(command);
+        when(gradeAStudentService.gradeAStudent(command)).thenReturn(responseDTO);
+
+        // Act + Assert
+        mockMvc.perform(post("/courseeditions/studentGrades")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+            {
+                "grade": 18,
+                "date": "12-04-2025",
+                "studentUniqueNumber": 1234567,
+                "programmeName": "Engenharia Informática",
+                "programmeAcronym": "EI",
+                "schoolYearId": "6a7c6ce1-850d-428e-92e1-a8c9de5e3c21",
+                "courseAcronym": "DSOFT",
+                "courseName": "Desenvolvimento de Software",
+                "studyPlanImplementationDate": "12-04-2025"
+            }
+        """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1234567))
+                .andExpect(jsonPath("$._grade").value(18))
+                .andExpect(jsonPath("$._date").value("12-04-2025"));
+    }
+
+    @Test
+    void whenDefineRucSuccessfullyThenReturnsAccepted() throws Exception {
+        // Arrange
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+
+        // Act & Assert
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("RUC successfully updated"));
+    }
+
+    @Test
+    void whenDefineRucFailsThenReturnsInternalServerError() throws Exception {
+        // Arrange
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        doThrow(new RuntimeException("DB error")).when(defineRucService).assignRucToCourseEdition(teacherID, courseEditionID);
+
+        // Act & Assert
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string("Unexpected error occurred"));
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_Success() throws Exception {
+        String programmeAcronym = "LEI";
+        String VALID_SCHOOL_YEAR_UUID = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        Double expectedAverageGrade = 15.5;
+
+        when(gradeAStudentService.getAverageGrade(any(CourseEditionID.class))).thenReturn(expectedAverageGrade);
+
+        mockMvc.perform(get("/courseeditions/averagegrade")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", VALID_SCHOOL_YEAR_UUID)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedAverageGrade));
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_ServiceReturnsNull_ShouldReturnOkWithNullBody() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+
+        when(gradeAStudentService.getAverageGrade(any(PAI.VOs.CourseEditionID.class))).thenReturn(null);
+
+        mockMvc.perform(get("/courseeditions/averagegrade")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+    @Test
+    void successfullyGetCourseEditionApprovalRate() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        double expectedApprovalRate = 85.5;
+
+        when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
+                .thenReturn(expectedApprovalRate);
+
+        mockMvc.perform(get("/courseeditions/approvalpercentage")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedApprovalRate));
+    }
+    @Test
+    void shouldReturnZeroIfCourseEditionApprovalRateIsZero() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        double expectedApprovalRate = 0.0;
+
+        when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
+                .thenReturn(expectedApprovalRate);
+
+        mockMvc.perform(get("/courseeditions/approvalpercentage")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedApprovalRate));
+    }
+
 
 }
