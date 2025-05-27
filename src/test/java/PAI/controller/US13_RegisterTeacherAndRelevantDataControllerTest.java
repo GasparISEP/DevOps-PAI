@@ -1,6 +1,8 @@
  package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.assembler.teacherCategory.ITeacherCategoryInternalAssembler;
+import PAI.assembler.teacherCategory.TeacherCategoryInternalAssemblerImpl;
 import PAI.domain.department.Department;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgressionFactoryImpl;
@@ -205,8 +207,9 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldRegisterATeacherIntegrationTest() throws Exception {
         // Arrange dependencies of TeacherCategory aggregate
         ITeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactoryImpl();
+        ITeacherCategoryInternalAssembler teacherCategoryAssembler = new TeacherCategoryInternalAssemblerImpl();
         ITeacherCategoryRepository teacherCategoryRepository = mock(TeacherCategoryRepositorySpringDataImpl.class);
-        ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory);
+        ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory, teacherCategoryAssembler);
 
         // Arrange dependencies of Department aggregate
         IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
@@ -252,8 +255,9 @@ class US13_RegisterTeacherAndRelevantDataControllerTest {
     void shouldNotRegisterATeacherWhenTeacherIsDuplicateIntegrationTest() throws Exception {
         // Arrange dependencies of TeacherCategory aggregate
         ITeacherCategoryFactory teacherCategoryFactory = new TeacherCategoryFactoryImpl();
+        ITeacherCategoryInternalAssembler teacherCategoryAssembler = new TeacherCategoryInternalAssemblerImpl();
         ITeacherCategoryRepository teacherCategoryRepository = mock(TeacherCategoryRepositorySpringDataImpl.class);
-        ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory);
+        ITeacherCategoryService teacherCategoryService = new TeacherCategoryServiceImpl(teacherCategoryRepository, teacherCategoryFactory, teacherCategoryAssembler);
 
         // Arrange dependencies of Department aggregate
         IDepartmentService departmentService = mock(DepartmentServiceImpl.class);

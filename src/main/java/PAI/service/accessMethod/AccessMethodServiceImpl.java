@@ -1,6 +1,7 @@
 package PAI.service.accessMethod;
 
-import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
+import PAI.assembler.accessMethod.IAccessMethodServiceAssembler;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
@@ -16,17 +17,15 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
     private final IAccessMethodFactory accessMethodFactory;
     private final IRepositoryAccessMethod repositoryAccessMethod;
-    private final IAccessMethodAssembler assembler;
+    private final IAccessMethodServiceAssembler assembler;
 
-    public AccessMethodServiceImpl(IAccessMethodFactory accessMethodFactory, IRepositoryAccessMethod repositoryAccessMethod,
-                                   IAccessMethodAssembler assembler) {
-
-
+    public AccessMethodServiceImpl(IAccessMethodFactory accessMethodFactory,
+                                   IRepositoryAccessMethod repositoryAccessMethod,
+                                   IAccessMethodServiceAssembler assembler) {
         this.accessMethodFactory = validateNotNull(accessMethodFactory, "AccessMethodFactory");
         this.repositoryAccessMethod = validateNotNull(repositoryAccessMethod, "RepositoryAccessMethod");
-        this.assembler = validateNotNull(assembler, "AccessMethodAssembler");
+        this.assembler = validateNotNull(assembler, "AccessMethodServiceAssembler");
     }
-
 
     @Override
     public AccessMethodServiceDTO configureAccessMethod(RegisterAccessMethodCommand command) {
@@ -36,7 +35,7 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
         AccessMethod newAccessMethod = accessMethodFactory.createAccessMethod(command.name());
         return repositoryAccessMethod.saveAccessMethod(newAccessMethod)
-                .map(assembler::toDto)
+                .map(assembler::toDTO)
                 .orElseThrow(() -> new BusinessRuleViolationException("Failed to save access method."));
     }
 

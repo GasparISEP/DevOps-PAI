@@ -1,7 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
+import PAI.assembler.accessMethod.IAccessMethodServiceAssembler;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
@@ -39,14 +40,14 @@ class US02ConfigureAccessMethodControllerTest {
 
     @Autowired private IAccessMethodFactory accessMethodFactory;
     @Autowired private IRepositoryAccessMethod accessMethodRepository;
-    @Autowired private IAccessMethodAssembler accessMethodAssembler;
+    @Autowired private IAccessMethodServiceAssembler accessMethodServiceAssembler;
 
     private IAccessMethodService accessMethodService;
     private US02_ConfigureAccessMethodController controller;
 
     @BeforeEach
     void setUp() {
-        accessMethodService = new AccessMethodServiceImpl(accessMethodFactory, accessMethodRepository, accessMethodAssembler );
+        accessMethodService = new AccessMethodServiceImpl(accessMethodFactory, accessMethodRepository, accessMethodServiceAssembler );
         controller = new US02_ConfigureAccessMethodController(accessMethodService);
     }
 
@@ -143,13 +144,14 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
         IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
         IAccessMethodFactory factory = new AccessMethodFactoryImpl();
-        IAccessMethodAssembler assembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodControllerAssembler assembler = mock(IAccessMethodControllerAssembler.class);
+        IAccessMethodServiceAssembler assemblerService = mock(IAccessMethodServiceAssembler.class);
 
         AccessMethodResponseDTO responseDTO = mock(AccessMethodResponseDTO.class);
         AccessMethodServiceDTO serviceDTO = mock(AccessMethodServiceDTO.class);
-        when(assembler.toDto(any(AccessMethod.class))).thenReturn(serviceDTO);
+        when(assemblerService.toDTO(any(AccessMethod.class))).thenReturn(serviceDTO);
 
-        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assembler);
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assemblerService);
         US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
 
         String accessMethodName = "M23";
@@ -170,8 +172,8 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodListFactory memoryListFactory = new AccessMethodListFactoryImpl();
         IRepositoryAccessMethod repository = new AccessMethodRepositoryImpl(memoryListFactory);
         IAccessMethodFactory factory = new AccessMethodFactoryImpl();
-        IAccessMethodAssembler assembler = mock(IAccessMethodAssembler.class);
-        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assembler);
+        IAccessMethodServiceAssembler assemblerService = mock(IAccessMethodServiceAssembler.class);
+        IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assemblerService);
         US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);
 
         String accessMethodName = "M23";
