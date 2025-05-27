@@ -59,4 +59,10 @@ import java.util.Optional;
             return false;
         }
 
+        @Override
+        public int lastStudentID() {
+            if(_students.isEmpty()) return 0;
+            return _students.getLast().getStudentID().getUniqueNumber();
+        }
+
 }

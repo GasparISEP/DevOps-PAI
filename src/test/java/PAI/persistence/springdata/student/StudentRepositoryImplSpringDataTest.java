@@ -307,4 +307,28 @@ public class StudentRepositoryImplSpringDataTest {
         assertEquals("Failed to convert StudentDataModel to Student", exception.getMessage());
     }
 
+    @Test
+    void testLastStudentIDReturnsCorrectValueWhenGreaterThanZero() {
+        // Arrange
+        when(repoMock.lastStudentID()).thenReturn(1122334);
+
+        // Act
+        int result = repository.lastStudentID();
+
+        // Assert
+        assertEquals(1122334, result);
+    }
+
+    @Test
+    void testLastStudentIDReturnsFallbackWhenZero() {
+        // Arrange
+        when(repoMock.lastStudentID()).thenReturn(0);
+
+        // Act
+        int result = repository.lastStudentID();
+
+        // Assert
+        assertEquals(1000000, result);
+    }
+
 }
