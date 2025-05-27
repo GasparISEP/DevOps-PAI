@@ -1,32 +1,31 @@
 package PAI.controllerRest;
 
-import PAI.VOs.*;
+import PAI.VOs.Acronym;
+import PAI.VOs.DegreeTypeID;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.TeacherAcronym;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
-import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.domain.programme.Programme;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.*;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.domain.programme.Programme;
-import PAI.domain.teacher.Teacher;
-import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
+import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 
 import java.time.LocalDate;
 import java.util.List;
@@ -259,9 +258,13 @@ class ProgrammeRestControllerTest {
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
+        ProgrammeIDResponseDTO resultProgrammeIdResponseDTO = mock(ProgrammeIDResponseDTO.class);
+        ProgrammeIDResponseDTO resultProgrammeIdResponseDTO2 = mock(ProgrammeIDResponseDTO.class);
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of(programmeIDDTO, programmeIDDTO2));
+        when(_programmeAssemblerDouble.toResponseDTO(programmeIDDTO)).thenReturn(resultProgrammeIdResponseDTO);
+        when(_programmeAssemblerDouble.toResponseDTO(programmeIDDTO2)).thenReturn(resultProgrammeIdResponseDTO2);
         //Act
-        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+        ResponseEntity<List<ProgrammeIDResponseDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
 
         //Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -276,7 +279,7 @@ class ProgrammeRestControllerTest {
 
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of());
         //Act
-        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+        ResponseEntity<List<ProgrammeIDResponseDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
 
         //Assert
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());

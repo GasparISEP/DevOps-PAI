@@ -4,30 +4,26 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.domain.programme.Programme;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.*;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
-import PAI.assembler.programme.IProgrammeDirectorAssembler;
-import PAI.domain.programme.Programme;
-import PAI.domain.teacher.Teacher;
-import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
-import jakarta.persistence.EntityNotFoundException;
 import PAI.service.teacher.ITeacherService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/programmes")
@@ -99,11 +95,15 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("ids")
-    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammeIDDTOs (){
+    @GetMapping("/ids")
+    public ResponseEntity<List<ProgrammeIDResponseDTO>> getAllProgrammeIDDTOs (){
         List<ProgrammeIDDTO> programmeIDDTOS = _programmeService.getAllProgrammeIDDTOs();
         if(!programmeIDDTOS.isEmpty()) {
-            return ResponseEntity.ok(programmeIDDTOS);
+            List<ProgrammeIDResponseDTO> response = new ArrayList<>();
+            for (ProgrammeIDDTO programmeIDDTO : programmeIDDTOS) {
+                response.add(_programmeAssembler.toResponseDTO(programmeIDDTO));
+            }
+            return ResponseEntity.ok(response);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
