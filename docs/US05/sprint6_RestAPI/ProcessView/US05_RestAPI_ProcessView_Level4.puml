@@ -61,7 +61,10 @@ Controller -> Assembler ++: assemble to DepartmentDTO
 Assembler --> Controller --: DepartmentDTO
 Controller -> HAAssembler ++: assemble to DepartmentHateoasDTO
 HAAssembler --> Controller --: DepartmentHateoasDTO
-Controller --> UI --: HTTP response + \nDepartmentHateoasDTO
+end group
+
+group HTTP Response
+Controller --> UI --: HTTP 201 Created + \nDepartmentHateoasDTO
 UI --> ADM --: Success message
 end group
 

@@ -1,0 +1,19 @@
+@startuml
+
+title US21: As an ASC, I want to get the number of students enrolled in a Programme Edition \n (Scenario View - Level 1 - System)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "ASC" as asc
+
+rectangle "<<PAI System>>" {
+    usecase "I want to get the number of students enrolled in a Programme Edition" as UC21
+}
+
+asc --> UC21
+
+@enduml
