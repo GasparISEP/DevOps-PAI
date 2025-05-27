@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -54,7 +55,7 @@ public class CreateCourseEditionServiceImplTest {
         CourseEdition result = service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
 
         assertNotNull(result);
-        verify(courseEditionRepository).save(courseEdition);
+        assertEquals(courseEdition, result);
     }
 
     @Test
@@ -84,6 +85,84 @@ public class CreateCourseEditionServiceImplTest {
 
         CourseEdition result = service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
 
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullCourseInStudyPlanID() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository
+        );
+        CourseInStudyPlanID courseInStudyPlanID = null;
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        // Act
+        CourseEdition result = service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullProgrammeEditionID() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository
+        );
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        CourseEdition result = service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenCreateCourseEditionMethodReceivesANullProgrammeEditionIDAndNullCourseInStudyPlan() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository
+        );
+        CourseInStudyPlanID courseInStudyPlanID = null;
+        ProgrammeEditionID programmeEditionID = null;
+
+        // Act
+        CourseEdition result = service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
         assertNull(result);
     }
 
