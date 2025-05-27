@@ -51,16 +51,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
-        String firstMessage = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .findFirst()
-                .map(FieldError::getDefaultMessage)
-                .orElse("Invalid input");
+        String message = ex.getFieldError() != null
+                ? ex.getFieldError().getDefaultMessage()
+                : "Invalid input";
 
+        ErrorResponse error = new ErrorResponse("ARGUMENT_INVALID", message);
+        return ResponseEntity.badRequest().body(error);
+    }
+
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
-                "ARGUMENT_INVALID",
-                firstMessage);
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+                "RESOURCE_NOT_FOUND",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }

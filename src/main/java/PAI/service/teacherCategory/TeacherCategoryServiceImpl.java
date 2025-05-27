@@ -8,9 +8,12 @@ import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.exception.AlreadyRegisteredException;
-import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.NotFoundException;
 import PAI.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
@@ -53,6 +56,18 @@ public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
 
     public Iterable<TeacherCategory> getAllTeacherCategories() {
         return repository.findAll();
+    }
+
+    @Override
+    public TeacherCategoryDTO getTeacherCategoryByID(TeacherCategoryID teacherCategoryID)  {
+        if (teacherCategoryID == null) {
+            throw new IllegalArgumentException("Teacher Category ID cannot be null!");
+        }
+
+        TeacherCategory teacherCategory = repository.ofIdentity(teacherCategoryID)
+                .orElseThrow(() -> new NotFoundException("Teacher Category not found with ID: " + teacherCategoryID.getValue()));
+
+        return assembler.toDTO(teacherCategory);
     }
 
 }

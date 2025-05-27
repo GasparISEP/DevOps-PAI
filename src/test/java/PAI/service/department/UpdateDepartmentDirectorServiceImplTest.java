@@ -1,5 +1,6 @@
 package PAI.service.department;
 
+import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
 import PAI.domain.department.Department;
@@ -8,6 +9,8 @@ import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
+import PAI.VOs.*;
+import PAI.dto.department.DepartmentWithDirectorDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,20 +27,50 @@ class UpdateDepartmentDirectorServiceImplTest {
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
+
         Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
 
-
+        // Simula retorno dos repositórios
         when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
-        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher)); // Mock correto
-        when(teacher.isInDepartment(departmentID)).thenReturn(true); // Simula que o professor pertence ao departamento
+        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
+
+        // Simula que o teacher pertence ao departamento
+        when(teacher.isInDepartment(departmentID)).thenReturn(true);
+        when(department.changeDirector(teacherID)).thenReturn(true);
+        when(departmentRepository.save(department)).thenReturn(department);
+
+        // Simula os VOs do departamento
+        when(department.identity()).thenReturn(departmentID);
+        when(departmentID.toString()).thenReturn("ABC");
+
+        Name nameVO = mock(Name.class);
+        when(nameVO.toString()).thenReturn("Department of Engineering and Informatics");
+        when(department.getName()).thenReturn(nameVO);
+        String name = nameVO.toString();
+
+        when(department.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
+        when(department.getAcronym().toString()).thenReturn("DEI");
+        String acronym = department.getAcronym().toString();
+
+        TeacherID directorID = mock(TeacherID.class);
+        when(department.getDirectorID()).thenReturn(directorID);
+        when(directorID.toString()).thenReturn("MAF");
+        String director = directorID.toString();
 
         // Act
-        Department result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
 
         // Assert
         assertNotNull(result);
+        assertEquals("ABC", result.id());
+        assertEquals(name, result.name());
+        assertEquals(acronym, result.acronym());
+        assertEquals(director, result.teacherID());
+        verify(department).changeDirector(teacherID);
+        verify(departmentRepository).save(department);
     }
+
 
     @Test
     void shouldNotUpdateDirectorWhenDepartmentNotFound() throws Exception {
@@ -153,17 +186,44 @@ class UpdateDepartmentDirectorServiceImplTest {
         Teacher teacher = mock(Teacher.class);
         Department department = mock(Department.class);
 
+        // Simula retorno dos repositórios
         when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
         when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
+
+        // Simula pertença e estado do departamento
         when(teacher.isInDepartment(departmentID)).thenReturn(true);
-        when(department.getDirectorID()).thenReturn(null); // Define que nao tem director inicialmente
+        when(department.getDirectorID()).thenReturn(null); // Não há diretor
+        when(department.changeDirector(teacherID)).thenReturn(true);
+        when(departmentRepository.save(department)).thenReturn(department);
+
+        // Simula info usada no DTO
+        when(department.identity()).thenReturn(departmentID);
+        when(departmentID.toString()).thenReturn("DEF");
+
+        Name nameVO = mock(Name.class);
+        when(nameVO.toString()).thenReturn("Department of Mathematics");
+        when(department.getName()).thenReturn(nameVO);
+
+        DepartmentAcronym acronymVO = mock(DepartmentAcronym.class);
+        when(acronymVO.toString()).thenReturn("DM");
+        when(department.getAcronym()).thenReturn(acronymVO);
+
+        when(department.getDirectorID()).thenReturn(teacherID);
+        when(teacherID.toString()).thenReturn("JSS");
 
         // Act
-        updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
 
         // Assert
-        verify(department).changeDirector(teacherID); // Verifica que o department foi alterado
-        }
+        assertNotNull(result);
+        assertEquals("DEF", result.id());
+        assertEquals("Department of Mathematics", result.name());
+        assertEquals("DM", result.acronym());
+        assertEquals("JSS", result.teacherID());
+        verify(department).changeDirector(teacherID);
+        verify(departmentRepository).save(department);
+    }
+
 
     @Test
     void shouldReplaceDirectorWhenDepartmentAlreadyHasDirector() throws Exception {
@@ -176,20 +236,46 @@ class UpdateDepartmentDirectorServiceImplTest {
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
         TeacherID existingDirectorID = mock(TeacherID.class);
+        Department department = mock(Department.class);
         Teacher teacher = mock(Teacher.class);
-        Department department = mock(Department.class); // Usar uma instância real nao mockada
-        department.changeDirector(existingDirectorID); // Define um diretor existente
 
-
+        // Simula repositórios
         when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
         when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
-        when(department.getDirectorID()).thenReturn(existingDirectorID);   // Simula que o departamento já tem um diretor
+
+        // Simula estado do departamento e professor
+        when(department.identity()).thenReturn(departmentID);
+        when(department.getDirectorID()).thenReturn(existingDirectorID);
         when(teacher.isInDepartment(departmentID)).thenReturn(true);
+        when(department.changeDirector(teacherID)).thenReturn(true);
+        when(departmentRepository.save(department)).thenReturn(department);
+
+        // Simula o que é usado na criação do DTO
+        when(departmentID.toString()).thenReturn("ABC");
+
+        Name nameVO = mock(Name.class);
+        when(nameVO.toString()).thenReturn("Department of Engineering and Informatics");
+        when(department.getName()).thenReturn(nameVO);
+
+        DepartmentAcronym acronymVO = mock(DepartmentAcronym.class);
+        when(acronymVO.toString()).thenReturn("DEI");
+        when(department.getAcronym()).thenReturn(acronymVO);
+
+        when(department.getDirectorID()).thenReturn(teacherID);
+        when(teacherID.toString()).thenReturn("MAF");
 
         // Act
-        updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
 
         // Assert
-        verify(department).changeDirector(teacherID); // Verify the method call
+        assertNotNull(result);
+        assertEquals("ABC", result.id());
+        assertEquals("Department of Engineering and Informatics", result.name());
+        assertEquals("DEI", result.acronym());
+        assertEquals("MAF", result.teacherID());
+
+        verify(department).changeDirector(teacherID);
+        verify(departmentRepository).save(department);
     }
 }
+

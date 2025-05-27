@@ -345,7 +345,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturnProgrammesByDegreeTypeID() throws Exception {
+    void shouldReturnProgrammesByDegreeTypeID() {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -354,14 +354,10 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "123";
 
-        Programme programme = mock(Programme.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeIDDTO dto = new ProgrammeIDDTO("Name", "Acr");
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
-                .thenReturn(List.of(programme));
-        when(programme.getProgrammeID()).thenReturn(programmeID);
-        when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto);
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of(dto));
 
         // Act
         ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
@@ -375,7 +371,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturnNotFoundWhenNoProgrammesFound() throws Exception {
+    void shouldReturnNotFoundWhenNoProgrammesFound()  {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -384,7 +380,7 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "123";
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
                 .thenReturn(List.of()); // Empty list
 
         // Act
@@ -395,9 +391,8 @@ class ProgrammeRestControllerTest {
         assertNull(response.getBody());
     }
 
-
     @Test
-    void shouldReturnBadRequestWhenExceptionIsThrown() throws Exception {
+    void shouldReturnBadRequestWhenExceptionIsThrown()  {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -406,10 +401,15 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "invalid-id";
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
                 .thenThrow(new RuntimeException("Unexpected error"));
 
-        // Act & Assert
-        assertThrows(Exception.class, () -> controller.getProgrammesByDegreeTypeID(degreeTypeIdStr));
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
     }
+
 }

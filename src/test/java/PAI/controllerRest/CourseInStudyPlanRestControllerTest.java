@@ -71,8 +71,7 @@ class CourseInStudyPlanRestControllerTest {
     }
 
     @Test
-    void should_ReturnBadRequest_WhenCourseInStudyPlanCreationFails() throws Exception {
-
+    void should_ReturnException_WhenCourseInStudyPlanCreationFails() throws Exception {
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
         ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
@@ -85,35 +84,8 @@ class CourseInStudyPlanRestControllerTest {
 
         when(assemblerDouble.toCommand(requestDTO)).thenThrow(new IllegalArgumentException("Invalid data"));
 
-        // act
-        ResponseEntity<CourseInStudyPlanResponseDTO> response = controller.create(requestDTO);
-
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void should_HandleInternalError() throws Exception {
-
-        // arrange
-        IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-
-        CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, serviceDouble, studyPlanService, courseInStudyPlanService);
-
-        CourseInStudyPlanRequestDTO requestDTO = mock(CourseInStudyPlanRequestDTO.class);
-
-        when(assemblerDouble.toCommand(requestDTO)).thenThrow(new RuntimeException("Unexpected error"));
-
-        // act
-        ResponseEntity<CourseInStudyPlanResponseDTO> response = controller.create(requestDTO);
-
-        // assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> controller.create(requestDTO));
     }
 
     @Test

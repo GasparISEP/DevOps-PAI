@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/students")
@@ -49,4 +52,11 @@ public class StudentRestController {
         StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);
         return new ResponseEntity<>(studentResponseDTO, HttpStatus.CREATED);
     }
+    @GetMapping()
+    public ResponseEntity<Map<String, Integer>> getLastStudentID() {
+        int value = service.getLastStudentID();
+        Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
+        return ResponseEntity.ok(response);
+    }
+
 }

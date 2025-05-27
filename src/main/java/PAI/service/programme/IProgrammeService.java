@@ -20,5 +20,7 @@ public interface IProgrammeService {
     Optional <Programme> getProgrammeByID(ProgrammeID id);
     Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
     List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
+
+    List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id);
 }
 

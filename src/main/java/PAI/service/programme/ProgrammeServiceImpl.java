@@ -7,7 +7,6 @@ import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.exception.AlreadyRegisteredException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -142,4 +141,20 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id) {
+        List<ProgrammeIDDTO> programmeIDDTOList = new ArrayList<>();
+
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisDegreeTypeID(id)) {
+                ProgrammeIDDTO dto = _programmeAssembler.toDTO(programme.getProgrammeID());
+                programmeIDDTOList.add(dto);
+            }
+        }
+
+        return programmeIDDTOList;
+    }
+
+
 }

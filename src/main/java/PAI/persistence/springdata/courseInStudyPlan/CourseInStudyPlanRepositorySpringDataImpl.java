@@ -113,6 +113,12 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
         }
         StudyPlanIDDataModel studyPlanIDDataModel = iStudyPlanIDMapper.toDataModel(studyPlanID);
 
-        return iCourseInStudyPlanRepositorySpringData.sumCombinedCredits(studyPlanIDDataModel, semester.toInt(), curricularYear.toInt());
+        Double credits = iCourseInStudyPlanRepositorySpringData.sumCombinedCredits(
+                studyPlanIDDataModel,
+                curricularYear.toInt(),
+                semester.toInt()
+        );
+
+        return credits != null ? credits : 0.0;
     }
 }

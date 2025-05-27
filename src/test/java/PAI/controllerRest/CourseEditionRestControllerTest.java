@@ -21,6 +21,7 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -577,5 +578,47 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$").value(expectedApprovalRate));
     }
 
+    @Test
+    public void testGetNumberOfStudentsInCourseEdition() throws Exception {
+        // Arrange: criar DTO de exemplo e ID de domínio simulado
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "Engenharia Informática", "EI",
+                UUID.randomUUID(),
+                "PAI", "Programação Avançada de Interfaces",
+                java.time.LocalDate.of(2025,1,1)
+        );
 
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(dto)).thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(mockCourseEditionID)).thenReturn(5);
+
+        // Act & Assert
+        mockMvc.perform(post("/courseeditions/studentscount")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("5"));
+    }
+
+    @Test
+    void testGetNumberOfStudentsInCourseEdition_ExceptionThrown() throws Exception {
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "Engenharia Informática",
+                "EI",
+                UUID.randomUUID(),
+                "PAI",
+                "Programação Avançada de Interfaces",
+                LocalDate.of(2025, 1, 1)
+        );
+
+        // Mockar o assembler para lançar uma exceção
+        Mockito.when(courseEditionAssembler.fromDtoToCourseEditionID(Mockito.any()))
+                .thenThrow(new RuntimeException("Simulated Exception"));
+
+        mockMvc.perform(post("/courseeditions/studentscount")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("")); // ou .andExpect(content().string("null")) dependendo da configuração
+    }
 }

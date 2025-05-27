@@ -137,18 +137,19 @@ public class ProgrammeRestController {
     }
 
     @GetMapping("/{degreeTypeID}")
-    public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeId) throws Exception {
-        DegreeTypeID id = new DegreeTypeID(degreeTypeId);
-        List<Programme> programmes = _programmeService.getProgrammesByDegreeTypeID(id);
+    public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeID) {
+        try {
+            DegreeTypeID id = new DegreeTypeID(degreeTypeID);
+            List<ProgrammeIDDTO> programmeIDDTOs = _programmeService.getProgrammeIDDTOsByDegreeTypeID(id);
 
-        List<ProgrammeIDDTO> programmeIDDTOS = programmes.stream()
-                .map(p -> _programmeAssembler.toDTO(p.getProgrammeID()))
-                .collect(Collectors.toList());
+            if (programmeIDDTOs.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-        if (programmeIDDTOS.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok(programmeIDDTOs);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return ResponseEntity.ok(programmeIDDTOS);
     }
+
 }
