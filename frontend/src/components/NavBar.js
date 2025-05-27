@@ -25,12 +25,12 @@ const NavBar = () => {
             <ul className={`navbar-dropdown-menu${isOpen ? ' show' : ''}`}>
               <li>
                 <Link to="/teachers/register" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  <i className="fas fa-user-plus"></i> Register Teacher
+                  Register Teacher
                 </Link>
               </li>
               <li>
                 <Link to="/teachers/display" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  <i className="fas fa-users"></i> Display Teachers
+                  Display Teachers
                 </Link>
               </li>
             </ul>
