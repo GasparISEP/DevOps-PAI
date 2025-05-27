@@ -5,10 +5,10 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
-participant ":ProgrammeMapper" as ProgrammeMapper <<mapper>>
-participant "programmeDM1:ProgrammeDataModel" as ProgrammeDataModel
-participant ":ProgrammeFactory" as ProgrammeFactory <<factory>>
-participant "P1:Programme" as Programme <<component>>
+participant ":ProgrammeMapper" as ProgrammeMapper <<mapper>> #E1D5E7
+participant "programmeDM1:ProgrammeDataModel" as ProgrammeDataModel <<component>> #FFE599
+participant ":ProgrammeFactory" as ProgrammeFactory <<factory>> #C9DAF8
+participant "P1:Programme" as Programme <<component>> #FFE599
 
 activate ProgrammeRepository
 ProgrammeRepository -> ProgrammeMapper ++: toData(P1)
