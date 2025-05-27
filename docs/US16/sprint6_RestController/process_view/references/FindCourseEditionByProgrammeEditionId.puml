@@ -29,7 +29,8 @@ ceMapper --> ceRepo --: List<CourseEditionID>
 end
 
 ceRepo -> ceService: List<CourseEditionID>
-ceService -> ceAssembler ++: toDtoList(List<CourseEditionID>)
+ceService --> ceCtrl --: List<CourseEditionID>
+ceCtrl -> ceAssembler ++: toDtoList(List<CourseEditionID>)
 
 loop for CourseEditionID[i]
     note over of ceAssembler
@@ -37,8 +38,7 @@ loop for CourseEditionID[i]
              to construct object
     end note
 end
-ceAssembler --> ceService --: List<CourseEditionResponseDTO>
-ceService --> ceCtrl --: List<CourseEditionResponseDTO>
+ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
 
 legend right
   DTO = Data Transfer Object
