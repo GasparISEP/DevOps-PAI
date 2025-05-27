@@ -40,13 +40,13 @@ class StudyPlanInitializerTest {
         runner.run();
 
         // Assert
-        verify(initializer).loadStudyPlan(eq(controller), eq(Path.of("src/main/resources/StudyPlan_DataTest.csv")));
+        verify(initializer).loadStudyPlan(eq(controller), eq(Path.of("src/main/resources/StudyPlan_Data.csv")));
     }
 
     @Test
     void shouldLoadAndRegisterStudyPlansFromCsvFile() throws Exception {
 
-        File testFile = new File("src/test/resources/StudyPlan_Data.csv");
+        File testFile = new File("src/test/resources/StudyPlan_DataTest.csv");
         testFile.getParentFile().mkdirs();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(testFile))) {
             writer.write("ProgrammeName;ProgrammeAcronym;StartDate\n");
