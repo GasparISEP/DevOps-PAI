@@ -5,6 +5,7 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -28,21 +29,21 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
         );
     }
 
-    public CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlan courseInStudyPlan) {
-        Objects.requireNonNull(courseInStudyPlan, "Entity cannot be null");
+    public CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO) {
+        Objects.requireNonNull(courseInStudyPlanServiceDTO, "Service DTO cannot be null");
 
         return new CourseInStudyPlanResponseDTO(
-                courseInStudyPlan.getSemester().toInt(),
-                courseInStudyPlan.getCurricularYear().toInt(),
-                courseInStudyPlan.getCourseID().getAcronym().getAcronym(),
-                courseInStudyPlan.getCourseID().getName().getName(),
-                courseInStudyPlan.getStudyplanID().getProgrammeID().getAcronym().getAcronym(),
-                courseInStudyPlan.getStudyplanID().getProgrammeID().getName().getnameWithNumbersAndSpecialChars(),
-                courseInStudyPlan.getStudyplanID().getDate().toString(),
-                courseInStudyPlan.getDurationOfCourse().toInt(),
-                courseInStudyPlan.getQuantityOfCreditsEcts().toDouble(),
-                courseInStudyPlan.getCourseID(),
-                courseInStudyPlan.getStudyplanID()
+                courseInStudyPlanServiceDTO.semester(),
+                courseInStudyPlanServiceDTO.curricularYear(),
+                courseInStudyPlanServiceDTO.courseAcronym(),
+                courseInStudyPlanServiceDTO.courseName(),
+                courseInStudyPlanServiceDTO.programmeAcronym(),
+                courseInStudyPlanServiceDTO.programmeName(),
+                courseInStudyPlanServiceDTO.studyPlanDate(),
+                courseInStudyPlanServiceDTO.duration(),
+                courseInStudyPlanServiceDTO.credits(),
+                courseInStudyPlanServiceDTO.courseId(),
+                courseInStudyPlanServiceDTO.studyPlanId()
         );
     }
 }

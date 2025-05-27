@@ -3,23 +3,29 @@ title: Find Course Editions By Programme Edition ID\n(Code View - Level 4)
 
 autonumber
 
-participant ":CourseEditionController" as ceCtrl
+actor "ASC" as asc
+participant ":CourseEditionRestController" as ceCtrl
 activate ceCtrl
-participant ":CourseEditionService" as ceService
+participant ":ProgrammeEditionAssembler" as peAssembler
+participant ":CourseEditionEnrolmentService" as ceService
 participant ":CourseEditionRepository" as ceRepo
 participant ":CourseEditionAssembler" as ceAssembler
 participant ":CourseEditionMapper" as ceMapper
 participant ":CourseEditionFactory" as ceFactory
 database DB
 
-ceCtrl -> ceService ++: getCourseEditionsByProgrammeEditionId(programmeEditionId)
-ceService -> ceRepo ++: findByProgrammeEditionId(programmeEditionId)
-ceRepo -> DB ++: SELECT * FROM course_editions WHERE programme_edition_id = programmeEditionId
+asc -> ceCtrl: getCourseEditionsByProgrammeEditionID(programmeEditionIdDto)
+ceCtrl -> peAssembler ++: toDomain(programmeEditionIdDto)
+peAssembler --> ceCtrl --: ProgrammeEditionID
+
+ceCtrl -> ceService ++: findByProgrammeEditionId(ProgrammeEditionID)
+ceService -> ceRepo ++: findCourseEditionsByProgrammeEditionID(ProgrammeEditionID)
+ceRepo -> DB ++: SELECT * FROM course_editions WHERE programme_edition_id = ProgrammeEditionID
 DB --> ceRepo --: List<CourseEditionDataModel>
 
 loop for CourseEditionDataModel[i]
 ceRepo -> ceMapper ++: toDomain(CourseEditionDataModel[i])
-ceMapper -> ceFactory ++: newCourseEditionID(id, courseId, programmeEditionId)
+ceMapper -> ceFactory ++: newCourseEditionID(id, courseId, programmeEditionIdDto)
 note over of ceFactory
     Creates a new
     CourseEditionID object
@@ -39,6 +45,7 @@ loop for CourseEditionID[i]
     end note
 end
 ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
+ceCtrl --> asc: List<CourseEditionResponseDTO>
 
 legend right
   DTO = Data Transfer Object
