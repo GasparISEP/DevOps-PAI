@@ -61,4 +61,20 @@ public class TeacherCategoryRestController {
 
         return ResponseEntity.ok(teacherCategoryResponseDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllTeacherCategories() {
+        try{
+            Iterable<TeacherCategory> teacherCategories = teacherCategoryService.getAllTeacherCategories();
+            Iterable<TeacherCategoryResponseDTO> teacherCategoryRequestDTOS = this.teacherCategoryAssembler.toDTOs(teacherCategories);
+            return ResponseEntity.ok(teacherCategoryRequestDTOS);}
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+
 }

@@ -4,6 +4,7 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.assembler.teacherCategory.ITeacherCategoryExternalAssembler;
 import PAI.assembler.teacherCategory.ITeacherCategoryHateoasAssembler;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
@@ -11,6 +12,8 @@ import PAI.service.teacherCategory.ITeacherCategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -136,4 +139,74 @@ class TeacherCategoryRestControllerTest {
 //        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
 //    }
 
+    @Test
+    void shouldReturnListOfCategoriesDTOs() {
+        //arrange
+        ITeacherCategoryExternalAssembler assembler = mock(ITeacherCategoryExternalAssembler.class);
+        ITeacherCategoryService service = mock(ITeacherCategoryService.class);
+        ITeacherCategoryHateoasAssembler hateoasAssembler = mock(ITeacherCategoryHateoasAssembler.class);
+
+        TeacherCategoryRestController controller = new TeacherCategoryRestController(service, assembler, hateoasAssembler);
+
+        TeacherCategory teacherCategory1 = mock(TeacherCategory.class);
+        TeacherCategory teacherCategory2 = mock(TeacherCategory.class);
+        TeacherCategory teacherCategory3 = mock(TeacherCategory.class);
+
+        TeacherCategoryResponseDTO teacherCategoryResponseDTO1 = mock(TeacherCategoryResponseDTO.class);
+        TeacherCategoryResponseDTO teacherCategoryResponseDTO2 = mock(TeacherCategoryResponseDTO.class);
+        TeacherCategoryResponseDTO teacherCategoryResponseDTO3 = mock(TeacherCategoryResponseDTO.class);
+
+
+        List<TeacherCategory> teacherCategoryList = List.of(teacherCategory1, teacherCategory2, teacherCategory3);
+        List<TeacherCategoryResponseDTO> teacherCategoryResponseDTOList = List.of(teacherCategoryResponseDTO1, teacherCategoryResponseDTO2, teacherCategoryResponseDTO3);
+
+
+        when(service.getAllTeacherCategories()).thenReturn(teacherCategoryList);
+        when(assembler.toDTOs(teacherCategoryList)).thenReturn(teacherCategoryResponseDTOList);
+
+        //act
+
+        ResponseEntity<?> response = controller.getAllTeacherCategories();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(teacherCategoryResponseDTOList, response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionThrown() {
+        // arrange
+        ITeacherCategoryExternalAssembler assembler = mock(ITeacherCategoryExternalAssembler.class);
+        ITeacherCategoryService service = mock(ITeacherCategoryService.class);
+        ITeacherCategoryHateoasAssembler hateoasAssembler = mock(ITeacherCategoryHateoasAssembler.class);
+
+        TeacherCategoryRestController controller = new TeacherCategoryRestController(service, assembler, hateoasAssembler);
+
+        when(service.getAllTeacherCategories()).thenThrow(new IllegalArgumentException("Invalid input"));
+
+        // act
+        ResponseEntity<?> response = controller.getAllTeacherCategories();
+
+        // assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid input", response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnhandledExceptionThrown() {
+        // arrange
+        ITeacherCategoryExternalAssembler assembler = mock(ITeacherCategoryExternalAssembler.class);
+        ITeacherCategoryService service = mock(ITeacherCategoryService.class);
+        ITeacherCategoryHateoasAssembler hateoasAssembler = mock(ITeacherCategoryHateoasAssembler.class);
+
+        TeacherCategoryRestController controller = new TeacherCategoryRestController(service, assembler, hateoasAssembler);
+
+        when(service.getAllTeacherCategories()).thenThrow(new RuntimeException("Something went wrong"));
+
+        // act
+        ResponseEntity<?> response = controller.getAllTeacherCategories();
+
+        // assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
 }
