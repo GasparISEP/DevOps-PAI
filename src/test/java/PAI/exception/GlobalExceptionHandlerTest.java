@@ -9,6 +9,19 @@ import org.springframework.http.ResponseEntity;
 class GlobalExceptionHandlerTest {
 
     @Test
+    void shouldHandleAlreadyRegisteredException() {
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        AlreadyRegisteredException ex = new AlreadyRegisteredException("Student");
+
+        ResponseEntity<ErrorResponse> response = handler.handleAlreadyRegistered(ex);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Student is already registered.", response.getBody().getMessage());
+        assertEquals("ALREADY_REGISTERED", response.getBody().getCode());
+        assertNotNull(response.getBody().getTimestamp());
+    }
+
+    @Test
     void shouldHandleIllegalArgumentException() {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
         IllegalArgumentException ex = new IllegalArgumentException("Invalid argument");
@@ -16,37 +29,37 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<ErrorResponse> response = handler.handleIllegalArgument(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
         assertEquals("Invalid argument", response.getBody().getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+        assertEquals("ARGUMENT_INVALID", response.getBody().getCode());
         assertNotNull(response.getBody().getTimestamp());
     }
 
     @Test
     void shouldHandleBusinessRuleViolationException() {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
-        BusinessRuleViolationException ex = new BusinessRuleViolationException("Business rule violated");
+        BusinessRuleViolationException ex = new BusinessRuleViolationException("Number os semesters can't be 0 or negative.");
 
         ResponseEntity<ErrorResponse> response = handler.handleBusinessRuleViolation(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("Business rule violated", response.getBody().getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+        assertEquals("Number os semesters can't be 0 or negative.", response.getBody().getMessage());
+        assertEquals("BUSINESS_RULE_VIOLATED", response.getBody().getCode());
         assertNotNull(response.getBody().getTimestamp());
     }
 
     @Test
     void shouldHandleGenericException() {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
-        Exception ex = new Exception("Something went wrong");
+        Exception ex = new Exception("Entity can't be null.");
 
         ResponseEntity<ErrorResponse> response = handler.handleGeneric(ex);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().getMessage().contains("An internal server error occurred: Something went wrong"));
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getBody().getStatus());
+        assertEquals("Entity can't be null.", response.getBody().getMessage());
+        assertEquals("INTERNAL_ERROR", response.getBody().getCode());
         assertNotNull(response.getBody().getTimestamp());
     }
+
 }

@@ -102,13 +102,13 @@ public class ProgrammeRestController {
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
 
         } catch (EntityNotFoundException e) {
-            ErrorResponse errorResponse = new ErrorResponse("Error Registering Study Plan: " + e.getMessage(), HttpStatus.NOT_FOUND.value());
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.toString(),"Error Registering Study Plan: " + e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         } catch (BusinessRuleViolationException e) {
-            ErrorResponse errorResponse = new ErrorResponse("Error Registering Study Plan: " + e.getMessage(), HttpStatus.CONFLICT.value());
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.toString(),"Error Registering Study Plan: " + e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
         } catch (Exception e) {
-            ErrorResponse errorResponse = new ErrorResponse("Error Registering Study Plan: " + e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Error Registering Study Plan: " + e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
