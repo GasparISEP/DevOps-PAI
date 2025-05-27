@@ -1,6 +1,5 @@
 package PAI.service.department;
 
-import PAI.VOs.Acronym;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
