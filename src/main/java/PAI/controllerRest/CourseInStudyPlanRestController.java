@@ -36,13 +36,10 @@ public class CourseInStudyPlanRestController {
             @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) {
         try {
 
-            // Convert DTORequest → Command
             CourseInStudyPlanCommand command = assembler.toCommand(dtoRequest);
 
-            // Service executa a lógica de domínio e retorna a entidade
             CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO = service.addCourseToAProgramme(command);
 
-            // Convert ServiceDTO → ResponseDTO
             CourseInStudyPlanResponseDTO dtoResponse = assembler.toDTO(courseInStudyPlanServiceDTO);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
