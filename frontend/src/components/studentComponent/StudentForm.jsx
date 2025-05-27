@@ -94,8 +94,11 @@ export default function StudentForm() {
                         <div className="student-form-div">
 
                             {[
+                                { label: 'Student ID', name: 'studentID', type: 'number' },
                                 { label: 'Name', name: 'name' },
-                                { label: 'NIF', name: 'nif', type: 'text' }
+                                { label: 'NIF', name: 'nif', type: 'number' },
+                                { label: 'NIF Country', name: 'nifcountry', type:'text' },
+                                { label: 'Street', name: 'street' },
                             ].map(({ label, name, type = 'text' }) => (
                                 <div className="student-form-group" key={name}>
                                     <label className="student-form-label" htmlFor={name}>{label}</label>
