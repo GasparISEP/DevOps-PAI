@@ -1,9 +1,12 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { registerTeacher } from '../../services/teacherService';
 import PhoneInput from 'react-phone-input-2';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
 import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css'
+import ReactCountryFlag from 'react-country-flag';
 
 export default function TeacherForm() {
     const [form, setForm] = useState({
@@ -25,6 +28,7 @@ export default function TeacherForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
+    const countryOptions = countryList().getData();
 
     useEffect(() => {
         async function fetchOptions() {
@@ -73,6 +77,12 @@ export default function TeacherForm() {
             setLoading(false);
         }
     }
+
+    // Helper to get country label by value
+    const getCountryLabel = (value) => {
+        const option = countryOptions.find(opt => opt.value === value);
+        return option ? option.label : value;
+    };
 
     return (
 
@@ -153,41 +163,34 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="location">Country</label>
+                                <label className="form-label" htmlFor="country">Country (manual)</label>
                                 <input className="form-input" placeholder="Enter Teacher's Country" id="country" name="country"
                                        value={form.country || ''} onChange={handleChange} required/>
                             </div>
 
-                            {/*<div className="teacher-form-group">*/}
-                            {/*    <label className="teacher-form-label" htmlFor="country">Country</label>*/}
-                            {/*    <div style={{ width: '100%' }}>*/}
-                            {/*        <Select*/}
-                            {/*            id="country"*/}
-                            {/*            name="country"*/}
-                            {/*            classNamePrefix="teacher-form-select"*/}
-                            {/*            options={countryList().getData()}*/}
-                            {/*            value={countryList().getData().find(option => option.label === form.country)}*/}
-                            {/*            onChange={option => {*/}
-                            {/*                if (option && option.label) {*/}
-                            {/*                    const name = option.label.charAt(0).toUpperCase() + option.label.slice(1);*/}
-                            {/*                    setForm(f => ({ ...f, country: name }));*/}
-                            {/*                } else {*/}
-                            {/*                    setForm(f => ({ ...f, country: '' }));*/}
-                            {/*                }*/}
-                            {/*            }}*/}
-                            {/*            formatOptionLabel={option => (*/}
-                            {/*                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>*/}
-                            {/*                    <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />*/}
-                            {/*                    <span>{option.label}</span>*/}
-                            {/*                </div>*/}
-                            {/*            )}*/}
-                            {/*            placeholder="Select Country"*/}
-                            {/*            isSearchable*/}
-                            {/*            menuPlacement="auto"*/}
-                            {/*            menuPosition="fixed"*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="countrySelect">Country (select)</label>
+                                <Select
+                                    inputId="countrySelect"
+                                    name="countrySelect"
+                                    options={countryOptions}
+                                    value={countryOptions.find(option => option.value === form.countrySelect) || null}
+                                    onChange={option => setForm(f => ({ ...f, countrySelect: option ? option.value : '' }))}
+                                    classNamePrefix="form-input"
+                                    placeholder="Select a country..."
+                                    isClearable
+                                    formatOptionLabel={option => (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                            <ReactCountryFlag
+                                                countryCode={option.value}
+                                                svg
+                                                style={{ width: '2em', height: '2em' }}
+                                            />
+                                            <span>{option.label}</span>
+                                        </div>
+                                    )}
+                                />
+                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
