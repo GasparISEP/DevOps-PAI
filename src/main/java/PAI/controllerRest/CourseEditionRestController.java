@@ -14,6 +14,7 @@ import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -112,9 +113,6 @@ public CourseEditionRestController(
 
     @PostMapping
     public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
-        // Using ResponseEntity<?> to allow different response types:
-        // - CourseEditionResponseDTO on success
-        // - String or other object for error messages
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
             ProgrammeID programmeID = new ProgrammeID(
@@ -233,4 +231,32 @@ public CourseEditionRestController(
         }
         return ResponseEntity.ok(averageGrade);
     }
+
+    @GetMapping("/approvalpercentage")
+    public ResponseEntity<Double> getCourseEditionApprovalRate(
+            @RequestParam("programmeAcronym") String programmeAcronym,
+            @RequestParam("schoolYearId") String schoolYearId,
+            @RequestParam("courseAcronym") String courseAcronym,
+            @RequestParam("studyPlanDate") String studyPlanDate) throws Exception {
+
+        UUID schoolYearUUID = UUID.fromString(schoolYearId);
+        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+
+        ProgrammeID programmeID = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars("Placeholder Name"),
+                new Acronym(programmeAcronym));
+
+        CourseEditionID courseEditionID = new CourseEditionID(
+                new ProgrammeEditionID(programmeID, schoolYearID),
+                new CourseInStudyPlanID(
+                        new CourseID(new Acronym(courseAcronym), new Name("Placeholder Name")),
+                        new StudyPlanID(programmeID, new Date(studyPlanDate))));
+
+        double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
+
+        return ResponseEntity.ok(approvalRate);
+    }
+
+
+
 }
