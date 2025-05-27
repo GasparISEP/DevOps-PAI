@@ -15,6 +15,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
 
+import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -241,5 +242,32 @@ public class CreateCourseEditionServiceImplTest {
         List<ProgrammeEdition> result = service.getProgrammeEditionsByProgrammeID(null);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void findAllShouldReturnAllCourseEditions() {
+        // Arrange
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        ICourseEditionRepository repository = mock(CourseEditionRepositorySpringDataImpl.class);
+
+        List<CourseEdition> fakeCourseEditions = List.of(new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble));
+
+        when(repository.findAll()).thenReturn(fakeCourseEditions);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                mock(ICourseEditionFactory.class), repository,
+                mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
+                mock(IStudyPlanRepository.class), mock(ICourseInStudyPlanRepository.class),
+                mock(IProgrammeEditionRepository.class)
+        );
+
+        // Act
+        Iterable<CourseEdition> result = service.findAll();
+
+        // Assert
+        assertEquals(fakeCourseEditions, result);
     }
 }
