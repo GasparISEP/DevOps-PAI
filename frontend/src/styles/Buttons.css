@@ -3,7 +3,7 @@
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
   opacity: 1;
   transition: all 0.3s ease, transform 0.3s ease;
@@ -26,7 +26,6 @@
   color: #9a1a24;
 }
 
-
 .pagination-btn-primary.per-page-btn.selected {
   cursor: not-allowed;
   opacity: 0.5;
@@ -40,5 +39,29 @@ th.sortable {
 th.sortable.selected {
   background: #9a1a24;
   color: #fff;
+}
+
+.pagination-page-info {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.teacher-table-filter-select {
+  background: #9a1a24;
+  color: #fff;
+  border: 2px solid #9a1a24;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.teacher-table-filter-select option {
+  background: #fff;
+  color: #111;
+  font-size: 1.4rem;
+  font-weight: 600;
+  outline-color: #9a1a24;
 }
 

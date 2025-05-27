@@ -3,7 +3,6 @@
   border-collapse: separate;
   border-spacing: 0 0.5rem;
   table-layout: auto;
-  margin: 0 auto;
 }
 .teacher-form-table th, .teacher-form-table td {
   padding: 0.75rem 1.5rem;
@@ -42,25 +41,30 @@
 
 .teacher-pagination-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
   width: 100%;
-  max-width: 900px;
+  /* Remove max-width to match table width */
 }
 .teacher-pagination-left {
   display: flex;
   align-items: center;
   gap: 2rem;
   justify-content: flex-start;
-  flex: 1;
 }
-.teacher-pagination-right {
+.teacher-pagination-right,
+.teacher-per-page-controls.teacher-pagination-right {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-right: 3rem;
   justify-content: flex-end;
-  flex: 1;
+}
+.teacher-pagination-bar > .teacher-pagination-left {
+  flex: 1 1 auto;
+}
+.teacher-pagination-bar > .teacher-per-page-controls.teacher-pagination-right {
+  flex: 1 1 auto;
 }
 
 .teacher-pagination-controls {
@@ -79,11 +83,14 @@
   font-weight: 600;
   color: #9a1a24;
   margin-right: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .teacher-per-page-label-end {
   color: #333;
   margin-left: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .loader {
@@ -99,3 +106,16 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.teacher-table-filter-input {
+  background: #fff;
+  color: #111;
+  border: 2px solid #9a1a24;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+
