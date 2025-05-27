@@ -40,22 +40,11 @@ public class CourseInStudyPlanRestController {
 
     @PostMapping
     public ResponseEntity<CourseInStudyPlanResponseDTO> create(
-            @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) {
-        try {
-
-            CourseInStudyPlanCommand command = assembler.toCommand(dtoRequest);
-
-            CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO = service.addCourseToAProgramme(command);
-
-            CourseInStudyPlanResponseDTO dtoResponse = assembler.toDTO(courseInStudyPlanServiceDTO);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
-
-        } catch (IllegalArgumentException | BusinessRuleViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+            @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) throws Exception {
+        CourseInStudyPlanCommand command = assembler.toCommand(dtoRequest);
+        CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO = service.addCourseToAProgramme(command);
+        CourseInStudyPlanResponseDTO dtoResponse = assembler.toDTO(courseInStudyPlanServiceDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
     }
 
 
