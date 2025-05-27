@@ -3,8 +3,9 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
     }
 
     @Override
-    public CountStudentsInProgrammeEditionDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
+    public CountStudentsDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
@@ -28,11 +29,11 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         UUID schoolYearID = id.getSchoolYearID().getSchoolYearID();
 
-        return new CountStudentsInProgrammeEditionDto(programmeName, programmeAcronym, schoolYearID);
+        return new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
     }
 
     @Override
-    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsInProgrammeEditionDto dto) throws Exception {
+    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsDto dto) throws Exception {
         if (dto == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
@@ -46,7 +47,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
     }
 
     @Override
-    public List<CountStudentsInProgrammeEditionDto> toCountStudentsInProgrammeEditionDTOList(Iterable<ProgrammeEdition> editions) {
+    public List<CountStudentsDto> toCountStudentsInProgrammeEditionDTOList(Iterable<ProgrammeEdition> editions) {
         if (editions == null) {
             throw new IllegalArgumentException("programmeEditions cannot be null");
         }
@@ -85,5 +86,15 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
         SchoolYearIDRequestDTO schoolYearIDRequestDTO = new SchoolYearIDRequestDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
+    }
+
+    @Override
+    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
+        if (programmeEditionIdDto == null) {
+            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
+        }
+        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(programmeEditionIdDto.programmeName()), new Acronym(programmeEditionIdDto.programmeAcronym()));
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
+        return new ProgrammeEditionID(programmeID, schoolYearID);
     }
 }

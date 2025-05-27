@@ -1,6 +1,6 @@
 package PAI.dto.teacher;
 
-import PAI.dto.Teacher.TeacherWithRelevantDataDTO;
+import PAI.dto.teacher.TeacherWithRelevantDataDTO;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

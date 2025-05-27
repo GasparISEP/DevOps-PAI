@@ -1,11 +1,27 @@
 package PAI.controllerRest;
+import PAI.VOs.Acronym;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseID;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.Date;
+import PAI.VOs.Name;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.ProgrammeID;
+import PAI.VOs.SchoolYearID;
+import PAI.VOs.StudyPlanID;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
+import PAI.dto.studentGrade.GradeAStudentCommand;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,21 +33,25 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @WebMvcTest(CourseEditionRestController.class)
 class CourseEditionRestControllerTest {
@@ -59,6 +79,9 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private IStudentGradeAssembler studentGradeAssembler;
+
+    @MockBean
+    private IProgrammeEditionAssembler programmeEditionAssembler;
 
 
     private CourseEditionEnrolmentDto validEnrolmentDto;
@@ -335,4 +358,103 @@ class CourseEditionRestControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void whenGetStudentsEnrolledInCourseEdition_thenReturnsListOfStudents() throws Exception {
+    //Arrange
+    ProgrammeEditionIdDto programmeEditionIdDto = new ProgrammeEditionIdDto("LEIC", "L.EIC", UUID.randomUUID().toString());
+    ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+    CourseEditionID courseEditionID = mock(CourseEditionID.class);
+    CourseEditionResponseDTO courseEditionResponseDTO = mock(CourseEditionResponseDTO.class);
+
+    when(programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto)).thenReturn(programmeEditionID);
+    when(courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID)).thenReturn(List.of(courseEditionID));
+    when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
+
+    String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
+
+    //Act + Assert
+    mockMvc.perform(get("/courseeditions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(programmeEditionIdDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(expectedJson));
+    }
+    @Test
+    void findAllCourseEditionsShouldReturnAllCourseEditions() throws Exception {
+        // Arrange
+        CourseEdition courseEditionDouble1 = mock(CourseEdition.class);
+        CourseEdition courseEditionDouble2 = mock(CourseEdition.class);
+
+        CourseEditionResponseDTO responseDouble1 = new CourseEditionResponseDTO(
+            "courseEdition123",
+            "Programme1",
+            "PRG1",
+            UUID.randomUUID(),
+            "Course1",
+            "Course Name 1",
+            LocalDate.of(2024, 1, 1)
+        );
+
+        CourseEditionResponseDTO responseDouble2 = new CourseEditionResponseDTO(
+            "courseEdition456",
+            "Programme2",
+            "PRG2",
+            UUID.randomUUID(),
+            "Course2",
+            "Course Name 2",
+            LocalDate.of(2024, 1, 1)
+        );
+
+        when(createCourseEditionService.findAll()).thenReturn(List.of(courseEditionDouble1, courseEditionDouble2));
+        when(courseEditionAssembler.toResponseDTO(courseEditionDouble1)).thenReturn(responseDouble1);
+        when(courseEditionAssembler.toResponseDTO(courseEditionDouble2)).thenReturn(responseDouble2);
+
+        // Act
+        MvcResult result = mockMvc.perform(get("/courseeditions"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        // Assert
+        String jsonResponse = result.getResponse().getContentAsString();
+        List<CourseEditionResponseDTO> actualResponse = objectMapper.readValue(jsonResponse,
+            objectMapper.getTypeFactory().constructCollectionType(List.class, CourseEditionResponseDTO.class));
+
+        assertEquals(2, actualResponse.size());
+    }
+
+    @Test
+    void gradeAStudentMethodShouldGradeAStudentSuccessfully_AndReturn201() throws Exception {
+        // Arrange
+        GradeAStudentRequestDTO requestDTO = new GradeAStudentRequestDTO(
+                1234567, 18, "12-04-2025", "Engenharia Informática", "EI",
+                "6a7c6ce1-850d-428e-92e1-a8c9de5e3c21", "DSOFT",
+                "Desenvolvimento de Software", "12-04-2025");
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+        GradeAStudentResponseDTO responseDTO = new GradeAStudentResponseDTO(1234567, 18, "12-04-2025", "courseEdition123", "programmeEdition123", "courseInStudyPlan123", "programme123", "schoolYear123", "course123", "studyPlan123");
+
+        when(studentGradeAssembler.toDomain(requestDTO)).thenReturn(command);
+        when(gradeAStudentService.gradeAStudent(command)).thenReturn(responseDTO);
+
+        // Act + Assert
+        mockMvc.perform(post("/courseeditions/studentGrades")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+            {
+                "grade": 18,
+                "date": "12-04-2025",
+                "studentUniqueNumber": 1234567,
+                "programmeName": "Engenharia Informática",
+                "programmeAcronym": "EI",
+                "schoolYearId": "6a7c6ce1-850d-428e-92e1-a8c9de5e3c21",
+                "courseAcronym": "DSOFT",
+                "courseName": "Desenvolvimento de Software",
+                "studyPlanImplementationDate": "12-04-2025"
+            }
+        """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1234567))
+                .andExpect(jsonPath("$._grade").value(18))
+                .andExpect(jsonPath("$._date").value("12-04-2025"));
+    }
 }

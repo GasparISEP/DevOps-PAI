@@ -3,8 +3,6 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
-import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.assembler.studyPlan.StudyPlanAssemblerImpl;
 import PAI.assembler.programme.IProgrammeAssembler;

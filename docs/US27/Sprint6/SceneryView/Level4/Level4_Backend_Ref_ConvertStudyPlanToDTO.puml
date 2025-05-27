@@ -5,8 +5,8 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":StudyPlanService" as StudyPlanService <<service>> #F6CBA5
-participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>>
-participant "studyPlanDTO1:StudyPlanDTO" as StudyPlanDTO <<component>>
+participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>> #E1D5E7
+participant "studyPlanDTO1:StudyPlanDTO" as StudyPlanDTO <<component>> #FFE599
 
 activate StudyPlanService
 StudyPlanService -> StudyPlanAssembler ++: **toDTO**(studyPlan)

@@ -3,8 +3,9 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ class ProgrammeEditionAssemblerImplTest {
         );
 
         // Act
-        CountStudentsInProgrammeEditionDto dto = assembler.toCountStudentsInProgrammeEditionDTO(programmeEdition);
+        CountStudentsDto dto = assembler.toCountStudentsInProgrammeEditionDTO(programmeEdition);
 
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
@@ -58,7 +59,7 @@ class ProgrammeEditionAssemblerImplTest {
         String programmeAcronym = "PPP";
         UUID schoolYearID = UUID.randomUUID();
 
-        CountStudentsInProgrammeEditionDto dto = new CountStudentsInProgrammeEditionDto(programmeName, programmeAcronym, schoolYearID);
+        CountStudentsDto dto = new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
 
         // Act
         ProgrammeEdition programmeEdition = assembler.CountStudentsInProgrammeEditionDTOtoDomain(dto);
@@ -99,7 +100,7 @@ class ProgrammeEditionAssemblerImplTest {
 
     @Test
     void toDTOList_shouldReturnEmptyList_whenInputIsEmpty() {
-        List<CountStudentsInProgrammeEditionDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(Collections.emptyList());
+        List<CountStudentsDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(Collections.emptyList());
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -113,12 +114,12 @@ class ProgrammeEditionAssemblerImplTest {
         ProgrammeEdition edition = new ProgrammeEdition(id, programmeID, schoolYearID);
         List<ProgrammeEdition> editions = List.of(edition);
 
-        List<CountStudentsInProgrammeEditionDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(editions);
+        List<CountStudentsDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(editions);
 
         assertNotNull(result);
         assertEquals(1, result.size());
 
-        CountStudentsInProgrammeEditionDto dto = result.get(0);
+        CountStudentsDto dto = result.get(0);
         assertEquals("Engineering", dto.programmeName());
         assertEquals("ENG", dto.programmeAcronym());
         assertEquals(schoolYearID, new SchoolYearID(dto.schoolYearID()));
@@ -223,5 +224,18 @@ class ProgrammeEditionAssemblerImplTest {
         assertThrows(IllegalArgumentException.class, () -> {
             assembler.toDTO(programmeID,schoolYearID);
         });
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionID() throws Exception {
+        // Arrange
+        ProgrammeEditionIdDto programmeEditionIdDto = mock(ProgrammeEditionIdDto.class);
+        when(programmeEditionIdDto.programmeName()).thenReturn("Computer Science");
+        when(programmeEditionIdDto.programmeAcronym()).thenReturn("CSE");
+        when(programmeEditionIdDto.schoolYearId()).thenReturn(UUID.randomUUID().toString());
+        // Act
+        ProgrammeEditionID result = assembler.toProgrammeEditionID(programmeEditionIdDto);
+        // Assert
+        assertNotNull(result);
     }
 }

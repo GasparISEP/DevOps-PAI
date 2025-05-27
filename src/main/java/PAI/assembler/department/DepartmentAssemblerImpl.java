@@ -1,33 +1,32 @@
 package PAI.assembler.department;
 
-
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.domain.course.Course;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.dto.department.RegisterDepartmentRequest;
-import PAI.persistence.datamodel.course.CourseDataModel;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import PAI.dto.department.*;
+
 @Component
 public class DepartmentAssemblerImpl implements IDepartmentAssembler {
 
     @Override
-    public RegisterDepartmentCommand toRegisterDepartmentCommand(RegisterDepartmentRequest registerDepartmentRequest) {
+    public RegisterDepartmentRequestVOs toRegisterDepartmentRequestVOs(RegisterDepartmentRequest registerDepartmentRequest) {
         if (registerDepartmentRequest == null) {
             throw new IllegalArgumentException("RegisterDepartmentRequest cannot be null");
         }
         Name name = new Name(registerDepartmentRequest.name());
         DepartmentAcronym acronym = new DepartmentAcronym(registerDepartmentRequest.acronym());
 
-        return new RegisterDepartmentCommand(name, acronym);
+        return new RegisterDepartmentRequestVOs(name, acronym);
     }
 
     @Override
@@ -81,18 +80,15 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         return listDTO;
     }
 
-    public Department updateDepartmentWithDirector(Department department, TeacherAcronym teacherID) {
-        if (department == null) {
-            throw new IllegalArgumentException("Department cannot be null");
+    @Override
+    public DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("DepartmentWithDirectorRequest cannot be null");
         }
-        if (teacherID == null ) {
-            throw new IllegalArgumentException("TeacherID cannot be null or blank");
-        }
+        Name name = new Name(request.name());
+        DepartmentAcronym acronym = new DepartmentAcronym(request.acronym());
+        TeacherID director = new TeacherID(new TeacherAcronym(request.teacherID()));
 
-        TeacherID directorID = new TeacherID(teacherID);
-        department.setDirectorID(directorID);
-        return department;
+        return new DepartmentWithDirectorCommand(name, acronym, director);
     }
-
-
 }

@@ -5,10 +5,8 @@ import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
-import PAI.mapper.programmeEdition.IProgrammeEditionMapper;
-import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +33,8 @@ public class ProgrammeEditionRestController {
        this.programmeEditionAssembler = programmeEditionAssembler;
     }
     @GetMapping
-    public ResponseEntity<Iterable<CountStudentsInProgrammeEditionDto>> getAllProgrammeEditions() {
-        Iterable<CountStudentsInProgrammeEditionDto> programmeEditionDTOs =
+    public ResponseEntity<Iterable<CountStudentsDto>> getAllProgrammeEditions() {
+        Iterable<CountStudentsDto> programmeEditionDTOs =
                 programmeEditionService.getAllProgrammeEditions();
         return ResponseEntity.ok(programmeEditionDTOs);
     }
@@ -47,8 +45,8 @@ public class ProgrammeEditionRestController {
             @PathVariable("programmeAcronym") String programmeAcronym,
             @PathVariable("schoolYearID") UUID schoolYearID) throws Exception {
 
-        CountStudentsInProgrammeEditionDto dto =
-                new CountStudentsInProgrammeEditionDto(programmeName, programmeAcronym, schoolYearID);
+        CountStudentsDto dto =
+                new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 

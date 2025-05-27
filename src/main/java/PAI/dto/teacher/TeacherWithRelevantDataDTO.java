@@ -1,4 +1,4 @@
-package PAI.dto.Teacher;
+package PAI.dto.teacher;
 
 
 public class TeacherWithRelevantDataDTO {

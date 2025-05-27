@@ -11,8 +11,8 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.dto.Teacher.TeacherWithRelevantDataAssembler;
-import PAI.dto.Teacher.TeacherWithRelevantDataDTO;
+import PAI.dto.teacher.TeacherWithRelevantDataAssembler;
+import PAI.dto.teacher.TeacherWithRelevantDataDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 

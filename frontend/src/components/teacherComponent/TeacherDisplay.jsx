@@ -138,7 +138,12 @@ export default function TeacherDisplay() {
                                 type="text"
                                 value={filterValue}
                                 onChange={e => setFilterValue(e.target.value)}
-                                placeholder={`Search by ${filterField === 'id' ? 'Acronym' : filterField.charAt(0).toUpperCase() + filterField.slice(1)}`}
+                                placeholder={`Search by ${
+                                    filterField === 'id' ? 'Acronym' : 
+                                    filterField === 'academicBackground' ? 'Academic Background' : 
+                                    filterField === 'postalCode' ? 'Postal Code' : 
+                                    filterField === 'departmentID' ? 'Department' :
+                                filterField.charAt(0).toUpperCase() + filterField.slice(1)}`}
                                 className="teacher-table-filter-input"
                             />
                         </div>

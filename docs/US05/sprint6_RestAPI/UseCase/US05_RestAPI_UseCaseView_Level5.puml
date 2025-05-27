@@ -17,8 +17,10 @@ participant ":Frontend" as UI
 participant ":DepartmentRestController" as Controller
 participant ":IDepartmentRegistrationService" as Service
 participant ":IDepartmentAssembler" as Mapper
-participant "rdc1:RegisterDepartmentCommand" as Request #LightYellow
+participant ":IDepartmentHateoasAssembler" as HAAssembler
+participant "rdrVo1:RegisterDepartmentRequestVOs" as Request #LightYellow
 participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
+participant "d1HateoasDTO:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentDataModelMapper" as DataModelMapper
 participant ":DepartmentFactory" as Factory
@@ -29,10 +31,8 @@ participant ":IDepartmentSpringDataRepository" as SpringDataRepo
 
 group Human Interaction
 Administrator -> UI ++: I want to register a department
-UI --> Administrator --: Prompt: Enter acronym
-Administrator -> UI ++: "DEI"
-UI --> Administrator --: Prompt: Enter name
-Administrator -> UI ++: "Software Engineering Department"
+UI --> Administrator --: Prompt: "Fill in department details"
+Administrator -> UI ++: Enter name and acronym
 end group
 
 group HTTP Request
@@ -40,13 +40,13 @@ UI -> Controller ++: (POST) /departments\nwith JSON { RegisterDepartmentRequest 
 end group
 
 group Mapping JSON to Request (VOs)
-Controller -> Mapper ++: toRequestCommand(request)
-Mapper -> Request **: <create> RegisterDepartmentCommand\n(request.acronym(), request.name())
-Mapper --> Controller --: rdc1
+Controller -> Mapper ++: toRegistrationRequestVOs(request)
+Mapper -> Request **: <create> RegisterDepartmentRequestVOs\n(request.acronym(), request.name())
+Mapper --> Controller --: rdrVo1
 end group
 
 group Application Service
-Controller -> Service ++: createAndSaveDepartment(rdc1)
+Controller -> Service ++: createAndSaveDepartment(rdVo1)
 end group
 
 group Domain Logic – Department Creation
@@ -93,10 +93,13 @@ group Mapping Domain to Output DTO
 Controller -> Mapper ++: toDTO(d1)
 Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name, teacherID)
 Mapper --> Controller --: d1DTO
+Controller -> HAAssembler ++: toHateoasDTO(d1DTO)
+HAAssembler -> DepartmentHateoasDTO **: <create> EntityModel<DepartmentDTO>(d1DTO)
+HAAssembler --> Controller --: d1HateoasDTO
 end group
 
 group Response
-Controller --> UI --: HTTP 201 Created + d1DTO
+Controller --> UI --: HTTP 201 Created + d1HateoasDTO
 UI --> Administrator --: Department successfully registered
 end group
 

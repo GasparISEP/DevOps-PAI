@@ -24,9 +24,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldPassValidationWithValidData() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "Software Engineering",
                 "SE",
                 "2024-2025",
@@ -42,9 +42,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenGradeIsZero() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 0,
                 "2025-05-23",
-                1234567,
                 "SE",
                 "SE",
                 "2024-2025",
@@ -60,9 +60,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenDateIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 " ",
-                1234567,
                 "SE",
                 "SE",
                 "2024-2025",
@@ -78,9 +78,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenStudentUniqueNumberIsNegative() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                -1,
                 18,
                 "2025-05-23",
-                -1,
                 "SE",
                 "SE",
                 "2024-2025",
@@ -96,9 +96,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenProgrammeNameIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 " ",
                 "SE",
                 "2024-2025",
@@ -114,9 +114,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenProgrammeAcronymIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "SE",
                 " ",
                 "2024-2025",
@@ -132,9 +132,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenSchoolYearIdIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "SE",
                 "SE",
                 " ",
@@ -150,9 +150,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenCourseAcronymIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "SE",
                 "SE",
                 "2024-2025",
@@ -168,9 +168,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenCourseNameIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "SE",
                 "SE",
                 "2024-2025",
@@ -186,9 +186,9 @@ class GradeAStudentRequestDTOTest {
     @Test
     void shouldFailValidationWhenStudyPlanDateIsBlank() {
         GradeAStudentRequestDTO dto = new GradeAStudentRequestDTO(
+                1234567,
                 18,
                 "2025-05-23",
-                1234567,
                 "SE",
                 "SE",
                 "2024-2025",

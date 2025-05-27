@@ -20,7 +20,7 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
         ProgrammeID programmeID = createProgrammeID(requestDTO.programmeName(), requestDTO.programmeAcronym());
         SchoolYearID schoolYearID = createSchoolYearID(requestDTO.schoolYearId());
         CourseID courseID = createCourseID(requestDTO.courseAcronym(), requestDTO.courseName());
-        StudyPlanID studyPlanID = createStudyPlanID(requestDTO.studyPlanDate(), programmeID);
+        StudyPlanID studyPlanID = createStudyPlanID(requestDTO.studyPlanImplementationDate(), programmeID);
         CourseInStudyPlanID courseInStudyPlanID = createCourseInStudyPlanID(courseID, studyPlanID);
         ProgrammeEditionID programmeEditionID = createProgrammeEditionID(programmeID, schoolYearID);
         CourseEditionID courseEditionID = createCourseEditionID(programmeEditionID, courseInStudyPlanID);

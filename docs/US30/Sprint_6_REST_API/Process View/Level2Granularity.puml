@@ -10,9 +10,9 @@ autonumber
 
 actor ASC as asc #teal
 
-participant "Frontend" as frontend <<conteiner>> #teal
-participant "Backend" as backend <<conteiner>> #teal
-participant "Database" as db <<conteiner>> #teal
+participant ":Frontend" as frontend <<container>> #teal
+participant ":Backend" as backend <<container>> #teal
+participant ":Database" as db <<container>> #teal
 
 asc -> frontend: I want to add Course to a Programme!
 activate frontend #E1F5FE

@@ -1,18 +1,19 @@
 package PAI.assembler.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
-
-import java.util.List;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 
 public interface IProgrammeEditionAssembler {
-    CountStudentsInProgrammeEditionDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition);
-    ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsInProgrammeEditionDto dto) throws Exception;
-    Iterable<CountStudentsInProgrammeEditionDto> toCountStudentsInProgrammeEditionDTOList(Iterable<ProgrammeEdition> editions);
+    CountStudentsDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition);
+    ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsDto dto) throws Exception;
+    Iterable<CountStudentsDto> toCountStudentsInProgrammeEditionDTOList(Iterable<ProgrammeEdition> editions);
     SchoolYearID toSchoolYearID(ProgrammeEditionDTO programmeEditionDTO);
     ProgrammeID toProgrammeID(ProgrammeEditionDTO programmeEditionDTO);
     ProgrammeEditionDTO toDTO(ProgrammeID programmeID, SchoolYearID schoolYearID);
+    ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception;
 }
