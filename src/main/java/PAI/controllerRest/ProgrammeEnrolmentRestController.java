@@ -66,4 +66,19 @@ public class ProgrammeEnrolmentRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/totalEnrolledStudents")
+    public ResponseEntity<?> countByDepartmentAndSchoolYear(@RequestBody TotalEnrolledStudentsRequest request) {
+        if (request == null)
+            return ResponseEntity.badRequest().body("Request cannot be null");
+        try {
+            TotalEnrolledStudentsCommand command = totalEnrolledStudentsAssembler.fromRequestToCommand(request);
+            int count = totalEnrolledStudentsService.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
 }
