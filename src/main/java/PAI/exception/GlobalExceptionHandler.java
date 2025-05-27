@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.validation.FieldError;
 
-import java.time.LocalDateTime;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -28,7 +26,6 @@ public class GlobalExceptionHandler {
                 "ARGUMENT_INVALID",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -39,7 +36,6 @@ public class GlobalExceptionHandler {
                 "BUSINESS_RULE_VIOLATED",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -50,7 +46,6 @@ public class GlobalExceptionHandler {
                 "INTERNAL_ERROR",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

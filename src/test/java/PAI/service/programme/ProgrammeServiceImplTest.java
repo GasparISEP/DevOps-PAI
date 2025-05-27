@@ -2,15 +2,13 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.exception.AlreadyRegisteredException;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -148,10 +146,10 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
 
         //Act
-        Exception result = assertThrows(Exception.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+        Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
 
         //Assert
-        assertEquals(result.getMessage(), "Programme is already registered");
+        assertEquals(result.getMessage(), "Programme is already registered.");
     }
 
     @Test

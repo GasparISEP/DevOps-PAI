@@ -118,7 +118,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldSendProgrammeResponseDTO() throws Exception {
+    void shouldSendProgrammeDTO() throws Exception {
         //Arrange
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
@@ -136,7 +136,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldSendBadResponseIfProgrammeRequestDTOIsNull() throws Exception {
+    void shouldSendBadResponseIfProgrammeDTOReceivedIsNull() throws Exception {
         //Arrange
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
@@ -147,39 +147,6 @@ class ProgrammeRestControllerTest {
         //Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
-
-    @Test
-    void shouldSendBadResponseIfProgrammeResponseDTOIsNull() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
-        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(null);
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    void shouldSendBadResponseIfAnyExceptionIsThrown() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
-        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenThrow(new Exception("Programme is already registered."));
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
 
     @Test
     void shouldReturnCreatedResponseAndStudyPlanResponseDTOWhenStudyPlanIsRegisteredSuccessfully() throws Exception {

@@ -51,7 +51,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
         if(_programmeRepository.containsOfIdentity(programme.identity()))
-            throw new Exception("Programme is already registered");
+            throw new AlreadyRegisteredException("Programme");
 
         return _programmeRepository.save(programme);
     }

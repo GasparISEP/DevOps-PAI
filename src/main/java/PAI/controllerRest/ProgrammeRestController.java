@@ -7,7 +7,6 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
@@ -69,28 +68,15 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO){
+    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO) throws Exception {
         if (programmeDTO == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
+        Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
+        ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
 
-        try {
-            ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
-
-            Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
-
-            ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
-
-            if(newProgrammeDTO!=null){
-                return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/{programme-name}/{programme-acronym}/studyPlans")
