@@ -19,26 +19,26 @@ DB --> ceRepo --: List<CourseEditionDataModel>
 
 loop for CourseEditionDataModel[i]
 ceRepo -> ceMapper ++: toDomain(CourseEditionDataModel[i])
-ceMapper -> ceFactory ++: newCourseEdition(id, courseId, programmeEditionId, academicYear, semester)
+ceMapper -> ceFactory ++: newCourseEditionID(id, courseId, programmeEditionId)
 note over of ceFactory
     Creates a new
-    CourseEdition object
+    CourseEditionID object
 end note
-ceFactory --> ceMapper --: CourseEdition
-ceMapper --> ceRepo --: List<CourseEdition>
+ceFactory --> ceMapper --: CourseEditionID
+ceMapper --> ceRepo --: List<CourseEditionID>
 end
 
-ceRepo -> ceService: List<CourseEdition>
-ceService -> ceAssembler ++: toDtoList(List<CourseEdition>)
+ceRepo -> ceService: List<CourseEditionID>
+ceService -> ceAssembler ++: toDtoList(List<CourseEditionID>)
 
-loop for CourseEdition[i]
+loop for CourseEditionID[i]
     note over of ceAssembler
-        Invokes CourseEditionDTO
+        Invokes CourseEditionResponseDTO
              to construct object
     end note
 end
-ceAssembler --> ceService --: List<CourseEditionDTO>
-ceService --> ceCtrl --: List<CourseEditionDTO>
+ceAssembler --> ceService --: List<CourseEditionResponseDTO>
+ceService --> ceCtrl --: List<CourseEditionResponseDTO>
 
 legend right
   DTO = Data Transfer Object
