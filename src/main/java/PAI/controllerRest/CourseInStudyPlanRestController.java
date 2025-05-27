@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/course-in-study-plan")
 public class CourseInStudyPlanRestController {
 
-    private final CourseInStudyPlanAssemblerImpl assembler;
+    private final ICourseInStudyPlanAssembler assembler;
     private final IAddCourseToAProgrammeService service;
 
-    public CourseInStudyPlanRestController(CourseInStudyPlanAssemblerImpl assembler, IAddCourseToAProgrammeService service) {
+    public CourseInStudyPlanRestController(ICourseInStudyPlanAssembler assembler, IAddCourseToAProgrammeService service) {
         this.service = service;
         this.assembler = assembler;
     }

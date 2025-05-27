@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
@@ -22,7 +23,7 @@ class CourseInStudyPlanRestControllerTest {
 
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        CourseInStudyPlanAssemblerImpl assemblerDouble = mock(CourseInStudyPlanAssemblerImpl.class);
+        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
 
 
         // act
@@ -37,7 +38,7 @@ class CourseInStudyPlanRestControllerTest {
 
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        CourseInStudyPlanAssemblerImpl assemblerDouble = mock(CourseInStudyPlanAssemblerImpl.class);
+        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, serviceDouble);
 
         CourseInStudyPlanRequestDTO requestDTO = mock(CourseInStudyPlanRequestDTO.class);
@@ -63,7 +64,7 @@ class CourseInStudyPlanRestControllerTest {
 
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        CourseInStudyPlanAssemblerImpl assemblerDouble = mock(CourseInStudyPlanAssemblerImpl.class);
+        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, serviceDouble);
 
         CourseInStudyPlanRequestDTO requestDTO = mock(CourseInStudyPlanRequestDTO.class);
@@ -83,7 +84,7 @@ class CourseInStudyPlanRestControllerTest {
 
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        CourseInStudyPlanAssemblerImpl assemblerDouble = mock(CourseInStudyPlanAssemblerImpl.class);
+        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, serviceDouble);
 
         CourseInStudyPlanRequestDTO requestDTO = mock(CourseInStudyPlanRequestDTO.class);
