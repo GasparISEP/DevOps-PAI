@@ -8,10 +8,13 @@ import PAI.domain.teacherCategory.ITeacherCategoryFactory;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -187,4 +190,66 @@ class TeacherCategoryServiceImplTest {
         //assert
         assertEquals("Teacher Category Assembler Interface cannot be null.", exception.getMessage());
     }
-}
+
+    // testing getTeacherCategoryById method
+
+    @Test
+    void shouldReturnATeacherCategoryIfItIsAValidID() throws Exception {
+        // arrange
+        TeacherCategoryID doubleTeacherCategoryID = mock(TeacherCategoryID.class);
+        when(doubleTeacherCategoryID.getValue()).thenReturn(UUID.randomUUID());
+
+        TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
+        when(doubleTeacherCategory.getId()).thenReturn(doubleTeacherCategoryID);
+
+        ITeacherCategoryRepository doubleRepository = mock(ITeacherCategoryRepository.class);
+        when(doubleRepository.ofIdentity(doubleTeacherCategoryID)).thenReturn(Optional.of(doubleTeacherCategory));
+
+        TeacherCategoryDTO doubleTeacherCategoryDTO = mock(TeacherCategoryDTO.class);
+        ITeacherCategoryInternalAssembler assembler = mock(ITeacherCategoryInternalAssembler.class);
+        when(assembler.toDTO(doubleTeacherCategory)).thenReturn(doubleTeacherCategoryDTO);
+
+        ITeacherCategoryFactory doubleTeacherCategoryFactory = mock (ITeacherCategoryFactory.class);
+
+        TeacherCategoryServiceImpl service = new TeacherCategoryServiceImpl(doubleRepository, doubleTeacherCategoryFactory, assembler);
+
+        // act
+        TeacherCategoryDTO result = service.getTeacherCategoryByID(doubleTeacherCategoryID);
+
+        // assert
+        assertEquals(doubleTeacherCategoryDTO, result);
+    }
+
+    @Test
+    void shouldReturnATeacherCategoryIfIdDoesNotExists (){
+        //arrange
+        TeacherCategoryID doubleTeacherCategoryID = mock(TeacherCategoryID.class);
+
+        ITeacherCategoryRepository doubleRepository = mock(ITeacherCategoryRepository.class);
+        when(doubleRepository.ofIdentity(doubleTeacherCategoryID)).thenReturn(Optional.empty());
+
+        ITeacherCategoryInternalAssembler assembler = mock(ITeacherCategoryInternalAssembler.class);
+
+        ITeacherCategoryFactory doubleTeacherCategoryFactory = mock (ITeacherCategoryFactory.class);
+
+        TeacherCategoryServiceImpl service = new TeacherCategoryServiceImpl(doubleRepository, doubleTeacherCategoryFactory, assembler);
+
+        //act & assert
+        assertThrows(NotFoundException.class, () -> {service.getTeacherCategoryByID(doubleTeacherCategoryID);});
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfIdIsNull (){
+        //arrange
+
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getTeacherCategoryByID(null);
+        });
+
+        //assert
+        assertEquals("Teacher Category ID cannot be null!", exception.getMessage());
+    }
+
+    }

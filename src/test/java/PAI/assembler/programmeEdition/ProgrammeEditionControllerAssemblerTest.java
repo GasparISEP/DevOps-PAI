@@ -1,15 +1,14 @@
 package PAI.assembler.programmeEdition;
 
-import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +16,7 @@ class ProgrammeEditionControllerAssemblerTest {
     private final IProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
 
     @Test
-    void shouldReturnProgrammeEditionDTOWhenToDTO(){
+    void shouldReturnProgrammeEditionDTOWhenToDTO() {
         // Arrange
         ProgrammeEditionRequestDTO programmeEditionRequestDTO = mock(ProgrammeEditionRequestDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
@@ -34,7 +33,7 @@ class ProgrammeEditionControllerAssemblerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionRequestDTOIsNull(){
+    void shouldThrowExceptionWhenProgrammeEditionRequestDTOIsNull() {
         // Arrange
         ProgrammeEditionRequestDTO programmeEditionRequestDTO = null;
 
@@ -45,7 +44,7 @@ class ProgrammeEditionControllerAssemblerTest {
     }
 
     @Test
-    void shouldReturnProgrammeEditionResponseDTOWhenToResponseDTO(){
+    void shouldReturnProgrammeEditionResponseDTOWhenToResponseDTO() {
         // Arrange
         ProgrammeEditionDTO editionDTO = mock(ProgrammeEditionDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
@@ -62,7 +61,7 @@ class ProgrammeEditionControllerAssemblerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenProgrammeEditionDTOIsNull(){
+    void shouldThrowExceptionWhenProgrammeEditionDTOIsNull() {
         // Arrange
         ProgrammeEditionDTO editionDTO = null;
 
