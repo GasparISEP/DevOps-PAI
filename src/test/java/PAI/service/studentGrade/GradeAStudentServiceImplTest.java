@@ -12,8 +12,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.studentGrade.IStudentGradeFactory;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
-import PAI.dto.studentGrade.StudentGradeRequestDTO;
-import PAI.dto.studentGrade.StudentGradeResponseDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -199,7 +198,7 @@ class GradeAStudentServiceImplTest {
         when(schoolYearDouble1.getEndDate().getLocalDate()).thenReturn(endDate);
 
         // Act
-        StudentGradeResponseDTO result = service.gradeAStudent(commandDouble);
+        GradeAStudentResponseDTO result = service.gradeAStudent(commandDouble);
 
         // Assert
         assertNotNull(result);

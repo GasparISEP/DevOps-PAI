@@ -1,17 +1,14 @@
 package PAI.service.studentGrade;
 
 import PAI.VOs.CourseEditionID;
-import PAI.domain.courseEdition.CourseEdition;
-import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 
 public interface IGradeAStudentService {
 
-    StudentGrade gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception;
-
-    Iterable<CourseEdition> findAllCourseEditions ();
+    GradeAStudentResponseDTO gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception;
 
     double knowApprovalRate (CourseEditionID courseEditionID) throws Exception;
 
-    double getAverageGrade(CourseEditionID courseEditionID) throws Exception;
+    Double getAverageGrade(CourseEditionID courseEditionID) throws Exception;
 }

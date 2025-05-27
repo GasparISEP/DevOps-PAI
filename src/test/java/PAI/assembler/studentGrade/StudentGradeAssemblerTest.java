@@ -5,8 +5,8 @@ import PAI.VOs.Grade;
 import PAI.VOs.StudentID;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
-import PAI.dto.studentGrade.StudentGradeRequestDTO;
-import PAI.dto.studentGrade.StudentGradeResponseDTO;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.mock;
@@ -17,7 +17,7 @@ class StudentGradeAssemblerTest {
     @Test
     void toDomainShouldConvertRequestDTOtoDomain() throws Exception {
         // Arrange
-        StudentGradeRequestDTO requestDTO = mock(StudentGradeRequestDTO.class);
+        GradeAStudentRequestDTO requestDTO = mock(GradeAStudentRequestDTO.class);
 
         when(requestDTO.grade()).thenReturn(18.5);
         when(requestDTO.date()).thenReturn("24-05-2025");
@@ -61,9 +61,9 @@ class StudentGradeAssemblerTest {
         when(studentGrade.get_date()).thenReturn(date);
 
         // Act
-        StudentGradeResponseDTO result = assembler.toDTO(studentGrade, programmeID, schoolYearID, courseID, studyPlanID, courseInStudyPlanID, programmeEditionID, courseEditionID);
+        GradeAStudentResponseDTO result = assembler.toDTO(studentGrade, programmeID, schoolYearID, courseID, studyPlanID, courseInStudyPlanID, programmeEditionID, courseEditionID);
 
         // Assert
-        assertInstanceOf(StudentGradeResponseDTO.class, result);
+        assertInstanceOf(GradeAStudentResponseDTO.class, result);
     }
 }

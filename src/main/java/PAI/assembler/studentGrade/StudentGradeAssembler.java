@@ -3,8 +3,8 @@ package PAI.assembler.studentGrade;
 import PAI.VOs.*;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
-import PAI.dto.studentGrade.StudentGradeRequestDTO;
-import PAI.dto.studentGrade.StudentGradeResponseDTO;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Component
 public class StudentGradeAssembler implements IStudentGradeAssembler {
 
-    public GradeAStudentCommand toDomain (StudentGradeRequestDTO requestDTO) throws Exception {
+    public GradeAStudentCommand toDomain (GradeAStudentRequestDTO requestDTO) throws Exception {
 
         Grade grade = createGrade(requestDTO.grade());
         Date date = createDate(requestDTO.date());
@@ -28,7 +28,7 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
         return new GradeAStudentCommand(grade, date, studentID, courseEditionID);
     }
 
-    public StudentGradeResponseDTO toDTO(
+    public GradeAStudentResponseDTO toDTO(
             StudentGrade studentGrade, String programmeID, String schoolYearID, String courseID,
             String studyPlanID, String courseInStudyPlanID, String programmeEditionID, String courseEditionID) {
 
@@ -36,7 +36,7 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
         double grade = studentGrade.get_grade().knowGrade();
         String date = studentGrade.get_date().toString();
 
-        return new StudentGradeResponseDTO(uniqueNumber, grade, date, courseEditionID, programmeEditionID, courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
+        return new GradeAStudentResponseDTO(uniqueNumber, grade, date, courseEditionID, programmeEditionID, courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
     }
 
     private Grade createGrade (double grade) throws Exception {

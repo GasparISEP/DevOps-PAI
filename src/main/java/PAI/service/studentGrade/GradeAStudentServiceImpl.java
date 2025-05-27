@@ -12,7 +12,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.studentGrade.IStudentGradeFactory;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
-import PAI.dto.studentGrade.StudentGradeResponseDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 
 @Service
-public class GradeAStudentServiceImpl {
+public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
     private IStudentGradeFactory _studentGradeFactory;
     private IStudentGradeRepository _studentGradeRepo;
@@ -54,7 +54,7 @@ public class GradeAStudentServiceImpl {
     }
     
     
-    public StudentGradeResponseDTO gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception {
+    public GradeAStudentResponseDTO gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception {
 
         validateGradeAStudentCommand(gradeAStudentCommand);
 
@@ -88,16 +88,10 @@ public class GradeAStudentServiceImpl {
         String courseID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getCourseID().toString();
         String studyPlanID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getStudyPlanID().toString();
 
-        return new StudentGradeResponseDTO(studentUniqueNumber, grade, date, courseEditionID, programmeEditionID,
+        return new GradeAStudentResponseDTO(studentUniqueNumber, grade, date, courseEditionID, programmeEditionID,
                 courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
     }
 
-    /*
-    public Iterable<CourseEdition> findAllCourseEditions() {
-        return _courseEditionRepo.findAll();
-    }
-    */
-    
     private void validateGradeAStudentCommand(GradeAStudentCommand command) {
         // First validate if the object exists
         if (command == null)
