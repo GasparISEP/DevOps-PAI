@@ -5,10 +5,10 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":StudyPlanSpringDataImpl" as StudyPlanRepository <<repository>> #F6F1E7
-participant ":StudyPlanMapper" as StudyPlanMapper <<mapper>>
-participant "StudyPlanDM:StudyPlanDataModel" as StudyPlanDataModel <<component>>
-participant ":StudyPlanFactory" as StudyPlanFactory <<factory>>
-participant "studyPlan:StudyPlan" as StudyPlan <<component>>
+participant ":StudyPlanMapper" as StudyPlanMapper <<mapper>> #E1D5E7
+participant "StudyPlanDM:StudyPlanDataModel" as StudyPlanDataModel <<component>> #FFE599
+participant ":StudyPlanFactory" as StudyPlanFactory <<factory>> #C9DAF8
+participant "studyPlan:StudyPlan" as StudyPlan <<component>> #FFE599
 
 activate StudyPlanRepository
 StudyPlanRepository -> StudyPlanMapper ++: toData(studyPlan)

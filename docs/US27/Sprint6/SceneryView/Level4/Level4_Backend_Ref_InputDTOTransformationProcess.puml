@@ -5,8 +5,8 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
-participant ":ProgrammeAssembler" as ProgrammeMapper <<mapper>>
-participant "programmeVOsDTO:ProgrammeVOsDTO" as ProgrammeVOsDTO <<component>>
+participant ":ProgrammeAssembler" as ProgrammeMapper <<mapper>> #E1D5E7
+participant "programmeVOsDTO:ProgrammeVOsDTO" as ProgrammeVOsDTO <<component>> #FFE599
 
 activate RestController
 RestController -> ProgrammeMapper ++: fromDTOToDomain(ProgrammeRequestDTO)
