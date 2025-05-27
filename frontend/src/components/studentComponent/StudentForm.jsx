@@ -125,24 +125,6 @@ export default function StudentForm() {
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="studentID">Student ID</label>
-                                <input
-                                    className="form-input"
-                                    placeholder="Loading..."
-                                    id="studentID"
-                                    name="studentID"
-                                    type="text"
-                                    inputMode="numeric"
-                                    pattern="\d*"
-                                    maxLength="8"
-                                    value={form.studentID}
-                                    onChange={handleChange}
-                                    required
-                                    readOnly
-                                    style={{ width: '300px' }}
-                                />
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
