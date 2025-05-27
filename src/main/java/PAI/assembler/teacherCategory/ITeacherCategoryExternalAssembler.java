@@ -2,12 +2,13 @@ package PAI.assembler.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
 
-public interface ITeacherCategoryAssembler {
+public interface ITeacherCategoryExternalAssembler {
 
-    TeacherCategoryResponseDTO toDTO (TeacherCategory teacherCategory);
+    TeacherCategoryResponseDTO toResponseDTO(TeacherCategoryDTO teacherCategoryDTO);
 
     Name toVO (TeacherCategoryRequestDTO teacherCategoryRequestDTO);
 

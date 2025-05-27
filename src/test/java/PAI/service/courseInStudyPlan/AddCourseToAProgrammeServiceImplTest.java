@@ -357,7 +357,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //        Name courseName = new Name("Computer Science");
 //        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
 //        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
 //        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
 //        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
 //
@@ -368,7 +368,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //                courseName,
 //                programmeAcronym,
 //                programmeName,
-//                studyPlanDate,
+//                studyPlanImplementationDate,
 //                duration,
 //                credits
 //        );
@@ -389,7 +389,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //        Name courseName = new Name("Computer Science");
 //        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
 //        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
 //        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
 //        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
 //
@@ -400,7 +400,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //                courseName,
 //                programmeAcronym,
 //                programmeName,
-//                studyPlanDate,
+//                studyPlanImplementationDate,
 //                duration,
 //                credits
 //        );
@@ -487,7 +487,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //        Name courseName = new Name("Computer Science");
 //        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
 //        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
 //        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(10);
 //        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
 //
@@ -498,7 +498,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //                courseName,
 //                programmeAcronym,
 //                programmeName,
-//                studyPlanDate,
+//                studyPlanImplementationDate,
 //                duration,
 //                credits
 //        );
@@ -521,7 +521,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //        Name courseName = new Name("Computer Science");
 //        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
 //        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
 //        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
 //        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(0.0);
 //
@@ -532,7 +532,7 @@ class AddCourseToAProgrammeServiceImplTest {
 //                courseName,
 //                programmeAcronym,
 //                programmeName,
-//                studyPlanDate,
+//                studyPlanImplementationDate,
 //                duration,
 //                credits
 //        );

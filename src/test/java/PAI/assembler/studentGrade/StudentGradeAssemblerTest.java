@@ -27,7 +27,7 @@ class StudentGradeAssemblerTest {
         when(requestDTO.schoolYearId()).thenReturn("f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
         when(requestDTO.courseAcronym()).thenReturn("DSOFT");
         when(requestDTO.courseName()).thenReturn("Desenvolvimento de Software");
-        when(requestDTO.studyPlanDate()).thenReturn("15-08-2017");
+        when(requestDTO.studyPlanImplementationDate()).thenReturn("15-08-2017");
 
         StudentGradeAssembler assembler = new StudentGradeAssembler();
 
