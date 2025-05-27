@@ -60,10 +60,10 @@ public class TeacherCategoryExternalAssemblerImpl implements ITeacherCategoryExt
             return Collections.emptyList();}
 
             List<TeacherCategoryResponseDTO> listDto = new ArrayList<>();
-//            for (TeacherCategory existingTeacherCategory : teacherCategories){
-//                TeacherCategoryResponseDTO responseDto = toResponseDTO(existingTeacherCategory);
-//                listDto.add(responseDto);
-//            }
+            for (TeacherCategory existingTeacherCategory : teacherCategories){
+                TeacherCategoryResponseDTO responseDto = fromDomainToDTO(existingTeacherCategory);
+                listDto.add(responseDto);
+            }
             return listDto;
         }
 }
