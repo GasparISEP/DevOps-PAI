@@ -10,8 +10,4 @@ import java.util.Set;
 public interface IUpdateDepartmentDirectorService {
 
     Department updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception;
-
-    Iterable<Teacher> listTeachersByDepartment(DepartmentID departmentID);
-
-    Set<DepartmentID> getDepartmentIDs();
 }
