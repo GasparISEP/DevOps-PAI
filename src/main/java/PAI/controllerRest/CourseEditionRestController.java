@@ -4,10 +4,7 @@ import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
-import PAI.dto.courseEdition.DefineRucRequestDTO;
+import PAI.dto.courseEdition.*;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -257,6 +254,15 @@ public CourseEditionRestController(
         return ResponseEntity.ok(approvalRate);
     }
 
-
-
+    @PostMapping("/studentscount")
+    public ResponseEntity<Integer> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {
+        try {
+            CourseEditionID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionID(dto);
+            int count = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
+            return ResponseEntity.ok(count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }
