@@ -40,7 +40,7 @@ class StudyPlanInitializerTest {
         runner.run();
 
         // Assert
-        verify(initializer).loadStudyPlan(eq(controller), eq(Path.of("src/main/resources/StudyPlan_Data.csv")));
+        verify(initializer).loadStudyPlan(eq(controller), eq(Path.of("src/main/resources/StudyPlan_DataTest.csv")));
     }
 
     @Test
