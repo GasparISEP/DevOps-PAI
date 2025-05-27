@@ -33,7 +33,7 @@ group Application Service Invocation
 CT -> SE ++: createAndSaveDepartment(requestVOs)
 
 group Domain Logic
-SE -> DM ++: Department department = new Department(command.acronym(), command.name())
+SE -> DM ++: new Department
 DM --> SE --: department
 end group
 
