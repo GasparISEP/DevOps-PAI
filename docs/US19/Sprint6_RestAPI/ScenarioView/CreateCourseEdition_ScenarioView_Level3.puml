@@ -1,5 +1,5 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Scenario View - Level 3)
+title: US19: As an ASC, I want to create a course edition\n(Scenario View - Level 3 (Backend focus))\n(createCourseEdition functionality (POST) only)
 
 
 ' ========== SETTINGS ==========
