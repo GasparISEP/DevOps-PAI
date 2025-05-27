@@ -16,6 +16,7 @@ actor "Administrator" as ADM
 participant ":Frontend" as UI
 participant ":DepartmentRestController" as Controller
 participant ":IDepartmentAssembler" as Assembler
+participant ":IDepartmentHateoasAssembler" as HAAssembler
 participant ":IDepartmentRegistryService" as Service
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentFactory" as Factory
@@ -24,10 +25,8 @@ database "DB" as SpringDataRepo
 
 group Human Interaction
 ADM -> UI ++: Request to register a department
-UI --> ADM --: Prompt: "Enter department acronym"
-ADM -> UI ++: Input: "DEI"
-UI --> ADM --: Prompt: "Enter department name"
-ADM -> UI ++: Input: "Software Engineering Department"
+UI --> ADM --: Prompt: "Fill in department details"
+ADM -> UI ++: Enter name and acronym
 end group
 
 group Controller Layer
@@ -60,7 +59,9 @@ group Response Mapping
 Service --> Controller --: Department
 Controller -> Assembler ++: assemble to DepartmentDTO
 Assembler --> Controller --: DepartmentDTO
-Controller --> UI --: HTTP response + DepartmentDTO
+Controller -> HAAssembler ++: assemble to DepartmentHateoasDTO
+HAAssembler --> Controller --: DepartmentHateoasDTO
+Controller --> UI --: HTTP response + \nDepartmentHateoasDTO
 UI --> ADM --: Success message
 end group
 

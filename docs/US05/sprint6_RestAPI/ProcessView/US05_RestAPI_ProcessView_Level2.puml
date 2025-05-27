@@ -13,15 +13,13 @@ participant "Backend" as BE
 database DB
 
 ADM -> FE ++: Request to register Department
-FE --> ADM --: Request acronym
-ADM -> FE ++: Enter acronym
-FE --> ADM --: Request name
-ADM -> FE ++: Enter name
+FE --> ADM --: Request name, acronym
+ADM -> FE ++: Enter name, acronym
 
-FE -> BE ++: (POST) Register Department
+FE -> BE ++: HTTP Request \n(POST) /departments
 BE -> DB ++: Persist instance of department created
-DB --> BE --: Registry confirmed
-BE --> FE --: (200 OK) Registration successful
-FE --> ADM --: registered department successfully
+DB --> BE --: Registration confirmed
+BE --> FE --: HTTP Response
+FE --> ADM --: Registered department successfully
 
 @enduml
