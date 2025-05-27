@@ -51,7 +51,7 @@ class TeacherCategoryExternalAssemblerImplTest {
         assertEquals("Teacher Category DTO cannot be null.", exception.getMessage());
     }
 
-    //testing method toVO
+    //testing method toNameVO
 
     @Test
     void shouldReturnANameVO() {
@@ -62,7 +62,7 @@ class TeacherCategoryExternalAssemblerImplTest {
         TeacherCategoryExternalAssemblerImpl teacherCategoryAssembler = new TeacherCategoryExternalAssemblerImpl();
 
         //act
-        Name result = teacherCategoryAssembler.toVO(doublleTeacherCategoryRequestDTO);
+        Name result = teacherCategoryAssembler.toNameVO(doublleTeacherCategoryRequestDTO);
 
         //assert
         assertNotNull(result);
@@ -75,12 +75,46 @@ class TeacherCategoryExternalAssemblerImplTest {
 
         // act
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            teacherCategoryAssembler.toVO(null);
+            teacherCategoryAssembler.toNameVO(null);
         });
 
         // assert
-        assertEquals("Teacher Category Request DTO cannot be null", exception.getMessage());
+        assertEquals("Teacher Category Request DTO cannot be null.", exception.getMessage());
     }
+
+    // testing toTeacherCategoryIDVO method
+
+    @Test
+    void shouldReturnATeacherCategoryID (){
+        //arrange
+        TeacherCategoryExternalAssemblerImpl teacherCategoryAssembler = new TeacherCategoryExternalAssemblerImpl();
+        String id = "123e4567-e89b-12d3-a456-426614174000";
+        UUID uuid = UUID.fromString(id);
+
+        TeacherCategoryID doubleTeacherCategoryID = mock(TeacherCategoryID.class);
+        when(doubleTeacherCategoryID.getValue()).thenReturn(uuid);
+
+        //act
+        TeacherCategoryID result = teacherCategoryAssembler.toTeacherCategoryIDVO(id);
+
+        //assert
+        assertEquals(result.getValue().toString(), id);
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfInputIsNull (){
+        // arrange
+        TeacherCategoryExternalAssemblerImpl teacherCategoryAssembler = new TeacherCategoryExternalAssemblerImpl();
+
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            teacherCategoryAssembler.toTeacherCategoryIDVO(null);
+        });
+
+        // assert
+        assertEquals("Teacher Category ID cannot be null.", exception.getMessage());
+    }
+
 //
 //    @Test
 //    void shouldConvertListOfTeachersToDTOs(){

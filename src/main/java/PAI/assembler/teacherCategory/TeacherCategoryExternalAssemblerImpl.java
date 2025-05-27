@@ -1,6 +1,7 @@
 package PAI.assembler.teacherCategory;
 
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class TeacherCategoryExternalAssemblerImpl implements ITeacherCategoryExternalAssembler {
@@ -27,13 +29,22 @@ public class TeacherCategoryExternalAssemblerImpl implements ITeacherCategoryExt
     }
 
     @Override
-    public Name toVO(TeacherCategoryRequestDTO teacherCategoryRequestDTO) {
+    public Name toNameVO(TeacherCategoryRequestDTO teacherCategoryRequestDTO) {
 
         if (teacherCategoryRequestDTO == null) {
-            throw new IllegalArgumentException("Teacher Category Request DTO cannot be null");
+            throw new IllegalArgumentException("Teacher Category Request DTO cannot be null.");
         }
 
         return new Name (teacherCategoryRequestDTO.name());
+    }
+
+    @Override
+    public TeacherCategoryID toTeacherCategoryIDVO(String id) {
+        if (id == null){
+            throw new IllegalArgumentException("Teacher Category ID cannot be null.");
+        }
+
+        return new TeacherCategoryID(UUID.fromString(id));
     }
 
     @Override

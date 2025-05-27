@@ -1,7 +1,10 @@
 package PAI.controllerRest;
 
 import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.assembler.teacherCategory.ITeacherCategoryExternalAssembler;
+import PAI.assembler.teacherCategory.ITeacherCategoryHateoasAssembler;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
@@ -20,11 +23,15 @@ public class TeacherCategoryRestController {
 
     public final ITeacherCategoryExternalAssembler teacherCategoryAssembler;
 
-    public TeacherCategoryRestController(ITeacherCategoryService teacherCategoryService,
-                                         ITeacherCategoryExternalAssembler teacherCategoryAssembler) {
+    public final ITeacherCategoryHateoasAssembler teacherCategoryHateoasAssembler;
 
-        this.teacherCategoryService = ValidationUtils.validateNotNull(teacherCategoryService, "Teacher Category Service Interface");;
-        this.teacherCategoryAssembler = ValidationUtils.validateNotNull(teacherCategoryAssembler, "Teacher Category Assembler Interface");;
+    public TeacherCategoryRestController(ITeacherCategoryService teacherCategoryService,
+                                         ITeacherCategoryExternalAssembler teacherCategoryAssembler,
+                                         ITeacherCategoryHateoasAssembler teacherCategoryHateoasAssembler) {
+
+        this.teacherCategoryService = ValidationUtils.validateNotNull(teacherCategoryService, "Teacher Category Service Interface");
+        this.teacherCategoryAssembler = ValidationUtils.validateNotNull(teacherCategoryAssembler, "Teacher Category Assembler Interface");
+        this.teacherCategoryHateoasAssembler = ValidationUtils.validateNotNull(teacherCategoryHateoasAssembler, "Teacher Category Hateoas Assembler Interface");
     }
 
     @PostMapping
@@ -32,7 +39,7 @@ public class TeacherCategoryRestController {
     public ResponseEntity<Object> configureTeacherCategory
             (@Valid @RequestBody TeacherCategoryRequestDTO teacherCategoryRequestDTO) throws Exception {
 
-            Name nameVO = teacherCategoryAssembler.toVO(teacherCategoryRequestDTO);
+            Name nameVO = teacherCategoryAssembler.toNameVO(teacherCategoryRequestDTO);
 
             TeacherCategoryDTO teacherCategoryDTO =
                     teacherCategoryService.configureTeacherCategory(nameVO);
@@ -40,6 +47,18 @@ public class TeacherCategoryRestController {
             TeacherCategoryResponseDTO teacherCategoryResponseDTO =
                     teacherCategoryAssembler.toResponseDTO(teacherCategoryDTO);
 
-            return new ResponseEntity<>(teacherCategoryResponseDTO,HttpStatus.CREATED);
+            return new ResponseEntity<>(teacherCategoryHateoasAssembler.toModel(teacherCategoryResponseDTO),HttpStatus.CREATED);
+    }
+
+    @GetMapping ("/{id}")
+    public ResponseEntity<Object> getTeacherCategoryById (@PathVariable("id") String id) throws Exception {
+
+        TeacherCategoryID teacherCategoryID = teacherCategoryAssembler.toTeacherCategoryIDVO(id);
+
+        TeacherCategoryDTO teacherCategoryDTO = teacherCategoryService.getTeacherCategoryByID(teacherCategoryID);
+
+        TeacherCategoryResponseDTO teacherCategoryResponseDTO = teacherCategoryAssembler.toResponseDTO(teacherCategoryDTO);
+
+        return ResponseEntity.ok(teacherCategoryResponseDTO);
     }
 }
