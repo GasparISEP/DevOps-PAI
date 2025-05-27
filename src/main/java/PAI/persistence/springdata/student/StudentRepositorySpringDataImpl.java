@@ -100,6 +100,15 @@ public class StudentRepositorySpringDataImpl implements IStudentRepository {
                 || studentRepositorySpringData.existsByNIF_NifNumberAndNIF_NifCountry(nifNumber, nifCountry);
     }
 
+    @Override
+    public int lastStudentID() {
+        Integer last = studentRepositorySpringData.lastStudentID();
+        if(last == 0 ) return 1000000;
+        return last;
+    }
+
+
+
 }
 
 

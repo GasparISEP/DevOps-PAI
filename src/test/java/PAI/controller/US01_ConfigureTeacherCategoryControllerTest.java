@@ -1,7 +1,7 @@
 package PAI.controller;
 
 import PAI.VOs.Name;
-import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.service.teacherCategory.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,9 +32,9 @@ public class US01_ConfigureTeacherCategoryControllerTest {
         Name doubleName = mock (Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
 
-        TeacherCategory doubleTeacherCategory = mock (TeacherCategory.class);
+        TeacherCategoryDTO doubleTeacherCategoryDTO = mock (TeacherCategoryDTO.class);
 
-        when(service.configureTeacherCategory(doubleName)).thenReturn(doubleTeacherCategory);
+        when(service.configureTeacherCategory(doubleName)).thenReturn(doubleTeacherCategoryDTO);
 
         //Act
         boolean result = controller.configureTeacherCategory(doubleName);

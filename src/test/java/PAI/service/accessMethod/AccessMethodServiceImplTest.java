@@ -1,11 +1,11 @@
 package PAI.service.accessMethod;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
+import PAI.assembler.accessMethod.IAccessMethodServiceAssembler;
 import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
-import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.exception.BusinessRuleViolationException;
@@ -26,10 +26,10 @@ class AccessMethodServiceImplTest {
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
         // act
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
-                iRepositoryAccessMethod, iAccessMethodAssembler);
+                iRepositoryAccessMethod, iAccessMethodServiceAssembler);
         // assert
         assertNotNull(accessMethodServiceImpl);
     }
@@ -38,10 +38,12 @@ class AccessMethodServiceImplTest {
     void shouldNotReturnAccessMethodServiceImplIfRepositoryAccessMethodIsNull(){
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
+
+
         // act & assert
         assertThrows(IllegalArgumentException.class, ()->{
-            new AccessMethodServiceImpl(iAccessMethodFactory, null, iAccessMethodAssembler);
+            new AccessMethodServiceImpl(iAccessMethodFactory, null, iAccessMethodServiceAssembler);
         });
     }
 
@@ -49,10 +51,11 @@ class AccessMethodServiceImplTest {
     void shouldNotReturnAccessMethodServiceImplIfAccessMethodFactoryIsNull(){
         // arrange
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
+
         // act & assert
         assertThrows(IllegalArgumentException.class, ()->{
-            new AccessMethodServiceImpl(null, iRepositoryAccessMethod, iAccessMethodAssembler);
+            new AccessMethodServiceImpl(null, iRepositoryAccessMethod, iAccessMethodServiceAssembler);
         });
     }
 
@@ -61,9 +64,10 @@ class AccessMethodServiceImplTest {
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
+        // act
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
-                iRepositoryAccessMethod, iAccessMethodAssembler);
+                iRepositoryAccessMethod, iAccessMethodServiceAssembler);
         String accessMethodName = "M23";
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
         RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(vo);
@@ -80,7 +84,7 @@ class AccessMethodServiceImplTest {
         when(iRepositoryAccessMethod.saveAccessMethod(eq(accessMethod)))
                 .thenReturn(Optional.of(accessMethod));
 
-        when(iAccessMethodAssembler.toDto(eq(accessMethod)))
+        when(iAccessMethodServiceAssembler.toDTO(eq(accessMethod)))
                 .thenReturn(expectedDto);
 
         // act
@@ -95,9 +99,9 @@ class AccessMethodServiceImplTest {
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
-                iRepositoryAccessMethod, iAccessMethodAssembler);
+                iRepositoryAccessMethod, iAccessMethodServiceAssembler);
         String accessMethodName = "M23";
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
         RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(vo);
@@ -121,9 +125,9 @@ class AccessMethodServiceImplTest {
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
-        IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
+        IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
-                iRepositoryAccessMethod, iAccessMethodAssembler);
+                iRepositoryAccessMethod, iAccessMethodServiceAssembler);
 
         String accessMethodName = "M23";
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
@@ -151,6 +155,6 @@ class AccessMethodServiceImplTest {
             new AccessMethodServiceImpl(factoryMock, repositoryMock, null);
         });
 
-        assertEquals("AccessMethodAssembler cannot be null.", thrown.getMessage());
+        assertEquals("AccessMethodServiceAssembler cannot be null.", thrown.getMessage());
     }
 }

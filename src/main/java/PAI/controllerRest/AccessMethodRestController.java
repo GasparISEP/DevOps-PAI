@@ -1,6 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
@@ -22,9 +22,9 @@ import static PAI.utils.ValidationUtils.validateNotNull;
 public class AccessMethodRestController {
 
     private final IAccessMethodService accessMethodService;
-    private final IAccessMethodAssembler assembler;
+    private final IAccessMethodControllerAssembler assembler;
 
-    public AccessMethodRestController(IAccessMethodService accessMethodService, IAccessMethodAssembler assembler) {
+    public AccessMethodRestController(IAccessMethodService accessMethodService, IAccessMethodControllerAssembler assembler) {
         this.accessMethodService = validateNotNull(accessMethodService, "AccessMethodService");
         this.assembler = validateNotNull(assembler, "AccessMethodAssembler");
     }
@@ -36,7 +36,7 @@ public class AccessMethodRestController {
         AccessMethodResponseDTO responseDTO = assembler.toResponseDto(serviceDTO);
 
         if (responseDTO == null) {
-            return ResponseEntity.badRequest().build(); // <- importante
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
