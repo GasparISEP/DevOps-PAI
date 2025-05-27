@@ -14,8 +14,9 @@ const NavBar = () => {
       <nav className="navbar">
 
         <div className="logo-div">
-          <img className="logo-img" src={logoImage} alt="ISEP logo"/>
+          <Link to="/"><img className="logo-img" src={logoImage} alt="ISEP logo"/></Link>
         </div>
+
         <ul className="navbar-links-list-div">
           <li className="navbar-dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <span className="navbar-link" tabIndex={0}>

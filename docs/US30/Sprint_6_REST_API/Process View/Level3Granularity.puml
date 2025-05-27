@@ -22,23 +22,28 @@ activate restController #E1F5FE
 
 ref over restController
     Convert addCourseToProgrammeRequestDTO
-    to addCourseToProgrammeServiceDTO
+    to addCourseToProgrammeCommand
 end
 
-restController -> service: addCourseToProgramme (serviceDTO)
+restController -> service: addCourseToProgramme (command)
 activate service #E1F5FE
 
-service -> domain: addCourseToProgramme(serviceDTO)
+service -> domain: addCourseToProgramme(command)
 activate domain #E1F5FE
 
-domain -> service: courseInStudyPlan(serviceDTO)
+domain --> service: courseInStudyPlan
 deactivate domain
 
-service --> repository: save(courseInStudyPlanServiceDTO)
+service -> repository: save(courseInStudyPlan)
 activate repository #E1F5FE
 
-repository --> service: courseInStudyPlan(serviceDTO)
+repository --> service: courseInStudyPlan
 deactivate repository
+
+ref over service
+    Convert courseInStudyPlan
+    to courseInStudyPlanServiceDTO
+end
 
 ref over restController
     Convert courseInStudyPlanServiceDTO
