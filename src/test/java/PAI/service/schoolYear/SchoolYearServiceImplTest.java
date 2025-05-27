@@ -3,18 +3,13 @@ package PAI.service.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-import PAI.domain.department.Department;
-import PAI.domain.department.IDepartmentFactory;
-import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.domain.schoolYear.SchoolYear;
-import PAI.domain.schoolYear.ISchoolYearFactory;
-import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
-import PAI.service.department.DepartmentRegistrationServiceImpl;
-import PAI.service.department.IDepartmentRegistrationService;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,7 +18,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class SchoolYearServiceImplTest {
 
@@ -436,13 +432,13 @@ class SchoolYearServiceImplTest {
         ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
         SchoolYear schoolYear1 = mock(SchoolYear.class);
-        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
+        CurrentSchoolYearDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearDTO.class);
 
         when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.of(schoolYear1));
         when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear1)).thenReturn(currentSchoolYearResponseDTO);
 
         //act
-        Optional<CurrentSchoolYearResponseDTO> result = service.getCurrentSchoolYear();
+        Optional<CurrentSchoolYearDTO> result = service.getCurrentSchoolYear();
 
         //assert
         assertTrue(result.isPresent());
@@ -456,13 +452,13 @@ class SchoolYearServiceImplTest {
         ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
         SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactory,schoolYearMapperDTO);
         SchoolYear schoolYear1 = mock(SchoolYear.class);
-        CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
+        CurrentSchoolYearDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearDTO.class);
 
         when(schoolYearRepository.getCurrentSchoolYear()).thenReturn(Optional.empty());
         when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear1)).thenReturn(currentSchoolYearResponseDTO);
 
         //act
-        Optional<CurrentSchoolYearResponseDTO> result = service.getCurrentSchoolYear();
+        Optional<CurrentSchoolYearDTO> result = service.getCurrentSchoolYear();
 
         //assert
         assertFalse(result.isPresent());

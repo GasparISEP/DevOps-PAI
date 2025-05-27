@@ -1,12 +1,10 @@
 package PAI.controllerRest;
 
-import PAI.VOs.*;
 import PAI.VOs.Date;
+import PAI.VOs.Description;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.service.schoolYear.ISchoolYearService;
@@ -14,11 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 class SchoolYearRestControllerTest {
 
@@ -204,9 +203,10 @@ class SchoolYearRestControllerTest {
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
         SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        CurrentSchoolYearDTO currentSchoolYearDTO = mock(CurrentSchoolYearDTO.class);
         CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
-
-        when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.of(currentSchoolYearResponseDTO));
+        when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.of(currentSchoolYearDTO));
+        when(iSYMapperDTO.toResponseDTO(currentSchoolYearDTO)).thenReturn(currentSchoolYearResponseDTO);
 
         // Act
         ResponseEntity<?> response = syRestController.getCurrentSchoolYear();
