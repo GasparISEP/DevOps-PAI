@@ -8,24 +8,26 @@ import org.springframework.context.annotation.Profile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.file.Path;
 
 @Configuration
 @Profile("studyPlan")
 public class StudyPlanInitializer {
 
+    private static final String csv_file = "src/main/resources/StudyPlan_Data.csv";
+
     @Bean
     public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller) {
         return (args) -> {
-            loadStudents(controller);
+            loadStudyPlan(controller, Path.of(csv_file));
         };
     }
 
-    private void loadStudents(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller) {
-        String csvFile = "src/main/resources/StudyPlan_Data.csv";
+    public void loadStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller, Path csvFilePath) {
 
         long startTime = System.currentTimeMillis();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(csvFilePath)))) {
             String line;
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
