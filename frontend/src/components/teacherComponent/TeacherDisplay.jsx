@@ -62,7 +62,17 @@ export default function TeacherDisplay() {
         setCurrentPage(1); // Reset to first page when teachersPerPage changes
     }, [teachersPerPage]);
 
-    if (loading) return <div>Loading teachers...</div>;
+    if (loading) return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '60vh',
+            width: '100%'
+        }}>
+            <div className="loader"></div>
+        </div>
+    );
     if (error) return <div>{error}</div>;
 
     function PaginationButton({ onClick, disabled, children }) {
