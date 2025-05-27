@@ -38,6 +38,7 @@ class RegisterAccessMethodCommand <<Record>>{
 interface IAccessMethodAssembler {
     + toCommand(dto: AccessMethodRequestDTO): RegisterAccessMethodCommand
     + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+    + toRequestDTO(accessMethodServiceDTO: AccessMethodServiceDTO): AccessMethodRequestDTO
 }
 class AccessMethodAssemblerImpl {
     + toCommand(dto: AccessMethodRequestDTO): RegisterAccessMethodCommand
@@ -47,27 +48,16 @@ class AccessMethodAssemblerImpl {
 
 '===== SERVICE =======
 interface IAccessMethodService {
-   + configureAccessMethod(command: RegisterAccessMethodCommand): ServiceResponse<AccessMethodResponseDTO>
+   + configureAccessMethod(command: RegisterAccessMethodCommand): AccessMethodServiceDTO
 
 }
 
 class AccessMethodServiceImpl #lightGreen {
     + AccessMethodServiceImpl (accessMethodFactory:IAccessMethodFactory,\n accessMethodRepository: IAccessMethodRepository)
-    + configureAccessMethod(command: RegisterAccessMethodCommand): ServiceResponse<AccessMethodResponseDTO>
+    + configureAccessMethod(command: RegisterAccessMethodCommand): AccessMethodResponseDTO
 
 }
 
-'=== SERVICE RESPONSE ===
-class ServiceResponse <<Generic>> #lightGreen {
-    - success: boolean
-    - object: T
-    - messages: List<String>
-    + isSuccess(): boolean
-    + getObject(): T
-    + getMessages(): List<String>
-    + success(T, message: String): ServiceResponse<T>
-    + failure(message: String): ServiceResponse<T>
-}
 
 ' ======= FACTORY =======
 interface IAccessMethodFactory #lightYellow{
@@ -191,7 +181,5 @@ IAccessMethodAssembler "1" ..> "1" AccessMethodResponseDTO
 AccessMethodDataModel "1" -u-> "1" AccessMethodIDDataModel
 IAccessMethodIDMapper "1" ..> "1" AccessMethodIDDataModel
 
-IAccessMethodService "1" --> "1" ServiceResponse
-AccessMethodServiceImpl "1" --> "1" ServiceResponse
 
 @enduml
