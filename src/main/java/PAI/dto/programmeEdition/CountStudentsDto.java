@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record CountStudentsInProgrammeEditionDto(
+public record CountStudentsDto(
         @NotBlank(message = "Programme name cannot be Blank") String programmeName,
 
         @NotBlank(message = "Programme acronym cannot be Blank") String programmeAcronym,
