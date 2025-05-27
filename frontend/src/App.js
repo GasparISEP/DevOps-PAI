@@ -6,7 +6,9 @@ import './styles/RegisterStudentPage.css'
 import RegisterProgrammePage from "./pages/RegisterProgrammePage";
 import './styles/RegisterProgrammePage.css'
 import RegisterTeacherPage from "./pages/teacherPage/RegisterTeacherPage";
-import TeacherDisplay from './components/teacherComponent/TeacherDisplay';
+import './styles/RegisterTeacherPage.css'
+import DisplayTeacherPage from "./pages/teacherPage/DisplayTeacherPage";
+import './styles/DisplayTeacherPage.css'
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
                   {/* Teacher Registration Form */}
                   <Route path="/teachers/register" element={<RegisterTeacherPage />} />
                   {/* Teacher Display */}
-                  <Route path="/teachers/all" element={<TeacherDisplay />} />
+                  <Route path="/teachers/display" element={<DisplayTeacherPage />} />
 
                   {/* Formulário de estudantes */}
                   <Route

@@ -28,7 +28,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/teachers/all" className="navbar-link" onClick={() => setIsOpen(false)}>
+                <Link to="/teachers/display" className="navbar-link" onClick={() => setIsOpen(false)}>
                   <i className="fas fa-users"></i> Display Teachers
                 </Link>
               </li>
