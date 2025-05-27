@@ -121,9 +121,15 @@ export default function ProgrammeForm() {
 
                             <div className="programme-form-group">
                                 <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type</label>
-                                <select className="programme-form-input" id="degreeTypeID" name="degreeTypeID"
-                                        value={form.degreeTypeID} onChange={handleChange} required>
-                                    <option value="">Select Degree Type</option>
+                                <select
+                                    className="programme-form-input"
+                                    id="degreeTypeID"
+                                    name="degreeTypeID"
+                                    value={form.degreeTypeID}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="" disabled hidden>Select Degree Type</option>
                                     {degreeTypes.map(d => (
                                         <option key={d.id} value={d.id}>{d.name}</option>
                                     ))}
@@ -134,7 +140,7 @@ export default function ProgrammeForm() {
                                 <label className="programme-form-label" htmlFor="departmentID">Department</label>
                                 <select className="programme-form-input" id="departmentID" name="departmentID"
                                         value={form.departmentID} onChange={handleChange} required>
-                                    <option value="">Select Department</option>
+                                    <option value="" disabled hidden>Select Department</option>
                                     {departments.map(d => (
                                         <option key={d.id} value={d.id}>
                                             {d.name} ({d.acronym})
@@ -147,7 +153,7 @@ export default function ProgrammeForm() {
                                 <label className="programme-form-label" htmlFor="teacherID">Programme's Director</label>
                                 <select className="programme-form-input" id="teacherID" name="teacherID"
                                         value={form.teacherID} onChange={handleChange} required>
-                                    <option value="">Select Teacher</option>
+                                    <option value="" disabled hidden>Select Teacher</option>
                                     {teachers.map(t => (
                                         <option key={t.id} value={t.id}>
                                             {t.name}
