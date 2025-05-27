@@ -5,6 +5,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.springframework.stereotype.Component;
 
@@ -85,5 +86,15 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
         SchoolYearIDRequestDTO schoolYearIDRequestDTO = new SchoolYearIDRequestDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
+    }
+
+    @Override
+    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
+        if (programmeEditionIdDto == null) {
+            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
+        }
+        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(programmeEditionIdDto.programmeName()), new Acronym(programmeEditionIdDto.programmeAcronym()));
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
+        return new ProgrammeEditionID(programmeID, schoolYearID);
     }
 }
