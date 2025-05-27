@@ -123,6 +123,7 @@ public class CourseEditionRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+
     }
 
     @GetMapping("/programmeditions")
