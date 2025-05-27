@@ -2,6 +2,7 @@ package PAI.assembler.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
+import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
 import PAI.dto.teacherCategory.TeacherCategoryResponseDTO;
@@ -114,6 +115,39 @@ class TeacherCategoryExternalAssemblerImplTest {
         // assert
         assertEquals("Teacher Category ID cannot be null.", exception.getMessage());
     }
+
+    @Test
+    void shouldReturnATeacherCareerResponseDTO(){
+        //arrange
+        TeacherCategoryExternalAssemblerImpl assembler = new TeacherCategoryExternalAssemblerImpl();
+        TeacherCategory teacherCategory = mock(TeacherCategory.class);
+        Name teacherCategoryName = mock(Name.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+
+        when(teacherCategory.getName()).thenReturn(teacherCategoryName);
+        when(teacherCategoryName.getName()).thenReturn("Assistant Professor");
+
+        when(teacherCategory.identity()).thenReturn(teacherCategoryID);
+        when(teacherCategoryID.toString()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
+
+        //act
+        TeacherCategoryResponseDTO result = assembler.fromDomainToDTO(teacherCategory);
+
+        //assert
+        assertNotNull(result);
+        assertEquals("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85", result.name());
+        assertEquals("Assistant Professor", result.id());
+    }
+
+    @Test
+    void shouldReturnExceptionWhenTeacherCategoryIsNull(){
+        //arrange
+        TeacherCategoryExternalAssemblerImpl assembler = new TeacherCategoryExternalAssemblerImpl();
+        //assert
+        assertThrows(IllegalArgumentException.class, () -> assembler.fromDomainToDTO(null));
+    }
+
+
 
 //
 //    @Test

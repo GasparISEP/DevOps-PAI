@@ -15,5 +15,7 @@ public interface ITeacherCategoryExternalAssembler {
 
     TeacherCategoryID toTeacherCategoryIDVO(String id);
 
+    TeacherCategoryResponseDTO fromDomainToDTO(TeacherCategory teacherCategory);
+
     Iterable<TeacherCategoryResponseDTO> toDTOs(Iterable<TeacherCategory> teacherCategories);
 }
