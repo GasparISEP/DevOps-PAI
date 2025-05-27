@@ -7,6 +7,7 @@ import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.exception.AlreadyRegisteredException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

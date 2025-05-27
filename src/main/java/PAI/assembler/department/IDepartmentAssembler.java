@@ -4,12 +4,12 @@ import PAI.VOs.TeacherAcronym;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.dto.department.RegisterDepartmentRequest;
 
 public interface IDepartmentAssembler {
 
-    RegisterDepartmentCommand toRegisterDepartmentCommand(RegisterDepartmentRequest registerDepartmentRequest);
+    RegisterDepartmentRequestVOs toRegisterDepartmentRequestVOs(RegisterDepartmentRequest registerDepartmentRequest);
 
     DepartmentDTO toDTO(Department department);
 

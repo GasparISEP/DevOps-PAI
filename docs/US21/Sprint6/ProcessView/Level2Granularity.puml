@@ -4,15 +4,19 @@ title US21: As an ASC, I want to get the number of students enrolled in a progra
 autonumber
 
 actor ASC #lightblue
-participant Frontend as "Frontend\n<<Component>>" #lightblue
-participant Backend as "Backend\n<<Component>>" #lightgreen
-dataBase  DB as "DataBase\n<<Component>>" #lightyellow
+participant Frontend as "Frontend\n<<Container>>" #lightblue
+participant Backend as "Backend\n<<Container>>" #lightgreen
+dataBase  DB as "DataBase\n<<Container>>" #lightyellow
 ASC -> Frontend: I want to get the number of students in a programme edition!
-Frontend -> ASC: Which Programme Edition?
+Frontend -> Backend: (GET)getAllProgrammeEditions()
+Backend -> DB: (SELECT) AllProgrammeEditions
+DB --> Backend : All programme Editions
+Backend --> Frontend: Iterable<ProgrammeEditions>programmeEdiitons
+Frontend --> ASC: Which Programme Edition?
 ASC -> Frontend: Enter Programme Edition!
-Frontend -> ASC:This programme Edition?
+Frontend --> ASC:This programme Edition?
 ASC -> Frontend:Yes!
-Frontend ->Backend:(get) The number of students in a programme edition(ProgrammeEditionID)
+Frontend ->Backend:(GET) The number of students in a programme edition(ProgrammeEditionID)
 Backend -> DB:(SELECT) findAll ProgrammeEditionEnrolments(ProgrammeEditionID)
 DB-->Backend:List <ProgrammeEditionEnrolment>
 Backend--> Frontend:int

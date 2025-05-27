@@ -1,17 +1,11 @@
 package PAI.service.department;
 
-import PAI.VOs.DepartmentAcronym;
-import PAI.VOs.Name;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class DepartmentRegistrationServiceImpl implements IDepartmentRegistrationService {
@@ -29,7 +23,7 @@ public class DepartmentRegistrationServiceImpl implements IDepartmentRegistratio
 
 
     @Override
-    public Department createAndSaveDepartment(RegisterDepartmentCommand requestCommand) throws Exception {
+    public Department createAndSaveDepartment(RegisterDepartmentRequestVOs requestCommand) throws Exception {
     if (requestCommand.acronym() == null || requestCommand.name() == null) {
             throw new IllegalArgumentException("Acronym and name cannot be null");
         }

@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.8rem;
+  gap: 3.2rem;
   list-style: none;
 }
 
@@ -109,3 +109,16 @@
 .navbar-dropdown-menu li:hover {
   background-color: #f0f0f0;
 }
+
+.navbar-link i {
+  color: #fff;
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.navbar-link:hover i {
+  color: #9a1a24;
+  opacity: 100%;
+}
+
+

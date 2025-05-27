@@ -9,9 +9,8 @@ import PAI.domain.course.Course;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.dto.department.RegisterDepartmentRequest;
-import PAI.persistence.datamodel.course.CourseDataModel;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +19,14 @@ import java.util.Collections;
 public class DepartmentAssemblerImpl implements IDepartmentAssembler {
 
     @Override
-    public RegisterDepartmentCommand toRegisterDepartmentCommand(RegisterDepartmentRequest registerDepartmentRequest) {
+    public RegisterDepartmentRequestVOs toRegisterDepartmentRequestVOs(RegisterDepartmentRequest registerDepartmentRequest) {
         if (registerDepartmentRequest == null) {
             throw new IllegalArgumentException("RegisterDepartmentRequest cannot be null");
         }
         Name name = new Name(registerDepartmentRequest.name());
         DepartmentAcronym acronym = new DepartmentAcronym(registerDepartmentRequest.acronym());
 
-        return new RegisterDepartmentCommand(name, acronym);
+        return new RegisterDepartmentRequestVOs(name, acronym);
     }
 
     @Override

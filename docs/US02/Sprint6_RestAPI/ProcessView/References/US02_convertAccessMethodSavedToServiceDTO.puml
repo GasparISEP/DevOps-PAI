@@ -1,0 +1,28 @@
+@startuml
+
+title Convert Access Method Saved to ServiceDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":IAccessMethodService" as Service
+participant ":IAccessMethodServiceAssembler" as amServiceAssembler
+activate Service #lightBlue
+
+Service -> amServiceAssembler: toDTO(accessMethod)
+activate amServiceAssembler #lightBlue
+
+create "amServiceDTO: AccessMethodServiceDTO"
+amServiceAssembler -> "amServiceDTO: AccessMethodServiceDTO": create(accessMethod.identity().toString, \n accessMethod.getName().getnameWithNumbersAndSpecialChars())
+
+amServiceAssembler --> Service: amServiceDTO
+deactivate amServiceAssembler
+deactivate Service
+
+@enduml

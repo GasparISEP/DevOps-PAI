@@ -136,7 +136,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldSendBadResponseIfProgrammeRequestDTOIsNull() {
+    void shouldSendBadResponseIfProgrammeRequestDTOIsNull() throws Exception {
         //Arrange
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
