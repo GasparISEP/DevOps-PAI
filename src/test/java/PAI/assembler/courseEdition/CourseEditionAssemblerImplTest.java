@@ -1,12 +1,10 @@
 package PAI.assembler.courseEdition;
-
 import PAI.VOs.*;
-import PAI.assembler.accessMethod.AccessMethodAssemblerImpl;
-import PAI.assembler.teacher.TeacherAssemblerImpl;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -177,5 +175,48 @@ class CourseEditionAssemblerImplTest {
         assertEquals(courseAcronym, dto.courseAcronym());
         assertEquals(courseName, dto.courseName());
         assertEquals(studyPlanDate, dto.studyPlanImplementationDate());
+    }
+
+    @Test
+    void shouldReturnCorrectTeacherID() {
+        // arrange
+        String teacherAcronym = "AMG";
+        // act
+        TeacherID teacherID = assembler.createTeacherID(teacherAcronym);
+        // assert
+        assertNotNull(teacherID);
+    }
+
+    @Test
+    void fromDtoToCourseEditionIdShouldReturnValidCourseEditionID() throws Exception {
+        // arrange
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "Software Engineering",
+                "SE",
+                UUID.randomUUID(),
+                "CS101",
+                "Intro to Programming",
+                LocalDate.of(2023, 9, 1)
+        );
+        // act
+        CourseEditionID courseEditionID = assembler.fromDtoToCourseEditionID(dto);
+
+        // assert
+        assertNotNull(courseEditionID);
+        assertNotNull(courseEditionID.getProgrammeEditionID());
+        assertNotNull(courseEditionID.getCourseInStudyPlanID());
+
+        assertEquals("SE", courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeAcronym());
+        assertEquals("CS101", courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseAcronymValue());
+        assertEquals("Intro to Programming", courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue());
+    }
+
+    @Test
+    void fromDtoToCourseEditionIDShouldThrowExceptionWhenFieldsAreInvalid() {
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "", "", null, "", "", null
+        );
+        // act & assert
+        assertThrows(Exception.class, () -> assembler.fromDtoToCourseEditionID(dto));
     }
 }
