@@ -1,12 +1,14 @@
 package PAI.controllerRest;
-
+import PAI.VOs.TeacherAcronym;
+import PAI.dto.department.DepartmentWithDirectorDTO;
+import PAI.dto.department.DepartmentWithDirectorRequest;
+import PAI.VOs.DepartmentID;
+import PAI.VOs.TeacherID;
+import PAI.dto.department.*;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.assembler.department.IDepartmentAssembler;
 import PAI.domain.department.Department;
-import PAI.dto.department.DepartmentDTO;
-import PAI.dto.department.RegisterDepartmentRequestVOs;
-import PAI.dto.department.RegisterDepartmentRequest;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.department.IDepartmentRegistrationService;
 import PAI.service.department.IUpdateDepartmentDirectorService;
@@ -18,10 +20,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -240,4 +245,87 @@ class DepartmentRestControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
         assertEquals("Unexpected error occurred", response.getBody());
     }
+    @Test
+    void shouldReturn200WhenDirectorUpdatedSuccessfully() throws Exception {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+        IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
+
+        DepartmentRestController departmentRestController =
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService);
+
+        // Arrange Request
+        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
+        when(request.name()).thenReturn("Department of Engineering and Informatics");
+        when(request.acronym()).thenReturn("DEI");
+        when(request.teacherID()).thenReturn("MAF");
+
+        // Arrange Command
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        TeacherAcronym teacherAcronym = new TeacherAcronym("MAF");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+        String teacherAcronymString = teacherAcronym.getAcronym();
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
+
+        // Arrange Assembler
+        when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
+        when(command.acronym()).thenReturn(departmentAcronym);
+        when(command.director()).thenReturn(teacherID);
+
+        DepartmentWithDirectorDTO expectedDTO = new DepartmentWithDirectorDTO(
+                "DEI",
+                "Department of Engineering and Informatics",
+                "DEI",
+                teacherAcronymString  // aqui já é String
+        );
+
+        // Arrange Service
+        when(updateDepartmentDirectorService.updateDirector(eq(departmentID), eq(teacherID)))
+                .thenReturn(expectedDTO);
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.updateDepartmentDirector(request);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedDTO, response.getBody());
+    }
+    @Test
+    void shouldReturn400WhenIllegalArgumentExceptionIsThrown() throws Exception {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+        IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
+
+        DepartmentRestController controller =
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService);
+
+        // Arrange Request
+        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
+        when(request.acronym()).thenReturn("DEI");
+        when(request.teacherID()).thenReturn("MAF");
+
+        // Arrange command
+        DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
+        DepartmentAcronym acronym = new DepartmentAcronym("DEI");
+        TeacherID teacherID = new TeacherID(new TeacherAcronym("MAF"));
+
+        when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
+        when(command.acronym()).thenReturn(acronym);
+        when(command.director()).thenReturn(teacherID);
+
+        // Arrange service
+        when(updateDepartmentDirectorService.updateDirector(any(DepartmentID.class), eq(teacherID)))
+                .thenThrow(new IllegalArgumentException("Invalid department ID"));
+
+        // Act
+        ResponseEntity<?> response = controller.updateDepartmentDirector(request);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid department ID", response.getBody());
+    }
+
 }
