@@ -1,7 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
@@ -21,7 +21,7 @@ class AccessMethodRestControllerTest {
     @Test
     void shouldCreateAccessMethodRestController() {
         IAccessMethodService serviceMock = mock(IAccessMethodService.class);
-        IAccessMethodAssembler assemblerMock = mock(IAccessMethodAssembler.class);
+        IAccessMethodControllerAssembler assemblerMock = mock(IAccessMethodControllerAssembler.class);
 
         AccessMethodRestController controller = new AccessMethodRestController(serviceMock, assemblerMock);
 
@@ -32,7 +32,7 @@ class AccessMethodRestControllerTest {
     void shouldReturnCreatedWhenAccessMethodConfiguredSuccessfully() {
         // Arrange
         IAccessMethodService serviceMock = mock(IAccessMethodService.class);
-        IAccessMethodAssembler assemblerMock = mock(IAccessMethodAssembler.class);
+        IAccessMethodControllerAssembler assemblerMock = mock(IAccessMethodControllerAssembler.class);
         AccessMethodRestController controller = new AccessMethodRestController(serviceMock, assemblerMock);
 
         String name = "Test Access Method";
@@ -59,7 +59,7 @@ class AccessMethodRestControllerTest {
     void shouldReturnBadRequestWhenAccessMethodConfigurationFails() {
         // Arrange
         IAccessMethodService serviceMock = mock(IAccessMethodService.class);
-        IAccessMethodAssembler assemblerMock = mock(IAccessMethodAssembler.class);
+        IAccessMethodControllerAssembler assemblerMock = mock(IAccessMethodControllerAssembler.class);
         AccessMethodRestController controller = new AccessMethodRestController(serviceMock, assemblerMock);
 
         String name = "Test Access Method";
