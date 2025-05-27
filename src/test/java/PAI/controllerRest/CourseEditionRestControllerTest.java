@@ -1,15 +1,5 @@
 package PAI.controllerRest;
-import PAI.VOs.Acronym;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.Date;
-import PAI.VOs.Name;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.SchoolYearID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
@@ -22,7 +12,9 @@ import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
+import PAI.dto.courseEdition.*;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +22,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
@@ -39,6 +33,8 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.time.LocalDate;
@@ -50,6 +46,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -73,6 +71,9 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private ICourseEditionAssembler courseEditionAssembler;
+
+    @MockBean
+    private IDefineRucService defineRucService;
 
     @MockBean
     private IGradeAStudentService gradeAStudentService;
@@ -358,7 +359,7 @@ class CourseEditionRestControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
+    @Test 
     void whenGetStudentsEnrolledInCourseEdition_thenReturnsListOfStudents() throws Exception {
     //Arrange
     ProgrammeEditionIdDto programmeEditionIdDto = new ProgrammeEditionIdDto("LEIC", "L.EIC", UUID.randomUUID().toString());
@@ -369,7 +370,7 @@ class CourseEditionRestControllerTest {
     when(programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto)).thenReturn(programmeEditionID);
     when(courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID)).thenReturn(List.of(courseEditionID));
     when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
-
+    
     String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
 
     //Act + Assert
@@ -456,5 +457,50 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$._studentUniqueNumber").value(1234567))
                 .andExpect(jsonPath("$._grade").value(18))
                 .andExpect(jsonPath("$._date").value("12-04-2025"));
+    }
+
+    @Test
+    void whenDefineRucSuccessfullyThenReturnsAccepted() throws Exception {
+        // Arrange
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+
+        // Act & Assert
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("RUC successfully updated"));
+    }
+
+    @Test
+    void whenDefineRucFailsThenReturnsInternalServerError() throws Exception {
+        // Arrange
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        doThrow(new RuntimeException("DB error")).when(defineRucService).assignRucToCourseEdition(teacherID, courseEditionID);
+
+        // Act & Assert
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string("Unexpected error occurred"));
     }
 }
