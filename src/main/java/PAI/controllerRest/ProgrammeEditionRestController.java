@@ -1,23 +1,38 @@
 package PAI.controllerRest;
 
+import PAI.VOs.Acronym;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.VOs.ProgrammeID;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.mapper.programmeEdition.IProgrammeEditionMapper;
+import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/programmeeditions")
 public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
+    private final IProgrammeEditionAssembler programmeEditionAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService) {
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionAssembler programmeEditionAssembler) {
        if (programmeEditionService == null) {
            throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
        }
+       if (programmeEditionAssembler == null) {
+           throw new IllegalArgumentException("ProgrammeEdition assembler cannot be null");
+       }
         this.programmeEditionService = programmeEditionService;
+       this.programmeEditionAssembler = programmeEditionAssembler;
     }
     @GetMapping
     public ResponseEntity<Iterable<CountStudentsInProgrammeEditionDto>> getAllProgrammeEditions() {
@@ -39,5 +54,25 @@ public class ProgrammeEditionRestController {
 
         return ResponseEntity.ok(totalStudents);
     }
+
+    @GetMapping("/programme/{programmeName}/{programmeAcronym}")
+    public ResponseEntity<List<ProgrammeEditionDTO>> getProgrammeEditionsByProgrammeID(
+            @PathVariable String programmeName,
+            @PathVariable String programmeAcronym) throws Exception {
+
+        ProgrammeID programmeID = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars(programmeName),
+                new Acronym(programmeAcronym)
+        );
+
+        List<ProgrammeEdition> programmeEditions = programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID);
+
+        List<ProgrammeEditionDTO> dtos = programmeEditions.stream()
+                .map(pe -> programmeEditionAssembler.toDTO(pe.identity().getProgrammeID(), pe.identity().getSchoolYearID()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
+    }
+
 }
 

@@ -1,0 +1,14 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Administrator" as admin
+
+rectangle "PAI System" {
+    usecase "I want to add a course to a programme." as UC30
+}
+
+admin --> UC30
+
+@enduml

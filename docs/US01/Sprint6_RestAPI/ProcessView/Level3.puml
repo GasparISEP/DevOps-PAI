@@ -7,74 +7,40 @@ skinparam shadowing true
 
 autonumber
 
-participant ":Router" as router
+participant ":Router" as router <<Component>>
+participant ":RESTController" as controller <<Component>>
+participant ":Service" as service <<Component>>
+participant ":Domain" as domain <<Component>>
+participant ":Repository" as repository <<Component>>
+
 -> router: configureTeacherCategory (tcJSON)
 activate router #E1F5FE
 
-note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+router -> controller: configureTeacherCategory (tcRequestDTO)
+activate controller #E1F5FE
 
-participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
-router -> Controller: configureTeacherCategory (tcRequestDTO)
-activate Controller #E1F5FE
-
-ref over Controller
-    Convert tcRequestDTO to NameVO
-end
-
-participant ":ITeacherCategoryService" as service
-Controller -> service: configureTeacherCategory (nameVO)
+controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
 
-participant ":ITeacherCategoryFactory" as Factory
-service -> Factory: createTeacherCategory (nameVO)
-activate Factory #E1F5FE
+service -> domain: createTeacherCategory (nameVO)
+activate domain #E1F5FE
 
-create "tcID:TeacherCategoryID"
-Factory -> "tcID:TeacherCategoryID": create ()
+domain --> service: teacherCategory
+deactivate domain
 
-create "tc:TeacherCategory"
-Factory -> "tc:TeacherCategory": create (tcID, nameVO)
-deactivate Factory
+service -> repository: save (teacherCategory)
+activate repository #E1F5FE
 
-participant ":ITeacherCategoryRepository" as Repository
-service -> Repository: existsByName (nameVO)
-activate Repository #E1F5FE
-Repository --> service: false
-deactivate Repository
+repository --> service: teacherCategorySaved
+deactivate repository
 
-service -> Repository: save (tc)
-activate Repository #E1F5FE
-
-ref over Repository
-    Convert teacherCategory to DataModel
-end
-
-participant ":ITeacherCategoryRepositorySpringData" as springDataRepository
-Repository -> springDataRepository: save (tcDataModel)
-activate springDataRepository #E1F5FE
-springDataRepository --> Repository : tcDataModelSaved
-deactivate springDataRepository
-
-ref over Repository
-    Convert tcDataModelSaved to Domain
-end
-
-Repository --> service: tcSaved
-deactivate Repository
-
-service --> Controller: tcSaved
+service --> controller: teacherCategorySavedDTO
 deactivate service
 
-ref over Controller
-    Convert tcSaved to DTO
-end
+controller --> router: (201, Created) teacherCategorySavedResponseDTO
+deactivate controller
 
-Controller --> router: (201, Created) tcSavedResponseDTO
-deactivate Controller
-
-note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
-
-<-- router: (201, Created) tcSavedResponseJSON
+<-- router: (201, Created) teacherCategorySavedJSON
 deactivate router
 
 @enduml

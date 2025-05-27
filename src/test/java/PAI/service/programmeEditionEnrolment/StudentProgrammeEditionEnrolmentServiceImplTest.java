@@ -47,108 +47,133 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldReturnListOfProgrammeEditionDTOs() throws Exception {
-        // Arrange
-        StudentID studentID = new StudentID(1500000);
-        ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Informática"),
-                new Acronym("LEI")
-        );
-        List<ProgrammeID> programmeIDs = List.of(programmeID);
+    void shouldReturnListOfProgrammeEditionDTOs() {
+        try {
+            // Arrange
+            StudentID studentID = new StudentID(1500000);
+            ProgrammeID programmeID = new ProgrammeID(
+                    new NameWithNumbersAndSpecialChars("Informática"),
+                    new Acronym("LEI")
+            );
+            List<ProgrammeID> programmeIDs = List.of(programmeID);
 
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new ProgrammeEditionID(programmeID, schoolYearID),
-                programmeID,
-                schoolYearID
-        );
+            SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEdition programmeEdition = new ProgrammeEdition(
+                    new ProgrammeEditionID(programmeID, schoolYearID),
+                    programmeID,
+                    schoolYearID
+            );
 
-        List<ProgrammeEdition> editions = List.of(programmeEdition);
-        StudentProgrammeEditionEnrolmentDTO dto = new StudentProgrammeEditionEnrolmentDTO("LEI", "Informática", schoolYearID.getSchoolYearID().toString());
+            List<ProgrammeEdition> editions = List.of(programmeEdition);
+            StudentProgrammeEditionEnrolmentDTO dto = new StudentProgrammeEditionEnrolmentDTO("LEI", "Informática", schoolYearID.getSchoolYearID().toString());
 
-        when(programmeEnrolmentRepository.findProgrammesByStudent(studentID)).thenReturn(programmeIDs);
-        when(programmeEditionRepository.findByProgrammeIDs(programmeIDs)).thenReturn(editions);
-        when(assembler.toDTO(programmeEdition)).thenReturn(dto);
+            when(programmeEnrolmentRepository.findProgrammesByStudent(studentID)).thenReturn(programmeIDs);
+            when(programmeEditionRepository.findByProgrammeIDs(programmeIDs)).thenReturn(editions);
+            when(assembler.toDTO(programmeEdition)).thenReturn(dto);
 
-        // Act
-        List<StudentProgrammeEditionEnrolmentDTO> result = service.findAvailableProgrammeEditionsForStudent(studentID);
+            // Act
+            List<StudentProgrammeEditionEnrolmentDTO> result = service.findAvailableProgrammeEditionsForStudent(studentID);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("LEI", result.get(0).getProgrammeAcronym());
-        assertEquals("Informática", result.get(0).getProgrammeName());
+            // Assert
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            assertEquals("LEI", result.get(0).getProgrammeAcronym());
+            assertEquals("Informática", result.get(0).getProgrammeName());
+        } catch (Exception e) {
+            fail("Exceção inesperada: " + e.getMessage());
+        }
     }
+
     @Test
-    void enrolStudentInProgrammeEdition_shouldCreateAndSaveEnrolment() throws Exception {
-        // Arrange
-        StudentID studentID = new StudentID(1234567);
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
-        ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+    void enrolStudentInProgrammeEdition_shouldCreateAndSaveEnrolment() {
+        try {
+            // Arrange
+            StudentID studentID = new StudentID(1234567);
+            ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
+            SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
-        // Mocks
-        ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
-        ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
-        ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
+            ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
 
-        when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
-                .thenReturn(List.of(programmeID));
+            when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
+                    .thenReturn(List.of(programmeID));
+            when(programmeEditionRepository.findByID(editionID))
+                    .thenReturn(Optional.of(edition));
+            when(programmeEditionEnrolmentRepository.existsByID(enrolmentID))
+                    .thenReturn(false);
+            when(programmeEditionEnrolmentFactory.create(enrolmentID, studentID, editionID))
+                    .thenReturn(enrolment);
 
-        when(programmeEditionRepository.findByID(editionID))
-                .thenReturn(Optional.of(edition));
+            // Act
+            service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID);
 
-        when(programmeEditionEnrolmentRepository.existsByID(enrolmentID))
-                .thenReturn(false);
-
-        when(programmeEditionEnrolmentFactory.create(enrolmentID, studentID, editionID))
-                .thenReturn(enrolment);
-
-        // Act
-        service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID);
-
-        // Assert
-        verify(programmeEditionEnrolmentRepository).save(enrolment);
+            // Assert
+            verify(programmeEditionEnrolmentRepository).save(enrolment);
+        } catch (Exception e) {
+            fail("Exceção inesperada: " + e.getMessage());
+        }
     }
 
     @Test
     void enrolStudentInProgrammeEdition_shouldThrowIfStudentNotEnrolledInProgramme() {
-        // Arrange
         StudentID studentID = new StudentID(1500001);
         ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
         SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
 
-        // Mock: o estudante não está inscrito em nenhum programa
         when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
-                .thenReturn(List.of()); // vazio
+                .thenReturn(List.of());
 
-        // Act + Assert
         assertThrows(IllegalArgumentException.class, () ->
                 service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID));
     }
 
     @Test
-    void enrolStudentInProgrammeEdition_shouldThrowIfAlreadyEnrolled() throws Exception {
-        // Arrange
-        StudentID studentID = new StudentID(1500001);
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
-        ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
-        ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
-        ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
+    void enrolStudentInProgrammeEdition_shouldThrowIfAlreadyEnrolled() {
+        try {
+            StudentID studentID = new StudentID(1500001);
+            ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
+            SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
 
-        when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
-                .thenReturn(List.of(programmeID));
+            when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
+                    .thenReturn(List.of(programmeID));
+            when(programmeEditionRepository.findByID(editionID))
+                    .thenReturn(Optional.of(edition));
+            when(programmeEditionEnrolmentRepository.existsByID(enrolmentID))
+                    .thenReturn(true);
 
-        when(programmeEditionRepository.findByID(editionID))
-                .thenReturn(Optional.of(edition));
-
-        when(programmeEditionEnrolmentRepository.existsByID(enrolmentID))
-                .thenReturn(true); // já está inscrito
-
-        // Act + Assert
-        assertThrows(IllegalStateException.class, () ->
-                service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID));
+            assertThrows(IllegalStateException.class, () ->
+                    service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID));
+        } catch (Exception e) {
+            fail("Exceção inesperada: " + e.getMessage());
+        }
     }
 
+    @Test
+    void enrolStudentInProgrammeEdition_shouldThrowIfProgrammeEditionNotFound() {
+        try {
+            StudentID studentID = new StudentID(1500001);
+            ProgrammeID programmeID = new ProgrammeID(
+                    new NameWithNumbersAndSpecialChars("Engenharia"), new Acronym("LEI")
+            );
+            SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+
+            when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
+                    .thenReturn(List.of(programmeID));
+            when(programmeEditionRepository.findByID(programmeEditionID))
+                    .thenReturn(Optional.empty());
+
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                    service.enrolStudentInProgrammeEdition(studentID, programmeID, schoolYearID));
+
+            assertEquals("ProgrammeEdition not found.", exception.getMessage());
+        } catch (Exception e) {
+            fail("Exceção inesperada: " + e.getMessage());
+        }
+    }
 }

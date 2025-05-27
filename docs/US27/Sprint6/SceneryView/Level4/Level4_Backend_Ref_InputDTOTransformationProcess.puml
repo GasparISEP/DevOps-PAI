@@ -1,0 +1,17 @@
+@startuml
+title REF: Input DTO Transformation Process (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
+participant ":ProgrammeAssembler" as ProgrammeMapper <<mapper>>
+participant "programmeVOsDTO:ProgrammeVOsDTO" as ProgrammeVOsDTO <<component>>
+
+activate RestController
+RestController -> ProgrammeMapper ++: fromDTOToDomain(ProgrammeRequestDTO)
+ProgrammeMapper -> ProgrammeVOsDTO**: createProgrammeVOsDTO(nameVO, acronymVO, quantECTSVO \nquantSemestersVO, degreeTypeID, departmentID, teacherID)
+activate ProgrammeVOsDTO
+ProgrammeVOsDTO --> ProgrammeMapper--: programmeVOsDTO
+ProgrammeMapper --> RestController--: programmeVOsDTO
+@enduml

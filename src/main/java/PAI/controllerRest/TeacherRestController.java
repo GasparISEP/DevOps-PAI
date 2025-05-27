@@ -1,17 +1,16 @@
 package PAI.controllerRest;
 
 
+import PAI.VOs.Date;
+import PAI.VOs.TeacherID;
+import PAI.VOs.WorkingPercentage;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
-import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryRequestDTO;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryResponseDTO;
+import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.teacher.ITeacherRegistrationService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
@@ -93,4 +92,26 @@ public class TeacherRestController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", e);
         }
     }
+
+    @PostMapping("/careerprogressions/{teacherID}/working-percentage")
+    public ResponseEntity<?> updateTeacherWorkingPercentage(
+            @Valid @RequestBody UpdateTeacherWorkingPercentageRequestDTO request) {
+        try {
+            UpdateTeacherWorkingPercentageCommand command = careerAssembler.toUpdateTeacherWorkingPercentageCommand(request);
+            Optional<TeacherCareerProgression> result = careerService.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
+
+            if (result.isEmpty()) {
+                return ResponseEntity.badRequest().body("Unable to update teacher working percentage");
+            }
+
+            UpdateTeacherWorkingPercentageResponseDTO responseDTO = careerAssembler.toUpdateWorkingPercentageDTO(result.get());
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", e);
+        }
+    }
+
 }

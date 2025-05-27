@@ -1,0 +1,56 @@
+@startuml
+
+title Retrieve All Course Editions - (Interaction Use #1)
+skinparam sequencemessagealign center
+
+actor RUC
+participant ":UI" as ui #application
+participant ":CourseEditionRESTController" as ctrlrREST #business
+participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":CourseEditionAssemblerImpl" as assembler #implementation
+participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #physical
+participant ":CourseEditionRepositorySpringData" as courseEditionRepo #lightsteelblue
+participant ":CourseEditionEnrolmentMapperImpl" as ceemp #strategy
+participant ":ICourseEditionRepositorySpringData" as icourseEditionRepo #thistle
+
+RUC -> ui : I want to **grade a Student** in a Course Edition
+activate ui
+ui -> ctrlrREST : **(GET)** \n Retrieve all CourseEditions
+activate ctrlrREST
+ctrlrREST -> service : findAll()
+activate service
+service -> courseEditionRepo : findAll()
+activate courseEditionRepo
+courseEditionRepo -> icourseEditionRepo : findAll()
+activate icourseEditionRepo
+icourseEditionRepo ->  : findAll()
+icourseEditionRepo <--  : List <CourseEditionDataModel>
+icourseEditionRepo -> courseEditionRepo : List <CourseEditionDataModel>
+deactivate icourseEditionRepo
+
+loop for each CourseEditionDataModel, convert into Domain entity
+    courseEditionRepo -> ceemp : toDomain(courseEditionDataModel)
+    activate ceemp
+    ceemp --> courseEditionRepo : courseEdition
+    deactivate ceemp
+end
+
+courseEditionRepo --> service : List <CourseEdition>
+deactivate courseEditionRepo
+
+loop for each CourseEdition, convert into Response entity
+    service -> assembler : toResponseDTO(courseEdition)
+    activate assembler
+    assembler --> service : courseEditionResponseDTO
+    deactivate assembler
+end
+
+deactivate courseEditionRepo
+service --> ctrlrREST : List <CourseEdition>
+deactivate service
+ctrlrREST --> ui : List <CourseEdition>
+deactivate ctrlrREST
+ui --> RUC : Which CourseEdition?
+deactivate ui
+
+@enduml

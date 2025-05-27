@@ -1,5 +1,6 @@
 package PAI.dto.accessMethod;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,30 +11,31 @@ class RegisterAccessMethodCommandTest {
     void shouldCreateRegisterAccessMethodCommandCorrectly() {
         // Arrange
         String expectedName = "Special Access Method";
+        NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(expectedName);
 
         // Act
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(expectedName);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(nameVO);
 
         // Assert
-        assertEquals(expectedName, command.name());
+        assertEquals(expectedName, command.name().getnameWithNumbersAndSpecialChars());
     }
 
     @Test
     void shouldThrowExceptionWhenNameIsNull() {
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterAccessMethodCommand(null);
+            new NameWithNumbersAndSpecialChars(null);
         });
-        assertEquals("Name is required", exception.getMessage());
+        assertEquals("Name cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenNameIsBlank() {
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterAccessMethodCommand("   ");
+            new NameWithNumbersAndSpecialChars("   ");
         });
-        assertEquals("Name is required", exception.getMessage());
+        assertEquals("Name cannot be null or empty", exception.getMessage());
     }
 }
 

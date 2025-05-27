@@ -1,7 +1,6 @@
 package PAI.assembler.courseInStudyPlan;
 
-import PAI.VOs.CurricularYear;
-import PAI.VOs.Semester;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
@@ -13,19 +12,19 @@ import java.util.Objects;
 @Component
 public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembler {
 
-    public CourseInStudyPlanCommand toCommand(CourseInStudyPlanRequestDTO request) {
+    public CourseInStudyPlanCommand toCommand(CourseInStudyPlanRequestDTO request) throws Exception {
         Objects.requireNonNull(request, "Request DTO cannot be null");
 
         return new CourseInStudyPlanCommand(
-                request.semester(),
-                request.curricularYear(),
-                request.courseAcronym(),
-                request.courseName(),
-                request.programmeAcronym(),
-                request.programmeName(),
-                request.studyPlanDate(),
-                request.duration(),
-                request.credits()
+                new Semester(request.semester()),
+                new CurricularYear(request.curricularYear()),
+                new Acronym(request.courseAcronym()),
+                new Name(request.courseName()),
+                new Acronym(request.programmeAcronym()),
+                new NameWithNumbersAndSpecialChars(request.programmeName()),
+                new PAI.VOs.Date(request.studyPlanDate()),
+                new PAI.VOs.DurationCourseInCurricularYear(request.duration()),
+                new CourseQuantityCreditsEcts(request.credits())
         );
     }
 

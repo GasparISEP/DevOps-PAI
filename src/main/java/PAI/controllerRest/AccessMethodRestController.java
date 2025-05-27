@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.assembler.accessMethod.IAccessMethodAssembler;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
@@ -12,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
 
@@ -33,10 +32,14 @@ public class AccessMethodRestController {
     @PostMapping
     public ResponseEntity<AccessMethodResponseDTO> configureAccessMethod(@Valid @RequestBody AccessMethodRequestDTO requestDTO) {
         RegisterAccessMethodCommand command = assembler.toCommand(requestDTO);
+        AccessMethodServiceDTO serviceDTO = accessMethodService.configureAccessMethod(command);
+        AccessMethodResponseDTO responseDTO = assembler.toResponseDto(serviceDTO);
 
-        return accessMethodService.configureAccessMethod(command)
-                .map(responseDTO -> ResponseEntity.status(HttpStatus.CREATED).body(responseDTO))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        if (responseDTO == null) {
+            return ResponseEntity.badRequest().build(); // <- importante
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
 }

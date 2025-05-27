@@ -6,7 +6,9 @@ import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.AccessMethodFactoryImpl;
 import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.persistence.mem.accessMethod.AccessMethodListFactoryImpl;
 import PAI.persistence.mem.accessMethod.AccessMethodRepositoryImpl;
 import PAI.persistence.mem.accessMethod.IAccessMethodListFactory;
@@ -27,8 +29,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -75,17 +76,19 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodService accessMethodService = mock(IAccessMethodService.class);
         AccessMethodResponseDTO dto = mock(AccessMethodResponseDTO.class);
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
-        AccessMethod accessMethod = mock(AccessMethod.class);
 
         ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
-        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.of(dto));
+        AccessMethodServiceDTO mockDTO = new AccessMethodServiceDTO("id123", "M23");
+
+        when(accessMethodService.configureAccessMethod(commandCaptor.capture()))
+                .thenReturn(mockDTO);
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);
 
         // assert
         assertTrue(result);
-        assertNotNull(commandCaptor.getValue());
+
     }
 
     @Test
@@ -96,14 +99,15 @@ class US02ConfigureAccessMethodControllerTest {
         US02_ConfigureAccessMethodController ctrl1 = new US02_ConfigureAccessMethodController(accessMethodService);
 
         ArgumentCaptor<RegisterAccessMethodCommand> commandCaptor = ArgumentCaptor.forClass(RegisterAccessMethodCommand.class);
-        when(accessMethodService.configureAccessMethod(commandCaptor.capture())).thenReturn(Optional.empty());
+        doThrow(new BusinessRuleViolationException("Access method already exists"))
+                .when(accessMethodService).configureAccessMethod(commandCaptor.capture());
 
         // act
         boolean result = ctrl1.configureAccessMethod(accessMethodName);
 
         // assert
         assertFalse(result);
-        assertEquals(accessMethodName, commandCaptor.getValue().name());
+        assertEquals(accessMethodName, commandCaptor.getValue().name().getnameWithNumbersAndSpecialChars());
     }
 
     @Test
@@ -142,7 +146,8 @@ class US02ConfigureAccessMethodControllerTest {
         IAccessMethodAssembler assembler = mock(IAccessMethodAssembler.class);
 
         AccessMethodResponseDTO responseDTO = mock(AccessMethodResponseDTO.class);
-        when(assembler.toDto(any(AccessMethod.class))).thenReturn(responseDTO);
+        AccessMethodServiceDTO serviceDTO = mock(AccessMethodServiceDTO.class);
+        when(assembler.toDto(any(AccessMethod.class))).thenReturn(serviceDTO);
 
         IAccessMethodService service = new AccessMethodServiceImpl(factory, repository, assembler);
         US02_ConfigureAccessMethodController controller = new US02_ConfigureAccessMethodController(service);

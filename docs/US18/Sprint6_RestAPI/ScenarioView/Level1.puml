@@ -1,0 +1,14 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "ASC" as admin
+
+rectangle "PAI System" {
+    usecase "I want to create a programme edition for the current school year" as UC18
+}
+
+admin --> UC18
+
+@enduml

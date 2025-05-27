@@ -1,4 +1,6 @@
 package PAI.controller;
+import PAI.VOs.NameWithNumbersAndSpecialChars;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.service.accessMethod.IAccessMethodService;
 import org.springframework.stereotype.Component;
@@ -20,10 +22,13 @@ public class US02_ConfigureAccessMethodController {
         if (accessMethodName== null) {
             return false;
         }
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(accessMethodName);
 
         try {
-            return accessMethodService.configureAccessMethod(command).isPresent();
+            NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(accessMethodName);
+            RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(nameVO);
+            AccessMethodServiceDTO dto = accessMethodService.configureAccessMethod(command);
+            return dto != null;
+
         } catch (Exception e) {
 
             return false;

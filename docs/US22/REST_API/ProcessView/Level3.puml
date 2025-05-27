@@ -10,21 +10,19 @@ participant ":UI" as ui #application
 participant ":Controller" as controller #motivation
 participant ":Service" as service #business
 participant ":Repository" as repo #technology
-participant ":Domain" as domain #physical
-database db #wheat
+participant ":Domain" as domain #implementation
 
 RUC -> ui : Select **Student grading** in a **CourseEdition** functionality
 activate ui
-ui -> controller : Retrieve all Course Editions
+ui -> controller : **(GET)** \n Retrieve all Course Editions
 activate controller
 controller -> service : Retrieve all Course Editions
 activate service
 service -> repo : Retrieve all Course Editions
 activate repo
-repo -> db : Retrieve all Course Editions
-activate db
-db --> repo : All Course Editions
-deactivate db
+repo ->  : Retrieve all Course Editions
+repo <--  : All Course Editions
+
 repo --> service : All Course Editions
 deactivate repo
 service --> controller : All Course Editions
@@ -33,19 +31,19 @@ controller --> ui : All Course Editions
 deactivate controller
 
 
-ui --> RUC : Choose a Course Edition
-
-RUC -> ui : Fill in the **Student grading** information \n (Grade, Date, StudentID)
-
-ui -> controller : Submit Student grading information
+ui --> RUC : Which Course Edition?
+RUC -> ui : This Course Edition!
+ui --> RUC : Fill in the **Student grading** information
+RUC -> ui : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+ui -> controller : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
 
 activate controller
-controller -> service : Create a new Student grade
+controller -> service : Create a new Student grade \n (grade, date, studentID, courseEditionID)
 
 activate service
 service -> repo : Validate grading constraints
 activate repo
-repo --> service : true
+repo --> service : validated
 deactivate repo
 
 service -> domain : Create new Student grade
@@ -55,10 +53,8 @@ deactivate domain
 
 service -> repo : save Student Grade
 activate repo
-repo -> db : save
-activate db
-db --> repo : saved!
-deactivate db
+repo -> : save
+repo <--  : saved!
 repo --> service : Student Grade saved!
 deactivate repo
 

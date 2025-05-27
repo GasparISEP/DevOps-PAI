@@ -1,0 +1,19 @@
+@startuml
+
+title Convert Request into Command - (Interaction Use #2)
+skinparam sequencemessagealign center
+
+participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":GradeAStudentAssemblerImpl" as assembler #implementation
+participant "command1:GradeAStudentCommand" as command #wheat
+
+service -> assembler : toDomain(gradeAStudentRequestDTO)
+activate assembler
+assembler -> command** : <Create> GradeAStudentCommand
+activate command
+command --> assembler : gradeAStudentRequestDTO
+deactivate command
+assembler --> service : gradeAStudentRequestDTO
+deactivate assembler
+
+@enduml

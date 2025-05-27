@@ -2,22 +2,25 @@ package PAI.dto.courseInStudyPlan;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.Currency;
 
 class CourseInStudyPlanCommandTest {
 
     @Test
-    void shouldCreateValidCourseInStudyPlanCommand() {
+    void shouldCreateValidCourseInStudyPlanCommand() throws Exception {
         // Arrange
-        int semester = 1;
-        int curricularYear = 2;
-        String courseAcronym = "LP";
-        String courseName = "Linguagens de Programação";
-        String programmeAcronym = "LEI";
-        String programmeName = "Licenciatura em Engenharia Informática";
-        String studyPlanDate = "01-01-2024";
-        int duration = 1;
-        double credits = 6.0;
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("LP");
+        Name courseName = new Name("Linguagens de Programação");
+        Acronym programmeAcronym = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática");
+        Date studyPlanDate = new Date("01-01-2020");
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(6.0);
 
         // Act
         CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
@@ -46,17 +49,17 @@ class CourseInStudyPlanCommandTest {
     }
 
     @Test
-    void shouldCreateCommandWithMinimumValues() {
+    void shouldCreateCommandWithMinimumValues() throws Exception {
         // Arrange
-        int semester = 1;
-        int curricularYear = 1;
-        String courseAcronym = "A";
-        String courseName = "B";
-        String programmeAcronym = "C";
-        String programmeName = "D";
-        String studyPlanDate = "01-01-2020";
-        int duration = 1;
-        double credits = 1.0;
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("LP");
+        Name courseName = new Name("Linguagens de Programação");
+        Acronym programmeAcronym = new Acronym("LEI");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática");
+        Date studyPlanDate = new Date("01-01-2020");
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(1.0);
 
         // Act
         CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(

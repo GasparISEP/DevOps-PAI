@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { registerProgramme } from '../../services/programmeService';
-import formImage from '../../assets/images/form-image.jpg';
+import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png'
 
 export default function ProgrammeForm() {
     const [form, setForm] = useState({
@@ -92,7 +92,9 @@ export default function ProgrammeForm() {
         <div className="programme-main-grid">
 
             <div className="img-main-div">
-                <img className="form-img" src={formImage} alt="Person typing on a computer."/>
+                <div className="logo-img-form-div">
+                    <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                </div>
             </div>
 
             <form className="programme-form" onSubmit={handleSubmit}>

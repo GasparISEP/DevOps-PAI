@@ -65,7 +65,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
         MaxEcts maxEcts = new MaxEcts(240);
         Name dtname = new Name("Master");
         DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
@@ -84,11 +84,9 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         Address address = new Address(street, postalCode, location, country);
         Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
 
-
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
-
 
         US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(programmeService);
 

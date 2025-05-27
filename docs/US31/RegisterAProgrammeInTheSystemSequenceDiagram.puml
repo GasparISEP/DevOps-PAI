@@ -52,14 +52,14 @@ UI --> Admin --: Choose a Programme Director from the list
 
 Admin -> UI ++: teacher
 
-UI --> Admin --: Name? Acronym? Quantity of Ects credits\nper Semester? Quantity of Semesters?
+UI --> Admin --: Name? Acronym? Maximum of Ects credits\nper Semester? Quantity of Semesters?
 
-Admin -> UI ++: name, acronym, quantityOfEcts, quantityOfSemesters
+Admin -> UI ++: name, acronym, maxOfEcts, quantityOfSemesters
 
-UI -> C ++: registerAProgrammeInTheSystem \n(programmeRequestDTO)
+UI -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
 
 ref over C
-    Convert ProgrammeRequestDTO
+    Convert ProgrammeDTO
     to ProgrammeVOsDTO
 end ref
 
@@ -89,13 +89,13 @@ end ref
 
 PR --> PS --: P1
 
-ref over PS
-    Convert P1 to ProgrammeResponseDTO
+PS --> C --: P1
+
+ref over C
+    Convert P1 to ProgrammeDTO
 end ref
 
-PS --> C --: ProgrammeResponseDTO
-
-C --> UI --: ProgrammeResponseDTO
+C --> UI --: ProgrammeDTO
 
 UI --> Admin --: Programme registered successfully!
 

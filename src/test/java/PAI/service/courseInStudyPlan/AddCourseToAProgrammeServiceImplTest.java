@@ -1,8 +1,6 @@
 package PAI.service.courseInStudyPlan;
 
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -36,13 +34,13 @@ class AddCourseToAProgrammeServiceImplTest {
     @Test
     void shouldAddCourseToAProgrammeSuccessfully() throws Exception {
         CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
-        when(command.programmeName()).thenReturn("Programme");
-        when(command.programmeAcronym()).thenReturn("PRG");
-        when(command.semester()).thenReturn(1);
-        when(command.curricularYear()).thenReturn(1);
-        when(command.courseAcronym()).thenReturn("CSE");
-        when(command.courseName()).thenReturn("Course");
-        when(command.credits()).thenReturn(6.0);
+        when(command.programmeName()).thenReturn(new NameWithNumbersAndSpecialChars("Programme"));
+        when(command.programmeAcronym()).thenReturn(new Acronym("PRG"));
+        when(command.semester()).thenReturn(new Semester(1));
+        when(command.curricularYear()).thenReturn(new CurricularYear(1));
+        when(command.courseAcronym()).thenReturn(new Acronym("CSE"));
+        when(command.courseName()).thenReturn(new Name("Course"));
+        when(command.credits()).thenReturn(new CourseQuantityCreditsEcts(6.0));
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -70,19 +68,19 @@ class AddCourseToAProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionIfNoStudyPlanFound() {
+    void shouldThrowExceptionIfNoStudyPlanFound() throws Exception {
         CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
-        when(command.programmeName()).thenReturn("Programme");
-        when(command.programmeAcronym()).thenReturn("PRG");
-        when(command.semester()).thenReturn(1);
-        when(command.curricularYear()).thenReturn(1);
-        when(command.courseAcronym()).thenReturn("CSE");
-        when(command.courseName()).thenReturn("Course");
-        when(command.credits()).thenReturn(6.0);
+        when(command.programmeName()).thenReturn(new NameWithNumbersAndSpecialChars("Programme"));
+        when(command.programmeAcronym()).thenReturn(new Acronym("PRG"));
+        when(command.semester()).thenReturn(new Semester(1));
+        when(command.curricularYear()).thenReturn(new CurricularYear(1));
+        when(command.courseAcronym()).thenReturn(new Acronym("CSE"));
+        when(command.courseName()).thenReturn(new Name("Course"));
+        when(command.credits()).thenReturn(new CourseQuantityCreditsEcts(6.0));
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(any())).thenReturn(studyPlanID);
+
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(null);
 
@@ -92,13 +90,13 @@ class AddCourseToAProgrammeServiceImplTest {
     @Test
     void shouldThrowExceptionIfCourseIsAlreadyInProgramme() throws Exception {
         CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
-        when(command.programmeName()).thenReturn("Programme");
-        when(command.programmeAcronym()).thenReturn("PRG");
-        when(command.semester()).thenReturn(1);
-        when(command.curricularYear()).thenReturn(1);
-        when(command.courseAcronym()).thenReturn("CSE");
-        when(command.courseName()).thenReturn("Course");
-        when(command.credits()).thenReturn(6.0);
+        when(command.programmeName()).thenReturn(new NameWithNumbersAndSpecialChars("Programme"));
+        when(command.programmeAcronym()).thenReturn(new Acronym("PRG"));
+        when(command.semester()).thenReturn(new Semester(1));
+        when(command.curricularYear()).thenReturn(new CurricularYear(1));
+        when(command.courseAcronym()).thenReturn(new Acronym("CSE"));
+        when(command.courseName()).thenReturn(new Name("Course"));
+        when(command.credits()).thenReturn(new CourseQuantityCreditsEcts(6.0));
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -118,13 +116,13 @@ class AddCourseToAProgrammeServiceImplTest {
     @Test
     void shouldThrowExceptionIfCreditsExceedLimit() throws Exception {
         CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
-        when(command.programmeName()).thenReturn("Programme");
-        when(command.programmeAcronym()).thenReturn("PRG");
-        when(command.semester()).thenReturn(1);
-        when(command.curricularYear()).thenReturn(1);
-        when(command.courseAcronym()).thenReturn("CSE");
-        when(command.courseName()).thenReturn("Course");
-        when(command.credits()).thenReturn(10.0);
+        when(command.programmeName()).thenReturn(new NameWithNumbersAndSpecialChars("Programme"));
+        when(command.programmeAcronym()).thenReturn(new Acronym("PRG"));
+        when(command.semester()).thenReturn(new Semester(1));
+        when(command.curricularYear()).thenReturn(new CurricularYear(1));
+        when(command.courseAcronym()).thenReturn(new Acronym("CSE"));
+        when(command.courseName()).thenReturn(new Name("Course"));
+        when(command.credits()).thenReturn(new CourseQuantityCreditsEcts(10.0));
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -141,4 +139,392 @@ class AddCourseToAProgrammeServiceImplTest {
 
         assertThrows(BusinessRuleViolationException.class, () -> service.addCourseToAProgramme(command));
     }
+
+    @Test
+    void should_Not_CreateCourseInStudyPlan_WhenTotalCreditsExceedsLimits() throws Exception {
+
+        // arrange
+        CourseInStudyPlan candidate = mock(CourseInStudyPlan.class);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        CourseID courseID = new CourseID(courseAcronym, courseName);
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(5.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                durationOfCourse,
+                quantityOfCreditsEcts
+        );
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(29.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        // act + assert
+        assertThrows(BusinessRuleViolationException.class, () -> {
+            service.addCourseToAProgramme(command);
+        });
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_WhenTotalCreditsDoesNotExceedLimits() throws Exception {
+        // arrange
+        CourseInStudyPlan candidate = mock(CourseInStudyPlan.class);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        CourseID courseID = new CourseID(courseAcronym, courseName);
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(5.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                durationOfCourse,
+                quantityOfCreditsEcts
+        );
+
+        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+                .thenReturn(studyPlanID);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        when(repository.save(candidate)).thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_WhenTotalCreditsDoesNotReachLimit() throws Exception {
+        // arrange
+        CourseInStudyPlan candidate = mock(CourseInStudyPlan.class);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        CourseID courseID = new CourseID(courseAcronym, courseName);
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(3.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                durationOfCourse,
+                quantityOfCreditsEcts
+        );
+
+        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+                .thenReturn(studyPlanID);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        when(repository.save(candidate)).thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+    @Test
+    void should_CreateCourseInStudyPlan_ifCourseDoesntExist() throws Exception {
+        // arrange
+        CourseInStudyPlan candidate = mock(CourseInStudyPlan.class);
+
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        CourseID courseID = new CourseID(courseAcronym, courseName);
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(3.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                durationOfCourse,
+                quantityOfCreditsEcts
+        );
+
+        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+                .thenReturn(studyPlanID);
+
+        when(repository.containsOfIdentity(any()))
+                .thenReturn(false);
+
+        when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
+                .thenReturn(25.0);
+
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+                .thenReturn(candidate);
+
+        when(repository.save(candidate)).thenReturn(candidate);
+
+        // act
+        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(candidate, result);
+    }
+
+//    @Test
+//    void should_NotCreateCourseInStudyPlan_ifSemesterIsNotValid() throws Exception {
+//        // arrange
+//        Semester semester = new Semester(3); // Valor inválido
+//        CurricularYear curricularYear = new CurricularYear(1);
+//        Acronym courseAcronym = new Acronym("CS101");
+//        Name courseName = new Name("Computer Science");
+//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+//        Acronym programmeAcronym = new Acronym("CS");
+//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+//
+//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+//                semester,
+//                curricularYear,
+//                courseAcronym,
+//                courseName,
+//                programmeAcronym,
+//                programmeName,
+//                studyPlanDate,
+//                duration,
+//                credits
+//        );
+//
+//        // act + assert
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+//            service.addCourseToAProgramme(command);
+//        });
+//    }
+
+//    @Test
+//    void should_NotCreateCourseInStudyPlan_ifCurricularYearIsInvalid() throws Exception {
+//
+//        // arrange
+//        Semester semester = new Semester(1);
+//        CurricularYear curricularYear = new CurricularYear(0); // Invalid value
+//        Acronym courseAcronym = new Acronym("CS101");
+//        Name courseName = new Name("Computer Science");
+//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+//        Acronym programmeAcronym = new Acronym("CS");
+//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+//
+//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+//                semester,
+//                curricularYear,
+//                courseAcronym,
+//                courseName,
+//                programmeAcronym,
+//                programmeName,
+//                studyPlanDate,
+//                duration,
+//                credits
+//        );
+//
+//        // act + assert
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+//            service.addCourseToAProgramme(command);
+//        });
+//    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifCourseIsNull() throws Exception {
+
+        // arrange
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = null;
+        Name courseName = new Name("Computer Science");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                duration,
+                credits
+        );
+
+        // act + assert
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            service.addCourseToAProgramme(command);
+        });
+
+        assertEquals("Acronym cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifStudyPlanIDIsNull() throws Exception {
+
+        // arrange
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        PAI.VOs.Date studyPlanDate = null;
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+
+        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                semester,
+                curricularYear,
+                courseAcronym,
+                courseName,
+                programmeAcronym,
+                programmeName,
+                studyPlanDate,
+                duration,
+                credits
+        );
+
+        // act + assert
+        assertThrows(BusinessRuleViolationException.class, () -> {
+            service.addCourseToAProgramme(command);
+        });
+    }
+
+//    @Test
+//    void should_NotCreateCourseInStudyPlan_ifDurationOfCourseIsInvalid() throws Exception {
+//
+//        // arrange
+//        Semester semester = new Semester(1);
+//        CurricularYear curricularYear = new CurricularYear(1);
+//        Acronym courseAcronym = new Acronym("CS101");
+//        Name courseName = new Name("Computer Science");
+//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+//        Acronym programmeAcronym = new Acronym("CS");
+//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(10);
+//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+//
+//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+//                semester,
+//                curricularYear,
+//                courseAcronym,
+//                courseName,
+//                programmeAcronym,
+//                programmeName,
+//                studyPlanDate,
+//                duration,
+//                credits
+//        );
+//
+//        // act + assert
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+//            service.addCourseToAProgramme(command);
+//        });
+//
+//        assertEquals("The duration of the current year is invalid.", exception.getMessage());
+//    }
+//
+//    @Test
+//    void should_NotCreateCourseInStudyPlan_ifQuantityOfCreditsECTSIsInvalid() throws Exception {
+//
+//        // arrange
+//        Semester semester = new Semester(1);
+//        CurricularYear curricularYear = new CurricularYear(1);
+//        Acronym courseAcronym = new Acronym("CS101");
+//        Name courseName = new Name("Computer Science");
+//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+//        Acronym programmeAcronym = new Acronym("CS");
+//        PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
+//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(0.0);
+//
+//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+//                semester,
+//                curricularYear,
+//                courseAcronym,
+//                courseName,
+//                programmeAcronym,
+//                programmeName,
+//                studyPlanDate,
+//                duration,
+//                credits
+//        );
+//
+//        // act + assert
+//        assertThrows(IllegalArgumentException.class, () -> {
+//            service.addCourseToAProgramme(command);
+//        });
+//    }
 }

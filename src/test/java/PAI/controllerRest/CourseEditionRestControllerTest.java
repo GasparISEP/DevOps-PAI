@@ -1,11 +1,13 @@
 package PAI.controllerRest;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,13 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private ICourseEditionAssembler courseEditionAssembler;
+
+    @MockBean
+    private IGradeAStudentService gradeAStudentService;
+
+    @MockBean
+    private IStudentGradeAssembler studentGradeAssembler;
+
 
     private CourseEditionEnrolmentDto validEnrolmentDto;
 

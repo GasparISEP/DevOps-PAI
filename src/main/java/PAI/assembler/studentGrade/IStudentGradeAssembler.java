@@ -2,14 +2,14 @@ package PAI.assembler.studentGrade;
 
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
-import PAI.dto.studentGrade.StudentGradeRequestDTO;
-import PAI.dto.studentGrade.StudentGradeResponseDTO;
+import PAI.dto.studentGrade.GradeAStudentRequestDTO;
+import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 
 public interface IStudentGradeAssembler {
 
-    GradeAStudentCommand toDomain (StudentGradeRequestDTO studentGradeRequestDTO) throws Exception;
+    GradeAStudentCommand toDomain (GradeAStudentRequestDTO gradeAStudentRequestDTO) throws Exception;
 
-    StudentGradeResponseDTO toDTO (
+    GradeAStudentResponseDTO toDTO (
             StudentGrade studentGrade, String programmeID, String schoolYearID, String courseID,
             String studyPlanID, String courseInStudyPlanID, String programmeEditionID, String courseEditionID
     );

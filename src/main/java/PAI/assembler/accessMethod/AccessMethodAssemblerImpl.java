@@ -1,31 +1,43 @@
 package PAI.assembler.accessMethod;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import org.springframework.stereotype.Component;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Component
 public class AccessMethodAssemblerImpl implements IAccessMethodAssembler {
 
     @Override
     public RegisterAccessMethodCommand toCommand(AccessMethodRequestDTO dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("AccessMethodRequestDTO cannot be null");
-        }
-        return new RegisterAccessMethodCommand(dto.name());
+        validateNotNull(dto, "AccessMethodRequestDTO");
+        NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(dto.name());
+        return new RegisterAccessMethodCommand(nameVO);
     }
 
     @Override
-    public AccessMethodResponseDTO toDto(AccessMethod accessMethod) {
-        if (accessMethod == null) {
-            throw new IllegalArgumentException("AccessMethod cannot be null");
-        }
-        return new AccessMethodResponseDTO(
+    public AccessMethodServiceDTO toDto(AccessMethod accessMethod) {
+        validateNotNull(accessMethod, "AccessMethod");
+
+        return new AccessMethodServiceDTO(
                 accessMethod.identity().toString(),
                 accessMethod.getAccessMethodName().getnameWithNumbersAndSpecialChars());
 
+    }
+
+
+    @Override
+    public AccessMethodResponseDTO toResponseDto(AccessMethodServiceDTO amServiceDTO) {
+        validateNotNull(amServiceDTO, "AccessMethodServiceDTO");
+
+        return new AccessMethodResponseDTO(
+                amServiceDTO.id(),
+                amServiceDTO.name());
     }
 
 }

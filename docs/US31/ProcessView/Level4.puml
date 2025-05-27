@@ -37,10 +37,10 @@ end ref
 
 <-- C --: List<TeacherDTO>
 
- -> C ++: registerAProgrammeInTheSystem \n(programmeRequestDTO)
+ -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
 
 ref over C
-    Convert ProgrammeRequestDTO
+    Convert ProgrammeDTO
     to ProgrammeVOsDTO
 end ref
 
@@ -70,12 +70,12 @@ end ref
 
 PR --> PS --: P1
 
-ref over PS
-    Convert P1 to ProgrammeResponseDTO
+PS --> C --: P1
+
+ref over C
+    Convert P1 to ProgrammeDTO
 end ref
 
-PS --> C --: ProgrammeResponseDTO
-
-<-- C--: ProgrammeResponseDTO
+<-- C--: ProgrammeDTO
 
 @enduml
