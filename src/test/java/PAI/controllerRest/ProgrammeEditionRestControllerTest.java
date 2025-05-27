@@ -3,6 +3,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
@@ -10,7 +11,12 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,9 +29,10 @@ class ProgrammeEditionRestControllerTest {
         //Arrange
         IProgrammeEditionService service = mock(ProgrammeEditionService.class);
         IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
         //Act
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service, assembler);
+        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service, assembler,controllerAssembler);
         //Assert
         assertNotNull(programmeEditionRestController);
     }
@@ -35,16 +42,20 @@ class ProgrammeEditionRestControllerTest {
         //Arrange
         IProgrammeEditionService service = null;
         IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
     }
 @Test
 void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, assembler);
+    IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+    ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, assembler,controllerAssembler);
 
         CountStudentsDto dto1 = new CountStudentsDto("Engineering", "ENG", UUID.randomUUID());
         CountStudentsDto dto2 = new CountStudentsDto("Law", "LAW", UUID.randomUUID());
@@ -75,7 +86,9 @@ void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, assembler);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, assembler,controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -100,8 +113,21 @@ void getAllProgrammeEditions_shouldReturnList(){
         //Arrange
         IProgrammeEditionService service = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler assembler = null;
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfControllerAssemblerNull() {
+        //Arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = null;
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
     }
 
     @Test
@@ -109,7 +135,9 @@ void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -156,7 +184,9 @@ void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -181,7 +211,9 @@ void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -201,7 +233,9 @@ void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
 
         String invalidProgrammeName = "";
         String validAcronym = "ENG";
