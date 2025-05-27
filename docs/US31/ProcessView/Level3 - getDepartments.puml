@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+title As an ASC I want to register a Programme - get Departments \n (Process View Level 3)
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:DepartmentRestController" as C #lightgreen
+participant "<<Component>>\n:DepartmentRegistrationService" as S #lightblue
+participant "<<Component>>\n:DepartmentRepository" as R #lightyellow
+participant "<<Component>>\n:Drivers" as Drivers #strategy
+
+ -> RT ++: (GET) Request Departments
+RT -> C ++: getAllDepartments()
+C -> S ++: getAllDepartments()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<Departments>
+Drivers --> R --: List<Departments>
+R --> S --: List<Departments>
+S --> C --: List<Departments>
+C --> RT --: List<Departments>
+<-- RT --: (OK, 200) List<Departments>
+
+@enduml

@@ -2,57 +2,13 @@
 
 autonumber
 
-title As an ASC I want to register a Programme \n (Process View Level 3)
-
-
 participant "<<Component>>\n:Router" as RT #lightpink
-participant "<<Component>>\n:Controller" as C #lightgreen
-participant "<<Component>>\n:Service" as S #lightblue
-participant "<<Component>>\n:Repository" as R #lightyellow
+participant "<<Component>>\n:ProgrammeRestController" as C #lightgreen
+participant "<<Component>>\n:ProgrammeService" as S #lightblue
+participant "<<Component>>\n:ProgrammeRepository" as R #lightyellow
 participant "<<Component>>\n:Domain" as D #lightpink
 participant "Programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
-
-
- -> RT ++: (GET) Request Degree Types
- RT -> C ++: getAllDegreeTypes()
-C -> S ++: getAllDegreeTypes()
-S -> R ++: findAll()
-R -> Drivers ++: findAll()
-Drivers -> : (SELECT) findAll()
-Drivers <-- : List<DegreeTypes>
-Drivers --> R --: List<DegreeTypes>
-R --> S --: List<DegreeTypes>
-S --> C --: List<DegreeTypes>
-RT <-- C --: List<DegreeTypes>
- <-- RT --: (OK, 200) List<DegreeTypes>
-
-
- -> RT ++: (GET) Request Departments
-RT -> C ++: getAllDepartments()
-C -> S ++: getAllDepartments()
-S -> R ++: findAll()
-R -> Drivers ++: findAll()
-Drivers -> : (SELECT) findAll()
-Drivers <-- : List<Departments>
-Drivers --> R --: List<Departments>
-R --> S --: List<Departments>
-S --> C --: List<Departments>
-C --> RT --: List<Departments>
-<-- RT --: (OK, 200) List<Departments>
-
--> RT ++: (GET) Request Teachers
-RT -> C ++: getAllTeachers()
-C -> S ++: getAllTeachers()
-S -> R ++: findAll()
-R -> Drivers ++: findAll()
-Drivers -> : (SELECT) findAll()
-Drivers <-- : List<Teachers>
-Drivers --> R --: List<Teachers>
-R --> S --: List<Teachers>
-S --> C --: List<Teachers>
-C --> RT --: List<Teachers>
-<-- RT --: (OK, 200) List<Teachers>
 
 -> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
 
@@ -83,5 +39,4 @@ R --> S --: Programme1
 S --> C --: Programme1
 C --> RT --: Programme1
 <-- RT --: (201, Created) Programme1
-
 @enduml

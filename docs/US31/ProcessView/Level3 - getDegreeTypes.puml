@@ -1,0 +1,26 @@
+@startuml
+autonumber
+
+title As an ASC I want to register a Programme - Get Degree Types \n (Process View Level 3)
+
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:DegreeTypeRestController" as C #lightgreen
+participant "<<Component>>\n:DegreeTypeRegistrationService" as S #lightblue
+participant "<<Component>>\n:DegreeTypeRepository" as R #strategy
+participant "<<Component>>\n:Drivers" as Drivers #lightyellow
+
+
+ -> RT ++: (GET) Request Degree Types
+ RT -> C ++: getAllDegreeTypes()
+C -> S ++: getAllDegreeTypes()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<DegreeTypes>
+Drivers --> R --: List<DegreeTypes>
+R --> S --: List<DegreeTypes>
+S --> C --: List<DegreeTypes>
+RT <-- C --: List<DegreeTypes>
+ <-- RT --: (OK, 200) List<DegreeTypes>
+@enduml

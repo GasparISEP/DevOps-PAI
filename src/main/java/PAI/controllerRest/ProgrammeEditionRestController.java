@@ -4,12 +4,16 @@ import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,17 +25,24 @@ public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
     private final IProgrammeEditionAssembler programmeEditionAssembler;
+    private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionAssembler programmeEditionAssembler) {
-       if (programmeEditionService == null) {
-           throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
-       }
-       if (programmeEditionAssembler == null) {
-           throw new IllegalArgumentException("ProgrammeEdition assembler cannot be null");
-       }
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionAssembler programmeEditionAssembler, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler) {
+        if (programmeEditionService == null) {
+            throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
+        }
+        if (programmeEditionAssembler == null) {
+            throw new IllegalArgumentException("ProgrammeEdition assembler cannot be null");
+        }
+        if (programmeEditionControllerAssembler == null) {
+            throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
+        }
+
         this.programmeEditionService = programmeEditionService;
-       this.programmeEditionAssembler = programmeEditionAssembler;
+        this.programmeEditionAssembler = programmeEditionAssembler;
+        this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
     }
+
     @GetMapping
     public ResponseEntity<Iterable<CountStudentsDto>> getAllProgrammeEditions() {
         Iterable<CountStudentsDto> programmeEditionDTOs =
