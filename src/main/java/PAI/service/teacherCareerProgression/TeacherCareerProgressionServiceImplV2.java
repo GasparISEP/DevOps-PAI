@@ -9,7 +9,6 @@ import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerPr
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
 import org.springframework.stereotype.Service;
@@ -21,14 +20,13 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
     private ITeacherCategoryRepository _teacherCategoryRepo;
-    private ITeacherCareerProgressionAssembler _teacherCareerProgressionAssembler;
 
-    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository, ITeacherCareerProgressionFactory teacherCareerProgressionFactory, ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository, ITeacherCareerProgressionAssembler teacherCareerProgressionAssembler){
+    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository, ITeacherCareerProgressionFactory teacherCareerProgressionFactory, ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository){
         _TCPrepository = teacherCareerProgressionRepository;
         _TCPfactory = teacherCareerProgressionFactory;
         _teacherRepo = teacherRepository;
         _teacherCategoryRepo = teacherCategoryRepository;
-        _teacherCareerProgressionAssembler = teacherCareerProgressionAssembler;
+
 
     }
 
