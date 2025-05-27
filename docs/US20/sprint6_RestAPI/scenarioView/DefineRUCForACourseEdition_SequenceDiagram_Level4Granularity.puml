@@ -11,7 +11,8 @@ skinparam participantBackgroundColor #lightblue/white
 autonumber
 
 participant ":Router" as Router
-participant ":US20_DefineRucForCourseEditionRestController" as Controller
+participant ":TeacherRestController" as TeacherController
+participant ":CourseEditionRestController" as Controller
 participant ":IDefineRucService" as CourseService
 participant ":ICourseEditionRepository" as CourseRepo
 participant ":CourseEditionMapper" as CourseMapper
@@ -24,22 +25,22 @@ participant ":ITeacherRepositorySpringData" as TeacherRepoSpringData
 '--- Find Teachers ---
 -> Router: getAllTeachers()
 activate Router  #E1F5FE
-Router -> Controller : getAllTeachers()
-activate Controller #E1F5FE
+Router -> TeacherController : getAllTeachers()
+activate TeacherController #E1F5FE
 
-note over Controller #EEEEEE
+note over TeacherController #EEEEEE
 Receives HTTP request: GET /teachers
 
 Spring Boot automatically converts
 incoming JSON into DTOs
 end note
 
-ref over Controller
+ref over TeacherController
        <b>Get List of Teachers</b>
 end ref
 
-Controller --> Router:  (200 OK) – List<TeacherDTO>
-deactivate Controller
+TeacherController --> Router:  (200 OK) – List<TeacherDTO>
+deactivate TeacherController
 <-- Router: (200 OK) – List<TeacherDTO> as JSON
 deactivate Router
 
