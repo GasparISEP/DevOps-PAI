@@ -1,6 +1,8 @@
 package PAI.service.department;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.DepartmentAcronym;
+import PAI.VOs.DepartmentID;
 import PAI.VOs.Name;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -198,5 +201,50 @@ class DepartmentRegistrationServiceImplTest {
         assertTrue(listResult.contains(department1));
         assertTrue(listResult.contains(department2));
         assertTrue(listResult.contains(department3));
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenDepartmentNotFound() {
+        // Arrange
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+
+        DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
+        when(acronymDouble.getAcronym()).thenReturn("DEI");
+
+        IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
+
+        when(departmentRepositoryDouble.findDepartmentByID(mock(Department.class).identity())).thenReturn(java.util.Optional.empty());
+
+        // Act
+        java.util.Optional<Department> result = service.getDepartmentById(mock(Department.class).identity());
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnDepartmentWhenFound() {
+        // Arrange
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+
+        DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
+        when(acronymDouble.getAcronym()).thenReturn("DEI");
+        Department departmentDouble = mock(Department.class);
+        DepartmentID departmentIDDouble = mock(DepartmentID.class);
+        when(departmentDouble.identity()).thenReturn(departmentIDDouble);
+        when(departmentIDDouble.getAcronym()).thenReturn(acronymDouble);
+
+        IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
+
+        when(departmentRepositoryDouble.findDepartmentByID(departmentIDDouble)).thenReturn(Optional.of(departmentDouble));
+
+        // Act
+        Optional<Department> result = service.getDepartmentById(departmentIDDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(departmentDouble, result.get());
     }
 }
