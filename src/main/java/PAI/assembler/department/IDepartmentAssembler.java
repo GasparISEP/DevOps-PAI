@@ -2,10 +2,7 @@ package PAI.assembler.department;
 
 import PAI.VOs.TeacherAcronym;
 import PAI.domain.department.Department;
-import PAI.dto.department.DepartmentDTO;
-import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
-import PAI.dto.department.RegisterDepartmentRequest;
+import PAI.dto.department.*;
 
 public interface IDepartmentAssembler {
 
@@ -19,6 +16,6 @@ public interface IDepartmentAssembler {
 
     Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> departments);
 
-    Department updateDepartmentWithDirector(Department department, TeacherAcronym teacherID);
+    DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request);
 }
 

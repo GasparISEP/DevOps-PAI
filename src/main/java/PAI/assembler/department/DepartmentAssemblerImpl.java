@@ -7,10 +7,7 @@ import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
 import PAI.domain.course.Course;
 import PAI.domain.department.Department;
-import PAI.dto.department.DepartmentDTO;
-import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
-import PAI.dto.department.RegisterDepartmentRequest;
+import PAI.dto.department.*;
 import PAI.persistence.datamodel.course.CourseDataModel;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -81,18 +78,15 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         return listDTO;
     }
 
-    public Department updateDepartmentWithDirector(Department department, TeacherAcronym teacherID) {
-        if (department == null) {
-            throw new IllegalArgumentException("Department cannot be null");
+    @Override
+    public DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("DepartmentWithDirectorRequest cannot be null");
         }
-        if (teacherID == null ) {
-            throw new IllegalArgumentException("TeacherID cannot be null or blank");
-        }
+        Name name = new Name(request.name());
+        DepartmentAcronym acronym = new DepartmentAcronym(request.acronym());
+        TeacherID director = new TeacherID(new TeacherAcronym(request.teacherID()));
 
-        TeacherID directorID = new TeacherID(teacherID);
-        department.setDirectorID(directorID);
-        return department;
+        return new DepartmentWithDirectorCommand(name, acronym, director);
     }
-
-
 }
