@@ -62,4 +62,18 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
             return false;
         }
     }
+
+    public boolean registerStudyPlan(String programmeName, String programmeAcronym, String startDate) {
+
+        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeName, programmeAcronym, LocalDate.parse(startDate));
+
+        try {
+            _studyPlanService.createStudyPlan(studyPlanCommand);
+            System.out.println("Study plan registered successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to register study plan: " + e.getMessage());
+            return false;
+        }
+    }
 }

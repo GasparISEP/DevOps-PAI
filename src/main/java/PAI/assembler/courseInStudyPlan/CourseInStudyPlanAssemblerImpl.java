@@ -46,4 +46,21 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
                 courseInStudyPlanServiceDTO.studyPlanId()
         );
     }
+
+    @Override
+    public CourseInStudyPlanResponseDTO toDTOFromEntity(CourseInStudyPlan course) {
+        return new CourseInStudyPlanResponseDTO(
+                course.getSemester().toInt(),
+                course.getCurricularYear().toInt(),
+                course.getCourseID().getCourseAcronymValue(),
+                course.getCourseID().getCourseNameValue(),
+                course.getStudyplanID().getProgrammeID().getProgrammeAcronym(),
+                course.getStudyplanID().getProgrammeID().getProgrammeName(),
+                course.getStudyplanID().getDate().getLocalDate().toString(),
+                course.getDurationOfCourse().getDuration(),
+                course.getQuantityOfCreditsEcts().toDouble(),
+                course.getCourseID(),
+                course.getStudyplanID()
+        );
+    }
 }

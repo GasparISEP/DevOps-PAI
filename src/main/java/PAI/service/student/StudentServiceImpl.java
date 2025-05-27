@@ -35,4 +35,8 @@ public class StudentServiceImpl implements IStudentService {
 
         return _studentRepository.save(student);
     }
+@Override
+    public int getLastStudentID(){
+        return _studentRepository.lastStudentID();
+    }
 }

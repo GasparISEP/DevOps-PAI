@@ -232,4 +232,45 @@ class StudentRepositoryImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldReturnZeroWhenStudentListIsEmpty() {
+        // Arrange
+        List<Student> emptyList = new ArrayList<>();
+        when(studentListFactory.newArrayList()).thenReturn(emptyList);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
+
+        // Act
+        int result = studentRepositoryImpl.lastStudentID();
+
+        // Assert
+        assertEquals(0, result);
+    }
+
+    @Test
+    void shouldReturnLastStudentUniqueNumber() {
+        // Arrange
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+        StudentID id1 = mock(StudentID.class);
+        StudentID id2 = mock(StudentID.class);
+
+        when(student1.getStudentID()).thenReturn(id1);
+        when(student2.getStudentID()).thenReturn(id2);
+        when(id1.getUniqueNumber()).thenReturn(1111);
+        when(id2.getUniqueNumber()).thenReturn(2222);
+
+        List<Student> studentList = new ArrayList<>();
+        studentList.add(student1);
+        studentList.add(student2);
+
+        when(studentListFactory.newArrayList()).thenReturn(studentList);
+        studentRepositoryImpl = new StudentRepositoryImpl(studentListFactory);
+
+        // Act
+        int result = studentRepositoryImpl.lastStudentID();
+
+        // Assert
+        assertEquals(2222, result);
+    }
 }

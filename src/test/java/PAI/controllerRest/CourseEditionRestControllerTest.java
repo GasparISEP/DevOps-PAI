@@ -1,5 +1,7 @@
 package PAI.controllerRest;
 import PAI.VOs.*;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
@@ -22,15 +24,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -45,11 +43,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @WebMvcTest(CourseEditionRestController.class)
 class CourseEditionRestControllerTest {
@@ -83,7 +79,6 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private IProgrammeEditionAssembler programmeEditionAssembler;
-
 
     private CourseEditionEnrolmentDto validEnrolmentDto;
 
@@ -359,7 +354,7 @@ class CourseEditionRestControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test 
+    @Test
     void whenGetStudentsEnrolledInCourseEdition_thenReturnsListOfStudents() throws Exception {
     //Arrange
     ProgrammeEditionIdDto programmeEditionIdDto = new ProgrammeEditionIdDto("LEIC", "L.EIC", UUID.randomUUID().toString());
@@ -370,7 +365,7 @@ class CourseEditionRestControllerTest {
     when(programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto)).thenReturn(programmeEditionID);
     when(courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID)).thenReturn(List.of(courseEditionID));
     when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
-    
+
     String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
 
     //Act + Assert
@@ -502,5 +497,44 @@ class CourseEditionRestControllerTest {
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Unexpected error occurred"));
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_Success() throws Exception {
+        String programmeAcronym = "LEI";
+        String VALID_SCHOOL_YEAR_UUID = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        Double expectedAverageGrade = 15.5;
+
+        when(gradeAStudentService.getAverageGrade(any(CourseEditionID.class))).thenReturn(expectedAverageGrade);
+
+        mockMvc.perform(get("/courseeditions/averagegrade")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", VALID_SCHOOL_YEAR_UUID)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedAverageGrade));
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_ServiceReturnsNull_ShouldReturnOkWithNullBody() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000"; // Use a valid UUID string
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+
+        // Mock the service to return null
+        when(gradeAStudentService.getAverageGrade(any(PAI.VOs.CourseEditionID.class))).thenReturn(null);
+
+        mockMvc.perform(get("/courseeditions/averagegrade")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 }

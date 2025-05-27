@@ -3,7 +3,8 @@ title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /cour
 
 participant "<<component>>\n:Router" as Router
 participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller
-participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service
+participant "<<component>>\n:IStudyPlanService\n(Service)" as SPService
+participant "<<component>>\n:ICourseInStudyPlanService\n(Service)" as CSPService
 participant "<<component>>\n:IStudyPlanRepository\n(Repository)" as StudyPlanRepo
 participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo
 database "Database" as DB
@@ -14,46 +15,46 @@ activate Router
 Router -> Controller: getCoursesInStudyPlanByProgrammeID(programmeID)
 activate Controller
 
-Controller -> Service: getLatestStudyPlanIDByProgrammeID(programmeID)
-activate Service
+Controller -> SPService: getLatestStudyPlanIDByProgrammeID(programmeID)
+activate SPService
 
-Service -> StudyPlanRepo: findAll()
+SPService -> StudyPlanRepo: findAll()
 activate StudyPlanRepo
 
 StudyPlanRepo -> DB: SELECT * FROM study_plans
 activate DB
 DB --> StudyPlanRepo: List<StudyPlanDataModel>
 deactivate DB
-StudyPlanRepo --> Service: List<StudyPlan>
+StudyPlanRepo --> SPService: List<StudyPlan>
 deactivate StudyPlanRepo
 
-note over Service #EEEEEE
+note over SPService #EEEEEE
 Filters by ProgrammeID and selects
 the most recent StudyPlan
 end note
 
-Service --> Controller: latestStudyPlanID
-deactivate Service
+SPService --> Controller: latestStudyPlanID
+deactivate SPService
 
-Controller -> Service: getCoursesByStudyPlanId(studyPlanID)
-activate Service
+Controller -> CSPService: getCoursesByStudyPlanId(studyPlanID)
+activate CSPService
 
-Service -> CourseInSPRepo: findAll()
+CSPService -> CourseInSPRepo: findAll()
 activate CourseInSPRepo
 
 CourseInSPRepo -> DB: SELECT * FROM courses_in_study_plan
 activate DB
 DB --> CourseInSPRepo: List<CourseInStudyPlanDataModel>
 deactivate DB
-CourseInSPRepo --> Service: List<CourseInStudyPlan>
+CourseInSPRepo --> CSPService: List<CourseInStudyPlan>
 deactivate CourseInSPRepo
 
-note over Service #EEEEEE
+note over CSPService #EEEEEE
 Filters only courses with the given StudyPlanID
 end note
 
-Service --> Controller: List<CourseInStudyPlan>
-deactivate Service
+CSPService --> Controller: List<CourseInStudyPlan>
+deactivate CSPService
 
 note over Controller #EEEEEE
 Spring converts response to JSON

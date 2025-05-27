@@ -1,21 +1,22 @@
 package PAI.controllerRest;
 
+import PAI.VOs.DepartmentAcronym;
 import PAI.assembler.department.IDepartmentAssembler;
+import PAI.assembler.department.IDepartmentHateoasAssembler;
 import PAI.dto.department.DepartmentDTO;
-import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.DepartmentWithDirectorRequest;
 import PAI.dto.department.RegisterDepartmentRequest;
 import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.domain.department.Department;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.department.IDepartmentRegistrationService;
 import PAI.service.department.IUpdateDepartmentDirectorService;
-import PAI.VOs.TeacherID;
 import PAI.VOs.DepartmentID;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/departments")
@@ -24,12 +25,14 @@ public class DepartmentRestController {
     private final IDepartmentRegistrationService departmentRegistrationService;
     private final IDepartmentAssembler departmentAssembler;
     private final IUpdateDepartmentDirectorService updateDepartmentDirectorService;
+    private final IDepartmentHateoasAssembler departmentHateoasAssembler;
 
     public DepartmentRestController(IDepartmentRegistrationService departmentRegistrationService,
-                                    IDepartmentAssembler departmentAssembler, IUpdateDepartmentDirectorService updateDepartmentDirectorService) {
+                                    IDepartmentAssembler departmentAssembler, IUpdateDepartmentDirectorService updateDepartmentDirectorService, IDepartmentHateoasAssembler departmentHateoasAssembler) {
         this.departmentRegistrationService = departmentRegistrationService;
         this.departmentAssembler = departmentAssembler;
         this.updateDepartmentDirectorService = updateDepartmentDirectorService;
+        this.departmentHateoasAssembler = departmentHateoasAssembler;
     }
 
     @PostMapping
@@ -39,7 +42,7 @@ public class DepartmentRestController {
             RegisterDepartmentRequestVOs requestVOs = departmentAssembler.toRegisterDepartmentRequestVOs(request);
             Department department = departmentRegistrationService.createAndSaveDepartment(requestVOs);
             DepartmentDTO responseDTO = departmentAssembler.toDTO(department);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(departmentHateoasAssembler.toModel(responseDTO));
 
         } catch (BusinessRuleViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -58,6 +61,27 @@ public class DepartmentRestController {
             Iterable<Department> departments = departmentRegistrationService.getAllDepartments();
             Iterable<DepartmentDTO> departmentsDTOs = departmentAssembler.toDTOs(departments);
             return ResponseEntity.ok(departmentsDTOs);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getDepartmentById(@PathVariable("id") String id) {
+        try {
+            DepartmentID departmentId = departmentAssembler.fromStringToDepartmentID(id);
+
+            Optional<Department> department = departmentRegistrationService.getDepartmentById(departmentId);
+            if (department.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Department not found");
+            }
+
+            DepartmentDTO responseDTO = departmentAssembler.toDTO(department.get());
+            return ResponseEntity.ok(responseDTO);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
