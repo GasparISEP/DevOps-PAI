@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ICreateCourseEditionService {
 
-    public CourseEdition createAndSaveCourseEdition (CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+    public CourseEdition createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 
     public List<DegreeType> getAllDegreeTypes();
 
@@ -25,4 +25,6 @@ public interface ICreateCourseEditionService {
     public List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) throws Exception;
 
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
-    }
+
+    Iterable<CourseEdition> findAll();
+}

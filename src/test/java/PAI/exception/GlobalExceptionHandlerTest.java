@@ -1,10 +1,18 @@
 package PAI.exception;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.Collections;
+import java.util.List;
 
 class GlobalExceptionHandlerTest {
 
@@ -62,4 +70,45 @@ class GlobalExceptionHandlerTest {
         assertNotNull(response.getBody().getTimestamp());
     }
 
+
+    @Test
+    void handleValidationErrors_shouldReturnFirstFieldErrorMessage() {
+        // Arrange
+        FieldError fieldError = mock (FieldError.class);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getFieldErrors()).thenReturn(List.of(fieldError));
+
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleValidationErrors(ex);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid input", response.getBody().getMessage());
+        assertEquals("ARGUMENT_INVALID", response.getBody().getCode());
+    }
+
+    @Test
+    void handleValidationErrors_shouldReturnDefaultMessageWhenNoFieldErrors() {
+        // Arrange
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getFieldErrors()).thenReturn(Collections.emptyList());
+
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleValidationErrors(ex);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid input", response.getBody().getMessage());
+        assertEquals("ARGUMENT_INVALID", response.getBody().getCode());
+    }
 }

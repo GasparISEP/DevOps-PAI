@@ -1,0 +1,25 @@
+@startuml
+title US19: As an ASC, I want to create a course edition\n(Scenario View - Level 2: Containers)
+
+actor ASC #LightBlue/White
+
+rectangle Frontend {
+  [CourseEdition Form] #E1F5FE
+  [CourseEdition API Service] #E1F5FE
+}
+
+rectangle Backend {
+  [CourseEdition REST Controller] #E1F5FE
+  [CourseEdition Service Layer] #E1F5FE
+  [Persistence Layer] #E1F5FE
+}
+
+database Database #E1F5FE
+
+ASC --> Frontend : Interact with UI to create course edition
+Frontend --> Backend : Submit course edition creation request
+Backend --> Database : Persist course edition data
+Backend --> Frontend : Return success response
+Frontend --> ASC : Show confirmation message
+
+@enduml

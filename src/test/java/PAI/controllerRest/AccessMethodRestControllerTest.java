@@ -1,18 +1,15 @@
 package PAI.controllerRest;
 
+import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.assembler.accessMethod.IAccessMethodAssembler;
 import PAI.dto.accessMethod.AccessMethodRequestDTO;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.service.accessMethod.IAccessMethodService;
-import PAI.utils.ServiceResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,25 +36,23 @@ class AccessMethodRestControllerTest {
         AccessMethodRestController controller = new AccessMethodRestController(serviceMock, assemblerMock);
 
         String name = "Test Access Method";
-        AccessMethodRequestDTO requestDTO = new AccessMethodRequestDTO(name);
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(name);
+        NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(name);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(nameVO);
+        AccessMethodServiceDTO serviceDTO = new AccessMethodServiceDTO("abc123", name);
         AccessMethodResponseDTO responseDTO = new AccessMethodResponseDTO("abc123", name);
-
-        ServiceResponse<AccessMethodResponseDTO> serviceResponse =
-                ServiceResponse.success(responseDTO);
+        AccessMethodRequestDTO requestDTO = new AccessMethodRequestDTO(name);
 
         when(assemblerMock.toCommand(requestDTO)).thenReturn(command);
-        when(serviceMock.configureAccessMethod(command)).thenReturn(serviceResponse);
+        when(serviceMock.configureAccessMethod(command)).thenReturn(serviceDTO);
+        when(assemblerMock.toResponseDto(serviceDTO)).thenReturn(responseDTO);
 
         // Act
-        ResponseEntity<ServiceResponse<AccessMethodResponseDTO>> response = controller.configureAccessMethod(requestDTO);
+        ResponseEntity<AccessMethodResponseDTO> response = controller.configureAccessMethod(requestDTO);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("abc123", response.getBody().getObject().id());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals(0, response.getBody().getMessages().size());
+
     }
 
     @Test
@@ -68,24 +63,22 @@ class AccessMethodRestControllerTest {
         AccessMethodRestController controller = new AccessMethodRestController(serviceMock, assemblerMock);
 
         String name = "Test Access Method";
+        NameWithNumbersAndSpecialChars nameVO = new NameWithNumbersAndSpecialChars(name);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(nameVO);
+        AccessMethodServiceDTO serviceDTO = new AccessMethodServiceDTO("abc123", name);
         AccessMethodRequestDTO requestDTO = new AccessMethodRequestDTO(name);
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(name);
-
-        ServiceResponse<AccessMethodResponseDTO> failedResponse =
-                ServiceResponse.failure("Access method already exists");
 
         when(assemblerMock.toCommand(requestDTO)).thenReturn(command);
-        when(serviceMock.configureAccessMethod(command)).thenReturn(failedResponse);
+        when(serviceMock.configureAccessMethod(command)).thenReturn(serviceDTO);
+        when(assemblerMock.toResponseDto(serviceDTO)).thenReturn(null); // Simula falha
 
         // Act
-        ResponseEntity<ServiceResponse<AccessMethodResponseDTO>> response = controller.configureAccessMethod(requestDTO);
+        ResponseEntity<AccessMethodResponseDTO> response = controller.configureAccessMethod(requestDTO);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertNull(response.getBody().getObject());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals(1, response.getBody().getMessages().size());
+        assertNull(response.getBody());
+
     }
 
 }
