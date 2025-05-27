@@ -522,11 +522,10 @@ class CourseEditionRestControllerTest {
     @Test
     void getCourseEditionAverageGrade_ServiceReturnsNull_ShouldReturnOkWithNullBody() throws Exception {
         String programmeAcronym = "LEI";
-        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000"; // Use a valid UUID string
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
         String studyPlanDate = "01-01-2024";
 
-        // Mock the service to return null
         when(gradeAStudentService.getAverageGrade(any(PAI.VOs.CourseEditionID.class))).thenReturn(null);
 
         mockMvc.perform(get("/courseeditions/averagegrade")
@@ -537,4 +536,46 @@ class CourseEditionRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
     }
+    @Test
+    void successfullyGetCourseEditionApprovalRate() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        double expectedApprovalRate = 85.5;
+
+        when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
+                .thenReturn(expectedApprovalRate);
+
+        mockMvc.perform(get("/courseeditions/approvalpercentage")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedApprovalRate));
+    }
+    @Test
+    void shouldReturnZeroIfCourseEditionApprovalRateIsZero() throws Exception {
+        String programmeAcronym = "LEI";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String studyPlanDate = "01-01-2024";
+        double expectedApprovalRate = 0.0;
+
+        when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
+                .thenReturn(expectedApprovalRate);
+
+        mockMvc.perform(get("/courseeditions/approvalpercentage")
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("studyPlanDate", studyPlanDate))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(expectedApprovalRate));
+    }
+
+
 }

@@ -1,31 +1,31 @@
-programmeAcronym,programmeName
-CSD, Computer Sci
-IEE, Information Eng
-DSD, Data Science
-DIS, 2425 Swtich
-AIR, AI & Robotics
-CYB, Cyber Security
-SWE, Software Eng
-DTA, Data Analytics
-MLC, Machine Learning
-WEB, Web Dev
-MOB, Mobile Systems
-GAM, Game Dev
-NET, Network Eng
-IOT, IoT Systems
-VRX, VR Applications
-ITM, IT Management
-BIO, Bioinformatics
-MTH, Computational Math
-CLD, Cloud Computing
-EMS, Embedded Systems
-CGR, Computer Graphics
-DVZ, Data Viz
-TST, Software Testing
-AIE, AI Ethics
-BKS, Backend Systems
-BGD, Big Data
-DOP, DevOps
-BLK, Blockchain Tech
-QNC, Quantum Computing
-OPS, Operating Systems
+programmeAcronym,programmeName,schoolYearID
+CSD,Computer Sci,550e8400-e29b-41d4-a716-446655440000
+IEE,Information Eng,550e8400-e29b-41d4-a716-446655440001
+DSD,Data Science,550e8400-e29b-41d4-a716-446655440002
+DIS,2425 Swtich,550e8400-e29b-41d4-a716-446655440003
+AIR,AI & Robotics,550e8400-e29b-41d4-a716-446655440004
+CYB,Cyber Security,550e8400-e29b-41d4-a716-446655440005
+SWE,Software Eng,550e8400-e29b-41d4-a716-446655440006
+DTA,Data Analytics,550e8400-e29b-41d4-a716-446655440007
+MLC,Machine Learning,550e8400-e29b-41d4-a716-446655440008
+WEB,Web Dev,550e8400-e29b-41d4-a716-446655440009
+MOB,Mobile Systems,550e8400-e29b-41d4-a716-44665544000a
+GAM,Game Dev,550e8400-e29b-41d4-a716-44665544000b
+NET,Network Eng,550e8400-e29b-41d4-a716-44665544000c
+IOT,IoT Systems,550e8400-e29b-41d4-a716-44665544000d
+VRX,VR Applications,550e8400-e29b-41d4-a716-44665544000e
+ITM,IT Management,550e8400-e29b-41d4-a716-44665544000f
+BIO,Bioinformatics,550e8400-e29b-41d4-a716-446655440010
+MTH,Computational Math,550e8400-e29b-41d4-a716-446655440011
+CLD,Cloud Computing,550e8400-e29b-41d4-a716-446655440012
+EMS,Embedded Systems,550e8400-e29b-41d4-a716-446655440013
+CGR,Computer Graphics,550e8400-e29b-41d4-a716-446655440014
+DVZ,Data Viz,550e8400-e29b-41d4-a716-446655440015
+TST,Software Testing,550e8400-e29b-41d4-a716-446655440016
+AIE,AI Ethics,550e8400-e29b-41d4-a716-446655440017
+BKS,Backend Systems,550e8400-e29b-41d4-a716-446655440018
+BGD,Big Data,550e8400-e29b-41d4-a716-446655440019
+DOP,DevOps,550e8400-e29b-41d4-a716-44665544001a
+BLK,Blockchain Tech,550e8400-e29b-41d4-a716-44665544001b
+QNC,Quantum Computing,550e8400-e29b-41d4-a716-44665544001c
+OPS,Operating Systems,550e8400-e29b-41d4-a716-44665544001d

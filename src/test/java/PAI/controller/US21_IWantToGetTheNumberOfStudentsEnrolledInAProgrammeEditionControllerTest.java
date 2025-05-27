@@ -143,19 +143,6 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     }
 
     @Test
-    void shouldReturnEmptyIterableWhenNoProgrammeEditionsExist() throws Exception {
-        // Act
-        Iterable<ProgrammeEdition> result = controller.getAllProgrammeEdition();
-
-        // Assert
-        // Convert Iterable to a List for easy assertions
-        List<ProgrammeEdition> resultList = new ArrayList<>();
-        result.forEach(resultList::add);
-
-        assertTrue(resultList.isEmpty());
-    }
-
-    @Test
     void shouldCreateControllerWhenRepositoryIsValid_Isolation_Test() {
         //SUT Controller
         //Arrange

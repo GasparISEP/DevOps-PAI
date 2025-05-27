@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { registerStudent } from '../../services/studentService';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
@@ -6,7 +6,7 @@ import countryList from 'react-select-country-list';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
-import '../../styles/Form.css'
+import '../../styles/Form.css';
 
 const initialForm = {
     studentID: '',
@@ -29,6 +29,34 @@ export default function StudentForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
 
+    useEffect(() => {
+        async function fetchLastStudentID() {
+            try {
+                const response = await fetch('http://localhost:8081/students', {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`HTTP ${response.status} - ${text}`);
+                }
+
+                const data = await response.json();
+                const nextID = (data.lastStudentID || 0) + 1;
+
+                setForm(f => ({
+                    ...f,
+                    studentID: nextID.toString()
+                }));
+            } catch (err) {
+                console.error("❌ Failed to fetch student ID:", err);
+                setError('❌ Failed to fetch student ID from backend.');
+            }
+        }
+
+        fetchLastStudentID();
+    }, []);
+
     function handleChange(e) {
         const { name, value } = e.target;
         let newValue = value;
@@ -47,8 +75,8 @@ export default function StudentForm() {
         setError('');
         setSuccess(null);
 
-        if (!form.countryCode || !form.phoneNumber) {
-            setError('⚠️ Preencha o indicativo e o número de telefone.');
+        if (!form.phoneNumber) {
+            setError('⚠️ Preencha o número de telefone.');
             return;
         }
         if (!/^\d{4}$/.test(form.postalCodePart1) || !/^\d{3}$/.test(form.postalCodePart2)) {
@@ -66,7 +94,11 @@ export default function StudentForm() {
             ...form,
             postalCode: `${form.postalCodePart1}-${form.postalCodePart2}`,
             studentID: Number(form.studentID),
-            academicEmail: `${form.studentID}@isep.ipp.pt`
+            academicEmail: `${form.studentID}@isep.ipp.pt`,
+            phoneCountryCode: form.countryCode,
+            phoneNumber: form.phoneNumber,
+            nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
+            addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
         };
 
         try {
@@ -84,7 +116,7 @@ export default function StudentForm() {
             <div className="form-main-grid">
                 <div className="form-img-main-div student-img-background">
                     <div className="form-logo-img-div">
-                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP" />
                     </div>
                 </div>
 
@@ -92,24 +124,7 @@ export default function StudentForm() {
                     <h1>Register Student</h1>
 
                     <div className="form-and-buttons-main-div">
-                    <div className="form-div">
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="studentID">Student ID</label>
-                                <input
-                                    className="form-input"
-                                    placeholder="Enter Student ID"
-                                    id="studentID"
-                                    name="studentID"
-                                    type="text"
-                                    inputMode="numeric"
-                                    pattern="\d*"
-                                    maxLength="8"
-                                    value={form.studentID}
-                                    onChange={handleChange}
-                                    required
-                                    style={{ width: '300px' }}
-                                />
-                            </div>
+                        <div className="form-div">
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
@@ -163,7 +178,7 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '310px' }) }}
+                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
                                 />
                             </div>
 
@@ -185,7 +200,7 @@ export default function StudentForm() {
                             <div className="form-group postal-code-group">
                                 <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
                                 <div className="postal-code-inputs">
-                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '160px' }} />
+                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '150px' }} />
                                     <span className="postal-code-separator">-</span>
                                     <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" style={{ width: '130px' }} />
                                 </div>
@@ -225,10 +240,9 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '310px' }) }}
+                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
                                 />
                             </div>
-
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="phone">Phone</label>
@@ -251,7 +265,7 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
-                                    inputStyle={{ width: '310px' }}
+                                    inputStyle={{ width: '300px' }}
                                 />
                             </div>
 

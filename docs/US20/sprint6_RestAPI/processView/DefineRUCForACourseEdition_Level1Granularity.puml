@@ -11,7 +11,7 @@ skinparam participantBackgroundColor #lightblue/white
 autonumber
 
 actor ProgrammeDirector as PD
-participant "SystemPAI" as System <<System>>
+participant ":SystemPAI" as System <<System>>
 
 PD -> System: I want to define the RUC for a course edition.
 activate System #E1F5FE
@@ -19,13 +19,13 @@ activate System #E1F5FE
 System --> PD: Which teacher?
 deactivate System
 
-PD -> System: Enter teacher1.
+PD -> System: Enter teacher.
 activate System #E1F5FE
 
 System --> PD: Which course edition?
 deactivate System
 
-PD -> System: Enter courseEdition1.
+PD -> System: Enter course edition.
 activate System #E1F5FE
 
 System --> PD: Sure?
@@ -34,6 +34,6 @@ deactivate System
 PD -> System: Yes!
 activate System #E1F5FE
 
-System --> PD: RUC was sucessfully defined!
+System --> PD: RUC sucessfully updated.
 deactivate System
 @enduml
