@@ -13,9 +13,8 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
-import PAI.persistence.mem.programmeEdition.ProgrammeEditionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -377,20 +376,20 @@ class ProgrammeEditionServiceTest {
         ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
         ProgrammeEdition pee1 = mock(ProgrammeEdition.class);
         ProgrammeEdition pee2 = mock(ProgrammeEdition.class);
-        CountStudentsInProgrammeEditionDto dto1 = mock(CountStudentsInProgrammeEditionDto.class);
-        CountStudentsInProgrammeEditionDto dto2 = mock(CountStudentsInProgrammeEditionDto.class);
+        CountStudentsDto dto1 = mock(CountStudentsDto.class);
+        CountStudentsDto dto2 = mock(CountStudentsDto.class);
         List<ProgrammeEdition> domainList = Arrays.asList(pee1, pee2);
-        List<CountStudentsInProgrammeEditionDto> dtoList = Arrays.asList(dto1, dto2);
+        List<CountStudentsDto> dtoList = Arrays.asList(dto1, dto2);
 
         when(programmeEditionRepository.findAll()).thenReturn(domainList);
         when(programmeEditionAssembler.toCountStudentsInProgrammeEditionDTOList(domainList)).thenReturn(dtoList);
 
         // When
-        Iterable<CountStudentsInProgrammeEditionDto> result = service.getAllProgrammeEditions();
+        Iterable<CountStudentsDto> result = service.getAllProgrammeEditions();
 
         // Then
         assertNotNull(result);
-        assertEquals(2, ((List<CountStudentsInProgrammeEditionDto>) result).size());
+        assertEquals(2, ((List<CountStudentsDto>) result).size());
     }
 
     @Test
@@ -403,7 +402,7 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
-        CountStudentsInProgrammeEditionDto dto = mock(CountStudentsInProgrammeEditionDto.class);
+        CountStudentsDto dto = mock(CountStudentsDto.class);
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionEnrolment pee1 = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment pee2 = mock(ProgrammeEditionEnrolment.class);
@@ -433,7 +432,7 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
-        CountStudentsInProgrammeEditionDto dto = mock(CountStudentsInProgrammeEditionDto.class);
+        CountStudentsDto dto = mock(CountStudentsDto.class);
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionID identity = mock(ProgrammeEditionID.class);
 

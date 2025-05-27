@@ -6,10 +6,10 @@ skinparam linetype ortho
 
 
 class ProgrammeEditionRestController #E1F5FE{
-  - _programmeEditionEnrollmentService: IProgrammeEditionEnrolmentService\n
-  + ProgrammeEditionRestController(service: IProgrammeEditionEnrolmentService)\n
-  + iWantToGetTheNumberOfStudentsEnrolledInAProgrammeEdition(id: ProgrammeEditionID): int\n
-  + getAllProgrammeEditions(): List<ProgrammeEdition>
+  - _programmeEditionService: IProgrammeEditionService\n
+  + ProgrammeEditionRestController(service: IProgrammeEditionService)\n
+  + getTheNumberOfStudentsEnrolledInAProgrammeEdition(CountStudentsDTO): int\n
+  + getAllProgrammeEditions(): List<CountStudentsDto>
 }
 
 package "ProgrammeEditionEnrolment Aggregate" {
@@ -99,12 +99,6 @@ ProgrammeEditionIDDataModel:id
 interface IProgrammeEditionEnrolmentRepository #F1F8E9{
   + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
 }
-interface IProgrammeEditionEnrolmentService #E1F5FE{
-  + totalStudentsInProgrammeEdition(id: ProgrammeEditionID): int
-}
-class ProgrammeEditionEnrolmentServiceImpl #E1F5FE{
-  + totalStudentsInProgrammeEdition(id: ProgrammeEditionID): int
-}
 class ProgrammeEditionEnrolmentRepositoryImpl #F1F8E9{
   + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
 }
@@ -126,15 +120,18 @@ interface JpaRepository {}
 class ProgrammeEditionAssembler #FFFDE7{
   + toDTO(domain): DTO\n
   + toDomain(dto): Domain
+  + toDtoList()
 }
 interface IProgrammeEditionAssembler #FFFDE7{
   + toDTO(domain): DTO\n
   + toDomain(dto): Domain
+  + toDTOList():Iterable<CountStudentsDTO> CountStudentsDTOs
 }
-class ProgrammeEditionDTO #F3E5F5{
-  String:ProgrammeID\n
-  String:SchoolYearID\n
-  ProgrammeEditionDTO:programmeEditionDTO
+class CountStudentsDTO #F3E5F5{
+  String:ProgrammeName\n
+  String:ProgrammeAcronym\n
+  UUID:SchoolYearID\n
+  CountStudentsDTO:countStudentsDTO
 }
 class ProgrammeEditionIDMapperImpl #FFFDE7{
 +toDomain()
@@ -169,12 +166,12 @@ ProgrammeEditionEnrolment --> ProgrammeEditionID
 ProgrammeEditionEnrolment --> StudentID
 ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentID
 
-ProgrammeEditionRestController -down-> IProgrammeEditionEnrolmentService
+ProgrammeEditionRestController -down-> IProgrammeEditionService
 ProgrammeEditionRestController -down-> IProgrammeEditionService
 
 IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
-ProgrammeEditionEnrolmentServiceImpl -left..|> IProgrammeEditionEnrolmentService
-IProgrammeEditionEnrolmentService -down-> IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentServiceImpl -left..|> IProgrammeEditionService
+IProgrammeEditionService -down-> IProgrammeEditionEnrolmentRepository
 IProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolment
 ProgrammeEditionEnrolmentRepositoryImpl --> IProgrammeEditionEnrolmentRepositorySpringData
 IProgrammeEditionEnrolmentRepositorySpringData --|> JpaRepository
@@ -197,7 +194,7 @@ IProgrammeEditionRepository -left-> IProgrammeEditionMapper
 
 ProgrammeEditionFactoryImpl -left..|> IProgrammeEditionFactory
 IProgrammeEditionMapper -down-> IProgrammeEditionFactory
-ProgrammeEditionRestController ..> ProgrammeEditionDTO
+ProgrammeEditionRestController ..> CountStudentsDTO
 
 ProgrammeEditionAssembler -right..|> IProgrammeEditionAssembler
 ProgrammeEditionServiceImpl --> IProgrammeEditionAssembler

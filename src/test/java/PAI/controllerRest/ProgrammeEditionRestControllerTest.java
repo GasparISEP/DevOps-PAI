@@ -4,7 +4,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.dto.programmeEdition.CountStudentsInProgrammeEditionDto;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
@@ -46,21 +46,21 @@ void getAllProgrammeEditions_shouldReturnList(){
         IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
         ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, assembler);
 
-        CountStudentsInProgrammeEditionDto dto1 = new CountStudentsInProgrammeEditionDto("Engineering", "ENG", UUID.randomUUID());
-        CountStudentsInProgrammeEditionDto dto2 = new CountStudentsInProgrammeEditionDto("Law", "LAW", UUID.randomUUID());
+        CountStudentsDto dto1 = new CountStudentsDto("Engineering", "ENG", UUID.randomUUID());
+        CountStudentsDto dto2 = new CountStudentsDto("Law", "LAW", UUID.randomUUID());
 
-        List<CountStudentsInProgrammeEditionDto> programmeEditionsDTOs = List.of(dto1, dto2);
+        List<CountStudentsDto> programmeEditionsDTOs = List.of(dto1, dto2);
 
         when(programmeEditionService.getAllProgrammeEditions()).thenReturn(programmeEditionsDTOs);
 
         // Act
-        ResponseEntity<Iterable<CountStudentsInProgrammeEditionDto>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<Iterable<CountStudentsDto>> response = programmeEditionRestController.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
 
-        List<CountStudentsInProgrammeEditionDto> resultList = new ArrayList<>();
+        List<CountStudentsDto> resultList = new ArrayList<>();
         response.getBody().forEach(resultList::add);
 
         assertEquals(2, resultList.size());
@@ -81,8 +81,8 @@ void getAllProgrammeEditions_shouldReturnList(){
         String programmeAcronym = "ENG";
         UUID schoolYearID = UUID.randomUUID();
 
-        CountStudentsInProgrammeEditionDto expectedDto =
-                new CountStudentsInProgrammeEditionDto(programmeName, programmeAcronym, schoolYearID);
+        CountStudentsDto expectedDto =
+                new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
 
         // Mock service behavior
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(42);
