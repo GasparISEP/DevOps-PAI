@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { registerStudent } from '../../services/studentService';
-import studentImage from '../../assets/images/form-image.jpg';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
 import countryList from 'react-select-country-list';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
+import '../../styles/Form.css';
 
 const initialForm = {
     studentID: '',
@@ -17,8 +18,8 @@ const initialForm = {
     postalCodePart2: '',
     location: '',
     addressCountry: '',
-    countryCode: '+351',   // Indicativo inicial (Portugal)
-    phoneNumber: '',       // Número local
+    countryCode: '+351',
+    phoneNumber: '',
     email: ''
 };
 
@@ -32,12 +33,10 @@ export default function StudentForm() {
         const { name, value } = e.target;
         let newValue = value;
 
-        if (['name', 'street', 'location'].includes(name)) {
-            newValue = value.replace(/\b\w/g, (char) => char.toUpperCase());
-        }
-
-        if (['nif', 'postalCodePart1', 'postalCodePart2'].includes(name)) {
-            newValue = value.replace(/\D/g, '');
+        if (['studentID', 'nif', 'postalCodePart1', 'postalCodePart2'].includes(name)) {
+            newValue = value.replace(/[^0-9]/g, '');
+        } else if (['name', 'location', 'street'].includes(name)) {
+            newValue = value.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
         }
 
         setForm(f => ({ ...f, [name]: newValue }));
@@ -48,8 +47,8 @@ export default function StudentForm() {
         setError('');
         setSuccess(null);
 
-        if (!form.countryCode || !form.phoneNumber) {
-            setError('⚠️ Preencha o indicativo e o número de telefone.');
+        if (!form.phoneNumber) {
+            setError('⚠️ Preencha o número de telefone.');
             return;
         }
         if (!/^\d{4}$/.test(form.postalCodePart1) || !/^\d{3}$/.test(form.postalCodePart2)) {
@@ -67,7 +66,11 @@ export default function StudentForm() {
             ...form,
             postalCode: `${form.postalCodePart1}-${form.postalCodePart2}`,
             studentID: Number(form.studentID),
-            academicEmail: `${form.studentID}@isep.ipp.pt`
+            academicEmail: `${form.studentID}@isep.ipp.pt`,
+            phoneCountryCode: form.countryCode,
+            phoneNumber: form.phoneNumber,
+            nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
+            addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
         };
 
         try {
@@ -81,33 +84,72 @@ export default function StudentForm() {
     }
 
     return (
-        <div className="student-main-component-div">
-            <div className="student-main-grid">
-                <div className="img-main-div">
-                    <img className="form-img" src={studentImage} alt="Student registration visual" />
+        <div className="form-main-component-div">
+            <div className="form-main-grid">
+                <div className="form-img-main-div student-img-background">
+                    <div className="form-logo-img-div">
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                    </div>
                 </div>
 
-                <form className="student-form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <h1>Register Student</h1>
 
-                    <div className="student-form-and-buttons-main-div">
-                        <div className="student-form-div">
+                    <div className="form-and-buttons-main-div">
+                        <div className="form-div">
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="studentID">Student ID</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Student ID"
+                                    id="studentID"
+                                    name="studentID"
+                                    type="text"
+                                    inputMode="numeric"
+                                    pattern="\d*"
+                                    maxLength="8"
+                                    value={form.studentID}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
+                            </div>
 
-                            {[
-                                { label: 'Student ID', name: 'studentID', type: 'number' },
-                                { label: 'Name', name: 'name' },
-                                { label: 'NIF', name: 'nif', type: 'number' },
-                                { label: 'NIF Country', name: 'nifcountry', type:'text' },
-                                { label: 'Street', name: 'street' },
-                            ].map(({ label, name, type = 'text' }) => (
-                                <div className="student-form-group" key={name}>
-                                    <label className="student-form-label" htmlFor={name}>{label}</label>
-                                    <input className="student-form-input" placeholder="Enter required information" id={name} name={name} type={type} value={form[name]} onChange={handleChange} required />
-                                </div>
-                            ))}
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="name">Name</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter required information"
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    value={form.name}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
+                            </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="nifcountry">NIF Country</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="nif">NIF</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter NIF"
+                                    id="nif"
+                                    name="nif"
+                                    type="text"
+                                    inputMode="numeric"
+                                    pattern="\d*"
+                                    maxLength="9"
+                                    value={form.nif}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="nifcountry">NIF Country</label>
                                 <Select
                                     id="nifcountry"
                                     name="nifcountry"
@@ -125,30 +167,51 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
+                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="street">Street</label>
-                                <input className="student-form-input" placeholder="Enter Street" id="street" name="street" value={form.street} onChange={handleChange} required />
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="street">Street</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Street"
+                                    id="street"
+                                    name="street"
+                                    type="text"
+                                    value={form.street}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
                             </div>
 
-                            <div className="student-form-group postal-code-group">
-                                <label className="student-form-label" htmlFor="postalCodePart1">Postal Code</label>
+                            <div className="form-group postal-code-group">
+                                <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
                                 <div className="postal-code-inputs">
-                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" />
+                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '150px' }} />
                                     <span className="postal-code-separator">-</span>
-                                    <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" />
+                                    <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" style={{ width: '130px' }} />
                                 </div>
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="location">Location</label>
-                                <input className="student-form-input" placeholder="Enter Location" id="location" name="location" value={form.location} onChange={handleChange} required />
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="location">Location</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Location"
+                                    id="location"
+                                    name="location"
+                                    type="text"
+                                    value={form.location}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="addressCountry">Address Country</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="addressCountry">Address Country</label>
                                 <Select
                                     id="addressCountry"
                                     name="addressCountry"
@@ -166,11 +229,12 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
+                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="phone">Phone</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="phone">Phone</label>
                                 <PhoneInput
                                     country={'pt'}
                                     value={form.countryCode + form.phoneNumber}
@@ -190,17 +254,28 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
+                                    inputStyle={{ width: '300px' }}
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="email">E-mail</label>
-                                <input className="student-form-input" placeholder="Enter Email" id="email" name="email" type="email" value={form.email} onChange={handleChange} required />
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="email">E-mail</label>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Email"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    value={form.email}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '300px' }}
+                                />
                             </div>
 
                             {error && <div className="error">⚠️ {error}</div>}
 
-                            <div className="student-form-actions">
+                            <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>
                                     CANCEL
                                 </button>

@@ -1,9 +1,6 @@
 package PAI.assembler.department;
 
-import PAI.VOs.DepartmentAcronym;
-import PAI.VOs.Name;
-import PAI.VOs.TeacherAcronym;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
@@ -90,5 +87,13 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         TeacherID director = new TeacherID(new TeacherAcronym(request.teacherID()));
 
         return new DepartmentWithDirectorCommand(name, acronym, director);
+    }
+
+    @Override
+    public DepartmentID fromStringToDepartmentID(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Department ID cannot be null or blank");
+        }
+        return new DepartmentID(new DepartmentAcronym(id));
     }
 }

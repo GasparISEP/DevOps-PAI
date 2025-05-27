@@ -273,4 +273,39 @@ class DepartmentAssemblerImplTest {
     }
 
 
+    @Test
+    void shouldConvertStringToDepartmentID() {
+        // Arrange
+        String id = "DEI";
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act
+        DepartmentID departmentID = departmentAssembler.fromStringToDepartmentID(id);
+
+        // Assert
+        assertNotNull(departmentID);
+        assertEquals("DEI", departmentID.getAcronym().getAcronym());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStringIsNull() {
+        // Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.fromStringToDepartmentID(null);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStringIsBlank() {
+        // Arrange
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.fromStringToDepartmentID("");
+        });
+    }
 }

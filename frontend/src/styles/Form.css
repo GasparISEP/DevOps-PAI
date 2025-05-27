@@ -1,0 +1,127 @@
+.form-main-component-div {
+    margin-top: 6.8rem;
+    margin-bottom: 6.8rem;
+    max-width: 120rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-main-grid {
+    width: 95%;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+}
+
+.form-img-main-div {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    overflow: hidden;
+    background-image: url("../../src/assets/images/programme-form-image.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-logo-img-div {
+    position: absolute;
+    top: -11rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 30rem;
+}
+
+
+.form-logo-img-div img {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 3.6rem 10rem;
+}
+
+.form h1 {
+    color: #333;
+    align-self: flex-start;
+    font-size: 2.6rem;
+
+}
+
+.form-input {
+    box-sizing: border-box;
+}
+
+.form-input option {
+    color: #333;
+}
+
+
+select.form-input {
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%225%22%20viewBox%3D%220%200%2010%205%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%205%205-5z%22%20fill%3D%22%238C92AC%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 10px 5px;
+    padding-right: 2rem;
+}
+
+
+.form-div {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: flex-start;
+}
+
+.form-and-buttons-main-div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    width: 70%;
+}
+
+.form-label {
+    color: #333;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.form-input {
+    border-radius: 5px;
+    border: 1px solid #8C92AC;
+    width: 100%;
+    padding: 0.4rem;
+}
+
+.form-input::placeholder {
+    color: #b5b5b5;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.4rem;
+}

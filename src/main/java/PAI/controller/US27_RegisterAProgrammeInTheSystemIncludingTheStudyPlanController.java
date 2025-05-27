@@ -6,9 +6,11 @@ import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
     private final IProgrammeService _programmeService;
@@ -56,6 +58,20 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
         try {
             _studyPlanService.createStudyPlan(studyPlanCommand);
             System.out.println("Programme, including study plan registered successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to register study plan: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean registerStudyPlan(String programmeName, String programmeAcronym, String startDate) {
+
+        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeName, programmeAcronym, LocalDate.parse(startDate));
+
+        try {
+            _studyPlanService.createStudyPlan(studyPlanCommand);
+            System.out.println("Study plan registered successfully.");
             return true;
         } catch (Exception e) {
             System.err.println("Failed to register study plan: " + e.getMessage());

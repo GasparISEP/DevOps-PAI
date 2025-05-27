@@ -9,14 +9,14 @@ participant ":DepartmentRestController" as DepartmentRestController <<controller
 participant ":TeacherRestController" as TeacherRestController <<controller>> #82CFFD
 participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
 participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
-participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>>
-participant "studyPlanCommand:RegisterStudyPlanCommand" as Command <<component>>
+participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>> #E1D5E7
+participant "studyPlanCommand:RegisterStudyPlanCommand" as Command <<component>> #FFE599
 participant ":StudyPlanService" as StudyPlanService <<service>> #F6CBA5
 participant ":StudyPlanRepositorySpringDataImpl" as StudyPlanRepository <<repository>> #F6F1E7
-participant ":Programme" as Programme <<component>>
-participant ":DegreeType" as DegreeType <<component>>
-participant ":StudyPlanFactory" as StudyPlanFactory <<factory>>
-participant "studyPlan1:StudyPlan" as StudyPlan <<component>>
+participant ":Programme" as Programme <<component>> #FFE599
+participant ":DegreeType" as DegreeType <<component>> #FFE599
+participant ":StudyPlanFactory" as StudyPlanFactory <<factory>> #C9DAF8
+participant "studyPlan1:StudyPlan" as StudyPlan <<component>> #FFE599
 participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
 participant ":DegreeTypeSpringDataImpl" as DegreeTypeRepository <<repository>> #F6F1E7
 

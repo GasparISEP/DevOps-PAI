@@ -5,9 +5,9 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
-participant ":ProgrammeFactory" as ProgrammeFactory <<factory>>
-participant "PIDVO1:ProgrammeID" as ProgrammeID <<component>>
-participant "p1:Programme" as Programme <<component>>
+participant ":ProgrammeFactory" as ProgrammeFactory <<factory>> #C9DAF8
+participant "PIDVO1:ProgrammeID" as ProgrammeID <<component>> #FFE599
+participant "p1:Programme" as Programme <<component>> #FFE599
 participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
 
 activate ProgrammeService
