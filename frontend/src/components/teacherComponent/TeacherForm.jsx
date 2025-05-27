@@ -9,8 +9,8 @@ import countryList from 'react-select-country-list';
 
 export default function TeacherForm() {
     const [form, setForm] = useState({
+        id: '',
         name: '',
-        acronym: '',
         email: '',
         nif: '',
         academicBackground: '',
@@ -24,13 +24,9 @@ export default function TeacherForm() {
     });
 
     const [departments, setDepartments] = useState([]);
-
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
-
-    const prevCountryCode = useRef('pt');
 
     useEffect(() => {
         async function fetchOptions() {
@@ -53,13 +49,6 @@ export default function TeacherForm() {
 
     function handleChange(e) {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-
-        // If you want to log the selected department ID
-        // if (e.target.name === 'departmentID') {
-        //     console.log('Selected department ID:', e.target.value);
-        // }
-
-        console.log(form.departmentID)
     }
 
     useEffect(() => {
@@ -72,14 +61,12 @@ export default function TeacherForm() {
         setError('');
         setSuccess(null);
         setLoading(true);
+
+        const payload = {
+            ...form,
+        };
+
         try {
-            const selectedDeparment = departments.find(dt => dt.id === form.departmentID);
-
-            // Converte quantECTS e quantSemesters para número
-            const payload = {
-                ...form,
-            };
-
             const response = await registerTeacher(payload);
             setSuccess(response);
         } catch (err) {
@@ -118,7 +105,7 @@ export default function TeacherForm() {
                                     onChange={e => {
                                         // Only allow 3 uppercase letters
                                         let value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3);
-                                        setForm(f => ({ ...f, acronym: value }));
+                                        setForm(f => ({ ...f, acronym: value, id: value }));
                                     }}
                                     maxLength={3}
                                     pattern="[A-Z]{3}"
@@ -163,6 +150,12 @@ export default function TeacherForm() {
                                 <label className="teacher-form-label" htmlFor="location">Location</label>
                                 <input className="teacher-form-input" placeholder="Enter Teacher's Location" id="location" name="location"
                                        value={form.location || ''} onChange={handleChange} required/>
+                            </div>
+
+                            <div className="teacher-form-group">
+                                <label className="teacher-form-label" htmlFor="location">Country</label>
+                                <input className="teacher-form-input" placeholder="Enter Teacher's Country" id="country" name="country"
+                                       value={form.country || ''} onChange={handleChange} required/>
                             </div>
 
                             {/*<div className="teacher-form-group">*/}
