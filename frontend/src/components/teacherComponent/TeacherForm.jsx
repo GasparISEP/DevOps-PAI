@@ -245,7 +245,7 @@ export default function TeacherForm() {
 
                         {success && (
                             <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                Programme registered successfully!
+                                Teacher registered successfully!
                             </div>
                         )}
                     </div>
