@@ -6,9 +6,11 @@ import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
     private final IProgrammeService _programmeService;
