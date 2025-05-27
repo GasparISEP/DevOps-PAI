@@ -4,12 +4,12 @@ title US25: I Want to Know the Average Grade of a Course Edition
 
 ' --- Controller Layer ---
 class CourseEditionRESTController {
-    +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
-    +gradeAStudent(grade : double, date : String student : Student, courseEdition : CourseEdition): GradeStudent
+    +CourseEditionRESTController(studentGradeRepository : IStudentGradeRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
+    +gradeAStudent(grade : double, date : String student : Student, courseEdition : CourseEdition): StudentGrade
 }
 
 ' --- Application Service Layer ---
-interface IStudentGradeService {
+interface IGradeAStudentService {
         +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
         +knowAverageGrade(CourseEditionID)
         +knowApprovalRate(CourseEditionID)
@@ -20,17 +20,22 @@ interface IStudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
-class StudentGradeService {
-        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
-        +knowAverageGrade(CourseEditionID)
-        +knowApprovalRate(CourseEditionID)
-        +findIdByStudent (StudentGrade studentGrade)
-        +save(StudentGrade entity)
-        +findAll()
-        +ofIdentity(StudentGradeID id)
-        +containsOfIdentity(StudentGradeID id)
+interface IGradeAStudentService {
+        +gradeAStudent(gradeAStudentCommand : GradeAStudentCommand)
 }
 
+
+class GradeAStudentServiceImpl {
+       -_studentGradeFactory : IStudentGradeFactory
+               -_studentGradeRepo : IStudentGradeRepository
+               -_courseEditionRepo : ICourseEditionRepository
+               -_courseEditionEnrolmentRepo : ICourseEditionEnrolmentRepository
+               -_programmeEditionRepo : IProgrammeEditionRepository
+               -_schoolYearRepo : ISchoolYearRepository
+               +getAverageGrade(getCourseEditionAverageGradeCommand : GetCourseEditionAverageGradeCommand)
+       }
+
+/'
 ' --- Assemblers/Mappers ---
 interface IStudentGradeAssembler {
     +domainToDTO(studentGrade : StudentGrade)
@@ -43,6 +48,7 @@ class StudentGradeAssembler {
 }
 
 ' --- DTOs (Data Transfer Objects - API Contracts) ---
+
 class StudentGradeRequestDTO {
     -studentGradeId : String
     -courseEditionId : String
@@ -71,7 +77,7 @@ class StudentGradeResponseDTO {
     -date : String
 }
 
-class CourseEditionRequestDTO {
+class CourseEditionResponseDTO {
     -studentGradeId : String
     -courseEditionId : String
     -programmeEditionId : String
@@ -83,7 +89,8 @@ class CourseEditionRequestDTO {
     -teacherId : String
 }
 
-class CourseEditionResponseDTO {
+
+class CourseEditionRequestDTO {
     -studentGradeId : String
     -courseEditionId : String
     -programmeEditionId : String
@@ -103,13 +110,14 @@ class CourseEditionAssembler {
 }
 
 ' --- New DTO for US25 ---
-'class AverageGradeResponseDTO {
- '   +averageGrade : double
-'}
+class CourseEditionAverageGradeResponseDTO {
+   -averageGrade : double
+}
+'/
 
 ' --- Domain Layer ---
 package "StudentGrade" {
-    entity "<<root>>\nGradeStudent"  {
+    entity "<<root>>\nStudentGrade"  {
         +hasThisCourseEdition(CourseEdition : CourseEdition)
         +knowCourseEdition()
         +get_studentID()
@@ -157,12 +165,12 @@ interface IStudentGradeRepositoryInterface {
 }
 
 interface IStudentGradeFactory {
-    +newGradeStudent()
+    +newStudentGrade()
 }
 
 
 class StudentGradeFactoryImpl {
-    +newGradeStudent()
+    +newStudentGrade()
 }
 
 
@@ -233,46 +241,48 @@ entity "<<root>>\nCourseEdition"  {
 "<<root>>\nStudent" "*" --> "1" Email
 "<<root>>\nStudent" "*" --> "1" Phone
 "<<root>>\nStudent" "*" --> "1" Address
-"<<root>>\nGradeStudent" "*" --> "1" Grade
-"<<root>>\nGradeStudent" "*" --> "1" LocalDate
-"<<root>>\nGradeStudent" --> "1" StudentId: belongs
-"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
-IStudentGradeService "1" ....> IStudentGradeFactory
-IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+"<<root>>\nStudentGrade" "*" --> "1" Grade
+"<<root>>\nStudentGrade" "*" --> "1" LocalDate
+"<<root>>\nStudentGrade" --> "1" StudentId: belongs
+"<<root>>\nStudentGrade" --> "1" CourseEditionId : refers to
+IGradeAStudentService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nStudentGrade"
 IStudentGradeFactory <|.. StudentGradeFactoryImpl
 
+/'
 StudentGradeRequestDTO "1" --> "1" CourseEditionRESTController
 CourseEditionRESTController "1" --> "1" StudentGradeAssembler
 StudentGradeRequestDTO "1" --> "1" StudentGradeAssembler
 IStudentGradeAssembler "1" --> "1" StudentGradeAssembler
-StudentGradeAssembler "1" --> "1" StudentGradeService
-StudentGradeResponseDTO "1" --> "1" StudentGradeService
+StudentGradeAssembler "1" --> "1" GradeAStudentServiceImpl
+StudentGradeResponseDTO "1" --> "1" GradeAStudentServiceImpl
 
 
 CourseEditionRequestDTO "1" --> "1" CourseEditionRESTController
 CourseEditionRESTController "1" --> "1" CourseEditionAssembler
 CourseEditionRequestDTO "1" --> "1" CourseEditionAssembler
-CourseEditionResponseDTO "1" --> "1" StudentGradeService
+CourseEditionResponseDTO "1" --> "1" GradeAStudentServiceImpl
+CourseEditionAverageGradeResponseDTO "1" --> "1" GradeAStudentServiceImpl
+'/
 
-
-"<<root>>\nGradeStudent" --> "1" StudentGradeId
+"<<root>>\nStudentGrade" --> "1" StudentGradeId
 "<<root>>\nCourseEdition" --> "1" CourseEditionId
 "<<root>>\nStudent" --> "1" StudentId
-IStudentGradeService <|..StudentGradeService
+IGradeAStudentService <|..GradeAStudentServiceImpl
 IStudentGradeRepositoryInterface <|..StudentGradeRepository
 IStudentGradeRepositoryInterface ....> IStudentGradeFactory
 
 
-IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
+IGradeAStudentService "1" ....> "*" "<<root>>\nStudentGrade"
 
 
-IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
+IGradeAStudentService "1" ..|> IStudentGradeRepositoryInterface
 
 
 ' --- Additions for US25 (Average Grade Query) ---
 
 ' Controller calls service for the average grade
-CourseEditionRESTController "*" ..> "1" IStudentGradeService
+CourseEditionRESTController "*" ..> "1" IGradeAStudentService
 
 ' Assembler creates the AverageGradeResponseDTO
 'IStudentGradeAssembler "1" --> "1" AverageGradeResponseDTO : Creates
@@ -281,13 +291,13 @@ CourseEditionRESTController "*" ..> "1" IStudentGradeService
 'CourseEditionRESTController "1" --> "1" AverageGradeResponseDTO : Returns
 
 ' StudentGradeService delegates to repository for the average
-StudentGradeService "1"-->"1" IStudentGradeRepositoryInterface
+GradeAStudentServiceImpl "1"-->"1" IStudentGradeRepositoryInterface
 
 ' Repository queries the domain entity for the calculation
-IStudentGradeRepositoryInterface --> "<<root>>\nGradeStudent"
+IStudentGradeRepositoryInterface --> "<<root>>\nStudentGrade"
 
 ' CourseEditionId (VO) is used as input by service and repository
-IStudentGradeService "1" --> "1" CourseEditionId
+IGradeAStudentService "1" --> "1" CourseEditionId
 IStudentGradeRepositoryInterface "1" --> "1" CourseEditionId
 
 @enduml
