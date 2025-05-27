@@ -1,5 +1,6 @@
 package PAI.assembler.department;
 
+import PAI.VOs.DepartmentID;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
@@ -20,5 +21,7 @@ public interface IDepartmentAssembler {
     Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> departments);
 
     DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request);
+
+    DepartmentID fromStringToDepartmentID(String id);
 }
 
