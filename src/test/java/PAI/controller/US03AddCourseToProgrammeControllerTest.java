@@ -262,10 +262,6 @@ public class US03AddCourseToProgrammeControllerTest {
     private IProgrammeFactory programmeFactory;
     private IDegreeTypeRepository degreeTypeRepository;
     private IDegreeTypeListFactory degreeTypeListFactory;
-    private IDepartmentRepository departmentRepository;
-    private IDepartmentListFactory departmentListFactory;
-    private ITeacherRepository teacherRepository;
-    private ITeacherListFactory teacherListFactory;
     private IProgrammeAssembler programmeAssembler;
 
     private ICourseService courseService;
@@ -291,12 +287,8 @@ public class US03AddCourseToProgrammeControllerTest {
         programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         degreeTypeListFactory = new DegreeTypeListFactoryImpl();
         degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        departmentListFactory = new DepartmentListFactoryImpl();
-        departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        teacherListFactory = new TeacherListFactoryImpl();
-        teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         programmeAssembler = new ProgrammeAssembler();
-        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
 
         courseFactory = new CourseFactoryImpl();
         courseRepositoryListFactory = new CourseRepositoryListFactoryImpl();

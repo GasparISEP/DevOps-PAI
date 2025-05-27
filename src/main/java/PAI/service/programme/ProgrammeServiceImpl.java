@@ -2,19 +2,11 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.domain.degreeType.DegreeType;
-import PAI.domain.department.Department;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
-import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
-import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,12 +18,9 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     private final IProgrammeFactory _programmeFactory;
     private final IProgrammeRepository _programmeRepository;
-    private IDegreeTypeRepository _degreeTypeRepository;
-    private IDepartmentRepository _departmentRepository;
-    private ITeacherRepository _teacherRepository;
     private IProgrammeAssembler _programmeAssembler;
 
-    public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository, IDegreeTypeRepository degreeTypeRepository, IDepartmentRepository departmentRepository, ITeacherRepository teacherRepository, IProgrammeAssembler programmeAssembler) {
+    public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository, IProgrammeAssembler programmeAssembler) {
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
         }
@@ -41,21 +30,6 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             throw new IllegalArgumentException("Programme Repository cannot be null");
         }
         _programmeRepository = programmeRepository;
-
-        if(degreeTypeRepository == null)
-            throw new IllegalArgumentException("Degree Type Repository cannot be null");
-
-        this._degreeTypeRepository = degreeTypeRepository;
-
-        if(departmentRepository == null)
-            throw new IllegalArgumentException("Department Repository cannot be null");
-
-        this._departmentRepository = departmentRepository;
-
-        if(teacherRepository == null)
-            throw new IllegalArgumentException("Teacher Repository cannot be null");
-
-        this._teacherRepository = teacherRepository;
 
         if(programmeAssembler == null)
             throw new IllegalArgumentException("Programme Assembler cannot be null");
