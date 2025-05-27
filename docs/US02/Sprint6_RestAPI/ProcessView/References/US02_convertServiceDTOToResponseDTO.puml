@@ -1,0 +1,27 @@
+@startuml
+
+title Convert ServiceDTO to ResponseDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ConfigureAccessMethodRESTController" as Controller
+participant ":IAccessMethodControllerAssembler" as amControllerAssembler
+activate Controller #lightBlue
+
+Controller -> amControllerAssembler: toResponseDTO(amServiceDTO)
+activate amControllerAssembler #lightBlue
+
+create "amResponseDTO: AccessMethodResponseDTO"
+amControllerAssembler -> "amResponseDTO: AccessMethodResponseDTO": create (amServiceDTO.id(),amServiceDTO.name())
+amControllerAssembler --> Controller: amResponseDTO
+deactivate amControllerAssembler
+deactivate Controller
+
+@enduml
