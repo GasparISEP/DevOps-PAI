@@ -4,9 +4,9 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 autonumber
 
-participant ":ProgrammeRestController" as ProgrammeRestController <<controller>> #F6CBA5
-participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>>
-participant "studyPlanResponseDTO1:StudyPlanResponseDTO" as StudyPlanResponseDTO <<component>>
+participant ":ProgrammeRestController" as ProgrammeRestController <<controller>> #82CFFD
+participant ":StudyPlanAssembler" as StudyPlanAssembler <<mapper>> #E1D5E7
+participant "studyPlanResponseDTO1:StudyPlanResponseDTO" as StudyPlanResponseDTO <<component>> #FFE599
 
 activate ProgrammeRestController
 ProgrammeRestController -> StudyPlanAssembler ++: **toResponseDTO**(studyPlanDTO)

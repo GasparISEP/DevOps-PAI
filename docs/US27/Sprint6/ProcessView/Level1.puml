@@ -20,10 +20,12 @@ system --> ASC: departmentsList
 ASC -> system: **getAvailableTeachers**()
 system --> ASC: teachersList
 |||
+ASC -> system: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
+system --> ASC: createdProgramme
+|||
 ASC -> system: **selectIncludeStudyPlanOption**(yes)
 system --> ASC: **provideStudyPlanDataFields**()
 |||
-ASC -> system: **submitProgrammeDataWithStudyPlan**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector, studyPlanStartingDate)
-system --> ASC: **registrationConfirmation**(createdProgramme)
-
+ASC -> system: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+system --> ASC: createdStudyPlan
 @enduml
