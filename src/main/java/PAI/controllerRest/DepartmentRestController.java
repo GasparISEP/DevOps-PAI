@@ -3,7 +3,7 @@ package PAI.controllerRest;
 import PAI.assembler.department.IDepartmentAssembler;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.RegisterDepartmentRequest;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.domain.department.Department;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.department.IDepartmentRegistrationService;
@@ -29,8 +29,8 @@ public class DepartmentRestController {
     public ResponseEntity<?> registerDepartment(
             @Valid @RequestBody RegisterDepartmentRequest request) {
         try {
-            RegisterDepartmentCommand command = departmentAssembler.toRegisterDepartmentCommand(request);
-            Department department = departmentRegistrationService.createAndSaveDepartment(command);
+            RegisterDepartmentRequestVOs requestVOs = departmentAssembler.toRegisterDepartmentRequestVOs(request);
+            Department department = departmentRegistrationService.createAndSaveDepartment(requestVOs);
             DepartmentDTO responseDTO = departmentAssembler.toDTO(department);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
 

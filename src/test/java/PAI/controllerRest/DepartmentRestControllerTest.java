@@ -5,7 +5,7 @@ import PAI.VOs.Name;
 import PAI.assembler.department.IDepartmentAssembler;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.dto.department.RegisterDepartmentRequest;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.department.IDepartmentRegistrationService;
@@ -64,9 +64,9 @@ class DepartmentRestControllerTest {
             Name name = mock(Name.class);
             when(name.getName()).thenReturn("Software Engineering Department");
 
-            RegisterDepartmentCommand command = mock (RegisterDepartmentCommand.class);
-            when(command.name()).thenReturn(name);
-            when(command.acronym()).thenReturn(departmentAcronym);
+            RegisterDepartmentRequestVOs requestVOs = mock (RegisterDepartmentRequestVOs.class);
+            when(requestVOs.name()).thenReturn(name);
+            when(requestVOs.acronym()).thenReturn(departmentAcronym);
 
             Department department = mock(Department.class);
             DepartmentDTO dto = mock(DepartmentDTO.class);
@@ -74,8 +74,8 @@ class DepartmentRestControllerTest {
             when(dto.name()).thenReturn("Software Engineering Department");
             when(dto.acronym()).thenReturn("DEI");
 
-            when(departmentAssembler.toRegisterDepartmentCommand(request)).thenReturn(command);
-            when(registrationService.createAndSaveDepartment(command)).thenReturn(department);
+            when(departmentAssembler.toRegisterDepartmentRequestVOs(request)).thenReturn(requestVOs);
+            when(registrationService.createAndSaveDepartment(requestVOs)).thenReturn(department);
             when(departmentAssembler.toDTO(department)).thenReturn(dto);
 
             // Act
@@ -92,15 +92,16 @@ class DepartmentRestControllerTest {
             RegisterDepartmentRequest request = mock(RegisterDepartmentRequest.class);
             when(request.name()).thenReturn("Software Engineering Department");
             when(request.acronym()).thenReturn("DEI");
-            RegisterDepartmentCommand command = mock (RegisterDepartmentCommand.class);
-            when(command.name()).thenReturn(mock(Name.class));
-            when(command.acronym()).thenReturn(mock(DepartmentAcronym.class));
 
-            when(departmentAssembler.toRegisterDepartmentCommand(request)).thenReturn(command);
-            when(registrationService.createAndSaveDepartment(command)).thenReturn(mock(Department.class));
+            RegisterDepartmentRequestVOs requestVOs = mock (RegisterDepartmentRequestVOs.class);
+            when(requestVOs.name()).thenReturn(mock(Name.class));
+            when(requestVOs.acronym()).thenReturn(mock(DepartmentAcronym.class));
 
-            when(departmentAssembler.toRegisterDepartmentCommand(request)).thenReturn(command);
-            when(registrationService.createAndSaveDepartment(command))
+            when(departmentAssembler.toRegisterDepartmentRequestVOs(request)).thenReturn(requestVOs);
+            when(registrationService.createAndSaveDepartment(requestVOs)).thenReturn(mock(Department.class));
+
+            when(departmentAssembler.toRegisterDepartmentRequestVOs(request)).thenReturn(requestVOs);
+            when(registrationService.createAndSaveDepartment(requestVOs))
                     .thenThrow(new BusinessRuleViolationException("Department already exists"));
 
             // Act
@@ -118,7 +119,7 @@ class DepartmentRestControllerTest {
             when(request.name()).thenReturn("Software Engineering Department");
             when(request.acronym()).thenReturn("dei");
 
-            when(departmentAssembler.toRegisterDepartmentCommand(request))
+            when(departmentAssembler.toRegisterDepartmentRequestVOs(request))
                     .thenThrow(new IllegalArgumentException("Invalid Acronym"));
 
             // Act
@@ -136,7 +137,7 @@ class DepartmentRestControllerTest {
             when(request.name()).thenReturn("Software Engineering Department");
             when(request.acronym()).thenReturn("DEI");
 
-            when(departmentAssembler.toRegisterDepartmentCommand(request))
+            when(departmentAssembler.toRegisterDepartmentRequestVOs(request))
                     .thenThrow(new RuntimeException("Unexpected error occurred"));
 
             // Act

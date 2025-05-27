@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.department.Department;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.department.DepartmentWithDirectorDTO;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.dto.department.RegisterDepartmentRequest;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class DepartmentAssemblerImplTest {
     }
 
     @Test
-    void shouldConvertRegisterDepartmentRequestToRegisterDepartmentCommand() {
+    void shouldConvertRegisterDepartmentRequestToRegisterDepartmentRequestVOs() {
         // Arrange
         RegisterDepartmentRequest registerDepartmentRequestDouble = mock(RegisterDepartmentRequest.class);
         when(registerDepartmentRequestDouble.name()).thenReturn("Software Engineering Department");
@@ -37,10 +37,10 @@ class DepartmentAssemblerImplTest {
         DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
-        RegisterDepartmentCommand registerDepartmentCommand = departmentAssembler.toRegisterDepartmentCommand(registerDepartmentRequestDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOs = departmentAssembler.toRegisterDepartmentRequestVOs(registerDepartmentRequestDouble);
 
         // Assert
-        assertNotNull(registerDepartmentCommand);
+        assertNotNull(registerDepartmentRequestVOs);
     }
 
     @Test
@@ -50,7 +50,7 @@ class DepartmentAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            departmentAssembler.toRegisterDepartmentCommand(null);
+            departmentAssembler.toRegisterDepartmentRequestVOs(null);
         });
     }
 
