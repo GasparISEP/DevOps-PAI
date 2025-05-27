@@ -41,7 +41,8 @@ interface IAccessMethodAssembler {
 }
 class AccessMethodAssemblerImpl {
     + toCommand(dto: AccessMethodRequestDTO): RegisterAccessMethodCommand
-    + toDTO(accessMethod: AccessMethod): AccessMethodResponseDTO
+    + toDTO(accessMethod: AccessMethod): AccessMethodServiceDTO
+    + toRequestDTO(accessMethodServiceDTO: AccessMethodServiceDTO): AccessMethodRequestDTO
 }
 
 '===== SERVICE =======
