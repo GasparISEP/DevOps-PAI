@@ -6,8 +6,8 @@ import PAI.VOs.WorkingPercentage;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.dto.Teacher.TeacherWithRelevantDataAssembler;
-import PAI.dto.Teacher.TeacherWithRelevantDataDTO;
+import PAI.dto.teacher.TeacherWithRelevantDataAssembler;
+import PAI.dto.teacher.TeacherWithRelevantDataDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

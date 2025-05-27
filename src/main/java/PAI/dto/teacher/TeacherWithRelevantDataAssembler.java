@@ -1,4 +1,4 @@
-package PAI.dto.Teacher;
+package PAI.dto.teacher;
 
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
@@ -15,6 +15,6 @@ public class TeacherWithRelevantDataAssembler {
         String acronym = teacher.getTeacherID().toString();
         String category = teacherCategory.getName().getName();
         int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
-        return new TeacherWithRelevantDataDTO(name, acronym, category, workingPercentage);
+        return new PAI.dto.teacher.TeacherWithRelevantDataDTO(name, acronym, category, workingPercentage);
     }
 }
