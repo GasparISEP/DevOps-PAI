@@ -46,40 +46,52 @@ Backend --> Frontend: teachersList
 deactivate Backend
 Frontend --> ASC: teachersList
 |||
-ASC -> Frontend: **selectIncludeStudyPlanOption**(yes)
-Frontend --> ASC: **provideStudyPlanDataFields**()
-|||
-ASC -> Frontend: **submitProgrammeDataWithStudyPlan**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector, studyPlanStartingDate)
-Frontend -> Backend: **(POST) registerProgrammeWithStudyPlan**\n(ProgrammeStudyPlanDTO)
+ASC -> Frontend: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
+Frontend -> Backend: **(POST) registerProgramme**\n(ProgrammeStudyPlanDTO)
 activate Backend
 note right Frontend
   Receive as JSON format,
   Converted to
-  ProgrammeStudyPlanDTO
+  ProgrammeDTO
 end note
 
 Backend -> Database: **save**(programmeDM)
 activate Database
 Database --> Backend: True
 deactivate Database
+Backend --> Frontend: 201 Created \n+ \nprogrammeResponseDTO
+deactivate Backend
+note right Frontend
+  Receive as programmeDTO,
+  converted to JSON
+end note
+|||
+Frontend --> ASC: Confirmation \n+ \ncreatedProgramme
+|||
+ASC -> Frontend: **selectIncludeStudyPlanOption**(yes)
+Frontend --> ASC: **provideStudyPlanDataFields**()
+ASC --> Frontend: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+
+Frontend -> Backend++: **(POST) registerStudyPlan**(programmeName, \nprogrammeAcronym, startDate)
+Backend -> Database++: **findById**(programmeIDDM)
+Database --> Backend--: programme
 |||
 Backend -> Database: **findById**(degreeTypeIdDM)
 activate Database
-Backend <-- Database: degreeTypeIdDM
+Backend <-- Database: degreeTypeId
 deactivate Database
 |||
 Backend -> Database: **save**(studyPlanDM)
 activate Database
-Database --> Backend: True
+Database --> Backend: studyPlan
 deactivate Database
 
-Backend --> Frontend: 201 Created \n+ \nProgrammeStudyPlanResponseDTO\t
+Backend --> Frontend: 201 Created \n+ \nStudyPlanResponseDTO\t
 deactivate Backend
 note right Frontend
-  Send as
-  ProgrammeStudyPlanResponseDTO,
+  Send as StudyPlanResponseDTO,
   Converted to JSON
 end note
 
-Frontend --> ASC: Confirmation \n+ \ncreated programme details
+Frontend --> ASC: Confirmation \n+ \ncreatedStudyPlan
 @enduml
