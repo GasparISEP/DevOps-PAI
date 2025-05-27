@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { registerStudent } from '../../services/studentService';
-import studentImage from '../../assets/images/form-image.jpg';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
 import countryList from 'react-select-country-list';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
+import '../../styles/Form.css'
 
 const initialForm = {
     studentID: '',
@@ -79,21 +80,23 @@ export default function StudentForm() {
     }
 
     return (
-        <div className="student-main-component-div">
-            <div className="student-main-grid">
-                <div className="img-main-div">
-                    <img className="form-img" src={studentImage} alt="Student registration visual" />
+        <div className="form-main-component-div">
+            <div className="form-main-grid">
+                <div className="form-img-main-div student-img-background">
+                    <div className="form-logo-img-div">
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                    </div>
                 </div>
 
-                <form className="student-form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <h1>Register Student</h1>
 
-                    <div className="student-form-and-buttons-main-div">
-                        <div className="student-form-div">
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="studentID">Student ID</label>
+                    <div className="form-and-buttons-main-div">
+                    <div className="form-div">
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="studentID">Student ID</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter Student ID"
                                     id="studentID"
                                     name="studentID"
@@ -108,10 +111,10 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="name">Name</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="name">Name</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter required information"
                                     id="name"
                                     name="name"
@@ -123,10 +126,10 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="nif">NIF</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="nif">NIF</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter NIF"
                                     id="nif"
                                     name="nif"
@@ -141,8 +144,8 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="nifcountry">NIF Country</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="nifcountry">NIF Country</label>
                                 <Select
                                     id="nifcountry"
                                     name="nifcountry"
@@ -164,10 +167,10 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="street">Street</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="street">Street</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter Street"
                                     id="street"
                                     name="street"
@@ -179,8 +182,8 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group postal-code-group">
-                                <label className="student-form-label" htmlFor="postalCodePart1">Postal Code</label>
+                            <div className="form-group postal-code-group">
+                                <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
                                 <div className="postal-code-inputs">
                                     <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '160px' }} />
                                     <span className="postal-code-separator">-</span>
@@ -188,10 +191,10 @@ export default function StudentForm() {
                                 </div>
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="location">Location</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="location">Location</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter Location"
                                     id="location"
                                     name="location"
@@ -203,8 +206,8 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="addressCountry">Address Country</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="addressCountry">Address Country</label>
                                 <Select
                                     id="addressCountry"
                                     name="addressCountry"
@@ -227,8 +230,8 @@ export default function StudentForm() {
                             </div>
 
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="phone">Phone</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="phone">Phone</label>
                                 <PhoneInput
                                     country={'pt'}
                                     value={form.countryCode + form.phoneNumber}
@@ -252,10 +255,10 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            <div className="student-form-group">
-                                <label className="student-form-label" htmlFor="email">E-mail</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="email">E-mail</label>
                                 <input
-                                    className="student-form-input"
+                                    className="form-input"
                                     placeholder="Enter Email"
                                     id="email"
                                     name="email"
@@ -269,7 +272,7 @@ export default function StudentForm() {
 
                             {error && <div className="error">⚠️ {error}</div>}
 
-                            <div className="student-form-actions">
+                            <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>
                                     CANCEL
                                 </button>

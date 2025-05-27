@@ -1,11 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { registerTeacher } from '../../services/teacherService';
-import formImage from '../../assets/images/form-image.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import Select from 'react-select';
-import CountryFlag from 'react-country-flag';
-import countryList from 'react-select-country-list';
+import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
+import '../../styles/Form.css'
 
 export default function TeacherForm() {
     const [form, setForm] = useState({
@@ -78,30 +76,32 @@ export default function TeacherForm() {
 
     return (
 
-        <div className="teacher-main-component-div">
-            <div className="teacher-main-grid">
+        <div className="form-main-component-div">
+            <div className="form-main-grid">
 
-                <div className="img-main-div">
-                    <img className="form-img" src={formImage} alt="Person typing on a computer."/>
+                <div className="form-img-main-div teacher-img-background">
+                    <div className="form-logo-img-div">
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                    </div>
                 </div>
 
-                <form className="teacher-form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <h1>Register Teacher</h1>
 
-                    <div className="teacher-form-and-buttons-main-div">
+                    <div className="form-and-buttons-main-div">
 
-                        <div className="teacher-form-div">
+                    <div className="form-div">
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="name">Name</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's name" id="name" name="name"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="name">Name</label>
+                                <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
                                        value={form.name} onChange={handleChange} required/>
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="acronym">Acronym</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="acronym">Acronym</label>
                                 <input
-                                    className="teacher-form-input" placeholder="Enter Teacher's acronym" id="acronym" name="acronym" value={form.acronym}
+                                    className="form-input" placeholder="Enter Teacher's acronym" id="acronym" name="acronym" value={form.acronym}
                                     onChange={e => {
                                         // Only allow 3 uppercase letters
                                         let value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3);
@@ -113,10 +113,10 @@ export default function TeacherForm() {
                                 />
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="email">Email</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="email">Email</label>
                                 <input
-                                    className="teacher-form-input" placeholder="Enter Teacher's Email" id="email" name="email" value={form.email}
+                                    className="form-input" placeholder="Enter Teacher's Email" id="email" name="email" value={form.email}
                                     onChange={handleChange}
                                     required
                                     pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
@@ -124,37 +124,37 @@ export default function TeacherForm() {
                                 />
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="nif">NIF</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's NIF" id="nif" name="nif" type="number"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="nif">NIF</label>
+                                <input className="form-input" placeholder="Enter Teacher's NIF" id="nif" name="nif" type="number"
                                        value={form.nif} onChange={handleChange} required/>
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="academicBackground">Academic Background</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's Academic Background" id="academicBackground" name="academicBackground"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="academicBackground">Academic Background</label>
+                                <input className="form-input" placeholder="Enter Teacher's Academic Background" id="academicBackground" name="academicBackground"
                                        value={form.academicBackground} onChange={handleChange} required/>
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="street">Street</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's Street" id="street" name="street"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="street">Street</label>
+                                <input className="form-input" placeholder="Enter Teacher's Street" id="street" name="street"
                                        value={form.street || ''} onChange={handleChange} required/>
                             </div>
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="postalCode">Postal Code</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's Postal Code" id="postalCode" name="postalCode"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="postalCode">Postal Code</label>
+                                <input className="form-input" placeholder="Enter Teacher's Postal Code" id="postalCode" name="postalCode"
                                        value={form.postalCode || ''} onChange={handleChange} required/>
                             </div>
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="location">Location</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's Location" id="location" name="location"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="location">Location</label>
+                                <input className="form-input" placeholder="Enter Teacher's Location" id="location" name="location"
                                        value={form.location || ''} onChange={handleChange} required/>
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="location">Country</label>
-                                <input className="teacher-form-input" placeholder="Enter Teacher's Country" id="country" name="country"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="location">Country</label>
+                                <input className="form-input" placeholder="Enter Teacher's Country" id="country" name="country"
                                        value={form.country || ''} onChange={handleChange} required/>
                             </div>
 
@@ -189,8 +189,8 @@ export default function TeacherForm() {
                             {/*    </div>*/}
                             {/*</div>*/}
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="phoneNumber">Phone Number</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
                                 <div className="teacher-phone-row">
                                     <PhoneInput
                                         country={'pt'}
@@ -213,15 +213,15 @@ export default function TeacherForm() {
                                         inputClass="teacher-phone-number teacher-form-input"
                                         dropdownStyle={{ zIndex: 9999 }}
                                         enableSearch
-                                        searchClass="teacher-form-input"
+                                        searchClass="form-input"
                                         required
                                     />
                                 </div>
                             </div>
 
-                            <div className="teacher-form-group">
-                                <label className="teacher-form-label" htmlFor="departmentID">Department</label>
-                                <select className="teacher-form-input" id="departmentID" name="departmentID"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="departmentID">Department</label>
+                                <select className="form-input" id="departmentID" name="departmentID"
                                         value={form.departmentID} onChange={handleChange} required>
                                     <option value="">Select Department</option>
                                     {departments.map(d => (
@@ -232,7 +232,7 @@ export default function TeacherForm() {
 
                             {error && <div className="error">{error}</div>}
 
-                            <div className="programme-form-actions">
+                            <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
                                         disabled={loading}>
                                     CANCEL

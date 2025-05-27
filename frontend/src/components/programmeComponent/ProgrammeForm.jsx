@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { registerProgramme } from '../../services/programmeService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
+import '../../styles/Form.css'
 
 export default function ProgrammeForm() {
     const [form, setForm] = useState({
@@ -80,34 +81,34 @@ export default function ProgrammeForm() {
     }
 
     return (
-        <div className="programme-main-component-div">
-            <div className="programme-main-grid">
-                <div className="img-main-div">
-                    <div className="logo-img-form-div">
+        <div className="form-main-component-div">
+            <div className="form-main-grid">
+                <div className="form-img-main-div">
+                    <div className="form-logo-img-div">
                         <img src={ISEPLogoBranco} alt="Logo do ISEP" />
                     </div>
                 </div>
 
-                <form className="programme-form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <h1>Register Programme</h1>
 
-                    <div className="programme-form-and-buttons-main-div">
-                        <div className="programme-form-div">
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="name">Name</label>
-                                <input className="programme-form-input" placeholder="Enter Programme's name" id="name" name="name"
+                    <div className="form-and-buttons-main-div">
+                        <div className="form-div">
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="name">Name</label>
+                                <input className="form-input" placeholder="Enter Programme's name" id="name" name="name"
                                        value={form.name} onChange={handleChange} required />
                             </div>
 
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="acronym">Acronym</label>
-                                <input className="programme-form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="acronym">Acronym</label>
+                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym"
                                        value={form.acronym} onChange={handleChange} required />
                             </div>
 
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="quantSemesters">Semesters</label>
-                                <input className="programme-form-input"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="quantSemesters">Semesters</label>
+                                <input className="form-input"
                                        placeholder="Enter number of semesters"
                                        id="quantSemesters"
                                        name="quantSemesters"
@@ -119,10 +120,10 @@ export default function ProgrammeForm() {
                                        required />
                             </div>
 
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="degreeTypeID">Degree Type</label>
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="degreeTypeID">Degree Type</label>
                                 <select
-                                    className="programme-form-input"
+                                    className="form-input"
                                     id="degreeTypeID"
                                     name="degreeTypeID"
                                     value={form.degreeTypeID}
@@ -136,9 +137,9 @@ export default function ProgrammeForm() {
                                 </select>
                             </div>
 
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="departmentID">Department</label>
-                                <select className="programme-form-input" id="departmentID" name="departmentID"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="departmentID">Department</label>
+                                <select className="form-input" id="departmentID" name="departmentID"
                                         value={form.departmentID} onChange={handleChange} required>
                                     <option value="" disabled hidden>Select Department</option>
                                     {departments.map(d => (
@@ -149,9 +150,9 @@ export default function ProgrammeForm() {
                                 </select>
                             </div>
 
-                            <div className="programme-form-group">
-                                <label className="programme-form-label" htmlFor="teacherID">Programme's Director</label>
-                                <select className="programme-form-input" id="teacherID" name="teacherID"
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="teacherID">Programme's Director</label>
+                                <select className="form-input" id="teacherID" name="teacherID"
                                         value={form.teacherID} onChange={handleChange} required>
                                     <option value="" disabled hidden>Select Teacher</option>
                                     {teachers.map(t => (
@@ -164,7 +165,7 @@ export default function ProgrammeForm() {
 
                             {error && <div className="error">{error}</div>}
 
-                            <div className="programme-form-actions">
+                            <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
                                         disabled={loading}>
                                     CANCEL
