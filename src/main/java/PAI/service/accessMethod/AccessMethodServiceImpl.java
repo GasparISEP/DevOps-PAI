@@ -7,6 +7,7 @@ import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
         AccessMethod newAccessMethod = accessMethodFactory.createAccessMethod(command.name());
         return repositoryAccessMethod.saveAccessMethod(newAccessMethod)
                 .map(assembler::toDTO)
-                .orElseThrow(() -> new BusinessRuleViolationException("Failed to save access method."));
+                .orElseThrow(() -> new AlreadyRegisteredException("Access Method"));
     }
 
 }

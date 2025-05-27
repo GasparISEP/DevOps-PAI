@@ -8,6 +8,7 @@ import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
@@ -112,12 +113,12 @@ class AccessMethodServiceImplTest {
         when(iRepositoryAccessMethod.saveAccessMethod(accessMethod)).thenReturn(Optional.empty());
 
         // act
-        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, () -> {
+        AlreadyRegisteredException exception = assertThrows(AlreadyRegisteredException.class, () -> {
             accessMethodServiceImpl.configureAccessMethod(command);
         });
 
         // assert
-        assertEquals("Failed to save access method.", exception.getMessage());
+        assertEquals("Access Method is already registered.", exception.getMessage());
     }
 
     @Test

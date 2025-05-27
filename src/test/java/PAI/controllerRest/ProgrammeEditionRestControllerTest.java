@@ -28,11 +28,10 @@ class ProgrammeEditionRestControllerTest {
     void shouldCreateController() {
         //Arrange
         IProgrammeEditionService service = mock(ProgrammeEditionService.class);
-        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
         //Act
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service, assembler,controllerAssembler);
+        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service,controllerAssembler);
         //Assert
         assertNotNull(programmeEditionRestController);
     }
@@ -41,21 +40,19 @@ class ProgrammeEditionRestControllerTest {
     void shouldThrowExceptionAndNotCreateControllerIfServiceNull() {
         //Arrange
         IProgrammeEditionService service = null;
-        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service,controllerAssembler));
     }
 @Test
 void getAllProgrammeEditions_shouldReturnList(){
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
     IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-    ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, assembler,controllerAssembler);
+    ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService,controllerAssembler);
 
         CountStudentsDto dto1 = new CountStudentsDto("Engineering", "ENG", UUID.randomUUID());
         CountStudentsDto dto2 = new CountStudentsDto("Law", "LAW", UUID.randomUUID());
@@ -85,10 +82,9 @@ void getAllProgrammeEditions_shouldReturnList(){
     void getNumberOfStudents_shouldReturnCorrectCount() throws Exception {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, assembler,controllerAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService,controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -112,32 +108,29 @@ void getAllProgrammeEditions_shouldReturnList(){
     void shouldThrowExceptionAndNotCreateControllerIfAssemblerNull() {
         //Arrange
         IProgrammeEditionService service = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler assembler = null;
-        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = null;
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service,controllerAssembler));
     }
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfControllerAssemblerNull() {
         //Arrange
         IProgrammeEditionService service = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler assembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = null;
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, assembler,controllerAssembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service,controllerAssembler));
     }
 
     @Test
     void getProgrammeEditionsByProgrammeID_shouldReturnListOfDTOs() throws Exception {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -149,10 +142,10 @@ void getAllProgrammeEditions_shouldReturnList(){
         SchoolYearID schoolYearID1 = new SchoolYearID(UUID.randomUUID());
         SchoolYearID schoolYearID2 = new SchoolYearID(UUID.randomUUID());
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programmeID, schoolYearID1), programmeID, schoolYearID1);
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programmeID, schoolYearID2), programmeID, schoolYearID2);
+        ProgrammeEditionID editionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
+        ProgrammeEditionID editionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
 
-        List<ProgrammeEdition> editions = List.of(edition1, edition2);
+        List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
 
         ProgrammeEditionDTO dto1 = new ProgrammeEditionDTO(
                 new PAI.dto.Programme.ProgrammeIDDTO(programmeName, programmeAcronym),
@@ -163,9 +156,9 @@ void getAllProgrammeEditions_shouldReturnList(){
                 new PAI.dto.schoolYear.SchoolYearIDRequestDTO(schoolYearID2.getSchoolYearID().toString())
         );
 
-        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(editions);
-        when(programmeEditionAssembler.toDTO(programmeID, schoolYearID1)).thenReturn(dto1);
-        when(programmeEditionAssembler.toDTO(programmeID, schoolYearID2)).thenReturn(dto2);
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(editionIDs);
+        when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID1)).thenReturn(dto1);
+        when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
 
         // Act
         ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym);
@@ -179,14 +172,14 @@ void getAllProgrammeEditions_shouldReturnList(){
         assertTrue(responseBody.contains(dto2));
     }
 
+
     @Test
     void getProgrammeEditionsByProgrammeID_shouldReturnEmptyListIfNoneFound() throws Exception {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -195,7 +188,7 @@ void getAllProgrammeEditions_shouldReturnList(){
         Acronym acronym = new Acronym(programmeAcronym);
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
 
-        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
 
         // Act
         ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym);
@@ -206,14 +199,14 @@ void getAllProgrammeEditions_shouldReturnList(){
         assertTrue(response.getBody().isEmpty());
     }
 
+
     @Test
     void getProgrammeEditionsByProgrammeID_shouldThrowExceptionIfServiceFails() throws Exception {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
@@ -222,20 +215,20 @@ void getAllProgrammeEditions_shouldReturnList(){
         Acronym acronym = new Acronym(programmeAcronym);
         ProgrammeID programmeID = new ProgrammeID(name, acronym);
 
-        when(programmeEditionService.getProgrammeEditionsByProgrammeID(programmeID)).thenThrow(new RuntimeException("Internal error"));
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenThrow(new RuntimeException("Internal error"));
 
         // Act & Assert
         assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym));
     }
 
+
     @Test
     void getProgrammeEditionsByProgrammeID_shouldThrowExceptionIfInvalidValueObject() {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, programmeEditionAssembler,controllerAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService,controllerAssembler);
 
         String invalidProgrammeName = "";
         String validAcronym = "ENG";

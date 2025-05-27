@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.util.Collections;
 import java.util.List;
@@ -125,6 +126,37 @@ class GlobalExceptionHandlerTest {
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    public void handleMissingParameter_shouldReturnBadRequestAndCorrectCode() {
+        // Arrange
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        MissingServletRequestParameterException ex =
+                new MissingServletRequestParameterException("paramName", "String");
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleMissingParameter(ex);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("MISSING_PARAMETER", response.getBody().getCode());
+        assertEquals("The required parameter 'paramName' is missing.", response.getBody().getMessage());
+    }
+
+    @Test
+    public void handleMissingParameter_shouldReturnNonNullBodyAndCorrectMessage() {
+        // Arrange
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        MissingServletRequestParameterException ex =
+                new MissingServletRequestParameterException("paramName", "String");
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleMissingParameter(ex);
+
+        // Assert
+        assertNotNull(response.getBody());
 
     }
 }
