@@ -1,0 +1,24 @@
+@startuml
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Process View - Level 3 - Backend)
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+
+participant ":Service" as service <<component>> <<Service>> #teal
+participant ":IAssembler" as assembler <<component>> <<BusinessAssembler>> #teal
+
+activate service #LightBlue
+service -> assembler: toServiceDTO (courseInStudyPlan)
+
+activate assembler #LightBlue
+create "courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO"
+assembler -> "courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO": createCourseInStudyPlanServiceDTO (obj.getSemester,\n obj.getCurricularYear,\n obj.getCourseID,\n obj.getStudPlanID,\n obj.getDurationOfCourse,\n obj.QuantityOfCreditsEcts)
+
+deactivate assembler
+deactivate service
+
+@enduml
