@@ -186,6 +186,23 @@ class StudentServiceImplTest {
         assertThrows(RuntimeException.class, () -> studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble));
     }
 
+    @Test
+    void shouldReturnLastStudentID(){
+        //arrange
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
+        int number = 123456789;
+
+        when(studentRepositoryDouble.lastStudentID()).thenReturn(number);
+
+        //act
+        int result = studentServiceImpl.getLastStudentID();
+
+        //assert
+        assertEquals(number,result);
+
+    }
 
 }
