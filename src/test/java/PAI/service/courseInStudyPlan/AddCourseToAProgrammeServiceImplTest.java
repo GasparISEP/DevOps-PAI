@@ -1,13 +1,14 @@
 package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.studyPlan.IStudyPlanService;
-import PAI.service.studyPlan.StudyPlanServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,7 @@ class AddCourseToAProgrammeServiceImplTest {
     private IStudyPlanService studyPlanService;
     private ICourseInStudyPlanRepository repository;
     private ICourseInStudyPlanFactory factory;
+    private ICourseInStudyPlanBusinessAssembler businessAssembler;
     private AddCourseToAProgrammeServiceImpl service;
 
     @BeforeEach
@@ -28,7 +30,8 @@ class AddCourseToAProgrammeServiceImplTest {
         studyPlanService = mock(IStudyPlanService.class);
         repository = mock(ICourseInStudyPlanRepository.class);
         factory = mock(ICourseInStudyPlanFactory.class);
-        service = new AddCourseToAProgrammeServiceImpl(studyPlanService, repository, factory);
+        businessAssembler = mock(ICourseInStudyPlanBusinessAssembler.class);
+        service = new AddCourseToAProgrammeServiceImpl(studyPlanService, repository, factory, businessAssembler);
     }
 
     @Test
@@ -56,10 +59,13 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(any(), any(), any(), any())).thenReturn(24.0);
         when(repository.save(courseInStudyPlan)).thenReturn(courseInStudyPlan);
 
-        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+        CourseInStudyPlanServiceDTO dto = mock(CourseInStudyPlanServiceDTO.class);
+        when(businessAssembler.toDTO(courseInStudyPlan)).thenReturn(dto);
+
+        CourseInStudyPlanServiceDTO result = service.addCourseToAProgramme(command);
 
         assertNotNull(result);
-        assertEquals(courseInStudyPlan, result);
+        assertEquals(dto, result);
     }
 
     @Test
@@ -224,12 +230,15 @@ class AddCourseToAProgrammeServiceImplTest {
 
         when(repository.save(candidate)).thenReturn(candidate);
 
+        CourseInStudyPlanServiceDTO dto = mock(CourseInStudyPlanServiceDTO.class);
+        when(businessAssembler.toDTO(candidate)).thenReturn(dto);
+
         // act
-        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+        CourseInStudyPlanServiceDTO result = service.addCourseToAProgramme(command);
 
         // assert
         assertNotNull(result);
-        assertEquals(candidate, result);
+        assertEquals(dto, result);
     }
 
     @Test
@@ -273,12 +282,15 @@ class AddCourseToAProgrammeServiceImplTest {
 
         when(repository.save(candidate)).thenReturn(candidate);
 
+        CourseInStudyPlanServiceDTO dto = mock(CourseInStudyPlanServiceDTO.class);
+        when(businessAssembler.toDTO(candidate)).thenReturn(dto);
+
         // act
-        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+        CourseInStudyPlanServiceDTO result = service.addCourseToAProgramme(command);
 
         // assert
         assertNotNull(result);
-        assertEquals(candidate, result);
+        assertEquals(dto, result);
     }
 
     @Test
@@ -325,12 +337,15 @@ class AddCourseToAProgrammeServiceImplTest {
 
         when(repository.save(candidate)).thenReturn(candidate);
 
+        CourseInStudyPlanServiceDTO dto = mock(CourseInStudyPlanServiceDTO.class);
+        when(businessAssembler.toDTO(candidate)).thenReturn(dto);
+
         // act
-        CourseInStudyPlan result = service.addCourseToAProgramme(command);
+        CourseInStudyPlanServiceDTO result = service.addCourseToAProgramme(command);
 
         // assert
         assertNotNull(result);
-        assertEquals(candidate, result);
+        assertEquals(dto, result);
     }
 
 //    @Test
@@ -528,3 +543,4 @@ class AddCourseToAProgrammeServiceImplTest {
 //        });
 //    }
 }
+

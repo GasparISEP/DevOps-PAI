@@ -1,10 +1,12 @@
 package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.studyPlan.IStudyPlanService;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,18 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
     private final IStudyPlanService studyPlanService;
     private final ICourseInStudyPlanRepository repository;
     private final ICourseInStudyPlanFactory factory;
+    private final ICourseInStudyPlanBusinessAssembler businessAssembler;
 
-    public AddCourseToAProgrammeServiceImpl(IStudyPlanService studyPlanService, ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory) {
+    public AddCourseToAProgrammeServiceImpl(IStudyPlanService studyPlanService, ICourseInStudyPlanRepository repository,
+                                            ICourseInStudyPlanFactory factory, ICourseInStudyPlanBusinessAssembler businessAssembler) {
         this.studyPlanService = studyPlanService;
         this.repository = repository;
         this.factory = factory;
+        this.businessAssembler = businessAssembler;
     }
 
     @Override
-    public CourseInStudyPlan addCourseToAProgramme(CourseInStudyPlanCommand courseInStudyPlanCommand) throws Exception {
+    public CourseInStudyPlanServiceDTO addCourseToAProgramme(CourseInStudyPlanCommand courseInStudyPlanCommand) throws Exception {
         if (courseInStudyPlanCommand == null) {
             throw new IllegalArgumentException("CourseInStudyPlanCommand cannot be null.");
         }
@@ -62,7 +67,9 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
             throw new BusinessRuleViolationException("This StudyPlan already has 30 ECTS credits.");
         }
 
-        return repository.save(courseInStudyPlan);
+        CourseInStudyPlan courseInStudyPlanSave = repository.save(courseInStudyPlan);
+
+        return businessAssembler.toDTO(courseInStudyPlanSave);
     }
 
 }

@@ -5,14 +5,14 @@ skinparam sequenceMessageAlign center
 autonumber
 
 participant ":ProgrammeService" as ProgrammeService <<service>> #F6CBA5
-participant ":DegreeTypeRepository" as DegreeTypeRepository <<repository>>
-participant ":DegreeType" as DegreeType <<component>>
-participant ":DepartmentNameRepository" as DepartmentRepository <<repository>>
-participant ":Department" as Department <<component>>
-participant ":TeacherRepository" as TeacherRepository <<repository>>
-participant ":Teacher" as Teacher <<component>>
-participant ":Name" as Name <<component>>
-participant ":ProgrammeAssembler" as ProgrammeAssembler <<mapper>>
+participant ":DegreeTypeRepository" as DegreeTypeRepository <<repository>> #F6F1E7
+participant ":DegreeType" as DegreeType <<component>> #FFE599
+participant ":DepartmentNameRepository" as DepartmentRepository <<repository>> #F6F1E7
+participant ":Department" as Department <<component>> #FFE599
+participant ":TeacherRepository" as TeacherRepository <<repository>> #F6F1E7
+participant ":Teacher" as Teacher <<component>> #FFE599
+participant ":Name" as Name <<component>> #FFE599
+participant ":ProgrammeAssembler" as ProgrammeAssembler <<mapper>> #E1D5E7
 participant "programmeResponseDTO1:ProgrammeResponseDTO" as ProgrammeResponseDTO <<component>>
 
 activate ProgrammeService

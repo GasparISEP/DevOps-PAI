@@ -1,11 +1,14 @@
 package PAI.service.department;
 
+import PAI.VOs.DepartmentID;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class DepartmentRegistrationServiceImpl implements IDepartmentRegistrationService {
@@ -41,5 +44,10 @@ public class DepartmentRegistrationServiceImpl implements IDepartmentRegistratio
     @Override
     public Iterable<Department> getAllDepartments() {
         return departmentRepository.findAll();
+    }
+
+    @Override
+    public Optional<Department> getDepartmentById(DepartmentID departmentID) {
+        return departmentRepository.findDepartmentByID(departmentID);
     }
 }
