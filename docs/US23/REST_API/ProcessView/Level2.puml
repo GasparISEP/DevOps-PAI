@@ -5,8 +5,8 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 title: I want to know the approval percentage of a Course Edition \n (Process View Level 2)
 actor RUC as RUC #lightgrey
 
-participant "Frontend" as FE #application
-participant "Backend" as BE #strategy
+participant ":Frontend" as FE #application
+participant ":Backend" as BE #strategy
 database DB
 
 
