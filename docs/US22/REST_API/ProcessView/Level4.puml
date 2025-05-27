@@ -9,12 +9,6 @@ participant ":UI" as ui #application
 participant ":CourseEditionRESTController" as ctrlrREST #business
 participant ":StudentGradeAssemblerImpl" as assembler #implementation
 participant ":GradeAStudentServiceImpl" as service #motivation
-participant ":CourseEditionEnrolmentRepositorySpringData" as ceer #physical
-participant ":CourseEditionEnrolmentMapperImpl" as ceemp #strategy
-participant ":StudentGradeFactoryImpl" as sgf #technology
-participant "sg1:StudentGrade" as gs #skyblue
-participant ":CourseEditionRepositorySpringData" as courseEditionRepo #lightsteelblue
-participant ":ICourseEditionRepositorySpringData" as icourseEditionRepo #wheat
 participant ":StudentGradeRepositorySpringData" as sgr #lightcoral
 participant ":StudentGradeMapper" as sgmp #mistyrose
 participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
@@ -22,81 +16,40 @@ participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData 
 
 RUC -> ui : I want to **grade a Student** in a Course Edition
 activate ui
-ui -> ctrlrREST : (GET) \n Retrieve all CourseEditions
-activate ctrlrREST
-ctrlrREST -> service : findAll()
-activate service
-service -> courseEditionRepo : findAll()
-activate courseEditionRepo
-courseEditionRepo -> icourseEditionRepo : findAll()
-activate icourseEditionRepo
-icourseEditionRepo ->  : findAll()
-icourseEditionRepo <--  : all CourseEditions
-icourseEditionRepo -> courseEditionRepo : all CourseEditions
-deactivate icourseEditionRepo
-courseEditionRepo --> service : all CourseEditions
-deactivate courseEditionRepo
-service --> ctrlrREST : all CourseEditions
-deactivate service
-ctrlrREST --> ui : all CourseEditions
-deactivate ctrlrREST
+
+ref over ui : \t    **Interaction Use #1** \n \n \t **(GET)** \n \t \t Retrieves All Course Editions from Database
 
 ui --> RUC : Which CourseEdition?
 RUC -> ui : This CourseEdition!
 
-ui --> RUC : Grade, Date, CourseEditionID, StudentID?
+ui --> RUC : Fill in the **Student grading** information
 RUC -> ui : grade, date, courseEditionID, studentID!
-ui -> ctrlrREST : gradeAStudent (grade, date, studentID, courseEditionID)
+ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
 activate ctrlrREST
-ctrlrREST -> assembler : toDomain(studentGradeRequestDTO)
-activate assembler
-ref over assembler : \t \t \t \t  Convert StudentGradeRequestDTO \n \t \t \t  into GradeAStudentCommand
-assembler --> ctrlrREST : gradeAStudentCommand
-deactivate assembler
+
+ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert StudentGradeRequestDTO \n \t \t \t \t      into GradeAStudentCommand
 
 
-ctrlrREST -> service : gradeAStudent (grade, date, studentID, courseEditionID)
+ctrlrREST -> service : gradeAStudent (gradeAStudentCommand)
 activate service
-service -> ceer : isStudentEnrolledInCourseEdition (studentID, courseEditionID)
-activate ceer
-
-ceer -> ceer: findAll()
-ceer -> ceemp :  DataModel CEE
-activate ceemp
-ceemp --> ceer : List <CEE>
-deactivate ceemp
-ceer --> service : true
-deactivate ceer
-
-service -> service : isDateGradeInRangeWithSchoolYear()
-service -> service : hasStudentAlreadyGradeAtThisCourseEdition()
-
-service -> sgf : newGradeStudent (Grade,Date, StudentID, CourseEditionID)
-activate sgf
-create gs
-sgf -> gs : <Create> (Grade,Date, StudentID, CourseEditionID)
-activate gs
-gs --> sgf : sg1
-deactivate gs
-sgf --> service : sg1
-deactivate sgf
-service -> sgr : save(sg1)
+ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t          Validate Grading Business Rules and \n \t \t \t \t  Create **StudentGrade** Entity
+service -> sgr : save(studentGrade1)
 activate sgr
-sgr -> sgmp : toData(sg1)
+sgr -> sgmp : toData(studentGrade1)
 activate sgmp
-sgmp --> sgr : studentGradeDataModel
+sgmp --> sgr : studentGradeDataModel1
 deactivate sgmp
-sgr -> IStudentGradeRepoSpringData : save(studentGradeDataModel)
+sgr -> IStudentGradeRepoSpringData : save(studentGradeDataModel1)
 activate IStudentGradeRepoSpringData
-IStudentGradeRepoSpringData ->  : save In Database
-IStudentGradeRepoSpringData <--  : studentGradeDataModel
-IStudentGradeRepoSpringData --> sgr : sg1
+IStudentGradeRepoSpringData ->  : insert
+IStudentGradeRepoSpringData <--  : studentGradeDataModel1
+IStudentGradeRepoSpringData --> sgr : studentGrade1
 deactivate IStudentGradeRepoSpringData
-sgr -> sgmp : toDomain(studentGradeDataModel)
+sgr -> sgmp : toDomain(studentGradeDataModel1)
 activate sgmp
-sgmp --> sgr : sg1
+sgmp --> sgr : studentGrade1
 deactivate sgmp
-sgr --> service -- : sg1
+sgr --> service -- : studentGrade1
 service --> ctrlrREST -- : Status Code 200 (OK!)
 ctrlrREST --> ui -- : Status Code 200 (OK!)
 ui --> RUC : Success!

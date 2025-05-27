@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.SchoolYearID;
 import PAI.VOs.StudentID;
@@ -12,6 +14,7 @@ import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 
+@Component
 public class ProgrammeEditionEnrolmentAssemblerImpl implements IProgrammeEditionEnrolmentAssembler {
 
     private final ISchoolYearRepository iSchoolYearRepository;

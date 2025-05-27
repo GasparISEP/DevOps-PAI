@@ -7,7 +7,7 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
 
 public interface ICourseInStudyPlanAssembler {
 
-    CourseInStudyPlanCommand toCommand(CourseInStudyPlanRequestDTO request);
+    CourseInStudyPlanCommand toCommand(CourseInStudyPlanRequestDTO request) throws Exception;
 
     CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlan courseInStudyPlan);
 

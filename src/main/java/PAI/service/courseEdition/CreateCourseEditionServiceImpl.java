@@ -132,5 +132,8 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
         return programmeEditionRepository.getProgrammeEditionsByProgrammeID(programmeID);
     }
 
-
+    @Override
+    public Iterable<CourseEdition> findAll () {
+        return courseEditionRepository.findAll();
+    }
 }

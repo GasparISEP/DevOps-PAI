@@ -349,12 +349,6 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
 
         // Course Edition
@@ -365,13 +359,11 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         // Course Edition Enrolment
         ICourseEditionEnrolmentListFactory courseEditionEnrollmentListFactory = new CourseEditionEnrolmentListFactoryImpl();
         ICourseEditionEnrolmentRepository courseEditionEnrolmentRepositoryImpl = new CourseEditionEnrolmentRepositoryImpl(courseEditionEnrollmentListFactory);
-        CourseEditionEnrolmentFactoryImpl courseEditionEnrolmentFactory = new CourseEditionEnrolmentFactoryImpl();
 
         // School Year
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
         ISchoolYearRepository schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
-        SchoolYearMapperImpl schoolYearMapper = new SchoolYearMapperImpl(schoolYearFactoryImpl);
         ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactoryImpl);
 
         // Programme Enrolment
@@ -394,9 +386,6 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(
                 programmeFactory,
                 programmeRepository,
-                degreeTypeRepository,
-                departmentRepository,
-                teacherRepository,
                 programmeAssembler);
 
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactoryImpl, schoolYearMapperDTO);
@@ -482,14 +471,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -564,14 +547,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
 
         //Programme Enrolment
@@ -651,14 +628,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
 
         //Programme Enrolment
@@ -747,14 +718,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
 
         //Programme Enrolment
@@ -881,7 +846,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -988,8 +953,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
-
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
         //Programme Enrolment
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
@@ -1091,14 +1055,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
 
         //Programme Enrolment
@@ -1172,14 +1130,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepositoryListFactory IProgrammeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory);
-        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
-        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, degreeTypeRepository, departmentRepository, teacherRepository, programmeAssembler);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(IProgrammeFactory, programmeRepository, programmeAssembler);
 
 
         //Programme Enrolment

@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Administrator" as Admin
+
+rectangle "Degree Access Method System" {
+    usecase "Configure Degree Access Method" as UC_ConfigAccessMethod
+}
+
+Admin --> UC_ConfigAccessMethod
+
+@enduml

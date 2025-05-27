@@ -64,7 +64,7 @@ class DepartmentWithDirectorCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentCommand(name, acronym);
+            new RegisterDepartmentRequestVOs(name, acronym);
         });
         assertEquals("Name is required", exception.getMessage());
     }

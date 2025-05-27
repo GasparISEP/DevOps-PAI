@@ -1,10 +1,11 @@
 .teacher-main-component-div {
     margin-top: 4.2rem;
     margin-bottom: 4.2rem;
-    max-width: 120rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    box-sizing: border-box;
 }
 
 .teacher-main-grid {
@@ -64,20 +65,22 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.2rem;
-    width: 70%;
+    width: 100%;
+    font-size: 1.6rem;
 }
 
 .teacher-form-label {
     color: #333;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
 }
 
 .teacher-form-input {
     border-radius: 5px;
     border: 1px solid #8C92AC;
     width: 100%;
-    padding: 0.4rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.6rem;
 }
 
 .teacher-form-input::placeholder {

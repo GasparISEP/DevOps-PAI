@@ -17,6 +17,4 @@ public interface ICourseInStudyPlanService {
     List<CourseInStudyPlan> getCoursesByStudyPlanId(StudyPlanID studyPlanID) throws Exception;
 
     Optional<CourseInStudyPlan> findById(CourseInStudyPlanID courseInStudyPlanID);
-
-    CourseInStudyPlan createCourseInStudyPlan(CourseInStudyPlanCommand command) throws Exception;
 }

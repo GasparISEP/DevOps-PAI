@@ -12,43 +12,45 @@ participant ":Repository" as repository <<component>> <<Repository>> #teal
 
 note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
 
--> router: addCourseToProgramme (JSON)
+-> router: POST addCourseToProgramme (JSON)
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
-router -> restController: addCourseToProgramme (DTO)
+router -> restController: addCourseToProgramme (RequestDTO)
 activate restController #E1F5FE
 
 ref over restController
     Convert addCourseToProgrammeRequestDTO
-    to CourseInStudyPlanCommmand
+    to addCourseToProgrammeCommand
 end
 
 restController -> service: addCourseToProgramme (command)
 activate service #E1F5FE
 
-ref over service
-    Convert CourseInStudyPlanCommand to CourseInStudyPlanVO
-end
-
-service -> domain: addCourseToProgramme(VO)
+service -> domain: addCourseToProgramme(command)
 activate domain #E1F5FE
 
-domain -> service: courseInStudyPlan(VO)
+domain --> service: courseInStudyPlan
 deactivate domain
 
-service --> repository: save(courseInStudyPlanVO)
+service -> repository: save(courseInStudyPlan)
 activate repository #E1F5FE
 
-repository --> service: courseInStudyPlan(VO)
+repository --> service: courseInStudyPlan
 deactivate repository
 
-ref over restController
-    Convert courseInStudyPlanVO to courseInStudyPlanResponseDTO
+ref over service
+    Convert courseInStudyPlan
+    to courseInStudyPlanServiceDTO
 end
 
-service --> restController: courseInStudyPlanResponseDTO
+ref over restController
+    Convert courseInStudyPlanServiceDTO
+    to courseInStudyPlanResponseDTO
+end
+
+service --> restController: courseInStudyPlanServiceDTO
 deactivate service
 
 restController --> router: (201, Created) courseInStudyPlanResponseDTO

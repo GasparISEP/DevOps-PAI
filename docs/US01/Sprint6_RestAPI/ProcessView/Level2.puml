@@ -10,9 +10,9 @@ autonumber
 
 actor Administrator as admin
 
-participant "Frontend" as frontend <<Container>>
-participant "Backend" as backend <<Container>>
-participant "Database" as db <<Container>>
+participant ":Frontend" as frontend <<Container>>
+participant ":Backend" as backend <<Container>>
+participant ":Database" as db <<Container>>
 
 admin -> frontend: I want to configure teacher categories!
 activate frontend #E1F5FE

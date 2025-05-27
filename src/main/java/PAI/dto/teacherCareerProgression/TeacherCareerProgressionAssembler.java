@@ -12,43 +12,24 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
     public TeacherCareerProgressionAssembler() {
     }
 
-    public TeacherCareerProgression toDomain(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        TeacherCareerProgressionID teacherCareerProgressionID = new TeacherCareerProgressionID(UUID.fromString(teacherCareerProgressionDTO.getTcpID()));
-        Date date = new Date(teacherCareerProgressionDTO.getDate());
-        TeacherCategoryID teacherCategoryID = new TeacherCategoryID(UUID.fromString(teacherCareerProgressionDTO.getTcID()));
-        WorkingPercentage wp = new WorkingPercentage(teacherCareerProgressionDTO.getWorkingPercentage());
-        TeacherID teacherID = new TeacherID(new TeacherAcronym(teacherCareerProgressionDTO.getTeacherID()));
-
-        return new TeacherCareerProgression (teacherCareerProgressionID, date,teacherCategoryID, wp,teacherID);
-    }
-
-    public TeacherWorkingPercentageUpdateDTO toTeacherWorkingPercentageUpdateDTO(TeacherCareerProgression teacherCareerProgression) {
+    @Override
+    public UpdateTeacherWorkingPercentageResponseDTO toUpdateWorkingPercentageDTO(TeacherCareerProgression teacherCareerProgression){
         String date = teacherCareerProgression.getDate().toString();
-        int wp = teacherCareerProgression.getWorkingPercentage().getValue();
-        String teacherID = teacherCareerProgression.getTeacherID().toString();
-
-        return new TeacherWorkingPercentageUpdateDTO(date,wp,teacherID);
+        String teacherID = teacherCareerProgression.getTeacherID().getTeacherAcronym().getAcronym();
+        String teacherCategoryID = teacherCareerProgression.getTeacherCategoryID().toString();
+        int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
+        return new UpdateTeacherWorkingPercentageResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
+    }
+    @Override
+    public UpdateTeacherWorkingPercentageCommand toUpdateTeacherWorkingPercentageCommand(UpdateTeacherWorkingPercentageRequestDTO request) {
+        Date date = new Date(request.date());
+        TeacherID teacherID = new TeacherID(new TeacherAcronym(request.teacherID()));
+        WorkingPercentage workingPercentage = new WorkingPercentage(request.workingPercentage());
+        return new UpdateTeacherWorkingPercentageCommand(date,teacherID,workingPercentage);
     }
 
-    public TeacherCareerProgressionID toTeacherCareerProgressionID(TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        return new TeacherCareerProgressionID(UUID.fromString(teacherCareerProgressionDTO.getTcpID()));
-    }
 
-    public Date todate (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        return new Date(teacherCareerProgressionDTO.getDate());
-    }
 
-    public TeacherCategoryID toTeacherCategoryID (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        return new TeacherCategoryID(UUID.fromString(teacherCareerProgressionDTO.getTcID()));
-    }
-
-    public WorkingPercentage toWorkingPercentage (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        return new WorkingPercentage(teacherCareerProgressionDTO.getWorkingPercentage());
-    }
-
-    public TeacherID toTeacherID (TeacherCareerProgressionDTO teacherCareerProgressionDTO) {
-        return new TeacherID(new TeacherAcronym(teacherCareerProgressionDTO.getTeacherID()));
-    }
     @Override
     public UpdateTeacherCategoryResponseDTO toUpdateCategoryDTO(TeacherCareerProgression teacherCareerProgression){
         String date = teacherCareerProgression.getDate().toString();

@@ -13,6 +13,28 @@ class CourseEditionDataModelTest {
 
     // -----Constructos Tests-----
     @Test
+    void shouldThrowExceptionIfGivenArgumentIsNull() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel);});
+
+        // Assert
+        assertEquals("courseEditionIDDataModel cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldCreateCourseEditionDataModelWithOnlyCourseEditionArgument() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        // Act
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel);
+        // Assert
+        assertNotNull(courseEditionDataModel);
+    }
+
+    @Test
     void shouldCreateCourseEditionDataModelWithEmptyArguments() {
         // Arrange
         CourseEditionDataModel courseEditionDataModel;

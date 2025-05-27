@@ -1,10 +1,10 @@
 @startuml
 title Detailed Flow: Retrieve Programmes by Degree Type ID \n(GET /programmes/{degreeTypeID})
 
-participant "<<component>>\nRouter" as Router
-participant "<<component>>\nIProgrammeRestController\n(REST Controller)" as Controller
-participant "<<component>>\nIProgrammeService\n(Service)" as Service
-participant "<<component>>\nIProgrammeRepository\n(Repository)" as Repository
+participant "<<component>>\n:Router" as Router
+participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as Controller
+participant "<<component>>\n:IProgrammeService\n(Service)" as Service
+participant "<<component>>\n:IProgrammeRepository\n(Repository)" as Repository
 database "Database" as DB
 
 -> Router: GET /programmes/{degreeTypeID}

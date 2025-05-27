@@ -9,10 +9,7 @@ import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
-import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryRequestDTO;
-import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryResponseDTO;
+import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.teacher.ITeacherRegistrationService;
 import static org.mockito.Mockito.mock;
@@ -448,6 +445,99 @@ class TeacherRestControllerTest {
                 teacherRestController.updateTeacherCategory(request)
         );
 
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        assertEquals("Unexpected error", exception.getReason());
+    }
+
+    @Test
+    void shouldReturnCreatedWhenUpdateTeacherWorkingPercentageSuccessful() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
+        UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
+        TeacherCareerProgression progression = mock(TeacherCareerProgression.class);
+        UpdateTeacherWorkingPercentageResponseDTO responseDTO = mock(UpdateTeacherWorkingPercentageResponseDTO.class);
+
+        when(careerAssembler.toUpdateTeacherWorkingPercentageCommand(request)).thenReturn(command);
+        when(careerService.updateTeacherWorkingPercentageInTeacherCareerProgression(command)).thenReturn(Optional.of(progression));
+        when(careerAssembler.toUpdateWorkingPercentageDTO(progression)).thenReturn(responseDTO);
+
+        // Act
+        ResponseEntity<?> response = controller.updateTeacherWorkingPercentage(request);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(responseDTO, response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenUpdateTeacherWorkingPercentageReturnsEmpty() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
+        UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
+
+        when(careerAssembler.toUpdateTeacherWorkingPercentageCommand(request)).thenReturn(command);
+        when(careerService.updateTeacherWorkingPercentageInTeacherCareerProgression(command)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<?> response = controller.updateTeacherWorkingPercentage(request);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Unable to update teacher working percentage", response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenUpdateTeacherWorkingPercentageThrowsIllegalArgumentException() {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
+
+        when(careerAssembler.toUpdateTeacherWorkingPercentageCommand(request)).thenThrow(new IllegalArgumentException("Invalid input"));
+
+        // Act
+        ResponseEntity<?> response = controller.updateTeacherWorkingPercentage(request);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid input", response.getBody());
+    }
+
+    @Test
+    void shouldThrowInternalServerErrorWhenUpdateTeacherWorkingPercentageThrowsUnexpectedException() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+
+        UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
+        UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
+
+        when(careerAssembler.toUpdateTeacherWorkingPercentageCommand(request)).thenReturn(command);
+        when(careerService.updateTeacherWorkingPercentageInTeacherCareerProgression(command)).thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act & Assert
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                controller.updateTeacherWorkingPercentage(request)
+        );
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
         assertEquals("Unexpected error", exception.getReason());
     }

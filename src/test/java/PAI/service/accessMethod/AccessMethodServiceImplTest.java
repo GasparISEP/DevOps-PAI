@@ -6,7 +6,9 @@ import PAI.domain.accessMethod.AccessMethod;
 import PAI.domain.accessMethod.IAccessMethodFactory;
 import PAI.domain.repositoryInterfaces.accessMethod.IRepositoryAccessMethod;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -39,7 +41,7 @@ class AccessMethodServiceImplTest {
         IAccessMethodAssembler iAccessMethodAssembler = mock(IAccessMethodAssembler.class);
         // act & assert
         assertThrows(IllegalArgumentException.class, ()->{
-            new AccessMethodServiceImpl(iAccessMethodFactory, null,iAccessMethodAssembler);
+            new AccessMethodServiceImpl(iAccessMethodFactory, null, iAccessMethodAssembler);
         });
     }
 
@@ -63,9 +65,10 @@ class AccessMethodServiceImplTest {
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
                 iRepositoryAccessMethod, iAccessMethodAssembler);
         String accessMethodName = "M23";
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(accessMethodName);
-        AccessMethodResponseDTO responseDTO = mock(AccessMethodResponseDTO.class);
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(vo);
+
+        AccessMethodServiceDTO expectedDto = mock(AccessMethodServiceDTO.class);
         AccessMethod accessMethod = mock(AccessMethod.class);
 
         when(iRepositoryAccessMethod.getAccessMethodByName(any(NameWithNumbersAndSpecialChars.class)))
@@ -78,14 +81,13 @@ class AccessMethodServiceImplTest {
                 .thenReturn(Optional.of(accessMethod));
 
         when(iAccessMethodAssembler.toDto(eq(accessMethod)))
-                .thenReturn(responseDTO);
+                .thenReturn(expectedDto);
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        AccessMethodServiceDTO result = accessMethodServiceImpl.configureAccessMethod(command);
 
         // assert
-        assertTrue(result.isPresent());
-        assertEquals(responseDTO, result.get());
+        assertEquals(expectedDto, result);
     }
 
     @Test
@@ -97,8 +99,8 @@ class AccessMethodServiceImplTest {
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
                 iRepositoryAccessMethod, iAccessMethodAssembler);
         String accessMethodName = "M23";
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(accessMethodName);
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(vo);
         AccessMethod accessMethod = mock(AccessMethod.class);
 
         when(iRepositoryAccessMethod.getAccessMethodByName(vo)).thenReturn(Optional.empty());
@@ -106,10 +108,12 @@ class AccessMethodServiceImplTest {
         when(iRepositoryAccessMethod.saveAccessMethod(accessMethod)).thenReturn(Optional.empty());
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            accessMethodServiceImpl.configureAccessMethod(command);
+        });
 
         // assert
-        assertTrue(result.isEmpty());
+        assertEquals("Failed to save access method.", exception.getMessage());
     }
 
     @Test
@@ -122,17 +126,20 @@ class AccessMethodServiceImplTest {
                 iRepositoryAccessMethod, iAccessMethodAssembler);
 
         String accessMethodName = "M23";
-        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(accessMethodName);
         NameWithNumbersAndSpecialChars vo = new NameWithNumbersAndSpecialChars(accessMethodName);
+        RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(vo);
         AccessMethod existingAccessMethod = mock(AccessMethod.class);
 
-        when(iRepositoryAccessMethod.getAccessMethodByName(vo)).thenReturn(Optional.of(existingAccessMethod));
+        when(iRepositoryAccessMethod.getAccessMethodByName(any(NameWithNumbersAndSpecialChars.class)))
+                .thenReturn(Optional.of(existingAccessMethod));
 
         // act
-        Optional<AccessMethodResponseDTO> result = accessMethodServiceImpl.configureAccessMethod(command);
+        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            accessMethodServiceImpl.configureAccessMethod(command);
+        });
 
         // assert
-        assertTrue(result.isEmpty());
+        assertEquals("Access method already exists.", exception.getMessage());
     }
 
     @Test

@@ -5,7 +5,7 @@ import PAI.VOs.Name;
 import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.dto.department.RegisterDepartmentCommand;
+import PAI.dto.department.RegisterDepartmentRequestVOs;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +30,9 @@ class DepartmentRegistrationServiceImplTest {
         Name nameDouble = mock(Name.class);
         when(nameDouble.getName()).thenReturn("Department of Informatics");
 
-        RegisterDepartmentCommand registerDepartmentCommandDouble = mock(RegisterDepartmentCommand.class);
-        when(registerDepartmentCommandDouble.name()).thenReturn(nameDouble);
-        when(registerDepartmentCommandDouble.acronym()).thenReturn(acronymDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOsDouble = mock(RegisterDepartmentRequestVOs.class);
+        when(registerDepartmentRequestVOsDouble.name()).thenReturn(nameDouble);
+        when(registerDepartmentRequestVOsDouble.acronym()).thenReturn(acronymDouble);
 
         Department departmentDouble = mock(Department.class);
 
@@ -43,7 +43,7 @@ class DepartmentRegistrationServiceImplTest {
         when(departmentRepositoryDouble.save(mock(Department.class))).thenReturn(departmentDouble);
 
         // Act
-        Department result = service.createAndSaveDepartment(registerDepartmentCommandDouble);
+        Department result = service.createAndSaveDepartment(registerDepartmentRequestVOsDouble);
 
         // Assert
         assertNotNull(result);
@@ -59,14 +59,14 @@ class DepartmentRegistrationServiceImplTest {
         DepartmentAcronym acronymDouble = null;
         Name nameDouble = mock(Name.class);
 
-        RegisterDepartmentCommand registerDepartmentCommandDouble = mock(RegisterDepartmentCommand.class);
-        when(registerDepartmentCommandDouble.name()).thenReturn(nameDouble);
-        when(registerDepartmentCommandDouble.acronym()).thenReturn(acronymDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOsDouble = mock(RegisterDepartmentRequestVOs.class);
+        when(registerDepartmentRequestVOsDouble.name()).thenReturn(nameDouble);
+        when(registerDepartmentRequestVOsDouble.acronym()).thenReturn(acronymDouble);
 
         IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> service.createAndSaveDepartment(registerDepartmentCommandDouble));
+        assertThrows(IllegalArgumentException.class, () -> service.createAndSaveDepartment(registerDepartmentRequestVOsDouble));
     }
 
     @Test
@@ -78,14 +78,14 @@ class DepartmentRegistrationServiceImplTest {
         DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
         Name nameDouble = null;
 
-        RegisterDepartmentCommand registerDepartmentCommandDouble = mock(RegisterDepartmentCommand.class);
-        when(registerDepartmentCommandDouble.name()).thenReturn(nameDouble);
-        when(registerDepartmentCommandDouble.acronym()).thenReturn(acronymDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOsDouble = mock(RegisterDepartmentRequestVOs.class);
+        when(registerDepartmentRequestVOsDouble.name()).thenReturn(nameDouble);
+        when(registerDepartmentRequestVOsDouble.acronym()).thenReturn(acronymDouble);
 
         IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> service.createAndSaveDepartment(registerDepartmentCommandDouble));
+        assertThrows(IllegalArgumentException.class, () -> service.createAndSaveDepartment(registerDepartmentRequestVOsDouble));
     }
 
     @Test
@@ -118,16 +118,16 @@ class DepartmentRegistrationServiceImplTest {
         DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
         Name nameDouble = mock(Name.class);
 
-        RegisterDepartmentCommand registerDepartmentCommandDouble = mock(RegisterDepartmentCommand.class);
-        when(registerDepartmentCommandDouble.name()).thenReturn(nameDouble);
-        when(registerDepartmentCommandDouble.acronym()).thenReturn(acronymDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOsDouble = mock(RegisterDepartmentRequestVOs.class);
+        when(registerDepartmentRequestVOsDouble.name()).thenReturn(nameDouble);
+        when(registerDepartmentRequestVOsDouble.acronym()).thenReturn(acronymDouble);
 
         IDepartmentRegistrationService service = new DepartmentRegistrationServiceImpl(departmentFactoryDouble, departmentRepositoryDouble);
 
         when(departmentFactoryDouble.newDepartment(acronymDouble, nameDouble)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(IllegalStateException.class, () -> service.createAndSaveDepartment(registerDepartmentCommandDouble));
+        assertThrows(IllegalStateException.class, () -> service.createAndSaveDepartment(registerDepartmentRequestVOsDouble));
     }
 
     @Test
@@ -139,9 +139,9 @@ class DepartmentRegistrationServiceImplTest {
         DepartmentAcronym acronymDouble = mock(DepartmentAcronym.class);
         Name nameDouble = mock(Name.class);
 
-        RegisterDepartmentCommand registerDepartmentCommandDouble = mock(RegisterDepartmentCommand.class);
-        when(registerDepartmentCommandDouble.name()).thenReturn(nameDouble);
-        when(registerDepartmentCommandDouble.acronym()).thenReturn(acronymDouble);
+        RegisterDepartmentRequestVOs registerDepartmentRequestVOsDouble = mock(RegisterDepartmentRequestVOs.class);
+        when(registerDepartmentRequestVOsDouble.name()).thenReturn(nameDouble);
+        when(registerDepartmentRequestVOsDouble.acronym()).thenReturn(acronymDouble);
 
         Department departmentDouble = mock(Department.class);
 
@@ -151,7 +151,7 @@ class DepartmentRegistrationServiceImplTest {
         when(departmentRepositoryDouble.containsOfIdentity(mock(Department.class).identity())).thenReturn(true);
 
         // Act & Assert
-        assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveDepartment(registerDepartmentCommandDouble));
+        assertThrows(BusinessRuleViolationException.class, () -> service.createAndSaveDepartment(registerDepartmentRequestVOsDouble));
     }
 
     @Test

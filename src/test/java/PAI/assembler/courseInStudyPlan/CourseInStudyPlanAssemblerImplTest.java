@@ -22,7 +22,7 @@ class CourseInStudyPlanAssemblerImplTest {
     }
 
     @Test
-    void toCommand_shouldReturnCorrectCommandFromRequestDTO() {
+    void toCommand_shouldConvertRequestDTOToCommand() throws Exception {
         // Arrange
         CourseInStudyPlanRequestDTO request = mock(CourseInStudyPlanRequestDTO.class);
         when(request.semester()).thenReturn(1);
@@ -32,22 +32,23 @@ class CourseInStudyPlanAssemblerImplTest {
         when(request.programmeAcronym()).thenReturn("ENG");
         when(request.programmeName()).thenReturn("Engineering");
         when(request.studyPlanDate()).thenReturn("01-05-2024");
-        when(request.duration()).thenReturn(4);
+        when(request.duration()).thenReturn(2);
         when(request.credits()).thenReturn(6.0);
 
         // Act
         CourseInStudyPlanCommand command = assembler.toCommand(request);
 
         // Assert
-        assertEquals(1, command.semester());
-        assertEquals(2, command.curricularYear());
-        assertEquals("CS101", command.courseAcronym());
-        assertEquals("Computer Science", command.courseName());
-        assertEquals("ENG", command.programmeAcronym());
-        assertEquals("Engineering", command.programmeName());
-        assertEquals("01-05-2024", command.studyPlanDate());
-        assertEquals(4, command.duration());
-        assertEquals(6.0, command.credits());
+        assertNotNull(command);
+        assertEquals(1, command.semester().toInt());
+        assertEquals(2, command.curricularYear().toInt());
+        assertEquals("CS101", command.courseAcronym().getAcronym());
+        assertEquals("Computer Science", command.courseName().getName());
+        assertEquals("ENG", command.programmeAcronym().getAcronym());
+        assertEquals("Engineering", command.programmeName().getnameWithNumbersAndSpecialChars());
+        assertEquals("01-05-2024", command.studyPlanDate().toString());
+        assertEquals(2, command.duration().toInt());
+        assertEquals(6.0, command.credits().toDouble());
     }
 
     @Test

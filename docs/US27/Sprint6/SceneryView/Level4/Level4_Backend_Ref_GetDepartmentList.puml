@@ -1,0 +1,25 @@
+@startuml
+title REF: Get Department List (Backend - Granularity 4)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+autonumber
+
+participant ":DepartmentRestController" as RestController <<controller>> #82CFFD
+participant ":DepartmentService" as DepartmentService <<service>> #F6CBA5
+participant ":DepartmentSpringDataImpl" as DepartmentRepository <<repository>> #F6F1E7
+
+-> RestController
+activate RestController
+RestController -> DepartmentService: **getAllDepartments**()
+activate DepartmentService
+DepartmentService -> DepartmentRepository: **findAll**()
+activate DepartmentRepository
+DepartmentRepository -> : **findAll**()
+DepartmentRepository <-- : departmentsDMList
+DepartmentRepository --> DepartmentService: departmentList
+deactivate DepartmentRepository
+DepartmentService --> RestController: departmentsList
+deactivate DepartmentService
+<-- RestController
+deactivate RestController
+@enduml

@@ -1,10 +1,10 @@
 @startuml
 title Detailed Flow: Retrieve List of Degree Types \n(GET /degreetypes)
 
-participant "<<component>>\nRouter" as Router
-participant "<<component>>\nIDegreeTypeRestController\n(REST Controller)" as Controller
-participant "<<component>>\nIDegreeTypeRegistrationService\n(Service)" as Service
-participant "<<component>>\nIDegreeTypeRepository\n(Repository)" as Repository
+participant "<<component>>\n:Router" as Router
+participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as Controller
+participant "<<component>>\n:IDegreeTypeRegistrationService\n(Service)" as Service
+participant "<<component>>\n:IDegreeTypeRepository\n(Repository)" as Repository
 database "Database" as DB
 
 -> Router: GET /degreetypes

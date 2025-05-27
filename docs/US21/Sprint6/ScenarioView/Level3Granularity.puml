@@ -1,0 +1,207 @@
+@startuml DomainModel_US21_Compact
+
+title Domain Model - US21: Get the Number of Students Enrolled in a Programme Edition
+scale 0.8
+skinparam linetype ortho
+
+
+class ProgrammeEditionRestController #E1F5FE{
+  - _programmeEditionService: IProgrammeEditionService\n
+  + ProgrammeEditionRestController(service: IProgrammeEditionService)\n
+  + getTheNumberOfStudentsEnrolledInAProgrammeEdition(CountStudentsDTO): int\n
+  + getAllProgrammeEditions(): List<CountStudentsDto>
+}
+
+package "ProgrammeEditionEnrolment Aggregate" {
+  class ProgrammeEditionEnrolment <<Root>> <<Entity>>#FFF3E0 {
+    + ProgrammeEditionEnrolment(studentId: StudentID, id: ProgrammeEditionID)\n
+    + getStudentUniqueNumber(): String\n
+    + equals(obj: Object): boolean\n
+    + findProgrammeEditionInEnrollment(): ProgrammeEditionID
+  }
+}
+
+package "ProgrammeEdition Aggregate" {
+  class ProgrammeEdition <<Root>> <<Entity>>#FFF3E0 {
+    + ProgrammeEdition(pId, syId, peId)\n
+    + identity(): ProgrammeEditionID\n
+    + findProgrammeIDInProgrammeEdition(): ProgrammeID\n
+    + findSchoolYearIDInProgrammeEdition(): SchoolYearID
+  }
+}
+
+class ProgrammeEditionID <<Value Object>>#FFF3E0 {
+  - ProgrammeID\n
+  - SchoolYearID\n
+  + ProgrammeEditionID(pId, syId)\n
+  + getId(): ProgrammeEditionID\n
+  + equals(obj: Object): boolean\n
+  + hashcode(): int\n
+  + toString(): String
+}
+
+class StudentID <<Value Object>>#FFF3E0 {
+  - _uniqueNumber: int\n
+  + StudentID(uniqueNumber: int)\n
+  + isUniqueNumberValid(): boolean
+}
+
+class ProgrammeEditionEnrolmentID <<Value Object>>#FFF3E0 {
+  + ProgrammeEditionEnrolmentID(peId, studentId)\n
+  + getId(): ProgrammeEditionEnrolmentID\n
+  + equals(obj: Object): boolean\n
+  + hashcode(): int\n
+  + toString(): String
+}
+
+interface IProgrammeEditionEnrolmentFactory #FFECB3{
+  + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID)
+}
+class ProgrammeEditionEnrolmentFactoryImpl #FFECB3{
+  + newProgrammeEditionEnrolment(StudentID, ProgrammeEditionID)
+}
+
+interface IProgrammeEditionFactory #FFECB3{
+  + newProgrammeEdition(pId, syId, peId)
+}
+class ProgrammeEditionFactoryImpl #FFECB3{
+  + newProgrammeEdition(pId, syId, peId)
+}
+
+interface IProgrammeEditionRepository #F1F8E9{
+  + findAll(): List<ProgrammeEdition>
+}
+interface IProgrammeEditionService #E1F5FE{
+  + findAll(): List<ProgrammeEdition>
+}
+class ProgrammeEditionServiceImpl #E1F5FE{
+  + findAll(): List<ProgrammeEdition>
+}
+class ProgrammeEditionRepositorySpringDataImpl #F1F8E9 {
+  + findAll(): List<ProgrammeEdition>
+}
+
+interface IProgrammeEditionRepositorySpringData #F1F8E9 {
++ findAll(): List<ProgrammeEdition>
+}
+interface IProgrammeEditionMapper #FFFDE7{
+  + toDomain(data): Domain\n
+  + toDataModel(domain): DataModel
+}
+class ProgrammeEditionMapper #FFFDE7{
+  + toDomain(data): Domain\n
+  + toDataModel(domain): DataModel
+}
+class ProgrammeEditionDataModel #F3E5F5{
+ProgrammeEditionIDDataModel:id
+}
+
+interface IProgrammeEditionEnrolmentRepository #F1F8E9{
+  + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
+}
+class ProgrammeEditionEnrolmentRepositoryImpl #F1F8E9{
+  + getAllProgrammeEditionsEnrolmentByProgrammeEditionID: List<ProgrammeEditionEnrolment>
+}
+interface IProgrammeEditionEnrolmentRepositorySpringData #F1F8E9{
+  + findAllProgrammeEditionsEnrolmentByProgrammeEdition(id: ProgrammeEditionID): List<Student>
+}
+
+interface IProgrammeEditionEnrolmentMapper #FFFDE7{
+  + toDomain(data): Domain\n
+  + toDataModel(domain): DataModel
+}
+class ProgrammeEditionEnrolmentMapper #FFFDE7{
+  + toDomain(data): Domain\n
+  + toDataModel(domain): DataModel
+}
+
+interface JpaRepository {}
+
+class ProgrammeEditionAssembler #FFFDE7{
+  + toDTO(domain): DTO\n
+  + toDomain(dto): Domain
+  + toDtoList()
+}
+interface IProgrammeEditionAssembler #FFFDE7{
+  + toDTO(domain): DTO\n
+  + toDomain(dto): Domain
+  + toDTOList():Iterable<CountStudentsDTO> CountStudentsDTOs
+}
+class CountStudentsDTO #F3E5F5{
+  String:ProgrammeName\n
+  String:ProgrammeAcronym\n
+  UUID:SchoolYearID\n
+  CountStudentsDTO:countStudentsDTO
+}
+class ProgrammeEditionIDMapperImpl #FFFDE7{
++toDomain()
++toDataModel()
+}
+class IProgrammeEditionIDMapper #FFFDE7{
++toDomain()
++toDataModel()
+}
+class ProgrammeEditionIDDataModel #F3E5F5{
+  - ProgrammeIDDataModel\n
+  - SchoolYearIDDataModel
+}
+legend left
+  == Color Legend ==
+
+  <color:#BBDEFB>■</color> Controllers / APIs
+  <color:#E1F5FE>■</color> Services
+  <color:#FFECB3>■</color> Factories
+  <color:#C8E6C9>■</color> Repositories
+  <color:#F0F4C3>■</color> Domain Entities / Value Objects
+  <color:#FFF9C4>■</color> DTOs / Data Models
+  <color:#D1C4E9>■</color> Mappers / Assemblers
+end legend
+
+
+
+
+' === RELATIONSHIPS ===
+ProgrammeEdition --> ProgrammeEditionID
+ProgrammeEditionEnrolment --> ProgrammeEditionID
+ProgrammeEditionEnrolment --> StudentID
+ProgrammeEditionEnrolment --> ProgrammeEditionEnrolmentID
+
+ProgrammeEditionRestController -down-> IProgrammeEditionService
+ProgrammeEditionRestController -down-> IProgrammeEditionService
+
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
+ProgrammeEditionEnrolmentServiceImpl -left..|> IProgrammeEditionService
+IProgrammeEditionService -down-> IProgrammeEditionEnrolmentRepository
+IProgrammeEditionEnrolmentRepository --> ProgrammeEditionEnrolment
+ProgrammeEditionEnrolmentRepositoryImpl --> IProgrammeEditionEnrolmentRepositorySpringData
+IProgrammeEditionEnrolmentRepositorySpringData --|> JpaRepository
+
+ProgrammeEditionEnrolmentMapper -right..|> IProgrammeEditionEnrolmentMapper
+IProgrammeEditionEnrolmentRepository -left-> IProgrammeEditionEnrolmentMapper
+
+ProgrammeEditionEnrolmentFactoryImpl -left..|> IProgrammeEditionEnrolmentFactory
+IProgrammeEditionEnrolmentMapper -down-> IProgrammeEditionEnrolmentFactory
+
+IProgrammeEditionRepository <|.. ProgrammeEditionRepositorySpringDataImpl
+ProgrammeEditionServiceImpl -left..|> IProgrammeEditionService
+IProgrammeEditionService -down-> IProgrammeEditionRepository
+IProgrammeEditionRepository --> ProgrammeEdition
+ProgrammeEditionRepositorySpringDataImpl ..> IProgrammeEditionRepositorySpringData
+IProgrammeEditionRepositorySpringData --|> JpaRepository
+
+ProgrammeEditionMapper -right..|> IProgrammeEditionMapper
+IProgrammeEditionRepository -left-> IProgrammeEditionMapper
+
+ProgrammeEditionFactoryImpl -left..|> IProgrammeEditionFactory
+IProgrammeEditionMapper -down-> IProgrammeEditionFactory
+ProgrammeEditionRestController ..> CountStudentsDTO
+
+ProgrammeEditionAssembler -right..|> IProgrammeEditionAssembler
+ProgrammeEditionServiceImpl --> IProgrammeEditionAssembler
+ProgrammeEditionDataModel --> IProgrammeEditionRepositorySpringData
+ProgrammeEditionDataModel --> ProgrammeEditionMapper
+ProgrammeEditionDataModel --> ProgrammeEditionIDDataModel
+IProgrammeEditionIDMapper --> ProgrammeEditionIDDataModel
+IProgrammeEditionIDMapper ..|> ProgrammeEditionIDMapperImpl
+
+@enduml

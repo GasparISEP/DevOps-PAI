@@ -1,0 +1,45 @@
+@startuml
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Components (Frontend focus))
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor User #LightBlue/White
+participant "<<component>>\n:CourseEditionForm.jsx" as CourseEditionForm #E1F5FE
+participant "<<component>>\n:CourseEditionAPIService.js" as CEApiService #E1F5FE
+participant "<<component>>\n:REST API" as BackendAPI #E1F5FE
+
+note over CourseEditionForm
+This diagram focuses only on the core frontend
+flow for creating (POST) a course edition.
+Supporting GET requests (endpoints) are omitted
+for clarity, as this is a zoomed-in view on
+the creation action.
+end note
+
+
+
+User -> CourseEditionForm: Fill form and submit
+activate CourseEditionForm
+CourseEditionForm -> CEApiService: createCourseEdition(data)
+activate CEApiService
+CEApiService -> BackendAPI: POST /courseeditions (data)
+activate BackendAPI
+BackendAPI --> CEApiService: (200 OK) Course edition\n created successfully!
+deactivate
+CEApiService --> CourseEditionForm: Success response
+deactivate
+CourseEditionForm --> User: Show success message
+deactivate
+
+@enduml

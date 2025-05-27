@@ -1,18 +1,20 @@
 package PAI.dto.courseInStudyPlan;
 
+import PAI.VOs.*;
+
 public record CourseInStudyPlanCommand(
-        int semester,
-        int curricularYear,
+        Semester semester,
+        CurricularYear curricularYear,
 
         // Course Compose
-        String courseAcronym,
-        String courseName,
+        Acronym courseAcronym,
+        Name courseName,
 
         // StudyPlan Compose
-        String programmeAcronym,
-        String programmeName,
-        String studyPlanDate,
+        Acronym programmeAcronym,
+        NameWithNumbersAndSpecialChars programmeName,
+        Date studyPlanDate,
 
-        int duration,
-        double credits
+        DurationCourseInCurricularYear duration,
+        CourseQuantityCreditsEcts credits
 ) { }
