@@ -152,4 +152,34 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldRegisterStudyPlanSuccessfully() throws Exception {
+        // Arrange
+        createDoubles();
+        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
+                .thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
+
+        // Act
+        boolean result = _controllerDouble.registerStudyPlan(_programmeName, _programmeAcronym, _studyPlanStartDate);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldFailToRegisterStudyPlanWhenServiceThrowsException() throws Exception {
+        // Arrange
+        createDoubles();
+        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
+                .thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new Exception("Failed to create"));
+
+        // Act
+        boolean result = _controllerDouble.registerStudyPlan(_programmeName, _programmeAcronym, _studyPlanStartDate);
+
+        // Assert
+        assertFalse(result);
+    }
 }
