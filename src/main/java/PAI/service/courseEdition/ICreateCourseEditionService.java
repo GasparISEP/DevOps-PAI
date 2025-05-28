@@ -7,6 +7,7 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface ICreateCourseEditionService {
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
 
     Iterable<CourseEdition> findAll();
+
+    CourseEditionResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 }

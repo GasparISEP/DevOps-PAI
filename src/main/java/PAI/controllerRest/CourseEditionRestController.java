@@ -126,13 +126,12 @@ public CourseEditionRestController(
                     programmeID,
                     new SchoolYearID(command.schoolYearID()));
 
-            CourseEdition created = createCourseEditionService.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+            CourseEditionResponseDTO responseDTO = createCourseEditionService
+                    .createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
-            if (created == null) {
+            if (responseDTO == null) {
                 return ResponseEntity.badRequest().build();
             }
-
-            CourseEditionResponseDTO responseDTO = courseEditionAssembler.toResponseDTO(created);
 
             return ResponseEntity
                     .created(URI.create("/courseeditions/" + responseDTO.courseEditionID()))
@@ -141,7 +140,6 @@ public CourseEditionRestController(
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
     }
 
     @PatchMapping("/ruc")

@@ -245,40 +245,21 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "Software Development",
-                "SDV",
-                UUID.randomUUID(),
-                "SA",
-                "Software Architecture",
-                LocalDate.of(2023, 9, 1));
+                "Software Development", "SDV", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(),
-                requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(),
-                requestDTO.courseAcronym(),
-                requestDTO.courseName(),
-                requestDTO.studyPlanImplementationDate());
-
-        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123",
-                "Software Development",
-                "SDV",
-                UUID.randomUUID(),
-                "SA",
-                "Software Architecture",
+                "courseEditionID123", "Software Development", "SDV",
+                requestDTO.schoolYearID(), "SA", "Software Architecture",
                 LocalDate.of(2023, 9, 1));
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenReturn(command);
-
-        when(createCourseEditionService.createAndSaveCourseEdition(any(), any()))
-                .thenReturn(mockCourseEdition);
-
-        when(courseEditionAssembler.toResponseDTO(mockCourseEdition))
-                .thenReturn(responseDTO);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
 
         // Act
         MvcResult result = mockMvc.perform(post("/courseeditions")
@@ -305,27 +286,16 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI",
-                "LEIC",
-                UUID.randomUUID(),
-                "Software Architecture",
-                "LEI",
-                LocalDate.of(2023, 9, 1));
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(),
-                requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(),
-                requestDTO.courseAcronym(),
-                requestDTO.courseName(),
-                requestDTO.studyPlanImplementationDate()
-        );
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenReturn(command);
-
-        when(createCourseEditionService.createAndSaveCourseEdition(any(), any()))
-                .thenReturn(null);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions")
@@ -338,21 +308,17 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI",
-                "LEIC",
-                UUID.randomUUID(),
-                "Software Architecture",
-                "LEI",
-                LocalDate.of(2023, 9, 1));
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenThrow(new RuntimeException("Test Exception"));
+        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Test Exception"));
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Test Exception"));
     }
 
     @Test

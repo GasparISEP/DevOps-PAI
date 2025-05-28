@@ -1,6 +1,8 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
@@ -15,6 +17,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
 
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
 
@@ -35,11 +38,13 @@ public class CreateCourseEditionServiceImplTest {
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -67,11 +72,13 @@ public class CreateCourseEditionServiceImplTest {
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
 
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -98,11 +105,13 @@ public class CreateCourseEditionServiceImplTest {
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
         CourseInStudyPlanID courseInStudyPlanID = null;
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
@@ -124,11 +133,13 @@ public class CreateCourseEditionServiceImplTest {
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = null;
@@ -150,11 +161,13 @@ public class CreateCourseEditionServiceImplTest {
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
         CourseInStudyPlanID courseInStudyPlanID = null;
         ProgrammeEditionID programmeEditionID = null;
@@ -168,13 +181,14 @@ public class CreateCourseEditionServiceImplTest {
 
     @Test
     public void testGetAllDegreeTypes() {
-        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
         ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         DegreeType degreeType = mock(DegreeType.class);
         when(degreeTypeRepository.getAllDegreeTypes()).thenReturn(List.of(degreeType));
@@ -182,7 +196,8 @@ public class CreateCourseEditionServiceImplTest {
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
 
         List<DegreeType> result = service.getAllDegreeTypes();
@@ -192,13 +207,14 @@ public class CreateCourseEditionServiceImplTest {
 
     @Test
     public void testGetProgrammesByDegreeTypeID() {
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
         IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         Programme programme1 = mock(Programme.class);
         Programme programme2 = mock(Programme.class);
@@ -211,7 +227,8 @@ public class CreateCourseEditionServiceImplTest {
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
 
         List<Programme> result = service.getProgrammesByDegreeTypeID(degreeTypeID);
@@ -222,13 +239,14 @@ public class CreateCourseEditionServiceImplTest {
 
     @Test
     public void testGetStudyPlansByProgrammeID() {
-        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
         IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -241,7 +259,8 @@ public class CreateCourseEditionServiceImplTest {
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
                 programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
         );
 
         List<StudyPlan> result = service.getStudyPlansByProgrammeID(programmeID);
@@ -256,7 +275,7 @@ public class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionFactory.class), mock(ICourseEditionRepository.class),
                 mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
                 studyPlanRepository, mock(ICourseInStudyPlanRepository.class),
-                mock(IProgrammeEditionRepository.class)
+                mock(IProgrammeEditionRepository.class), mock(ICourseEditionAssembler.class)
         );
 
         when(studyPlanRepository.findAll()).thenReturn(List.of());
@@ -281,7 +300,7 @@ public class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionFactory.class), mock(ICourseEditionRepository.class),
                 mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
                 mock(IStudyPlanRepository.class), courseInStudyPlanRepository,
-                mock(IProgrammeEditionRepository.class)
+                mock(IProgrammeEditionRepository.class), mock(ICourseEditionAssembler.class)
         );
 
         List<CourseInStudyPlan> result = service.getCoursesByStudyPlanId(studyPlanID);
@@ -301,7 +320,7 @@ public class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionFactory.class), mock(ICourseEditionRepository.class),
                 mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
                 mock(IStudyPlanRepository.class), mock(ICourseInStudyPlanRepository.class),
-                programmeEditionRepository
+                programmeEditionRepository, mock(ICourseEditionAssembler.class)
         );
 
         List<ProgrammeEdition> result = service.getProgrammeEditionsByProgrammeID(programmeID);
@@ -315,7 +334,7 @@ public class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionFactory.class), mock(ICourseEditionRepository.class),
                 mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
                 mock(IStudyPlanRepository.class), mock(ICourseInStudyPlanRepository.class),
-                mock(IProgrammeEditionRepository.class)
+                mock(IProgrammeEditionRepository.class), mock(ICourseEditionAssembler.class)
         );
 
         List<ProgrammeEdition> result = service.getProgrammeEditionsByProgrammeID(null);
@@ -340,7 +359,7 @@ public class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionFactory.class), repository,
                 mock(IDegreeTypeRepository.class), mock(IProgrammeRepository.class),
                 mock(IStudyPlanRepository.class), mock(ICourseInStudyPlanRepository.class),
-                mock(IProgrammeEditionRepository.class)
+                mock(IProgrammeEditionRepository.class), mock(ICourseEditionAssembler.class)
         );
 
         // Act
@@ -348,5 +367,77 @@ public class CreateCourseEditionServiceImplTest {
 
         // Assert
         assertEquals(fakeCourseEditions, result);
+    }
+
+    @Test
+    public void testCreateCourseEditionAndReturnDTO_Success() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionID.toString()).thenReturn("fake-id");
+
+        when(factory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
+        when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
+        when(courseEditionAssembler.toResponseDTO(courseEdition)).thenReturn(dto);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        // Act
+        CourseEditionResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(dto, result);
+    }
+
+    @Test
+    public void testCreateCourseEditionAndReturnDTO_Failure_ReturnsNull() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
+
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(factory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(null);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        // Act
+        CourseEditionResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+
+        // Assert
+        assertNull(result);
     }
 }
