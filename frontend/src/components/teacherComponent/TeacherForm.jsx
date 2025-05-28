@@ -161,7 +161,7 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="country">Country (manual)</label>
+                                <label className="form-label" htmlFor="country">Country</label>
                                 <input className="form-input" placeholder="Enter Teacher's Country" id="country"
                                        name="country"
                                        value={form.country || ''} onChange={handleChange} required/>
