@@ -37,10 +37,13 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<CountStudentsDto>> getAllProgrammeEditions() {
-        Iterable<CountStudentsDto> programmeEditionDTOs =
-                programmeEditionService.getAllProgrammeEditions();
-        return ResponseEntity.ok(programmeEditionDTOs);
+    public ResponseEntity<List<CountStudentsDto>> getAllProgrammeEditions() throws Exception {
+        List<CountStudentsDto> programmeEditionDtos = programmeEditionService
+                .findAllProgrammeEditions()
+                .stream()
+                .map(programmeEditionControllerAssembler::toCountDTO)
+                .toList();
+        return ResponseEntity.ok(programmeEditionDtos);
     }
 
     @GetMapping("/{programmeName}/{programmeAcronym}/{schoolYearID}/students")

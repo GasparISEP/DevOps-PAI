@@ -250,8 +250,7 @@ class DepartmentAssemblerImplTest {
     void shouldConvertRequestToDepartmentWithDirectorCommand() {
         // Arrange
         DepartmentWithDirectorRequest requestDouble = mock(DepartmentWithDirectorRequest.class);
-        when(requestDouble.name()).thenReturn("Software Engineering Department");
-        when(requestDouble.acronym()).thenReturn("DEI");
+        when(requestDouble.departmentID()).thenReturn("DEI");
         when(requestDouble.teacherID()).thenReturn("MAJ");
 
         DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
