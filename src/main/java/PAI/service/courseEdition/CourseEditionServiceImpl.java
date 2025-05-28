@@ -76,30 +76,6 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     @Override
-    @Transactional
-    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
-        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
-
-        if (optionalEdition.isEmpty()) {
-            return false;
-        }
-
-        CourseEdition courseEdition = optionalEdition.get();
-        boolean success = courseEdition.setRuc(teacherId);
-
-        if (success) {
-            try {
-                courseEditionRepository.save(courseEdition);
-            } catch (Exception e) {
-                // Pode fazer log aqui, se quiseres
-                throw new RuntimeException("Erro ao persistir CourseEdition com novo RUC", e);
-            }
-        }
-
-        return success;
-    }
-
-    @Override
     public List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception {
         if(programmeEditionID == null) {
             throw new IllegalArgumentException("ProgrammeEditionID cannot be null");

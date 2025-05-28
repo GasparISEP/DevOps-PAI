@@ -21,7 +21,5 @@ public interface ICourseEditionService {
 
     public boolean containsOfIdentity(CourseEditionID courseEditionID);
 
-    boolean assignRucToCourseEdition(TeacherID teacherID, CourseEditionID courseEditionID);
-
     List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception;
 }

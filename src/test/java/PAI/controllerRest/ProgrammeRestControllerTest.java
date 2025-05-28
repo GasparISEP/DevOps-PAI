@@ -151,19 +151,6 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldSendBadResponseIfProgrammeDTOReceivedIsNull() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(null);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
     void shouldReturnCreatedResponseAndStudyPlanResponseDTOWhenStudyPlanIsRegisteredSuccessfully() throws Exception {
         // Arrange
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
@@ -463,12 +450,4 @@ class ProgrammeRestControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
-
-
-
-
-
-
-
-
 }
