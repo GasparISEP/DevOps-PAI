@@ -51,6 +51,17 @@ export default function ProgrammeForm() {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
     }
 
+    function handleClear() {
+        setForm({
+            name: '',
+            acronym: '',
+            quantSemesters: '',
+            degreeTypeID: '',
+            departmentID: '',
+            teacherID: ''
+        });
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
@@ -67,14 +78,7 @@ export default function ProgrammeForm() {
             setSuccess(response);
             setShowModal(true);
 
-            setForm({
-                name: '',
-                acronym: '',
-                quantSemesters: '',
-                degreeTypeID: '',
-                departmentID: '',
-                teacherID: ''
-            });
+            handleClear();
 
         } catch (err) {
             setError(err.message || "An unexpected error occurred.");
@@ -182,9 +186,9 @@ export default function ProgrammeForm() {
 
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
-                                        onClick={() => window.history.back()}
+                                        onClick={handleClear}
                                         disabled={loading}>
-                                    CANCEL
+                                    CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
                                     {loading ? 'Registering…' : 'REGISTER'}
