@@ -21,6 +21,8 @@ export default function ProgrammeForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+
 
     useEffect(() => {
         async function fetchOptions() {
@@ -74,7 +76,8 @@ export default function ProgrammeForm() {
             });
 
         } catch (err) {
-            setError(err.message);
+            setError(err.message || "An unexpected error occurred.");
+            setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
@@ -163,8 +166,6 @@ export default function ProgrammeForm() {
                                 </select>
                             </div>
 
-                            {error && <div className="error">{error}</div>}
-
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
                                         disabled={loading}>
@@ -196,6 +197,15 @@ export default function ProgrammeForm() {
                             </div>
                         )}
                         <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
+            {showErrorModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ borderColor: 'red' }}>
+                        <h2 style={{ color: 'red' }}>Registration Error</h2>
+                        <p>{error}</p>
+                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                     </div>
                 </div>
             )}
