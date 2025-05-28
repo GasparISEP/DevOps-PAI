@@ -76,8 +76,12 @@ activate P
 P --> PF --: P1
 PF --> PS --: P1
 
-PS -> PR++ :containsOfIdentity(PIDVO1)
-PR -> : existsById(PIDVO1)
+PS -> PR++ :isNameAlreadyRegistered (nameVO)
+PR -> : existsByName (nameVO)
+PR <-- : False
+PR --> PS-- : False
+PS -> PR++ :isAcronymAlreadyRegistered (acronymVO)
+PR -> : existsByAcronym (acronymVO)
 PR <-- : False
 PR --> PS-- : False
 PS -> PR ++: saveProgramme(P1)

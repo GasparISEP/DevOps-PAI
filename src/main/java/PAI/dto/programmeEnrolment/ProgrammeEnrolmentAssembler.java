@@ -16,7 +16,7 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
     public ProgrammeEnrolmentResponseDTO toProgrammeEnrolmentDTO (ProgrammeEnrolment programmeEnrolment){
         int studentID = programmeEnrolment.getStudentID().getUniqueNumber();
         String accessMethodId = programmeEnrolment.getAccessMethodID().toString();
-        String programmeName = programmeEnrolment.getProgrammeID().getName().getnameWithNumbersAndSpecialChars();
+        String programmeName = programmeEnrolment.getProgrammeID().getName().getNameWithNumbersAndSpecialChars();
         LocalDate date = programmeEnrolment.getDate().getLocalDate();
 
         return new ProgrammeEnrolmentResponseDTO(studentID,accessMethodId,programmeName,date);

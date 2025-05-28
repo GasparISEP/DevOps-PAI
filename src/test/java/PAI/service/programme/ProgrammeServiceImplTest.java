@@ -9,15 +9,13 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.NotFoundException;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -487,7 +485,7 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.empty());
 
         //Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             service.changeProgrammeDirector(_programmeIDDouble, _programmeDirectorIDDouble);
         });
 

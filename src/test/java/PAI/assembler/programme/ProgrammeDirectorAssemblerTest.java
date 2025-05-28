@@ -38,7 +38,7 @@ class ProgrammeDirectorAssemblerTest {
 
         // Assert
         assertAll(
-                () -> assertEquals(programmeName, result.getProgrammeName().getnameWithNumbersAndSpecialChars()),
+                () -> assertEquals(programmeName, result.getProgrammeName().getNameWithNumbersAndSpecialChars()),
                 () -> assertEquals(programmeAcronym, result.getProgrammeAcronym().getAcronym()),
                 () -> assertEquals(teacherAcronym, result.getTeacherAcronym().getAcronym())
         );
@@ -55,7 +55,7 @@ class ProgrammeDirectorAssemblerTest {
         Acronym acronymMock = mock(Acronym.class);
 
         when(programmeMock.getProgrammeName()).thenReturn(programmeNameMock);
-        when(programmeNameMock.getnameWithNumbersAndSpecialChars()).thenReturn("Computer Science");
+        when(programmeNameMock.getNameWithNumbersAndSpecialChars()).thenReturn("Computer Science");
         when(programmeMock.getAcronym()).thenReturn(acronymMock);
         when(acronymMock.getAcronym()).thenReturn("CS");
 

@@ -27,7 +27,7 @@ class ProgrammeIDMapperImplTest {
         ProgrammeID res = mapper.toDomain(dataModel);
 
         //assert
-        assertEquals("A", res.getName().getnameWithNumbersAndSpecialChars());
+        assertEquals("A", res.getName().getNameWithNumbersAndSpecialChars());
         assertEquals("OLA", res.getAcronym().getAcronym());
     }
 
@@ -40,7 +40,7 @@ class ProgrammeIDMapperImplTest {
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
 
         when(acronym.getAcronym()).thenReturn("OLA");
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
+        when(name.getNameWithNumbersAndSpecialChars()).thenReturn("name");
 
         ProgrammeID progID = mock(ProgrammeID.class);
 
@@ -52,6 +52,6 @@ class ProgrammeIDMapperImplTest {
 
         //assert
         assertEquals(acronym.getAcronym(), res.getAcronym());
-        assertEquals(name.getnameWithNumbersAndSpecialChars(), res.getName());
+        assertEquals(name.getNameWithNumbersAndSpecialChars(), res.getName());
     }
 }
