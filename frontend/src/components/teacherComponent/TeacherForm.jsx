@@ -134,6 +134,11 @@ export default function TeacherForm() {
                                 <label className="form-label" htmlFor="name">Name</label>
                                 <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
                                        value={form.name} onChange={handleChange} required/>
+                                {error && error.includes('Name does not meet the validation requirements.') && (
+                                    <div className="error" style={{ color: 'red', marginTop: '0.5rem' }}>
+                                        Name does not meet the validation requirements.
+                                    </div>
+                                )}
                             </div>
 
                             <div className="form-group">
@@ -287,7 +292,7 @@ export default function TeacherForm() {
                                 </select>
                             </div>
 
-                            {error && <div className="error">{error}</div>}
+                            {error && (console.log(error), <div className="error">{error}</div>)}
 
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
