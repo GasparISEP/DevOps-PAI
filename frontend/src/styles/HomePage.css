@@ -15,19 +15,47 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 6.4rem 2.2rem;
+    padding: 12rem 2.2rem;
     width: 100%;
     margin-top: 4.2rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: center;
+    line-height: 1rem;
 }
 
 .cta-main-div span {
-    font-size: 3.2rem;
+    font-size: 1.8rem;
+    color: #fff;
 }
 
 .cta-main-div h1 {
     color: #fff;
     font-size: 4.6rem;
+    line-height: 4.2rem;
+}
+
+.cta-btn-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-btn-div button {
+    padding: 0.8rem 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 2px solid #2e080b;
+    background-color: #2e080b;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.cta-btn-div button:hover {
+    cursor: pointer;
+    border: 2px solid white;
 }
