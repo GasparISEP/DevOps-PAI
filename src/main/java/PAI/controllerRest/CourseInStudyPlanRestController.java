@@ -48,28 +48,6 @@ public class CourseInStudyPlanRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
     }
 
-
-//    @GetMapping("/{programmeID}")
-//    public ResponseEntity<List<CourseInStudyPlanResponseDTO>> getCoursesInStudyPlanByProgrammeID(
-//            @PathVariable String name,
-//            @PathVariable String acronym) throws Exception {
-//
-//        ProgrammeID programmeIdVO = new ProgrammeID(
-//                new NameWithNumbersAndSpecialChars(name),
-//                new Acronym(acronym)
-//        );
-//
-//        StudyPlanID latestStudyPlanID = studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeIdVO);
-//
-//        List<CourseInStudyPlan> courses = courseInStudyPlanService.getCoursesByStudyPlanId(latestStudyPlanID);
-//
-//        List<CourseInStudyPlanResponseDTO> responseDTOs = courses.stream()
-//                .map(assembler::toDTOFromEntity)
-//                .toList();
-//
-//        return ResponseEntity.ok(responseDTOs);
-//    }
-
     @GetMapping("/{programmeID}")
     public ResponseEntity<List<CourseInStudyPlanResponseDTO>> getCoursesInStudyPlanByProgrammeID(
             @PathVariable String name,
