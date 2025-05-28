@@ -3,29 +3,35 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
+import PAI.dto.schoolYear.SchoolYearIDResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProgrammeEditionControllerAssembler implements IProgrammeEditionControllerAssembler{
+public class ProgrammeEditionControllerAssembler implements IProgrammeEditionControllerAssembler {
 
     @Override
     public ProgrammeEditionDTO toDTO(ProgrammeEditionRequestDTO programmeEditionRequest) {
-        if (programmeEditionRequest == null){
+        if (programmeEditionRequest == null) {
             throw new IllegalArgumentException("ProgrammeEditionRequestDTO cannot be null");
         }
-        return new ProgrammeEditionDTO(programmeEditionRequest.programme(),programmeEditionRequest.schoolYear());
+        ProgrammeIDDTO idDto = new ProgrammeIDDTO(programmeEditionRequest.programme().name(), programmeEditionRequest.programme().acronym());
+        SchoolYearIDDTO schoolYearIDDTO = new SchoolYearIDDTO(programmeEditionRequest.schoolYear().id());
+        return new ProgrammeEditionDTO(idDto,schoolYearIDDTO);
     }
 
     @Override
     public ProgrammeEditionResponseDTO toResponseDTO(ProgrammeEditionDTO programmeEdition) {
-        if (programmeEdition == null){
+        if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
-      return new ProgrammeEditionResponseDTO(programmeEdition.programme(),programmeEdition.schoolYear());
+        ProgrammeIDResponseDTO programmeResponseDTO = new ProgrammeIDResponseDTO(programmeEdition.programme().name(), programmeEdition.programme().acronym());
+        SchoolYearIDResponseDTO syResponseDTO = new SchoolYearIDResponseDTO(programmeEdition.schoolYear().id());
+        return new ProgrammeEditionResponseDTO(programmeResponseDTO, syResponseDTO);
     }
 
     @Override
@@ -37,7 +43,7 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         String programmeAcronym = programmeID.getProgrammeAcronym();
         String schoolYearId = schoolYearID.getSchoolYearID().toString();
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
-        SchoolYearIDRequestDTO schoolYearIDRequestDTO = new SchoolYearIDRequestDTO(schoolYearId);
+        SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
     }
 }

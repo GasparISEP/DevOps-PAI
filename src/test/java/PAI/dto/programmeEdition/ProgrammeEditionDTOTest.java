@@ -1,7 +1,7 @@
 package PAI.dto.programmeEdition;
 
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -26,7 +26,7 @@ class ProgrammeEditionDTOTest {
     @Test
     void testValidProgrammeEditionDTO() {
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+        SchoolYearIDDTO schoolYear = mock(SchoolYearIDDTO.class);
         ProgrammeEditionDTO programmeEditionDTO = new ProgrammeEditionDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionDTO>> violations = validator.validate(programmeEditionDTO);
         assertTrue(violations.isEmpty());
@@ -35,7 +35,7 @@ class ProgrammeEditionDTOTest {
     @Test
     void testNullProgrammeIDDTO() {
         ProgrammeIDDTO programme = null;
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+        SchoolYearIDDTO schoolYear = mock(SchoolYearIDDTO.class);
         ProgrammeEditionDTO programmeEditionDTO = new ProgrammeEditionDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionDTO>> violations = validator.validate(programmeEditionDTO);
         assertFalse(violations.isEmpty());
@@ -43,9 +43,9 @@ class ProgrammeEditionDTOTest {
     }
 
     @Test
-    void testNullSchoolYearIDRequestDTO() {
+    void testNullSchoolYearIDDTO() {
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDRequestDTO schoolYear = null;
+        SchoolYearIDDTO schoolYear = null;
         ProgrammeEditionDTO programmeEditionDTO = new ProgrammeEditionDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionDTO>> violations = validator.validate(programmeEditionDTO);
         assertFalse(violations.isEmpty());

@@ -6,6 +6,7 @@ import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
@@ -128,7 +129,7 @@ class ProgrammeEditionAssemblerImplTest {
     @Test
     void shouldCreateSchoolYearIdFromProgrammeEditionDTO() {
         // Arrange
-        SchoolYearIDRequestDTO schoolYearIDRequestDTO = mock(SchoolYearIDRequestDTO.class);
+        SchoolYearIDDTO schoolYearIDRequestDTO = mock(SchoolYearIDDTO.class);
         ProgrammeEditionDTO dto = mock(ProgrammeEditionDTO.class);
         when(schoolYearIDRequestDTO.id()).thenReturn(UUID.randomUUID().toString());
         when(dto.schoolYear()).thenReturn(schoolYearIDRequestDTO);

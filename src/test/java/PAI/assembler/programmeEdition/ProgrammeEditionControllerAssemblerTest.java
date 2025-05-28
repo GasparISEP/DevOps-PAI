@@ -3,9 +3,11 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +25,7 @@ class ProgrammeEditionControllerAssemblerTest {
     void shouldReturnProgrammeEditionDTOWhenToDTO() {
         // Arrange
         ProgrammeEditionRequestDTO programmeEditionRequestDTO = mock(ProgrammeEditionRequestDTO.class);
-        ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
+        ProgrammeIDRequestDTO programme = mock(ProgrammeIDRequestDTO.class);
         SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
 
         when(programmeEditionRequestDTO.programme()).thenReturn(programme);
@@ -52,7 +54,7 @@ class ProgrammeEditionControllerAssemblerTest {
         // Arrange
         ProgrammeEditionDTO editionDTO = mock(ProgrammeEditionDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+        SchoolYearIDDTO schoolYear = mock(SchoolYearIDDTO.class);
 
         when(editionDTO.programme()).thenReturn(programme);
         when(editionDTO.schoolYear()).thenReturn(schoolYear);
