@@ -6,7 +6,7 @@ import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         String programmeAcronym = programmeID.getProgrammeAcronym();
         String schoolYearId = schoolYearID.getSchoolYearID().toString();
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
-        SchoolYearIDRequestDTO schoolYearIDRequestDTO = new SchoolYearIDRequestDTO(schoolYearId);
+        SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
     }
 

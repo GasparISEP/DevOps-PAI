@@ -71,8 +71,7 @@ class CourseInStudyPlanRestControllerTest {
     }
 
     @Test
-    void should_ReturnBadRequest_WhenCourseInStudyPlanCreationFails() throws Exception {
-
+    void should_ReturnException_WhenCourseInStudyPlanCreationFails() throws Exception {
         // arrange
         IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
         ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
@@ -85,35 +84,8 @@ class CourseInStudyPlanRestControllerTest {
 
         when(assemblerDouble.toCommand(requestDTO)).thenThrow(new IllegalArgumentException("Invalid data"));
 
-        // act
-        ResponseEntity<CourseInStudyPlanResponseDTO> response = controller.create(requestDTO);
-
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void should_HandleInternalError() throws Exception {
-
-        // arrange
-        IAddCourseToAProgrammeService serviceDouble = mock(IAddCourseToAProgrammeService.class);
-        ICourseInStudyPlanAssembler assemblerDouble = mock(ICourseInStudyPlanAssembler.class);
-        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
-        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
-
-        CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, serviceDouble, studyPlanService, courseInStudyPlanService);
-
-        CourseInStudyPlanRequestDTO requestDTO = mock(CourseInStudyPlanRequestDTO.class);
-
-        when(assemblerDouble.toCommand(requestDTO)).thenThrow(new RuntimeException("Unexpected error"));
-
-        // act
-        ResponseEntity<CourseInStudyPlanResponseDTO> response = controller.create(requestDTO);
-
-        // assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> controller.create(requestDTO));
     }
 
     @Test
@@ -133,17 +105,17 @@ class CourseInStudyPlanRestControllerTest {
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
 
-        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
-        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
-        List<CourseInStudyPlan> courseList = List.of(course1, course2);
+        CourseInStudyPlanServiceDTO serviceDTO1 = mock(CourseInStudyPlanServiceDTO.class);
+        CourseInStudyPlanServiceDTO serviceDTO2 = mock(CourseInStudyPlanServiceDTO.class);
+        List<CourseInStudyPlanServiceDTO> serviceDTOList = List.of(serviceDTO1, serviceDTO2);
 
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(courseList);
+        when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(serviceDTOList);
 
         CourseInStudyPlanResponseDTO dto1 = mock(CourseInStudyPlanResponseDTO.class);
         CourseInStudyPlanResponseDTO dto2 = mock(CourseInStudyPlanResponseDTO.class);
 
-        when(assemblerDouble.toDTOFromEntity(course1)).thenReturn(dto1);
-        when(assemblerDouble.toDTOFromEntity(course2)).thenReturn(dto2);
+        when(assemblerDouble.toDTO(serviceDTO1)).thenReturn(dto1);
+        when(assemblerDouble.toDTO(serviceDTO2)).thenReturn(dto2);
 
         // Act
         ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);
@@ -172,7 +144,7 @@ class CourseInStudyPlanRestControllerTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(new ArrayList<>());
+        when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(new ArrayList<>());
 
         // Act
         ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);

@@ -1,7 +1,7 @@
 package PAI.dto.programmeEdition;
 
-import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
+import PAI.dto.schoolYear.SchoolYearIDResponseDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -25,17 +25,17 @@ class ProgrammeEditionResponseDTOTest {
 
     @Test
     void testValidProgrammeEditionResponseDTO() {
-        ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+        ProgrammeIDResponseDTO programme = mock(ProgrammeIDResponseDTO.class);
+        SchoolYearIDResponseDTO schoolYear = mock(SchoolYearIDResponseDTO.class);
         ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    void testNullProgrammeIDDTO() {
-        ProgrammeIDDTO programme = null;
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+    void testNullProgrammeIDResponseDTO() {
+        ProgrammeIDResponseDTO programme = null;
+        SchoolYearIDResponseDTO schoolYear = mock(SchoolYearIDResponseDTO.class);
         ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
         assertFalse(violations.isEmpty());
@@ -43,9 +43,9 @@ class ProgrammeEditionResponseDTOTest {
     }
 
     @Test
-    void testNullSchoolYearIDRequestDTO() {
-        ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDRequestDTO schoolYear = null;
+    void testNullSchoolYearIDResponseDTO() {
+        ProgrammeIDResponseDTO programme = mock(ProgrammeIDResponseDTO.class);
+        SchoolYearIDResponseDTO schoolYear = null;
         ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(programme, schoolYear);
         Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
         assertFalse(violations.isEmpty());

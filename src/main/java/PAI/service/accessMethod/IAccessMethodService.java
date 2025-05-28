@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface IAccessMethodService {
 
     AccessMethodServiceDTO configureAccessMethod(RegisterAccessMethodCommand command);
+
+    AccessMethodServiceDTO getAccessMethodById(String id);
 }

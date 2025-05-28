@@ -4,31 +4,26 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.TeacherID;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
-import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.domain.programme.Programme;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.*;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
-import PAI.assembler.programme.IProgrammeDirectorAssembler;
-import PAI.domain.programme.Programme;
-import PAI.domain.teacher.Teacher;
-import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
-import jakarta.persistence.EntityNotFoundException;
 import PAI.service.teacher.ITeacherService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/programmes")
@@ -69,28 +64,15 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO){
+    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO) throws Exception {
         if (programmeDTO == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
+        Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
+        ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
 
-        try {
-            ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
-
-            Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
-
-            ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
-
-            if(newProgrammeDTO!=null){
-                return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/{programme-name}/{programme-acronym}/studyPlans")
@@ -113,11 +95,15 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("ids")
-    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammeIDDTOs (){
+    @GetMapping("/ids")
+    public ResponseEntity<List<ProgrammeIDResponseDTO>> getAllProgrammeIDDTOs (){
         List<ProgrammeIDDTO> programmeIDDTOS = _programmeService.getAllProgrammeIDDTOs();
         if(!programmeIDDTOS.isEmpty()) {
-            return ResponseEntity.ok(programmeIDDTOS);
+            List<ProgrammeIDResponseDTO> response = new ArrayList<>();
+            for (ProgrammeIDDTO programmeIDDTO : programmeIDDTOS) {
+                response.add(_programmeAssembler.toResponseDTO(programmeIDDTO));
+            }
+            return ResponseEntity.ok(response);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -151,18 +137,19 @@ public class ProgrammeRestController {
     }
 
     @GetMapping("/{degreeTypeID}")
-    public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeId) throws Exception {
-        DegreeTypeID id = new DegreeTypeID(degreeTypeId);
-        List<Programme> programmes = _programmeService.getProgrammesByDegreeTypeID(id);
+    public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeID) {
+        try {
+            DegreeTypeID id = new DegreeTypeID(degreeTypeID);
+            List<ProgrammeIDDTO> programmeIDDTOs = _programmeService.getProgrammeIDDTOsByDegreeTypeID(id);
 
-        List<ProgrammeIDDTO> programmeIDDTOS = programmes.stream()
-                .map(p -> _programmeAssembler.toDTO(p.getProgrammeID()))
-                .collect(Collectors.toList());
+            if (programmeIDDTOs.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-        if (programmeIDDTOS.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok(programmeIDDTOs);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return ResponseEntity.ok(programmeIDDTOS);
     }
+
 }

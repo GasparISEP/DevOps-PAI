@@ -2,12 +2,11 @@ package PAI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.validation.FieldError;
-
-import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,7 +27,6 @@ public class GlobalExceptionHandler {
                 "ARGUMENT_INVALID",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -39,7 +37,6 @@ public class GlobalExceptionHandler {
                 "BUSINESS_RULE_VIOLATED",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -50,22 +47,39 @@ public class GlobalExceptionHandler {
                 "INTERNAL_ERROR",
                 ex.getMessage()
         );
-
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
-        String firstMessage = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .findFirst()
-                .map(FieldError::getDefaultMessage)
-                .orElse("Invalid input");
+        String message = ex.getFieldError() != null
+                ? ex.getFieldError().getDefaultMessage()
+                : "Invalid input";
+
+        ErrorResponse error = new ErrorResponse("ARGUMENT_INVALID", message);
+        return ResponseEntity.badRequest().body(error);
+    }
+
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "RESOURCE_NOT_FOUND",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(org.springframework.web.bind.MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponse> handleMissingParameter(org.springframework.web.bind.MissingServletRequestParameterException ex) {
+        String message = String.format("The required parameter '%s' is missing.", ex.getParameterName());
 
         ErrorResponse error = new ErrorResponse(
-                "ARGUMENT_INVALID",
-                firstMessage);
+                "MISSING_PARAMETER",
+                message
+        );
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
 }

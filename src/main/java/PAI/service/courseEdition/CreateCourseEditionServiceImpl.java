@@ -1,6 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
@@ -14,6 +15,7 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,11 +31,12 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     private final IStudyPlanRepository studyPlanRepository;
     private final ICourseInStudyPlanRepository courseInStudyPlanRepository;
     private final IProgrammeEditionRepository programmeEditionRepository;
+    private final ICourseEditionAssembler courseEditionAssembler;
 
     public CreateCourseEditionServiceImpl(ICourseEditionFactory courseEditionFactory, ICourseEditionRepository courseEditionRepository,
                                           IDegreeTypeRepository degreeTypeRepository, IProgrammeRepository programmeRepository,
                                           IStudyPlanRepository studyPlanRepository, ICourseInStudyPlanRepository courseInStudyPlanRepository,
-                                          IProgrammeEditionRepository programmeEditionRepository) {
+                                          IProgrammeEditionRepository programmeEditionRepository, ICourseEditionAssembler courseEditionAssembler) {
 
         if (courseEditionFactory == null)
             throw new IllegalArgumentException("courseEditionFactory cannot be null");
@@ -49,6 +52,8 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
             throw new IllegalArgumentException("courseInStudyPlanRepository cannot be null");
         if (programmeEditionRepository == null)
             throw new IllegalArgumentException("programmeEditionRepository cannot be null");
+        if (courseEditionAssembler == null)
+            throw new IllegalArgumentException("courseEditionAssembler cannot be null");
 
         this.courseEditionFactory = courseEditionFactory;
         this.courseEditionRepository = courseEditionRepository;
@@ -57,6 +62,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
         this.studyPlanRepository = studyPlanRepository;
         this.courseInStudyPlanRepository = courseInStudyPlanRepository;
         this.programmeEditionRepository = programmeEditionRepository;
+        this.courseEditionAssembler = courseEditionAssembler;
     }
 
     @Override
@@ -135,5 +141,14 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     @Override
     public Iterable<CourseEdition> findAll () {
         return courseEditionRepository.findAll();
+    }
+
+    @Override
+    public CourseEditionResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+        CourseEdition created = createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+        if (created == null) {
+            return null;
+        }
+        return courseEditionAssembler.toResponseDTO(created);
     }
 }

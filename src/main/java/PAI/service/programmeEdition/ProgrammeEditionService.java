@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ProgrammeEditionService implements IProgrammeEditionService {
@@ -141,5 +142,17 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             throw new IllegalArgumentException("Invalid Programme and or School Year");
         }
     }
+
+    @Override
+    public List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID) {
+        Iterable<ProgrammeEdition> allEditions = programmeEditionRepository.findAll();
+
+        return StreamSupport.stream(allEditions.spliterator(), false)
+                .filter(p -> p.identity().getProgrammeID().equals(programmeID))
+                .map(ProgrammeEdition::identity)
+                .toList();
+    }
+
+
 }
 

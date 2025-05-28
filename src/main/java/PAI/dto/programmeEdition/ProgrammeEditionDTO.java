@@ -1,7 +1,7 @@
 package PAI.dto.programmeEdition;
 
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import jakarta.validation.constraints.NotNull;
 
 public record ProgrammeEditionDTO(
@@ -9,5 +9,5 @@ public record ProgrammeEditionDTO(
         ProgrammeIDDTO programme,
 
         @NotNull(message = "School Year is required")
-        SchoolYearIDRequestDTO schoolYear)  {
+        SchoolYearIDDTO schoolYear) {
 }

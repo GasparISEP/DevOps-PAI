@@ -13,6 +13,7 @@ import PAI.domain.studentGrade.IStudentGradeFactory;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
+import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -203,6 +204,128 @@ class GradeAStudentServiceImplTest {
         // Assert
         assertNotNull(result);
     }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToCommandBeingNull () {
+        // Arrange
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.gradeAStudent(null);
+        });
+    }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToCommandGradeBeingNull () {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        when(command.grade()).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.gradeAStudent(command);
+        });
+    }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToCommandDateBeingNull () {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        when(command.grade()).thenReturn(mock(Grade.class));
+        when(command.date()).thenReturn(null);
+
+        // Act
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Date cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToCommandStudentIDBeingNull () {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        when(command.grade()).thenReturn(mock(Grade.class));
+        when(command.date()).thenReturn(mock(Date.class));
+        when(command.studentID()).thenReturn(null);
+
+        // Act
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Student ID cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToCommandCourseEditionIDBeingNull () {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        when(command.grade()).thenReturn(mock(Grade.class));
+        when(command.date()).thenReturn(mock(Date.class));
+        when(command.studentID()).thenReturn(mock(StudentID.class));
+        when(command.courseEditionID()).thenReturn(null);
+
+        // Act
+        Exception ex =assertThrows(IllegalArgumentException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Course Edition ID cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void gradeAStudentMethodShouldThrowExceptionDueToStudentNotBeingEnrolledInCourseEdition () throws Exception {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        when(command.grade()).thenReturn(mock(Grade.class));
+        when(command.date()).thenReturn(mock(Date.class));
+        when(command.studentID()).thenReturn(mock(StudentID.class));
+        when(command.courseEditionID()).thenReturn(mock(CourseEditionID.class));
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(command.studentID(), command.courseEditionID())).thenReturn(false);
+
+        // Act
+        Exception ex = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Not possible to add grade as student is not enrolled in this course edition", ex.getMessage());
+    }
+
     @Test
     public void shouldGetApprovalRateOf100() throws Exception {
         // Arrange

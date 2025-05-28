@@ -21,6 +21,7 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -244,40 +245,21 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "Software Development",
-                "SDV",
-                UUID.randomUUID(),
-                "SA",
-                "Software Architecture",
-                LocalDate.of(2023, 9, 1));
+                "Software Development", "SDV", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(),
-                requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(),
-                requestDTO.courseAcronym(),
-                requestDTO.courseName(),
-                requestDTO.studyPlanImplementationDate());
-
-        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123",
-                "Software Development",
-                "SDV",
-                UUID.randomUUID(),
-                "SA",
-                "Software Architecture",
+                "courseEditionID123", "Software Development", "SDV",
+                requestDTO.schoolYearID(), "SA", "Software Architecture",
                 LocalDate.of(2023, 9, 1));
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenReturn(command);
-
-        when(createCourseEditionService.createAndSaveCourseEdition(any(), any()))
-                .thenReturn(mockCourseEdition);
-
-        when(courseEditionAssembler.toResponseDTO(mockCourseEdition))
-                .thenReturn(responseDTO);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
 
         // Act
         MvcResult result = mockMvc.perform(post("/courseeditions")
@@ -304,27 +286,16 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI",
-                "LEIC",
-                UUID.randomUUID(),
-                "Software Architecture",
-                "LEI",
-                LocalDate.of(2023, 9, 1));
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(),
-                requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(),
-                requestDTO.courseAcronym(),
-                requestDTO.courseName(),
-                requestDTO.studyPlanImplementationDate()
-        );
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenReturn(command);
-
-        when(createCourseEditionService.createAndSaveCourseEdition(any(), any()))
-                .thenReturn(null);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions")
@@ -337,21 +308,17 @@ class CourseEditionRestControllerTest {
     void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI",
-                "LEIC",
-                UUID.randomUUID(),
-                "Software Architecture",
-                "LEI",
-                LocalDate.of(2023, 9, 1));
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
-        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class)))
-                .thenThrow(new RuntimeException("Test Exception"));
+        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Test Exception"));
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Test Exception"));
     }
 
     @Test
@@ -577,5 +544,47 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$").value(expectedApprovalRate));
     }
 
+    @Test
+    public void testGetNumberOfStudentsInCourseEdition() throws Exception {
+        // Arrange: criar DTO de exemplo e ID de domínio simulado
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "Engenharia Informática", "EI",
+                UUID.randomUUID(),
+                "PAI", "Programação Avançada de Interfaces",
+                java.time.LocalDate.of(2025,1,1)
+        );
 
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(dto)).thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(mockCourseEditionID)).thenReturn(5);
+
+        // Act & Assert
+        mockMvc.perform(post("/courseeditions/studentscount")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("5"));
+    }
+
+    @Test
+    void testGetNumberOfStudentsInCourseEdition_ExceptionThrown() throws Exception {
+        SelectedCourseEditionIdDTO dto = new SelectedCourseEditionIdDTO(
+                "Engenharia Informática",
+                "EI",
+                UUID.randomUUID(),
+                "PAI",
+                "Programação Avançada de Interfaces",
+                LocalDate.of(2025, 1, 1)
+        );
+
+        // Mockar o assembler para lançar uma exceção
+        Mockito.when(courseEditionAssembler.fromDtoToCourseEditionID(Mockito.any()))
+                .thenThrow(new RuntimeException("Simulated Exception"));
+
+        mockMvc.perform(post("/courseeditions/studentscount")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("")); // ou .andExpect(content().string("null")) dependendo da configuração
+    }
 }

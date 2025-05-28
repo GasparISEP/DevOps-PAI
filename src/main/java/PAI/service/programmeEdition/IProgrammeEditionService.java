@@ -1,5 +1,6 @@
 package PAI.service.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
@@ -17,4 +18,6 @@ public interface IProgrammeEditionService {
     int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO) throws Exception;
     Iterable<CountStudentsDto> getAllProgrammeEditions();
     ProgrammeEditionDTO createProgrammeEditionAndSave(ProgrammeEditionDTO programmeEditionDTO) throws Exception;
+
+    List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID);
 }

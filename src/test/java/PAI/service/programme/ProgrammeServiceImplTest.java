@@ -2,20 +2,22 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.exception.AlreadyRegisteredException;
 import org.apache.commons.lang3.stream.Streams;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -148,10 +150,10 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
 
         //Act
-        Exception result = assertThrows(Exception.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+        Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
 
         //Assert
-        assertEquals(result.getMessage(), "Programme is already registered");
+        assertEquals(result.getMessage(), "Programme is already registered.");
     }
 
     @Test
@@ -551,4 +553,63 @@ class ProgrammeServiceImplTest {
         assertEquals(0, result.size());
     }
 
+
+    private ProgrammeServiceImpl programmeService;
+
+    @BeforeEach
+    void setUp() {
+        _programmeRepositoryDouble = mock(IProgrammeRepository.class);
+        _programmeAssemblerDouble = mock(IProgrammeAssembler.class);
+        _programmeFactoryDouble = mock(IProgrammeFactory.class);
+        programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+    }
+
+    @Test
+    void getProgrammeIDDTOsByDegreeTypeID_shouldReturnCorrectDTOs() {
+        // Arrange
+        DegreeTypeID degreeTypeID = new DegreeTypeID("MEST");
+
+        Programme programme1 = mock(Programme.class);
+        Programme programme2 = mock(Programme.class);
+
+        when(programme1.hasThisDegreeTypeID(degreeTypeID)).thenReturn(true);
+        when(programme2.hasThisDegreeTypeID(degreeTypeID)).thenReturn(false);
+
+        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
+        Acronym acronym = new Acronym("LEI");
+
+        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        when(programme1.getProgrammeID()).thenReturn(programmeID);
+
+        ProgrammeIDDTO dto1 = new ProgrammeIDDTO("Engenharia Informática", "LEI");
+        when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto1);
+
+        List<Programme> programmes = List.of(programme1, programme2);
+        when(_programmeRepositoryDouble.findAll()).thenReturn(programmes);
+
+        // Act
+        List<ProgrammeIDDTO> result = programmeService.getProgrammeIDDTOsByDegreeTypeID(degreeTypeID);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals("LEI", result.get(0).acronym());
+        assertEquals("Engenharia Informática", result.get(0).name());
+    }
+
+    @Test
+    void getProgrammeIDDTOsByDegreeTypeID_shouldReturnEmptyListIfNoMatches() {
+        // Arrange
+        DegreeTypeID degreeTypeID = new DegreeTypeID("MEST");
+
+        Programme programme1 = mock(Programme.class);
+        when(programme1.hasThisDegreeTypeID(degreeTypeID)).thenReturn(false);
+
+        when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(programme1));
+
+        // Act
+        List<ProgrammeIDDTO> result = programmeService.getProgrammeIDDTOsByDegreeTypeID(degreeTypeID);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
 }
