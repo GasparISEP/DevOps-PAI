@@ -1,8 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.VOs.DegreeTypeID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/programmes")
@@ -149,6 +148,24 @@ public class ProgrammeRestController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{name}/{acronym}")
+    public ResponseEntity<Object> getProgrammeByID (@PathVariable("name") String name,
+                                                    @PathVariable("acronym") String acronym){
+
+        Acronym acronym1 = new Acronym(acronym);
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars(name);
+        ProgrammeID programmeID = new ProgrammeID(name1, acronym1);
+
+        Optional<Programme> programmeDTO = _programmeService.getProgrammeByID(programmeID);
+
+        if (programmeDTO.isPresent()) {
+            return ResponseEntity.ok(programmeDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme not found");
+        }
+
     }
 
 }
