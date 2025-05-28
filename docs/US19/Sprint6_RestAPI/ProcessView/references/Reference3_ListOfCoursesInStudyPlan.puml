@@ -1,19 +1,27 @@
 @startuml
-title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /coursesinstudyplan/{programmeID})
+title Detailed Flow: Retrieve Courses in Study Plan by Programme ID \n(GET /course-in-study-plan/{name}/{acronym})
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:IStudyPlanService\n(Service)" as SPService #E1F5FE
+participant "<<component>>\n:ICourseInStudyPlanService\n(Service)" as CSPService #E1F5FE
+participant "<<component>>\n:IStudyPlanRepository\n(Repository)" as StudyPlanRepo #E1F5FE
+participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo #E1F5FE
+participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Assembler)" as Assembler #E1F5FE
+database "Database" as DB #E1F5FE
 
-participant "<<component>>\n:Router" as Router
-participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller
-participant "<<component>>\n:IStudyPlanService\n(Service)" as SPService
-participant "<<component>>\n:ICourseInStudyPlanService\n(Service)" as CSPService
-participant "<<component>>\n:IStudyPlanRepository\n(Repository)" as StudyPlanRepo
-participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as CourseInSPRepo
-database "Database" as DB
-
--> Router: GET /coursesinstudyplan/{programmeID}
+-> Router: GET /course-in-study-plan/{name}/{acronym}
 activate Router
 
-Router -> Controller: getCoursesInStudyPlanByProgrammeID(programmeID)
+Router -> Controller: getCoursesInStudyPlanByProgrammeID(name, acronym)
 activate Controller
+
+note right: Controller creates ProgrammeID VO from name and acronym
 
 Controller -> SPService: getLatestStudyPlanIDByProgrammeID(programmeID)
 activate SPService
@@ -25,18 +33,19 @@ StudyPlanRepo -> DB: SELECT * FROM study_plans
 activate DB
 DB --> StudyPlanRepo: List<StudyPlanDataModel>
 deactivate DB
+
 StudyPlanRepo --> SPService: List<StudyPlan>
 deactivate StudyPlanRepo
 
 note over SPService #EEEEEE
-Filters by ProgrammeID and selects
-the most recent StudyPlan
+Filters StudyPlans by ProgrammeID
+Returns the latest (most recent) one
 end note
 
 SPService --> Controller: latestStudyPlanID
 deactivate SPService
 
-Controller -> CSPService: getCoursesByStudyPlanId(studyPlanID)
+Controller -> CSPService: getCourseSummariesByStudyPlanID(latestStudyPlanID)
 activate CSPService
 
 CSPService -> CourseInSPRepo: findAll()
@@ -46,24 +55,40 @@ CourseInSPRepo -> DB: SELECT * FROM courses_in_study_plan
 activate DB
 DB --> CourseInSPRepo: List<CourseInStudyPlanDataModel>
 deactivate DB
+
 CourseInSPRepo --> CSPService: List<CourseInStudyPlan>
 deactivate CourseInSPRepo
 
 note over CSPService #EEEEEE
-Filters only courses with the given StudyPlanID
+Filters CourseInStudyPlan by StudyPlanID
+Converts to CourseInStudyPlanServiceDTO via assembler
 end note
 
-CSPService --> Controller: List<CourseInStudyPlan>
+loop for each filtered CourseInStudyPlan
+    CSPService -> Assembler: toServiceDTO(courseInStudyPlan)
+    activate Assembler
+    Assembler --> CSPService: CourseInStudyPlanServiceDTO
+    deactivate Assembler
+end
+
+CSPService --> Controller: List<CourseInStudyPlanServiceDTO>
 deactivate CSPService
 
 note over Controller #EEEEEE
-Spring converts response to JSON
+Converts service DTOs to response DTOs via assembler
 end note
 
-Controller --> Router: coursesInStudyPlanList (JSON)
+loop for each CourseInStudyPlanServiceDTO
+    Controller -> Assembler: toDTO(serviceDTO)
+    activate Assembler
+    Assembler --> Controller: CourseInStudyPlanResponseDTO
+    deactivate Assembler
+end
+
+Controller --> Router: 200 OK + List<CourseInStudyPlanResponseDTO> (JSON)
 deactivate Controller
 
-<-- Router: coursesInStudyPlanList (JSON)
+<-- Router: Response
 deactivate Router
 
 @enduml

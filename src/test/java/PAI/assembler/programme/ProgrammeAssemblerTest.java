@@ -2,8 +2,9 @@ package PAI.assembler.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeDTO;
+import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
 
@@ -129,4 +130,32 @@ class ProgrammeAssemblerTest {
         });
     }
 
+    @Test
+    void shouldCreateProgrammeIDResponseDTOFromProgrammeIDDTO() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
+        when(programmeIDDTO.name()).thenReturn("Computer Science");
+        when(programmeIDDTO.acronym()).thenReturn("CSE");
+
+        // Act
+        ProgrammeIDResponseDTO result = programmeAssembler.toResponseDTO(programmeIDDTO);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(result.name(), "Computer Science");
+        assertEquals(result.acronym(), "CSE");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeIDDTOIsNull() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeIDDTO programmeIDDTO = null;
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            programmeAssembler.toResponseDTO(programmeIDDTO);
+        });
+    }
 }

@@ -12,4 +12,6 @@ public interface ITeacherCategoryService {
     boolean existsById(TeacherCategoryID teacherCategoryID);
 
     Iterable<TeacherCategory> getAllTeacherCategories();
+
+    TeacherCategoryDTO getTeacherCategoryByID(TeacherCategoryID teacherCategoryID) throws Exception;
 }

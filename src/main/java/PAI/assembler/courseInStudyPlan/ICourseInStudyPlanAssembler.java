@@ -13,4 +13,6 @@ public interface ICourseInStudyPlanAssembler {
     public CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO);
 
     CourseInStudyPlanResponseDTO toDTOFromEntity(CourseInStudyPlan course);
+
+    CourseInStudyPlanServiceDTO toServiceDTO(CourseInStudyPlan course);
 }

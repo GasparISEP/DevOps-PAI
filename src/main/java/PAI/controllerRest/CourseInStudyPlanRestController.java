@@ -11,6 +11,7 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.courseEdition.ICreateCourseEditionService;
+import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
 import PAI.service.courseInStudyPlan.IAddCourseToAProgrammeService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.studyPlan.IStudyPlanService;
@@ -40,24 +41,12 @@ public class CourseInStudyPlanRestController {
 
     @PostMapping
     public ResponseEntity<CourseInStudyPlanResponseDTO> create(
-            @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) {
-        try {
-
-            CourseInStudyPlanCommand command = assembler.toCommand(dtoRequest);
-
-            CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO = service.addCourseToAProgramme(command);
-
-            CourseInStudyPlanResponseDTO dtoResponse = assembler.toDTO(courseInStudyPlanServiceDTO);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
-
-        } catch (IllegalArgumentException | BusinessRuleViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+            @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) throws Exception {
+        CourseInStudyPlanCommand command = assembler.toCommand(dtoRequest);
+        CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO = service.addCourseToAProgramme(command);
+        CourseInStudyPlanResponseDTO dtoResponse = assembler.toDTO(courseInStudyPlanServiceDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
     }
-
 
     @GetMapping("/{programmeID}")
     public ResponseEntity<List<CourseInStudyPlanResponseDTO>> getCoursesInStudyPlanByProgrammeID(
@@ -71,10 +60,10 @@ public class CourseInStudyPlanRestController {
 
         StudyPlanID latestStudyPlanID = studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeIdVO);
 
-        List<CourseInStudyPlan> courses = courseInStudyPlanService.getCoursesByStudyPlanId(latestStudyPlanID);
+        List<CourseInStudyPlanServiceDTO> coursesDTOs = courseInStudyPlanService.getCourseSummariesByStudyPlanID(latestStudyPlanID);
 
-        List<CourseInStudyPlanResponseDTO> responseDTOs = courses.stream()
-                .map(assembler::toDTOFromEntity)
+        List<CourseInStudyPlanResponseDTO> responseDTOs = coursesDTOs.stream()
+                .map(assembler::toDTO)
                 .toList();
 
         return ResponseEntity.ok(responseDTOs);

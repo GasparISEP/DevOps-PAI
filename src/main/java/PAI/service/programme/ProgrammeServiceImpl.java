@@ -51,7 +51,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
         if(_programmeRepository.containsOfIdentity(programme.identity()))
-            throw new Exception("Programme is already registered");
+            throw new AlreadyRegisteredException("Programme");
 
         return _programmeRepository.save(programme);
     }
@@ -142,4 +142,20 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id) {
+        List<ProgrammeIDDTO> programmeIDDTOList = new ArrayList<>();
+
+        for (Programme programme : _programmeRepository.findAll()) {
+            if (programme.hasThisDegreeTypeID(id)) {
+                ProgrammeIDDTO dto = _programmeAssembler.toDTO(programme.getProgrammeID());
+                programmeIDDTOList.add(dto);
+            }
+        }
+
+        return programmeIDDTOList;
+    }
+
+
 }

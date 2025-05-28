@@ -3,12 +3,11 @@ package PAI.service.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-
-import java.util.List;
 import PAI.domain.schoolYear.SchoolYear;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ISchoolYearService {
@@ -18,5 +17,5 @@ public interface ISchoolYearService {
     boolean schoolYearExistsById(SchoolYearID schoolYearID);
     List<SchoolYearID> getAllSchoolYearsIDs();
     Iterable<SchoolYearDTO> getAllSchoolYears();
-    Optional<CurrentSchoolYearResponseDTO> getCurrentSchoolYear();
+    Optional<CurrentSchoolYearDTO> getCurrentSchoolYear();
 }

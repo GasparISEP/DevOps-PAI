@@ -1,5 +1,5 @@
 @startuml
-title US20 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend)
+title US20 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend Internal Flow)
 
 skinparam titleFontName "Verdana"
 skinparam defaultFontName "Verdana"
@@ -7,129 +7,98 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 skinparam actorBackgroundColor #lightblue
 skinparam participantBackgroundColor #lightblue/white
-
 autonumber
 
-participant ":US20_DefineRucForCourseEditionRestController" as Controller
-participant ":ICourseEditionService" as CourseService
-participant ":ICourseEditionRepository" as CourseRepo
-participant ":CourseEditionMapper" as CourseMapper
-participant ":CourseEdition" as CourseEdition
-participant ":ICourseEditionRepositorySpringData" as SpringCourseRepo
-participant ":ITeacherRepository" as TeacherRepo
-participant ":ITeacherRepositorySpringData" as TeacherRepoSpringData
-'--- Find Teachers ---
--> Controller : getAllTeachers()
-activate Controller #E1F5FE
-
-note over Controller #EEEEEE
-Receives HTTP request: GET /teachers
-
-Spring Boot automatically converts
-incoming JSON into DTOs
-end note
-
-ref over Controller
-       <b>Get List of Teachers</b>
-end ref
-
-<-- Controller : List<TeacherDTO>
-
-deactivate Controller
+participant ":Router" as Router <<Component>>
+participant ":RESTController" as Controller <<Component>>
+participant ":Service" as Service <<Component>>
+participant ":Domain" as Domain <<Component>>
+participant ":Repository" as Repository <<Component>>
 
 
-' --- Find Course Editions ---
--> Controller : getAllCourseEditions()
+-> Router: getAllTeachers()
+
+
+activate Router #E1F5FE
+
+Router -> Controller: getAllTeachers()
 activate Controller  #E1F5FE
 
-note over Controller #EEEEEE
-Receives HTTP request: GET /courseEditions
+Controller -> Service: getAllTeachers()
+activate Service  #E1F5FE
 
-Spring Boot automatically converts
-incoming JSON into DTOs
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+
+Repository --> Service: List<Teacher>
+deactivate Repository
+Service --> Controller: List<Teacher>
+deactivate Service
+Controller --> Router: (200 OK) – List<TeacherDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: (200 OK) – List<TeacherDTO> as JSON
+deactivate Router
+
+
+
+
+
+--> Router: findAllCourseEditions()
+activate Router  #E1F5FE
+Router -> Controller: findAllCourseEditions()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllCourseEditions()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+Repository --> Service: List<CourseEdition>
+deactivate Repository
+Service --> Controller: List<CourseEdition>
+deactivate Service
+Controller --> Router: (200 OK) – List<CourseEditionDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: (200 OK) - List<CourseEditionDTO> as JSON
+deactivate Router
+
+-> Router: defineRucForACourseEdition(DefineRUCRequestDTO) as JSON
+activate Router #E1F5FE
+
+note over Router #E0E0E0
+  Incoming JSON is automatically deserialized into a DTO
+  before reaching the controller.
 end note
 
-ref over Controller
-       <b>Get List of Course Editions</b>
-end ref
+Router -> Controller: defineRucForACourseEdition(DefineRUCRequestDTO)
+activate Controller  #E1F5FE
 
-<-- Controller : List<CourseEditionDTO>
+Controller -> Service: assignRucToCourseEdition(courseEditionID, teacherID)
+activate Service  #E1F5FE
 
+Service -> Domain: setRuc(teacherId)
+activate Domain  #E1F5FE
+Domain --> Service: true
+deactivate Domain
+
+Service -> Repository: save(courseEdition)
+activate Repository  #E1F5FE
+Repository --> Service: true
+deactivate Repository
+Service --> Controller: true
+deactivate Service
+Controller --> Router: (200 OK) RUC successfully updated
 deactivate Controller
-
-
-'--- Assign RUC to Course Edition ---
--> Controller : defineRucForCourseEdition(defineRucRequestDTO)
-activate Controller #E1F5FE
-
-note over Controller #EEEEEE
-Receives HTTP request: PATCH /courseeditions/{courseEditionId}/ruc
-
-Spring Boot automatically converts
-incoming JSON into DTOs
-end note
-
-Controller -> CourseService: assignRucToCourseEdition(teacherId, courseEditionId)
-
-
-ref over Controller
-       <b>Convert defineRucDTO to Domain</b>
-end ref
-
-activate CourseService #E1F5FE
-
-CourseService -> TeacherRepo: containsOfIdentity(teacherID)
-activate TeacherRepo #E1F5FE
-TeacherRepo -> TeacherRepoSpringData: containsOfIdentity(teacherID)
-activate TeacherRepoSpringData #E1F5FE
-TeacherRepoSpringData --> TeacherRepo: true
-deactivate TeacherRepoSpringData
-TeacherRepo --> CourseService: true
-deactivate TeacherRepo
-
-CourseService -> CourseRepo : ofIdentity(courseEditionID)
-activate CourseRepo #E1F5FE
-CourseRepo -> SpringCourseRepo : findById()
-activate SpringCourseRepo #E1F5FE
-
-SpringCourseRepo --> CourseRepo : CourseEditionDataModel
-deactivate SpringCourseRepo
-CourseRepo -> CourseMapper : toDomain()
-activate CourseMapper #E1F5FE
-CourseMapper --> CourseRepo : CourseEdition
-deactivate CourseMapper
-CourseRepo --> CourseService : CourseEdition
-deactivate CourseRepo
-
-
-CourseService -> CourseEdition : setRuc(teacherID)
-activate CourseEdition #E1F5FE
-CourseEdition --> CourseService : true
-deactivate CourseEdition
-
-
-CourseService -> CourseRepo : save(CourseEdition)
-activate CourseRepo #E1F5FE
-
-CourseRepo -> CourseMapper : toDataModel()
-activate CourseMapper #E1F5FE
-CourseMapper --> CourseRepo : CourseEditionDataModel
-deactivate CourseMapper
-CourseRepo -> SpringCourseRepo : save(CourseEditionDataModel)
-activate SpringCourseRepo #E1F5FE
-SpringCourseRepo --> CourseRepo : CourseEditionDataModel
-deactivate SpringCourseRepo
-CourseRepo -> CourseMapper : toDomain()
-activate CourseMapper #E1F5FE
-CourseMapper --> CourseRepo : CourseEdition
-deactivate CourseMapper
-CourseRepo --> CourseService : CourseEdition
-
-deactivate CourseRepo
-
-CourseService --> Controller : true
-deactivate CourseService
-<-- Controller:  (200 OK) RUC successfully updated
-deactivate Controller
-
+<-- Router: (200 OK) RUC successfully updated
+deactivate Router
 @enduml

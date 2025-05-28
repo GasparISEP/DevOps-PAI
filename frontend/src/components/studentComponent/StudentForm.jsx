@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { registerStudent } from '../../services/studentService';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
@@ -28,6 +28,34 @@ export default function StudentForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
+
+    useEffect(() => {
+        async function fetchLastStudentID() {
+            try {
+                const response = await fetch('http://localhost:8081/students', {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`HTTP ${response.status} - ${text}`);
+                }
+
+                const data = await response.json();
+                const nextID = (data.lastStudentID || 0) + 1;
+
+                setForm(f => ({
+                    ...f,
+                    studentID: nextID.toString()
+                }));
+            } catch (err) {
+                console.error("❌ Failed to fetch student ID:", err);
+                setError('❌ Failed to fetch student ID from backend.');
+            }
+        }
+
+        fetchLastStudentID();
+    }, []);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -88,7 +116,7 @@ export default function StudentForm() {
             <div className="form-main-grid">
                 <div className="form-img-main-div student-img-background">
                     <div className="form-logo-img-div">
-                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP" />
                     </div>
                 </div>
 
@@ -97,23 +125,6 @@ export default function StudentForm() {
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="studentID">Student ID</label>
-                                <input
-                                    className="form-input"
-                                    placeholder="Enter Student ID"
-                                    id="studentID"
-                                    name="studentID"
-                                    type="text"
-                                    inputMode="numeric"
-                                    pattern="\d*"
-                                    maxLength="8"
-                                    value={form.studentID}
-                                    onChange={handleChange}
-                                    required
-                                    style={{ width: '300px' }}
-                                />
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>

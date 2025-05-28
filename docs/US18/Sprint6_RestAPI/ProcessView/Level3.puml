@@ -12,19 +12,21 @@ participant ":IProgrammeEditionFactory" as PEF
 
 'get all programmes name
 
--> Router: createAProgrammeEditionForTheCurrentSchoolYear(peRequestJSON)
+-> Router: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestJSON)
 activate Router #E1F5FE
 note over Router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
 '''''''''''''''''''''''''''''''''''''''''
-Router -> CPEC: createAProgrammeEditionForTheCurrentSchoolYear(peRequestDTO)
+Router -> CPEC: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestDTO)
 
-
+ref over CPEC
+    Convert programmeEditionRequestDTO to programmeEditionDTO
+end
 'create programmeEdition for current School Year
 activate CPEC #E1F5FE
-CPEC -> PES:createProgrammeEditionAndSave(peRequestDTO)
+CPEC -> PES:createProgrammeEditionAndSave(programmeEditionDTO)
 ref over PES
-    Convert peRequestDTO to programmeID and schoolYearID
+    Convert programmeEditionDTO to programmeID and schoolYearID
 end
 activate PES #E1F5FE
 ref over PES
@@ -90,25 +92,29 @@ deactivate PER
 participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler
 PES --> ProgrammeEditionAssembler: toDTO(pe1ID, syID)
 activate ProgrammeEditionAssembler #E1F5FE
-create "peResponseDTO:ProgrammeEditionResponseDTO" as peResponseDTO
+create "programmeEditionDTO:ProgrammeEditionDTO" as programmeEditionDTO
 
-ProgrammeEditionAssembler -> peResponseDTO : <create> ()
-activate peResponseDTO #E1F5FE
+ProgrammeEditionAssembler -> programmeEditionDTO : <create> ()
+activate programmeEditionDTO #E1F5FE
 
-peResponseDTO --> ProgrammeEditionAssembler: peResponseDTO
-deactivate peResponseDTO
-ProgrammeEditionAssembler --> PES: peResponseDTO
+programmeEditionDTO --> ProgrammeEditionAssembler: programmeEditionDTO
+deactivate programmeEditionDTO
+ProgrammeEditionAssembler --> PES: programmeEditionDTO
 deactivate ProgrammeEditionAssembler
 
 end
 end
-PES --> CPEC: peResponseDTO
-
+PES --> CPEC: programmeEditionDTO
 deactivate PES
-CPEC --> Router : (201, Created) peResponseJSON
+ref over CPEC
+    Convert programmeEditionDTO to programmeEditionResponseDTO
+end
+
+
+CPEC --> Router : (201, Created) programmeEditionResponseDTO
 deactivate CPEC
 note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
-<-- Router: (201, Created) peResponseJSON
+<-- Router: (201, Created) programmeEditionResponseJSON
 deactivate Router
 @enduml

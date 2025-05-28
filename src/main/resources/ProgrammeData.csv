@@ -1,31 +1,32 @@
-Name;Acronym;ECTS;Semesters;DegreeTypeID;DepartmentID;TeacherID
-Computer Sci;CSD;30;6;BSC;INF;HPS
-Information Eng;IEE;1000000;8;MSC;ENG;TDN
-Data Science;DSD;20;4;PGD;SCI;BOB
-23 Swtich;DIS;22;5;FHD;SIF;FND
-AI & Robotics;AIR;28;6;MSC;INF;LKY
-Cyber Security;CYB;24;4;PGD;SEC;XYZ
-Software Eng;SWE;30;8;MSC;INF;TTT
-Data Analytics;DTA;26;5;BSC;SCI;WOO
-Machine Learning;MLC;20;4;PGD;SCI;JON
-Web Dev;WEB;18;3;BSC;INF;ZED
-Mobile Systems;MOB;22;4;MSC;ENG;SIA
-Game Dev;GAM;24;5;BSC;INF;LUL
-Network Eng;NET;28;6;MSC;SIF;GRT
-IoT Systems;IOT;20;4;PGD;INF;WRT
-VR Applications;VRX;30;7;MSC;INF;QWE
-IT Management;ITM;26;6;MSC;ENG;DRT
-Bioinformatics;BIO;22;5;MSC;SCI;FFF
-Computational Math;MTH;20;4;BSC;SCI;YYY
-Cloud Computing;CLD;28;6;MSC;INF;AAA
-Embedded Systems;EMS;24;5;MSC;ENG;ZZZ
-Computer Graphics;CGR;26;6;MSC;INF;QAZ
-Data Viz;DVZ;20;4;PGD;SCI;WSX
-Software Testing;TST;22;5;BSC;INF;EDC
-AI Ethics;AIE;18;3;PGD;SCI;RFV
-Backend Systems;BKS;30;7;MSC;INF;TGB
-Big Data;BGD;26;6;MSC;SCI;YHN
-DevOps;DOP;24;5;MSC;INF;UJM
-Blockchain Tech;BLK;20;4;PGD;SCI;IKL
-Quantum Computing;QNC;30;8;MSC;SCI;OLN
-Operating Systems;OPS;28;6;MSC;INF;PKM
+Name;Acronym;ECTS;Semesters;DegreeTypeName;DepartmentID;TeacherID
+Computer Sci;CSD;30;6;Bachelor;AAA;AAA
+Information Eng;IEE;1000000;8;Master;AAF;AAB
+Data Science;DSD;20;4;Integrated Master;AAR;AAC
+23 Swtich;DIS;22;5;PhD;AAU;AAD
+AI & Robotics;AIR;28;6;Bachelor;AAA;AAE
+Cyber Security;CYB;24;4;Master;AAF;AAF
+Software Eng;SWE;30;8;Integrated Master;AAR;AAG
+Data Analytics;DTA;26;5;PhD;AAU;AAH
+Machine Learning;MLC;20;4;Bachelor;AAA;AAI
+Web Dev;WEB;18;3;Master;AAF;AAJ
+Mobile Systems;MOB;22;4;Integrated Master;AAR;AAK
+Game Dev;GAM;24;5;PhD;AAU;AAL
+Network Eng;NET;28;6;Bachelor;AAA;AAM
+IoT Systems;IOT;20;4;Master;AAF;AAN
+VR Applications;VRX;30;7;Integrated Master;AAR;AAO
+IT Management;ITM;26;6;PhD;AAU;AAP
+Bioinformatics;BIO;22;5;Bachelor;AAA;AAQ
+Computational Math;MTH;20;4;Master;AAF;AAR
+Cloud Computing;CLD;28;6;Integrated Master;AAR;AAS
+Embedded Systems;EMS;24;5;PhD;AAU;AAT
+Computer Graphics;CGR;26;6;Bachelor;AAA;AAU
+Data Viz;DVZ;20;4;Master;AAF;AAV
+Software Testing;TST;22;5;Integrated Master;AAR;AAW
+AI Ethics;AIE;18;3;PhD;AAU;AAX
+Backend Systems;BKS;30;7;Bachelor;AAA;AAY
+Big Data;BGD;26;6;Master;AAF;AAZ
+DevOps;DOP;24;5;Integrated Master;AAR;ABA
+Blockchain Tech;BLK;20;4;PhD;AAU;ABB
+Quantum Computing;QNC;30;8;Bachelor;AAA;ABC
+Operating Systems;OPS;28;6;Master;AAF;ABD
+;;;;;;;;;;;;

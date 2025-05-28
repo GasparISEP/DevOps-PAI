@@ -26,8 +26,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
         //assert
         assertNotNull(service);
     }
@@ -39,8 +38,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
@@ -64,8 +62,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = null;
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -82,8 +79,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -96,12 +92,12 @@ class TeacherCareerProgressionServiceImplV2Test {
     @Test
     void shouldReturnAnExceptionWhenTeacherCategoryIDIsNull() throws Exception {
         //arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = null;
@@ -114,12 +110,12 @@ class TeacherCareerProgressionServiceImplV2Test {
     @Test
     void shouldReturnAnExceptionWhenWorkingPercentageIsNull() throws Exception {
         //arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -132,12 +128,12 @@ class TeacherCareerProgressionServiceImplV2Test {
     @Test
     void shouldReturnAnOptionalEmptyWhenTeacherAlreadyHaveThatCategory() throws Exception{
         //arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
@@ -157,13 +153,12 @@ class TeacherCareerProgressionServiceImplV2Test {
 
     @Test
     void shouldReturnOptionalOfTeacherCareerProgression() throws Exception {
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -198,13 +193,12 @@ class TeacherCareerProgressionServiceImplV2Test {
     @Test
     void shouldReturnEmptyWhenTeacherNotFound() throws Exception {
 
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
         when(teacherRepository.containsOfIdentity(any())).thenReturn(false);
 
@@ -216,13 +210,12 @@ class TeacherCareerProgressionServiceImplV2Test {
 
     @Test
     void shouldReturnEmptyWhenCategoryNotFound() throws Exception {
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
@@ -235,13 +228,12 @@ class TeacherCareerProgressionServiceImplV2Test {
     }
     @Test
     void shouldReturnEmptyWhenNoPreviousTCP() throws Exception {
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository,assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
@@ -256,13 +248,12 @@ class TeacherCareerProgressionServiceImplV2Test {
 
     @Test
     void shouldReturnEmptyWhenDateNotAfterLast() throws Exception {
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
         Date date = mock(Date.class);
@@ -284,13 +275,12 @@ class TeacherCareerProgressionServiceImplV2Test {
 
     @Test
     void shouldReturnEmptyWhenCategoryIsSame() throws Exception {
-        // Arrange
+        //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository, factory, teacherRepository, teacherCategoryRepository, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -324,8 +314,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -358,8 +347,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         when(teacherRepo.containsOfIdentity(any())).thenReturn(false);
@@ -375,8 +363,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         when(teacherRepo.containsOfIdentity(any())).thenReturn(true);
@@ -393,8 +380,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -416,8 +402,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        ITeacherCareerProgressionAssembler assembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo, assembler);
+        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
