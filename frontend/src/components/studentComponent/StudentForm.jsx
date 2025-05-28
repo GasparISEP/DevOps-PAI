@@ -7,8 +7,9 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
+import {Link} from "react-router-dom";
 
-const initialForm = {
+const initialFormState = {
     studentID: '',
     name: '',
     nif: '',
@@ -23,10 +24,11 @@ const initialForm = {
 };
 
 export default function StudentForm() {
-    const [form, setForm] = useState(initialForm);
+    const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         async function fetchLastStudentID() {
@@ -69,6 +71,12 @@ export default function StudentForm() {
         setForm(f => ({ ...f, [name]: newValue }));
     }
 
+    function clearForm() {
+        setForm(initialFormState);
+        setError('');
+        setSuccess(null);
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
@@ -102,6 +110,7 @@ export default function StudentForm() {
         try {
             const resp = await registerStudent(payload);
             setSuccess(resp);
+            setShowModal(true);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -119,7 +128,19 @@ export default function StudentForm() {
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <h1>Register Student</h1>
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '2rem'
+                    }}>
+                        <h1 style={{margin: 0}}>Register Student</h1>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary"
+                              style={{textDecoration: 'none'}}>
+                            Back to Main Page
+                        </Link>
+                    </div>
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
@@ -135,7 +156,7 @@ export default function StudentForm() {
                                     value={form.name}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '330px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -153,7 +174,7 @@ export default function StudentForm() {
                                     value={form.nif}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '330px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -167,7 +188,7 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.nifcountry)}
                                     onChange={option => setForm(f => ({ ...f, nifcountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
                                             <span>{option.label}</span>
                                         </div>
@@ -179,11 +200,11 @@ export default function StudentForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '330px',
+                                            width: '554px',
                                             height: '40px',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
-                                            padding: '0 8px',
+                                            padding: 0,
                                             fontSize: '1rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
@@ -192,17 +213,17 @@ export default function StudentForm() {
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                         }),
                                         input: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                         }),
                                         singleValue: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                         })
@@ -221,22 +242,22 @@ export default function StudentForm() {
                                     value={form.street}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '330px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
                             <div className="form-group postal-code-group">
-                                <label className="form-label" htmlFor="postalCode">Código Postal</label>
+                                <label className="form-label" htmlFor="postalCode">Postal Code</label>
                                 <input
                                     id="postalCode"
                                     name="postalCode"
                                     type="text"
                                     value={form.postalCode}
                                     onChange={handleChange}
-                                    placeholder="Enter the postal code"
+                                    placeholder="Enter Student's Postal Code"
                                     required
                                     className="form-input"
-                                    style={{width: '330px'}}
+                                    style={{width: '554px'}}
                                 />
                                 </div>
 
@@ -251,7 +272,7 @@ export default function StudentForm() {
                                     value={form.location}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '330px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -265,7 +286,7 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.addressCountry)}
                                     onChange={option => setForm(f => ({ ...f, addressCountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
                                             <span>{option.label}</span>
                                         </div>
@@ -277,11 +298,11 @@ export default function StudentForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '330px',
+                                            width: '554px',
                                             height: '40px',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
-                                            padding: '0 8px',
+                                            padding: 0,
                                             fontSize: '1rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
@@ -290,17 +311,17 @@ export default function StudentForm() {
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                         }),
                                         input: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                         }),
                                         singleValue: (base) => ({
                                             ...base,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                         })
@@ -329,45 +350,65 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
-                                    inputStyle={{ width: '330px' }}
+                                    inputStyle={{ width: '554px' }}
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="email">E-mail</label>
+                                <label className="form-label" htmlFor="email">Email</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Student's E-mail"
+                                    placeholder="Enter Student's Email"
                                     id="email"
                                     name="email"
                                     type="email"
                                     value={form.email}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '330px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
                             {error && <div className="error">⚠️ {error}</div>}
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>
-                                    CANCEL
+                                <button type="button" className="btn btn-secondary"
+                                        onClick={clearForm}
+                                        disabled={loading}>
+                                    CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
                                     {loading ? 'Registering…' : 'REGISTER'}
                                 </button>
                             </div>
-
-                            {success && (
-                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                    Student {success.name} (ID {success.studentID}) registered successfully!
-                                </div>
-                            )}
                         </div>
                     </div>
                 </form>
             </div>
+
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Success!</h2>
+                        <p>The teacher was registered successfully.</p>
+                        {success && (
+                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                                    <p><strong>Name:</strong> {success.name}</p>
+                                    <p><strong>Acronym:</strong> {success.nif}</p>
+                                    <p><strong>Email:</strong> {success.nifcountry}</p>
+                                    <p><strong>Nif:</strong> {success.street}</p>
+                                    <p><strong>Email:</strong> {success.postalCode}</p>
+                                    <p><strong>Academic Background:</strong> {success.location}</p>
+                                    <p><strong>Street:</strong> {success.addressCountry}</p>
+                                    <p><strong>Postal Code:</strong> {success.countryCode}</p>
+                                    <p><strong>Location:</strong> {success.phoneNumber}</p>
+                                    <p><strong>Country:</strong> {success.email}</p>
+                                </div>
+                        )}
+                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
