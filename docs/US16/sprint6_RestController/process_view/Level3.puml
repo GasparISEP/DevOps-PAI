@@ -30,7 +30,7 @@ ASC -> FE ++: Select course edition
 end group
 
 group HTTP Request
-FE -> CT ++: (POST) /courseeditions/enrolments with JSON {request}
+FE -> CT ++: (POST) /courseeditions/students/enrolments with JSON {request}
 end group
 
 group Application Service Invocation

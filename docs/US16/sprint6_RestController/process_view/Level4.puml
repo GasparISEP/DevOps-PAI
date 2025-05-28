@@ -33,7 +33,7 @@ ASC -> UI ++: Select course edition
 end group
 
 group Controller Layer
-UI -> Controller ++: (POST) /courseeditions/enrolments {request}
+UI -> Controller ++: (POST) /courseeditions/students/enrolments {request}
 Controller -> Assembler ++: toDomain(CourseEditionEnrolmentDto)
 note right of Assembler
   Transformations:

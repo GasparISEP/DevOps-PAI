@@ -3,7 +3,7 @@ title: Find Course Editions By Search Criteria\n(Code View - Level 4)
 
 autonumber
 
-actor "ASC" as asc
+participant ":Router" as router
 participant ":CourseEditionRestController" as ceCtrl
 activate ceCtrl
 participant ":CourseEditionAssembler" as ceAssembler
@@ -13,7 +13,7 @@ participant ":CourseEditionMapper" as ceMapper
 participant ":CourseEditionFactory" as ceFactory
 database DB
 
-asc -> ceCtrl: getCourseEditionsBySearchCriteria(courseEditionRequestDTO)
+router -> ceCtrl: GET /courseeditions/programmeditions
 ceCtrl -> ceAssembler ++: toProgrammeEditionID(courseEditionRequestDTO)
 ceAssembler --> ceCtrl --: programmeEditionID
 ceCtrl -> ceAssembler ++: toCourseInStudyPlanID(courseEditionRequestDTO)
@@ -52,7 +52,7 @@ loop for CourseEditionID[i]
     end note
 end
 ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
-ceCtrl --> asc: List<CourseEditionResponseDTO>
+ceCtrl --> router: List<CourseEditionResponseDTO>
 
 legend right
   DTO = Data Transfer Object
