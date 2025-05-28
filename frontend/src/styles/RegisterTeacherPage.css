@@ -2,23 +2,6 @@
     background-image: url("../../src/assets/images/teacher-form-image.jpg") !important;
 }
 
-.teacher-phone-row {
-    display: flex;
-    width: 100%;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.teacher-phone-country {
-    width: 10%;
-    justify-content: center;
-}
-
-.teacher-phone-number {
-    width: 10%;
-    justify-content: flex-end;
-}
-
 .teacher-form-input {
     width: 100%;
     box-sizing: border-box;
@@ -50,3 +33,18 @@ select.teacher-form-input {
     color: #b5b5b5;
 }
 
+.teacher-phone-number.teacher-form-input.form-control {
+    border: 1.5px solid #8C92AC; 
+}
+
+.teacher-phone-country.flag-dropdown {
+    border: 1.5px solid #8C92AC;
+}
+
+.css-hp5u3l-control.teacher-form-select__control {
+    border: 1.5px solid #8C92AC;
+}
+
+.css-1052qbs-control.teacher-form-select__control {
+    border: 1.5px solid #8C92AC;
+}

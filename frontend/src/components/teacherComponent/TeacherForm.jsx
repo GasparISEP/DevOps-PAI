@@ -190,9 +190,27 @@ export default function TeacherForm() {
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="postalCode">Postal Code</label>
-                                <input className="form-input" placeholder="Enter Teacher's Postal Code" id="postalCode"
-                                       name="postalCode"
-                                       value={form.postalCode || ''} onChange={handleChange} required/>
+                                <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
+                                    <input
+                                        className="form-input"
+                                        placeholder="Enter Postal Code"
+                                        id="postalCode"
+                                        name="postalCode"
+                                        value={form.postalCode || ''}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ flex: 1 }}
+                                    />
+                                    <input
+                                        className="form-input"
+                                        placeholder="Box (optional)"
+                                        id="postalBox"
+                                        name="postalBox"
+                                        value={form.postalBox || ''}
+                                        onChange={handleChange}
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
@@ -202,38 +220,44 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="addressCountry">Country</label>
+                                <label className="form-label" htmlFor="country">Country</label>
                                 <Select
                                     id="country"
                                     name="country"
-                                    className="teacher-form-input"
-                                    classNamePrefix="teacher-form-input"
+                                    classNamePrefix="teacher-form-select"
                                     options={countryList().getData()}
                                     value={countryList().getData().find(option => option.label === form.country)}
                                     onChange={option => setForm(f => ({ ...f, country: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Address Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '100%',
-                                            minHeight: '40px',
+                                            width: '554px',
+                                            height: '40px',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
-                                            padding: 0, // Remove padding
-                                            fontSize: '1rem',
+                                            padding: 0,
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -256,28 +280,34 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="phone">Phone Number</label>
-                                <PhoneInput
-                                    country={'pt'}
-                                    value={form.countryCode + form.phoneNumber}
-                                    onChange={(value, data) => {
-                                        const newCountryCode = '+' + data.dialCode;
-                                        const phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
-                                        setForm(f => ({
-                                            ...f,
-                                            countryCode: newCountryCode,
-                                            phoneNumber: phone
-                                        }));
-                                    }}
-                                    containerClass="teacher-phone-row"
-                                    buttonClass="teacher-phone-country"
-                                    inputClass="teacher-phone-number teacher-form-input"
-                                    dropdownStyle={{ zIndex: 9999 }}
-                                    enableSearch
-                                    searchClass="teacher-form-input"
-                                    required
-                                    // inputStyle={{ width: '330px' }}
-                                />
+                                <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
+                                <div className="teacher-phone-row">
+                                    <div className="teacher-phone-country">
+                                        <PhoneInput
+                                            country={'pt'}
+                                            value={form.countryCode + form.phoneNumber}
+                                            onChange={(value, data) => {
+                                                const newCountryCode = '+' + data.dialCode;
+                                                const phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
+                                                setForm(f => ({
+                                                    ...f,
+                                                    countryCode: newCountryCode,
+                                                    phoneNumber: phone
+                                                }));
+                                            }}
+                                            containerClass="teacher-phone-row"
+                                            buttonClass="teacher-phone-country"
+                                            inputClass="teacher-phone-number teacher-form-input"
+                                            dropdownStyle={{ zIndex: 9999 }}
+                                            enableSearch
+                                            fontSize={16}
+                                            placeholder="Enter phone number" // <-- set your desired placeholder here
+                                            searchClass="teacher-form-input"
+                                            required
+                                            inputStyle={{ width: '55.2rem'}}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="form-group">
