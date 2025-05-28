@@ -10,7 +10,6 @@ import CountryFlag from "react-country-flag";
 import {Link} from "react-router-dom";
 
 export default function TeacherForm() {
-    // Store initial form state for reset
     const initialFormState = {
         id: '',
         name: '',
@@ -32,6 +31,7 @@ export default function TeacherForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     useEffect(() => {
         async function fetchOptions() {
@@ -94,6 +94,7 @@ export default function TeacherForm() {
             setForm({ ...initialFormState });
         } catch (err) {
             setError(err.message);
+            setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
@@ -315,8 +316,6 @@ export default function TeacherForm() {
                                 </select>
                             </div>
 
-                            {error && (console.log(error), <div className="error">{error}</div>)}
-
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
                                         onClick={clearForm}
@@ -358,7 +357,15 @@ export default function TeacherForm() {
                     </div>
                 </div>
             )}
-
+            {showErrorModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ borderColor: 'red' }}>
+                        <h2 style={{ color: 'red' }}>Registration Error</h2>
+                        <p>{error}</p>
+                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -9,14 +9,19 @@ export async function registerTeacher(teacherDTO) {
         body: JSON.stringify(teacherDTO)
     });
 
-    if (!response.ok) {
-        const errBody = await response.json();
-        // procura em message primeiro, depois em error, senão status
-        const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
-        throw new Error(errMsg);
+    let responseData = null;
+
+    try {
+        responseData = await response.json();
+    } catch (e) {
+        console.warn("Response without JSON body.");
     }
 
-    return response.json();
+    if (!response.ok) {
+        const errMsg = responseData?.message || `HTTP ${response.status}`;
+        throw new Error(errMsg);
+    }
+    return responseData;
 }
 
 export async function getAllTeachers() {
