@@ -6,6 +6,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
@@ -640,5 +641,36 @@ class ProgrammeServiceImplTest {
 
         // Assert
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void should_returnProgrammeID_ifProgrammeIsFound(){
+
+        // arrange
+        createDoubles();
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+
+        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
+
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.of(_programmeDouble));
+        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(programmeDTODouble);
+
+        // act
+        ProgrammeDTO result = service.getProgrammeDTOByID(id);
+
+        // assert
+        assertEquals(programmeDTODouble, result);
+    }
+
+    @Test
+    void should_ThrowExceptionWhenProgrammeIDIsNull(){
+
+        // arrange
+        createDoubles();
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> service.getProgrammeDTOByID(null), "ProgrammeID cannot be null");
     }
 }
