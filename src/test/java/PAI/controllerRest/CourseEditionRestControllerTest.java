@@ -1,20 +1,16 @@
 package PAI.controllerRest;
 import PAI.VOs.*;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.ProgrammeEditionID;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.dto.courseEdition.*;
+import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
@@ -42,8 +38,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -80,6 +74,9 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private IProgrammeEditionAssembler programmeEditionAssembler;
+
+    @MockBean
+    private ICourseEditionService courseEditionService;
 
     private CourseEditionEnrolmentDto validEnrolmentDto;
 
@@ -323,22 +320,33 @@ class CourseEditionRestControllerTest {
 
     @Test
     void whenGetStudentsEnrolledInCourseEdition_thenReturnsListOfStudents() throws Exception {
-    //Arrange
-    ProgrammeEditionIdDto programmeEditionIdDto = new ProgrammeEditionIdDto("LEIC", "L.EIC", UUID.randomUUID().toString());
-    ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-    CourseEditionID courseEditionID = mock(CourseEditionID.class);
-    CourseEditionResponseDTO courseEditionResponseDTO = mock(CourseEditionResponseDTO.class);
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+            "L.EIC",                                   
+            "LEIC",                                     
+            UUID.randomUUID(),                         
+            "ESOFT",                                 
+            "Engineering Software",                     
+            LocalDate.now()                             
+        );
+        
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionResponseDTO courseEditionResponseDTO = mock(CourseEditionResponseDTO.class);
 
-    when(programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto)).thenReturn(programmeEditionID);
-    when(courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID)).thenReturn(List.of(courseEditionID));
-    when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
+        when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(programmeEditionID);
+        when(courseEditionAssembler.toCourseInStudyPlanID(requestDTO)).thenReturn(courseInStudyPlanID);
+        when(courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID))
+            .thenReturn(List.of(courseEditionID));
+        when(courseEditionAssembler.toResponseDTOList(List.of(courseEditionID))).thenReturn(List.of(courseEditionResponseDTO));
 
-    String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
+        String expectedJson = objectMapper.writeValueAsString(List.of(courseEditionResponseDTO));
 
-    //Act + Assert
-    mockMvc.perform(get("/courseeditions/programmeditions")
+        // Act + Assert
+        mockMvc.perform(get("/courseeditions/programmeditions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(programmeEditionIdDto)))
+                .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(expectedJson));
@@ -586,5 +594,122 @@ class CourseEditionRestControllerTest {
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("")); // ou .andExpect(content().string("null")) dependendo da configuração
+    }
+
+    @Test
+    void getCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_Success() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+            "Software Engineering",     
+            "LEIC",                   
+            UUID.randomUUID(),          
+            "ESOFT",                   
+            "Engineering Software",     
+            LocalDate.now()             
+        );
+
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID mockCourseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        CourseEditionResponseDTO mockResponseDTO = mock(CourseEditionResponseDTO.class);
+
+        when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(mockProgrammeEditionID);
+        when(courseEditionAssembler.toCourseInStudyPlanID(requestDTO)).thenReturn(mockCourseInStudyPlanID);
+        when(courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(mockProgrammeEditionID, mockCourseInStudyPlanID))
+            .thenReturn(List.of(mockCourseEditionID));
+        when(courseEditionAssembler.toResponseDTOList(List.of(mockCourseEditionID))).thenReturn(List.of(mockResponseDTO));
+
+        String expectedJson = objectMapper.writeValueAsString(List.of(mockResponseDTO));
+
+        // Act & Assert
+        MvcResult result = mockMvc.perform(get("/courseeditions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String actualJson = result.getResponse().getContentAsString();
+        assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    void getCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_EmptyResult() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+            "Software Engineering",
+            "LEIC",
+            UUID.randomUUID(),
+            "ESOFT",
+            "Engineering Software",
+            LocalDate.now()
+        );
+
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID mockCourseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(mockProgrammeEditionID);
+        when(courseEditionAssembler.toCourseInStudyPlanID(requestDTO)).thenReturn(mockCourseInStudyPlanID);
+        when(courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(mockProgrammeEditionID, mockCourseInStudyPlanID))
+            .thenReturn(List.of());
+        when(courseEditionAssembler.toResponseDTOList(List.of())).thenReturn(List.of());
+
+        // Act & Assert
+        MvcResult result = mockMvc.perform(get("/courseeditions/programmeditions")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDTO)))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andReturn();
+
+        String actualJson = result.getResponse().getContentAsString();
+        assertEquals("[]", actualJson);
+    }
+
+
+    @Test
+    void getCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_InvalidRequest() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO invalidRequestDTO = new CourseEditionRequestDTO(
+            "",                        
+            "",                        
+            null,                       
+            "",                        
+            "",                         
+            null                        
+        );
+
+        // Act & Assert
+        mockMvc.perform(get("/courseeditions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequestDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ServiceThrowsException() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+            "Software Engineering",
+            "LEIC",
+            UUID.randomUUID(),
+            "ESOFT",
+            "Engineering Software",
+            LocalDate.now()
+        );
+
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID mockCourseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(mockProgrammeEditionID);
+        when(courseEditionAssembler.toCourseInStudyPlanID(requestDTO)).thenReturn(mockCourseInStudyPlanID);
+        when(courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(mockProgrammeEditionID, mockCourseInStudyPlanID))
+            .thenThrow(new RuntimeException("Test exception"));
+
+        // Act & Assert
+        mockMvc.perform(get("/courseeditions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest());
     }
 }

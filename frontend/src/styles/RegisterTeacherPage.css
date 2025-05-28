@@ -7,19 +7,46 @@
     width: 100%;
     gap: 0.5rem;
     align-items: center;
-    /* Remove width: 70% to match other fields */
 }
 
 .teacher-phone-country {
-    flex: 0 0 10%;
     width: 10%;
-    min-width: 3rem;
-    max-width: 6rem;
+    justify-content: flex-start;
 }
 
 .teacher-phone-number {
-    flex: 1 1 90%;
     width: 90%;
-    min-width: 0;
+    justify-content: flex-end;
+}
+
+.teacher-form-input {
+    width: 100%;
+    box-sizing: border-box;
+    color: #333;
+
+}
+
+select.teacher-form-input {
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%225%22%20viewBox%3D%220%200%2010%205%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%205%205-5z%22%20fill%3D%22%238C92AC%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 10px 5px;
+    /*padding-right: 2rem;*/
+}
+
+.teacher-form-input {
+    border-radius: 5px;
+    border: 1px solid #8C92AC;
+    width: 100%;
+    /*/padding: 1rem;*/
+    font-size: 1.5rem;
+}
+
+.teacher-form-input::placeholder {
+    color: #b5b5b5;
 }
 
