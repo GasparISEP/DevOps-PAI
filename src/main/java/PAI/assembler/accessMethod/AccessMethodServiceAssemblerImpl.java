@@ -16,6 +16,6 @@ public class AccessMethodServiceAssemblerImpl implements IAccessMethodServiceAss
 
         return new AccessMethodServiceDTO(
                 accessMethod.identity().toString(),
-                accessMethod.getAccessMethodName().getnameWithNumbersAndSpecialChars());
+                accessMethod.getAccessMethodName().getNameWithNumbersAndSpecialChars());
     }
 }

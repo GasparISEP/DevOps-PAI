@@ -48,7 +48,7 @@ class CourseInStudyPlanAssemblerImplTest {
         assertEquals("CS101", command.courseAcronym().getAcronym());
         assertEquals("Computer Science", command.courseName().getName());
         assertEquals("ENG", command.programmeAcronym().getAcronym());
-        assertEquals("Engineering", command.programmeName().getnameWithNumbersAndSpecialChars());
+        assertEquals("Engineering", command.programmeName().getNameWithNumbersAndSpecialChars());
         assertEquals("01-05-2024", command.studyPlanDate().toString());
         assertEquals(2, command.duration().toInt());
         assertEquals(6.0, command.credits().toDouble());

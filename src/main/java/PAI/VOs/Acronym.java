@@ -1,6 +1,7 @@
 package PAI.VOs;
 
 import PAI.ddd.ValueObject;
+import PAI.exception.BusinessRuleViolationException;
 
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class Acronym implements ValueObject {
             throw new IllegalArgumentException("Acronym must not be blank");
         }
         if (!acronym.matches("^[A-Z]+[0-9]*$")) {
-            throw new IllegalArgumentException("Acronym must contain only uppercase letters, followed by optional digits");
+            throw new BusinessRuleViolationException("Acronym must contain only uppercase letters, followed by optional digits");
         }
     }
 

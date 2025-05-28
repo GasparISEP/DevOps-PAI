@@ -17,7 +17,7 @@ class RegisterAccessMethodCommandTest {
         RegisterAccessMethodCommand command = new RegisterAccessMethodCommand(nameVO);
 
         // Assert
-        assertEquals(expectedName, command.name().getnameWithNumbersAndSpecialChars());
+        assertEquals(expectedName, command.name().getNameWithNumbersAndSpecialChars());
     }
 
     @Test
