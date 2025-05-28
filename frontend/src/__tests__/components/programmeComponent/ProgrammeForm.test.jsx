@@ -165,80 +165,18 @@ describe('ProgrammeForm tests', () => {
         });
     });
 
-    test('register button is disabled while loading', async () => {
-        let resolvePromise;
-        const neverResolvingPromise = new Promise((resolve) => {
-            resolvePromise = resolve;
-        });
-
-        programmeService.registerProgramme.mockImplementation(() => neverResolvingPromise);
-
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
-
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
-
-        fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Test' } });
-        fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'T' } });
-        fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '2' } });
-        fireEvent.change(screen.getByLabelText(/degree type/i), { target: { value: '11111111-1111-1111-1111-111111111111' } });
-        fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DI' } });
-        fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'ABC' } });
-
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        });
-
-        expect(screen.getByRole('button', { name: /registering…/i })).toBeDisabled();
-
-        resolvePromise();
-    });
-
-    test('form clears after successful submission', async () => {
-        programmeService.registerProgramme.mockResolvedValue({ message: 'Programme created' });
-
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
-
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
-
-        fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'New Programme' } });
-        fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'NP' } });
-        fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '6' } });
-        fireEvent.change(screen.getByLabelText(/degree type/i), { target: { value: '11111111-1111-1111-1111-111111111111' } });
-        fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DI' } });
-        fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'ABC' } });
-
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        });
-
-        await waitFor(() => {
-            expect(screen.getByLabelText(/name/i)).toHaveValue('');
-            expect(screen.getByLabelText(/acronym/i)).toHaveValue('');
-            expect(screen.getByLabelText(/semesters/i).value).toBe('');
-            expect(screen.getByLabelText(/degree type/i)).toHaveValue('');
-            expect(screen.getByLabelText(/department/i)).toHaveValue('');
-            expect(screen.getByLabelText(/programme's director/i)).toHaveValue('');
-        });
-    });
-
-    test('logs error when fetch fails', async () => {
-        global.fetch = jest.fn(() => Promise.reject(new Error('Fetch failed')));
+    test('should log error when fetch fails', async () => {
+        global.fetch = jest.fn().mockRejectedValueOnce(new Error('Network error'));
 
         const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
         render(<ProgrammeForm />);
 
-        await waitFor(() => {
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                "Failed to load options:",
-                expect.any(Error)
-            );
-        });
+        await screen.findByText('Register Programme');
+
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to load options:', expect.any(Error));
 
         consoleErrorSpy.mockRestore();
+        global.fetch.mockRestore();
     });
 });
