@@ -99,7 +99,12 @@ public class ApiCapabilitiesCatalog {
                 "roles", Map.of(
                         "administrator", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET", "POST", "PATCH"),
-                        "programmeDirector", List.of("GET")
+                        "programmeDirector", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET")
                 )
         ));
 
