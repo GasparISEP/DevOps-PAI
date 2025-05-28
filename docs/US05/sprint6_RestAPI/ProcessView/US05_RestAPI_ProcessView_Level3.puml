@@ -30,7 +30,7 @@ FE -> CT ++: (POST) /departments {request}
 end group
 
 group Application Service Invocation
-CT -> SE ++: createAndSaveDepartment(requestVOs)
+CT -> SE ++: createAndSaveDepartment
 
 group Domain Logic
 SE -> DM ++: new Department
@@ -39,6 +39,8 @@ end group
 
 group Persistence
 SE -> RE ++: save(department)
+RE -> :save
+RE <-- : persisted
 RE --> SE --: Persisted department
 end group
 

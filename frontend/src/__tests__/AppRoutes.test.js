@@ -52,4 +52,14 @@ describe('Rotas da aplicação', () => {
         expect(screen.getByRole('heading', { name: /register programme/i })).toBeInTheDocument();
     });
 
+    test('Renderiza a página de registo de unidades curriculares no plano de estudo', () => {
+        render(
+            <MemoryRouter initialEntries={['/courses']}>
+                <AppRoutes />
+            </MemoryRouter>
+        );
+        expect(
+            screen.getByText(/register course in study plan|new course/i)
+        ).toBeInTheDocument();
+    });
 });

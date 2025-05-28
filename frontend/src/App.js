@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import './styles/Main.css'
 import RegisterStudentPage from './pages/RegisterStudentPage'
 import './styles/RegisterStudentPage.css'
 import RegisterProgrammePage from "./pages/RegisterProgrammePage";
@@ -9,6 +8,8 @@ import RegisterTeacherPage from "./pages/teacherPage/RegisterTeacherPage";
 import './styles/RegisterTeacherPage.css'
 import DisplayTeacherPage from "./pages/teacherPage/DisplayTeacherPage";
 import './styles/DisplayTeacherPage.css'
+import RegisterCourseInStudyPlan from "./pages/RegisterCourseInStudyPlanPage";
+import './styles/RegisterCourseInStudyPlanPage.css'
 import AppRoutes from "./AppRoutes";
 
 function App() {

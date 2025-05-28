@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+node "localhost:" as Localhost {
+  [Browser + PAI FE]
+}
+
+node ":" as Server {
+  [HTTP Server]
+  [PAI.FE]
+}
+
+node ":" as Backend {
+  [PAI.BE]
+}
+
+node ":" as Database {
+  [BD]
+}
+
+Localhost -- Server : HTTP
+Server -- Backend : HTTP
+Backend -- Database : IP(TCP/UDP)
+
+@enduml

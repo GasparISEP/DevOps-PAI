@@ -5,6 +5,8 @@ import RegisterStudentPage from './pages/RegisterStudentPage';
 import RegisterProgrammePage from './pages/RegisterProgrammePage';
 import RegisterTeacherPage from './pages/teacherPage/RegisterTeacherPage';
 import DisplayTeacherPage from './pages/teacherPage/DisplayTeacherPage';
+import RegisterCourseInStudyPlanPage from './pages/RegisterCourseInStudyPlanPage';
+
 
 function AppRoutes() {
     return (
@@ -14,6 +16,8 @@ function AppRoutes() {
             <Route path="/teachers/display" element={<DisplayTeacherPage />} />
             <Route path="/students" element={<RegisterStudentPage />} />
             <Route path="/programmes" element={<RegisterProgrammePage />} />
+            <Route path="/courses" element={<RegisterCourseInStudyPlanPage />}
+            />
         </Routes>
     );
 }

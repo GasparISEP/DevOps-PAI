@@ -413,7 +413,6 @@ class AddCourseToAProgrammeServiceImplTest {
 
     @Test
     void should_NotCreateCourseInStudyPlan_ifCourseIsNull() throws Exception {
-
         // arrange
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
@@ -438,11 +437,9 @@ class AddCourseToAProgrammeServiceImplTest {
         );
 
         // act + assert
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+        assertThrows(BusinessRuleViolationException.class, () -> {
             service.addCourseToAProgramme(command);
         });
-
-        assertEquals("Acronym cannot be null", exception.getMessage());
     }
 
     @Test
