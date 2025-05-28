@@ -98,4 +98,15 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
 
         return success;
     }
+
+    @Override
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception {
+        if(programmeEditionID == null) {
+            throw new IllegalArgumentException("ProgrammeEditionID cannot be null");
+        }
+        if(courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID cannot be null");
+        }
+        return courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
+    }
 }
