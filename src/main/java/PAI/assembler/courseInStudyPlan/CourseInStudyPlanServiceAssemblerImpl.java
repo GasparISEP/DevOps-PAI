@@ -2,9 +2,11 @@ package PAI.assembler.courseInStudyPlan;
 
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class CourseInStudyPlanServiceAssemblerImpl implements ICourseInStudyPlanServiceAssembler {
 
     @Override

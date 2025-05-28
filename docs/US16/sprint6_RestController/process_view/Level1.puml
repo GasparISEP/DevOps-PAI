@@ -4,7 +4,7 @@ actor ASC
 participant ":System" as system
 ASC -> system: I want to enroll a student in a course edition.
 system --> ASC: Which Student?
-ASC -> system: Student's ID!
+ASC -> system: Student ID!
 system --> ASC: Which Programme Edition?
 ASC -> system: Programme Edition's ID!
 system --> ASC: Which Course Edition?

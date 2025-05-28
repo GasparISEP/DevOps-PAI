@@ -15,7 +15,13 @@ public class ApiCapabilitiesCatalog {
                 "url", linkTo(PAI.controllerRest.TeacherRestController.class).toUri().toString(),
                 "roles", Map.of(
                         "administrator", List.of("GET", "POST"),
-                        "humanResourcesCollaborator", List.of("GET", "POST", "PATCH")
+                        "humanResourcesCollaborator", List.of("GET", "POST", "PATCH"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "academicServicesCollaborator", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "programmeDirector", List.of("GET")
                 )
         ));
 
@@ -23,7 +29,13 @@ public class ApiCapabilitiesCatalog {
                 "url", linkTo(PAI.controllerRest.DepartmentRestController.class).toUri().toString(),
                 "roles", Map.of(
                         "administrator", List.of("GET", "POST", "PATCH", "DELETE"),
-                        "departmentDirector", List.of("GET")
+                        "departmentDirector", List.of("GET"),
+                        "academicServicesCollaborator", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "programmeDirector", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET")
                 )
         ));
 
@@ -32,7 +44,12 @@ public class ApiCapabilitiesCatalog {
                 "roles", Map.of(
                         "administrator", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET", "POST"),
-                        "departmentDirector", List.of("GET")
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "programmeDirector", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET")
                 )
         ));
 
@@ -42,7 +59,11 @@ public class ApiCapabilitiesCatalog {
                         "administrator", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET", "POST", "DELETE"),
                         "ruc", List.of("GET", "PATCH"),
-                        "programmeDirector", List.of("GET")
+                        "programmeDirector", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET")
                 )
         ));
 
@@ -50,7 +71,13 @@ public class ApiCapabilitiesCatalog {
                 "url", linkTo(PAI.controllerRest.TeacherCategoryRestController.class).toUri().toString(),
                 "roles", Map.of(
                         "administrator", List.of("GET", "POST"),
-                        "humanResourcesCollaborator", List.of("GET")
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "programmeDirector", List.of("GET"),
+                        "academicServicesCollaborator", List.of("GET")
                 )
         ));
 
@@ -58,7 +85,12 @@ public class ApiCapabilitiesCatalog {
                 "url", linkTo(PAI.controllerRest.AccessMethodRestController.class).toUri().toString(),
                 "roles", Map.of(
                         "administrator", List.of("GET", "POST"),
-                        "academicServicesCollaborator", List.of("GET")
+                        "academicServicesCollaborator", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "programmeDirector", List.of("GET")
                 )
         ));
 
@@ -67,14 +99,26 @@ public class ApiCapabilitiesCatalog {
                 "roles", Map.of(
                         "administrator", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET", "POST", "PATCH"),
-                        "programmeDirector", List.of("GET")
+                        "programmeDirector", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET")
                 )
         ));
 
         api.put("degreetypes", Map.of(
                 "url", linkTo(PAI.controllerRest.DegreeTypeRestController.class).toUri().toString(),
                 "roles", Map.of(
-                        "administrator", List.of("GET", "POST")
+                        "administrator", List.of("GET", "POST"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "programmeDirector", List.of("GET"),
+                        "academicServicesCollaborator", List.of("GET")
                 )
         ));
 
@@ -82,7 +126,13 @@ public class ApiCapabilitiesCatalog {
                 "url", linkTo(PAI.controllerRest.SchoolYearRestController.class).toUri().toString(),
                 "roles", Map.of(
                         "administrator", List.of("GET", "POST"),
-                        "academicServicesCollaborator", List.of("GET")
+                        "academicServicesCollaborator", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "student", List.of("GET"),
+                        "programmeDirector", List.of("GET")
                 )
         ));
 
@@ -91,7 +141,12 @@ public class ApiCapabilitiesCatalog {
                 "roles", Map.of(
                         "administrator", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET", "POST", "PATCH"),
-                        "student", List.of("GET")
+                        "student", List.of("GET"),
+                        "humanResourcesCollaborator", List.of("GET"),
+                        "departmentDirector", List.of("GET"),
+                        "ruc", List.of("GET"),
+                        "teacher", List.of("GET"),
+                        "programmeDirector", List.of("GET")
                 )
         ));
 

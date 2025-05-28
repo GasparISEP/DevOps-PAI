@@ -1,9 +1,6 @@
 package PAI.dto.department;
 
-import PAI.VOs.DepartmentAcronym;
-import PAI.VOs.Name;
-import PAI.VOs.TeacherAcronym;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,99 +12,79 @@ class DepartmentWithDirectorCommandTest {
     @Test
     void shouldCreateDepartmentWithDirectorCommandCorrectly() {
         // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("Software Engineering Department");
 
+        DepartmentID departmentID = mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
 
-        TeacherID teacher = mock(TeacherID.class);
+        TeacherID  teacherID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
         when(teacherAcronym.getAcronym()).thenReturn("MAN");
 
         // Act
-        DepartmentWithDirectorCommand command = new DepartmentWithDirectorCommand(name, acronym, teacher);
+        DepartmentWithDirectorCommand command = new DepartmentWithDirectorCommand(departmentID, teacherID);
 
         // Assert
-        assertEquals(name, command.name());
-        assertEquals(acronym, command.acronym());
-        assertEquals(teacher, command.director());
+        assertEquals(departmentID, command.department());
+        assertEquals( teacherID, command.director());
 
     }
 
     @Test
     void shouldThrowExceptionWhenNameOfDepartmentIsNull() {
         // Arrange
+        DepartmentID departmentID= mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
-        TeacherID teacher = mock(TeacherID.class);
+        TeacherID  teacherID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
         when(teacherAcronym.getAcronym()).thenReturn("MAN");
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(null, acronym, teacher);
+            new DepartmentWithDirectorCommand(null,  teacherID);
         });
-        assertEquals("Name is required", exception.getMessage());
+        assertEquals("Department is required", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenNameOfDepartmentIsBlank() {
+    void shouldThrowExceptionWhenIDOfDepartmentIsNull() {
         // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("");
+        DepartmentID departmentID= mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
-        TeacherID teacher = mock(TeacherID.class);
+        TeacherID  teacherID= mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
         when(teacherAcronym.getAcronym()).thenReturn("MAN");
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RegisterDepartmentRequestVOs(name, acronym);
+            new DepartmentWithDirectorCommand(null,  teacherID);
         });
-        assertEquals("Name is required", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenAcronymOfDepartmentIsNull() {
-        // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("Software Engineering Department");
-        TeacherID teacher = mock(TeacherID.class);
-        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
-        when(teacherAcronym.getAcronym()).thenReturn("MAN");
-
-        // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(name, null, teacher);
-        });
-        assertEquals("Acronym is required", exception.getMessage());
+        assertEquals("Department is required", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenAcronymOfDepartmentIsBlank() {
         // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("Software Engineering Department");
+        DepartmentID departmentID= mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        when(acronym.getAcronym()).thenReturn("");
-        TeacherID teacher = mock(TeacherID.class);
+        when(acronym.getAcronym()).thenReturn("DEI");
+        TeacherID  teacherID = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
         when(teacherAcronym.getAcronym()).thenReturn("MAN");
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(name, null, teacher);
+            new DepartmentWithDirectorCommand(null, teacherID);
         });
-        assertEquals("Acronym is required", exception.getMessage());
+        assertEquals("Department is required", exception.getMessage());
     }
     //
     @Test
-    void shouldThrowExceptionWhenNameOfTeacherIsBlank() {
+    void shouldThrowExceptionWhenTeacherIDIsBlank() {
         // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("");
+        DepartmentID departmentID= mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
         TeacherID teacher = mock(TeacherID.class);
@@ -116,46 +93,28 @@ class DepartmentWithDirectorCommandTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(name, null, teacher);
+            new DepartmentWithDirectorCommand(departmentID,null);
         });
-        assertEquals("Name is required", exception.getMessage());
+        assertEquals("Director is required", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionWhenAcronymOfTeachertIsNull() {
+    void shouldThrowExceptionWhenTeacherIDIsNull() {
         // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("Software Engineering Department");
+        // Arrange
+        DepartmentID departmentID= mock(DepartmentID.class);
         DepartmentAcronym acronym = mock(DepartmentAcronym.class);
         when(acronym.getAcronym()).thenReturn("DEI");
         TeacherID teacher = mock(TeacherID.class);
         TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
         when(teacherAcronym.getAcronym()).thenReturn("MAN");
-
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(name, acronym, null);
+            new DepartmentWithDirectorCommand(departmentID,null);
         });
         assertEquals("Director is required", exception.getMessage());
     }
 
-    @Test
-    void shouldThrowExceptionWhenAcronymOfTeacherIsBlank() {
-        // Arrange
-        Name name = mock(Name.class);
-        when(name.getName()).thenReturn("Software Engineering Department");
-        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
-        when(acronym.getAcronym()).thenReturn("DEI");
-        TeacherID teacher = mock(TeacherID.class);
-        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
-        when(teacherAcronym.getAcronym()).thenReturn("");
-
-        // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new DepartmentWithDirectorCommand(name, acronym, null);
-        });
-        assertEquals("Director is required", exception.getMessage());
-    }
 
 
 
