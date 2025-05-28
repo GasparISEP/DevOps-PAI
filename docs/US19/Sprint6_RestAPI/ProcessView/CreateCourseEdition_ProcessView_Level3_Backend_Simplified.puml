@@ -1,6 +1,5 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Core Flow Only - Backend)
-
+title US19: Create a Course Edition\n(Process View - Level 3: Core Backend Flow)
 
 autonumber
 
@@ -16,125 +15,81 @@ skinparam sequence {
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-
-participant "<<component>>\n:Router" as router #E1F5FE
+participant "<<component>>\n:Router" as Router #E1F5FE
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
+participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
 participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
-participant "<<component>>\n:ICourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
-participant "<<component>>\n:ICourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
-participant "<<component>>\n:IProgrammeEditionIDMapper\n(Mapper)" as PEMapper #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanIDMapper\n(Mapper)" as CSPMapper #E1F5FE
-participant "<<component>>\n:ICourseEdition\nRepositorySpringData\n(JPARepository)" as SpringData #E1F5FE
+database "Database" as DB #E1F5FE
 
-database DB as Database #E1F5FE
+== Step 1: HTTP POST Request ==
 
-note over router
-This simplified version of the diagram focuses only
-on the core backend flow for creating a course edition.
-Supporting GET endpoints (e.g., programmes,
-courses) are omitted for clarity.
-end note
+-> Router: POST /courseeditions\nwith CourseEditionRequestDTO (JSON)
+activate Router
 
-== Step 1: HTTP Request ==
-
-' --- GET endpoints omitted for brevity ---
-
--> router: POST /courseeditions
-activate router
-router -> Controller: createCourseEdition(JSON)
-
+Router -> Controller: createCourseEdition(requestDTO)
 activate Controller
 
 note over Controller #EEEEEE
-Spring Boot automatically converts
-incoming JSON to
+Spring converts JSON into
 CourseEditionRequestDTO
+Controller calls assembler.toCommand()
+to convert to CreateCourseEditionCommand
 end note
-
-== Step 2: Assemble to Command ==
 
 Controller -> Assembler: toCommand(requestDTO)
 activate Assembler
-Assembler --> Controller: createCourseEditionCommand
+Assembler --> Controller: CreateCourseEditionCommand
 deactivate Assembler
 
 
+== Step 2: Call Service ==
 
-Controller -> Service: createAndSaveCourseEdition(dto)
+Controller -> Service: createCourseEditionAndReturnDTO\n(courseInStudyPlanID, programmeEditionID)
 activate Service
 
-== Step 3: Application Service & Factory ==
 
-Service -> CourseEditionFactory: createCourseEditionToDomain\n(cSp1_ID, pE1_ID)
-activate CourseEditionFactory
-CourseEditionFactory --> Service -- : CourseEdition
+Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)
+activate Factory
+
+Factory --> Service: CourseEdition (domain object)
+deactivate Factory
+
 Service -> Repository: containsOfIdentity(courseEdition.identity())
 activate Repository
-Repository --> Service: false
+Repository --> Service: false (not exists)
 deactivate Repository
 
-
-== Step 4: Persistence ==
-Service -> Repository : save(courseEdition)
+Service -> Repository: save(courseEdition)
 activate Repository
-Repository -> Mapper : toDataModel\n(courseEdition)
-activate Mapper
-Mapper -> IDMapper : toDataModel\n(courseEditionID)
-activate IDMapper
-IDMapper -> PEMapper : toDataModel\n(programmeEditionID)
-activate PEMapper
-PEMapper --> IDMapper : ProgrammeEdition\nIDDataModel
-deactivate PEMapper
-IDMapper -> CSPMapper : toDataModel\n(courseInStudyPlanID)
-activate CSPMapper
-CSPMapper --> IDMapper : CourseInStudyPlan\nIDDataModel
-deactivate CSPMapper
-IDMapper --> Mapper : CourseEdition\nIDDataModel
-deactivate IDMapper
-Mapper --> Repository : CourseEditionDataModel
-deactivate Mapper
 
+Repository -> DB: INSERT course_edition data
+activate DB
+DB --> Repository: success
+deactivate DB
 
+Repository --> Service: saved CourseEdition
+deactivate Repository
 
-
-Repository -> SpringData : save(courseEditionDataModel)
-activate SpringData
-
-group Database
-SpringData -> Database: INSERT INTO\n course_edition (...)
-activate Database
-Database --> SpringData: success
-deactivate Database
-end
-
-
-SpringData --> Repository : saved
-deactivate
-
-== Step 5: Return DTO ==
-
-Repository -> Mapper : toDomain\n(courseEditionDataModel)
-activate Mapper
-Mapper --> Repository : CourseEdition
-deactivate
-
-Repository --> Service : CourseEdition
-deactivate
-
-Service --> Controller : CourseEdition
+Service --> Controller: CourseEdition
 deactivate Service
 
-Controller -> Assembler : toDTO(courseEdition)
-activate Assembler
-Assembler --> Controller : responseDTO
-deactivate Assembler
+== Step 3: Assemble Response DTO ==
 
-Controller --> router:  (200 OK) Course Edition\n created successfully!
+alt if CourseEdition is not null
+    Controller -> Assembler: toResponseDTO(courseEdition)
+    activate Assembler
+    Assembler --> Controller: CourseEditionResponseDTO
+    deactivate Assembler
+
+    Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
+
+end
+
 deactivate Controller
 
-<-- router:  (200 OK) Course Edition\n created successfully!
-@enduml
+<-- Router: Response
+deactivate Router
 
+@enduml
