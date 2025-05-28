@@ -1,8 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('App renders without crashing', () => {
+    render(<App />);
+});
+
+test('renders the App component and shows welcome message', () => {
+    render(<App />);
+    const welcomeElement = screen.getByText(/welcome to isep/i);
+    expect(welcomeElement).toBeInTheDocument();
 });
