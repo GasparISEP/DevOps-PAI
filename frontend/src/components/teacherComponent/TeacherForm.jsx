@@ -31,6 +31,7 @@ export default function TeacherForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         async function fetchOptions() {
@@ -73,13 +74,31 @@ export default function TeacherForm() {
         setSuccess(null);
         setLoading(true);
 
-        const payload = {
-            ...form,
-        };
-
         try {
+
+            const payload = {
+                ...form,
+            };
             const response = await registerTeacher(payload);
             setSuccess(response);
+            setShowModal(true);
+
+            setForm({
+                id: '',
+                name: '',
+                acronym: '',
+                email: '',
+                nif: '',
+                academicBackground: '',
+                countryCode: '',
+                phoneNumber: '',
+                street: '',
+                postalCode: '',
+                location: '',
+                country: '',
+                departmentID: ''
+            });
+
         } catch (err) {
             setError(err.message);
         } finally {
@@ -281,15 +300,37 @@ export default function TeacherForm() {
                                 </button>
                             </div>
                         </div>
-
-                        {success && (
-                            <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                Teacher registered successfully!
-                            </div>
-                        )}
                     </div>
                 </form>
             </div>
+
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Success!</h2>
+                        <p>The teacher was registered successfully.</p>
+                        {success && (
+                            <div className="success" style={{marginTop: '1rem', color: '#080'}}>
+                                <p><strong>Name:</strong> {success.name}</p>
+                                <p><strong>Acronym:</strong> {success.acronym}</p>
+                                <p><strong>Email:</strong> {success.email}</p>
+                                <p><strong>Nif:</strong> {success.nif}</p>
+                                <p><strong>Email:</strong> {success.email}</p>
+                                <p><strong>Academic Background:</strong> {success.academicBackground}</p>
+                                <p><strong>Street:</strong> {success.street}</p>
+                                <p><strong>Postal Code:</strong> {success.postalCode}</p>
+                                <p><strong>Location:</strong> {success.location}</p>
+                                <p><strong>Country:</strong> {success.country}</p>
+                                <p><strong>Country Code:</strong> {success.countryCode}</p>
+                                <p><strong>Country Code:</strong> {success.phoneNumber}</p>
+                                <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
+                            </div>
+                        )}
+                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
