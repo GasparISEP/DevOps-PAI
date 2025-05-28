@@ -8,73 +8,19 @@ skinparam shadowing true
 
 autonumber
 
-actor ASC as asc #teal
-
 participant ":Frontend" as frontend <<container>> #teal
 participant ":Backend" as backend <<container>> #teal
-participant ":Database" as db <<container>> #teal
 
-asc -> frontend: I want to add Course to a Programme!
-activate frontend #E1F5FE
+-> frontend : I want to add a course to a programme
 
-frontend --> asc: Which programme?
-deactivate frontend
-
-asc -> frontend: Enter programme!
-activate frontend #E1F5FE
-
-frontend --> asc: Which course?
-deactivate frontend
-
-asc -> frontend: Enter course!
-activate frontend #E1F5FE
-
-frontend --> asc: Which curricular year?
-deactivate frontend
-
-asc -> frontend: Enter curricular year!
-activate frontend #E1F5FE
-
-frontend --> asc: Which semester?
-deactivate frontend
-
-asc -> frontend: Enter semester!
-activate frontend #E1F5FE
-
-frontend --> asc: Duration of course in semester?
-deactivate frontend
-
-asc -> frontend: Enter duration!
-activate frontend #E1F5FE
-
-frontend --> asc: Quantity of Credits?
-deactivate frontend
-
-asc -> frontend: Enter ECTS credits!
-activate frontend #E1F5FE
-
-
-
-
-
-frontend --> asc: Sure?
-deactivate frontend
-
-asc -> frontend: Yes!
-activate frontend #E1F5FE
-
-frontend -> backend: (POST) add Course to a Programme (semester, curricularYear,\n courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
+frontend -> backend: (POST) add Course to a Programme (CourseInStudyPlanRequestDTO)
 activate backend #E1F5FE
 
-backend -> db: (INSERT) Persist CourseInStudyPlan (semester, curricularYear,\n courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts)
-activate db #E1F5FE
-db --> backend: courseInStudyPlan
-deactivate db
 
 backend --> frontend: (201, Created) Course added to Programme!
 deactivate backend
 
-frontend --> asc: Ok!
+<-- frontend : Course added to Programme!
 deactivate frontend
 
 @enduml
