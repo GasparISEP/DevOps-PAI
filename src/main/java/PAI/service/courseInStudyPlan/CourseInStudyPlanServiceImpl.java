@@ -2,6 +2,7 @@ package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -17,9 +18,9 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
 
     private final ICourseInStudyPlanRepository _repository;
     private final ICourseInStudyPlanFactory _factory;
-    private final ICourseInStudyPlanAssembler _assembler;
+    private final ICourseInStudyPlanServiceAssembler _assembler;
 
-    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory, ICourseInStudyPlanAssembler assembler) {
+    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory, ICourseInStudyPlanServiceAssembler assembler) {
         if (repository == null) {
             throw new IllegalArgumentException("Repository cannot be null");
         }

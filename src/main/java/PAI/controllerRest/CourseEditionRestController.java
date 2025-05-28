@@ -8,6 +8,7 @@ import PAI.dto.courseEdition.*;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
+import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
@@ -41,11 +42,13 @@ public class CourseEditionRestController {
     private final IStudentGradeAssembler studentGradeAssembler;
     private final IProgrammeEditionAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
+    private final ICourseEditionService courseEditionService;
 
 public CourseEditionRestController(
         ICourseEditionEnrolmentService courseEditionEnrolmentService,
         ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
         ICreateCourseEditionService createCourseEditionService,
+        ICourseEditionService courseEditionService,
         ICourseEditionAssembler courseEditionAssembler,
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
@@ -55,6 +58,7 @@ public CourseEditionRestController(
     this.courseEditionEnrolmentService = courseEditionEnrolmentService;
     this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
     this.createCourseEditionService = createCourseEditionService;
+    this.courseEditionService = courseEditionService;
     this.courseEditionAssembler = courseEditionAssembler;
     this.gradeAStudentService = gradeAStudentService;
     this.studentGradeAssembler = studentGradeAssembler;
@@ -156,10 +160,11 @@ public CourseEditionRestController(
     }
 
     @GetMapping("/programmeditions")
-    public ResponseEntity<List<CourseEditionResponseDTO>> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody ProgrammeEditionIdDto programmeEditionIdDto) {
+    public ResponseEntity<List<CourseEditionResponseDTO>> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
         try {
-            ProgrammeEditionID programmeEditionID = programmeEditionAssembler.toProgrammeEditionID(programmeEditionIdDto);
-            List<CourseEditionID> courseEditionIDs = courseEditionEnrolmentService.findCourseEditionIDsByProgrammeEdition(programmeEditionID);
+            ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
+            CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
+            List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
             List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
             return ResponseEntity.ok(courseEditionResponseDTOs);
         } catch (Exception e) {
@@ -229,10 +234,10 @@ public CourseEditionRestController(
 
     @GetMapping("/approvalpercentage")
     public ResponseEntity<Double> getCourseEditionApprovalRate(
-            @RequestParam("programmeAcronym") String programmeAcronym,
-            @RequestParam("schoolYearId") String schoolYearId,
-            @RequestParam("courseAcronym") String courseAcronym,
-            @RequestParam("studyPlanDate") String studyPlanDate) throws Exception {
+            @RequestParam("programmeAcronym") @Valid String programmeAcronym,
+            @RequestParam("schoolYearId") @Valid String schoolYearId,
+            @RequestParam("courseAcronym") @Valid String courseAcronym,
+            @RequestParam("studyPlanDate") @Valid String studyPlanDate) throws Exception {
 
         UUID schoolYearUUID = UUID.fromString(schoolYearId);
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);

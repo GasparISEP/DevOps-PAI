@@ -1,15 +1,18 @@
 package PAI.assembler.programmeEdition;
 
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.SchoolYearID;
+import PAI.VOs.*;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDResponseDTO;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDResponseDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class ProgrammeEditionControllerAssembler implements IProgrammeEditionControllerAssembler {
@@ -45,5 +48,17 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
         SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
+    }
+    @Override
+    public CountStudentsDto toCountDTO(ProgrammeEdition programmeEdition) {
+        if (programmeEdition == null) {
+            throw new IllegalArgumentException("ProgrammeEdition cannot be null");
+        }
+        ProgrammeEditionID id = programmeEdition.identity();
+        String programmeName = id.getProgrammeID().getName().toString();
+        String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
+        UUID schoolYearID = id.getSchoolYearID().getSchoolYearID();
+
+        return new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
     }
 }

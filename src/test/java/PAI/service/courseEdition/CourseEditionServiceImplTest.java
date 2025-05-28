@@ -411,88 +411,106 @@ class CourseEditionServiceImplTest {
         verify(courseEditionRepository, times(0)).containsOfIdentity(courseEditionID);
     }
 
-    //----- assignRucToCourseEdition Tests -----
-
+    //-----findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID Tests-----
     @Test
-    void shouldReturnTrueWhenAssignRucAndEditionExists() throws Exception {
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
-        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+    void shouldReturnListOfCourseEditionIDsWhenBothParametersAreValid() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
 
-        TeacherID tId = mock(TeacherID.class);
-        CourseEditionID ceId = mock(CourseEditionID.class);
-        CourseEdition ce = mock(CourseEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        List<CourseEditionID> expectedCourseEditions = List.of(mock(CourseEditionID.class));
 
-        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
-        when(repo.save(ce)).thenReturn(ce);
-        when(ce.setRuc(tId)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID))
+                .thenReturn(expectedCourseEditions);
 
-        boolean result = service.assignRucToCourseEdition(tId, ceId);
+        // Act
+        List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                programmeEditionID, courseInStudyPlanID);
 
-        assertTrue(result);
-        verify(ce).setRuc(tId);
-        verify(repo).save(ce);
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedCourseEditions, result);
     }
 
     @Test
-    void shouldReturnFalseWhenAssignRucAndEditionNotExists() throws Exception {
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
-        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
+    void shouldThrowExceptionWhenProgrammeEditionIDIsNull() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
 
-        TeacherID tId = mock(TeacherID.class);
-        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
 
-        when(repo.ofIdentity(ceId)).thenReturn(Optional.empty());
-
-        boolean result = service.assignRucToCourseEdition(tId, ceId);
-
-        assertFalse(result);
-        verify(repo, never()).save(any());
-    }
-
-    @Test
-    void shouldReturnFalseWhenSetRucFails() throws Exception {
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
-        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
-
-        TeacherID tId = mock(TeacherID.class);
-        CourseEditionID ceId = mock(CourseEditionID.class);
-        CourseEdition ce = mock(CourseEdition.class);
-
-        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
-        when(ce.setRuc(tId)).thenReturn(false);
-
-        boolean result = service.assignRucToCourseEdition(tId, ceId);
-
-        assertFalse(result);
-        verify(ce).setRuc(tId);
-        verify(repo, never()).save(any());
-    }
-
-    @Test
-    void shouldThrowRuntimeExceptionWhenSaveFails() throws Exception {
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository repo = mock(ICourseEditionRepository.class);
-        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repo);
-
-        TeacherID tId = mock(TeacherID.class);
-        CourseEditionID ceId = mock(CourseEditionID.class);
-        CourseEdition ce = mock(CourseEdition.class);
-
-        when(repo.ofIdentity(ceId)).thenReturn(Optional.of(ce));
-        when(ce.setRuc(tId)).thenReturn(true);
-        when(repo.save(ce)).thenThrow(new RuntimeException("Persistência falhou"));
-
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-            service.assignRucToCourseEdition(tId, ceId);
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(null, courseInStudyPlanID);
         });
 
-        assertTrue(thrown.getMessage().contains("Erro ao persistir CourseEdition com novo RUC"));
-        verify(ce).setRuc(tId);
-        verify(repo).save(ce);
+        assertEquals("ProgrammeEditionID cannot be null", exception.getMessage());
     }
 
+    @Test
+    void shouldThrowExceptionWhenCourseInStudyPlanIDIsNull() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, null);
+        });
+
+        assertEquals("CourseInStudyPlanID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoMatchingCourseEditionsFound() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID))
+                .thenReturn(List.of());
+
+        // Act
+        List<CourseEditionID> result = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                programmeEditionID, courseInStudyPlanID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldPropagateExceptionWhenRepositoryThrowsException() throws Exception {
+        // Arrange
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(courseEditionFactory, courseEditionRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID))
+                .thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                    programmeEditionID, courseInStudyPlanID);
+        });
+
+        assertEquals("Database error", exception.getMessage());
+    }
 
 }

@@ -11,7 +11,6 @@ import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 public interface IProgrammeEditionAssembler {
     CountStudentsDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition);
     ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsDto dto) throws Exception;
-    Iterable<CountStudentsDto> toCountStudentsInProgrammeEditionDTOList(Iterable<ProgrammeEdition> editions);
     SchoolYearID toSchoolYearID(ProgrammeEditionDTO programmeEditionDTO);
     ProgrammeID toProgrammeID(ProgrammeEditionDTO programmeEditionDTO);
     ProgrammeEditionDTO toDTO(ProgrammeID programmeID, SchoolYearID schoolYearID);

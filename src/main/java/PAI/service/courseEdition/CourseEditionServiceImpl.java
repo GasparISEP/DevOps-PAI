@@ -12,6 +12,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CourseEditionServiceImpl implements ICourseEditionService {
 
     private final ICourseEditionRepository courseEditionRepository;
@@ -73,26 +76,13 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     @Override
-    @Transactional
-    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
-        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
-
-        if (optionalEdition.isEmpty()) {
-            return false;
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception {
+        if(programmeEditionID == null) {
+            throw new IllegalArgumentException("ProgrammeEditionID cannot be null");
         }
-
-        CourseEdition courseEdition = optionalEdition.get();
-        boolean success = courseEdition.setRuc(teacherId);
-
-        if (success) {
-            try {
-                courseEditionRepository.save(courseEdition);
-            } catch (Exception e) {
-                // Pode fazer log aqui, se quiseres
-                throw new RuntimeException("Erro ao persistir CourseEdition com novo RUC", e);
-            }
+        if(courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID cannot be null");
         }
-
-        return success;
+        return courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
     }
 }

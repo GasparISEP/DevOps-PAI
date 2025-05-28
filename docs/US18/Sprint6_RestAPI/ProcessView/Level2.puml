@@ -1,6 +1,6 @@
 @startuml
 
-title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 - Container)
+title US18: As an ASC, I want to create a programme edition for the current school year \n (Process View - Level 2 - System)
 
 skinparam componentStyle component
 skinparam defaultTextAlignment center
@@ -8,13 +8,11 @@ skinparam shadowing true
 
 autonumber
 
-actor ASC as ASC
-
 participant "Frontend" as frontend <<Component>>
 participant "Backend" as backend <<Component>>
 participant "Database" as DB <<Component>>
 
-ASC -> frontend: I want to create a programme edition for the current school year!
+ -> frontend: I want to create a programme edition for the current school year!
 activate frontend #E1F5FE
 
 frontend -> backend: (GET) Request List Of Programmes
@@ -22,20 +20,20 @@ activate backend #E1F5FE
 backend --> frontend: List of programmes
 
 
-frontend --> ASC: What programme name?
+<-- frontend: What programme name?
 
-ASC -> frontend: Entered programme name!
+ -> frontend: Entered programme name!
 
 
 frontend -> backend: (GET) Request current school year
 backend --> frontend: Current school year
-frontend --> ASC: What school year uuid?
+<-- frontend: What school year uuid?
 
-ASC -> frontend: Entered school year uuid!
+ -> frontend: Entered school year uuid!
 
-frontend --> ASC: Sure?
+<-- frontend: Sure?
 
-ASC -> frontend: Yes!
+ -> frontend: Yes!
 
 frontend -> backend: (POST) Request create programme edition (name, uuid)
 
@@ -47,7 +45,7 @@ deactivate DB
 backend --> frontend: (201, Created) programmeEdition created!
 deactivate backend
 
-frontend --> ASC: Ok!
+ <-- frontend: Ok!
 deactivate frontend
 
 @enduml

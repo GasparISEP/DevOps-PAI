@@ -17,6 +17,7 @@ import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,10 +65,8 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@RequestBody ProgrammeDTO programmeDTO) throws Exception {
-        if (programmeDTO == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> registerProgramme (@Valid @RequestBody ProgrammeDTO programmeDTO) throws Exception {
+
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
         ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
