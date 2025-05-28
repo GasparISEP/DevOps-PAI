@@ -1,200 +1,263 @@
 @startuml
-title US05: Register a Department in the System
-
-skinparam shadowing true
 skinparam linetype ortho
+skinparam ranksep 150
+skinparam nodesep 120
+skinparam packageBorderColor #F0B0B0
+skinparam arrowThickness 2
+top to bottom direction
 
-class US05_RegisterADepartmentController #lightcyan {
-    +US05_RegisterADepartmentController(departmentService: IDepartmentService)
-    +registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
+
+title US05: "As an Administrator, I want to Register a Department in the System"\nLogical View Level 5
+
+package US05 {
+'--- Controller ---
+package controller {
+  class DepartmentRestController <<restController>> {
+    + getDepartmentById(String): ResponseEntity<?>
+    + registerDepartment(RegisterDepartmentRequest): ResponseEntity<?>
+    + updateDepartmentDirector(DepartmentWithDirectorRequest): ResponseEntity<?>
+    + allDepartments(): ResponseEntity<?>
+  }
 }
 
-interface IDepartmentService #lightcyan {
-        + registerDepartment(acronym: DepartmentAcronym, name: Name)
+'--- Assembler ---
+package assembler {
+interface IDepartmentAssembler << interface >> {
+  + fromStringToDepartmentID(String): DepartmentID
+  + toRegisterDepartmentRequestVOs(RegisterDepartmentRequest): RegisterDepartmentRequestVOs
+  + toDWDDTO(Department): DepartmentWithDirectorDTO
+  + fromRequestToCommand(DepartmentWithDirectorRequest): DepartmentWithDirectorCommand
+  + toDWDDTOs(Iterable<Department>): Iterable<DepartmentWithDirectorDTO>
+  + toDTO(Department): DepartmentDTO
+  + toDTOs(Iterable<Department>): Iterable<DepartmentDTO>
 }
 
-class DepartmentServiceImpl #ffe6ec{
-      + DepartmentService(departmentFactory: IDepartmentFactory, departmentRepo: IDepartmentRepository)
-      + registerDepartment(acronym: DepartmentAcronym, name: Name)
+class DepartmentAssemblerImpl {
+  + toDWDDTO(Department): DepartmentWithDirectorDTO
+  + toRegisterDepartmentRequestVOs(RegisterDepartmentRequest): RegisterDepartmentRequestVOs
+  + fromStringToDepartmentID(String): DepartmentID
+  + toDTOs(Iterable<Department>): Iterable<DepartmentDTO>
+  + fromRequestToCommand(DepartmentWithDirectorRequest): DepartmentWithDirectorCommand
+  + toDWDDTOs(Iterable<Department>): Iterable<DepartmentWithDirectorDTO>
+  + toDTO(Department): DepartmentDTO
 }
 
-interface IDepartmentRepository #lightyellow {
-    + registerDepartment(acronym: DepartmentAcronym, name: Name): boolean
+class DepartmentHateoasAssemblerImpl {
+  + toModel(DepartmentDTO): EntityModel<DepartmentDTO>
 }
-
-class DepartmentRepositoryMem #lightcyan {
-    + save (entity: Department): Department
-    + findAll(): Iterable<Department>
-    + ofIdentity (id: DepartmentID): Optional<Department>
-    + containsOfIdentity(id: DepartmentID): boolean
-}
-
-class DepartmentFactoryImpl #lightyellow {
-    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
-}
-
-interface IDepartmentFactory #lightyellow {
-    +newDepartment(acronym: DepartmentAcronym, name: Name): Department
-}
-
-class DepartmentListFactoryImpl #lightyellow {
-    +newDepartmentList: HashSet<Department>
-}
-
-interface IDepartmentListFactory #lightyellow {
-    + newDepartmentList(): HashSet<Department>
-}
-
-interface Set #ccffcc {
-    +add(): boolean
-}
-
-package "Department Aggregate" {
-
-class Department <<root>> #lightyellow{
-    +Department(acronym: DepartmentAcronym , name: Name)
-    +hashCode(): int
-    +identity(): DepartmentAcronym
-    +equals(obj: Object): boolean
-    +sameAs(obj: Object): boolean
-    +getName(): Name
-    +getAcronym(): DepartmentAcronym
-    +getVersion(): Long
+interface IDepartmentHateoasAssembler << interface >> {
+  + toModel(DepartmentDTO): EntityModel<DepartmentDTO>
 }
 }
 
-class Name <<Value Object >> #lightyellow {
-    -_name: String
-    + Name(name: String)
-    + getName(): String
+package dto {
+entity DepartmentDTO << record >> {
+  + name(): String
+  + id(): String
+  + acronym(): String
+}
+entity RegisterDepartmentRequest << record >> {
+  + name(): String
+  + acronym(): String
+}
+entity RegisterDepartmentRequestVOs << record >> {
+  + acronym(): DepartmentAcronym
+  + name(): Name
 }
 
-class DepartmentAcronym <<Value Object>> #lightyellow {
-    -_acronym: String
-    + DepartmentAcronym(acronym: String)
-    + getAcronym(): String
-    + equals(obj: Object): boolean
-    + hashCode(): int
-}
-
-class DepartmentID <<Value Object>> #lightyellow {
-    + DepartmentID(acronym: DepartmentAcronym)
-    + getAcronym(): DepartmentAcronym
-    + equals(obj: Object): boolean
-    + hashCode(): int
-}
-
-
-US05_RegisterADepartmentController "*" ..> "_departmentService 1" IDepartmentService
-
-IDepartmentService <|.. DepartmentServiceImpl
-DepartmentServiceImpl "1" ..> "_departmentFactory 1" IDepartmentFactory
-DepartmentServiceImpl "1"..> "_departmentRepo 1" IDepartmentRepository
-IDepartmentService ..> Department
-
-DepartmentRepositoryMem "1" ..> "*" Department
-DepartmentRepositoryMem "1" -> "_departments   1" Set
-DepartmentRepositoryMem "1" ..> "_departmentsList 1" IDepartmentListFactory
-IDepartmentRepository <|.. DepartmentRepositoryMem
-
-IDepartmentListFactory  <|..  DepartmentListFactoryImpl
-IDepartmentListFactory  ..>  Set
-IDepartmentFactory  <|..  DepartmentFactoryImpl
-
-Department "1" <- "1" Set
-Department "1" <.. "1" IDepartmentFactory
-Name "_departmentName 1" <-- "1" Department
-Department "1" --> "1 _departmentId" DepartmentID
-DepartmentID "1" --> "1 _departmentAcronym" DepartmentAcronym
-Department "1" ..> "1" DepartmentAcronym
-
-
-'JPA
-package "JPA Department Aggregate" {
-
-class DepartmentDataModel #lightcyan {
-    - acronym: String
-    - name: String
-    - version: Long
-    + DepartmentDataModel()
-    + DepartmentDataModel(acronym: String, name: String, directorID: String, version: Long)
-    + getAcronym(): String
-    + setAcronym(acronym: String): void
-    + getName(): String
-    + setName(name: String): void
-    + getVersion(): Long
-    + setVersion(version: Long): void
 }
 }
-
-interface IDepartmentRepositorySpringData #ccffcc{
-
+'--- Services & Interfaces ---
+package Service {
+    'skinparam PackageBorderColor White
+    interface IDepartmentRegistrationService << interface >> {
+      + createAndSaveDepartment(RegisterDepartmentRequestVOs): Department
+      + getDepartmentById(DepartmentID): Optional<Department>
+       allDepartments: Iterable<Department>
+    }
+    class DepartmentRegistrationServiceImpl {
+      + createAndSaveDepartment(RegisterDepartmentRequestVOs): Department
+      + getDepartmentById(DepartmentID): Optional<Department>
+       allDepartments: Iterable<Department>
+    }
 }
 
-class DepartmentRepositorySpringData #lightcyan {
-   + DepartmentRepositorySpringData(repositorySpringData: IDepartmentRepositorySpringData, mapper: DepartmentMapperImpl) {
-   + save (entity: Department): Department
-   + findAll(): Iterable<Department>
-   + ofIdentity (id: DepartmentID): Optional<Department>
-   + containsOfIdentity(id: DepartmentID): boolean
+'--- DOMAIN ---
+package Domain {
+
+'--- Factories & Interfaces ---
+package Factory {
+    together{
+    interface IDepartmentFactory << interface >> {
+      + newDepartment(DepartmentAcronym, Name, TeacherID): Department
+      + newDepartment(DepartmentAcronym, Name): Department
+    }
+
+    class DepartmentFactoryImpl {
+      + newDepartment(DepartmentAcronym, Name, TeacherID): Department
+      + newDepartment(DepartmentAcronym, Name): Department
+    }
+    }
+}
+'--- Department Aggregate ---
+package Department {
+class Department <<root>> {
+  + equals(Object): boolean
+  + changeDirector(TeacherID): boolean
+  + identity(): DepartmentID
+  + hashCode(): int
+  + sameAs(Object): boolean
+   name: Name
+   acronym: DepartmentAcronym
+   departmentID: DepartmentID
+   directorID: TeacherID
 }
 
-class DepartmentMapperImpl #lightcyan {
-    + toDomain(dataModel: DepartmentDataModel): Department
-    + toDataModel(domain: Department): DepartmentDataModel
+class DepartmentAcronym << valueObject >> {
+  + equals(Object): boolean
+  + hashCode(): int
+   acronym: String
+}
+class DepartmentID << valueObject >>{
+  + hashCode(): int
+  + equals(Object): boolean
+   acronym: DepartmentAcronym
+}
+class TeacherID << valueObject >>{
+  + hashCode(): int
+  + equals(Object): boolean
+   teacherID: String
+}
+class Name << valueObject >>{
+  + hashCode(): int
+  + equals(Object): boolean
+  - isNameValid(String): boolean
+   name: String
 }
 
-interface IDepartmentMapper  #lightcyan {
-     + toDomain(dataModel: DepartmentDataModel): Department
-     + toDataModel(domain: Department): DepartmentDataModel
+'--- Repository IREPO---
+package Repository {
+  interface IDepartmentRepository << interface >> {
+    + findDepartmentByID(DepartmentID): Optional<Department>
+    + containsOfIdentity(DepartmentID): boolean
+    + save(Department): Department
+    + findAll(): List<Department>
+    + ofIdentity(DepartmentID): Optional<Department>
+     departmentIDs: Set<DepartmentID>
+  }
+  }
+}
+package Persistence {
+  '--- Mappers ---
+  package Mapper {
+    interface IDepartmentIDMapper << interface >> {
+      + toDataModel(DepartmentID): DepartmentIDDataModel
+      + toDomainModel(DepartmentIDDataModel): DepartmentID
+    }
+    class DepartmentIDMapperImpl {
+      + toDataModel(DepartmentID): DepartmentIDDataModel
+      + toDomainModel(DepartmentIDDataModel): DepartmentID
+    }
 
+    interface IDepartmentMapper << interface >> {
+      + toDomain(DepartmentDataModel): Department
+      + toDataModel(Department): DepartmentDataModel
+    }
+    class DepartmentMapperImpl {
+      + toDomain(DepartmentDataModel): Department
+      + toDataModel(Department): DepartmentDataModel
+       departmentFactory: IDepartmentFactory
+    }
+  }
+
+    '--- Data Models ---
+    package DataModel {
+    class DepartmentDataModel <<dataModel>> {
+      - id: DepartmentIDDataModel
+      - directorId: TeacherIDDataModel
+      - name: String
+      - acronym: String
+      + equals(Object): boolean
+      + hashCode(): int
+       name: String
+       id: DepartmentIDDataModel
+       acronym: String
+       directorId: TeacherIDDataModel
+    }
+
+
+    class DepartmentIDDataModel <<dataModel>>{
+      - departmentID: String
+      + equals(Object): boolean
+      + hashCode(): int
+       departmentID: String
+    }
+    }
+package RepositorySpringData {
+  interface IDepartmentRepositorySpringData << interface >> {
+    + save(DepartmentDataModel): DepartmentDataModel
+    + findAll(): List<DepartmentDataModel>
+    + existsById(DepartmentIDDataModel): boolean
+    + findById(DepartmentIDDataModel): Optional<DepartmentDataModel>
+  }
+  class DepartmentRepositorySpringDataImpl {
+    + save(Department): Department
+    + findAll(): List<Department>
+    + containsOfIdentity(DepartmentID): boolean
+    + findDepartmentByID(DepartmentID): Optional<Department>
+    + ofIdentity(DepartmentID): Optional<Department>
+     departmentIDs: Set<DepartmentID>
+  }
 }
 
-class DepartmentIDDataModel #lightcyan {
-    - departmentID: String
-    + DepartmentIDDataModel()
-    + DepartmentIDDataModel(departmentID: String)
-    + getDepartmentID(): String
-    + equals(obj: Object): boolean
-    + hashcode(): int
-}
-
-class DepartmentIDMapperImpl #lightcyan {
-      + toDataModel(departmentID: DepartmentID): DepartmentIDDataModel
-      + toDomainModel(departmentIDDataModel: DepartmentIDDataModel): DepartmentID
-}
-
-interface IDepartmentIDMapper #lightcyan {
-    + toDataModel(departmentID: DepartmentID): DepartmentIDDataModel
-    + toDomainModel(departmentIDDataModel: DepartmentIDDataModel): DepartmentID
-}
-
-DepartmentRepositorySpringData "1" ..> "1" DepartmentDataModel
-DepartmentRepositorySpringData "1" ..> "*" Department
-DepartmentRepositorySpringData "1" --> "_repositorySpringData 1" IDepartmentRepositorySpringData
-DepartmentRepositorySpringData ..|>  IDepartmentRepository
-DepartmentRepositorySpringData "1" --> "1 _mapper" DepartmentMapperImpl
-
-DepartmentMapperImpl "1" ..> "1 _departmentFactory" IDepartmentFactory
-DepartmentMapperImpl "1" ..> "*" Department
-DepartmentMapperImpl "1" ..> "*" DepartmentDataModel
-DepartmentMapperImpl  ..|>  IDepartmentMapper
-
-DepartmentIDMapperImpl ..|> IDepartmentIDMapper
-DepartmentIDMapperImpl "1" ..> "*" DepartmentIDDataModel
-DepartmentIDMapperImpl "1" ..> "*" Department
-
-
-note as n1 #F5F5F5
-  This diagram illustrates the Clean Architecture structure, organized into four concentric layers, by colours:
-
-  - Frameworks & Drivers (green): External interfaces.
-  - Interface Adapters (cyan): Components responsible for transforming data between the external world and the application's internal structure.
-  - Application Services (pink): Orchestrates the execution of use cases, containing application-specific business rules.
-  - Domain (yellow): Encapsulates the core business logic and entities, remaining independent of external concerns and frameworks.
-end note
 
 
 
+DepartmentRestController "1" *-[#595959,plain]-> "departmentAssembler\n1" IDepartmentAssembler
+DepartmentRestController "1" *-[#595959,plain]-> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
+DepartmentRestController "1" *-[#595959,plain]-> "departmentRegistrationService\n1" IDepartmentRegistrationService
+
+DepartmentAssemblerImpl -[dashed]-> DepartmentAcronym : "«create»"
+DepartmentAssemblerImpl -[dashed]-> DepartmentDTO : "«create»"
+DepartmentAssemblerImpl -[dashed]-> DepartmentID : "«create»"
+DepartmentAssemblerImpl -[#008200,dashed]-|>  IDepartmentAssembler
+DepartmentAssemblerImpl -[dashed]-> Name : "«create»"
+DepartmentAssemblerImpl -[dashed]-> RegisterDepartmentRequestVOs : "«create»"
+
+DepartmentHateoasAssemblerImpl -[#008200,dashed]-|> IDepartmentHateoasAssembler
+
+RegisterDepartmentRequestVOs "1" *-[#595959,plain]-> "name\n1" Name
+RegisterDepartmentRequestVOs "1" *-[#595959,plain]-> "_departmentAcronym\n1" acronym
+
+DepartmentRegistrationServiceImpl "1" *-[#595959,plain]-> "departmentFactory\n1" IDepartmentFactory
+DepartmentRegistrationServiceImpl -[#008200,dashed]-|>  IDepartmentRegistrationService
+DepartmentRegistrationServiceImpl "1" *-[#595959,plain]-> "departmentRepository\n1" IDepartmentRepository
+
+DepartmentFactoryImpl -[dashed]-> Department : "«create»"
+DepartmentFactoryImpl -[#008200,dashed]-|> IDepartmentFactory
+
+Department -[dashed]->  DepartmentID: "«create»"
+Department "1" *-[#595959,plain]-> "_departmentId\n1" DepartmentID
+Department "1" *-[#595959,plain]-> "_departmentName\n1" Name
+DepartmentID "1" *-[#595959,plain]-> "_departmentAcronym\n1" DepartmentAcronym
+
+DepartmentDataModel "1" *-[#595959,plain]-> "id\n1" DepartmentIDDataModel
+DepartmentDataModel -[dashed]-> DepartmentIDDataModel: "«create»"
+
+DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "idMapper\n1" IDepartmentIDMapper
+DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "departmentMapper\n1" IDepartmentMapper
+DepartmentRepositorySpringDataImpl -[#008200,dashed]-|>  IDepartmentRepository
+DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "jpaRepo\n1" IDepartmentRepositorySpringData
+
+DepartmentIDMapperImpl -[dashed]-> DepartmentAcronym : "«create»"
+DepartmentIDMapperImpl -[dashed]-> DepartmentID : "«create»"
+DepartmentIDMapperImpl -[dashed]-> DepartmentIDDataModel : "«create»"
+DepartmentIDMapperImpl -[#008200,dashed]-|> IDepartmentIDMapper
+
+DepartmentMapperImpl -[dashed]-> DepartmentAcronym : "«create»"
+DepartmentMapperImpl -[dashed]-> DepartmentDataModel : "«create»"
+DepartmentMapperImpl "1" *-[#595959,plain]-> "departmentFactory\n1" IDepartmentFactory
+DepartmentMapperImpl -[#008200,dashed]-|> IDepartmentMapper
+DepartmentMapperImpl -[dashed]-> Name : "«create»"
 
 @enduml
