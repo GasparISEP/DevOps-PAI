@@ -10,23 +10,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
         @Test
         void shouldContainAllExpectedResources() {
+            //Arrange & Act
             Map<String, Object> capabilities = ApiCapabilitiesCatalog.getCapabilities();
 
+            //Assert
             assertTrue(capabilities.containsKey("teachers"));
             assertTrue(capabilities.containsKey("departments"));
+            assertTrue(capabilities.containsKey("programmeeditions"));
+            assertTrue(capabilities.containsKey("courseeditions"));
+            assertTrue(capabilities.containsKey("teachercategories"));
+            assertTrue(capabilities.containsKey("accessmethods"));
+            assertTrue(capabilities.containsKey("programmes"));
+            assertTrue(capabilities.containsKey("degreetypes"));
+            assertTrue(capabilities.containsKey("schoolyears"));
             assertTrue(capabilities.containsKey("students"));
+
         }
 
         @Test
         @SuppressWarnings("unchecked")
         void shouldContainCorrectMethodsForAdministratorOnTeachers() {
+            // Arrange
             Map<String, Object> capabilities = ApiCapabilitiesCatalog.getCapabilities();
             Map<String, Object> teachers = (Map<String, Object>) capabilities.get("teachers");
-
-            assertNotNull(teachers);
             Map<String, List<String>> roles = (Map<String, List<String>>) teachers.get("roles");
 
+            // Act
             List<String> adminMethods = roles.get("administrator");
+
+            // Assert
             assertTrue(adminMethods.contains("GET"));
             assertTrue(adminMethods.contains("POST"));
         }
@@ -34,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @Test
         @SuppressWarnings("unchecked")
         void shouldIncludeUrlInEachResourceIfContextAvailable() {
+            // Act + Assert
             Map<String, Object> capabilities = ApiCapabilitiesCatalog.getCapabilities();
 
             for (Map.Entry<String, Object> entry : capabilities.entrySet()) {
