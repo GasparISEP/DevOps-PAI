@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ProgrammeRepositorySpringDataImplTest {
 
@@ -385,5 +384,42 @@ class ProgrammeRepositorySpringDataImplTest {
         assertTrue(programmesWithDepartment.isEmpty());
     }
 
+    @Test
+    void shouldReturnTrueWhenProgrammeWithNameExists() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
+        when(iProgRepo.existsByName("Informatics")).thenReturn(true);
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(
+                programmeMapper, iProgRepo, idMapper
+        );
+
+        // Act
+        boolean result = repository.existsByName("Informatics");
+
+        // Assert
+        assertTrue(result);
+        verify(iProgRepo).existsByName("Informatics");
+    }
+
+    @Test
+    void shouldReturnFalseWhenProgrammeWithAcronymDoesNotExist() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
+        when(iProgRepo.existsByAcronym("INF")).thenReturn(false);
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(
+                programmeMapper, iProgRepo, idMapper
+        );
+
+        // Act
+        boolean result = repository.existsByAcronym("INF");
+
+        // Assert
+        assertFalse(result);
+        verify(iProgRepo).existsByAcronym("INF");
+    }
 
 }

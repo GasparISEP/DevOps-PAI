@@ -51,7 +51,6 @@ const NavBar = () => {
             </Link>
           </li>
         </ul>
-        <div className="navbar-ghost-div"></div>
       </nav>
 
     </div>
