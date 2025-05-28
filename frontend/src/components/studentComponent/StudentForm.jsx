@@ -400,7 +400,6 @@ export default function StudentForm() {
                                     <p><strong>Postal Code:</strong> {success.postalCode}</p>
                                     <p><strong>Location:</strong> {success.location}</p>
                                     <p><strong>Address Country:</strong> {success.addressCountry}</p>
-                                    <p><strong>Country Code:</strong> {success.countryCode}</p>
                                     <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
                                     <p><strong>Email:</strong> {success.email}</p>
                                 </div>
