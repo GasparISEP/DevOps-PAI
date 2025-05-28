@@ -1,5 +1,6 @@
 package PAI.service.accessMethod;
 
+import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
 import PAI.assembler.accessMethod.IAccessMethodServiceAssembler;
@@ -13,6 +14,7 @@ import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -149,13 +151,83 @@ class AccessMethodServiceImplTest {
 
     @Test
     void constructor_ShouldThrowException_WhenAssemblerIsNull() {
+        // Arrange
         IAccessMethodFactory factoryMock = org.mockito.Mockito.mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod repositoryMock = org.mockito.Mockito.mock(IRepositoryAccessMethod.class);
 
+        // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             new AccessMethodServiceImpl(factoryMock, repositoryMock, null);
         });
 
         assertEquals("AccessMethodServiceAssembler cannot be null.", thrown.getMessage());
+    }
+
+    @Test
+    void shouldReturnNullWhenIdIsInvalidUUID() {
+        // Arrange
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(
+                mock(IAccessMethodFactory.class),
+                mock(IRepositoryAccessMethod.class),
+                mock(IAccessMethodServiceAssembler.class)
+        );
+
+        String invalidId = "not-a-uuid";
+
+        // Act
+        AccessMethodServiceDTO result = service.getAccessMethodById(invalidId);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnNullWhenAccessMethodNotFound() {
+        // Arrange
+        IRepositoryAccessMethod repositoryMock = mock(IRepositoryAccessMethod.class);
+        IAccessMethodServiceAssembler assemblerMock = mock(IAccessMethodServiceAssembler.class);
+        IAccessMethodFactory factoryMock = mock(IAccessMethodFactory.class);
+
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(factoryMock, repositoryMock, assemblerMock);
+
+        UUID validUUID = UUID.randomUUID();
+        String id = validUUID.toString();
+
+        when(repositoryMock.ofIdentity(new AccessMethodID(validUUID)))
+                .thenReturn(Optional.empty());
+
+        // Act
+        AccessMethodServiceDTO result = service.getAccessMethodById(id);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void shouldReturnDtoWhenAccessMethodFound() {
+        // Arrange
+        IRepositoryAccessMethod repositoryMock = mock(IRepositoryAccessMethod.class);
+        IAccessMethodServiceAssembler assemblerMock = mock(IAccessMethodServiceAssembler.class);
+        IAccessMethodFactory factoryMock = mock(IAccessMethodFactory.class);
+
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(factoryMock, repositoryMock, assemblerMock);
+
+        UUID validUUID = UUID.randomUUID();
+        String id = validUUID.toString();
+        AccessMethodID accessMethodID = new AccessMethodID(validUUID);
+
+        AccessMethod domainMock = mock(AccessMethod.class);
+        AccessMethodServiceDTO expectedDto = mock(AccessMethodServiceDTO.class);
+
+        when(repositoryMock.ofIdentity(accessMethodID))
+                .thenReturn(Optional.of(domainMock));
+        when(assemblerMock.toDTO(domainMock))
+                .thenReturn(expectedDto);
+
+        // Act
+        AccessMethodServiceDTO result = service.getAccessMethodById(id);
+
+        // Assert
+        assertEquals(expectedDto, result);
     }
 }

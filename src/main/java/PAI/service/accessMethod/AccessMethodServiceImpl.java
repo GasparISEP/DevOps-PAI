@@ -1,5 +1,6 @@
 package PAI.service.accessMethod;
 
+import PAI.VOs.AccessMethodID;
 import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;
 import PAI.assembler.accessMethod.IAccessMethodServiceAssembler;
 import PAI.domain.accessMethod.AccessMethod;
@@ -10,6 +11,8 @@ import PAI.dto.accessMethod.RegisterAccessMethodCommand;
 import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
 
@@ -40,5 +43,20 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
                 .orElseThrow(() -> new AlreadyRegisteredException("Access Method"));
     }
 
+    @Override
+    public AccessMethodServiceDTO getAccessMethodById(String id) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+
+        AccessMethodID accessMethodId = new AccessMethodID(uuid);
+
+        return repositoryAccessMethod.ofIdentity(accessMethodId)
+                .map(assembler::toDTO)
+                .orElse(null);
+    }
 }
 
