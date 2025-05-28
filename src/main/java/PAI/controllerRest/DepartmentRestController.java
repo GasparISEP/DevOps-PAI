@@ -98,8 +98,7 @@ public class DepartmentRestController {
             @Valid @RequestBody DepartmentWithDirectorRequest request) {
         try {
             DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(request);
-            DepartmentAcronym depAcronym = command.acronym();
-            DepartmentID departmentID = new DepartmentID(depAcronym);
+            DepartmentID departmentID = command.department();
             TeacherID teacherID = command.director();
             DepartmentWithDirectorDTO dto = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
             return new ResponseEntity<>(dto, HttpStatus.OK); // 200
