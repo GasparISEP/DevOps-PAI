@@ -3,21 +3,19 @@ package PAI.controllerRest;
 import PAI.VOs.Acronym;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/programmeeditions")
@@ -76,6 +74,18 @@ public class ProgrammeEditionRestController {
                 .toList();
 
         return ResponseEntity.ok(dtos);
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> createAProgrammeEditionForTheCurrentSchoolYear(@Valid @RequestBody ProgrammeEditionRequestDTO requestDto) {
+        try {
+            ProgrammeEditionDTO programmeEditionDTO = programmeEditionControllerAssembler.toDTO(requestDto);
+            ProgrammeEditionDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionDTO);
+            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
 
