@@ -274,8 +274,7 @@ class DepartmentRestControllerTest {
 
         // Arrange Request
         DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
-        when(request.name()).thenReturn("Department of Engineering and Informatics");
-        when(request.acronym()).thenReturn("DEI");
+        when(request.departmentID()).thenReturn("DEI");
         when(request.teacherID()).thenReturn("MAF");
 
         // Arrange Command
@@ -288,7 +287,7 @@ class DepartmentRestControllerTest {
 
         // Arrange Assembler
         when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
-        when(command.acronym()).thenReturn(departmentAcronym);
+        when(command.department()).thenReturn(departmentID);
         when(command.director()).thenReturn(teacherID);
 
         DepartmentWithDirectorDTO expectedDTO = new DepartmentWithDirectorDTO(
@@ -321,16 +320,16 @@ class DepartmentRestControllerTest {
 
         // Arrange Request
         DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
-        when(request.acronym()).thenReturn("DEI");
+        when(request.departmentID()).thenReturn("DEI");
         when(request.teacherID()).thenReturn("MAF");
 
         // Arrange command
         DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
-        DepartmentAcronym acronym = new DepartmentAcronym("DEI");
+        DepartmentID departmentID= new DepartmentID( new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("MAF"));
 
         when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
-        when(command.acronym()).thenReturn(acronym);
+        when(command.department()).thenReturn(departmentID);
         when(command.director()).thenReturn(teacherID);
 
         // Arrange service
