@@ -1,6 +1,7 @@
 package PAI.service.courseInStudyPlan;
 
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
@@ -32,7 +33,7 @@ class CourseInStudyPlanServiceImplTest {
     private ICourseInStudyPlanFactory factory;
 
     @Mock
-    private ICourseInStudyPlanAssembler assembler;
+    private ICourseInStudyPlanServiceAssembler assembler;
 
     @InjectMocks
     private CourseInStudyPlanServiceImpl service;
