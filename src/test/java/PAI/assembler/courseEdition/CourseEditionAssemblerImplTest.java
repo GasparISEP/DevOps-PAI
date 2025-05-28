@@ -219,4 +219,72 @@ class CourseEditionAssemblerImplTest {
         // act & assert
         assertThrows(Exception.class, () -> assembler.fromDtoToCourseEditionID(dto));
     }
+
+    @Test
+    void toProgrammeEditionID_ShouldMapCorrectly() throws Exception {
+        // Arrange
+        UUID schoolYearUUID = UUID.randomUUID();
+        CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
+        when(dto.programmeName()).thenReturn("Software Engineering");
+        when(dto.programmeAcronym()).thenReturn("SE");
+        when(dto.schoolYearID()).thenReturn(schoolYearUUID);
+
+        // Act
+        ProgrammeEditionID result = assembler.toProgrammeEditionID(dto);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Software Engineering", result.getProgrammeID().getProgrammeName());
+        assertEquals("SE", result.getProgrammeID().getProgrammeAcronym());
+        assertEquals(schoolYearUUID, result.getSchoolYearID().getSchoolYearID());
+    }
+
+    @Test
+    void toProgrammeEditionID_ShouldThrowException_WhenInvalidData() {
+        // Arrange
+        CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
+        when(dto.programmeName()).thenReturn("");
+        when(dto.programmeAcronym()).thenReturn("");
+        when(dto.schoolYearID()).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.toProgrammeEditionID(dto));
+    }
+
+    @Test
+    void toCourseInStudyPlanID_ShouldMapCorrectly() throws Exception {
+        // Arrange
+        LocalDate implementationDate = LocalDate.of(2024, 1, 1);
+        CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
+        when(dto.programmeName()).thenReturn("Software Engineering");
+        when(dto.programmeAcronym()).thenReturn("SE");
+        when(dto.courseAcronym()).thenReturn("CS101");
+        when(dto.courseName()).thenReturn("Intro to Programming");
+        when(dto.studyPlanImplementationDate()).thenReturn(implementationDate);
+
+        // Act
+        CourseInStudyPlanID result = assembler.toCourseInStudyPlanID(dto);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("CS101", result.getCourseID().getCourseAcronymValue());
+        assertEquals("Intro to Programming", result.getCourseID().getCourseNameValue());
+        assertEquals("SE", result.getStudyPlanID().getProgrammeID().getProgrammeAcronym());
+        assertEquals("Software Engineering", result.getStudyPlanID().getProgrammeID().getProgrammeName());
+        assertEquals(implementationDate, result.getStudyPlanID().getLocalDate());
+    }
+
+    @Test
+    void toCourseInStudyPlanID_ShouldThrowException_WhenInvalidData() {
+        // Arrange
+        CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
+        when(dto.programmeName()).thenReturn("");
+        when(dto.programmeAcronym()).thenReturn("");
+        when(dto.courseAcronym()).thenReturn("");
+        when(dto.courseName()).thenReturn("");
+        when(dto.studyPlanImplementationDate()).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.toCourseInStudyPlanID(dto));
+    }
 }

@@ -14,8 +14,7 @@ const initialForm = {
     nif: '',
     nifcountry: '',
     street: '',
-    postalCodePart1: '',
-    postalCodePart2: '',
+    postalCode: '',
     location: '',
     addressCountry: '',
     countryCode: '+351',
@@ -76,15 +75,15 @@ export default function StudentForm() {
         setSuccess(null);
 
         if (!form.phoneNumber) {
-            setError('⚠️ Preencha o número de telefone.');
+            setError('⚠️ Fill in the phone number.');
             return;
         }
-        if (!/^\d{4}$/.test(form.postalCodePart1) || !/^\d{3}$/.test(form.postalCodePart2)) {
-            setError('⚠️ Código postal inválido. Use formato XXXX-XXX.');
+        if (!/^\d{4}-\d{3}$/.test(form.postalCode)) {
+            setError('⚠️ Invalid zip code.');
             return;
         }
         if (!/^\d{9}$/.test(form.nif)) {
-            setError('⚠️ NIF inválido. Deve ter 9 dígitos.');
+            setError('⚠️ Invalid NIF. ');
             return;
         }
 
@@ -92,7 +91,6 @@ export default function StudentForm() {
 
         const payload = {
             ...form,
-            postalCode: `${form.postalCodePart1}-${form.postalCodePart2}`,
             studentID: Number(form.studentID),
             academicEmail: `${form.studentID}@isep.ipp.pt`,
             phoneCountryCode: form.countryCode,
@@ -178,7 +176,37 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '330px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '330px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: '0 8px',
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 
@@ -198,13 +226,19 @@ export default function StudentForm() {
                             </div>
 
                             <div className="form-group postal-code-group">
-                                <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
-                                <div className="postal-code-inputs">
-                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '165px' }} />
-                                    <span className="postal-code-separator">-</span>
-                                    <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" style={{ width: '145px' }} />
+                                <label className="form-label" htmlFor="postalCode">Código Postal</label>
+                                <input
+                                    id="postalCode"
+                                    name="postalCode"
+                                    type="text"
+                                    value={form.postalCode}
+                                    onChange={handleChange}
+                                    placeholder="Enter the postal code"
+                                    required
+                                    className="form-input"
+                                    style={{width: '330px'}}
+                                />
                                 </div>
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
@@ -240,7 +274,37 @@ export default function StudentForm() {
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '330px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '330px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: '0 8px',
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 

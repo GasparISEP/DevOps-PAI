@@ -3,7 +3,6 @@ package PAI.service.programme;
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 
 import java.util.List;

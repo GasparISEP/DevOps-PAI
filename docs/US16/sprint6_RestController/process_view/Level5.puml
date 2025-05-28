@@ -1,47 +1,35 @@
 @startuml
-
-title US16: Enroll a Student in a Course Edition\nProcess View – Level 5
-
+title US16: Enroll a Student in a Course Edition - Process View Level 5
 autonumber
+
+' Set colors for different types of lines
 skinparam sequence {
-    LifelineBorderColor black
-    LifelineBackgroundColor LightBlue
-    ActorBorderColor black
-    ActorBackgroundColor LightGray
-    GroupBorderColor #cccccc
-    GroupBackgroundColor #f2f2f2
+    ArrowColor #2C3E50
+    LifeLineBorderColor #2C3E50
+    LifeLineBackgroundColor #ECF0F1
+    ParticipantBorderColor #2C3E50
+    ParticipantBackgroundColor #ECF0F1
+    ParticipantFontColor #2C3E50
+    ActorBorderColor #2C3E50
+    ActorBackgroundColor #ECF0F1
+    ActorFontColor #2C3E50
+    DatabaseBorderColor #2C3E50
+    DatabaseBackgroundColor #ECF0F1
+    DatabaseFontColor #2C3E50
 }
 
-actor "Academic Services Coordinator" as ASC
-participant ":Frontend" as UI
+participant ":Router" as router
 participant ":CourseEditionEnrolmentRestController" as Controller
-participant ":ICourseEditionEnrolmentService" as Service
+participant ":CourseEditionEnrolmentService" as Service
+participant ":CourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentAssembler" as Assembler
-participant "ceeDTO:CourseEditionEnrolmentDto" as DTO #LightYellow
-participant ":ICourseEditionEnrolmentRepository" as Repository
-participant ":CourseEditionEnrolmentDataModelMapper" as DataModelMapper
-participant ":CourseEditionEnrolmentFactory" as Factory
-participant "cee:CourseEditionEnrolment" as Enrollment #LightBlue
-participant "ceeDM:CourseEditionEnrolmentDataModel" as EnrollmentDataModel #LightYellow
-participant "cee.saved:CourseEditionEnrolment" as Enrollment2 #LightBlue
-participant ":ICourseEditionEnrolmentSpringDataRepository" as SpringDataRepo
+database "Database" as DB
 
-group Human Interaction
-ASC -> UI ++: I want to enroll a student
-UI --> ASC --: Prompt: Enter student ID
-ASC -> UI ++: "12345"
-UI --> ASC --: Display programme editions
-ASC -> UI ++: Select programme edition
-UI --> ASC --: Display course editions
-ASC -> UI ++: Select course edition
-end group
+router -> Controller: POST /courseeditions/students/enrolments
+activate Controller
 
-group HTTP Request
-UI -> Controller ++: (POST) /courseeditions/enrolments\nwith JSON { CourseEditionEnrolmentDto request }
-end group
-
-group Mapping JSON to Domain Objects
-Controller -> Assembler ++: toDomain(CourseEditionEnrolmentDto)
+Controller -> Assembler: toDomain(CourseEditionEnrolmentDto)
+activate Assembler
 note right of Assembler
   Transformations:
   1. String studentId -> StudentID VO
@@ -59,68 +47,47 @@ note right of Assembler
   - CourseInStudyPlanID
   - CourseEditionID
 end note
-Assembler --> Controller --: cee
-end group
+Assembler --> Controller: CourseEditionEnrolment
+deactivate Assembler
 
-group Application Service
-Controller -> Service ++: enrollStudentInCourseEdition(cee)
-end group
+Controller -> Service: enrolStudentInACourseEdition(CourseEditionEnrolment)
+activate Service
 
-group Domain Logic – Enrollment Creation
-Service -> Factory ++: newEnrollment(studentId, courseEditionId)
-Factory -> Enrollment **: <create> CourseEditionEnrolment(studentId, courseEditionId)
-Factory --> Service --: cee
-end group
+Service -> Service: validateEnrollment(courseEditionEnrolment)
+Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
+activate Repository
+Repository -> DB: SELECT * FROM course_edition_enrolments
+activate DB
+DB --> Repository: ResultSet
+deactivate DB
+Repository --> Service: false
+deactivate Repository
+Service --> Service: true
 
-group Validation
-Service -> Repository ++: isStudentEnrolledInCourseEdition(cee.studentId(), cee.courseEditionId())
-Repository -> SpringDataRepo ++: existsByStudentIdAndCourseEditionId(mapper.toDataModel(cee.studentId()), mapper.toDataModel(cee.courseEditionId()))
-SpringDataRepo --> Repository --: false
-Repository --> Service --: false
-end group
-
-group Persistence
-Service -> Repository ++: save(cee)
-
-group Mapping Domain to DataModel
-Repository -> DataModelMapper ++: toDataModel(cee)
-note right of DataModelMapper
+Service -> Assembler: toDataModel(CourseEditionEnrolment)
+activate Assembler
+note right of Assembler
   Transformations:
   1. StudentID VO -> StudentIDDataModel
   2. CourseEditionID VO -> CourseEditionIDDataModel
   3. All nested VOs -> corresponding DataModels
 end note
-DataModelMapper -> EnrollmentDataModel **: <create> CourseEditionEnrolmentDataModel(studentId, programmeEditionId, courseEditionId)
-DataModelMapper --> Repository --: ceeDM
-end group
+Assembler --> Service: CourseEditionEnrolmentDataModel
+deactivate Assembler
 
-group Spring Data Persistence
-Repository -> SpringDataRepo ++: save(ceeDM)
-SpringDataRepo --> Repository --: ceeDM.saved
-end group
+Service -> Repository: save(courseEditionEnrolmentDataModel)
+activate Repository
+Repository -> DB: INSERT INTO course_edition_enrolments
+activate DB
+DB --> Repository: Success
+deactivate DB
+Repository --> Service: true
+deactivate Repository
 
-group Mapping DataModel to Domain
-Repository -> DataModelMapper ++: toDomain(ceeDM)
-DataModelMapper -> Factory ++: newEnrollment(studentId, programmeEditionId, courseEditionId)
-Factory -> Enrollment2 **: <create> CourseEditionEnrolment(studentId, programmeEditionId, courseEditionId)
-Factory --> DataModelMapper --: cee.saved
-DataModelMapper --> Repository --: cee.saved
-end group
+Service --> Controller: true
+deactivate Service
 
-Repository --> Service --: cee
-Service --> Controller --: cee
+Controller --> router: 201 Created
+deactivate Controller
 
-end group
-
-group Mapping Domain to Output DTO
-Controller -> Assembler ++: toDto(cee)
-Assembler -> DTO **: <create> CourseEditionEnrolmentDto(id, studentId, programmeEditionId, courseEditionId, enrollmentDate)
-Assembler --> Controller --: ceeDTO
-end group
-
-group Response
-Controller --> UI --: HTTP 201 Created + ceeDTO
-UI --> ASC --: Student successfully enrolled
-end group
-
-@enduml
+@enduml 
