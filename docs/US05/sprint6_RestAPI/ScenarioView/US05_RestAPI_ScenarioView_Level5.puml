@@ -1,6 +1,6 @@
 @startuml
 
-title US05: Register a Department in the System\nProcess View – Level 5
+title US05: \n"As an Administrator, I want to Register a Department in the System"\nScenario View
 
 autonumber
 skinparam sequence {
@@ -14,18 +14,19 @@ skinparam sequence {
 
 actor "Administrator" as Administrator
 participant ":Frontend" as UI
+participant ":Router" as Router
 participant ":DepartmentRestController" as Controller
 participant ":IDepartmentRegistrationService" as Service
 participant ":IDepartmentAssembler" as Mapper
 participant ":IDepartmentHateoasAssembler" as HAAssembler
-participant "rdrVo1:RegisterDepartmentRequestVOs" as Request #LightYellow
-participant "d1DTO:DepartmentDTO" as DepartmentDTO #LightYellow
-participant "d1HateoasDTO:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
+participant "rdrVo1\n:RegisterDepartmentRequestVOs" as Request #LightYellow
+participant "d1DTO\n:DepartmentDTO" as DepartmentDTO #LightYellow
+participant "d1HateoasDTO\n:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentDataModelMapper" as DataModelMapper
 participant ":DepartmentFactory" as Factory
 participant "d1:Department" as Department #LightBlue
-participant "d1DM:DepartmentDataModel" as DepartmentDataModel #LightYellow
+participant "d1DM\n:DepartmentDataModel" as DepartmentDataModel #LightYellow
 participant "d1.saved:Department" as Department2 #LightBlue
 participant ":IDepartmentSpringDataRepository" as SpringDataRepo
 
@@ -36,10 +37,11 @@ Administrator -> UI ++: Enter name and acronym
 end group
 
 group HTTP Request
-UI -> Controller ++: (POST) /departments\nwith JSON { RegisterDepartmentRequest request }
+UI -> Router ++: (POST) /departments\nwith JSON
+Router -> Controller ++: (POST) /departments\n { RegisterDepartmentRequest request }
 end group
 
-group Mapping JSON to Request (VOs)
+group Mapping Request to RequestVOs
 Controller -> Mapper ++: toRegistrationRequestVOs(request)
 Mapper -> Request **: <create> RegisterDepartmentRequestVOs\n(request.acronym(), request.name())
 Mapper --> Controller --: rdrVo1
@@ -58,6 +60,8 @@ end group
 group Validation
 Service -> Repository ++: containsOfIdentity(d1.identity())
 Repository -> SpringDataRepo ++: existsById(mapper.toDataModel(d1.identity()))
+SpringDataRepo -> : existsById
+SpringDataRepo <-- : false
 SpringDataRepo --> Repository --: false
 Repository --> Service --: false
 end group
@@ -73,6 +77,8 @@ end group
 
 group Spring Data Persistence
 Repository -> SpringDataRepo ++: save(d1DM)
+SpringDataRepo -> : save d1DM
+SpringDataRepo <-- : d1DM saved
 SpringDataRepo --> Repository --: d1DM.saved
 end group
 
@@ -98,8 +104,12 @@ HAAssembler -> DepartmentHateoasDTO **: <create> EntityModel<DepartmentDTO>(d1DT
 HAAssembler --> Controller --: d1HateoasDTO
 end group
 
-group Response
-Controller --> UI --: HTTP 201 Created + d1HateoasDTO
+group HTTP Response
+Controller -> Router --: HTTP 201 Created + d1HateoasDTO
+Router --> UI --: HTTP Response with JSON
+end group
+
+group User Notification
 UI --> Administrator --: Department successfully registered
 end group
 
