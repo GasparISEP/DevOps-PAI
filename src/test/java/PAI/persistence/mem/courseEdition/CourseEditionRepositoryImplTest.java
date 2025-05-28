@@ -320,7 +320,7 @@ class CourseEditionRepositoryImplTest {
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
 
         when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
-        when(courseEditionsDouble.iterator()).thenReturn(List.of(courseEditionDouble).iterator()); // Simula a iteração correta
+        when(courseEditionsDouble.iterator()).thenReturn(Collections.<CourseEdition>singletonList(courseEditionDouble).iterator());
 
         // Act
         boolean result = repository.containsOfIdentity(courseEditionIDDouble);
@@ -365,7 +365,7 @@ class CourseEditionRepositoryImplTest {
 
         CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
 
-        when(courseEditionsDouble.iterator()).thenReturn(Collections.singletonList(courseEditionDouble).iterator());
+        when(courseEditionsDouble.iterator()).thenReturn(Collections.<CourseEdition>singletonList(courseEditionDouble).iterator());
         when(courseEditionDouble.identity()).thenReturn(mock(CourseEditionID.class));
 
         // Act
@@ -508,6 +508,121 @@ class CourseEditionRepositoryImplTest {
         //act
         Optional<CourseEditionID> result = repository.findIdByCourseEdition(courseEditionDouble2);
         //assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ShouldReturnMatchingCourseEditions() {
+        // Arrange
+        List<CourseEdition> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactory courseEditionFactoryDouble = mock(ICourseEditionFactory.class);
+        ICourseEditionListFactory courseEditionListFactoryDouble = mock(ICourseEditionListFactory.class);
+        
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+
+        when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
+        when(courseEditionsDouble.iterator()).thenReturn(Collections.<CourseEdition>singletonList(courseEditionDouble).iterator());
+        when(courseEditionDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
+        when(courseEditionDouble.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanIDDouble);
+        when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        // Act
+        List<CourseEditionID> result = repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(courseEditionIDDouble, result.get(0));
+    }
+
+    @Test
+    void findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ShouldReturnEmptyListWhenNoMatch() {
+        // Arrange
+        List<CourseEdition> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactory courseEditionFactoryDouble = mock(ICourseEditionFactory.class);
+        ICourseEditionListFactory courseEditionListFactoryDouble = mock(ICourseEditionListFactory.class);
+        
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+
+        when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
+        when(courseEditionsDouble.iterator()).thenReturn(Collections.<CourseEdition>singletonList(courseEditionDouble).iterator());
+        when(courseEditionDouble.getProgrammeEditionID()).thenReturn(mock(ProgrammeEditionID.class)); // Different programme edition
+        when(courseEditionDouble.getCourseInStudyPlanID()).thenReturn(mock(CourseInStudyPlanID.class)); // Different course
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        // Act
+        List<CourseEditionID> result = repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ShouldThrowExceptionWhenProgrammeEditionIDIsNull() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactoryDouble = mock(ICourseEditionFactory.class);
+        ICourseEditionListFactory courseEditionListFactoryDouble = mock(ICourseEditionListFactory.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionListFactoryDouble.newList()).thenReturn(mock(List.class));
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        // Act & Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(null, courseInStudyPlanIDDouble));
+        assertEquals("Programme edition ID cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ShouldThrowExceptionWhenCourseInStudyPlanIDIsNull() {
+        // Arrange
+        ICourseEditionFactory courseEditionFactoryDouble = mock(ICourseEditionFactory.class);
+        ICourseEditionListFactory courseEditionListFactoryDouble = mock(ICourseEditionListFactory.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        when(courseEditionListFactoryDouble.newList()).thenReturn(mock(List.class));
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        // Act & Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
+                () -> repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionIDDouble, null));
+        assertEquals("Course in study plan ID cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID_ShouldReturnEmptyListWithEmptyRepository() {
+        // Arrange
+        List<CourseEdition> courseEditionsDouble = mock(List.class);
+        ICourseEditionFactory courseEditionFactoryDouble = mock(ICourseEditionFactory.class);
+        ICourseEditionListFactory courseEditionListFactoryDouble = mock(ICourseEditionListFactory.class);
+        
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+
+        when(courseEditionListFactoryDouble.newList()).thenReturn(courseEditionsDouble);
+        when(courseEditionsDouble.iterator()).thenReturn(Collections.<CourseEdition>emptyList().iterator());
+
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(courseEditionFactoryDouble, courseEditionListFactoryDouble);
+
+        // Act
+        List<CourseEditionID> result = repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
+                programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Assert
+        assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 }

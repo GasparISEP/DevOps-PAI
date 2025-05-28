@@ -7,7 +7,7 @@ actor "ASC" as asc
 participant ":CourseEditionRestController" as ceCtrl
 activate ceCtrl
 participant ":CourseEditionAssembler" as ceAssembler
-participant ":CourseEditionEnrolmentService" as ceService
+participant ":CourseEditionService" as ceService
 participant ":CourseEditionRepository" as ceRepo
 participant ":CourseEditionMapper" as ceMapper
 participant ":CourseEditionFactory" as ceFactory
@@ -22,7 +22,12 @@ ceAssembler --> ceCtrl --: courseInStudyPlanID
 ceCtrl -> ceService ++: findCourseEditionByProgrammeEditionIdAndCourseInStudyPlanId(programmeEditionID, courseInStudyPlanID)
 ceService -> ceRepo ++: findCourseEditionByProgrammeEditionIdAndCourseInStudyPlanId(programmeEditionID, courseInStudyPlanID)
 
-ceRepo -> DB ++: SELECT * FROM course_editions \nWHERE programme_edition_id = :programmeEditionId \nAND course_in_study_plan_id = :courseInStudyPlanId
+ceRepo -> ceMapper ++: toProgrammeEditionIdDataModel(programmeEditionID)
+ceMapper --> ceRepo --: programmeEditionIdDataModel
+ceRepo -> ceMapper ++: toCourseInStudyPlanIDDataModel(courseInStudyPlanID)
+ceMapper --> ceRepo --: courseInStudyPlanIDDataModel
+
+ceRepo -> DB ++: SELECT * FROM course_editions \nWHERE programme_edition_id = :programmeEditionIdDataModel \nAND course_in_study_plan_id = :courseInStudyPlanIdDataModel
 DB --> ceRepo --: List<CourseEditionDataModel>
 
 loop for CourseEditionDataModel[i]

@@ -130,14 +130,14 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="name">Name</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter required information"
+                                    placeholder="Enter Student's Name"
                                     id="name"
                                     name="name"
                                     type="text"
                                     value={form.name}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '330px' }}
                                 />
                             </div>
 
@@ -145,7 +145,7 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="nif">NIF</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter NIF"
+                                    placeholder="Enter Student's NIF"
                                     id="nif"
                                     name="nif"
                                     type="text"
@@ -155,7 +155,7 @@ export default function StudentForm() {
                                     value={form.nif}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '330px' }}
                                 />
                             </div>
 
@@ -174,11 +174,41 @@ export default function StudentForm() {
                                             <span>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
+                                    placeholder="Select NIF Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '330px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: '0 8px',
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 
@@ -186,23 +216,53 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="street">Street</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Street"
+                                    placeholder="Enter Student's Address"
                                     id="street"
                                     name="street"
                                     type="text"
                                     value={form.street}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '330px' }}
                                 />
                             </div>
 
                             <div className="form-group postal-code-group">
                                 <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
                                 <div className="postal-code-inputs">
-                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '150px' }} />
+                                    <input
+                                        id="postalCodePart1"
+                                        name="postalCodePart1"
+                                        type="text"
+                                        value={form.postalCodePart1 || ''}
+                                        onChange={handleChange}
+                                        pattern="\d{4}"
+                                        maxLength="4"
+                                        required
+                                        placeholder="0000"
+                                        className="form-input"
+                                        style={{
+                                            width: '175px'
+                                            // altura, padding e border vêm da classe .form-input, mantendo uniforme
+                                        }}
+                                    />
                                     <span className="postal-code-separator">-</span>
-                                    <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" style={{ width: '130px' }} />
+                                    <input
+                                        id="postalCodePart2"
+                                        name="postalCodePart2"
+                                        type="text"
+                                        value={form.postalCodePart2 || ''}
+                                        onChange={handleChange}
+                                        pattern="\d{3}"
+                                        maxLength="3"
+                                        required
+                                        placeholder="000"
+                                        className="form-input"
+                                        style={{
+                                            width: '150px'
+                                            // altura, padding e border vêm da classe .form-input, mantendo uniforme
+                                        }}
+                                    />
                                 </div>
                             </div>
 
@@ -210,14 +270,14 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="location">Location</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Location"
+                                    placeholder="Enter Student's City"
                                     id="location"
                                     name="location"
                                     type="text"
                                     value={form.location}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '330px' }}
                                 />
                             </div>
 
@@ -236,11 +296,41 @@ export default function StudentForm() {
                                             <span>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
+                                    placeholder="Select Address Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '330px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: '0 8px',
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 
@@ -265,7 +355,7 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
-                                    inputStyle={{ width: '300px' }}
+                                    inputStyle={{ width: '330px' }}
                                 />
                             </div>
 
@@ -273,14 +363,14 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="email">E-mail</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Email"
+                                    placeholder="Enter Student's E-mail"
                                     id="email"
                                     name="email"
                                     type="email"
                                     value={form.email}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '330px' }}
                                 />
                             </div>
 

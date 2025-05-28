@@ -9,28 +9,12 @@ import RegisterTeacherPage from "./pages/teacherPage/RegisterTeacherPage";
 import './styles/RegisterTeacherPage.css'
 import DisplayTeacherPage from "./pages/teacherPage/DisplayTeacherPage";
 import './styles/DisplayTeacherPage.css'
+import AppRoutes from "./AppRoutes";
 
 function App() {
   return (
       <Router>
-              <Routes>
-                  {/* Página inicial */}
-                  <Route path="/" element={<Home />} />
-
-                  {/* Teacher Registration Form */}
-                  <Route path="/teachers/register" element={<RegisterTeacherPage />} />
-                  {/* Teacher Display */}
-                  <Route path="/teachers/display" element={<DisplayTeacherPage />} />
-
-                  {/* Formulário de estudantes */}
-                  <Route
-                      path="/students"
-                      element={<RegisterStudentPage />}
-                  />
-
-                  {/* Formulário de programas */}
-                  <Route path="/programmes" element={<RegisterProgrammePage />} />
-              </Routes>
+          <AppRoutes />
       </Router>
   );
 }
