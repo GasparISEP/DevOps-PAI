@@ -54,7 +54,16 @@ export default function TeacherForm() {
     }, []);
 
     function handleChange(e) {
-        setForm(f => ({...f, [e.target.name]: e.target.value}));
+        const { name, value } = e.target;
+        if (name === 'postalCode' || name === 'postalBox') {
+            // Split the value into two parts if needed
+            let postalCode1 = name === 'postalCode' ? value : form.postalCode.split('-')[0] || '';
+            let postalCode2 = name === 'postalBox' ? value : form.postalCode.split('-')[1] || '';
+            let combined = postalCode2 ? `${postalCode1}-${postalCode2}` : postalCode1;
+            setForm(f => ({ ...f, postalCode: combined }));
+        } else {
+            setForm(f => ({ ...f, [name]: value }));
+        }
     }
 
     useEffect(() => {
@@ -75,29 +84,14 @@ export default function TeacherForm() {
         setLoading(true);
 
         try {
-
             const payload = {
                 ...form,
+                postalCode: form.postalCode,
             };
             const response = await registerTeacher(payload);
             setSuccess(response);
             setShowModal(true);
-
-            setForm({
-                id: '',
-                name: '',
-                email: '',
-                nif: '',
-                academicBackground: '',
-                countryCode: '',
-                phoneNumber: '',
-                street: '',
-                postalCode: '',
-                location: '',
-                country: '',
-                departmentID: ''
-            });
-
+            setForm({ ...initialFormState });
         } catch (err) {
             setError(err.message);
         } finally {
@@ -196,17 +190,17 @@ export default function TeacherForm() {
                                         placeholder="Enter Postal Code"
                                         id="postalCode"
                                         name="postalCode"
-                                        value={form.postalCode || ''}
+                                        value={form.postalCode.split('-')[0] || ''}
                                         onChange={handleChange}
                                         required
                                         style={{ flex: 1 }}
                                     />
                                     <input
                                         className="form-input"
-                                        placeholder="Box (optional)"
+                                        placeholder="Enter Postal Code"
                                         id="postalBox"
                                         name="postalBox"
-                                        value={form.postalBox || ''}
+                                        value={form.postalCode.split('-')[1] || ''}
                                         onChange={handleChange}
                                         style={{ flex: 1 }}
                                     />
