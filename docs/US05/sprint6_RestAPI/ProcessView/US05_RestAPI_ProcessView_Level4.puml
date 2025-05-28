@@ -21,7 +21,6 @@ participant ":IDepartmentRegistryService" as Service
 participant ":IDepartmentRepository" as Repository
 participant ":DepartmentFactory" as Factory
 participant ":DepartmentDataModelMapper" as DataModelMapper
-database "DB" as SpringDataRepo
 
 group Human Interaction
 ADM -> UI ++: Request to register a department
@@ -32,7 +31,7 @@ end group
 group Controller Layer
 UI -> Controller ++: (POST) /departments {request}
 Controller -> Assembler ++: RegisterDepartmentRequest
-Assembler --> Controller --: RegisterDepartmentCommand
+Assembler --> Controller --: RegisterDepartmentRequestVOs
 end group
 
 
@@ -40,18 +39,21 @@ group Application + Domain Logic
 Controller -> Service ++: createAndSaveDepartment
 Service -> Factory ++: create Department
 Factory --> Service --: Department
+end group
+
+group Validation
 Service -> Repository ++: validate department
-Repository -> SpringDataRepo ++: validate department
-SpringDataRepo --> Repository --: validation
-Repository --> Service --: validation
+Repository -> : validate department
+Repository <-- : validation result
+Repository --> Service --: validation result
 end group
 
 group Persistence
 Service -> Repository ++: save department
 Repository -> DataModelMapper ++: map to DepartmentDataModel
 DataModelMapper --> Repository --: DepartmentDataModel
-Repository -> SpringDataRepo ++: save DepartmentDataModel
-SpringDataRepo --> Repository --: persisted
+Repository -> : save DepartmentDataModel
+Repository --> : persisted
 Repository --> Service --: persisted
 end group
 

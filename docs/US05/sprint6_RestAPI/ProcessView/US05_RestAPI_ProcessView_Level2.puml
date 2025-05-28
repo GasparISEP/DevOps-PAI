@@ -6,7 +6,7 @@ skinparam sequence {
    LifelineBackgroundColor LightBlue
  }
 
-title US05:\n Register a Department In The System\n Process View Level 2
+title US05:\n As an Administrator, I want to Register a Department In The System\n Process View Level 2
 actor ADM
 participant "Frontend" as FE
 participant "Backend" as BE
