@@ -55,7 +55,7 @@ class ProgrammeEnrolmentIDMapperImplTest {
         when(studentIDMapperDouble.domainToDataModel(studentIDDouble)).thenReturn(studentIDDataModelDouble);
 
         NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
-        when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Informatics");
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn("Informatics");
 
         Acronym acronymDouble = mock(Acronym.class);
         when(acronymDouble.getAcronym()).thenReturn("INF");
@@ -104,7 +104,7 @@ class ProgrammeEnrolmentIDMapperImplTest {
         when(programmeIDDataModelDouble.getAcronym()).thenReturn("INF");
 
         NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
-        when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Informatics");
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn("Informatics");
 
         Acronym acronymDouble = mock(Acronym.class);
         when(acronymDouble.getAcronym()).thenReturn("INF");
@@ -128,7 +128,7 @@ class ProgrammeEnrolmentIDMapperImplTest {
         // Assert
         assertNotNull(domain);
         assertEquals(1234567, domain.getStudentID().getUniqueNumber());
-        assertEquals("Informatics", domain.getProgrammeID().getName().getnameWithNumbersAndSpecialChars());
+        assertEquals("Informatics", domain.getProgrammeID().getName().getNameWithNumbersAndSpecialChars());
         assertEquals("INF", domain.getProgrammeID().getAcronym().getAcronym());
     }
 

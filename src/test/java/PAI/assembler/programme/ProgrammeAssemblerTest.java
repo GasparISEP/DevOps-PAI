@@ -42,7 +42,7 @@ class ProgrammeAssemblerTest {
         //assert
         assertAll(
 
-                () -> assertEquals(name, result.name().getnameWithNumbersAndSpecialChars()),
+                () -> assertEquals(name, result.name().getNameWithNumbersAndSpecialChars()),
                 () -> assertEquals(acronym, result.acronym().getAcronym()),
                 () -> assertEquals(maxECTS, result.maxEcts().getMaxEcts()),
                 () -> assertEquals(quantSemesters, result.quantSemesters().getQuantityOfSemesters()),
@@ -70,7 +70,7 @@ class ProgrammeAssemblerTest {
 
 
         when(programmeDouble.getProgrammeName()).thenReturn(nameDouble);
-        when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Data Science");
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn("Data Science");
         when(programmeDouble.getAcronym()).thenReturn(acronymDouble1);
         when(acronymDouble1.getAcronym()).thenReturn("DSD");
         when(programmeDouble.getMaxEcts()).thenReturn(maxEctsDouble);

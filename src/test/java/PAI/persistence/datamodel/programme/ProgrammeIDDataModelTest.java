@@ -69,7 +69,7 @@ public class ProgrammeIDDataModelTest {
         Acronym acronym = mock(Acronym.class);
         ProgrammeID progID = mock(ProgrammeID.class);
 
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("Ola");
+        when(name.getNameWithNumbersAndSpecialChars()).thenReturn("Ola");
         when(acronym.getAcronym()).thenReturn("OLA");
         when(progID.getName()).thenReturn(name);
         when(progID.getAcronym()).thenReturn(acronym);

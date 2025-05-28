@@ -19,7 +19,7 @@ public class CourseInStudyPlanBusinessAssemblerImpl implements ICourseInStudyPla
                 courseInStudyPlan.getCourseID().getAcronym().getAcronym(),
                 courseInStudyPlan.getCourseID().getName().getName(),
                 courseInStudyPlan.getStudyplanID().getProgrammeID().getAcronym().getAcronym(),
-                courseInStudyPlan.getStudyplanID().getProgrammeID().getName().getnameWithNumbersAndSpecialChars(),
+                courseInStudyPlan.getStudyplanID().getProgrammeID().getName().getNameWithNumbersAndSpecialChars(),
                 courseInStudyPlan.getStudyplanID().getDate().toString(),
                 courseInStudyPlan.getDurationOfCourse().toInt(),
                 courseInStudyPlan.getQuantityOfCreditsEcts().toDouble(),

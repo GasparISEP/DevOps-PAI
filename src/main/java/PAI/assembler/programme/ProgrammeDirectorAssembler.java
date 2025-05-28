@@ -21,7 +21,7 @@ public class ProgrammeDirectorAssembler implements IProgrammeDirectorAssembler {
         List<ProgrammeDirectorResponseDTO.ProgrammeDTO> programmeDTOs =
                 programmes.stream()
                         .map(p -> new ProgrammeDirectorResponseDTO.ProgrammeDTO(
-                                p.getProgrammeName().getnameWithNumbersAndSpecialChars(),
+                                p.getProgrammeName().getNameWithNumbersAndSpecialChars(),
                                 p.getAcronym().getAcronym()
                         ))
                         .collect(Collectors.toList());
