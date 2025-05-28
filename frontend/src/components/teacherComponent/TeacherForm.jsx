@@ -86,7 +86,6 @@ export default function TeacherForm() {
             setForm({
                 id: '',
                 name: '',
-                acronym: '',
                 email: '',
                 nif: '',
                 academicBackground: '',
@@ -134,6 +133,11 @@ export default function TeacherForm() {
                                 <label className="form-label" htmlFor="name">Name</label>
                                 <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
                                        value={form.name} onChange={handleChange} required/>
+                                {error && error.includes('Name does not meet the validation requirements.') && (
+                                    <div className="error" style={{ color: 'red', marginTop: '0.5rem' }}>
+                                        Name does not meet the validation requirements.
+                                    </div>
+                                )}
                             </div>
 
                             <div className="form-group">
@@ -265,14 +269,14 @@ export default function TeacherForm() {
                                             phoneNumber: phone
                                         }));
                                     }}
-                                    containerClass="student-phone-row"
-                                    buttonClass="student-phone-country"
-                                    inputClass="student-phone-number student-form-input"
+                                    containerClass="teacher-phone-row"
+                                    buttonClass="teacher-phone-country"
+                                    inputClass="teacher-phone-number teacher-form-input"
                                     dropdownStyle={{ zIndex: 9999 }}
                                     enableSearch
-                                    searchClass="student-form-input"
+                                    searchClass="teacher-form-input"
                                     required
-                                    inputStyle={{ width: '330px' }}
+                                    // inputStyle={{ width: '330px' }}
                                 />
                             </div>
 
@@ -287,7 +291,7 @@ export default function TeacherForm() {
                                 </select>
                             </div>
 
-                            {error && <div className="error">{error}</div>}
+                            {error && (console.log(error), <div className="error">{error}</div>)}
 
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
@@ -312,7 +316,7 @@ export default function TeacherForm() {
                         {success && (
                             <div className="success" style={{marginTop: '1rem', color: '#080'}}>
                                 <p><strong>Name:</strong> {success.name}</p>
-                                <p><strong>Acronym:</strong> {success.acronym}</p>
+                                <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
@@ -322,7 +326,7 @@ export default function TeacherForm() {
                                 <p><strong>Location:</strong> {success.location}</p>
                                 <p><strong>Country:</strong> {success.country}</p>
                                 <p><strong>Country Code:</strong> {success.countryCode}</p>
-                                <p><strong>Country Code:</strong> {success.phoneNumber}</p>
+                                <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
                                 <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
                             </div>
                         )}
