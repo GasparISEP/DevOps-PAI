@@ -102,7 +102,7 @@ export default function TeacherForm() {
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
                         <h1 style={{ margin: 0 }}>Register Teacher</h1>
-                        <Link to="/" className="pagination-btn2 pagination-btn-secondary">
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{ textDecoration: 'none' }}>
                             Back to Main Page
                         </Link>
                     </div>
