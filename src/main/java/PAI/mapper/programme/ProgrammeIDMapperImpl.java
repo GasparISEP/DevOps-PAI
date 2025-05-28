@@ -18,7 +18,7 @@ public class ProgrammeIDMapperImpl implements IProgrammeIDMapper {
 
     public ProgrammeIDDataModel toData(ProgrammeID programmeID) {
 
-        String name = programmeID.getName().getnameWithNumbersAndSpecialChars();
+        String name = programmeID.getName().getNameWithNumbersAndSpecialChars();
         String acronym = programmeID.getAcronym().getAcronym();
         return new ProgrammeIDDataModel(name, acronym);
     }

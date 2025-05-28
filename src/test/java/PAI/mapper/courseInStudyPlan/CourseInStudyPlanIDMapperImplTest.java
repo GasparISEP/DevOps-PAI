@@ -94,7 +94,7 @@ public class CourseInStudyPlanIDMapperImplTest {
         StudyPlanID spDomain = domainId.getStudyPlanID();
         ProgrammeID progDomain = spDomain.getProgrammeID();
         assertEquals("ProgrammeName",
-                progDomain.getName().getnameWithNumbersAndSpecialChars());
+                progDomain.getName().getNameWithNumbersAndSpecialChars());
         assertEquals("PN",
                 progDomain.getAcronym().getAcronym());
         assertEquals(LocalDate.of(2025, 4, 18),

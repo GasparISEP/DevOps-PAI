@@ -1,9 +1,6 @@
 package PAI.controllerRest;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.DegreeTypeID;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.TeacherAcronym;
+import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
@@ -29,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -449,5 +447,63 @@ class ProgrammeRestControllerTest {
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
+    }
+
+    @Test
+    void shouldReturn200WhenProgrammeIsFoundById () {
+        //arrange
+        createProgrammeDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String name = "Computer Sci";
+        String acronym = "CSD";
+
+        ProgrammeID doubleProgrammeID = mock(ProgrammeID.class);
+        when(doubleProgrammeID.getProgrammeAcronym()).thenReturn(acronym);
+
+        when(doubleProgrammeID.getProgrammeName()).thenReturn(name);
+
+        Programme programmeMock = mock(Programme.class);
+        when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
+                .thenReturn(Optional.of(programmeMock));
+        //act
+        ResponseEntity<Object> result = controller.getProgrammeByID(name,acronym);
+
+        //assert
+        assertEquals(result.getStatusCode(),HttpStatus.OK);
+    }
+
+    @Test
+    void shouldReturn404WhenProgrammeIsNotFoundById() {
+        // arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String name = "Nonexistent Programme";
+        String acronym = "XYZ";
+
+        when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
+                .thenReturn(Optional.empty());
+
+        // act
+        ResponseEntity<Object> result = controller.getProgrammeByID(name, acronym);
+
+        // assert
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void shouldReturn400WhenNameIsInvalid() {
+        // arrange
+        String invalidName = "";
+        String acronym = "CSD";
+
+        // act/assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new NameWithNumbersAndSpecialChars(invalidName);
+        });
     }
 }

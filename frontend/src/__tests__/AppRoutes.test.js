@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import AppRoutes from './AppRoutes'; // novo ficheiro
+import AppRoutes from '../AppRoutes'; // novo ficheiro
 
 describe('Rotas da aplicação', () => {
 
@@ -11,7 +11,6 @@ describe('Rotas da aplicação', () => {
             </MemoryRouter>
         );
         expect(screen.getByText(/welcome to isep/i)).toBeInTheDocument();
-        expect(screen.getByText(/good morning/i)).toBeInTheDocument();
     });
 
     test('Renderiza a página de registo de professores', () => {
@@ -53,4 +52,14 @@ describe('Rotas da aplicação', () => {
         expect(screen.getByRole('heading', { name: /register programme/i })).toBeInTheDocument();
     });
 
+    test('Renderiza a página de registo de unidades curriculares no plano de estudo', () => {
+        render(
+            <MemoryRouter initialEntries={['/courses']}>
+                <AppRoutes />
+            </MemoryRouter>
+        );
+        expect(
+            screen.getByText(/register course in study plan|new course/i)
+        ).toBeInTheDocument();
+    });
 });

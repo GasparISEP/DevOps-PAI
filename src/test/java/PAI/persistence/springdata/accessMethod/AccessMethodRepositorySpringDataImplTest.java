@@ -61,7 +61,7 @@ class AccessMethodRepositorySpringDataImplTest {
         AccessMethodDataModel accessMethodDataModel = mock(AccessMethodDataModel.class);
         AccessMethod accessMethod = mock(AccessMethod.class);
 
-        when(accessMethodName.getnameWithNumbersAndSpecialChars()).thenReturn(accessMethodNameAsString);
+        when(accessMethodName.getNameWithNumbersAndSpecialChars()).thenReturn(accessMethodNameAsString);
         when(iAccessMethodRepositorySpringData.findAccessMethodDataModelByName(accessMethodNameAsString)).thenReturn(Optional.of(accessMethodDataModel));
         when(iAccessMethodMapper.toDomain(accessMethodDataModel)).thenReturn(Optional.of(accessMethod));
         // act

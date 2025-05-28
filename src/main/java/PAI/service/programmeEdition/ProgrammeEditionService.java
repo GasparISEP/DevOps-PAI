@@ -15,6 +15,7 @@ import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -104,15 +105,12 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public Iterable<ProgrammeEdition> findAllProgrammeEditions() {
-        return programmeEditionRepository.findAll();
+    public List<ProgrammeEdition> findAllProgrammeEditions() {
+        Iterable<ProgrammeEdition> iterable = programmeEditionRepository.findAll();
+        List<ProgrammeEdition> list = new ArrayList<>();
+        iterable.forEach(list::add);
+        return list;
     }
-
-    @Override
-    public Iterable<CountStudentsDto> getAllProgrammeEditions() {
-        return programmeEditionAssembler.toCountStudentsInProgrammeEditionDTOList(programmeEditionRepository.findAll());
-    }
-
     @Override
     public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO) throws Exception {
         ProgrammeEdition programmeEdition = programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);

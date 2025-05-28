@@ -70,7 +70,7 @@ public class ProgrammeMapperImplTest {
         ProgrammeMapperImpl programmeMapper = new ProgrammeMapperImpl(programmeIDMapper,teacherIDMapper,departmentIDMapper,degreeTypeIDMapper,factory);
 
         when(programme.getProgrammeName()).thenReturn(name);
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
+        when(name.getNameWithNumbersAndSpecialChars()).thenReturn("name");
 
         when(programme.getAcronym()).thenReturn(acronym);
         when(acronym.getAcronym()).thenReturn("OLA");
@@ -83,7 +83,7 @@ public class ProgrammeMapperImplTest {
 
         when(programme.getProgrammeID()).thenReturn(programmeID);
         when(programmeID.getName()).thenReturn(name);
-        when(name.getnameWithNumbersAndSpecialChars()).thenReturn("name");
+        when(name.getNameWithNumbersAndSpecialChars()).thenReturn("name");
         when(programmeID.getAcronym()).thenReturn(acronym);
         when(acronym.getAcronym()).thenReturn("OLA");
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Collections;
 import PAI.dto.department.*;
 
+
 @Component
 public class DepartmentAssemblerImpl implements IDepartmentAssembler {
 
@@ -82,11 +83,10 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         if (request == null) {
             throw new IllegalArgumentException("DepartmentWithDirectorRequest cannot be null");
         }
-        Name name = new Name(request.name());
-        DepartmentAcronym acronym = new DepartmentAcronym(request.acronym());
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(request.departmentID()));
         TeacherID director = new TeacherID(new TeacherAcronym(request.teacherID()));
 
-        return new DepartmentWithDirectorCommand(name, acronym, director);
+        return new DepartmentWithDirectorCommand(departmentID, director);
     }
 
     @Override
@@ -96,4 +96,5 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         }
         return new DepartmentID(new DepartmentAcronym(id));
     }
+
 }

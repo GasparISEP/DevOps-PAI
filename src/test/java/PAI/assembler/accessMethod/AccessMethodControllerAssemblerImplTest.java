@@ -28,7 +28,7 @@ class AccessMethodControllerAssemblerImplTest {
         RegisterAccessMethodCommand command = assembler.toCommand(dto);
 
         assertNotNull(command);
-        assertEquals("+23", command.name().getnameWithNumbersAndSpecialChars());
+        assertEquals("+23", command.name().getNameWithNumbersAndSpecialChars());
     }
 
     @Test

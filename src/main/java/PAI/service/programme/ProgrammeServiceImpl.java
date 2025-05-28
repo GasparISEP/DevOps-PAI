@@ -8,6 +8,7 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
 
         Programme programme = _programmeRepository.ofIdentity(programmeID)
-                .orElseThrow(() -> new IllegalArgumentException("Programme not found"));
+                .orElseThrow(() -> new NotFoundException("Programme not found"));
 
         programme.newProgrammeDirector(programmeDirectorID);
 
@@ -133,7 +134,6 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return _programmeRepository.findAll();
     }
 
-
     public Optional<Programme> getProgrammeByID(ProgrammeID id) {
         for (Programme programme : _programmeRepository.findAll()) {
             if (programme.identity().equals(id)) {
@@ -153,9 +153,6 @@ public class ProgrammeServiceImpl implements IProgrammeService {
                 programmeIDDTOList.add(dto);
             }
         }
-
         return programmeIDDTOList;
     }
-
-
 }

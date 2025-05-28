@@ -82,51 +82,6 @@ class ProgrammeEditionAssemblerImplTest {
     }
 
     @Test
-    void shouldReturnProgrammeEditions() {
-        // Arrange
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> assembler.toCountStudentsInProgrammeEditionDTOList(null));
-    }
-
-    @Test
-    void toDTOList_shouldThrowException_whenInputIsNull() {
-        //arrange
-        //act + assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toCountStudentsInProgrammeEditionDTOList(null);
-        });
-        assertEquals("programmeEditions cannot be null", exception.getMessage());
-    }
-
-    @Test
-    void toDTOList_shouldReturnEmptyList_whenInputIsEmpty() {
-        List<CountStudentsDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(Collections.emptyList());
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void toCountStudentsInProgrammeEditionDTOList_shouldConvertAllElementsCorrectly() throws Exception {
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Engineering"), new Acronym("ENG"));
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
-        ProgrammeEditionID id = new ProgrammeEditionID(programmeID, schoolYearID);
-
-        ProgrammeEdition edition = new ProgrammeEdition(id, programmeID, schoolYearID);
-        List<ProgrammeEdition> editions = List.of(edition);
-
-        List<CountStudentsDto> result = assembler.toCountStudentsInProgrammeEditionDTOList(editions);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-
-        CountStudentsDto dto = result.get(0);
-        assertEquals("Engineering", dto.programmeName());
-        assertEquals("ENG", dto.programmeAcronym());
-        assertEquals(schoolYearID, new SchoolYearID(dto.schoolYearID()));
-    }
-
-    @Test
     void shouldCreateSchoolYearIdFromProgrammeEditionDTO() {
         // Arrange
         SchoolYearIDDTO schoolYearIDRequestDTO = mock(SchoolYearIDDTO.class);

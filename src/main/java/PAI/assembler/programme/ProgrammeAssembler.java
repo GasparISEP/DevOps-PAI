@@ -28,7 +28,7 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
 
     public ProgrammeDTO fromDomainToDTO(Programme programme) {
 
-        String name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
+        String name = programme.getProgrammeName().getNameWithNumbersAndSpecialChars();
         String acronym = programme.getAcronym().getAcronym();
         int maxECTS = programme.getMaxEcts().getMaxEcts();
         int quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();

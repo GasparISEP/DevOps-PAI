@@ -234,10 +234,10 @@ public CourseEditionRestController(
 
     @GetMapping("/approvalpercentage")
     public ResponseEntity<Double> getCourseEditionApprovalRate(
-            @RequestParam("programmeAcronym") String programmeAcronym,
-            @RequestParam("schoolYearId") String schoolYearId,
-            @RequestParam("courseAcronym") String courseAcronym,
-            @RequestParam("studyPlanDate") String studyPlanDate) throws Exception {
+            @RequestParam("programmeAcronym") @Valid String programmeAcronym,
+            @RequestParam("schoolYearId") @Valid String schoolYearId,
+            @RequestParam("courseAcronym") @Valid String courseAcronym,
+            @RequestParam("studyPlanDate") @Valid String studyPlanDate) throws Exception {
 
         UUID schoolYearUUID = UUID.fromString(schoolYearId);
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);

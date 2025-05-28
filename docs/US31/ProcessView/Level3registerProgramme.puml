@@ -22,9 +22,16 @@ P --> D: Programme1
 deactivate P
 D --> S --: Programme1
 
-S -> R ++: containsOfIdentity(Programme1.identity())
-R -> Drivers ++: containsOfIdentity(Programme1.identity())
-Drivers -> : containsOfIdentity(Programme1.identity())
+S -> R ++: isNameAlreadyRegistered (name)
+R -> Drivers ++: existsByName (name)
+Drivers -> : existsByName (name)
+Drivers <-- : False
+Drivers --> R --: False
+R --> S --: False
+
+S -> R ++: isAcronymAlreadyRegistered (acronym)
+R -> Drivers ++: existsByAcronym (name)
+Drivers -> : existsByAcronym (name)
 Drivers <-- : False
 Drivers --> R --: False
 R --> S --: False

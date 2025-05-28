@@ -79,9 +79,9 @@ class NameWithNumbersAndSpecialCharsTest {
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Hi");
 
         //act
-        String res = name.getnameWithNumbersAndSpecialChars();
+        String res = name.getNameWithNumbersAndSpecialChars();
 
         //assert
-        assertEquals(res,name.getnameWithNumbersAndSpecialChars());
+        assertEquals(res,name.getNameWithNumbersAndSpecialChars());
     }
 }
