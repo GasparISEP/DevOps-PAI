@@ -235,8 +235,8 @@ export default function TeacherForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '554px',
-                                            height: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
                                             padding: 0,
@@ -298,7 +298,7 @@ export default function TeacherForm() {
                                             placeholder="Enter phone number" // <-- set your desired placeholder here
                                             searchClass="teacher-form-input"
                                             required
-                                            inputStyle={{ width: '55.2rem'}}
+                                            inputStyle={{ width: '54.3rem'}}
                                         />
                                     </div>
                                 </div>
