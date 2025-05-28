@@ -9,6 +9,8 @@ import RegisterTeacherPage from "./pages/teacherPage/RegisterTeacherPage";
 import './styles/RegisterTeacherPage.css'
 import DisplayTeacherPage from "./pages/teacherPage/DisplayTeacherPage";
 import './styles/DisplayTeacherPage.css'
+import RegisterCourseInStudyPlanPage from "./pages/RegisterCourseInStudyPlanPage";
+import './styles/RegisterCourseInStudyPlanPage.css'
 import AppRoutes from "./AppRoutes";
 
 function App() {
