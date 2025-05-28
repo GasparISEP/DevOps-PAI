@@ -28,7 +28,6 @@ describe('ECTSInput', () => {
         const input = screen.getByLabelText(/ECTS/i);
         fireEvent.change(input, { target: { value: '40' } });
 
-        // Força verificação de validade
         expect(input.checkValidity()).toBe(false);
     });
 
