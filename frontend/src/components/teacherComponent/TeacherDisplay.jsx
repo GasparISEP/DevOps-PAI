@@ -110,8 +110,8 @@ export default function TeacherDisplay() {
             <div className="teacher-main-grid teacher-main-grid-center">
                 <div className="form teacher-display-table-wrapper">
                     <div className="teacher-table-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Link to="/" className="pagination-btn pagination-btn-primary" style={{ textDecoration: 'none' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '100%' }}>
+                            <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{ textDecoration: 'none', fontSize: '1.5rem', padding: '0rem 0rem', minHeight: '3.2rem', display: 'flex', alignItems: 'center' }}>
                                 Back to Main Page
                             </Link>
                         </div>
