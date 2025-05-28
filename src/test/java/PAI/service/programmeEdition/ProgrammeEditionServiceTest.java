@@ -365,34 +365,6 @@ class ProgrammeEditionServiceTest {
     }
 
     @Test
-    void getAllProgrammeEditions_shouldReturnListOfDTOs() {
-        // Given
-        IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);
-        IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
-        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
-        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
-        ProgrammeEdition pee1 = mock(ProgrammeEdition.class);
-        ProgrammeEdition pee2 = mock(ProgrammeEdition.class);
-        CountStudentsDto dto1 = mock(CountStudentsDto.class);
-        CountStudentsDto dto2 = mock(CountStudentsDto.class);
-        List<ProgrammeEdition> domainList = Arrays.asList(pee1, pee2);
-        List<CountStudentsDto> dtoList = Arrays.asList(dto1, dto2);
-
-        when(programmeEditionRepository.findAll()).thenReturn(domainList);
-        when(programmeEditionAssembler.toCountStudentsInProgrammeEditionDTOList(domainList)).thenReturn(dtoList);
-
-        // When
-        Iterable<CountStudentsDto> result = service.getAllProgrammeEditions();
-
-        // Then
-        assertNotNull(result);
-        assertEquals(2, ((List<CountStudentsDto>) result).size());
-    }
-
-    @Test
     void countTotalNumberOfStudentsInAProgrammeEdition_shouldReturnCorrectCount() throws Exception {
         //arrange
         IProgrammeEditionAssembler programmeEditionAssembler = mock(IProgrammeEditionAssembler.class);

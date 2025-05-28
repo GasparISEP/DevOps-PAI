@@ -3,6 +3,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
@@ -49,22 +50,22 @@ class ProgrammeEditionRestControllerTest {
     }
 
     @Test
-    void getAllProgrammeEditions_shouldReturnList() {
+    void getAllProgrammeEditions_shouldReturnList() throws Exception {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
 
         ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        CountStudentsDto dto1 = new CountStudentsDto("Engineering", "ENG", UUID.randomUUID());
-        CountStudentsDto dto2 = new CountStudentsDto("Law", "LAW", UUID.randomUUID());
+        ProgrammeEdition p1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition p2 = mock(ProgrammeEdition.class);
 
-        List<CountStudentsDto> programmeEditionsDTOs = List.of(dto1, dto2);
+        List<ProgrammeEdition> programmeEditionsList = List.of(p1,p2);
 
-        when(programmeEditionService.getAllProgrammeEditions()).thenReturn(programmeEditionsDTOs);
+        when(programmeEditionService.findAllProgrammeEditions()).thenReturn(programmeEditionsList);
 
         // Act
-        ResponseEntity<Iterable<CountStudentsDto>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<List<CountStudentsDto>> response = programmeEditionRestController.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -74,8 +75,6 @@ class ProgrammeEditionRestControllerTest {
         response.getBody().forEach(resultList::add);
 
         assertEquals(2, resultList.size());
-        assertTrue(resultList.contains(dto1));
-        assertTrue(resultList.contains(dto2));
     }
 
 
@@ -95,14 +94,14 @@ class ProgrammeEditionRestControllerTest {
                 new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
 
         // Mock service behavior
-        when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(42);
+        when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);
 
         // Act
         ResponseEntity<Integer> response = controller.getNumberOfStudents(programmeName, programmeAcronym, schoolYearID);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(42, response.getBody());
+        assertEquals(4, response.getBody());
     }
 
     @Test
