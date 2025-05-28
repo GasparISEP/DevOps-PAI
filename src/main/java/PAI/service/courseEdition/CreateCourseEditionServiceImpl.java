@@ -2,6 +2,7 @@ package PAI.service.courseEdition;
 
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.ICourseEditionServiceAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
@@ -31,12 +32,12 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     private final IStudyPlanRepository studyPlanRepository;
     private final ICourseInStudyPlanRepository courseInStudyPlanRepository;
     private final IProgrammeEditionRepository programmeEditionRepository;
-    private final ICourseEditionAssembler courseEditionAssembler;
+    private final ICourseEditionServiceAssembler courseEditionAssembler;
 
     public CreateCourseEditionServiceImpl(ICourseEditionFactory courseEditionFactory, ICourseEditionRepository courseEditionRepository,
                                           IDegreeTypeRepository degreeTypeRepository, IProgrammeRepository programmeRepository,
                                           IStudyPlanRepository studyPlanRepository, ICourseInStudyPlanRepository courseInStudyPlanRepository,
-                                          IProgrammeEditionRepository programmeEditionRepository, ICourseEditionAssembler courseEditionAssembler) {
+                                          IProgrammeEditionRepository programmeEditionRepository, ICourseEditionServiceAssembler courseEditionAssembler) {
 
         if (courseEditionFactory == null)
             throw new IllegalArgumentException("courseEditionFactory cannot be null");
