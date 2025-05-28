@@ -2,11 +2,9 @@ package PAI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.validation.FieldError;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,7 +20,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
-
         ErrorResponse errorResponse = new ErrorResponse(
                 "ARGUMENT_INVALID",
                 ex.getMessage()
@@ -32,7 +29,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessRuleViolationException.class)
     public ResponseEntity<ErrorResponse> handleBusinessRuleViolation(BusinessRuleViolationException ex) {
-
         ErrorResponse errorResponse = new ErrorResponse(
                 "BUSINESS_RULE_VIOLATED",
                 ex.getMessage()
@@ -42,7 +38,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
-
         ErrorResponse error = new ErrorResponse(
                 "INTERNAL_ERROR",
                 ex.getMessage()
@@ -78,8 +73,6 @@ public class GlobalExceptionHandler {
                 "MISSING_PARAMETER",
                 message
         );
-
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
 }
