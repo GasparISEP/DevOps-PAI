@@ -4,22 +4,19 @@ import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
-import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
-import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.domain.programme.Programme;
+import PAI.domain.teacher.Teacher;
+import PAI.dto.Programme.*;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
-import PAI.domain.programme.Programme;
-import PAI.domain.teacher.Teacher;
-import PAI.dto.Programme.*;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.IStudyPlanService;
+import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,9 +24,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -118,7 +115,23 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldSendProgrammeResponseDTO() throws Exception {
+    void shouldThrowExceptionWhenTryingToCreateControllerWithNullProgrammeDirectorAssembler() {
+        // Arrange
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, null, _teacherServiceDouble));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTryingToCreateControllerWithNullTeacherService() {
+        // Arrange
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, null ));
+    }
+
+    @Test
+    void shouldSendProgrammeDTO() throws Exception {
         //Arrange
         createProgrammeDoubles();
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
@@ -134,52 +147,6 @@ class ProgrammeRestControllerTest {
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
         assertEquals(_programmeDTODouble, result.getBody());
     }
-
-    @Test
-    void shouldSendBadResponseIfProgrammeRequestDTOIsNull() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(null);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    void shouldSendBadResponseIfProgrammeResponseDTOIsNull() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
-        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(null);
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    void shouldSendBadResponseIfAnyExceptionIsThrown() throws Exception {
-        //Arrange
-        createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
-        when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenThrow(new Exception("Programme is already registered."));
-
-        //Act
-        ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
-
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
 
     @Test
     void shouldReturnCreatedResponseAndStudyPlanResponseDTOWhenStudyPlanIsRegisteredSuccessfully() throws Exception {
@@ -292,9 +259,13 @@ class ProgrammeRestControllerTest {
         ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _teacherServiceDouble);
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
+        ProgrammeIDResponseDTO resultProgrammeIdResponseDTO = mock(ProgrammeIDResponseDTO.class);
+        ProgrammeIDResponseDTO resultProgrammeIdResponseDTO2 = mock(ProgrammeIDResponseDTO.class);
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of(programmeIDDTO, programmeIDDTO2));
+        when(_programmeAssemblerDouble.toResponseDTO(programmeIDDTO)).thenReturn(resultProgrammeIdResponseDTO);
+        when(_programmeAssemblerDouble.toResponseDTO(programmeIDDTO2)).thenReturn(resultProgrammeIdResponseDTO2);
         //Act
-        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+        ResponseEntity<List<ProgrammeIDResponseDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
 
         //Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -309,7 +280,7 @@ class ProgrammeRestControllerTest {
 
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of());
         //Act
-        ResponseEntity<List<ProgrammeIDDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
+        ResponseEntity<List<ProgrammeIDResponseDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
 
         //Assert
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
@@ -338,6 +309,23 @@ class ProgrammeRestControllerTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(responseMock, response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenExceptionIsThrown() {
+        // Arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        when(_programmeServiceDouble.findAll()).thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act
+        ResponseEntity<ProgrammeDirectorResponseDTO> response = controller.getProgrammeDirectorInfo();
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -378,7 +366,23 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturnProgrammesByDegreeTypeID() throws Exception {
+    void shouldReturnBadRequestWhenExceptionThrownDuringAssign() {
+        ProgrammeDirectorRequestDTO requestDto = mock(ProgrammeDirectorRequestDTO.class);
+
+        when(_programmeDirectorAssemblerDouble.fromDTOToDomain(requestDto))
+                .thenThrow(new RuntimeException("Some error"));
+
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnProgrammesByDegreeTypeID() {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -387,14 +391,10 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "123";
 
-        Programme programme = mock(Programme.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeIDDTO dto = new ProgrammeIDDTO("Name", "Acr");
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
-                .thenReturn(List.of(programme));
-        when(programme.getProgrammeID()).thenReturn(programmeID);
-        when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto);
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of(dto));
 
         // Act
         ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
@@ -408,7 +408,7 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturnNotFoundWhenNoProgrammesFound() throws Exception {
+    void shouldReturnNotFoundWhenNoProgrammesFound()  {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -417,8 +417,8 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "123";
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
-                .thenReturn(List.of()); // Empty list
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
+                .thenReturn(List.of());
 
         // Act
         ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
@@ -428,9 +428,8 @@ class ProgrammeRestControllerTest {
         assertNull(response.getBody());
     }
 
-
     @Test
-    void shouldReturnBadRequestWhenExceptionIsThrown() throws Exception {
+    void shouldReturnBadRequestWhenExceptionIsThrown()  {
         // Arrange
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
@@ -439,10 +438,72 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "invalid-id";
 
-        when(_programmeServiceDouble.getProgrammesByDegreeTypeID(any(DegreeTypeID.class)))
+        when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
                 .thenThrow(new RuntimeException("Unexpected error"));
 
-        // Act & Assert
-        assertThrows(Exception.class, () -> controller.getProgrammesByDegreeTypeID(degreeTypeIdStr));
+        // Act
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getProgrammesByDegreeTypeID(degreeTypeIdStr);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void shouldReturn200WhenProgrammeIsFoundById () {
+        //arrange
+        createProgrammeDoubles();
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String name = "Computer Sci";
+        String acronym = "CSD";
+
+        ProgrammeID doubleProgrammeID = mock(ProgrammeID.class);
+        when(doubleProgrammeID.getProgrammeAcronym()).thenReturn(acronym);
+
+        when(doubleProgrammeID.getProgrammeName()).thenReturn(name);
+
+        Programme programmeMock = mock(Programme.class);
+        when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
+                .thenReturn(Optional.of(programmeMock));
+        //act
+        ResponseEntity<Object> result = controller.getProgrammeByID(name,acronym);
+
+        //assert
+        assertEquals(result.getStatusCode(),HttpStatus.OK);
+    }
+
+    @Test
+    void shouldReturn404WhenProgrammeIsNotFoundById() {
+        // arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String name = "Nonexistent Programme";
+        String acronym = "XYZ";
+
+        when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
+                .thenReturn(Optional.empty());
+
+        // act
+        ResponseEntity<Object> result = controller.getProgrammeByID(name, acronym);
+
+        // assert
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void shouldReturn400WhenNameIsInvalid() {
+        // arrange
+        String invalidName = "";
+        String acronym = "CSD";
+
+        // act/assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new NameWithNumbersAndSpecialChars(invalidName);
+        });
     }
 }

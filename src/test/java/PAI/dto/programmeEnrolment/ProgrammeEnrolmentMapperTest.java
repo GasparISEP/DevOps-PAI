@@ -94,7 +94,7 @@ class ProgrammeEnrolmentMapperTest {
         ProgrammeID programmeID = mapper.toProgrammeID(dto);
 
         //assert
-        assertEquals(programmeNameValue, programmeID.getName().getnameWithNumbersAndSpecialChars());
+        assertEquals(programmeNameValue, programmeID.getName().getNameWithNumbersAndSpecialChars());
     }
 
     @Test

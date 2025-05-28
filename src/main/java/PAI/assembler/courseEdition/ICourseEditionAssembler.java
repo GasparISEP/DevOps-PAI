@@ -2,6 +2,8 @@ package PAI.assembler.courseEdition;
 import java.util.List;
 
 import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseInStudyPlanID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
@@ -17,4 +19,6 @@ public interface ICourseEditionAssembler {
     TeacherID createTeacherID (String teacherID);
     CourseEditionID fromDtoToCourseEditionID (SelectedCourseEditionIdDTO courseEditionDTO)throws Exception;
     List<CourseEditionResponseDTO> toResponseDTOList(List<CourseEditionID> courseEditionIDs);
+    ProgrammeEditionID toProgrammeEditionID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
+    CourseInStudyPlanID toCourseInStudyPlanID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
 }

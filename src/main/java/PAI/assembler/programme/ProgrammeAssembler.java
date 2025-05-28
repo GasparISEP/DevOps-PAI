@@ -2,9 +2,9 @@ package PAI.assembler.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
+import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
 
     public ProgrammeDTO fromDomainToDTO(Programme programme) {
 
-        String name = programme.getProgrammeName().getnameWithNumbersAndSpecialChars();
+        String name = programme.getProgrammeName().getNameWithNumbersAndSpecialChars();
         String acronym = programme.getAcronym().getAcronym();
         int maxECTS = programme.getMaxEcts().getMaxEcts();
         int quantSemesters = programme.getQuantSemesters().getQuantityOfSemesters();
@@ -48,5 +48,13 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
         String programmeName = programmeID.getProgrammeName();
         String programmeAcronym = programmeID.getProgrammeAcronym();
         return new ProgrammeIDDTO(programmeName, programmeAcronym);
+    }
+
+    @Override
+    public ProgrammeIDResponseDTO toResponseDTO(ProgrammeIDDTO programmeIDDTO) {
+        if (programmeIDDTO == null) {
+            throw new IllegalArgumentException("ProgrammeIDDTO cannot be null");
+        }
+        return new ProgrammeIDResponseDTO(programmeIDDTO.name(), programmeIDDTO.acronym());
     }
 }

@@ -14,7 +14,7 @@ skinparam sequence {
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant "<<component>>\n:Router" as router #E1F5FE
+participant "<<component>>\n:Router" as Router #E1F5FE
 participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as DegreeTypeController #E1F5FE
 participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as ProgrammeController #E1F5FE
 participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as CSPController #E1F5FE
@@ -22,19 +22,14 @@ participant "<<component>>\n:ProgrammeEditionRestController\n(REST Controller)" 
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as CourseEditionFactory #E1F5FE
+participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
 participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
-participant "<<component>>\n:ICourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
-participant "<<component>>\n:ICourseEditionIDMapper\n(Mapper)" as IDMapper #E1F5FE
-participant "<<component>>\n:IProgrammeEditionIDMapper\n(Mapper)" as PEMapper #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanIDMapper\n(Mapper)" as CSPMapper #E1F5FE
-participant "<<component>>\n:ICourseEdition\nRepositorySpringData\n(JPARepository)" as SpringData #E1F5FE
 
-database DB as Database #E1F5FE
+database DB as DB #E1F5FE
 
--> router: GET /degreetypes
-activate router
-router -> DegreeTypeController: getAllDegreeTypes()
+-> Router: GET /degreetypes
+activate Router
+Router -> DegreeTypeController: getAllDegreeTypes()
 activate DegreeTypeController
 note over DegreeTypeController #EEEEEE
 Spring Boot automatically converts
@@ -44,14 +39,14 @@ ref over DegreeTypeController
 <<Reference1_ListOfDegreeTypes>>
    <b>List of Degree Types</b>
 end ref
-DegreeTypeController --> router: degreeTypesList
+DegreeTypeController --> Router: degreeTypesList
 deactivate DegreeTypeController
-<-- router: degreeTypesList
-deactivate router
+<-- Router: degreeTypesList
+deactivate Router
 
--> router: GET /programmes/{degreeTypeID}
-activate router
-router -> ProgrammeController: getProgrammesByDegreeTypeID\n(degreeTypeID)
+-> Router: GET /programmes/{degreeTypeID}
+activate Router
+Router -> ProgrammeController: getProgrammesByDegreeTypeID\n(degreeTypeID)
 activate ProgrammeController
 note over ProgrammeController #EEEEEE
 Spring Boot automatically converts
@@ -61,14 +56,14 @@ ref over ProgrammeController
 <<Reference2_ListOfProgrammes>>
    <b>List of Programmes</b>
 end ref
-ProgrammeController --> router: programmesList
+ProgrammeController --> Router: programmesList
 deactivate ProgrammeController
-<-- router: programmesList
-deactivate router
+<-- Router: programmesList
+deactivate Router
 
--> router: GET /coursesinstudyplan/{programmeID}
-activate router
-router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
+-> Router: GET /coursesinstudyplan/{programmeID}
+activate Router
+Router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
 activate CSPController
 note over CSPController #EEEEEE
 Spring Boot automatically converts
@@ -78,14 +73,14 @@ ref over CSPController
 <<Reference3_ListOfCoursesInStudyPlan>>
    <b>List of Courses In Study Plan</b>
 end ref
-CSPController --> router: coursesInStudyPlanList
+CSPController --> Router: coursesInStudyPlanList
 deactivate CSPController
-<-- router: coursesInStudyPlanList
-deactivate router
+<-- Router: coursesInStudyPlanList
+deactivate Router
 
--> router: GET /programmeeditions/programme/\n{programmeName}/{programmeAcronym}
-activate router
-router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeID)
+-> Router: GET /programmeeditions/programme/\n{programmeName}/{programmeAcronym}
+activate Router
+Router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeID)
 activate PEController
 note over PEController #EEEEEE
 Spring Boot automatically converts
@@ -95,100 +90,75 @@ ref over PEController
 <<Reference4_ListOfProgrammeEditions>>
    <b>List of Programme Editions</b>
 end ref
-PEController --> router: programmeEditionsList
+PEController --> Router: programmeEditionsList
 deactivate PEController
-<-- router: programmeEditionsList
-deactivate router
+<-- Router: programmeEditionsList
+deactivate Router
 
--> router: POST /courseeditions
-activate router
-router -> Controller: createCourseEdition(JSON)
 
+-> Router: POST /courseeditions\nwith CourseEditionRequestDTO (JSON)
+activate Router
+
+Router -> Controller: createCourseEdition(requestDTO)
 activate Controller
 
 note over Controller #EEEEEE
-Spring Boot automatically converts
-incoming JSON to
+Spring converts JSON into
 CourseEditionRequestDTO
+Controller calls assembler.toCommand()
+to convert to CreateCourseEditionCommand
 end note
-
 
 Controller -> Assembler: toCommand(requestDTO)
 activate Assembler
-Assembler --> Controller: createCourseEditionCommand
+Assembler --> Controller: CreateCourseEditionCommand
 deactivate Assembler
 
 
 
-Controller -> Service: createAndSaveCourseEdition(dto)
+Controller -> Service: createCourseEditionAndReturnDTO\n(courseInStudyPlanID, programmeEditionID)
 activate Service
 
 
-Service -> CourseEditionFactory: createCourseEditionToDomain\n(cSp1_ID, pE1_ID)
-activate CourseEditionFactory
-CourseEditionFactory --> Service -- : CourseEdition
+Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)
+activate Factory
+
+Factory --> Service: CourseEdition (domain object)
+deactivate Factory
+
 Service -> Repository: containsOfIdentity(courseEdition.identity())
 activate Repository
-Repository --> Service: false
+Repository --> Service: false (not exists)
 deactivate Repository
 
-
-Service -> Repository : save(courseEdition)
+Service -> Repository: save(courseEdition)
 activate Repository
-Repository -> Mapper : toDataModel\n(courseEdition)
-activate Mapper
-Mapper -> IDMapper : toDataModel\n(courseEditionID)
-activate IDMapper
-IDMapper -> PEMapper : toDataModel\n(programmeEditionID)
-activate PEMapper
-PEMapper --> IDMapper : ProgrammeEdition\nIDDataModel
-deactivate PEMapper
-IDMapper -> CSPMapper : toDataModel\n(courseInStudyPlanID)
-activate CSPMapper
-CSPMapper --> IDMapper : CourseInStudyPlan\nIDDataModel
-deactivate CSPMapper
-IDMapper --> Mapper : CourseEdition\nIDDataModel
-deactivate IDMapper
-Mapper --> Repository : CourseEditionDataModel
-deactivate Mapper
 
+Repository -> DB: INSERT course_edition data
+activate DB
+DB --> Repository: success
+deactivate DB
 
+Repository --> Service: saved CourseEdition
+deactivate Repository
 
-
-Repository -> SpringData : save(courseEditionDataModel)
-activate SpringData
-
-group Database
-SpringData -> Database: INSERT INTO\n course_edition (...)
-activate Database
-Database --> SpringData: success
-deactivate Database
-end
-
-
-SpringData --> Repository : saved
-deactivate
-
-
-Repository -> Mapper : toDomain\n(courseEditionDataModel)
-activate Mapper
-Mapper --> Repository : CourseEdition
-deactivate
-
-Repository --> Service : CourseEdition
-deactivate
-
-Service --> Controller : CourseEdition
+Service --> Controller: CourseEdition
 deactivate Service
 
-Controller -> Assembler : toDTO(courseEdition)
-activate Assembler
-Assembler --> Controller : responseDTO
-deactivate Assembler
 
-Controller --> router:  (200 OK) Course Edition\n created successfully!
+alt if CourseEdition is not null
+    Controller -> Assembler: toResponseDTO(courseEdition)
+    activate Assembler
+    Assembler --> Controller: CourseEditionResponseDTO
+    deactivate Assembler
+
+    Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
+
+end
+
 deactivate Controller
 
-<-- router:  (200 OK) Course Edition\n created successfully!
+<-- Router: Reponse
+deactivate Router
 @enduml
 

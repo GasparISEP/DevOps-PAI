@@ -3,6 +3,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanServiceAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.assembler.studyPlan.StudyPlanAssemblerImpl;
 import PAI.assembler.programme.IProgrammeAssembler;
@@ -14,8 +16,6 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.programme.Programme;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.studyPlan.IStudyPlanFactory;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.studyPlan.StudyPlanFactoryImpl;
@@ -30,9 +30,6 @@ import PAI.persistence.mem.course.ICourseRepositoryListFactory;
 import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
 import PAI.persistence.mem.degreeType.DegreeTypeRepositoryImpl;
 import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
-import PAI.persistence.mem.department.DepartmentListFactoryImpl;
-import PAI.persistence.mem.department.DepartmentRepositoryImpl;
-import PAI.persistence.mem.department.IDepartmentListFactory;
 import PAI.persistence.mem.programme.IProgrammeRepositoryListFactory;
 import PAI.persistence.mem.programme.ProgrammeRepositoryImpl;
 import PAI.persistence.mem.programme.ProgrammeRepositoryListFactoryImpl;
@@ -43,9 +40,6 @@ import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepos
 import PAI.domain.repositoryInterfaces.course.ICourseRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
-import PAI.persistence.mem.teacher.ITeacherListFactory;
-import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
-import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
 import PAI.service.course.CourseServiceImpl;
 import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
 import PAI.service.programme.ProgrammeServiceImpl;
@@ -277,6 +271,7 @@ public class US03AddCourseToProgrammeControllerTest {
     private ICourseInStudyPlanRepository courseInStudyPlanRepository;
     private ICourseInStudyPlanListFactory courseInStudyPlanRepositoryListFactory;
     private ICourseInStudyPlanFactory courseInStudyPlanFactory;
+    private ICourseInStudyPlanServiceAssembler courseInStudyPlanAssembler;
 
     @BeforeEach
     void setUp2() {
@@ -304,7 +299,8 @@ public class US03AddCourseToProgrammeControllerTest {
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         courseInStudyPlanRepositoryListFactory = new CourseInStudyPlanListFactoryImpl();
         courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(courseInStudyPlanRepositoryListFactory);
-        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory);    }
+        courseInStudyPlanAssembler = new CourseInStudyPlanServiceAssemblerImpl();
+        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory, courseInStudyPlanAssembler);    }
 
     @Test
     void shouldCreateUS03AddCourseToProgrammeController() {

@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+title As an Academic Services Collaborator, I want to register a Programme in the system \n (Scenario View - Level 1)
+
+
+actor ASC as "Academic Services Collaborator"
+
+rectangle "<<PAI System>>" {
+    usecase "Register a Programme In The System" as UC1
+}
+
+ASC --> UC1
+
+@enduml

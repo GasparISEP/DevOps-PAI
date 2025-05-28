@@ -2,8 +2,9 @@ package PAI.assembler.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
-import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeDTO;
+import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ class ProgrammeAssemblerTest {
         //assert
         assertAll(
 
-                () -> assertEquals(name, result.name().getnameWithNumbersAndSpecialChars()),
+                () -> assertEquals(name, result.name().getNameWithNumbersAndSpecialChars()),
                 () -> assertEquals(acronym, result.acronym().getAcronym()),
                 () -> assertEquals(maxECTS, result.maxEcts().getMaxEcts()),
                 () -> assertEquals(quantSemesters, result.quantSemesters().getQuantityOfSemesters()),
@@ -69,7 +70,7 @@ class ProgrammeAssemblerTest {
 
 
         when(programmeDouble.getProgrammeName()).thenReturn(nameDouble);
-        when(nameDouble.getnameWithNumbersAndSpecialChars()).thenReturn("Data Science");
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn("Data Science");
         when(programmeDouble.getAcronym()).thenReturn(acronymDouble1);
         when(acronymDouble1.getAcronym()).thenReturn("DSD");
         when(programmeDouble.getMaxEcts()).thenReturn(maxEctsDouble);
@@ -129,4 +130,32 @@ class ProgrammeAssemblerTest {
         });
     }
 
+    @Test
+    void shouldCreateProgrammeIDResponseDTOFromProgrammeIDDTO() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
+        when(programmeIDDTO.name()).thenReturn("Computer Science");
+        when(programmeIDDTO.acronym()).thenReturn("CSE");
+
+        // Act
+        ProgrammeIDResponseDTO result = programmeAssembler.toResponseDTO(programmeIDDTO);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(result.name(), "Computer Science");
+        assertEquals(result.acronym(), "CSE");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeIDDTOIsNull() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeIDDTO programmeIDDTO = null;
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            programmeAssembler.toResponseDTO(programmeIDDTO);
+        });
+    }
 }

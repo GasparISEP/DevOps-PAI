@@ -1,12 +1,12 @@
 package PAI.service.courseInStudyPlan;
 
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
-import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
-import PAI.exception.BusinessRuleViolationException;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +18,9 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
 
     private final ICourseInStudyPlanRepository _repository;
     private final ICourseInStudyPlanFactory _factory;
+    private final ICourseInStudyPlanServiceAssembler _assembler;
 
-    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory) {
+    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory, ICourseInStudyPlanServiceAssembler assembler) {
         if (repository == null) {
             throw new IllegalArgumentException("Repository cannot be null");
         }
@@ -29,6 +30,11 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
             throw new IllegalArgumentException("Factory cannot be null");
         }
         this._factory = factory;
+
+        if (assembler == null) {
+            throw new IllegalArgumentException("Assembler cannot be null");
+        }
+        this._assembler = assembler;
     }
 
     public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
@@ -73,4 +79,16 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
     public Optional<CourseInStudyPlan> findById(CourseInStudyPlanID id) {
         return _repository.ofIdentity(id);
     }
+
+    @Override
+    public List<CourseInStudyPlanServiceDTO> getCourseSummariesByStudyPlanID(StudyPlanID studyPlanID) {
+        List<CourseInStudyPlanServiceDTO> result = new ArrayList<>();
+        for (CourseInStudyPlan c : _repository.findAll()) {
+            if (c.identity().getStudyPlanID().equals(studyPlanID)) {
+                result.add(_assembler.toServiceDTO(c));
+            }
+        }
+        return result;
+    }
+
 }

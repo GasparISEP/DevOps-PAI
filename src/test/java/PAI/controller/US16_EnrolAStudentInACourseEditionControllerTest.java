@@ -1,6 +1,8 @@
 package PAI.controller;
 
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanServiceAssemblerImpl;
 import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
@@ -405,7 +407,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
         CourseInStudyPlanRepositoryImpl repo = new CourseInStudyPlanRepositoryImpl(listFactory);
-        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory);
+        CourseInStudyPlanServiceAssemblerImpl assembler = new CourseInStudyPlanServiceAssemblerImpl();
+        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory, assembler);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
@@ -468,7 +471,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
         CourseInStudyPlanRepositoryImpl repo = new CourseInStudyPlanRepositoryImpl(listFactory);
-        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory);
+        CourseInStudyPlanServiceAssemblerImpl assembler = new CourseInStudyPlanServiceAssemblerImpl();
+        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory, assembler);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
@@ -539,7 +543,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
         CourseInStudyPlanRepositoryImpl repo = new CourseInStudyPlanRepositoryImpl(listFactory);
-        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory);
+        CourseInStudyPlanServiceAssemblerImpl assembler = new CourseInStudyPlanServiceAssemblerImpl();
+        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory, assembler);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
@@ -614,7 +619,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
         CourseInStudyPlanRepositoryImpl repo = new CourseInStudyPlanRepositoryImpl(listFactory);
-        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory);
+        CourseInStudyPlanServiceAssemblerImpl assembler = new CourseInStudyPlanServiceAssemblerImpl();
+        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory, assembler);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);
@@ -679,7 +685,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlanListFactoryImpl listFactory = new CourseInStudyPlanListFactoryImpl();
         CourseInStudyPlanRepositoryImpl repo = new CourseInStudyPlanRepositoryImpl(listFactory);
-        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory);
+        CourseInStudyPlanServiceAssemblerImpl assembler = new CourseInStudyPlanServiceAssemblerImpl();
+        CourseInStudyPlanServiceImpl courseInStudyPlanServiceInterface = new CourseInStudyPlanServiceImpl(repo, factory, assembler);
 
         Semester semester = new Semester(1);
         CurricularYear curricularYear = new CurricularYear(1);

@@ -11,6 +11,4 @@ public interface ICourseInStudyPlanAssembler {
     CourseInStudyPlanCommand toCommand(CourseInStudyPlanRequestDTO request) throws Exception;
 
     public CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO);
-
-    CourseInStudyPlanResponseDTO toDTOFromEntity(CourseInStudyPlan course);
 }

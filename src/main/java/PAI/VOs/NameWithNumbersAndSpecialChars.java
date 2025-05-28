@@ -23,7 +23,7 @@ public class NameWithNumbersAndSpecialChars implements ValueObject {
                 && _nameWithNumbersAndSpecialChars.equalsIgnoreCase(that._nameWithNumbersAndSpecialChars);
     }
 
-    public String getnameWithNumbersAndSpecialChars() {
+    public String getNameWithNumbersAndSpecialChars() {
         return _nameWithNumbersAndSpecialChars;
     }
 

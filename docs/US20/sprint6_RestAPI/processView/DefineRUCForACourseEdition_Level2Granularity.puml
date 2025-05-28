@@ -1,6 +1,5 @@
 @startuml
-
-title US20 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 2 Granularity)
+title US20 – Define RUC for Course Edition\n(Process View – Granularity Level 2)
 
 skinparam titleFontName "Verdana"
 skinparam defaultFontName "Verdana"
@@ -12,60 +11,60 @@ skinparam participantBackgroundColor #lightblue/white
 autonumber
 
 actor ProgrammeDirector as PD
-participant "Frontend" as Frontend <<container>>
-participant "Backend" as Backend <<container>>
-participant "Database" as DB <<container>>
+participant ":Frontend" as Frontend <<container>>
+participant ":Backend" as Backend <<container>>
+participant ":Database" as DB <<container>>
 
 PD -> Frontend: I want to define the RUC for a course edition
 activate Frontend #E1F5FE
 
 ' --- Select teachers ---
-Frontend -> Backend: (GET) Request teachers
-activate Backend  #E1F5FE
+Frontend -> Backend: (GET) Request list of teachers
+activate Backend #E1F5FE
 Backend -> DB: Retrieve all teachers
-activate DB  #E1F5FE
+activate DB #E1F5FE
 DB --> Backend: List of teachers
 deactivate DB
 Backend --> Frontend: (200 OK) List of teachers
 deactivate Backend
 Frontend --> PD: Display teacher selection list
 
-
-PD -> Frontend: Select teacher
+PD -> Frontend: Select a teacher
 
 ' --- Select course edition ---
-Frontend -> Backend: (GET) Request course editions
-activate Backend  #E1F5FE
+Frontend -> Backend: (GET) Request list of course editions
+activate Backend #E1F5FE
 Backend -> DB: Retrieve all course editions
-activate DB  #E1F5FE
+activate DB #E1F5FE
 DB --> Backend: List of course editions
 deactivate DB
 Backend --> Frontend: (200 OK) List of course editions
 deactivate Backend
 Frontend --> PD: Display course edition selection list
 
+PD -> Frontend: Select a course edition
 
-PD -> Frontend: Select courseEdition
-
-
-
-' --- Confirm ---
+' --- Confirm selection ---
 Frontend --> PD: Confirm selected teacher and course edition?
 
 PD -> Frontend: Yes
 
-
 ' --- Define RUC ---
-Frontend -> Backend: (PATCH) Request define RUC for course edition (course edition, teacher)
-activate Backend  #E1F5FE
-Backend -> DB: Persist course edition RUC (courseEdition, teacher)
-activate DB  #E1F5FE
+Frontend -> Backend: (PATCH) Request define RUC for course edition
+note right of Frontend #E0E0E0
+  Sends selected teacher and course edition (JSON format)
+end note
+activate Backend #E1F5FE
+
+Backend -> DB: Save teacher as RUC for the selected course edition
+activate DB #E1F5FE
 DB --> Backend: RUC updated
 deactivate DB
+
 Backend --> Frontend: (200 OK) RUC successfully updated
 deactivate Backend
 
-Frontend --> PD: RUC was successfully defined!
+Frontend --> PD: RUC successfully updated.
 deactivate Frontend
 
 @enduml

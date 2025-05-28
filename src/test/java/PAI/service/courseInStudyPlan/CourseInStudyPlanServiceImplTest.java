@@ -1,16 +1,22 @@
 package PAI.service.courseInStudyPlan;
 
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +31,9 @@ class CourseInStudyPlanServiceImplTest {
 
     @Mock
     private ICourseInStudyPlanFactory factory;
+
+    @Mock
+    private ICourseInStudyPlanServiceAssembler assembler;
 
     @InjectMocks
     private CourseInStudyPlanServiceImpl service;
@@ -143,5 +152,79 @@ class CourseInStudyPlanServiceImplTest {
         //assert
         assertFalse(result);
         verify(repository, never()).save(any());
+    }
+
+    @Test
+    void getCourseSummariesByStudyPlanID_returnsDTOList_whenMatchingCoursesExist() {
+        // Arrange
+        StudyPlanID spId = mock(StudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course3 = mock(CourseInStudyPlan.class);
+
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id3 = mock(CourseInStudyPlanID.class);
+
+        when(course1.identity()).thenReturn(id1);
+        when(course2.identity()).thenReturn(id2);
+        when(course3.identity()).thenReturn(id3);
+
+        when(id1.getStudyPlanID()).thenReturn(spId);
+        when(id2.getStudyPlanID()).thenReturn(spId);
+        when(id3.getStudyPlanID()).thenReturn(mock(StudyPlanID.class)); // diferente
+
+        List<CourseInStudyPlan> courses = List.of(course1, course2, course3);
+        when(repository.findAll()).thenReturn(courses);
+
+        CourseInStudyPlanServiceDTO dto1 = mock(CourseInStudyPlanServiceDTO.class);
+        CourseInStudyPlanServiceDTO dto2 = mock(CourseInStudyPlanServiceDTO.class);
+
+        when(assembler.toServiceDTO(course1)).thenReturn(dto1);
+        when(assembler.toServiceDTO(course2)).thenReturn(dto2);
+
+        // Act
+        List<CourseInStudyPlanServiceDTO> result = service.getCourseSummariesByStudyPlanID(spId);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(dto1));
+        assertTrue(result.contains(dto2));
+    }
+
+
+    @Test
+    void getCourseSummariesByStudyPlanID_returnsEmptyList_whenNoMatchingCourses() {
+        // Arrange
+        StudyPlanID spId = mock(StudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        when(course1.identity()).thenReturn(id1);
+        when(id1.getStudyPlanID()).thenReturn(mock(StudyPlanID.class)); // diferente do spId
+
+        when(repository.findAll()).thenReturn(List.of(course1));
+
+        // Act
+        List<CourseInStudyPlanServiceDTO> result = service.getCourseSummariesByStudyPlanID(spId);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getCourseSummariesByStudyPlanID_returnsEmptyList_whenRepositoryIsEmpty() {
+        // Arrange
+        StudyPlanID spId = mock(StudyPlanID.class);
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
+        // Act
+        List<CourseInStudyPlanServiceDTO> result = service.getCourseSummariesByStudyPlanID(spId);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }

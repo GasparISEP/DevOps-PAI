@@ -1,0 +1,106 @@
+@startuml
+autonumber
+
+title As an ASC, I want to register a programme in the system.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightyellow
+participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "pService:ProgrammeService" as PS #physical
+participant "pFactory:ProgrammeFactory" as PF #strategy
+participant "PID1:ProgrammeId" as PID #lightgrey
+participant "P1:Programme" as P #lightpink
+participant "pRepo:ProgrammeRepository" as PR #lightcyan
+
+activate Admin
+Admin -> UI ++: I want to register a Programme in the System
+
+UI -> C ++: getAllDegreeTypes()
+
+ref over C
+          Get DegreeTypes List
+end ref
+
+C --> UI --: List<DegreeTypeDTO>
+
+UI --> Admin --: Choose a Degree Type from the list
+
+Admin -> UI ++: degreeType
+
+UI -> C ++: getAllDepartments()
+
+ref over C
+          Get Departments List
+end ref
+
+C --> UI --: List<DepartmentDTO>
+
+UI --> Admin --: Choose a Department from the list
+
+Admin -> UI ++: department
+
+UI -> C ++: getAllTeachers()
+
+ref over C
+          Get Teachers List
+end ref
+
+C --> UI --: List<TeacherDTO>
+
+UI --> Admin --: Choose a Programme Director from the list
+
+Admin -> UI ++: teacher
+
+UI --> Admin --: Name? Acronym? Maximum of Ects credits\nper Semester? Quantity of Semesters?
+
+Admin -> UI ++: name, acronym, maxOfEcts, quantityOfSemesters
+
+UI -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
+
+ref over C
+    Convert ProgrammeDTO
+    to ProgrammeVOsDTO
+end ref
+
+C -> PS ++: registerProgramme(programmeVOsDTO)
+
+PS -> PF ++: registerProgramme(nameVO, acronymVO, \nmaxEctsVO, quantitySemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
+
+PF -> PID **: newProgrammeID(nameVO, acronymVO)
+activate PID
+PID --> PF --: \t PIDVO1
+PF -> P **: newProgramme(nameVO, acronymVO, \nmaxEctsVO, quantitySemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO, PIDVO1)
+activate P
+
+P --> PF --: P1
+PF --> PS --: P1
+
+PS -> PR++ :isNameAlreadyRegistered (nameVO)
+PR -> : existsByName (nameVO)
+PR <-- : False
+PR --> PS-- : False
+PS -> PR++ :isAcronymAlreadyRegistered (acronymVO)
+PR -> : existsByAcronym (acronymVO)
+PR <-- : False
+PR --> PS-- : False
+PS -> PR ++: saveProgramme(P1)
+
+ref over PR
+    Save in Database
+    Convert domain object to DataModel and persist using JPA
+end ref
+
+PR --> PS --: P1
+
+PS --> C --: P1
+
+ref over C
+    Convert P1 to ProgrammeDTO
+end ref
+
+C --> UI --: ProgrammeDTO
+
+UI --> Admin --: Programme registered successfully!
+
+@enduml

@@ -18,22 +18,23 @@ left to right direction
 
 package "REST Controller Layer" #F5EEF8 {
   class CourseEditionRestController {
-    +createCourseEdition(dto:\n CourseEditionDTO): ResponseEntity
-  }
+    +createCourseEdition(dto: CourseEditionRequestDTO):\n ResponseEntity<CourseEditionResponseDTO>
+    }
 }
 
 package "Service Layer" {
   interface "<<interface>>\nICreateCourseEditionService" as ICreateCourseEditionService
   class CreateCourseEditionServiceImpl {
-    +createAndSaveCourseEdition\n(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID: ProgrammeEditionID):\n CourseEdition
+    +createAndSaveCourseEdition\n(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID: ProgrammeEditionID): CourseEdition
+    +createCourseEditionAndReturnDTO\n(courseInStudyPlanID: CourseInStudyPlanID,\n programmeEditionID: ProgrammeEditionID): CourseEditionResponseDTO
   }
 }
 
 package "Assembler / DTO" {
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
-    +toCommand(dto:\n CourseEditionRequestDTO): CourseEdition
-    +toResponseDTO(domain:\n CourseEdition): CourseEditionDTO
++toCommand(dto: CourseEditionRequestDTO):\n CreateCourseEditionCommand
++toResponseDTO(domain: CourseEdition):\n CourseEditionResponseDTO
   }
 
   class CourseEditionRequestDTO {
@@ -82,26 +83,6 @@ package "Factory Layer" {
   }
 }
 
-package "Mapper Layer" {
-  interface "<<interface>>\nICourseEditionMapper" as ICourseEditionMapper
-  class CourseEditionMapperImpl {
-    +toDataModel(domain:\n CourseEdition): CourseEditionDataModel
-    +toDomain(data:\n CourseEditionDataModel): CourseEdition
-  }
-
-  interface "<<interface>>\nICourseEditionIDMapper" as ICourseEditionIDMapper
-  interface "<<interface>>\nIProgrammeEditionIDMapper" as IProgrammeEditionIDMapper
-  interface "<<interface>>\nICourseInStudyPlanIDMapper" as ICourseInStudyPlanIDMapper
-
-  class CourseEditionIDMapperImpl
-  class ProgrammeEditionIDMapperImpl
-  class CourseInStudyPlanIDMapperImpl
-}
-
-package "Persistence Layer" {
-  class CourseEditionDataModel
-  class CourseEditionIDDataModel
-}
 
 package "Repository Interfaces" {
   interface "<<interface>>\nICourseEditionRepository" as ICourseEditionRepository
@@ -140,58 +121,39 @@ This diagram shows only the essential components involved
 in the creation (POST) of a CourseEdition.
 It excludes the components used for auxiliary GET requests,
 as this is a focused ("zoomed-in") view on the creation action.
+Persistence layer (mappers, datamodels) was also omitted
+here for clarity.
 end note
 
 ' Relationships
 CourseEditionRestController --> ICreateCourseEditionService
 ICreateCourseEditionService <|.. CreateCourseEditionServiceImpl
 
-CourseEditionRestController --> ICourseEditionAssembler
+CourseEditionRestController --> ICourseEditionAssembler : toCommand(dto)
 ICourseEditionAssembler <|.. CourseEditionAssemblerImpl
+CourseEditionRestController --> ICourseEditionAssembler : toResponseDTO(domain)
 
 CreateCourseEditionServiceImpl --> ICourseEditionFactory
 ICourseEditionFactory <|.. CourseEditionFactoryImpl
 
-CourseEditionRepositorySpringDataImpl --> ICourseEditionMapper
-ICourseEditionMapper <|.. CourseEditionMapperImpl
+CreateCourseEditionServiceImpl --> ICourseEditionAssembler : toResponseDTO(domain)
 
 CreateCourseEditionServiceImpl --> ICourseEditionRepository
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
 ICourseEditionRepository <|.. CourseEditionRepositorySpringDataImpl
 
-'CreateCourseEditionServiceImpl --> IDegreeTypeRepository
-
-'CreateCourseEditionServiceImpl --> IProgrammeRepository
-
-'CreateCourseEditionServiceImpl --> ICourseInStudyPlanRepository
-
-'CreateCourseEditionServiceImpl --> IProgrammeEditionRepository
-
-'CreateCourseEditionServiceImpl --> IStudyPlanRepository
-
-CourseEditionMapperImpl ..> IProgrammeEditionIDMapper
-CourseEditionMapperImpl ..> ICourseInStudyPlanIDMapper
-
-ICourseInStudyPlanIDMapper <|.. CourseInStudyPlanIDMapperImpl
-IProgrammeEditionIDMapper <|.. ProgrammeEditionIDMapperImpl
-
-ICourseEditionIDMapper <|.. CourseEditionIDMapperImpl
 
 
-CourseEditionMapperImpl --> CourseEditionDataModel
-CourseEditionMapperImpl --> CourseEdition
+
 CourseEditionRepositoryImpl --> CourseEdition
 CourseEditionRepositorySpringDataImpl --> CourseEdition
 
 
-CourseEditionDataModel --> CourseEditionIDDataModel
 
-CourseEditionMapperImpl ..> ICourseEditionIDMapper
 
 ICourseEditionRepositorySpringData <|.. CourseEditionRepositorySpringDataImpl
 
-'CourseEditionRestController --> CourseEditionRequestDTO
-'CourseEditionRestController --> CourseEditionResponseDTO
+
 CourseEditionAssemblerImpl --> CourseEditionRequestDTO
 CourseEditionAssemblerImpl --> CourseEditionResponseDTO
 

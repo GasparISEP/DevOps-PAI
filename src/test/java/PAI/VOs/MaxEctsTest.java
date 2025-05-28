@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,13 +15,13 @@ class MaxEctsTest {
 
     @Test
     void shouldThrowExceptionWhenValueIsZeroOrNegative() {
-        assertThrows(IllegalArgumentException.class, () -> new MaxEcts(0), "Should throw exception if value is 0.");
-        assertThrows(IllegalArgumentException.class, () -> new MaxEcts(-1), "Should throw exception for negative Ects values.");
+        assertThrows(BusinessRuleViolationException.class, () -> new MaxEcts(0), "Should throw exception if value is 0.");
+        assertThrows(BusinessRuleViolationException.class, () -> new MaxEcts(-1), "Should throw exception for negative Ects values.");
     }
 
     @Test
     void shouldThrowExceptionWhenValueExceeds240() {
-        assertThrows(IllegalArgumentException.class, () -> new MaxEcts(241), "Should throw exception for values over 240.");
+        assertThrows(BusinessRuleViolationException.class, () -> new MaxEcts(241), "Should throw exception for values over 240.");
     }
 
     @Test

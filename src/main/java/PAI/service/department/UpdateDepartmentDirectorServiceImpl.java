@@ -1,5 +1,5 @@
 package PAI.service.department;
-
+import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
 import PAI.domain.department.Department;
@@ -26,7 +26,7 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
     }
 
     @Override
-    public Department updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception {
+    public DepartmentWithDirectorDTO updateDirector(DepartmentID departmentID, TeacherID teacherID) throws Exception {
         if (teacherID == null) {
             throw new IllegalArgumentException("Teacher ID cannot be null.");
         }
@@ -55,8 +55,16 @@ public class UpdateDepartmentDirectorServiceImpl implements IUpdateDepartmentDir
             department.changeDirector(teacherID);
             departmentRepository.save(department);
         }
-        // Update or add the director
-               return department;
+
+        // DepartmentWithDirectorDTO result = domainToDtoResponse(department);
+        // Extrai os dados necessários do departamento
+        String id = department.identity().toString();
+        String name = department.getName().toString();       // assumes getName()
+        String acronym = department.getAcronym().toString();
+        String director = department.getDirectorID().toString(); // assumes getAcronym()
+
+        return new DepartmentWithDirectorDTO(id, name, acronym, director);
     }
+
 
 }

@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,7 +36,22 @@ class AcronymTest {
         return Stream.of(
                 Arguments.of("", "Acronym must not be blank"),
                 Arguments.of(" ", "Acronym must not be blank"),
-                Arguments.of((Object) null, "Acronym must not be null"),
+                Arguments.of((Object) null, "Acronym must not be null")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("testInvalidAcronym")
+    void shouldReturnExceptionWhenCreatingAcronymWithInvalidInputs(String acronym, String expectedMessage){
+        //Arrange (provided by @MethodSource)
+        //Act
+        Executable action = () -> new Acronym(acronym);
+        //Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, action);
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    static Stream<Arguments> testInvalidBusinessRulesAcronym(){
+        return Stream.of(
                 Arguments.of("a123", "Acronym must contain only uppercase letters, followed by optional digits"),
                 Arguments.of("123A", "Acronym must contain only uppercase letters, followed by optional digits"),
                 Arguments.of("X_99", "Acronym must contain only uppercase letters, followed by optional digits"),
@@ -47,13 +63,13 @@ class AcronymTest {
         );
     }
     @ParameterizedTest
-    @MethodSource("testInvalidAcronym")
-    void shouldReturnExceptionWhenCreatingAcronymWithInvalidInputs(String acronym, String expectedMessage){
+    @MethodSource("testInvalidBusinessRulesAcronym")
+    void shouldReturnExceptionWhenCreatingAcronymWithInvalidBusinessRulesInputs(String acronym, String expectedMessage){
         //Arrange (provided by @MethodSource)
         //Act
         Executable action = () -> new Acronym(acronym);
         //Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, action);
+        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, action);
         assertEquals(expectedMessage, exception.getMessage());
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { registerStudent } from '../../services/studentService';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
@@ -7,15 +7,15 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
+import {Link} from "react-router-dom";
 
-const initialForm = {
+const initialFormState = {
     studentID: '',
     name: '',
     nif: '',
     nifcountry: '',
     street: '',
-    postalCodePart1: '',
-    postalCodePart2: '',
+    postalCode: '',
     location: '',
     addressCountry: '',
     countryCode: '+351',
@@ -24,10 +24,39 @@ const initialForm = {
 };
 
 export default function StudentForm() {
-    const [form, setForm] = useState(initialForm);
+    const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        async function fetchLastStudentID() {
+            try {
+                const response = await fetch('http://localhost:8081/students', {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`HTTP ${response.status} - ${text}`);
+                }
+
+                const data = await response.json();
+                const nextID = (data.lastStudentID || 0) + 1;
+
+                setForm(f => ({
+                    ...f,
+                    studentID: nextID.toString()
+                }));
+            } catch (err) {
+                console.error("❌ Failed to fetch student ID:", err);
+                setError('❌ Failed to fetch student ID from backend.');
+            }
+        }
+
+        fetchLastStudentID();
+    }, []);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -42,21 +71,27 @@ export default function StudentForm() {
         setForm(f => ({ ...f, [name]: newValue }));
     }
 
+    function clearForm() {
+        setForm(initialFormState);
+        setError('');
+        setSuccess(null);
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
         setSuccess(null);
 
         if (!form.phoneNumber) {
-            setError('⚠️ Preencha o número de telefone.');
+            setError('⚠️ Fill in the phone number.');
             return;
         }
-        if (!/^\d{4}$/.test(form.postalCodePart1) || !/^\d{3}$/.test(form.postalCodePart2)) {
-            setError('⚠️ Código postal inválido. Use formato XXXX-XXX.');
+        if (!/^\d{4}-\d{3}$/.test(form.postalCode)) {
+            setError('⚠️ Invalid zip code.');
             return;
         }
         if (!/^\d{9}$/.test(form.nif)) {
-            setError('⚠️ NIF inválido. Deve ter 9 dígitos.');
+            setError('⚠️ Invalid NIF. ');
             return;
         }
 
@@ -64,7 +99,6 @@ export default function StudentForm() {
 
         const payload = {
             ...form,
-            postalCode: `${form.postalCodePart1}-${form.postalCodePart2}`,
             studentID: Number(form.studentID),
             academicEmail: `${form.studentID}@isep.ipp.pt`,
             phoneCountryCode: form.countryCode,
@@ -76,6 +110,7 @@ export default function StudentForm() {
         try {
             const resp = await registerStudent(payload);
             setSuccess(resp);
+            setShowModal(true);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -88,45 +123,40 @@ export default function StudentForm() {
             <div className="form-main-grid">
                 <div className="form-img-main-div student-img-background">
                     <div className="form-logo-img-div">
-                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP" />
                     </div>
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <h1>Register Student</h1>
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '2rem'
+                    }}>
+                        <h1 style={{margin: 0}}>Register Student</h1>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary"
+                              style={{textDecoration: 'none'}}>
+                            Back to Main Page
+                        </Link>
+                    </div>
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="studentID">Student ID</label>
-                                <input
-                                    className="form-input"
-                                    placeholder="Enter Student ID"
-                                    id="studentID"
-                                    name="studentID"
-                                    type="text"
-                                    inputMode="numeric"
-                                    pattern="\d*"
-                                    maxLength="8"
-                                    value={form.studentID}
-                                    onChange={handleChange}
-                                    required
-                                    style={{ width: '300px' }}
-                                />
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter required information"
+                                    placeholder="Enter Student's Name"
                                     id="name"
                                     name="name"
                                     type="text"
                                     value={form.name}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -134,7 +164,7 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="nif">NIF</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter NIF"
+                                    placeholder="Enter Student's NIF"
                                     id="nif"
                                     name="nif"
                                     type="text"
@@ -144,7 +174,7 @@ export default function StudentForm() {
                                     value={form.nif}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -158,16 +188,46 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.nifcountry)}
                                     onChange={option => setForm(f => ({ ...f, nifcountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
                                             <span>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
+                                    placeholder="Select NIF Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '554px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: 0,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 
@@ -175,38 +235,44 @@ export default function StudentForm() {
                                 <label className="form-label" htmlFor="street">Street</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Street"
+                                    placeholder="Enter Student's Address"
                                     id="street"
                                     name="street"
                                     type="text"
                                     value={form.street}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
                             <div className="form-group postal-code-group">
-                                <label className="form-label" htmlFor="postalCodePart1">Postal Code</label>
-                                <div className="postal-code-inputs">
-                                    <input id="postalCodePart1" name="postalCodePart1" type="text" value={form.postalCodePart1 || ''} onChange={handleChange} pattern="\d{4}" maxLength="4" required placeholder="0000" style={{ width: '150px' }} />
-                                    <span className="postal-code-separator">-</span>
-                                    <input id="postalCodePart2" name="postalCodePart2" type="text" value={form.postalCodePart2 || ''} onChange={handleChange} pattern="\d{3}" maxLength="3" required placeholder="000" style={{ width: '130px' }} />
+                                <label className="form-label" htmlFor="postalCode">Postal Code</label>
+                                <input
+                                    id="postalCode"
+                                    name="postalCode"
+                                    type="text"
+                                    value={form.postalCode}
+                                    onChange={handleChange}
+                                    placeholder="Enter Student's Postal Code"
+                                    required
+                                    className="form-input"
+                                    style={{width: '554px'}}
+                                />
                                 </div>
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Location"
+                                    placeholder="Enter Student's City"
                                     id="location"
                                     name="location"
                                     type="text"
                                     value={form.location}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
@@ -220,16 +286,46 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.addressCountry)}
                                     onChange={option => setForm(f => ({ ...f, addressCountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
                                             <span>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
+                                    placeholder="Select Address Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
-                                    styles={{ control: (base) => ({ ...base, width: '300px' }) }}
+                                    styles={{
+                                        control: (base, state) => ({
+                                            ...base,
+                                            width: '554px',
+                                            height: '40px',
+                                            border: '1px solid #ccc',
+                                            borderRadius: '4px',
+                                            padding: 0,
+                                            fontSize: '1rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                            boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
+                                            '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        input: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#000',
+                                        })
+                                    }}
                                 />
                             </div>
 
@@ -254,45 +350,65 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
-                                    inputStyle={{ width: '300px' }}
+                                    inputStyle={{ width: '554px' }}
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="email">E-mail</label>
+                                <label className="form-label" htmlFor="email">Email</label>
                                 <input
                                     className="form-input"
-                                    placeholder="Enter Email"
+                                    placeholder="Enter Student's Email"
                                     id="email"
                                     name="email"
                                     type="email"
                                     value={form.email}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '300px' }}
+                                    style={{ width: '554px' }}
                                 />
                             </div>
 
                             {error && <div className="error">⚠️ {error}</div>}
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>
-                                    CANCEL
+                                <button type="button" className="btn btn-secondary"
+                                        onClick={clearForm}
+                                        disabled={loading}>
+                                    CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
                                     {loading ? 'Registering…' : 'REGISTER'}
                                 </button>
                             </div>
-
-                            {success && (
-                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                    Student {success.name} (ID {success.studentID}) registered successfully!
-                                </div>
-                            )}
                         </div>
                     </div>
                 </form>
             </div>
+
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Success!</h2>
+                        <p>The student was registered successfully.</p>
+                        {success && (
+                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                                    <p><strong>Name:</strong> {success.name}</p>
+                                    <p><strong>NIF:</strong> {success.nif}</p>
+                                    <p><strong>NIF Country:</strong> {success.nifcountry}</p>
+                                    <p><strong>Street:</strong> {success.street}</p>
+                                    <p><strong>Postal Code:</strong> {success.postalCode}</p>
+                                    <p><strong>Location:</strong> {success.location}</p>
+                                    <p><strong>Address Country:</strong> {success.addressCountry}</p>
+                                    <p><strong>Country Code:</strong> {success.countryCode}</p>
+                                    <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
+                                    <p><strong>Email:</strong> {success.email}</p>
+                                </div>
+                        )}
+                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

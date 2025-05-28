@@ -4,6 +4,7 @@ import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.service.schoolYear.ISchoolYearService;
@@ -64,9 +65,10 @@ public class SchoolYearRestController {
 
     @GetMapping("current")
     public ResponseEntity<?> getCurrentSchoolYear() {
-        Optional<CurrentSchoolYearResponseDTO> currentSchoolYearResponseDTO = schoolYearService.getCurrentSchoolYear();
-        if (currentSchoolYearResponseDTO.isPresent()) {
-            return new ResponseEntity<>(currentSchoolYearResponseDTO.get(), HttpStatus.OK);
+        Optional<CurrentSchoolYearDTO> serviceResult =  schoolYearService.getCurrentSchoolYear();
+        if (serviceResult.isPresent()) {
+            CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = schoolYearAssembler.toResponseDTO(serviceResult.get());
+            return new ResponseEntity<>(currentSchoolYearResponseDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No current School Year", HttpStatus.NOT_FOUND);
         }

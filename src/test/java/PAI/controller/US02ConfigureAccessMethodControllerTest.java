@@ -108,7 +108,7 @@ class US02ConfigureAccessMethodControllerTest {
 
         // assert
         assertFalse(result);
-        assertEquals(accessMethodName, commandCaptor.getValue().name().getnameWithNumbersAndSpecialChars());
+        assertEquals(accessMethodName, commandCaptor.getValue().name().getNameWithNumbersAndSpecialChars());
     }
 
     @Test
@@ -163,7 +163,7 @@ class US02ConfigureAccessMethodControllerTest {
         assertTrue(result);
         Optional<AccessMethod> stored = repository.getAccessMethodByName(new NameWithNumbersAndSpecialChars(accessMethodName));
         assertTrue(stored.isPresent());
-        assertEquals(accessMethodName, stored.get().getAccessMethodName().getnameWithNumbersAndSpecialChars());
+        assertEquals(accessMethodName, stored.get().getAccessMethodName().getNameWithNumbersAndSpecialChars());
     }
 
     @Test
