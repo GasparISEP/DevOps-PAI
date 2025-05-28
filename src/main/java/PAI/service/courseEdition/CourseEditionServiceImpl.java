@@ -12,6 +12,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CourseEditionServiceImpl implements ICourseEditionService {
 
     private final ICourseEditionRepository courseEditionRepository;
@@ -94,5 +97,16 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
         }
 
         return success;
+    }
+
+    @Override
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception {
+        if(programmeEditionID == null) {
+            throw new IllegalArgumentException("ProgrammeEditionID cannot be null");
+        }
+        if(courseInStudyPlanID == null) {
+            throw new IllegalArgumentException("CourseInStudyPlanID cannot be null");
+        }
+        return courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
     }
 }

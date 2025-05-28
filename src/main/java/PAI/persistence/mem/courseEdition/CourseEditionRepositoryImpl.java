@@ -105,4 +105,21 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
 
         throw new Exception("The course edition does not belong to the course Edition Repository.");
     }
+
+    @Override
+    public List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionId, CourseInStudyPlanID courseInStudyPlanId) {
+        if(programmeEditionId == null) {
+            throw new IllegalArgumentException("Programme edition ID cannot be null");
+        }
+        if(courseInStudyPlanId == null) {
+            throw new IllegalArgumentException("Course in study plan ID cannot be null");
+        }
+        List<CourseEditionID> courseEditionIDs = new ArrayList<>();
+        for (CourseEdition courseEdition : _courseEditions) {
+            if (courseEdition.getProgrammeEditionID().equals(programmeEditionId) && courseEdition.getCourseInStudyPlanID().equals(courseInStudyPlanId)) {
+                courseEditionIDs.add(courseEdition.identity());
+            }
+        }
+        return courseEditionIDs;
+    }
 }

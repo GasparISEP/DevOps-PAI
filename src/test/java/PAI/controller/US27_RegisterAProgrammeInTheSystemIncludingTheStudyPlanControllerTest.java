@@ -6,7 +6,6 @@ import PAI.domain.programme.Programme;
 
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
-import PAI.dto.Programme.ProgrammeResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.programme.IProgrammeService;
@@ -34,7 +33,6 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     private String _studyPlanStartDate;
     private RegisterStudyPlanCommand _studyPlanCommandDouble;
     private StudyPlanDTO _studyPlanDTODouble;
-    private ProgrammeResponseDTO _programmeResponseDTO;
     private US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController _controllerDouble;
 
     @BeforeEach
@@ -55,7 +53,6 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         _studyPlanStartDate = "2025-09-01";
         _studyPlanCommandDouble = mock(RegisterStudyPlanCommand.class);
         _studyPlanDTODouble = mock(StudyPlanDTO.class);
-        _programmeResponseDTO = mock(ProgrammeResponseDTO.class);
         _programmeDouble = mock(Programme.class);
         _controllerDouble = new US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController(_programmeServiceDouble,
                                                                 _studyPlanServiceDouble, _studyPlanAssemblerDouble);
