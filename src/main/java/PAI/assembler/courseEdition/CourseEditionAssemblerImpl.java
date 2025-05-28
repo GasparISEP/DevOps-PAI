@@ -101,5 +101,34 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
         return new CourseEditionID(programmeEditionID, courseInStudyPlanID);
     }
+
+    @Override
+    public ProgrammeEditionID toProgrammeEditionID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception {
+        if(courseEditionRequestDTO == null) {
+            throw new Exception("CourseEditionRequestDTO cannot be null");
+        }
+        ProgrammeID programmeID = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars(courseEditionRequestDTO.programmeName()),
+                new Acronym(courseEditionRequestDTO.programmeAcronym()));
+        SchoolYearID schoolYearID = new SchoolYearID(courseEditionRequestDTO.schoolYearID());
+        return new ProgrammeEditionID(programmeID, schoolYearID);
+    }
+
+    @Override
+    public CourseInStudyPlanID toCourseInStudyPlanID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception {
+        if(courseEditionRequestDTO == null) {
+            throw new Exception("CourseEditionRequestDTO cannot be null");
+        }
+        ProgrammeID programmeID = new ProgrammeID(
+                new NameWithNumbersAndSpecialChars(courseEditionRequestDTO.programmeName()),
+                new Acronym(courseEditionRequestDTO.programmeAcronym()));
+        CourseID courseID = new CourseID(
+                new Acronym(courseEditionRequestDTO.courseAcronym()),
+                new Name(courseEditionRequestDTO.courseName()));
+        Date studyPlanDate = new Date(courseEditionRequestDTO.studyPlanImplementationDate());
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        return new CourseInStudyPlanID(courseID, studyPlanID);
+    }
+    
 }
 
