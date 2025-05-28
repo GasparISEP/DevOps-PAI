@@ -1,15 +1,16 @@
 .main-navbar-div {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin-top: 2.2rem;
+  max-width: 120rem;
+  margin: 2.2rem auto;
 }
 
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 22.4rem;
+  justify-content: flex-start;
+  gap: 10rem;
   max-width: 120rem;
 }
 
@@ -17,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16rem;
+  width: 25rem;
 }
 
 .logo-img {
@@ -27,13 +28,9 @@
 .navbar-links-list-div {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 3.2rem;
   list-style: none;
-}
-
-.navbar-ghost-div {
-  width: 16rem;
 }
 
 .navbar-link {

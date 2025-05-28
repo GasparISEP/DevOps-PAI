@@ -24,6 +24,7 @@ participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler 
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
 participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
 participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:ICourseEditionServiceAssembler\n(Assembler)" as SAssembler #E1F5FE
 
 database DB as DB #E1F5FE
 
@@ -147,10 +148,10 @@ deactivate Service
 
 
 alt if CourseEdition is not null
-    Controller -> Assembler: toResponseDTO(courseEdition)
-    activate Assembler
-    Assembler --> Controller: CourseEditionResponseDTO
-    deactivate Assembler
+    Controller -> SAssembler: toResponseDTO(courseEdition)
+    activate SAssembler
+    SAssembler --> Controller: CourseEditionResponseDTO
+    deactivate SAssembler
 
     Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
 

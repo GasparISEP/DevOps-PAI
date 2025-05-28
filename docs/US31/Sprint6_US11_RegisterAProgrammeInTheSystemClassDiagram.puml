@@ -2,7 +2,7 @@
 title US11: I want to register a programme in the system
 
 class ProgrammeRestController {
-    +US11_RegisterProgrammeInTheSystemController(programmeService: IProgrammeService, programmeAssembler: IProgrammeAssembler)
+    +ProgrammeRestController(programmeService: IProgrammeService, programmeAssembler: IProgrammeAssembler, studyPlanService: IStudyPlanService,\nstudyPlanAssembler: IStudyPlanAssembler, teacherService: ITeacherService, programmeDirectorAssembler: IProgrammeDirectorAssembler)
     +registerProgramme(programmeRequestDTO: ProgrammeRequestDTO)
 }
 

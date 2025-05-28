@@ -390,19 +390,18 @@ export default function StudentForm() {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>Success!</h2>
-                        <p>The teacher was registered successfully.</p>
+                        <p>The student was registered successfully.</p>
                         {success && (
                                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
                                     <p><strong>Name:</strong> {success.name}</p>
-                                    <p><strong>Acronym:</strong> {success.nif}</p>
-                                    <p><strong>Email:</strong> {success.nifcountry}</p>
-                                    <p><strong>Nif:</strong> {success.street}</p>
-                                    <p><strong>Email:</strong> {success.postalCode}</p>
-                                    <p><strong>Academic Background:</strong> {success.location}</p>
-                                    <p><strong>Street:</strong> {success.addressCountry}</p>
-                                    <p><strong>Postal Code:</strong> {success.countryCode}</p>
-                                    <p><strong>Location:</strong> {success.phoneNumber}</p>
-                                    <p><strong>Country:</strong> {success.email}</p>
+                                    <p><strong>NIF:</strong> {success.nif}</p>
+                                    <p><strong>NIF Country:</strong> {success.nifcountry}</p>
+                                    <p><strong>Street:</strong> {success.street}</p>
+                                    <p><strong>Postal Code:</strong> {success.postalCode}</p>
+                                    <p><strong>Location:</strong> {success.location}</p>
+                                    <p><strong>Address Country:</strong> {success.addressCountry}</p>
+                                    <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
+                                    <p><strong>Email:</strong> {success.email}</p>
                                 </div>
                         )}
                         <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>

@@ -58,17 +58,19 @@ export default function CourseForm() {
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}/programmes/${encodeURIComponent(name)}/${encodeURIComponent(acronym)}`);
             const data = await res.json();
+            console.log("Resposta da API:", data);
 
-            if (data && data.quantSemesters) {
-                const semesters = Array.from({ length: data.quantSemesters }, (_, i) => i + 1);
-                const estimatedYears = Math.ceil(data.quantSemesters / 2);
+            if (data && data.quantSemesters && data.quantSemesters.quantityOfSemesters) {
+                const quant = data.quantSemesters.quantityOfSemesters;
+                const semesters = Array.from({ length: quant }, (_, i) => i + 1);
+                const estimatedYears = Math.ceil(quant / 2);
                 const years = Array.from({ length: estimatedYears }, (_, i) => i + 1);
                 const durations = [...years];
 
                 setAvailableSemesters(semesters);
                 setAvailableYears(years);
                 setAvailableDurations(durations);
-                setMaxECTS(data.maxECTS || null);
+                setMaxECTS(data.maxEcts?.maxEcts || null);
             }
         } catch (err) {
             console.error("Failed to fetch programme details", err);
@@ -82,6 +84,7 @@ export default function CourseForm() {
         if (name === "programme") {
             const selectedProgramme = programmes.find(p => p.acronym === value);
             if (selectedProgramme) {
+                console.log("Programa selecionado:", selectedProgramme); // <-- Adiciona isto
                 fetchProgrammeDetails(selectedProgramme.acronym, selectedProgramme.name);
             } else {
                 setAvailableYears([]);
