@@ -1,0 +1,59 @@
+@startuml
+title Detailed Flow: Retrieve Programme Editions by Programme ID \n(GET /programmeeditions/programme/{programmeName}/{programmeAcronym})
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:ProgrammeEditionRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:IProgrammeEditionService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:IProgrammeEditionRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:ProgrammeEditionControllerAssembler\n(Assembler)" as Assembler #E1F5FE
+database "Database" as DB #E1F5FE
+
+-> Router: GET /programmeeditions/programme/\n{programmeName}/{programmeAcronym}
+activate Router
+
+Router -> Controller: getProgrammeEditionsByProgrammeID\n(programmeName, programmeAcronym)
+activate Controller
+
+note right: Controller creates ProgrammeID VO from programmeName and programmeAcronym
+
+Controller -> Service: getProgrammeEditionIDsByProgrammeID\n(programmeID)
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository -> DB: SELECT * FROM programme_editions
+activate DB
+DB --> Repository: List<ProgrammeEditionDataModel>
+deactivate DB
+
+Repository --> Service: Iterable<ProgrammeEdition>
+deactivate Repository
+
+note over Service #EEEEEE
+Filters ProgrammeEditions by ProgrammeID
+Returns list of ProgrammeEditionIDs
+end note
+
+Service --> Controller: List<ProgrammeEditionID>
+deactivate Service
+
+loop for each ProgrammeEditionID
+    Controller -> Assembler: toDTOFromIDs(programmeID, schoolYearID)
+    activate Assembler
+    Assembler --> Controller: ProgrammeEditionDTO
+    deactivate Assembler
+end
+
+Controller --> Router: 200 OK + List<ProgrammeEditionDTO> (JSON)
+deactivate Controller
+
+<-- Router: Response
+deactivate Router
+
+@enduml

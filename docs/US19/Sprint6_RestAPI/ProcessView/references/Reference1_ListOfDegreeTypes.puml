@@ -1,11 +1,19 @@
 @startuml
 title Detailed Flow: Retrieve List of Degree Types \n(GET /degreetypes)
 
-participant "<<component>>\n:Router" as Router
-participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as Controller
-participant "<<component>>\n:IDegreeTypeRegistrationService\n(Service)" as Service
-participant "<<component>>\n:IDegreeTypeRepository\n(Repository)" as Repository
-database "Database" as DB
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:IDegreeTypeRegistrationService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:IDegreeTypeRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:IDegreeTypeAssembler\n(Assembler)" as Assembler #E1F5FE
+database "Database" as DB #E1F5FE
 
 -> Router: GET /degreetypes
 activate Router
@@ -31,15 +39,21 @@ deactivate Repository
 Service --> Controller: List<DegreeType>
 deactivate Service
 
+Controller -> Assembler: toDTOs(List<DegreeType>)
+activate Assembler
+
+Assembler --> Controller: List<DegreeTypeDTO>
+deactivate Assembler
+
 note over Controller #EEEEEE
-Converts domain objects to JSON via DTOs
-(Spring handles this automatically)
+Converts domain objects to DTOs
+Spring Boot converts DTOs to JSON automatically
 end note
 
 Controller --> Router: degreeTypesList (JSON)
 deactivate Controller
 
-<-- Router : degreeTypesList (JSON)
+<-- Router: degreeTypesList (JSON)
 deactivate Router
 
 @enduml

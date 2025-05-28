@@ -1,11 +1,17 @@
 @startuml
 title Detailed Flow: Retrieve Programmes by Degree Type ID \n(GET /programmes/{degreeTypeID})
-
-participant "<<component>>\n:Router" as Router
-participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as Controller
-participant "<<component>>\n:IProgrammeService\n(Service)" as Service
-participant "<<component>>\n:IProgrammeRepository\n(Repository)" as Repository
-database "Database" as DB
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:IProgrammeService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:IProgrammeRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:IProgrammeAssembler\n(Assembler)" as Assembler #E1F5FE
+database "Database" as DB #E1F5FE
 
 -> Router: GET /programmes/{degreeTypeID}
 activate Router
@@ -13,7 +19,7 @@ activate Router
 Router -> Controller: getProgrammesByDegreeTypeID(degreeTypeID)
 activate Controller
 
-Controller -> Service: getProgrammesByDegreeTypeID(degreeTypeID)
+Controller -> Service: getProgrammeIDDTOsByDegreeTypeID(degreeTypeID)
 activate Service
 
 Service -> Repository: findAll()
@@ -21,30 +27,28 @@ activate Repository
 
 Repository -> DB: SELECT * FROM programmes
 activate DB
-
 DB --> Repository: List<ProgrammeDataModel>
 deactivate DB
 
 Repository --> Service: List<Programme>
 deactivate Repository
 
-note over Service #EEEEEE
-Filters Programmes that match
-the given DegreeTypeID
-end note
+loop for each Programme
+    alt if hasThisDegreeTypeID(id)
+        Service -> Assembler: toDTO(programme.getProgrammeID())
+        activate Assembler
+        Assembler --> Service: ProgrammeIDDTO
+        deactivate Assembler
+    end
+end
 
-Service --> Controller: List<Programme>
+Service --> Controller: List<ProgrammeIDDTO>
 deactivate Service
 
-note over Controller #EEEEEE
-Converts domain objects to JSON via DTOs
-(Spring handles this automatically)
-end note
-
-Controller --> Router: programmesList (JSON)
+Controller --> Router: 200 OK + List<ProgrammeIDDTO> (JSON)
 deactivate Controller
 
-<-- Router: programmesList (JSON)
+<-- Router: Response
 deactivate Router
 
 @enduml
