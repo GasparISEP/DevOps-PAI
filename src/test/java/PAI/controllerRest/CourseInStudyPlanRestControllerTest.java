@@ -105,17 +105,17 @@ class CourseInStudyPlanRestControllerTest {
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
 
-        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
-        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
-        List<CourseInStudyPlan> courseList = List.of(course1, course2);
+        CourseInStudyPlanServiceDTO serviceDTO1 = mock(CourseInStudyPlanServiceDTO.class);
+        CourseInStudyPlanServiceDTO serviceDTO2 = mock(CourseInStudyPlanServiceDTO.class);
+        List<CourseInStudyPlanServiceDTO> serviceDTOList = List.of(serviceDTO1, serviceDTO2);
 
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(courseList);
+        when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(serviceDTOList);
 
         CourseInStudyPlanResponseDTO dto1 = mock(CourseInStudyPlanResponseDTO.class);
         CourseInStudyPlanResponseDTO dto2 = mock(CourseInStudyPlanResponseDTO.class);
 
-        when(assemblerDouble.toDTOFromEntity(course1)).thenReturn(dto1);
-        when(assemblerDouble.toDTOFromEntity(course2)).thenReturn(dto2);
+        when(assemblerDouble.toDTO(serviceDTO1)).thenReturn(dto1);
+        when(assemblerDouble.toDTO(serviceDTO2)).thenReturn(dto2);
 
         // Act
         ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);
@@ -144,7 +144,7 @@ class CourseInStudyPlanRestControllerTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
-        when(courseInStudyPlanService.getCoursesByStudyPlanId(studyPlanID)).thenReturn(new ArrayList<>());
+        when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(new ArrayList<>());
 
         // Act
         ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);

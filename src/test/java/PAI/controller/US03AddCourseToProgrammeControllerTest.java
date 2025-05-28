@@ -3,6 +3,8 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.assembler.studyPlan.StudyPlanAssemblerImpl;
 import PAI.assembler.programme.IProgrammeAssembler;
@@ -277,6 +279,7 @@ public class US03AddCourseToProgrammeControllerTest {
     private ICourseInStudyPlanRepository courseInStudyPlanRepository;
     private ICourseInStudyPlanListFactory courseInStudyPlanRepositoryListFactory;
     private ICourseInStudyPlanFactory courseInStudyPlanFactory;
+    private ICourseInStudyPlanAssembler courseInStudyPlanAssembler;
 
     @BeforeEach
     void setUp2() {
@@ -304,7 +307,8 @@ public class US03AddCourseToProgrammeControllerTest {
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         courseInStudyPlanRepositoryListFactory = new CourseInStudyPlanListFactoryImpl();
         courseInStudyPlanRepository = new CourseInStudyPlanRepositoryImpl(courseInStudyPlanRepositoryListFactory);
-        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory);    }
+        courseInStudyPlanAssembler = new CourseInStudyPlanAssemblerImpl();
+        courseInStudyPlanService = new CourseInStudyPlanServiceImpl(courseInStudyPlanRepository, courseInStudyPlanFactory, courseInStudyPlanAssembler);    }
 
     @Test
     void shouldCreateUS03AddCourseToProgrammeController() {
