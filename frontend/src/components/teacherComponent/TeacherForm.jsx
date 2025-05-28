@@ -86,7 +86,6 @@ export default function TeacherForm() {
             setForm({
                 id: '',
                 name: '',
-                acronym: '',
                 email: '',
                 nif: '',
                 academicBackground: '',
@@ -317,7 +316,7 @@ export default function TeacherForm() {
                         {success && (
                             <div className="success" style={{marginTop: '1rem', color: '#080'}}>
                                 <p><strong>Name:</strong> {success.name}</p>
-                                <p><strong>Acronym:</strong> {success.acronym}</p>
+                                <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
@@ -327,7 +326,7 @@ export default function TeacherForm() {
                                 <p><strong>Location:</strong> {success.location}</p>
                                 <p><strong>Country:</strong> {success.country}</p>
                                 <p><strong>Country Code:</strong> {success.countryCode}</p>
-                                <p><strong>Country Code:</strong> {success.phoneNumber}</p>
+                                <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
                                 <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
                             </div>
                         )}
