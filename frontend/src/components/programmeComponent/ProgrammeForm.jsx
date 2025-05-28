@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { registerProgramme } from '../../services/programmeService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css'
+import {Link} from "react-router-dom";
 
 export default function ProgrammeForm() {
     const [form, setForm] = useState({
@@ -93,20 +94,33 @@ export default function ProgrammeForm() {
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <h1>Register Programme</h1>
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '2rem'
+                    }}>
+                        <h1 style={{margin: 0}}>Register Programme</h1>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary"
+                              style={{textDecoration: 'none'}}>
+                            Back to Main Page
+                        </Link>
+                    </div>
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
                                 <input className="form-input" placeholder="Enter Programme's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required />
+                                       value={form.name} onChange={handleChange} required/>
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="acronym">Acronym</label>
-                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym"
-                                       value={form.acronym} onChange={handleChange} required />
+                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym"
+                                       name="acronym"
+                                       value={form.acronym} onChange={handleChange} required/>
                             </div>
 
                             <div className="form-group">
@@ -120,7 +134,7 @@ export default function ProgrammeForm() {
                                        max="10"
                                        value={form.quantSemesters}
                                        onChange={handleChange}
-                                       required />
+                                       required/>
                             </div>
 
                             <div className="form-group">
@@ -167,7 +181,8 @@ export default function ProgrammeForm() {
                             </div>
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}
+                                <button type="button" className="btn btn-secondary"
+                                        onClick={() => window.history.back()}
                                         disabled={loading}>
                                     CANCEL
                                 </button>
@@ -187,7 +202,7 @@ export default function ProgrammeForm() {
                         <p>The programme was registered successfully.</p>
                         {success && (
                             <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                <p><strong>Name:</strong> {success.name}</p>
+                            <p><strong>Name:</strong> {success.name}</p>
                                 <p><strong>Acronym:</strong> {success.acronym}</p>
                                 <p><strong>Semesters:</strong> {success.quantSemesters}</p>
                                 <p><strong>Degree Type:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.name || 'Unknown'}</p>
