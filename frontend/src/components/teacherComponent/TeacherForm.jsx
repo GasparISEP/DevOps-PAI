@@ -269,14 +269,14 @@ export default function TeacherForm() {
                                             phoneNumber: phone
                                         }));
                                     }}
-                                    containerClass="student-phone-row"
-                                    buttonClass="student-phone-country"
-                                    inputClass="student-phone-number student-form-input"
+                                    containerClass="teacher-phone-row"
+                                    buttonClass="teacher-phone-country"
+                                    inputClass="teacher-phone-number teacher-form-input"
                                     dropdownStyle={{ zIndex: 9999 }}
                                     enableSearch
-                                    searchClass="student-form-input"
+                                    searchClass="teacher-form-input"
                                     required
-                                    inputStyle={{ width: '330px' }}
+                                    // inputStyle={{ width: '330px' }}
                                 />
                             </div>
 
