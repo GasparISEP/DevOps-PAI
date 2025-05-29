@@ -35,7 +35,7 @@ deactivate Controller
 UI --> HRC : Which Teacher?
 deactivate UI
 
-HRC -> UI: Teacher's acronym and NIF
+HRC -> UI: Teacher's acronym
 activate UI
 UI --> HRC: What working percentage?
 deactivate UI
@@ -97,12 +97,8 @@ activate TCP
 TCP -> service : true
 deactivate TCP
 
-service -> TCP : lastTCP.getTeacherCategoryID()
-activate TCP
-TCP --> service : teacherCategoryIdVO1
-deactivate TCP
 
-service -> TCP : lastTCP.hasSameWorkingPercentage(workingPercentageVO1)
+service -> TCP : !lastTCP.hasSameWorkingPercentage(workingPercentageVO1)
 activate TCP
 TCP --> service : true
 deactivate TCP

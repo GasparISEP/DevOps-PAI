@@ -23,12 +23,14 @@ const initialFormState = {
     email: ''
 };
 
+
 export default function StudentForm() {
     const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     useEffect(() => {
         async function fetchLastStudentID() {
@@ -52,6 +54,7 @@ export default function StudentForm() {
             } catch (err) {
                 console.error("❌ Failed to fetch student ID:", err);
                 setError('❌ Failed to fetch student ID from backend.');
+                setShowErrorModal(true);
             }
         }
 
@@ -62,8 +65,10 @@ export default function StudentForm() {
         const { name, value } = e.target;
         let newValue = value;
 
-        if (['studentID', 'nif', 'postalCodePart1', 'postalCodePart2'].includes(name)) {
+        if (['studentID', 'postalCodePart1', 'postalCodePart2'].includes(name)) {
             newValue = value.replace(/[^0-9]/g, '');
+        } else if (name === 'nif') {
+            newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 18);
         } else if (['name', 'location', 'street'].includes(name)) {
             newValue = value.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
         }
@@ -90,10 +95,6 @@ export default function StudentForm() {
             setError('⚠️ Invalid zip code.');
             return;
         }
-        if (!/^\d{9}$/.test(form.nif)) {
-            setError('⚠️ Invalid NIF. ');
-            return;
-        }
 
         setLoading(true);
 
@@ -112,7 +113,8 @@ export default function StudentForm() {
             setSuccess(resp);
             setShowModal(true);
         } catch (err) {
-            setError(err.message);
+            setError(err.message || 'An unexpected error occurred.');
+            setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
@@ -138,7 +140,7 @@ export default function StudentForm() {
                         <h1 style={{margin: 0}}>Register Student</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary"
                               style={{textDecoration: 'none'}}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
@@ -170,7 +172,7 @@ export default function StudentForm() {
                                     type="text"
                                     inputMode="numeric"
                                     pattern="\d*"
-                                    maxLength="9"
+                                    maxLength="18"
                                     value={form.nif}
                                     onChange={handleChange}
                                     required
@@ -200,7 +202,7 @@ export default function StudentForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '54.3rem',
+                                            width: '554px',
                                             height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
@@ -305,7 +307,7 @@ export default function StudentForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '54.3rem',
+                                            width: '554px',
                                             height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
@@ -350,7 +352,8 @@ export default function StudentForm() {
                                     value={form.countryCode + form.phoneNumber}
                                     onChange={(value, data) => {
                                         const newCountryCode = '+' + data.dialCode;
-                                        const phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
+                                        let phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
+
                                         setForm(f => ({
                                             ...f,
                                             countryCode: newCountryCode,
@@ -364,7 +367,17 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     required
-                                    inputStyle={{ width: '554px' }}
+                                    inputStyle={{ width: '554px', height: '4rem'}}
+                                    inputProps={{
+                                        onKeyDown: (e) => {
+                                            const phone = form.phoneNumber;
+                                            const isPortugal = form.countryCode === '+351';
+
+                                            if (isPortugal && phone.length >= 9 && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }
+                                    }}
                                 />
                             </div>
 
@@ -383,7 +396,6 @@ export default function StudentForm() {
                                 />
                             </div>
 
-                            {error && <div className="error">⚠️ {error}</div>}
 
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
@@ -392,7 +404,7 @@ export default function StudentForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>
@@ -418,7 +430,19 @@ export default function StudentForm() {
                                     <p><strong>Email:</strong> {success.email}</p>
                                 </div>
                         )}
-                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
+                        <button className="modal-btn" onClick={() => {
+                            setShowModal(false);
+                            window.location.reload();  // Força o reload da página
+                        }}>Close</button>
+                    </div>
+                </div>
+            )}
+            {showErrorModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ borderColor: 'red' }}>
+                        <h2 style={{ color: 'red' }}>Registration Error</h2>
+                        <p>{error}</p>
+                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                     </div>
                 </div>
             )}

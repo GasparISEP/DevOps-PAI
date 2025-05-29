@@ -43,7 +43,7 @@ public class TeacherCategoryRepositoryImpl implements ITeacherCategoryRepository
     public Optional<TeacherCategoryID> getTeacherCategoryIDFromName(Name name) {
         return teacherCategories.stream()
                 .filter(tc -> tc.getName().equals(name))
-                .map(TeacherCategory::getId)
+                .map(TeacherCategory::identity)
                 .findFirst();
     }
 

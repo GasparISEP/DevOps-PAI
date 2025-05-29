@@ -237,11 +237,11 @@ export default function CourseForm() {
                     </div>
                 </div>
 
-                <form className="form pagination-btn2 pagination-btn-secondary " onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem'}}>
                         <h1 style={{ margin: 0 }}>Register a Course</h1>
-                        <Link to="/"  style={{ textDecoration: 'none', fontSize: '1.5rem', color: '#333' }}>
-                            Back to Main Page
+                        <Link to="/"  className="pagination-btn2 pagination-btn-secondary" style={{textDecoration: 'none'}}>
+                            Back to Home Page
                         </Link>
                     </div>
 
@@ -265,10 +265,10 @@ export default function CourseForm() {
                                         handleClear();
                                     }}
                                 >
-                                    Clear
+                                    CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Submitting…' : 'Submit'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>

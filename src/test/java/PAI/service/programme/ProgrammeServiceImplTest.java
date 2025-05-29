@@ -364,7 +364,7 @@ class ProgrammeServiceImplTest {
         Optional<Programme> result = service.getProgrammeByAcronym(_acronymDouble);
 
         //Assert
-        assertNotNull(Optional.of(result));
+        assertTrue(result.isPresent());
     }
 
 
@@ -672,5 +672,18 @@ class ProgrammeServiceImplTest {
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> service.getProgrammeDTOByID(null), "ProgrammeID cannot be null");
+    }
+
+    @Test
+    void should_ThrowExceptionWhenProgrammeDoesNotExist(){
+
+        // arrange
+        createDoubles();
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+
+        when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.empty());
+
+        // act + assert
+        assertThrows(NotFoundException.class, () -> service.getProgrammeDTOByID(_programmeIDDouble), "The Programme with ID" + _programmeIDDouble + " was not found");
     }
 }

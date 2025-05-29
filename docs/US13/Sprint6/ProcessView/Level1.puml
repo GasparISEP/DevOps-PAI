@@ -9,12 +9,9 @@ participant ":System" as System #lightgrey
 HRC -> System: I want to register a new teacher including all relevant data.\t
 activate System #silver
 System --> HRC: What are the Teacher's attributes?
-HRC -> System: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country
-System --> HRC: Which Category?
-HRC -> System: teacherCategory
-System --> HRC: Which Department?
-HRC -> System: department
-System --> HRC: Teacher registered successfully!
+HRC -> System: acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode,\nlocation, country, department, teacherCategory
+
+System --> HRC: Teacher with Career Progression registered successfully!
 deactivate System
 
 

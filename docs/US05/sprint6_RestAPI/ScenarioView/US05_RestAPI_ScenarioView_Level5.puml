@@ -77,7 +77,7 @@ end group
 
 group Spring Data Persistence
 Repository -> SpringDataRepo ++: save(d1DM)
-SpringDataRepo -> : save d1DM
+SpringDataRepo -> : (INSERT INTO departments)
 SpringDataRepo <-- : d1DM saved
 SpringDataRepo --> Repository --: d1DM.saved
 end group

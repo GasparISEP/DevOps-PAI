@@ -7,10 +7,14 @@ participant "RESTController" as RC
 participant "Service" as S
 participant "Repository" as R
 participant "Domain" as D
+database DB
+
 
 [o-> RC++: (GET) Request List of Categories
 RC -> S++: Request Teacher Categories
 S -> R ++: Request Teacher Categories
+R -> DB ++: Fetch Teacher Categories List
+DB --> R --: List of Teacher Categories
 R --> S --: List of Teacher Categories
 S --> RC --: List of Teacher Categories
 [o<-- RC --: (200 OK) Display Teacher Category List
@@ -18,19 +22,41 @@ S --> RC --: List of Teacher Categories
 [o-> RC++: (GET) Request List of Departments
 RC -> S++: Request Departments
 S -> R ++: Request Departments
+R -> DB ++: Fetch Departments List
+DB --> R --: List of Departments Categories
 R --> S --: List of Departments
 S --> RC --: List of Departments
 [o<-- RC --: (200 OK) Display Department List
 
-[o-> RC++: (POST) Request Register Teacher
+[o-> RC++: (POST) Request Register\nTeacher with relevant data
 RC -> S++: Register Teacher
 S -> D ++: Create Teacher
 D --> S --: Teacher
 S -> R ++: Validate if Created Teacher is duplicated
+R -> DB ++: Fetch Teacher List
+DB --> R --: Teacher List
+R -> R: Validate Uniqueness
 R --> S --: Teacher is not duplicated
 S -> R ++: Save Teacher
+R -> DB ++: Save Teacher
+DB --> R --: Teacher Saved
+
 R --> S --: Teacher registered
 S --> RC --: Teacher registered
-[o<-- RC --: (201 OK) Created Teacher Successfully\t
+
+RC -> S++: Register Teacher Career Progression
+S -> D ++: Create Teacher Career Progression
+D --> S --: Teacher Career Progression
+S -> R ++: Validate if Created Teacher Career Progression is duplicated
+R -> DB ++: Fetch Teacher Career Progression List
+DB --> R --: Teacher Career Progression List
+R -> R: Validate Uniqueness
+R --> S --: Teacher Career Progression is not duplicated
+S -> R ++: Save Teacher Career Progression
+R -> DB ++: Save Teacher Career Progression
+DB --> R --: Teacher Career Progression Saved
+R --> S --: Teacher Career Progression registered
+S --> RC --: Teacher Career Progression registered
+[o<-- RC --: (201 OK) Created Teacher and\nCareer Progression Successfully\t
 
 @enduml

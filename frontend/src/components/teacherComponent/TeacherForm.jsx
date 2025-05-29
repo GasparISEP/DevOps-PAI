@@ -8,6 +8,11 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import CountryFlag from "react-country-flag";
 import {Link} from "react-router-dom";
+import { fetchDepartments } from '../../services/departmentService';
+import TeacherSuccessModal from './TeacherSuccessModal';
+import TeacherErrorModal from './TeacherErrorModal';
+import teacherImg1 from '../../assets/images/teacher-form-image3.jpg';
+import teacherImg2 from '../../assets/images/teacher-form-image2.jpg';
 
 export default function TeacherForm() {
     const initialFormState = {
@@ -33,24 +38,45 @@ export default function TeacherForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
+    // Images for background rotation
+    const images = [teacherImg1, teacherImg2];
+    const [bgIndex, setBgIndex] = useState(0);
+    const [fade, setFade] = useState(false);
+
     useEffect(() => {
-        async function fetchOptions() {
+        let fadeTimeout;
+        const interval = setInterval(() => {
+            setFade(true);
+            fadeTimeout = setTimeout(() => {
+                setBgIndex(i => (i + 1) % images.length);
+                setFade(false);
+            }, 1000); // 1s fade duration
+        }, 5000); // 5s per image (4s visible + 1s fade)
+        return () => {
+            clearInterval(interval);
+            clearTimeout(fadeTimeout);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log('Image 1:', teacherImg1);
+        console.log('Image 2:', teacherImg2);
+    }, []);
+
+    useEffect(() => {
+        console.log('Current bgIndex:', bgIndex, 'Current image:', images[bgIndex]);
+    }, [bgIndex]);
+
+    useEffect(() => {
+        async function loadDepartments() {
             try {
-                const [deptRes] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_API_URL}/departments`),
-                ]);
-                const deptData = await deptRes.json();
-
-                console.log("Fetched departments:", deptData);
-
+                const deptData = await fetchDepartments();
                 setDepartments(deptData);
-
             } catch (err) {
-                console.error("Failed to load options:", err);
+                console.error("Failed to load departments:", err);
             }
         }
-
-        fetchOptions();
+        loadDepartments();
     }, []);
 
     function handleChange(e) {
@@ -98,8 +124,42 @@ export default function TeacherForm() {
         <div className="form-main-component-div">
             <div className="form-main-grid">
 
-                <div className="form-img-main-div teacher-img-background">
-                    <div className="form-logo-img-div">
+                <div className="form-img-main-div teacher-img-background" style={{position: 'relative', overflow: 'hidden'}}>
+                    {/* First image (current) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[bgIndex]})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            opacity: fade ? 0 : 1,
+                            transition: 'opacity 1s ease-in-out',
+                            zIndex: 1
+                        }}
+                    />
+                    {/* Second image (next) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[(bgIndex+1)%images.length]})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            opacity: fade ? 1 : 0,
+                            transition: 'opacity 1s ease-in-out',
+                            zIndex: 2
+                        }}
+                    />
+                    <div className="form-logo-img-div" style={{position: 'relative', zIndex: 3}}>
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
                 </div>
@@ -109,7 +169,7 @@ export default function TeacherForm() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
                         <h1 style={{ margin: 0 }}>Register Teacher</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{ textDecoration: 'none' }}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
@@ -119,13 +179,16 @@ export default function TeacherForm() {
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
-                                <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required/>
-                                {error && error.includes('Name does not meet the validation requirements.') && (
-                                    <div className="error" style={{ color: 'red', marginTop: '0.5rem' }}>
-                                        Name does not meet the validation requirements.
-                                    </div>
-                                )}
+                                <input
+                                    className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
+                                    value={form.name}
+                                    onChange={e => {
+                                        // Only allow letters and spaces
+                                        const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                        setForm(f => ({ ...f, name: value }));
+                                    }}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
@@ -218,7 +281,7 @@ export default function TeacherForm() {
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '54.3rem',
+                                            width: '55.4rem',
                                             height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
@@ -281,7 +344,7 @@ export default function TeacherForm() {
                                             placeholder="Enter phone number" // <-- set your desired placeholder here
                                             searchClass="teacher-form-input"
                                             required
-                                            inputStyle={{ width: '54.3rem'}}
+                                            inputStyle={{ width: '55.4rem'}}
                                         />
                                     </div>
                                 </div>
@@ -305,7 +368,7 @@ export default function TeacherForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>
@@ -314,38 +377,17 @@ export default function TeacherForm() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>Success!</h2>
-                        <p>The teacher was registered successfully.</p>
-                        {success && (
-                            <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                <p><strong>Name:</strong> {success.name}</p>
-                                <p><strong>Acronym:</strong> {success.id}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
-                                <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Academic Background:</strong> {success.academicBackground}</p>
-                                <p><strong>Street:</strong> {success.street}</p>
-                                <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                                <p><strong>Location:</strong> {success.location}</p>
-                                <p><strong>Country:</strong> {success.country}</p>
-                                <p><strong>Country Code:</strong> {success.countryCode}</p>
-                                <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
-                                <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
-                            </div>
-                        )}
-                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
-                    </div>
-                </div>
+                <TeacherSuccessModal
+                    success={success}
+                    departments={departments}
+                    onClose={() => setShowModal(false)}
+                />
             )}
             {showErrorModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Registration Error</h2>
-                        <p>{error}</p>
-                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
-                    </div>
-                </div>
+                <TeacherErrorModal
+                    error={error}
+                    onClose={() => setShowErrorModal(false)}
+                />
             )}
         </div>
     );
