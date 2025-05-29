@@ -1,11 +1,11 @@
-package PAI.controllerRest;
+package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
+import PAI.controllerRest.CourseEditionRestController;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -429,19 +429,21 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$._date").value("12-04-2025"));
     }
 
+
     @Test
     void whenDefineRucSuccessfullyThenReturnsAccepted() throws Exception {
         // Arrange
         SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+                "Data Science", "DSD", java.util.UUID.randomUUID(), "ARIT", "Arithmancy", java.time.LocalDate.now());
 
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB", courseEditionDTO);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionID courseEditionID =mock(CourseEditionID.class);
 
-        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
         when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
 
         // Act & Assert
         mockMvc.perform(patch("/courseeditions/ruc")
