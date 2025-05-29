@@ -138,7 +138,7 @@ export default function StudentForm() {
                         <h1 style={{margin: 0}}>Register Student</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary"
                               style={{textDecoration: 'none'}}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
@@ -392,7 +392,7 @@ export default function StudentForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>
