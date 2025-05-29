@@ -932,8 +932,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        MaxEcts maxEcts = new MaxEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        MaxEcts maxEcts = new MaxEcts(180);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
         DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(dAcronym);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
@@ -1043,8 +1043,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Acronym acronym2 = new Acronym("CVE");
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Computer Engineering");
         NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
-        MaxEcts maxEcts = new MaxEcts(25);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        MaxEcts maxEcts = new MaxEcts(180);
+        QuantSemesters quantSemesters = new QuantSemesters(6);
         DepartmentAcronym dAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(dAcronym);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Master");
