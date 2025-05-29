@@ -13,11 +13,11 @@ const initialFormState = {
     studentID: '',
     name: '',
     nif: '',
-    nifcountry: null,
+    nifcountry: '',
     street: '',
     postalCode: '',
     location: '',
-    addressCountry: null,
+    addressCountry: '',
     countryCode: '+351',
     phoneNumber: '',
     email: ''
@@ -187,8 +187,8 @@ export default function StudentForm() {
                                     name="nifcountry"
                                     classNamePrefix="student-form-select"
                                     options={countryList().getData()}
-                                    value={form.nifcountry}
-                                    onChange={option => setForm(f => ({ ...f, nifcountry: option }))}
+                                    value={countryList().getData().find(option => option.label === form.nifcountry)}
+                                    onChange={option => setForm(f => ({ ...f, nifcountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
@@ -292,8 +292,8 @@ export default function StudentForm() {
                                     name="addressCountry"
                                     classNamePrefix="student-form-select"
                                     options={countryList().getData()}
-                                    value={form.addressCountry}
-                                    onChange={option => setForm(f => ({ ...f, addressCountry: option }))}
+                                    value={countryList().getData().find(option => option.label === form.addressCountry)}
+                                    onChange={option => setForm(f => ({ ...f, addressCountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                                             <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
