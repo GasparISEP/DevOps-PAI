@@ -30,9 +30,11 @@ class AccessMethodServiceImplTest {
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
         IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
+
         // act
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
                 iRepositoryAccessMethod, iAccessMethodServiceAssembler);
+
         // assert
         assertNotNull(accessMethodServiceImpl);
     }
@@ -68,7 +70,7 @@ class AccessMethodServiceImplTest {
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
         IAccessMethodServiceAssembler iAccessMethodServiceAssembler = mock(IAccessMethodServiceAssembler.class);
-        // act
+
         AccessMethodServiceImpl accessMethodServiceImpl = new AccessMethodServiceImpl(iAccessMethodFactory,
                 iRepositoryAccessMethod, iAccessMethodServiceAssembler);
         String accessMethodName = "M23";
@@ -98,7 +100,7 @@ class AccessMethodServiceImplTest {
     }
 
     @Test
-    void shouldReturnEmptyOptionalIfAccessMethodNotRegisteredSuccessfully(){
+    void shouldThrowAlreadyRegisteredExceptionWhenSaveFails(){
         // arrange
         IAccessMethodFactory iAccessMethodFactory = mock(IAccessMethodFactory.class);
         IRepositoryAccessMethod iRepositoryAccessMethod = mock(IRepositoryAccessMethod.class);
@@ -141,12 +143,12 @@ class AccessMethodServiceImplTest {
                 .thenReturn(Optional.of(existingAccessMethod));
 
         // act
-        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, () -> {
+        AlreadyRegisteredException exception = assertThrows(AlreadyRegisteredException.class, () -> {
             accessMethodServiceImpl.configureAccessMethod(command);
         });
 
         // assert
-        assertEquals("Access method already exists.", exception.getMessage());
+        assertEquals("Access method is already registered.", exception.getMessage());
     }
 
     @Test
@@ -174,11 +176,12 @@ class AccessMethodServiceImplTest {
 
         String invalidId = "not-a-uuid";
 
-        // Act
-        AccessMethodServiceDTO result = service.getAccessMethodById(invalidId);
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getAccessMethodById(invalidId);
+        });
 
-        // Assert
-        assertNull(result);
+        assertEquals("Invalid UUID format for AccessMethod ID.", exception.getMessage());
     }
 
     @Test
@@ -230,4 +233,82 @@ class AccessMethodServiceImplTest {
         // Assert
         assertEquals(expectedDto, result);
     }
+
+    @Test
+    void shouldThrowExceptionWhenCommandIsNull() {
+        // Arrange
+        IAccessMethodFactory factory = mock(IAccessMethodFactory.class);
+        IRepositoryAccessMethod repository = mock(IRepositoryAccessMethod.class);
+        IAccessMethodServiceAssembler assembler = mock(IAccessMethodServiceAssembler.class);
+
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(factory, repository, assembler);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.configureAccessMethod(null);
+        });
+
+        assertEquals("RegisterAccessMethodCommand cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void constructor_ShouldThrowException_WhenAllArgumentsAreNull() {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new AccessMethodServiceImpl(null, null, null);
+        });
+        assertNotNull(exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnNullWhenIdIsEmpty() {
+        // Arrange
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(
+                mock(IAccessMethodFactory.class),
+                mock(IRepositoryAccessMethod.class),
+                mock(IAccessMethodServiceAssembler.class)
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getAccessMethodById("");
+        });
+
+        assertEquals("AccessMethod ID cannot be null or blank.", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIdIsNull() {
+        // Arrange
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(
+                mock(IAccessMethodFactory.class),
+                mock(IRepositoryAccessMethod.class),
+                mock(IAccessMethodServiceAssembler.class)
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getAccessMethodById(null);
+        });
+
+        assertEquals("AccessMethod ID cannot be null or blank.", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIdIsInvalidUUID() {
+        // Arrange
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(
+                mock(IAccessMethodFactory.class),
+                mock(IRepositoryAccessMethod.class),
+                mock(IAccessMethodServiceAssembler.class)
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getAccessMethodById("invalid-uuid");
+        });
+
+        assertEquals("Invalid UUID format for AccessMethod ID.", exception.getMessage());
+    }
+
 }
