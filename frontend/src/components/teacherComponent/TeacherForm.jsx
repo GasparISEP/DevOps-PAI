@@ -119,13 +119,16 @@ export default function TeacherForm() {
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
-                                <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required/>
-                                {error && error.includes('Name does not meet the validation requirements.') && (
-                                    <div className="error" style={{ color: 'red', marginTop: '0.5rem' }}>
-                                        Name does not meet the validation requirements.
-                                    </div>
-                                )}
+                                <input
+                                    className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
+                                    value={form.name}
+                                    onChange={e => {
+                                        // Only allow letters and spaces
+                                        const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                        setForm(f => ({ ...f, name: value }));
+                                    }}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
@@ -324,7 +327,6 @@ export default function TeacherForm() {
                                 <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Academic Background:</strong> {success.academicBackground}</p>
                                 <p><strong>Street:</strong> {success.street}</p>
                                 <p><strong>Postal Code:</strong> {success.postalCode}</p>

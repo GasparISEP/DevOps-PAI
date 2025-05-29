@@ -12,7 +12,7 @@ class CountStudentsDtoTest {
         // Arrange
         String name = "Computer Science";
         String acronym = "CS";
-        UUID yearId = UUID.randomUUID();
+        String yearId = UUID.randomUUID().toString();
 
         // Act
         CountStudentsDto dto = new CountStudentsDto(name, acronym, yearId);

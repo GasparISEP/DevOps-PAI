@@ -50,7 +50,7 @@ public class ProgrammeEditionRestController {
     public ResponseEntity<Integer> getNumberOfStudents(
             @PathVariable("programmeName") String programmeName,
             @PathVariable("programmeAcronym") String programmeAcronym,
-            @PathVariable("schoolYearID") UUID schoolYearID) throws Exception {
+            @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
         CountStudentsDto dto =
                 new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);

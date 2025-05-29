@@ -40,7 +40,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
         assertEquals("Programme", dto.programmeName());
-        assertEquals(schoolYearID.getSchoolYearID(), dto.schoolYearID());
+        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
 
     @Test
@@ -58,7 +58,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         String programmeName = "Programme";
         String programmeAcronym = "PPP";
-        UUID schoolYearID = UUID.randomUUID();
+        String schoolYearID = UUID.randomUUID().toString();
 
         CountStudentsDto dto = new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
 
@@ -68,7 +68,7 @@ class ProgrammeEditionAssemblerImplTest {
         // Assert
         assertEquals("PPP", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeAcronym());
         assertEquals("Programme", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeName());
-        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition().getSchoolYearID());
+        assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition().getSchoolYearID().toString());
     }
 
     @Test
