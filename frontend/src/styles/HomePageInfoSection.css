@@ -2,7 +2,8 @@
     display: grid;
     grid-template-columns: 20% 80%;
     max-width: 120rem;
-    padding: 9.6rem 9.6rem;
+    margin: 0 auto;
+    padding: 9.6rem 2.2rem;
     gap: 6.4rem;
 }
 
