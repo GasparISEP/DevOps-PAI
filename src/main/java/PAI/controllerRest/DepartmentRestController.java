@@ -62,7 +62,7 @@ public class DepartmentRestController {
     public ResponseEntity<?> getAllDepartments() {
         try {
             Iterable<Department> departments = departmentRegistrationService.getAllDepartments();
-            Iterable<DepartmentDTO> departmentsDTOs = departmentAssembler.toDTOs(departments);
+            Iterable<DepartmentWithDirectorDTO> departmentsDTOs = departmentAssembler.toDWDDTOs(departments);
             return ResponseEntity.ok(departmentsDTOs);
 
         } catch (IllegalArgumentException e) {

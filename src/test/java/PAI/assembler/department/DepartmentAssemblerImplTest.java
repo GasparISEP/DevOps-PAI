@@ -183,6 +183,42 @@ class DepartmentAssemblerImplTest {
     }
 
     @Test
+    void shouldConvertDepartmenWithDirectortToDWDDTOWithStringWhenDirectorIsMissing() {
+        // Arrange
+        Department department = mock(Department.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+
+        when(department.identity()).thenReturn(departmentID);
+
+        Name name = mock(Name.class);
+        DepartmentAcronym acronym = mock(DepartmentAcronym.class);
+
+        when(department.identity().getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        when(department.getName()).thenReturn(name);
+        when(name.getName()).thenReturn("Software Engineering Department");
+
+        when(department.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("DEI");
+
+        when(department.getDirectorID()).thenReturn(null);
+
+        DepartmentAssemblerImpl assembler = new DepartmentAssemblerImpl();
+
+        // Act
+        DepartmentWithDirectorDTO dto = assembler.toDWDDTO(department);
+
+        // Assert
+        assertEquals("DEI", dto.id());
+        assertEquals("Software Engineering Department", dto.name());
+        assertEquals("DEI", dto.acronym());
+        assertEquals("No Director Assigned", dto.teacherID());
+    }
+
+    @Test
     void shouldThrowExceptionIfDepartmentIsNull() {
         // Arrange
         DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();

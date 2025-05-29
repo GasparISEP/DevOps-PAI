@@ -96,9 +96,20 @@ public class StudentRepositorySpringDataImpl implements IStudentRepository {
         String nifNumber = nif.getNIF();
         String nifCountry = nif.getCountry().toString();
 
-        return studentRepositorySpringData.existsByStudentID(studentIDDataModel)
-                || studentRepositorySpringData.existsByNIF_NifNumberAndNIF_NifCountry(nifNumber, nifCountry);
+        boolean studentIDExists = studentRepositorySpringData.existsByStudentID(studentIDDataModel);
+        boolean nifExists = studentRepositorySpringData.existsByNIF_NifNumberAndNIF_NifCountry(nifNumber, nifCountry);
+
+        if (studentIDExists) {
+            throw new IllegalArgumentException("StudentID already exists!");
+        }
+
+        if (nifExists) {
+            throw new IllegalArgumentException("NIF already exists!");
+        }
+
+        return false;
     }
+
 
     @Override
     public int lastStudentID() {
