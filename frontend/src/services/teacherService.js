@@ -37,4 +37,3 @@ export async function getAllTeachers() {
     }
     return response.json();
 }
-
