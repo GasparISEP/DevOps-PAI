@@ -76,15 +76,15 @@ describe('Course Registration Flow', () => {
 
         // Submit the Formulary
         highlightAndAct(
-            cy.contains('Submit'),
-            $el => $el.click()
-        );
+        cy.contains('REGISTER').should('be.visible'),
+            $el => $el.click());
         cy.wait(120);
 
         // Confirmation PopUp
         highlightAndAct(
             cy.contains('The course was registered successfully.').should('be.visible'),
-            () => {}
+            () => {
+            }
         );
         cy.wait(120);
     });
