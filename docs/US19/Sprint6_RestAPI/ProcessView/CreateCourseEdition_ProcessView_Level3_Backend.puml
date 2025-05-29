@@ -62,7 +62,7 @@ deactivate ProgrammeController
 <-- Router: programmesList
 deactivate Router
 
--> Router: GET /coursesinstudyplan/{programmeID}
+-> Router: GET /coursesinstudyplan/\n{acronym}/{name}
 activate Router
 Router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
 activate CSPController

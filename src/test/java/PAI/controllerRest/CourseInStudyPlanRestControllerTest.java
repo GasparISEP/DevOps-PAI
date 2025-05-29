@@ -118,7 +118,7 @@ class CourseInStudyPlanRestControllerTest {
         when(assemblerDouble.toDTO(serviceDTO2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);
+        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -147,7 +147,7 @@ class CourseInStudyPlanRestControllerTest {
         when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(new ArrayList<>());
 
         // Act
-        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(name, acronym);
+        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -174,7 +174,7 @@ class CourseInStudyPlanRestControllerTest {
 
         // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.getCoursesInStudyPlanByProgrammeID(name, acronym);
+            controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
         });
 
         assertEquals("Service failure", exception.getMessage());
