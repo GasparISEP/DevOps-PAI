@@ -18,36 +18,36 @@ describe('Programme Registration - Happy Path & Duplicate Demo', () => {
         // Add a wait for the form elements to be present after navigation
         cy.get('select[name="degreeTypeID"]', { timeout: 15000 }).should('be.visible'); // Increased timeout
 
-        // Degree Type (first dropdown)
+        // Degree Type
         cy.get('select[name="degreeTypeID"]')
             .should('be.visible')
             .select(1)
             .wait(1500); // Increased wait
 
-        // Department (second dropdown)
+        // Department
         cy.get('select[name="departmentID"]')
             .should('be.visible')
             .select(1)
             .wait(1500); // Increased wait
 
-        // Programme Director (third dropdown)
+        // Programme Director
         cy.get('select[name="teacherID"]')
             .should('be.visible')
             .select(1)
             .wait(1500); // Increased wait
 
-        // Programme Name (using a hardcoded name)
+        // Programme Name
         cy.get('input[name="name"]')
             .should('be.visible')
-            .type('Quantum Computing 1', { delay: 50 }) // Increased delay
-            .should('have.value', 'Quantum Computing 1')
+            .type('Computing and Information Systems', { delay: 50 }) // Increased delay
+            .should('have.value', 'Computing and Information Systems')
             .wait(1500); // Increased wait
 
-        // Programme Acronym (using a hardcoded acronym)
+        // Programme Acronym
         cy.get('input[name="acronym"]')
             .should('be.visible')
-            .type('QC', { delay: 50 }) // Increased delay
-            .should('have.value', 'QC')
+            .type('CIS', { delay: 50 }) // Increased delay
+            .should('have.value', 'CIS')
             .wait(1500); // Increased wait
 
         // Submit and wait for response (could be 201 or 409)
@@ -66,7 +66,7 @@ describe('Programme Registration - Happy Path & Duplicate Demo', () => {
         cy.get('body').then(($body) => {
             if ($body.find('.modal-overlay').length > 0) {
                 cy.get('.modal-overlay', { timeout: 10000 }).should('be.visible'); // Wait for modal to be visible
-                cy.contains('.modal-content', 'Quantum Computing', { timeout: 10000 }).should('be.visible') // Wait for content in modal
+                cy.contains('.modal-content', 'Computing and Information Systems', { timeout: 10000 }).should('be.visible') // Wait for content in modal
                 cy.wait(5000); // Wait for 5 seconds to show the first popup
                 cy.get('.modal-btn', { timeout: 7000 }).should('be.visible').click(); // Click close button
                 cy.get('.modal-overlay', { timeout: 70000 }).should('not.exist'); // Wait for modal to disappear
@@ -104,7 +104,7 @@ describe('Programme Registration - Happy Path & Duplicate Demo', () => {
             .wait(1500); // Increased wait
 
         // Programme Name (Second one)
-        const programmeName = 'Computer Science'; // Use the same consistent name
+        const programmeName = 'Computing and Information Systems'; // Use the same consistent name
         cy.get('input[name="name"]')
             .should('be.visible')
             .type(programmeName, { delay: 50 }) // Increased delay
@@ -114,8 +114,8 @@ describe('Programme Registration - Happy Path & Duplicate Demo', () => {
         // Programme Acronym (using the same hardcoded acronym)
         cy.get('input[name="acronym"]')
             .should('be.visible')
-            .type('QC', { delay: 50 }) // Increased delay
-            .should('have.value', 'QC')
+            .type('CIS', { delay: 50 }) // Increased delay
+            .should('have.value', 'CIS')
             .wait(1500); // Increased wait
 
         // Submit and wait for failure (expecting duplicate error)
