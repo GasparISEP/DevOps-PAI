@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -502,6 +503,83 @@ class DepartmentRestControllerTest {
         // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Unexpected error occurred.", response.getBody());
+    }
+
+    @Test
+    void shouldReturnDepartmentByIdWithExpectedDTO() {
+        // Arrange
+        String id = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(id));
+        Department department = mock(Department.class);
+
+        DepartmentDTO expectedDTO = new DepartmentDTO("DEI", "Department of Informatics", "DEI");
+
+        when(departmentAssembler.fromStringToDepartmentID(id)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID)).thenReturn(Optional.of(department));
+        when(departmentAssembler.toDTO(department)).thenReturn(expectedDTO);
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(id);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody() instanceof DepartmentDTO);
+
+        DepartmentDTO result = (DepartmentDTO) response.getBody();
+        assertEquals("DEI", result.id());
+        assertEquals("Department of Informatics", result.name());
+        assertEquals("DEI", result.acronym());
+    }
+
+    @Test
+    void shouldReturn404WhenDepartmentNotFound() {
+        // Arrange
+        String id = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(id));
+
+        when(departmentAssembler.fromStringToDepartmentID(id)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Department not found", response.getBody());
+    }
+
+    @Test
+    void shouldReturn400WhenIllegalArgumentExceptionIsThrownGetDepartmentByID() {
+        // Arrange
+        String invalidId = "dei";
+
+        when(departmentAssembler.fromStringToDepartmentID(invalidId))
+                .thenThrow(new IllegalArgumentException("Invalid department acronym"));
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(invalidId);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid department acronym", response.getBody());
+    }
+
+    @Test
+    void shouldReturn500WhenUnexpectedExceptionOccurs() {
+        // Arrange
+        String id = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(id));
+
+        when(departmentAssembler.fromStringToDepartmentID(id)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID))
+                .thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(id);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Unexpected error occurred", response.getBody());
     }
 
 
