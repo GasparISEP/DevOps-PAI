@@ -32,35 +32,6 @@ export default function StudentForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    /*useEffect(() => {
-        async function fetchLastStudentID() {
-            try {
-                const response = await fetch('http://localhost:8081/students', {
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error(`HTTP ${response.status} - ${text}`);
-                }
-
-                const data = await response.json();
-                const nextID = (data.lastStudentID || 0) + 1;
-
-                setForm(f => ({
-                    ...f,
-                    studentID: nextID.toString()
-                }));
-            } catch (err) {
-                console.error("❌ Failed to fetch student ID:", err);
-                setError('❌ Failed to fetch student ID from backend.');
-                setShowErrorModal(true);
-            }
-        }
-
-        fetchLastStudentID();
-    }, []);*/
-
     function handleChange(e) {
         const { name, value } = e.target;
         let newValue = value;
