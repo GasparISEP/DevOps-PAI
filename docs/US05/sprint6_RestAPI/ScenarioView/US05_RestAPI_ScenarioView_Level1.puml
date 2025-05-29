@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+
+title US05: \nAs an Administrator, I want to register a Department in the system \n Scenario View - Level 1
+
+actor ADM as "Administrator"
+
+rectangle "<<PAI System>>" {
+    usecase "Register a Department In The System" as UC1
+}
+
+ADM --> UC1
+
+@enduml
