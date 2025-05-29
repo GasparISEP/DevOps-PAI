@@ -4,7 +4,7 @@ import InfoElement from "./InfoElement";
 
 export default function HomePageInfoSection () {
     return (
-        <section className="home-page-info-section">
+        <section id="home-page-info-section" className="home-page-info-section">
 
             <div className="info-page-left-column">
                 <h2>Welcome to <span>ISEP</span>, a prestigious university</h2>
