@@ -6,6 +6,8 @@ import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.programmeEdition.ProgrammeEditionAssemblerImpl;
 import PAI.domain.degreeType.DegreeType;
+import PAI.domain.degreeType.DegreeTypeFactoryImpl;
+import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.department.Department;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
@@ -48,6 +50,8 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.persistence.mem.teacher.ITeacherListFactory;
 import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
 import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
+import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -361,7 +365,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -389,7 +399,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -444,7 +460,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -482,7 +504,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -561,7 +587,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -597,7 +629,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -653,7 +691,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -687,7 +731,13 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeFactory programmeFactory = new ProgrammeFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -739,7 +789,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -839,7 +893,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -939,7 +997,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1033,7 +1095,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1119,7 +1185,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1199,7 +1269,11 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();

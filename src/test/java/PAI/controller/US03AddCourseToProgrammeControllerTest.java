@@ -14,6 +14,8 @@ import PAI.domain.course.CourseFactoryImpl;
 import PAI.domain.course.ICourseFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
+import PAI.domain.degreeType.DegreeTypeFactoryImpl;
+import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.programme.Programme;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.studyPlan.IStudyPlanFactory;
@@ -42,6 +44,8 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.service.course.CourseServiceImpl;
 import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
+import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.course.ICourseService;
@@ -61,13 +65,15 @@ public class US03AddCourseToProgrammeControllerTest {
     private ICourseService courseServiceDouble;
     private IStudyPlanService studyPlanServiceDouble;
     private ICourseInStudyPlanService courseInStudyPlanServiceDouble;
+    private IDegreeTypeRegistrationService degreeTypeRegistrationService;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         programmeServiceDouble = mock(IProgrammeService.class);
         courseServiceDouble = mock(ICourseService.class);
         studyPlanServiceDouble = mock(IStudyPlanService.class);
         courseInStudyPlanServiceDouble = mock(ICourseInStudyPlanService.class);
+        degreeTypeRegistrationService = mock(IDegreeTypeRegistrationService.class);
         controller = new US03_AddCourseToProgrammeController(programmeServiceDouble, courseServiceDouble, studyPlanServiceDouble, courseInStudyPlanServiceDouble);
     }
 
@@ -275,13 +281,19 @@ public class US03AddCourseToProgrammeControllerTest {
 
     @BeforeEach
     void setUp2() {
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeListFactory degreeTypeListFactory1 = new DegreeTypeListFactoryImpl();
+        IDegreeTypeRepository degreeTypeRepository1 = new DegreeTypeRepositoryImpl(degreeTypeListFactory1);
+        degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository1);
+
         programmeFactory = new ProgrammeFactoryImpl();
         programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         degreeTypeListFactory = new DegreeTypeListFactoryImpl();
         degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         programmeAssembler = new ProgrammeAssembler();
-        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
 
         courseFactory = new CourseFactoryImpl();
         courseRepositoryListFactory = new CourseRepositoryListFactoryImpl();

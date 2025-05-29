@@ -51,11 +51,6 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
         return courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentID, courseEditionID);
     }
 
-    @Override
-    public Optional<CourseEditionEnrolmentDto> toDto(StudentID studentID, CourseEditionID courseEditionID) {
-        return null;
-    }
-
     private StudentID createStudentID(int studentUniqueNumber) {
         return new StudentID(studentUniqueNumber);
     }

@@ -50,9 +50,9 @@ describe('TeacherDisplay', () => {
 
   it('renders a list of teachers', async () => {
     render(
-      <MemoryRouter>
-        <TeacherDisplay />
-      </MemoryRouter>
+        <MemoryRouter>
+          <TeacherDisplay/>
+        </MemoryRouter>
     );
     await waitFor(() => {
       // Use a flexible matcher for names (in case of extra markup or links)
@@ -66,21 +66,21 @@ describe('TeacherDisplay', () => {
   it('renders message when no teachers are present', async () => {
     teacherService.getAllTeachers.mockResolvedValueOnce([]);
     render(
-      <MemoryRouter>
-        <TeacherDisplay />
-      </MemoryRouter>
+        <MemoryRouter>
+          <TeacherDisplay/>
+        </MemoryRouter>
     );
     await waitFor(() => {
-      expect(screen.getByText((content) => content.includes('Failed to load teachers'))).toBeInTheDocument();
-      // expect(screen.getByText(/Failed to load teachers/i)).toBeInTheDocument();
+      expect(screen.getByText((content) => content.includes('No results found'))).toBeInTheDocument();
+      expect(screen.getByText(/No results found/i)).toBeInTheDocument();
     });
   });
 
   it('renders teacher email and NIF', async () => {
     render(
-      <MemoryRouter>
-        <TeacherDisplay />
-      </MemoryRouter>
+        <MemoryRouter>
+          <TeacherDisplay/>
+        </MemoryRouter>
     );
     await waitFor(() => {
       expect(screen.getByText('john@isep.ipp.pt')).toBeInTheDocument();
