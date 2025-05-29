@@ -26,8 +26,6 @@ public class ProgrammeDirectorResponseDTO {
         private String programmeName;
         private String programmeAcronym;
 
-        public ProgrammeDTO() {}
-
         public ProgrammeDTO(String programmeName, String programmeAcronym) {
             this.programmeName = programmeName;
             this.programmeAcronym = programmeAcronym;
@@ -44,8 +42,6 @@ public class ProgrammeDirectorResponseDTO {
 
     public static class TeacherDTO {
         private String teacherAcronym;
-
-        public TeacherDTO() {}
 
         public TeacherDTO(String teacherAcronym) {
             this.teacherAcronym = teacherAcronym;

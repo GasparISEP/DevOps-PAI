@@ -8,7 +8,7 @@ class MaxEctsTest {
 
     @Test
     void shouldStoreMaxEctsValueCorrectly() {
-        int expectedValue = 240;
+        int expectedValue = 300;
         MaxEcts maxEcts = new MaxEcts(expectedValue);
         assertEquals(expectedValue, maxEcts.getMaxEcts(), "The Ects value was not correctly stored.");
     }
@@ -20,14 +20,14 @@ class MaxEctsTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenValueExceeds240() {
-        assertThrows(BusinessRuleViolationException.class, () -> new MaxEcts(241), "Should throw exception for values over 240.");
+    void shouldThrowExceptionWhenValueExceeds300() {
+        assertThrows(BusinessRuleViolationException.class, () -> new MaxEcts(301), "Should throw exception for values over 300.");
     }
 
     @Test
     void shouldAcceptValidValues() {
         assertDoesNotThrow(() -> new MaxEcts(1), "Should not throw exception for minimum valid value.");
-        assertDoesNotThrow(() -> new MaxEcts(120), "Should not throw exception for an intermidiate valid value.");
-        assertDoesNotThrow(() -> new MaxEcts(240), "Should not throw exception for maximum valid value.");
+        assertDoesNotThrow(() -> new MaxEcts(180), "Should not throw exception for an intermediate valid value.");
+        assertDoesNotThrow(() -> new MaxEcts(300), "Should not throw exception for maximum valid value.");
     }
 }
