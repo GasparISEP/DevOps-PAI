@@ -38,8 +38,8 @@ DM --> SE --: department
 end group
 
 group Persistence
-SE -> RE ++: save(department)
-RE -> :save
+SE -> RE ++: save department
+RE -> :(INSERT INTO departments)
 RE <-- : persisted
 RE --> SE --: Persisted department
 end group
