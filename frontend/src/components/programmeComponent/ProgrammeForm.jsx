@@ -114,32 +114,6 @@ export default function ProgrammeForm() {
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="name">Name</label>
-                                <input className="form-input" placeholder="Enter Programme's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required/>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="acronym">Acronym</label>
-                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym"
-                                       name="acronym"
-                                       value={form.acronym} onChange={handleChange} required/>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="quantSemesters">Semesters</label>
-                                <input className="form-input"
-                                       placeholder="Enter number of semesters"
-                                       id="quantSemesters"
-                                       name="quantSemesters"
-                                       type="number"
-                                       min="1"
-                                       max="10"
-                                       value={form.quantSemesters}
-                                       onChange={handleChange}
-                                       required/>
-                            </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="degreeTypeID">Degree Type</label>
@@ -184,6 +158,33 @@ export default function ProgrammeForm() {
                                 </select>
                             </div>
 
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="name">Name</label>
+                                <input className="form-input" placeholder="Enter Programme's name" id="name" name="name"
+                                       value={form.name} onChange={handleChange} required/>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="acronym">Acronym</label>
+                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym"
+                                       name="acronym"
+                                       value={form.acronym} onChange={handleChange} required/>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="quantSemesters">Semesters</label>
+                                <input className="form-input"
+                                       placeholder="Enter number of semesters"
+                                       id="quantSemesters"
+                                       name="quantSemesters"
+                                       type="number"
+                                       min="1"
+                                       max="10"
+                                       value={form.quantSemesters}
+                                       onChange={handleChange}
+                                       required/>
+                            </div>
+
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
                                         onClick={handleClear}
@@ -206,10 +207,12 @@ export default function ProgrammeForm() {
                         <p>The programme was registered successfully.</p>
                         {success && (
                             <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                            <p><strong>Name:</strong> {success.name}</p>
+                                <p><strong>Name:</strong> {success.name}</p>
                                 <p><strong>Acronym:</strong> {success.acronym}</p>
                                 <p><strong>Semesters:</strong> {success.quantSemesters}</p>
-                                <p><strong>Degree Type:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.name || 'Unknown'}</p>
+                                <p><strong>Degree
+                                    Type:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.name || 'Unknown'}
+                                </p>
                                 <p><strong>ECTS Credits:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.maxEcts || 'Unknown'}</p>
                                 <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
                                 <p><strong>Programme's Director:</strong> {teachers.find(t => t.id === success.teacherID)?.name || 'Unknown'}</p>
