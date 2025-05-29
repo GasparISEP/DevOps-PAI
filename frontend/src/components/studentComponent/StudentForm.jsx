@@ -188,28 +188,35 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.nifcountry)}
                                     onChange={option => setForm(f => ({ ...f, nifcountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select NIF Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '554px',
-                                            height: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
                                             padding: 0,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -286,28 +293,35 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.addressCountry)}
                                     onChange={option => setForm(f => ({ ...f, addressCountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Address Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '554px',
-                                            height: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
                                             padding: 0,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -390,19 +404,18 @@ export default function StudentForm() {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>Success!</h2>
-                        <p>The teacher was registered successfully.</p>
+                        <p>The student was registered successfully.</p>
                         {success && (
                                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
                                     <p><strong>Name:</strong> {success.name}</p>
-                                    <p><strong>Acronym:</strong> {success.nif}</p>
-                                    <p><strong>Email:</strong> {success.nifcountry}</p>
-                                    <p><strong>Nif:</strong> {success.street}</p>
-                                    <p><strong>Email:</strong> {success.postalCode}</p>
-                                    <p><strong>Academic Background:</strong> {success.location}</p>
-                                    <p><strong>Street:</strong> {success.addressCountry}</p>
-                                    <p><strong>Postal Code:</strong> {success.countryCode}</p>
-                                    <p><strong>Location:</strong> {success.phoneNumber}</p>
-                                    <p><strong>Country:</strong> {success.email}</p>
+                                    <p><strong>NIF:</strong> {success.nif}</p>
+                                    <p><strong>NIF Country:</strong> {success.nifcountry}</p>
+                                    <p><strong>Street:</strong> {success.street}</p>
+                                    <p><strong>Postal Code:</strong> {success.postalCode}</p>
+                                    <p><strong>Location:</strong> {success.location}</p>
+                                    <p><strong>Address Country:</strong> {success.addressCountry}</p>
+                                    <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
+                                    <p><strong>Email:</strong> {success.email}</p>
                                 </div>
                         )}
                         <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>

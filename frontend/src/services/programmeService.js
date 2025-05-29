@@ -18,7 +18,7 @@ export async function registerProgramme(payload) {
     }
 
     if (!response.ok) {
-        const errMsg = responseData?.error || `HTTP ${response.status}`;
+        const errMsg = responseData?.message || `HTTP ${response.status}`;
         throw new Error(errMsg);
     }
 

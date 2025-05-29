@@ -1,6 +1,8 @@
 package PAI.persistence.springdata.programme;
 
+import PAI.VOs.Acronym;
 import PAI.VOs.DepartmentID;
+import PAI.VOs.Name;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
@@ -96,5 +98,15 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
             }
         }
         return programmesWithDepartment;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return _iProgRepo.existsByName(name);
+    }
+
+    @Override
+    public boolean existsByAcronym(String acronym) {
+        return _iProgRepo.existsByAcronym(acronym);
     }
 }

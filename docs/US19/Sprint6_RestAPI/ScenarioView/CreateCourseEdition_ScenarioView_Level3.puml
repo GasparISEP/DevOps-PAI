@@ -34,7 +34,10 @@ package "Assembler / DTO" {
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
 +toCommand(dto: CourseEditionRequestDTO):\n CreateCourseEditionCommand
-+toResponseDTO(domain: CourseEdition):\n CourseEditionResponseDTO
+}
+  interface "<<interface>>\nICourseEditionServiceAssembler" as ICourseEditionServiceAssembler
+    class CourseEditionServiceAssemblerImpl {
+  +toResponseDTO(domain: CourseEdition):\n CourseEditionResponseDTO
   }
 
   class CourseEditionRequestDTO {
@@ -131,12 +134,12 @@ ICreateCourseEditionService <|.. CreateCourseEditionServiceImpl
 
 CourseEditionRestController --> ICourseEditionAssembler : toCommand(dto)
 ICourseEditionAssembler <|.. CourseEditionAssemblerImpl
-CourseEditionRestController --> ICourseEditionAssembler : toResponseDTO(domain)
+ICourseEditionServiceAssembler <|.. CourseEditionServiceAssemblerImpl
 
 CreateCourseEditionServiceImpl --> ICourseEditionFactory
 ICourseEditionFactory <|.. CourseEditionFactoryImpl
 
-CreateCourseEditionServiceImpl --> ICourseEditionAssembler : toResponseDTO(domain)
+CreateCourseEditionServiceImpl --> ICourseEditionServiceAssembler : toResponseDTO(domain)
 
 CreateCourseEditionServiceImpl --> ICourseEditionRepository
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
@@ -155,9 +158,10 @@ ICourseEditionRepositorySpringData <|.. CourseEditionRepositorySpringDataImpl
 
 
 CourseEditionAssemblerImpl --> CourseEditionRequestDTO
-CourseEditionAssemblerImpl --> CourseEditionResponseDTO
+CourseEditionServiceAssemblerImpl --> CourseEditionResponseDTO
+CourseEditionServiceAssemblerImpl --> CourseEdition
 
-ICourseEditionAssembler -> CreateCourseEditionCommand
+CourseEditionAssemblerImpl -> CreateCourseEditionCommand
 CourseEditionRestController ..> CreateCourseEditionCommand
 
 @enduml

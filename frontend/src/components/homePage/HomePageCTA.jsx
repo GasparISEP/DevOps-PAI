@@ -1,4 +1,5 @@
 import '../../styles/HomePage.css'
+import DownArrow from '../../assets/images/white-down-arrow.png'
 
 export default function HomePageCTA() {
 
@@ -17,10 +18,23 @@ export default function HomePageCTA() {
         return message;
     }
 
+    const handleScroll = () => {
+        const section = document.getElementById('home-page-info-section');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+
     return (
         <section className="home-page-cta-section">
             <div className="cta-main-div">
-                <h1><span><Greeting/></span> <br/> Welcome to ISEP</h1>
+                <span><Greeting/> Welcome to Isep</span>
+                <h1>Creating Milestones for<br/>Future Generations</h1>
+                <div className="cta-btn-div">
+                    <button onClick={handleScroll}>LEARN MORE</button>
+                </div>
+
             </div>
         </section>
     )

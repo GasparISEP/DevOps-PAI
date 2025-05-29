@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { registerCourseInStudyPlan } from '../../services/courseService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css';
@@ -28,7 +29,12 @@ export default function CourseForm() {
     const [maxECTS, setMaxECTS] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [success, setSuccess] = useState(null);
+    const [successData, setSuccessData] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [programmeSemesters, setProgrammeSemesters] = useState(null);
 
     const cleanNumber = (val) => Number(String(val).replace(/[^\d.-]/g, ''));
 
@@ -54,21 +60,38 @@ export default function CourseForm() {
         fetchOptions();
     }, []);
 
+    useEffect(() => {
+        if (form.curricularYear) {
+            const year = Number(form.curricularYear);
+            const semesters = [(year - 1) * 2 + 1, (year - 1) * 2 + 2];
+            setAvailableSemesters(semesters);
+            const selectedSemester = Number(form.semester);
+            if (selectedSemester && programmeSemesters) {
+                updateDurationsWithSemesterAndProgramme(selectedSemester, programmeSemesters);
+            }
+        } else {
+            setAvailableSemesters([]);
+            setAvailableDurations([]);
+        }
+    }, [form.curricularYear,programmeSemesters, form.semester]);
+
     async function fetchProgrammeDetails(acronym, name) {
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}/programmes/${encodeURIComponent(name)}/${encodeURIComponent(acronym)}`);
             const data = await res.json();
 
-            if (data && data.quantSemesters) {
-                const semesters = Array.from({ length: data.quantSemesters }, (_, i) => i + 1);
-                const estimatedYears = Math.ceil(data.quantSemesters / 2);
+            if (data && data.quantSemesters && data.quantSemesters.quantityOfSemesters) {
+                const quant = data.quantSemesters.quantityOfSemesters;
+                const semesters = Array.from({ length: quant }, (_, i) => i + 1);
+                const estimatedYears = Math.ceil(quant / 2);
                 const years = Array.from({ length: estimatedYears }, (_, i) => i + 1);
-                const durations = [...years];
+                const durations = [1,2];
 
                 setAvailableSemesters(semesters);
                 setAvailableYears(years);
                 setAvailableDurations(durations);
-                setMaxECTS(data.maxECTS || null);
+                setMaxECTS(data.maxEcts?.maxEcts || null);
+                setProgrammeSemesters(quant);
             }
         } catch (err) {
             console.error("Failed to fetch programme details", err);
@@ -79,7 +102,12 @@ export default function CourseForm() {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
 
+        if (name === "semester") {
+            const parsedSemester = Number(value);
+            updateDurationsWithSemesterAndProgramme(parsedSemester, programmeSemesters);
+        }
         if (name === "programme") {
+
             const selectedProgramme = programmes.find(p => p.acronym === value);
             if (selectedProgramme) {
                 fetchProgrammeDetails(selectedProgramme.acronym, selectedProgramme.name);
@@ -89,13 +117,53 @@ export default function CourseForm() {
                 setAvailableDurations([]);
                 setMaxECTS(null);
             }
+
+        }
+    }
+
+    function handleClear() {
+        setForm({
+            programme: '',
+            course: '',
+            curricularYear: '',
+            semester: '',
+            duration: '',
+            qtdECTS: ''
+        });
+        setAvailableYears([]);
+        setAvailableSemesters([]);
+        setAvailableDurations([]);
+        setMaxECTS(null);
+        setError('');
+        setErrorMessage('');
+        setSuccess(null);
+        setSuccessData(null);
+        setShowModal(false);
+        setShowErrorModal(false);
+    }
+
+    function updateDurationsWithSemesterAndProgramme(selectedSemester, totalProgrammeSemesters) {
+        if (!selectedSemester || !totalProgrammeSemesters) {
+            setAvailableDurations([]);
+            return;
+        }
+
+        const isLastSemester = selectedSemester === totalProgrammeSemesters;
+        const isEvenSemester = selectedSemester % 2 === 0;
+
+        if (isLastSemester || isEvenSemester) {
+            setAvailableDurations([1]);
+        } else {
+            setAvailableDurations([1, 2]);
         }
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
+        setErrorMessage('');
         setSuccess(null);
+        setSuccessData(null);
         setLoading(true);
 
         const parsedECTS = cleanNumber(form.qtdECTS);
@@ -130,7 +198,7 @@ export default function CourseForm() {
         }
 
         const today = new Date();
-        const studyPlanDate = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`; // "dd-MM-yyyy"
+        const studyPlanDate = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
 
         const payload = {
             semester: parsedSemester,
@@ -147,8 +215,14 @@ export default function CourseForm() {
         try {
             const response = await registerCourseInStudyPlan(payload);
             setSuccess(response);
+            setSuccessData(response);
+            setShowModal(true);
+
         } catch (err) {
-            setError(err.message || "Failed to register the course.");
+            const msg = err.message || "Failed to register the course.";
+            setError(msg);
+            setErrorMessage(msg);
+            setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
@@ -163,36 +237,79 @@ export default function CourseForm() {
                     </div>
                 </div>
 
-                <form className="form" onSubmit={handleSubmit}>
-                    <h1>Register a Course</h1>
+                <form className="form pagination-btn2 pagination-btn-secondary " onSubmit={handleSubmit}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem'}}>
+                        <h1 style={{ margin: 0 }}>Register a Course</h1>
+                        <Link to="/"  style={{ textDecoration: 'none', fontSize: '1.5rem', color: '#333' }}>
+                            Back to Main Page
+                        </Link>
+                    </div>
+
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
                             <ProgrammeSelector programmes={programmes} value={form.programme} onChange={handleChange} />
                             <CourseSelector courses={courses} value={form.course} onChange={handleChange} />
-                            <SemesterSelector semesters={availableSemesters} value={form.semester} onChange={handleChange} />
                             <CurricularYearSelector years={availableYears} value={form.curricularYear} onChange={handleChange} />
+                            <SemesterSelector semesters={availableSemesters} value={form.semester} onChange={handleChange} />
                             <DurationSelector value={form.duration} onChange={handleChange} durations={availableDurations} />
                             <ECTSInput value={form.qtdECTS} onChange={handleChange} maxECTS={maxECTS} />
 
-                            {error && <div className="error">{error}</div>}
+
+                            {error && !showErrorModal && <div className="error">{error}</div>}
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary" onClick={() => window.history.back()} disabled={loading}>Cancel</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => {
+                                        handleClear();
+                                    }}
+                                >
+                                    Clear
+                                </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
                                     {loading ? 'Submitting…' : 'Submit'}
                                 </button>
                             </div>
                         </div>
 
-                        {success && (
-                            <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                <h3>Course successfully added to the programme!</h3>
-                                <p><strong>Programme:</strong> {success.programme}</p>
-                                <p><strong>Course:</strong> {success.course}</p>
-                                <p><strong>Curricular Year:</strong> {success.curricularYear}</p>
-                                <p><strong>Semester:</strong> {success.semester}</p>
-                                <p><strong>Duration:</strong> {success.duration}</p>
-                                <p><strong>ECTS:</strong> {success.qtdECTS}</p>
+
+                        {showModal && successData && (
+                            <div className="modal-overlay">
+                                <div className="modal-content">
+                                    <h2>Success!</h2>
+                                    <p>The course was registered successfully.</p>
+                                    <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                                        <p><strong>Programme:</strong> {successData.programmeName || successData.programme}</p>
+                                        <p><strong>Course:</strong> {successData.courseName || successData.course}</p>
+                                        <p><strong>Curricular Year:</strong> {successData.curricularYear}</p>
+                                        <p><strong>Semester:</strong> {successData.semester}</p>
+                                        <p><strong>Duration:</strong> {successData.duration}</p>
+                                        <p><strong>ECTS:</strong> {successData.credits || successData.qtdECTS}</p>
+                                        <p><strong>Study Plan Date:</strong> {successData.studyPlanDate}</p>
+                                    </div>
+                                    <button className="modal-btn" onClick={() => {
+                                        setShowModal(false);
+                                    handleClear();
+                                    }}
+                                        >Close</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {showErrorModal && errorMessage && (
+                            <div className="modal-overlay">
+                                <div className="modal-content" style={{borderColor: 'red'}}>
+                                    <h2 style={{color:'red'}}>Registration Error</h2>
+                                    <p style={{  marginTop: '1rem' }}>{errorMessage}</p>
+                                    <button className="modal-btn" onClick={() =>{
+                                        setShowErrorModal(false);
+                                        setError('');
+                                        setErrorMessage('')
+                                    }}
+                                    >
+                                    Close</button>
+                                </div>
                             </div>
                         )}
                     </div>

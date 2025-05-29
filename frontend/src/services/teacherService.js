@@ -9,14 +9,25 @@ export async function registerTeacher(teacherDTO) {
         body: JSON.stringify(teacherDTO)
     });
 
+    let responseData = null;
+
     if (!response.ok) {
-        const errBody = await response.json();
-        // procura em message primeiro, depois em error, senão status
-        const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
-        throw new Error(errMsg);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            responseData = await response.json();
+        } else {
+            responseData = await response.text();
+        }
+        throw new Error(responseData);
     }
 
-    return response.json();
+    try {
+        responseData = await response.json();
+    } catch (error) {
+        console.warn("Resposta sem corpo JSON");
+    }
+
+    return responseData;
 }
 
 export async function getAllTeachers() {

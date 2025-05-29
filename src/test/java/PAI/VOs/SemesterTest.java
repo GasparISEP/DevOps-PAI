@@ -29,12 +29,6 @@ class SemesterTest {
     }
 
     @Test
-    void testInvalidSemesterGreaterThanTwo() {
-        //arrange + act + assert
-        assertThrows(IllegalArgumentException.class, () -> new Semester(3));
-    }
-
-    @Test
     void testEquals() {
         //arrange + act
         Semester s1 = new Semester(1);

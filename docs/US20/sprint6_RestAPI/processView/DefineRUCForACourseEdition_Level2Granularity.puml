@@ -10,12 +10,11 @@ skinparam participantBackgroundColor #lightblue/white
 
 autonumber
 
-actor ProgrammeDirector as PD
 participant ":Frontend" as Frontend <<container>>
 participant ":Backend" as Backend <<container>>
 participant ":Database" as DB <<container>>
 
-PD -> Frontend: I want to define the RUC for a course edition
+-> Frontend: I want to define the RUC for a course edition
 activate Frontend #E1F5FE
 
 ' --- Select teachers ---
@@ -27,9 +26,9 @@ DB --> Backend: List of teachers
 deactivate DB
 Backend --> Frontend: (200 OK) List of teachers
 deactivate Backend
-Frontend --> PD: Display teacher selection list
+<-- Frontend : Display teacher selection list
 
-PD -> Frontend: Select a teacher
+-> Frontend: Select a teacher
 
 ' --- Select course edition ---
 Frontend -> Backend: (GET) Request list of course editions
@@ -40,14 +39,14 @@ DB --> Backend: List of course editions
 deactivate DB
 Backend --> Frontend: (200 OK) List of course editions
 deactivate Backend
-Frontend --> PD: Display course edition selection list
+<-- Frontend: Display course edition selection list
 
-PD -> Frontend: Select a course edition
+-> Frontend: Select a course edition
 
 ' --- Confirm selection ---
-Frontend --> PD: Confirm selected teacher and course edition?
+<-- Frontend: Confirm selected teacher and course edition?
 
-PD -> Frontend: Yes
+-> Frontend: Yes
 
 ' --- Define RUC ---
 Frontend -> Backend: (PATCH) Request define RUC for course edition
@@ -64,7 +63,7 @@ deactivate DB
 Backend --> Frontend: (200 OK) RUC successfully updated
 deactivate Backend
 
-Frontend --> PD: RUC successfully updated.
+<-- Frontend: RUC successfully updated.
 deactivate Frontend
 
 @enduml

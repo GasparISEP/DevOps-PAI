@@ -4,6 +4,7 @@ import PAI.VOs.DepartmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.programme.Programme;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,13 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
 
     private final List<Programme> _programmeRepo;
 
-    public ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory programmeLisListFactory) {
-        _programmeRepo = programmeLisListFactory.newProgrammeArrayList();
+    public ProgrammeRepositoryImpl(IProgrammeRepositoryListFactory programmeListFactory) {
+        _programmeRepo = programmeListFactory.newProgrammeArrayList();
     }
 
     @Override
     public Programme save(Programme entity) {
+        _programmeRepo.removeIf(p -> p.identity().equals(entity.identity()));
         _programmeRepo.add(entity);
         return entity;
     }
@@ -52,5 +54,25 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
             }
         }
         return programmesWithDepartment;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        for (Programme programme : _programmeRepo) {
+            if (programme.getProgrammeName().toString().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existsByAcronym(String acronym) {
+        for (Programme programme : _programmeRepo) {
+            if (programme.getAcronym().toString().equals(acronym)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

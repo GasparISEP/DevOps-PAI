@@ -1,6 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
-export async function registerCourseInStudyPlan (payload) {
+export async function registerCourseInStudyPlan(payload) {
     const response = await fetch(`${API_URL}/course-in-study-plan`, {
         method: 'POST',
         headers: {
@@ -18,7 +18,10 @@ export async function registerCourseInStudyPlan (payload) {
     }
 
     if (!response.ok) {
-        const errMsg = responseData?.error || `HTTP ${response.status}`;
+        const errMsg =
+            responseData?.message ||
+            responseData?.error ||
+            `Failed to register course. HTTP ${response.status}`;
         throw new Error(errMsg);
     }
 

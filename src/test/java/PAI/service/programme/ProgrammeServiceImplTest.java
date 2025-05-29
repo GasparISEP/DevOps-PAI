@@ -6,6 +6,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -119,6 +121,8 @@ class ProgrammeServiceImplTest {
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
+        when(_programmeRepositoryDouble.existsByName("_nameDouble")).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym("_acronymDouble")).thenReturn(false);
 
         //Act
         Programme result = service.registerProgramme(_programmeVOsDTODouble);
@@ -129,7 +133,7 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExists() {
+    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExistsName() {
         //Arrange
         createDoubles();
 
@@ -145,13 +149,41 @@ class ProgrammeServiceImplTest {
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(true);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(false);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
 
         //Assert
-        assertEquals(result.getMessage(), "Programme is already registered.");
+        assertEquals(result.getMessage(), "Programme name is already registered.");
+    }
+
+    @Test
+    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExistsAcronym() {
+        //Arrange
+        createDoubles();
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+        when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(true);
+
+        //Act
+        Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+
+        //Assert
+        assertEquals(result.getMessage(), "Programme acronym is already registered.");
     }
 
     @Test
@@ -609,5 +641,36 @@ class ProgrammeServiceImplTest {
 
         // Assert
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void should_returnProgrammeID_ifProgrammeIsFound(){
+
+        // arrange
+        createDoubles();
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+
+        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
+
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.of(_programmeDouble));
+        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(programmeDTODouble);
+
+        // act
+        ProgrammeDTO result = service.getProgrammeDTOByID(id);
+
+        // assert
+        assertEquals(programmeDTODouble, result);
+    }
+
+    @Test
+    void should_ThrowExceptionWhenProgrammeIDIsNull(){
+
+        // arrange
+        createDoubles();
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble);
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> service.getProgrammeDTOByID(null), "ProgrammeID cannot be null");
     }
 }

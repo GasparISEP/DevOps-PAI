@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import ProgrammeForm from '../../../components/programmeComponent/ProgrammeForm';
 import * as programmeService from '../../../services/programmeService';
 
@@ -49,12 +50,20 @@ describe('ProgrammeForm tests', () => {
     test('submits form successfully and shows success modal', async () => {
         programmeService.registerProgramme.mockResolvedValue({ message: 'Programme created' });
 
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
+        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
 
+        // Fill the form fields
         fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'New Programme' } });
         fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'NP' } });
         fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '6' } });
@@ -62,9 +71,7 @@ describe('ProgrammeForm tests', () => {
         fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DI' } });
         fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'ABC' } });
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
         await waitFor(() => {
             expect(programmeService.registerProgramme).toHaveBeenCalledWith({
@@ -76,6 +83,9 @@ describe('ProgrammeForm tests', () => {
                 teacherID: 'ABC',
                 maxECTS: 180,
             });
+        });
+
+        await waitFor(() => {
             expect(screen.getByText(/success!/i)).toBeInTheDocument();
         });
     });
@@ -83,12 +93,20 @@ describe('ProgrammeForm tests', () => {
     test('shows error message when submission fails', async () => {
         programmeService.registerProgramme.mockRejectedValue(new Error('Server error'));
 
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
+        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
 
+        // Fill form fields
         fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Fail Programme' } });
         fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'FP' } });
         fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '4' } });
@@ -96,52 +114,87 @@ describe('ProgrammeForm tests', () => {
         fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DII' } });
         fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'CBD' } });
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
         await waitFor(() => {
             expect(programmeService.registerProgramme).toHaveBeenCalled();
+        });
+
+        await waitFor(() => {
             expect(screen.getByText(/server error/i)).toBeInTheDocument();
         });
     });
 
     test('loads options and populates selects', async () => {
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
         await waitFor(() => {
             expect(screen.getByRole('option', { name: 'Bachelor' })).toBeInTheDocument();
+        });
+        await waitFor(() => {
             expect(screen.getByRole('option', { name: 'Department 1 (DI)' })).toBeInTheDocument();
+        });
+
+        await waitFor(() => {
             expect(screen.getByRole('option', { name: 'Teacher One' })).toBeInTheDocument();
         });
     });
 
-    test('cancel button calls window.history.back()', async () => {
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
+    test('clear button resets the form fields', async () => {
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
+        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
 
-        const backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {});
+        fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Test' } });
+        fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'TST' } });
+        fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '4' } });
+        fireEvent.change(screen.getByLabelText(/degree type/i), { target: { value: 'some-degree-type-id' } });
+        fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DEP' } });
+        fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'DIR' } });
 
-        fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+        fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-        expect(backSpy).toHaveBeenCalled();
-
-        backSpy.mockRestore();
+        expect(screen.getByLabelText(/name/i)).toHaveValue('');
+        expect(screen.getByLabelText(/acronym/i)).toHaveValue('');
+        expect(screen.getByLabelText(/semesters/i)).toHaveValue(null);
+        expect(screen.getByLabelText(/degree type/i)).toHaveValue('');
+        expect(screen.getByLabelText(/department/i)).toHaveValue('');
+        expect(screen.getByLabelText(/programme's director/i)).toHaveValue('');
     });
 
     test('modal closes when clicking Close button', async () => {
         programmeService.registerProgramme.mockResolvedValue({ message: 'Programme created' });
 
-        await act(async () => {
-            render(<ProgrammeForm />);
-        });
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
-        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).not.toBeDisabled());
+        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
 
         fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'New Programme' } });
         fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'NP' } });
@@ -150,9 +203,7 @@ describe('ProgrammeForm tests', () => {
         fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DI' } });
         fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'ABC' } });
 
-        await act(async () => {
-            fireEvent.click(screen.getByRole('button', { name: /register/i }));
-        });
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
         await waitFor(() => {
             expect(screen.getByText(/success!/i)).toBeInTheDocument();
@@ -170,13 +221,21 @@ describe('ProgrammeForm tests', () => {
 
         const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-        render(<ProgrammeForm />);
+        render(
+            <MemoryRouter
+                future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                }}
+            >
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
 
-        await screen.findByText('Register Programme');
-
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to load options:', expect.any(Error));
+        await waitFor(() => {
+            expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to load options:', expect.any(Error));
+        });
 
         consoleErrorSpy.mockRestore();
-        global.fetch.mockRestore();
     });
 });

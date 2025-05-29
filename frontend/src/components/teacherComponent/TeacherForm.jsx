@@ -10,7 +10,6 @@ import CountryFlag from "react-country-flag";
 import {Link} from "react-router-dom";
 
 export default function TeacherForm() {
-    // Store initial form state for reset
     const initialFormState = {
         id: '',
         name: '',
@@ -32,6 +31,7 @@ export default function TeacherForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
 
     useEffect(() => {
         async function fetchOptions() {
@@ -54,7 +54,9 @@ export default function TeacherForm() {
     }, []);
 
     function handleChange(e) {
-        setForm(f => ({...f, [e.target.name]: e.target.value}));
+        const { name, value } = e.target;
+        setForm(f => ({ ...f, [name]: value }));
+
     }
 
     useEffect(() => {
@@ -75,31 +77,17 @@ export default function TeacherForm() {
         setLoading(true);
 
         try {
-
             const payload = {
                 ...form,
+                postalCode: form.postalCode,
             };
             const response = await registerTeacher(payload);
             setSuccess(response);
             setShowModal(true);
-
-            setForm({
-                id: '',
-                name: '',
-                email: '',
-                nif: '',
-                academicBackground: '',
-                countryCode: '',
-                phoneNumber: '',
-                street: '',
-                postalCode: '',
-                location: '',
-                country: '',
-                departmentID: ''
-            });
-
+            setForm({ ...initialFormState });
         } catch (err) {
             setError(err.message);
+            setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
@@ -190,9 +178,16 @@ export default function TeacherForm() {
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="postalCode">Postal Code</label>
-                                <input className="form-input" placeholder="Enter Teacher's Postal Code" id="postalCode"
-                                       name="postalCode"
-                                       value={form.postalCode || ''} onChange={handleChange} required/>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Postal Code"
+                                    id="postalCode"
+                                    name="postalCode"
+                                    value={form.postalCode || ''}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '100%' }}
+                                />
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
@@ -202,38 +197,44 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="addressCountry">Country</label>
+                                <label className="form-label" htmlFor="country">Country</label>
                                 <Select
                                     id="country"
                                     name="country"
-                                    className="teacher-form-input"
-                                    classNamePrefix="teacher-form-input"
+                                    classNamePrefix="teacher-form-select"
                                     options={countryList().getData()}
                                     value={countryList().getData().find(option => option.label === form.country)}
                                     onChange={option => setForm(f => ({ ...f, country: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Address Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '100%',
-                                            minHeight: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
-                                            padding: 0, // Remove padding
-                                            fontSize: '1rem',
+                                            padding: 0,
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -256,28 +257,34 @@ export default function TeacherForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="phone">Phone Number</label>
-                                <PhoneInput
-                                    country={'pt'}
-                                    value={form.countryCode + form.phoneNumber}
-                                    onChange={(value, data) => {
-                                        const newCountryCode = '+' + data.dialCode;
-                                        const phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
-                                        setForm(f => ({
-                                            ...f,
-                                            countryCode: newCountryCode,
-                                            phoneNumber: phone
-                                        }));
-                                    }}
-                                    containerClass="teacher-phone-row"
-                                    buttonClass="teacher-phone-country"
-                                    inputClass="teacher-phone-number teacher-form-input"
-                                    dropdownStyle={{ zIndex: 9999 }}
-                                    enableSearch
-                                    searchClass="teacher-form-input"
-                                    required
-                                    // inputStyle={{ width: '330px' }}
-                                />
+                                <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
+                                <div className="teacher-phone-row">
+                                    <div className="teacher-phone-country">
+                                        <PhoneInput
+                                            country={'pt'}
+                                            value={form.countryCode + form.phoneNumber}
+                                            onChange={(value, data) => {
+                                                const newCountryCode = '+' + data.dialCode;
+                                                const phone = value.replace(new RegExp(`^\\+?${data.dialCode}`), '').trim();
+                                                setForm(f => ({
+                                                    ...f,
+                                                    countryCode: newCountryCode,
+                                                    phoneNumber: phone
+                                                }));
+                                            }}
+                                            containerClass="teacher-phone-row"
+                                            buttonClass="teacher-phone-country"
+                                            inputClass="teacher-phone-number teacher-form-input"
+                                            dropdownStyle={{ zIndex: 9999 }}
+                                            enableSearch
+                                            fontSize={16}
+                                            placeholder="Enter phone number" // <-- set your desired placeholder here
+                                            searchClass="teacher-form-input"
+                                            required
+                                            inputStyle={{ width: '54.3rem'}}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="form-group">
@@ -290,8 +297,6 @@ export default function TeacherForm() {
                                     ))}
                                 </select>
                             </div>
-
-                            {error && (console.log(error), <div className="error">{error}</div>)}
 
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary"
@@ -319,7 +324,6 @@ export default function TeacherForm() {
                                 <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Academic Background:</strong> {success.academicBackground}</p>
                                 <p><strong>Street:</strong> {success.street}</p>
                                 <p><strong>Postal Code:</strong> {success.postalCode}</p>
@@ -334,7 +338,15 @@ export default function TeacherForm() {
                     </div>
                 </div>
             )}
-
+            {showErrorModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ borderColor: 'red' }}>
+                        <h2 style={{ color: 'red' }}>Registration Error</h2>
+                        <p>{error}</p>
+                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
