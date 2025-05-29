@@ -14,6 +14,7 @@ public class TeacherCategoryTest {
     void shouldCreateTeacherCategorySuccessfully() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
 
@@ -49,8 +50,10 @@ public class TeacherCategoryTest {
     void shouldNotBeEqualToDifferentType() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         TeacherCategory category = new TeacherCategory(doubleId, doubleName);
 
         Object other = mock (Object.class);
@@ -63,8 +66,10 @@ public class TeacherCategoryTest {
     void shouldBeEqualIfAreOfTheSameInstance() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         TeacherCategory category = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category1 = category;
 
@@ -76,10 +81,13 @@ public class TeacherCategoryTest {
     void shouldBeEqualIfIdsAreEqualEvenIfNamesDiffer() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId, doubleName1);
 
@@ -92,10 +100,13 @@ public class TeacherCategoryTest {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
         TeacherCategoryID doubleId1 = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId1, doubleName1);
 
@@ -107,12 +118,13 @@ public class TeacherCategoryTest {
     void shouldHaveSameHashCodeIfSameId() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Assistant");
 
-        // Act
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId, doubleName1);
 
@@ -125,10 +137,10 @@ public class TeacherCategoryTest {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
         TeacherCategoryID doubleId1 = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
 
-        // Act
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId1, doubleName);
 
@@ -140,8 +152,10 @@ public class TeacherCategoryTest {
     void sameAsShouldReturnTrueForSameIdAndName() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = category1;
 
@@ -154,8 +168,10 @@ public class TeacherCategoryTest {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
         TeacherCategoryID doubleId1 = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId1, doubleName);
 
@@ -168,10 +184,13 @@ public class TeacherCategoryTest {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
         TeacherCategoryID doubleId1 = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Principal Professor");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId1, doubleName1);
 
@@ -183,10 +202,13 @@ public class TeacherCategoryTest {
     void sameAsShouldReturnFalseIfNameIsDifferent() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Principal Professor");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
         TeacherCategory category2 = new TeacherCategory(doubleId, doubleName1);
 
@@ -198,10 +220,13 @@ public class TeacherCategoryTest {
     void sameAsShouldReturnFalseIfInputIsNull() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
 
         // Act + Assert
@@ -212,11 +237,15 @@ public class TeacherCategoryTest {
     void sameAsShouldReturnFalseIfTheyAreNotOfTheSameInstance() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Assistant");
+
         Name doubleName1 = mock(Name.class);
         when(doubleName1.getName()).thenReturn("Assistant");
+
         TeacherCategory category1 = new TeacherCategory(doubleId, doubleName);
+
         Object doubleObject = mock (Object.class);
 
         // Act + Assert
@@ -227,8 +256,10 @@ public class TeacherCategoryTest {
     void shouldReturnCorrectIdAndNameValues() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         TeacherCategory category = new TeacherCategory(doubleId, doubleName);
 
         // Act + Assert
@@ -240,8 +271,10 @@ public class TeacherCategoryTest {
     void toStringShouldReturnExpectedFormat() {
         // Arrange
         TeacherCategoryID doubleId = mock(TeacherCategoryID.class);
+
         Name doubleName = mock(Name.class);
         when(doubleName.getName()).thenReturn("Catedrático");
+
         TeacherCategory category = new TeacherCategory(doubleId, doubleName);
 
         // Act
