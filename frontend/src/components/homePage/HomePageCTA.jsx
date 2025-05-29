@@ -9,7 +9,7 @@ export default function HomePageCTA() {
 
         if (hour < 12) {
             message = 'Good morning!';
-        } else if (hour < 18) {
+        } else if (hour < 19) {
             message = 'Good afternoon!';
         } else {
             message = 'Good evening!';
@@ -29,7 +29,7 @@ export default function HomePageCTA() {
     return (
         <section className="home-page-cta-section">
             <div className="cta-main-div">
-                <span><Greeting/> Welcome to Isep</span>
+                <span><Greeting/> Welcome to ISEP</span>
                 <h1>Creating Milestones for<br/>Future Generations</h1>
                 <div className="cta-btn-div">
                     <button onClick={handleScroll}>LEARN MORE</button>

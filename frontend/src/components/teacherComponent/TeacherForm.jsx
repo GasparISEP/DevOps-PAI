@@ -11,8 +11,6 @@ import {Link} from "react-router-dom";
 import { fetchDepartments } from '../../services/departmentService';
 import TeacherSuccessModal from './TeacherSuccessModal';
 import TeacherErrorModal from './TeacherErrorModal';
-import teacherImg1 from '../../assets/images/teacher-form-image3.jpg';
-import teacherImg2 from '../../assets/images/teacher-form-image2.jpg';
 
 export default function TeacherForm() {
     const initialFormState = {
@@ -38,40 +36,6 @@ export default function TeacherForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    // Images for background rotation
-    const images = [teacherImg1, teacherImg2];
-    const [bgIndex, setBgIndex] = useState(0);
-    const [nextIndex, setNextIndex] = useState(1);
-    const [fade, setFade] = useState(false);
-
-    const FADE_IN_DURATION = 2000;
-    const VISIBLE_DURATION = 4000;
-    const FADE_OUT_DURATION = 2000;
-
-    useEffect(() => {
-        let fadeTimeout;
-        const interval = setInterval(() => {
-            setFade(true);
-            fadeTimeout = setTimeout(() => {
-                setBgIndex(i => (i + 1) % images.length);
-                setFade(false);
-            }, 1000); // 1s fade duration
-        }, 5000); // 5s per image (4s visible + 1s fade)
-        return () => {
-            clearInterval(interval);
-            clearTimeout(fadeTimeout);
-        };
-    }, []);
-
-    useEffect(() => {
-        console.log('Image 1:', teacherImg1);
-        console.log('Image 2:', teacherImg2);
-    }, []);
-
-    useEffect(() => {
-        console.log('Current bgIndex:', bgIndex, 'Current image:', images[bgIndex]);
-    }, [bgIndex]);
-
     useEffect(() => {
         async function loadDepartments() {
             try {
@@ -94,7 +58,6 @@ export default function TeacherForm() {
         console.log("API URL:", process.env.REACT_APP_API_URL);
     }, []);
 
-    // Add a clearForm function
     function clearForm() {
         setForm(initialFormState);
         setError('');
@@ -124,31 +87,13 @@ export default function TeacherForm() {
         }
     }
 
-    const currentImageStyle = {
-        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-        backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[bgIndex]})`,
-        backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
-        opacity: fade ? 0 : 1,
-        transition: `opacity ${fade ? FADE_OUT_DURATION : FADE_IN_DURATION}ms ease-in-out`,
-        zIndex: 1
-    };
-
-    const nextImageStyle = {
-        ...currentImageStyle,
-        backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[nextIndex]})`,
-        opacity: fade ? 1 : 0,
-        zIndex: 2
-    };
-
     return (
 
         <div className="form-main-component-div">
             <div className="form-main-grid">
 
-                <div className="form-img-main-div teacher-img-background" style={{position: 'relative', overflow: 'hidden'}}>
-                    <div style={currentImageStyle} />
-                    <div style={nextImageStyle} />
-                    <div className="form-logo-img-div" style={{position: 'relative', zIndex: 3}}>
+                <div className="form-img-main-div teacher-img-background">
+                    <div className="form-logo-img-div">
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
                 </div>
@@ -172,8 +117,7 @@ export default function TeacherForm() {
                                     className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
                                     value={form.name}
                                     onChange={e => {
-                                        // Only allow letters and spaces
-                                        const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                        const value = e.target.value.replace(/[^a-zA-ZçÇáàâãäéèêëíìîïóòôõöúùûüñÑ\s]/g, '');
                                         setForm(f => ({ ...f, name: value }));
                                     }}
                                     required
@@ -183,16 +127,14 @@ export default function TeacherForm() {
                             <div className="form-group">
                                 <label className="form-label" htmlFor="acronym">Acronym</label>
                                 <input
-                                    className="form-input" placeholder="Enter Teacher's acronym" id="acronym"
-                                    name="acronym" value={form.acronym}
+                                    className="form-input" placeholder="Enter Teacher's acronym" id="acronym" name="acronym"
+                                    value={form.acronym}
                                     onChange={e => {
                                         // Only allow 3 uppercase letters
                                         let value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3);
                                         setForm(f => ({...f, acronym: value, id: value}));
                                     }}
-                                    maxLength={3}
-                                    pattern="[A-Z]{3}"
-                                    required
+                                    maxLength={3} pattern="[A-Z]{3}" required
                                 />
                             </div>
 
@@ -200,60 +142,47 @@ export default function TeacherForm() {
                                 <label className="form-label" htmlFor="email">Email</label>
                                 <input
                                     className="form-input" placeholder="Enter Teacher's Email" id="email" name="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                    required
-                                    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                                    title="Please enter a valid email address."
+                                    value={form.email} onChange={handleChange}
+                                    pattern="[^@\s]+@[^@\s]+\.[^@\s]+" title="Please enter a valid email address." required
                                 />
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="nif">NIF</label>
-                                <input className="form-input" placeholder="Enter Teacher's NIF" id="nif" name="nif"
-                                       type="number"
+                                <input className="form-input" placeholder="Enter Teacher's NIF" id="nif" name="nif" type="number"
                                        value={form.nif} onChange={handleChange} required/>
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="academicBackground">Academic Background</label>
-                                <input className="form-input" placeholder="Enter Teacher's Academic Background"
-                                       id="academicBackground" name="academicBackground"
+                                <input className="form-input" placeholder="Enter Teacher's Academic Background" id="academicBackground" name="academicBackground"
                                        value={form.academicBackground} onChange={handleChange} required/>
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="street">Street</label>
-                                <input className="form-input" placeholder="Enter Teacher's Street" id="street"
-                                       name="street"
+                                <input className="form-input" placeholder="Enter Teacher's Street" id="street" name="street"
                                        value={form.street || ''} onChange={handleChange} required/>
                             </div>
+
                             <div className="form-group">
                                 <label className="form-label" htmlFor="postalCode">Postal Code</label>
                                 <input
-                                    className="form-input"
-                                    placeholder="Enter Postal Code"
-                                    id="postalCode"
-                                    name="postalCode"
-                                    value={form.postalCode || ''}
-                                    onChange={handleChange}
-                                    required
-                                    style={{ width: '100%' }}
-                                />
+                                    className="form-input" placeholder="Enter Postal Code" id="postalCode" name="postalCode"
+                                    value={form.postalCode || ''} onChange={handleChange} required/>
                             </div>
+
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
-                                <input className="form-input" placeholder="Enter Teacher's Location" id="location"
-                                       name="location"
+                                <input className="form-input" placeholder="Enter Teacher's Location" id="location" name="location"
                                        value={form.location || ''} onChange={handleChange} required/>
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="country">Country</label>
                                 <Select
-                                    id="country"
-                                    name="country"
-                                    classNamePrefix="teacher-form-select"
+                                    classNamePrefix="teacher-form-select" placeholder="Select Country" id="country" name="country"
+                                    menuPlacement="auto" menuPosition="fixed"
                                     options={countryList().getData()}
                                     value={countryList().getData().find(option => option.label === form.country)}
                                     onChange={option => setForm(f => ({ ...f, country: option?.label ?? '' }))}
@@ -263,10 +192,7 @@ export default function TeacherForm() {
                                             <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
-                                    isSearchable
-                                    menuPlacement="auto"
-                                    menuPosition="fixed"
+                                    required isSearchable
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
@@ -381,4 +307,3 @@ export default function TeacherForm() {
         </div>
     );
 }
-

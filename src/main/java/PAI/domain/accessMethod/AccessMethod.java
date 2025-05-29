@@ -9,7 +9,7 @@ public class AccessMethod implements AggregateRoot<AccessMethodID> {
     private final AccessMethodID _accessMethodId;
     private final NameWithNumbersAndSpecialChars _accessMethodName;
 
-    protected AccessMethod(AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
+    public AccessMethod(AccessMethodID accessMethodID, NameWithNumbersAndSpecialChars accessMethodName){
         if(accessMethodID == null) throw new IllegalArgumentException("Access Method ID cannot be null");
 
         this._accessMethodId = accessMethodID;

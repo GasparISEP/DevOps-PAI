@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
@@ -43,6 +44,7 @@ public class CourseEditionRestController {
     private final IProgrammeEditionAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
+    private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
 
 public CourseEditionRestController(
         ICourseEditionEnrolmentService courseEditionEnrolmentService,
@@ -53,7 +55,7 @@ public CourseEditionRestController(
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
         IProgrammeEditionAssembler programmeEditionAssembler,
-        IDefineRucService defineRucService
+        IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler
 ) {
     this.courseEditionEnrolmentService = courseEditionEnrolmentService;
     this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
@@ -64,6 +66,7 @@ public CourseEditionRestController(
     this.studentGradeAssembler = studentGradeAssembler;
     this.programmeEditionAssembler = programmeEditionAssembler;
     this.defineRucService = defineRucService;
+    this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
 }
 
     @PostMapping("/students/enrolments")
@@ -147,7 +150,7 @@ public CourseEditionRestController(
     }
 
     @PatchMapping("/ruc")
-    public ResponseEntity<String> defineRucForCourseEdition(@RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
+    public ResponseEntity<?> defineRucForCourseEdition(@RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
         TeacherID teacherID = courseEditionAssembler.createTeacherID(defineRucRequestDTO.teacherID());
         CourseEditionID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionID(defineRucRequestDTO.courseEditionDTO());
 
@@ -158,7 +161,13 @@ public CourseEditionRestController(
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course edition not found");
             }
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("RUC successfully updated");
+            DefineRucResponseDTO responseDTO = new DefineRucResponseDTO(
+                    defineRucRequestDTO.teacherID(),
+                    defineRucRequestDTO.courseEditionDTO()
+            );
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(courseEditionHateoasAssembler.toModel(responseDTO));
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -167,6 +176,7 @@ public CourseEditionRestController(
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
+
 
 
     @GetMapping("/programmeditions")

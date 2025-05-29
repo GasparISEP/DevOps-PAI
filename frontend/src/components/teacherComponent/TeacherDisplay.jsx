@@ -21,7 +21,6 @@ export default function TeacherDisplay() {
     function handleSort(key) {
         setSortConfig(prev => {
             if (prev.key === key) {
-                // Toggle direction
                 return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
             } else {
                 return { key, direction: 'asc' };

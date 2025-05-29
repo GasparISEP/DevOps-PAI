@@ -6,7 +6,7 @@ describe('registerStudent', () => {
         name: "Test Student",
         nif: "123456789",
         email: "test@student.com"
-        // Adicione outros campos necessários conforme o seu DTO
+
     };
     const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
@@ -28,6 +28,14 @@ describe('registerStudent', () => {
         global.fetch.mockResolvedValueOnce({
             ok: true,
             json: async () => mockResponse,
+            headers: {
+               get: (key) => {
+                   if (key.toLocaleLowerCase() === 'content-type') {
+                       return 'application/json';
+                   }
+                   return null;
+               }
+            }
         });
 
         const result = await registerStudent(mockPayload);
@@ -75,8 +83,38 @@ describe('registerStudent', () => {
         });
 
         const result = await registerStudent(mockPayload);
-        // De acordo com a implementação, se .json() não for possível num ok, não será tratado como null
-        // Então aqui pode-se lançar erro ou tratar como string
-        expect(result).toEqual("OK");  // Modifique isto conforme o comportamento esperado
+
+        expect(result).toEqual("OK");
+    });
+
+    it('deve lançar um erro com texto simples se a resposta não for JSON e não for ok', async () => {
+        global.fetch.mockResolvedValueOnce({
+            ok: false,
+            text: async () => 'Erro genérico do servidor',
+            headers: {
+                get: (key) => {
+                    if (key.toLowerCase() === 'content-type') {
+                        return 'text/plain'; // Not JSON
+                    }
+                    return null;
+                }
+            },
+            status: 400
+        });
+
+        await expect(registerStudent(mockPayload)).rejects.toThrow('Erro genérico do servidor');
+    });
+
+    it('deve tratar erro mesmo sem header Content-Type', async () => {
+        global.fetch.mockResolvedValueOnce({
+            ok: false,
+            text: async () => 'Erro sem header',
+            headers: {
+                get: () => null
+            },
+            status: 500
+        });
+
+        await expect(registerStudent(mockPayload)).rejects.toThrow('Erro sem header');
     });
 });

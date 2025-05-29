@@ -40,7 +40,7 @@ deactivate service
 controller --> router: (201, Created) teacherCategorySavedResponseDTO
 deactivate controller
 
-<-- router: (201, Created) teacherCategorySavedJSON
+<-- router: (201, Created) teacherCategoryResponseJSON
 deactivate router
 
 @enduml

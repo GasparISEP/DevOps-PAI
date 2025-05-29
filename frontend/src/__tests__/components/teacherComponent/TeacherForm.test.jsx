@@ -89,6 +89,13 @@ describe('TeacherForm Tests', () => {
             expect(screen.getByText(/The teacher was registered successfully/i)).toBeInTheDocument();
             expect(registerTeacher).toHaveBeenCalled();
         });
+
+        const closeButton = screen.getByRole('button', { name: /close/i });
+        fireEvent.click(closeButton);
+
+        await waitFor(() => {
+            expect(screen.queryByText(/The teacher was registered successfully/i)).not.toBeInTheDocument();
+        });
     });
 
     //Submission Error
@@ -117,6 +124,13 @@ describe('TeacherForm Tests', () => {
         await waitFor(() => {
             expect(screen.getByText(/Registration failed/i)).toBeInTheDocument();
             expect(registerTeacher).toHaveBeenCalled();
+        });
+
+        const closeButton = screen.getByRole('button', { name: /close/i });
+        fireEvent.click(closeButton);
+
+        await waitFor(() => {
+            expect(screen.queryByText(/Registration failed/i)).not.toBeInTheDocument();
         });
     });
 
@@ -204,9 +218,57 @@ describe('TeacherForm Tests', () => {
         consoleSpy.mockRestore();
     });
 
+    test('renders country select and allows selecting a country', async () => {
+        fetchDepartments.mockResolvedValueOnce([{ id: 'D1', name: 'CS' }]);
+        registerTeacher.mockResolvedValueOnce({
+            id: 'ABC',
+            name: 'John Doe',
+            email: 'john@example.com',
+            nif: '123456789',
+            academicBackground: 'PhD',
+            street: 'Main St',
+            postalCode: '1234-567',
+            location: 'Porto',
+            country: 'Portugal',
+            countryCode: '+351',
+            phoneNumber: '912345678',
+            departmentID: 'D1'
+        });
+
+        render(
+            <MemoryRouter>
+                <TeacherForm />
+            </MemoryRouter>
+        );
+
+        fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'John Doe' } });
+        fireEvent.change(screen.getByLabelText(/Acronym/i), { target: { value: 'ABC' } });
+        fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'john@example.com' } });
+        fireEvent.change(screen.getByLabelText(/NIF/i), { target: { value: '123456789' } });
+        fireEvent.change(screen.getByLabelText(/Academic Background/i), { target: { value: 'PhD' } });
+        fireEvent.change(screen.getByLabelText(/Street/i), { target: { value: 'Main St' } });
+        fireEvent.change(screen.getByLabelText(/Postal Code/i), { target: { value: '1234-567' } });
+
+        const comboboxes = screen.getAllByRole('combobox');
+        let countrySelectInput = Array.from(comboboxes).find(input =>
+            input.getAttribute('aria-label') === 'Country' ||
+            input.getAttribute('placeholder') === 'Select Country'
+        );
+        if (!countrySelectInput) countrySelectInput = comboboxes[0];
+        fireEvent.focus(countrySelectInput);
+        fireEvent.change(countrySelectInput, { target: { value: 'Portugal' } });
+        fireEvent.keyDown(countrySelectInput, { key: 'ArrowDown' });
+        const portugalOption = await screen.findByText('Portugal');
+        fireEvent.click(portugalOption);
+        fireEvent.change(screen.getByLabelText(/Location/i), { target: { value: 'Porto' } });
+        fireEvent.change(screen.getByLabelText(/Department/i), { target: { value: 'D1' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
+
+        await waitFor(() => {
+            expect(screen.getByText(/The teacher was registered successfully/i)).toBeInTheDocument();
+            expect(registerTeacher).toHaveBeenCalled();
+        });
+    });
+
 });
-
-
-
-
-

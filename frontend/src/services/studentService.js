@@ -9,12 +9,22 @@ export async function registerStudent(studentDTO) {
         body: JSON.stringify(studentDTO)
     });
 
+    const contentType = response.headers.get('Content-Type') || '';
+
     if (!response.ok) {
-        const errBody = await response.json();
-        // procura em message primeiro, depois em error, senão status
+        let errBody;
+        if (contentType.includes('application/json')) {
+            errBody = await response.json();
+        } else {
+            const text = await response.text();
+            errBody = {message: text};
+        }
         const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
         throw new Error(errMsg);
     }
-
-    return response.json();
+    if (contentType.includes('application/json')) {
+        return response.json();
+    } else {
+        return response.text();
+    }
 }

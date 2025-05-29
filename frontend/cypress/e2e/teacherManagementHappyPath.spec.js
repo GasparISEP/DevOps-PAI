@@ -1,6 +1,6 @@
 describe('Teachers Management - Happy Path', () => {
     beforeEach(() => {
-        cy.viewport(1440, 1200)
+        cy.viewport(1440, 1440);
         cy.visit('/');
         cy.wait(500);
     })

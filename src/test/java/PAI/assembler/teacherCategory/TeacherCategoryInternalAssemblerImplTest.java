@@ -52,5 +52,4 @@ class TeacherCategoryInternalAssemblerImplTest {
         assertEquals("Teacher Category cannot be null", exception.getMessage());
     }
 
-
 }
