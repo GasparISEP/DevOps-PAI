@@ -16,14 +16,12 @@ const NavBar = () => {
   return (
     <div className="main-navbar-div">
       <nav className="navbar">
-
         <div className="logo-div">
           <Link to="/"><img className="logo-img" src={logoImage} alt="ISEP logo"/></Link>
         </div>
-
         <ul className="navbar-links-list-div">
           <li className="navbar-dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <span className="navbar-link" tabIndex={0}>
+            <span className={`navbar-link${isDropdownItemHovered ? ' teacher-dropdown-hovered' : ''}`} tabIndex={0}>
               <i className={`fas fa-chalkboard-teacher${isDropdownItemHovered ? ' teacher-icon-hovered' : ''}`}></i> Teacher
             </span>
             <ul className={`navbar-dropdown-menu${isOpen ? ' show' : ''}`}>
@@ -62,7 +60,6 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
-
     </div>
   );
 };
