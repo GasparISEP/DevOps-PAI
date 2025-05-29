@@ -1,6 +1,7 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.controllerRest.CourseEditionRestController;
@@ -21,6 +22,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
@@ -40,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CourseEditionRestController.class)
@@ -78,6 +82,10 @@ class CourseEditionRestControllerTest {
     @MockBean
     private ICourseEditionService courseEditionService;
 
+    @MockBean
+    private ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+
+    @MockBean
     private CourseEditionEnrolmentDto validEnrolmentDto;
 
     @BeforeEach
@@ -429,28 +437,37 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$._date").value("12-04-2025"));
     }
 
-
     @Test
-    void whenDefineRucSuccessfullyThenReturnsAccepted() throws Exception {
+    void whenDefineRucSuccessfullyThenReturnsAcceptedWithHateoas() throws Exception {
         // Arrange
         SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "Data Science", "DSD", java.util.UUID.randomUUID(), "ARIT", "Arithmancy", java.time.LocalDate.now());
+                "Data Science", "DSD", UUID.randomUUID(), "ARIT", "Arithmancy", LocalDate.now());
 
         DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB", courseEditionDTO);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID =mock(CourseEditionID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
         when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
         when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
+
+        when(courseEditionHateoasAssembler.toModel(any(DefineRucResponseDTO.class)))
+                .thenAnswer(invocation -> {
+                    DefineRucResponseDTO dto = invocation.getArgument(0);
+                    EntityModel<DefineRucResponseDTO> model = EntityModel.of(dto);
+                    model.add(Link.of("http://localhost/courseeditions/ruc").withRel("define-ruc"));
+                    return model;
+                });
 
         // Act & Assert
         mockMvc.perform(patch("/courseeditions/ruc")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isAccepted())
-                .andExpect(content().string("RUC successfully updated"));
+                .andExpect(jsonPath("$.teacherID").value("AAB"))
+                .andExpect(jsonPath("$.courseEditionDTO.courseName").value("Arithmancy"))
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/ruc"));
     }
 
     @Test
