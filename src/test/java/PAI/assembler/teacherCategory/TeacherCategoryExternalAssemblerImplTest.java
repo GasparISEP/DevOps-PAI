@@ -106,7 +106,8 @@ class TeacherCategoryExternalAssemblerImplTest {
     @Test
     void shouldReturnAnExceptionIfInputIsNull (){
         // arrange
-        TeacherCategoryExternalAssemblerImpl teacherCategoryAssembler = new TeacherCategoryExternalAssemblerImpl();
+        TeacherCategoryExternalAssemblerImpl teacherCategoryAssembler =
+                new TeacherCategoryExternalAssemblerImpl();
 
         // act
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {

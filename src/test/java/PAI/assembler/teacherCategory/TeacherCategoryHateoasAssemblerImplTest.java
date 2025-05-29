@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 class TeacherCategoryHateoasAssemblerImplTest {
 
     @Test
-    void shouldReturnAnEntityModel () throws Exception {
+    void shouldReturnAnEntityModel () {
         //arrange
         TeacherCategoryHateoasAssemblerImpl hateoas = new TeacherCategoryHateoasAssemblerImpl();
 
