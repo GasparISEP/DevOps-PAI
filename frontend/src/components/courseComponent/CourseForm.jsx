@@ -26,7 +26,7 @@ export default function CourseForm() {
     const [availableYears, setAvailableYears] = useState([]);
     const [availableSemesters, setAvailableSemesters] = useState([]);
     const [availableDurations, setAvailableDurations] = useState([]);
-    const [maxECTS, setMaxECTS] = useState(null);
+    const [maxECTS, setMaxECTS] = useState(30);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,6 +35,8 @@ export default function CourseForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [programmeSemesters, setProgrammeSemesters] = useState(null);
+    const [programmeMaxECTS, setProgrammeMaxECTS] = useState(null);
+    const [usedECTS, setUsedECTS] = useState(0);
 
     const cleanNumber = (val) => Number(String(val).replace(/[^\d.-]/g, ''));
 
@@ -73,24 +75,77 @@ export default function CourseForm() {
             setAvailableSemesters([]);
             setAvailableDurations([]);
         }
-    }, [form.curricularYear,programmeSemesters, form.semester]);
+    }, [form.curricularYear, programmeSemesters, form.semester]);
+
+    useEffect(() => {
+        async function fetchAndCalculateUsedECTS() {
+            if (!form.programme || !form.curricularYear || !form.semester) {
+                setUsedECTS(0);
+                return;
+            }
+
+            const selectedProgramme = programmes.find(p => p.acronym === form.programme);
+            if (!selectedProgramme) {
+                setUsedECTS(0);
+                return;
+            }
+
+            try {
+                const res = await fetch(`${process.env.REACT_APP_API_URL}/course-in-study-plan/${encodeURIComponent(selectedProgramme.acronym)}/${encodeURIComponent(selectedProgramme.name)}`);
+                if (!res.ok) throw new Error('Failed to fetch courses in study plan');
+                const courses = await res.json();
+
+                // Filtra cursos para ano e semestre selecionados
+                const filteredCourses = courses.filter(course =>
+                    Number(course.curricularYear) === Number(form.curricularYear) &&
+                    Number(course.semester) === Number(form.semester)
+                );
+
+                // Soma os ECTS usados nesse semestre
+                const totalUsedECTS = filteredCourses.reduce((acc, curr) => acc + (Number(curr.credits) || 0), 0);
+
+                setUsedECTS(totalUsedECTS);
+
+            } catch (err) {
+                console.error(err);
+                setUsedECTS(0);
+            }
+        }
+
+        fetchAndCalculateUsedECTS();
+    }, [form.programme, form.curricularYear, form.semester]);
+
+
+    const remainingECTS = (typeof maxECTS === 'number' && typeof usedECTS === 'number')
+        ? maxECTS - usedECTS
+        : 30;
 
     async function fetchProgrammeDetails(acronym, name) {
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}/programmes/${encodeURIComponent(name)}/${encodeURIComponent(acronym)}`);
             const data = await res.json();
 
-            if (data && data.quantSemesters && data.quantSemesters.quantityOfSemesters) {
+            if (data && data.quantSemesters?.quantityOfSemesters) {
                 const quant = data.quantSemesters.quantityOfSemesters;
                 const semesters = Array.from({ length: quant }, (_, i) => i + 1);
                 const estimatedYears = Math.ceil(quant / 2);
                 const years = Array.from({ length: estimatedYears }, (_, i) => i + 1);
-                const durations = [1,2];
+                const durations = [1, 2];
 
                 setAvailableSemesters(semesters);
                 setAvailableYears(years);
                 setAvailableDurations(durations);
-                setMaxECTS(data.maxEcts?.maxEcts || null);
+                const totalProgrammeECTS = data.maxEcts?.maxEcts;
+
+                const defaultECTSPerSemester = 30;
+                const quantSemesters = data.quantSemesters?.quantityOfSemesters || 0;
+
+                const ectsPerSemester = (totalProgrammeECTS && quantSemesters)
+                    ? Math.round(totalProgrammeECTS / quantSemesters)
+                    : defaultECTSPerSemester;
+
+                setProgrammeMaxECTS(totalProgrammeECTS || null);
+                setMaxECTS(ectsPerSemester);
                 setProgrammeSemesters(quant);
             }
         } catch (err) {
@@ -99,26 +154,47 @@ export default function CourseForm() {
     }
 
     function handleChange(e) {
-        const { name, value } = e.target;
-        setForm(prev => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
 
-        if (name === "semester") {
-            const parsedSemester = Number(value);
-            updateDurationsWithSemesterAndProgramme(parsedSemester, programmeSemesters);
-        }
-        if (name === "programme") {
+        setForm(prev => {
+            const newForm = {...prev, [name]: value};
 
-            const selectedProgramme = programmes.find(p => p.acronym === value);
-            if (selectedProgramme) {
-                fetchProgrammeDetails(selectedProgramme.acronym, selectedProgramme.name);
-            } else {
-                setAvailableYears([]);
-                setAvailableSemesters([]);
-                setAvailableDurations([]);
-                setMaxECTS(null);
+            if (name === "programme") {
+                const selectedProgramme = programmes.find(p => p.acronym === value);
+                if (selectedProgramme) {
+                    fetchProgrammeDetails(selectedProgramme.acronym, selectedProgramme.name);
+                    newForm.qtdECTS = '';
+                } else {
+                    setAvailableYears([]);
+                    setAvailableSemesters([]);
+                    setAvailableDurations([]);
+                    setMaxECTS(null);
+                    newForm.qtdECTS = '';
+                }
             }
 
-        }
+            if (name === "semester") {
+                const parsedSemester = Number(value);
+                updateDurationsWithSemesterAndProgramme(parsedSemester, programmeSemesters);
+            }
+
+            if (name === "qtdECTS") {
+                let valNum = Number(value);
+
+                if (isNaN(valNum) || valNum < 0) {
+
+                    newForm.qtdECTS = '';
+                } else if (remainingECTS !== null && valNum > remainingECTS) {
+
+                    newForm.qtdECTS = String(remainingECTS);
+                } else {
+                    newForm.qtdECTS = value;
+                }
+            }
+
+            return newForm;
+        });
+
     }
 
     function handleClear() {
@@ -182,8 +258,8 @@ export default function CourseForm() {
             return;
         }
 
-        if (maxECTS && parsedECTS > maxECTS) {
-            setError(`ECTS value cannot exceed the programme's maximum of ${maxECTS}.`);
+        if (parsedECTS > remainingECTS) {
+            setError(`ECTS value cannot exceed the remaining ${remainingECTS} ECTS for this semester.`);
             setLoading(false);
             return;
         }
@@ -240,7 +316,7 @@ export default function CourseForm() {
                 <form className="form" onSubmit={handleSubmit}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem'}}>
                         <h1 style={{ margin: 0 }}>Register a Course</h1>
-                        <Link to="/"  className="pagination-btn2 pagination-btn-secondary" style={{textDecoration: 'none'}}>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{textDecoration: 'none'}}>
                             Back to Home Page
                         </Link>
                     </div>
@@ -252,8 +328,7 @@ export default function CourseForm() {
                             <CurricularYearSelector years={availableYears} value={form.curricularYear} onChange={handleChange} />
                             <SemesterSelector semesters={availableSemesters} value={form.semester} onChange={handleChange} />
                             <DurationSelector value={form.duration} onChange={handleChange} durations={availableDurations} />
-                            <ECTSInput value={form.qtdECTS} onChange={handleChange} maxECTS={maxECTS} />
-
+                            <ECTSInput value={form.qtdECTS} onChange={handleChange} maxECTS={remainingECTS} />
 
                             {error && !showErrorModal && <div className="error">{error}</div>}
 
@@ -261,9 +336,7 @@ export default function CourseForm() {
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
-                                    onClick={() => {
-                                        handleClear();
-                                    }}
+                                    onClick={handleClear}
                                 >
                                     CLEAR
                                 </button>
@@ -272,7 +345,6 @@ export default function CourseForm() {
                                 </button>
                             </div>
                         </div>
-
 
                         {showModal && successData && (
                             <div className="modal-overlay">
@@ -290,9 +362,8 @@ export default function CourseForm() {
                                     </div>
                                     <button className="modal-btn" onClick={() => {
                                         setShowModal(false);
-                                    handleClear();
-                                    }}
-                                        >Close</button>
+                                        handleClear();
+                                    }}>Close</button>
                                 </div>
                             </div>
                         )}
@@ -305,10 +376,9 @@ export default function CourseForm() {
                                     <button className="modal-btn" onClick={() =>{
                                         setShowErrorModal(false);
                                         setError('');
-                                        setErrorMessage('')
-                                    }}
-                                    >
-                                    Close</button>
+                                        setErrorMessage('');
+                                    }}>
+                                        Close</button>
                                 </div>
                             </div>
                         )}
