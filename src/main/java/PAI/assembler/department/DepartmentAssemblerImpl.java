@@ -56,6 +56,13 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
         if (department == null) {
             throw new IllegalArgumentException("Department cannot be null");
         }
+        if (department.getDirectorID() == null) {
+            return new DepartmentWithDirectorDTO(
+                    department.identity().getAcronym().getAcronym(),
+                    department.getName().getName(),
+                    department.getAcronym().getAcronym(),
+                    "No Director Assigned");
+        }
         return new DepartmentWithDirectorDTO(
                 department.identity().getAcronym().getAcronym(),
                 department.getName().getName(),
