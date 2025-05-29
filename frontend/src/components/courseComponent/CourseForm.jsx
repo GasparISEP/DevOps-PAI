@@ -241,7 +241,7 @@ export default function CourseForm() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem'}}>
                         <h1 style={{ margin: 0 }}>Register a Course</h1>
                         <Link to="/"  className="pagination-btn2 pagination-btn-secondary" style={{textDecoration: 'none'}}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
