@@ -55,15 +55,8 @@ export default function TeacherForm() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        if (name === 'postalCode' || name === 'postalBox') {
-            // Split the value into two parts if needed
-            let postalCode1 = name === 'postalCode' ? value : form.postalCode.split('-')[0] || '';
-            let postalCode2 = name === 'postalBox' ? value : form.postalCode.split('-')[1] || '';
-            let combined = postalCode2 ? `${postalCode1}-${postalCode2}` : postalCode1;
-            setForm(f => ({ ...f, postalCode: combined }));
-        } else {
-            setForm(f => ({ ...f, [name]: value }));
-        }
+        setForm(f => ({ ...f, [name]: value }));
+
     }
 
     useEffect(() => {
@@ -185,27 +178,16 @@ export default function TeacherForm() {
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="postalCode">Postal Code</label>
-                                <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
-                                    <input
-                                        className="form-input"
-                                        placeholder="Enter Postal Code"
-                                        id="postalCode"
-                                        name="postalCode"
-                                        value={form.postalCode.split('-')[0] || ''}
-                                        onChange={handleChange}
-                                        required
-                                        style={{ flex: 1 }}
-                                    />
-                                    <input
-                                        className="form-input"
-                                        placeholder="Enter Postal Code"
-                                        id="postalBox"
-                                        name="postalBox"
-                                        value={form.postalCode.split('-')[1] || ''}
-                                        onChange={handleChange}
-                                        style={{ flex: 1 }}
-                                    />
-                                </div>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Postal Code"
+                                    id="postalCode"
+                                    name="postalCode"
+                                    value={form.postalCode || ''}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '100%' }}
+                                />
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
