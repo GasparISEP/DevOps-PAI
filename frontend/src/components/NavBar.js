@@ -5,9 +5,13 @@ import logoImage from "../assets/images/ISEP_logo.png";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownItemHovered, setIsDropdownItemHovered] = useState(false);
 
   const handleMouseEnter = () => setIsOpen(true);
-  const handleMouseLeave = () => setIsOpen(false);
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+    setIsDropdownItemHovered(false);
+  };
 
   return (
     <div className="main-navbar-div">
@@ -20,15 +24,21 @@ const NavBar = () => {
         <ul className="navbar-links-list-div">
           <li className="navbar-dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <span className="navbar-link" tabIndex={0}>
-              <i className="fas fa-chalkboard-teacher"></i> Teacher
+              <i className={`fas fa-chalkboard-teacher${isDropdownItemHovered ? ' teacher-icon-hovered' : ''}`}></i> Teacher
             </span>
             <ul className={`navbar-dropdown-menu${isOpen ? ' show' : ''}`}>
-              <li>
+              <li
+                onMouseEnter={() => setIsDropdownItemHovered(true)}
+                onMouseLeave={() => setIsDropdownItemHovered(false)}
+              >
                 <Link to="/teachers/register" className="navbar-link" onClick={() => setIsOpen(false)}>
                   Register Teacher
                 </Link>
               </li>
-              <li>
+              <li
+                onMouseEnter={() => setIsDropdownItemHovered(true)}
+                onMouseLeave={() => setIsDropdownItemHovered(false)}
+              >
                 <Link to="/teachers/display" className="navbar-link" onClick={() => setIsOpen(false)}>
                   Display Teachers
                 </Link>
