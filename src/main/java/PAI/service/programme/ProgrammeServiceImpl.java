@@ -2,6 +2,7 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
+import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
@@ -9,7 +10,9 @@ import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,9 +24,12 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     private final IProgrammeFactory _programmeFactory;
     private final IProgrammeRepository _programmeRepository;
-    private IProgrammeAssembler _programmeAssembler;
+    private final IProgrammeAssembler _programmeAssembler;
+    private final IDegreeTypeRegistrationService _degreeTypeService;
 
-    public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository, IProgrammeAssembler programmeAssembler) {
+    public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,
+                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService) {
+
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
         }
@@ -38,6 +44,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             throw new IllegalArgumentException("Programme Assembler cannot be null");
 
         this._programmeAssembler = programmeAssembler;
+
+        if (degreeTypeService == null)
+            throw new IllegalArgumentException("Degree Type Registration Service cannot be null");
+
+        _degreeTypeService = degreeTypeService;
     }
 
     public Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
@@ -49,6 +60,15 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         DegreeTypeID degreeTypeID = programmeVOsDTO.degreeTypeID();
         DepartmentID departmentID = programmeVOsDTO.departmentID();
         TeacherID teacherID = programmeVOsDTO.teacherID();
+
+        DegreeType degreeType = _degreeTypeService.getDegreeTypeById(degreeTypeID)
+                .orElseThrow(() -> new Exception("Degree type not found"));
+
+        if (!areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType)) {
+            throw new BusinessRuleViolationException(
+                    String.format("Invalid number of semesters for Degree Type: %s",
+                            degreeType.getName().getName()));
+        }
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
@@ -167,5 +187,22 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return _programmeRepository.ofIdentity(id)
                 .map(_programmeAssembler::fromDomainToDTO)
                 .orElseThrow(() -> new NotFoundException("The Programme with ID " + id + " was not found"));
+    }
+
+    private boolean areQtyOfSemesterAndDegreeTypeAligned (QuantSemesters semesters, DegreeType degreeType) {
+
+        String degreeTypeName = degreeType.getName().getName();
+        int quantityOfSemesters = semesters.getQuantityOfSemesters();
+
+        if (degreeTypeName.equals("Bachelor") && (quantityOfSemesters < 6 || quantityOfSemesters > 8))
+            return false;
+        if (degreeTypeName.equals("Master") && (quantityOfSemesters < 2 || quantityOfSemesters > 4))
+            return false;
+        if (degreeTypeName.equals("Integrated Master") && (quantityOfSemesters < 10 || quantityOfSemesters > 12))
+            return false;
+        if (degreeTypeName.equals("PhD") && (quantityOfSemesters < 6 || quantityOfSemesters > 8))
+            return false;
+
+        return true;
     }
 }

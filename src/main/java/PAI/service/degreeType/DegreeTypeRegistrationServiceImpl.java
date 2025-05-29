@@ -1,11 +1,14 @@
 package PAI.service.degreeType;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class DegreeTypeRegistrationServiceImpl implements IDegreeTypeRegistrationService{
@@ -51,4 +54,8 @@ public class DegreeTypeRegistrationServiceImpl implements IDegreeTypeRegistratio
         return _degreeTypeRepository.findAll();
     }
 
+    @Override
+    public Optional<DegreeType> getDegreeTypeById(DegreeTypeID id) {
+        return _degreeTypeRepository.ofIdentity(id);
+    }
 }

@@ -161,21 +161,6 @@ public class StudentRepositoryImplSpringDataTest {
         assertTrue(result);
     }
 
-    @Test
-    public void testContainsByStudentIDOrNIF() {
-        // Arrange
-        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-        when(nifMapperImpl.domainToDataModel(nif)).thenReturn(nifDataModel);
-        when(repoMock.existsByStudentID(studentIDDataModel)).thenReturn(true);
-        when(repoMock.existsByNIF_NifNumberAndNIF_NifCountry(anyString(), anyString())).thenReturn(false);
-        when(nif.getCountry()).thenReturn(mock(Country.class));
-
-        // Act
-        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
-
-        // Assert
-        assertTrue(result);
-    }
 
     @Test
     public void testContainsOfIdentityReturnsFalseWhenStudentDoesNotExist() {
@@ -305,6 +290,52 @@ public class StudentRepositoryImplSpringDataTest {
 
         //Assert
         assertEquals("Failed to convert StudentDataModel to Student", exception.getMessage());
+    }
+
+    @Test
+    void testExistsByStudentIDOrNIFReturnsFalseWhenNeitherExists() {
+        // Arrange
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(nif.getNIF()).thenReturn("123123123");
+        when(nif.getCountry()).thenReturn(mock(Country.class));
+        when(nif.getCountry().toString()).thenReturn("PT");
+        when(repoMock.existsByStudentID(studentIDDataModel)).thenReturn(false);
+        when(repoMock.existsByNIF_NifNumberAndNIF_NifCountry("123123123", "PT")).thenReturn(false);
+
+        // Act
+        boolean result = repository.existsByStudentIDOrNIF(studentID, nif);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testExistsByStudentIDOrNIFThrowsWhenStudentIDExists() {
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(nif.getNIF()).thenReturn("123123123");
+        when(nif.getCountry()).thenReturn(mock(Country.class));
+        when(nif.getCountry().toString()).thenReturn("PT");
+        when(repoMock.existsByStudentID(studentIDDataModel)).thenReturn(true);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            repository.existsByStudentIDOrNIF(studentID, nif);
+        });
+        assertEquals("StudentID already exists!", ex.getMessage());
+    }
+
+    @Test
+    void testExistsByStudentIDOrNIFThrowsWhenNIFExists() {
+        when(studentIDMapperImpl.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(nif.getNIF()).thenReturn("123123123");
+        when(nif.getCountry()).thenReturn(mock(Country.class));
+        when(nif.getCountry().toString()).thenReturn("PT");
+        when(repoMock.existsByStudentID(studentIDDataModel)).thenReturn(false);
+        when(repoMock.existsByNIF_NifNumberAndNIF_NifCountry("123123123", "PT")).thenReturn(true);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            repository.existsByStudentIDOrNIF(studentID, nif);
+        });
+        assertEquals("NIF already exists!", ex.getMessage());
     }
 
     @Test
