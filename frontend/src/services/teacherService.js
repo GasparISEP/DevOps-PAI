@@ -18,7 +18,7 @@ export async function registerTeacher(teacherDTO) {
         } else {
             responseData = await response.text();
         }
-        throw new Error(responseData);
+        throw new Error(responseData.message || responseData);
     }
 
     try {
