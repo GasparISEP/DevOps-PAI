@@ -13,7 +13,7 @@ public class TeacherCategoryInternalAssemblerImpl implements ITeacherCategoryInt
             throw new IllegalArgumentException("Teacher Category cannot be null");
         }
 
-        String id = teacherCategory.getId().getValue().toString();
+        String id = teacherCategory.identity().getValue().toString();
         String name = teacherCategory.getName().getName();
 
         return new TeacherCategoryDTO(id, name);

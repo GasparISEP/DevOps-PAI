@@ -308,7 +308,7 @@ class TeacherCategoryRepositoryImplTest {
         when(name.getName()).thenReturn("Assistant Professor");
         when(id.getValue()).thenReturn(UUID.randomUUID());
         when(category.getName()).thenReturn(name);
-        when(category.getId()).thenReturn(id);
+        when(category.identity()).thenReturn(id);
         when(category.identity()).thenReturn(id);
         repository.save(category);
 
@@ -356,7 +356,7 @@ class TeacherCategoryRepositoryImplTest {
         when(doubleName2.getName()).thenReturn("Auxiliary Professor");
 
         when(doubleTeacherCategory.getName()).thenReturn(doubleName);
-        when(doubleTeacherCategory.getId()).thenReturn(doubleTeacherCategoryId);
+        when(doubleTeacherCategory.identity()).thenReturn(doubleTeacherCategoryId);
 
         repository.save(doubleTeacherCategory);
 

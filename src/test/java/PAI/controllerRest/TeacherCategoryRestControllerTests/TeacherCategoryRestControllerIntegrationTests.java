@@ -129,7 +129,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
 
         repository.save(category);
 
-        String uri = "/teachercategories/" + category.getId().getValue().toString();
+        String uri = "/teachercategories/" + category.identity().getValue().toString();
 
         MvcResult result = mockMvc.perform(get(uri)).andReturn();
 
