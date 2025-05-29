@@ -1,6 +1,6 @@
 describe('Teachers Management - Happy Path', () => {
     beforeEach(() => {
-        //garante que a app está no estado inicial
+        cy.viewport(1440, 1200)
         cy.visit('/');
         cy.wait(500);
     })
