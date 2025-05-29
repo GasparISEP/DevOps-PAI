@@ -42,8 +42,9 @@ class TeacherCategoryRequestDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        //act
         TeacherCategoryRequestDTO dto = new TeacherCategoryRequestDTO(null);
+
+        //act
         Set<ConstraintViolation<TeacherCategoryRequestDTO>> violations = validator.validate(dto);
 
         //assert
@@ -57,8 +58,9 @@ class TeacherCategoryRequestDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        //act
         TeacherCategoryRequestDTO dto = new TeacherCategoryRequestDTO(" ");
+
+        //act
         Set<ConstraintViolation<TeacherCategoryRequestDTO>> violations = validator.validate(dto);
 
         //assert
@@ -72,8 +74,9 @@ class TeacherCategoryRequestDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        //act
         TeacherCategoryRequestDTO dto = new TeacherCategoryRequestDTO("12");
+
+        //act
         Set<ConstraintViolation<TeacherCategoryRequestDTO>> violations = validator.validate(dto);
 
         //assert
@@ -87,8 +90,9 @@ class TeacherCategoryRequestDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        //act
         TeacherCategoryRequestDTO dto = new TeacherCategoryRequestDTO("a".repeat(256));
+
+        //act
         Set<ConstraintViolation<TeacherCategoryRequestDTO>> violations = validator.validate(dto);
 
         //assert
