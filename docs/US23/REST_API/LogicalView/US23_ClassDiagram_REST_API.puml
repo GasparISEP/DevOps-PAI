@@ -28,21 +28,6 @@ class StudentGradeService {
         +containsOfIdentity(StudentGradeID id)
 }
 
-class StudentGradeResponseDTO {
-      -studentGradeId : String
-      -courseEditionId : String
-      -programmeEditionId : String
-      -courseInStudyPlanID : String
-      -programmeId : String
-      -schoolYearId : String
-      -courseId : String
-      -studyPlanId : String
-      -studentUniqueNumber : int
-      -grade : int
-      -date : String
-}
-
-
 package "StudentGrade" {
     entity "<<root>>\nGradeStudent" {
         +hasThisCourseEdition(CourseEdition : CourseEdition)
@@ -184,6 +169,5 @@ IStudentGradeRepositoryInterface ....> IStudentGradeFactory
 IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
 IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
 CourseEditionRESTController "*" ..> "1" IStudentGradeService
-StudentGradeService ..> StudentGradeResponseDTO
 
 @enduml
