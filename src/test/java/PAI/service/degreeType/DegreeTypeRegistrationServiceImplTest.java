@@ -1,15 +1,22 @@
 package PAI.service.degreeType;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
+import PAI.domain.degreeType.DegreeTypeFactoryImpl;
 import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.dto.degreeType.RegisterDegreeTypeCommand;
 import PAI.exception.BusinessRuleViolationException;
+import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
+import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
+import PAI.persistence.springdata.degreeType.DegreeTypeRepoSpringData;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -174,5 +181,26 @@ class DegreeTypeRegistrationServiceImplTest {
         assertTrue(listResult.contains(dt1));
         assertTrue(listResult.contains(dt2));
         assertTrue(listResult.contains(dt3));
+    }
+
+    @Test
+    void getDegreeTypeById_ShouldReturnDegreeTypeByItsId () {
+        // Arrange
+        IDegreeTypeFactory factory = mock(DegreeTypeFactoryImpl.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(DegreeTypeRepoSpringData.class);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(factory, degreeTypeRepository);
+
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DegreeType degreeType = mock(DegreeType.class);
+
+
+        when(degreeTypeRepository.ofIdentity(degreeTypeID)).thenReturn(Optional.of(degreeType));
+
+        // Act
+        Optional<DegreeType> result = degreeTypeRegistrationService.getDegreeTypeById(degreeTypeID);
+
+
+        // Assert
+        assertTrue(result.isPresent());
     }
 }
