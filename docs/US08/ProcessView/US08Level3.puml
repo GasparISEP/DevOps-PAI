@@ -4,37 +4,28 @@ autonumber
 
 title As an ASC I want to register a Student in the System \n (Process View Level 3)
 
-actor ASC as Admin
-participant "UI" as UI #lightblue
+participant "Router" as RO #lightblue
 participant "Controller" as C #lightgreen
 participant "Service" as S #lightblue
 participant "Repository" as R #lightyellow
 participant "Domain" as D #lightpink
-participant "Database" as BD #lightyellow
 
-activate Admin
-Admin -> UI ++: Request to register a Student
+[o-> RO ++: (POST) Request Register\nStudent in the System
 
-Admin -> UI ++: Fill Student Form (Unique Number, Name, NIF, Phone, \nEmail, Street, Postal Code, Location, Country)
-
-UI -> C ++: Submit Student Form
+RO -> C ++: Submit Student Form
 C -> S ++: Register Student
 
 S -> D ++: Create Student
 D --> S --: Student
 
 S -> R ++: Check if Student exists
-R -> BD ++: Check if Student exists
-BD --> R --: Student does not exist
 R --> S --: Student does not exist
 
 S -> R ++: Save Student
-R -> BD ++: Save Student
-BD --> R --: Saved Student
 R --> S --: Saved Student
 
 S --> C --: Saved Student
-C --> UI --: Saved Student
-UI --> Admin --: Student registered successfully!
+C --> RO --: Saved Student
+[o<-- RO --: (201 OK) Student registered successfully!
 
 @enduml

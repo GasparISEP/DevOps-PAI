@@ -6,15 +6,14 @@ import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.dto.teacher.RegisterTeacherCommandDTO;
-import PAI.dto.teacher.RegisterTeacherRequestDTO;
-import PAI.dto.teacher.TeacherDTO;
+import PAI.dto.teacher.*;
 import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.teacher.ITeacherRegistrationService;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import PAI.service.teacher.ITeacherWithRelevantDataService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 class TeacherRestControllerTest {
 
@@ -34,7 +34,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService,teacherWithRelevantDataAssembler);
         // Act + Assert
         assertNotNull(controller);
     }
@@ -46,7 +48,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         Teacher teacher1 = mock(Teacher.class);
         Teacher teacher2 = mock(Teacher.class);
@@ -81,7 +85,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         List<Teacher> teachers = List.of();
         List<TeacherDTO> teacherDTOs = List.of();
@@ -105,7 +111,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         String errorMessage = "Invalid input data";
 
@@ -127,7 +135,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         when(teacherService.getAllTeachers()).thenThrow(new RuntimeException());
 
@@ -147,7 +157,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -250,7 +262,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -300,7 +314,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -334,7 +350,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -368,7 +386,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
@@ -392,7 +412,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
@@ -412,7 +434,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, categoryAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
 
@@ -432,7 +456,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, careerService, categoryAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
@@ -456,7 +482,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -482,7 +510,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -505,7 +535,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
 
@@ -526,7 +558,9 @@ class TeacherRestControllerTest {
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -542,4 +576,212 @@ class TeacherRestControllerTest {
         assertEquals("Unexpected error", exception.getReason());
     }
 
+    @Test
+    void shouldReturnValidResponseWhenRegisterTeacherWithRelevantData () throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
+        TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
+        TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        Name name = mock(Name.class);
+        Email email = mock(Email.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phoneNumber = mock(PhoneNumber.class);
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        Street street = mock(Street.class);
+        PostalCode postalCode = mock(PostalCode.class);
+        Location location = mock(Location.class);
+        Country addressCountry = mock(Country.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Date date = mock(Date.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        WorkingPercentage workingPercentage = mock(WorkingPercentage.class);
+
+        when(teacherWithRelevantDataAssembler.toTeacherID(teacherWithRelevantDataRequestDTO.id())).thenReturn(teacherID);
+        when(teacherWithRelevantDataAssembler.toName(teacherWithRelevantDataRequestDTO.name())).thenReturn(name);
+        when(teacherWithRelevantDataAssembler.toEmail(teacherWithRelevantDataRequestDTO.email())).thenReturn(email);
+        when(teacherWithRelevantDataAssembler.toNif(teacherWithRelevantDataRequestDTO.nif(), teacherWithRelevantDataRequestDTO.country())).thenReturn(nif);
+        when(teacherWithRelevantDataAssembler.toPhoneNumber(teacherWithRelevantDataRequestDTO.countryCode(), teacherWithRelevantDataRequestDTO.phoneNumber())).thenReturn(phoneNumber);
+        when(teacherWithRelevantDataAssembler.toAcademicBackground(teacherWithRelevantDataRequestDTO.academicBackground())).thenReturn(academicBackground);
+        when(teacherWithRelevantDataAssembler.toStreet(teacherWithRelevantDataRequestDTO.street())).thenReturn(street);
+        when(teacherWithRelevantDataAssembler.toPostalCode(teacherWithRelevantDataRequestDTO.postalCode())).thenReturn(postalCode);
+        when(teacherWithRelevantDataAssembler.toLocation(teacherWithRelevantDataRequestDTO.location())).thenReturn(location);
+        when(teacherWithRelevantDataAssembler.toCountry(teacherWithRelevantDataRequestDTO.country())).thenReturn(addressCountry);
+        when(teacherWithRelevantDataAssembler.toDepartmentID(teacherWithRelevantDataRequestDTO.departmentID())).thenReturn(departmentID);
+        when(teacherWithRelevantDataAssembler.toDate(teacherWithRelevantDataRequestDTO.date())).thenReturn(date);
+        when(teacherWithRelevantDataAssembler.toTeacherCategoryID(teacherWithRelevantDataRequestDTO.teacherCategoryID())).thenReturn(teacherCategoryID);
+        when(teacherWithRelevantDataAssembler.toWorkingPercentage(teacherWithRelevantDataRequestDTO.workingPercentage())).thenReturn(workingPercentage);
+        when(teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, addressCountry, departmentID, date, teacherCategoryID, workingPercentage)).thenReturn(teacherWithRelevantDataDTO);
+
+        //Act
+        ResponseEntity<?> response = controller.registerTeacherWithRelevantData(teacherWithRelevantDataRequestDTO);
+
+        //Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(teacherWithRelevantDataDTO, response.getBody());
+    }
+
+    @Test
+    void shouldReturnConflictWhenBusinessRuleViolationExceptionWhenRegisterTeacherWithRelevantData() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
+        TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
+        TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        Name name = mock(Name.class);
+        Email email = mock(Email.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phoneNumber = mock(PhoneNumber.class);
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        Street street = mock(Street.class);
+        PostalCode postalCode = mock(PostalCode.class);
+        Location location = mock(Location.class);
+        Country addressCountry = mock(Country.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Date date = mock(Date.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        WorkingPercentage workingPercentage = mock(WorkingPercentage.class);
+
+        when(teacherWithRelevantDataAssembler.toTeacherID(teacherWithRelevantDataRequestDTO.id())).thenReturn(teacherID);
+        when(teacherWithRelevantDataAssembler.toName(teacherWithRelevantDataRequestDTO.name())).thenReturn(name);
+        when(teacherWithRelevantDataAssembler.toEmail(teacherWithRelevantDataRequestDTO.email())).thenReturn(email);
+        when(teacherWithRelevantDataAssembler.toNif(teacherWithRelevantDataRequestDTO.nif(), teacherWithRelevantDataRequestDTO.country())).thenReturn(nif);
+        when(teacherWithRelevantDataAssembler.toPhoneNumber(teacherWithRelevantDataRequestDTO.countryCode(), teacherWithRelevantDataRequestDTO.phoneNumber())).thenReturn(phoneNumber);
+        when(teacherWithRelevantDataAssembler.toAcademicBackground(teacherWithRelevantDataRequestDTO.academicBackground())).thenReturn(academicBackground);
+        when(teacherWithRelevantDataAssembler.toStreet(teacherWithRelevantDataRequestDTO.street())).thenReturn(street);
+        when(teacherWithRelevantDataAssembler.toPostalCode(teacherWithRelevantDataRequestDTO.postalCode())).thenReturn(postalCode);
+        when(teacherWithRelevantDataAssembler.toLocation(teacherWithRelevantDataRequestDTO.location())).thenReturn(location);
+        when(teacherWithRelevantDataAssembler.toCountry(teacherWithRelevantDataRequestDTO.country())).thenReturn(addressCountry);
+        when(teacherWithRelevantDataAssembler.toDepartmentID(teacherWithRelevantDataRequestDTO.departmentID())).thenReturn(departmentID);
+        when(teacherWithRelevantDataAssembler.toDate(teacherWithRelevantDataRequestDTO.date())).thenReturn(date);
+        when(teacherWithRelevantDataAssembler.toTeacherCategoryID(teacherWithRelevantDataRequestDTO.teacherCategoryID())).thenReturn(teacherCategoryID);
+        when(teacherWithRelevantDataAssembler.toWorkingPercentage(teacherWithRelevantDataRequestDTO.workingPercentage())).thenReturn(workingPercentage);
+        when(teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, addressCountry, departmentID, date, teacherCategoryID, workingPercentage)).thenThrow(new BusinessRuleViolationException("Teacher already exists"));
+
+        //Act
+        ResponseEntity<?> response = controller.registerTeacherWithRelevantData(teacherWithRelevantDataRequestDTO);
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals(409, response.getStatusCodeValue());
+        assertEquals("Teacher already exists", response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentWhenRegisteringTeacherWithRelevantData() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
+        TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
+        TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        Name name = mock(Name.class);
+        Email email = mock(Email.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phoneNumber = mock(PhoneNumber.class);
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        Street street = mock(Street.class);
+        PostalCode postalCode = mock(PostalCode.class);
+        Location location = mock(Location.class);
+        Country addressCountry = mock(Country.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Date date = mock(Date.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        WorkingPercentage workingPercentage = mock(WorkingPercentage.class);
+
+        when(teacherWithRelevantDataAssembler.toTeacherID(teacherWithRelevantDataRequestDTO.id())).thenReturn(teacherID);
+        when(teacherWithRelevantDataAssembler.toName(teacherWithRelevantDataRequestDTO.name())).thenReturn(name);
+        when(teacherWithRelevantDataAssembler.toEmail(teacherWithRelevantDataRequestDTO.email())).thenReturn(email);
+        when(teacherWithRelevantDataAssembler.toNif(teacherWithRelevantDataRequestDTO.nif(), teacherWithRelevantDataRequestDTO.country())).thenReturn(nif);
+        when(teacherWithRelevantDataAssembler.toPhoneNumber(teacherWithRelevantDataRequestDTO.countryCode(), teacherWithRelevantDataRequestDTO.phoneNumber())).thenReturn(phoneNumber);
+        when(teacherWithRelevantDataAssembler.toAcademicBackground(teacherWithRelevantDataRequestDTO.academicBackground())).thenReturn(academicBackground);
+        when(teacherWithRelevantDataAssembler.toStreet(teacherWithRelevantDataRequestDTO.street())).thenReturn(street);
+        when(teacherWithRelevantDataAssembler.toPostalCode(teacherWithRelevantDataRequestDTO.postalCode())).thenReturn(postalCode);
+        when(teacherWithRelevantDataAssembler.toLocation(teacherWithRelevantDataRequestDTO.location())).thenReturn(location);
+        when(teacherWithRelevantDataAssembler.toCountry(teacherWithRelevantDataRequestDTO.country())).thenReturn(addressCountry);
+        when(teacherWithRelevantDataAssembler.toDepartmentID(teacherWithRelevantDataRequestDTO.departmentID())).thenReturn(departmentID);
+        when(teacherWithRelevantDataAssembler.toDate(teacherWithRelevantDataRequestDTO.date())).thenReturn(date);
+        when(teacherWithRelevantDataAssembler.toTeacherCategoryID(teacherWithRelevantDataRequestDTO.teacherCategoryID())).thenReturn(teacherCategoryID);
+        when(teacherWithRelevantDataAssembler.toWorkingPercentage(teacherWithRelevantDataRequestDTO.workingPercentage())).thenReturn(workingPercentage);
+        when(teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, addressCountry, departmentID, date, teacherCategoryID, workingPercentage)).thenThrow(new IllegalArgumentException("Invalid id"));
+
+        //Act
+        ResponseEntity<?> response = controller.registerTeacherWithRelevantData(teacherWithRelevantDataRequestDTO);
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Invalid id", response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionWhenRegisteringTeacherWithRelevantData() throws Exception {
+        // Arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler);
+        TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
+        TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        Name name = mock(Name.class);
+        Email email = mock(Email.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phoneNumber = mock(PhoneNumber.class);
+        AcademicBackground academicBackground = mock(AcademicBackground.class);
+        Street street = mock(Street.class);
+        PostalCode postalCode = mock(PostalCode.class);
+        Location location = mock(Location.class);
+        Country addressCountry = mock(Country.class);
+        DepartmentID departmentID = mock(DepartmentID.class);
+        Date date = mock(Date.class);
+        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
+        WorkingPercentage workingPercentage = mock(WorkingPercentage.class);
+
+        when(teacherWithRelevantDataAssembler.toTeacherID(teacherWithRelevantDataRequestDTO.id())).thenReturn(teacherID);
+        when(teacherWithRelevantDataAssembler.toName(teacherWithRelevantDataRequestDTO.name())).thenReturn(name);
+        when(teacherWithRelevantDataAssembler.toEmail(teacherWithRelevantDataRequestDTO.email())).thenReturn(email);
+        when(teacherWithRelevantDataAssembler.toNif(teacherWithRelevantDataRequestDTO.nif(), teacherWithRelevantDataRequestDTO.country())).thenReturn(nif);
+        when(teacherWithRelevantDataAssembler.toPhoneNumber(teacherWithRelevantDataRequestDTO.countryCode(), teacherWithRelevantDataRequestDTO.phoneNumber())).thenReturn(phoneNumber);
+        when(teacherWithRelevantDataAssembler.toAcademicBackground(teacherWithRelevantDataRequestDTO.academicBackground())).thenReturn(academicBackground);
+        when(teacherWithRelevantDataAssembler.toStreet(teacherWithRelevantDataRequestDTO.street())).thenReturn(street);
+        when(teacherWithRelevantDataAssembler.toPostalCode(teacherWithRelevantDataRequestDTO.postalCode())).thenReturn(postalCode);
+        when(teacherWithRelevantDataAssembler.toLocation(teacherWithRelevantDataRequestDTO.location())).thenReturn(location);
+        when(teacherWithRelevantDataAssembler.toCountry(teacherWithRelevantDataRequestDTO.country())).thenReturn(addressCountry);
+        when(teacherWithRelevantDataAssembler.toDepartmentID(teacherWithRelevantDataRequestDTO.departmentID())).thenReturn(departmentID);
+        when(teacherWithRelevantDataAssembler.toDate(teacherWithRelevantDataRequestDTO.date())).thenReturn(date);
+        when(teacherWithRelevantDataAssembler.toTeacherCategoryID(teacherWithRelevantDataRequestDTO.teacherCategoryID())).thenReturn(teacherCategoryID);
+        when(teacherWithRelevantDataAssembler.toWorkingPercentage(teacherWithRelevantDataRequestDTO.workingPercentage())).thenReturn(workingPercentage);
+        when(teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, addressCountry, departmentID, date, teacherCategoryID, workingPercentage)).thenThrow(new RuntimeException("Unexpected error occurred"));
+
+        //Act
+        ResponseEntity<?> response = controller.registerTeacherWithRelevantData(teacherWithRelevantDataRequestDTO);
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(500, response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
 }
