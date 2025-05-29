@@ -28,7 +28,7 @@ public class ApiCapabilitiesCatalog {
         api.put("departments", Map.of(
                 "url", linkTo(PAI.controllerRest.DepartmentRestController.class).toUri().toString(),
                 "roles", Map.of(
-                        "administrator", List.of("GET", "POST", "PATCH", "DELETE"),
+                        "administrator", List.of("GET", "POST", "PATCH"),
                         "departmentDirector", List.of("GET"),
                         "academicServicesCollaborator", List.of("GET"),
                         "ruc", List.of("GET"),
