@@ -1,7 +1,7 @@
 // 🔒 Disable scroll just for this test file
 Cypress.config('scrollBehavior', false);
 
-describe('Student Registration Flow', () => {
+describe('Student Registration Flow - Duplicated NIF', () => {
     // Cypress-friendly highlight + action helper
     function highlightAndAct(chainable, actionCallback) {
         chainable
@@ -36,7 +36,7 @@ describe('Student Registration Flow', () => {
         // Name
         highlightAndAct(
             cy.get('#name').should('be.visible'),
-            $el => $el.type('Bernardina Brito')
+            $el => $el.type('Carlos Miguel')
         );
 
         // NIF
@@ -45,13 +45,13 @@ describe('Student Registration Flow', () => {
             $el => $el.type('123456782')
         );
 
-        // NIF Country (Portugal)
+        // NIF Country (France)
         highlightAndAct(
             cy.get('#nifcountry'),
             $el => $el.click()
         );
         highlightAndAct(
-            cy.contains('.student-form-select__option', 'Portugal')
+            cy.contains('.student-form-select__option', 'France')
                 .scrollIntoView()
                 .should('be.visible'),
             $el => $el.click()
@@ -60,13 +60,13 @@ describe('Student Registration Flow', () => {
         // Street
         highlightAndAct(
             cy.get('#street'),
-            $el => $el.type('Rua das Flores 123')
+            $el => $el.type('Rua das Tulipas 456')
         );
 
         // Postal Code
         highlightAndAct(
             cy.get('#postalCode'),
-            $el => $el.type('4000-007')
+            $el => $el.type('4200-123')
         );
 
         // Location
@@ -75,13 +75,13 @@ describe('Student Registration Flow', () => {
             $el => $el.type('Porto')
         );
 
-        // Address Country (Portugal)
+        // Address Country (France)
         highlightAndAct(
             cy.get('#addressCountry'),
             $el => $el.click()
         );
         highlightAndAct(
-            cy.contains('.student-form-select__option', 'Portugal')
+            cy.contains('.student-form-select__option', 'France')
                 .scrollIntoView()
                 .should('be.visible'),
             $el => $el.click()
@@ -90,13 +90,13 @@ describe('Student Registration Flow', () => {
         // Phone
         highlightAndAct(
             cy.get('input.student-phone-number'),
-            $el => $el.type('912345678')
+            $el => $el.type('918765432')
         );
 
         // Email
         highlightAndAct(
             cy.get('#email'),
-            $el => $el.type('bernardina.britoa@example.com')
+            $el => $el.type('carlos.miguel@example.com')
         );
 
         // Click Register
@@ -107,7 +107,7 @@ describe('Student Registration Flow', () => {
 
         // Check success message
         highlightAndAct(
-            cy.contains('registered successfully', { timeout: 10000 }).should('be.visible'),
+            cy.contains('⚠️ Student with this information is already registered!', { timeout: 10000 }).should('be.visible'),
             () => {}
         );
     });
