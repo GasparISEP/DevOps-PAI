@@ -74,7 +74,7 @@ public class ProgrammeRestController {
     }
 
     @PostMapping("/{programme-name}/{programme-acronym}/studyPlans")
-    public ResponseEntity<?> registerStudyPlan(@PathVariable String programmeName, @PathVariable String programmeAcronym, @RequestParam LocalDate studyPlanStartDate) {
+    public ResponseEntity<?> registerStudyPlan(@PathVariable("programme-name") String programmeName, @PathVariable("programme-acronym") String programmeAcronym, @RequestParam LocalDate studyPlanStartDate) {
         try {
             RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeName, programmeAcronym, studyPlanStartDate);
 
