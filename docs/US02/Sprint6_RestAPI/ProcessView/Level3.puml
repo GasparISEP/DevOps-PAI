@@ -48,9 +48,14 @@ ref over Repository
 end
 
 
- Repository -> :  save (amDataModel)
 
-Repository <-- : amDataModelSaved
+
+participant ":IAccessMethodRepositorySpringData" as springDataRepository <<Component>>
+Repository -> springDataRepository: save (amDataModel)
+activate springDataRepository #LightBlue
+springDataRepository --> Repository : amDataModelSaved
+deactivate springDataRepository
+
 
 
 ref over Repository
