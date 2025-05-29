@@ -9,22 +9,16 @@ skinparam {
 
 title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 3)
 
-actor Administrator as Admin #limegreen
-participant ":UI" as UI #olivedrab
-participant ":Controller" as C #seagreen
+participant ":Routers" as Routers #olivedrab
+participant ":ControllerRest" as C #seagreen
 participant ":Service" as S #forestgreen
-participant ":Repository" as R #lightseagreen
 participant ":Domain" as D #teal
-database BD #green
+participant ":Repository" as R #lightseagreen
 
 
-Admin -> UI: Request to create a school year
-activate UI #seashell
-UI --> Admin: Present School Year Form
-deactivate UI #seashell
-Admin -> UI: Fill School Year Form (startDate, endDate,\n description)
-activate UI #seashell
-UI -> C: Submit School Year Form
+[o-> Routers: Fill School Year Form (startDate, endDate,\n description)
+activate Routers #seashell
+Routers -> C: Submit School Year Form
 activate C #seashell
 C -> S: Create School Year
 activate S #seashell
@@ -34,24 +28,24 @@ D --> S: School Year
 deactivate D #seashell
 S -> R: Check if School Year exists
 activate R #seashell
-R -> BD: Check if School Year exists
-activate BD #seashell
-BD --> R: School Year does not exist
-deactivate BD #seashell
+R ->o]: Check if School Year exists
+
+R<--o]: School Year does not exist
+
 R --> S: School Year does not exist
 deactivate R #seashell
 S -> R: Save School Year
 activate R #seashell
-R -> BD: Save School Year
-activate BD #seashell
-BD --> R: Saved!
-deactivate BD #seashell
-R --> S: Saved!
+R ->o]: Save School Year
+
+R<--o]: Saved!
+
+R --> S: School Year!
 deactivate R #seashell
-S --> C: Saved!
+S --> C: School YearDTO!
 deactivate S #seashell
-C --> UI: Saved!
+C --> Routers: School YearDTO!
 deactivate C #seashell
-UI --> Admin: School Year created successfully!
-deactivate UI #seashell
+[o<- Routers: School YearDTO!
+deactivate Routers #seashell
 @enduml
