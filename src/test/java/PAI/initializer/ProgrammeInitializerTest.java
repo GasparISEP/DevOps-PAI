@@ -68,9 +68,9 @@ class ProgrammeInitializerTest {
         initializer.init();
 
         // Verify controller called with exact expected parameters
-        verify(controller).registerProgramme("Computer Sci", "CSD", 30, 6, new DegreeTypeID("1"), deptAAA, teacherAAA);
-        verify(controller).registerProgramme("Information Eng", "IEE", 1_000_000, 8, new DegreeTypeID("2"), deptAAF, teacherAAB);
-        verify(controller).registerProgramme("Data Science", "DSD", 20, 4, new DegreeTypeID("3"), deptAAR, teacherAAC);
+        verify(controller).registerProgramme("Computer Sci", "CSD", 180, 6, new DegreeTypeID("1"), deptAAA, teacherAAA);
+        verify(controller).registerProgramme("Information Eng", "IEE", 120, 4, new DegreeTypeID("2"), deptAAF, teacherAAB);
+        verify(controller).registerProgramme("Data Science", "DSD", 240, 8, new DegreeTypeID("3"), deptAAR, teacherAAC);
 
         verify(controller, atLeast(3)).registerProgramme(anyString(), anyString(), anyInt(), anyInt(),
                 any(DegreeTypeID.class), any(DepartmentID.class), any(TeacherID.class));
