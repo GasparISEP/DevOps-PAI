@@ -1,0 +1,38 @@
+@startuml
+autonumber
+
+participant "pService:ProgrammeService" as PS #physical
+participant "dtService:DegreeTypeService" as DTS #physical
+participant "dtRepo:DegreeTypeRepository" as DTR #lightcyan
+participant "dtIDMapper:DegreeTypeIDMapper" as IDM #lightyellow
+participant "dtMapper:DegreeTypeMapper" as M #lightyellow
+participant "dtIDDataModel1:DegreeTypeIDDataModel" as DTIDDM
+participant "dtDataModel1:DegreeTypeDataModel" as DTDM
+participant "dtFactory:DegreeTypeFactory" as DTF #lightpink
+participant "DT1:DegreeType" as DT #lightgreen
+
+activate PS
+PS -> DTS ++: getDegreeTypeByID(degreeTypeID)
+
+DTS -> DTR ++: ofIdentity(degreeTypeID)
+
+DTR -> IDM ++: toDataModel(degreeTypeID)
+
+IDM -> DTIDDM**: newDegreeTypeIDDataModel(degreeTypeID)
+activate DTIDDM
+DTIDDM --> IDM --: dtIDDataModel1
+IDM --> DTR --: dtIDDataModel1
+
+DTR -> : ofIdentity(dtIDDataModel1)
+DTR <-- : dtDataModel1
+
+DTR -> M++ : toDomain(dtDataModel1)
+M -> DTF++ : recreateProgramme(name, acronym, maxEcts, \nquantSemesters, degreeTypeID, departmentID, teacherID, programmeID)
+DTF -> DT** : newProgramme(name, acronym, maxEcts, \nquantSemesters, degreeTypeID, departmentID, \nteacherID, programmeID)
+activate DT
+DT --> DTF --: DT1
+DTF --> M --: DT1
+M --> DTR --: DT1
+DTR --> DTS --: DT1
+DTS --> PS --: DT1
+@enduml

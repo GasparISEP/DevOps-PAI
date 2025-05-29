@@ -76,6 +76,10 @@ activate P
 P --> PF --: P1
 PF --> PS --: P1
 
+ref over PS
+    Verify if the Quantity of Semesters and the Degree Type are aligned
+end ref
+
 PS -> PR++ :isNameAlreadyRegistered (nameVO)
 PR -> : existsByName (nameVO)
 PR <-- : False
