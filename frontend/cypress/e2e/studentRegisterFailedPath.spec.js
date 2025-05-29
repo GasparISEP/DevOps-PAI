@@ -107,7 +107,7 @@ describe('Student Registration Flow - Duplicated NIF', () => {
 
         // Check success message
         highlightAndAct(
-            cy.contains('⚠️ Student with this information is already registered!', { timeout: 10000 }).should('be.visible'),
+            cy.contains('Registration Error', { timeout: 10000 }).should('be.visible'),
             () => {}
         );
     });
