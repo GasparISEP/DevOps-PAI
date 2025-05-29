@@ -96,7 +96,7 @@ describe('Student Registration Flow', () => {
         // Email
         highlightAndAct(
             cy.get('#email'),
-            $el => $el.type('bernardina.britoa @example.com')
+            $el => $el.type('bernardina.brito @example.com')
         );
 
         // Click Register

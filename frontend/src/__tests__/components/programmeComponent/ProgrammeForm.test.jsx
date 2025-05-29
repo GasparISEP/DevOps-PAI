@@ -238,4 +238,32 @@ describe('ProgrammeForm tests', () => {
 
         consoleErrorSpy.mockRestore();
     });
+
+    test('closes error modal when clicking Close button', async () => {
+        programmeService.registerProgramme.mockRejectedValue(new Error('Test error'));
+
+        render(<MemoryRouter><ProgrammeForm /></MemoryRouter>);
+
+        await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
+
+        fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Invalid Programme' } });
+        fireEvent.change(screen.getByLabelText(/acronym/i), { target: { value: 'IP' } });
+        fireEvent.change(screen.getByLabelText(/semesters/i), { target: { value: '4' } });
+        fireEvent.change(screen.getByLabelText(/degree type/i), { target: { value: '22222222-2222-2222-2222-222222222222' } });
+        fireEvent.change(screen.getByLabelText(/department/i), { target: { value: 'DII' } });
+        fireEvent.change(screen.getByLabelText(/programme's director/i), { target: { value: 'CBD' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /register/i }));
+
+        await waitFor(() => {
+            expect(screen.getByText(/test error/i)).toBeInTheDocument();
+        });
+
+        fireEvent.click(screen.getByRole('button', { name: /close/i }));
+
+        await waitFor(() => {
+            expect(screen.queryByText(/test error/i)).not.toBeInTheDocument();
+        });
+    });
+
 });

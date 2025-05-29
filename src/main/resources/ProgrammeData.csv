@@ -1,32 +1,31 @@
 Name;Acronym;ECTS;Semesters;DegreeTypeName;DepartmentID;TeacherID
-Computer Sci;CSD;30;6;Bachelor;AAA;AAA
-Information Eng;IEE;1000000;8;Master;AAF;AAB
-Data Science;DSD;20;4;Integrated Master;AAR;AAC
-23 Swtich;DIS;22;5;PhD;AAU;AAD
-AI & Robotics;AIR;28;6;Bachelor;AAA;AAE
-Cyber Security;CYB;24;4;Master;AAF;AAF
-Software Eng;SWE;30;8;Integrated Master;AAR;AAG
-Data Analytics;DTA;26;5;PhD;AAU;AAH
-Machine Learning;MLC;20;4;Bachelor;AAA;AAI
-Web Dev;WEB;18;3;Master;AAF;AAJ
-Mobile Systems;MOB;22;4;Integrated Master;AAR;AAK
-Game Dev;GAM;24;5;PhD;AAU;AAL
-Network Eng;NET;28;6;Bachelor;AAA;AAM
-IoT Systems;IOT;20;4;Master;AAF;AAN
-VR Applications;VRX;30;7;Integrated Master;AAR;AAO
-IT Management;ITM;26;6;PhD;AAU;AAP
-Bioinformatics;BIO;22;5;Bachelor;AAA;AAQ
-Computational Math;MTH;20;4;Master;AAF;AAR
-Cloud Computing;CLD;28;6;Integrated Master;AAR;AAS
-Embedded Systems;EMS;24;5;PhD;AAU;AAT
-Computer Graphics;CGR;26;6;Bachelor;AAA;AAU
-Data Viz;DVZ;20;4;Master;AAF;AAV
-Software Testing;TST;22;5;Integrated Master;AAR;AAW
-AI Ethics;AIE;18;3;PhD;AAU;AAX
-Backend Systems;BKS;30;7;Bachelor;AAA;AAY
-Big Data;BGD;26;6;Master;AAF;AAZ
-DevOps;DOP;24;5;Integrated Master;AAR;ABA
-Blockchain Tech;BLK;20;4;PhD;AAU;ABB
-Quantum Computing;QNC;30;8;Bachelor;AAA;ABC
-Operating Systems;OPS;28;6;Master;AAF;ABD
-;;;;;;;;;;;;
+Computer Sci;CSD;180;6;Bachelor;AAA;AAA
+Information Eng;IEE;120;4;Master;AAF;AAB
+Data Science;DSD;240;8;Integrated Master;AAR;AAC
+23 Swtich;DIS;240;8;PhD;AAU;AAD
+AI & Robotics;AIR;180;6;Bachelor;AAA;AAE
+Cyber Security;CYB;120;4;Master;AAF;AAF
+Software Eng;SWE;240;8;Integrated Master;AAR;AAG
+Data Analytics;DTA;240;8;PhD;AAU;AAH
+Machine Learning;MLC;180;6;Bachelor;AAA;AAI
+Web Dev;WEB;120;4;Master;AAF;AAJ
+Mobile Systems;MOB;240;8;Integrated Master;AAR;AAK
+Game Dev;GAM;240;8;PhD;AAU;AAL
+Network Eng;NET;180;6;Bachelor;AAA;AAM
+IoT Systems;IOT;120;4;Master;AAF;AAN
+VR Applications;VRX;240;8;Integrated Master;AAR;AAO
+IT Management;ITM;240;8;PhD;AAU;AAP
+Bioinformatics;BIO;180;6;Bachelor;AAA;AAQ
+Computational Math;MTH;120;4;Master;AAF;AAR
+Cloud Computing;CLD;240;8;Integrated Master;AAR;AAS
+Embedded Systems;EMS;240;8;PhD;AAU;AAT
+Computer Graphics;CGR;180;6;Bachelor;AAA;AAU
+Data Viz;DVZ;120;4;Master;AAF;AAV
+Software Testing;TST;240;8;Integrated Master;AAR;AAW
+AI Ethics;AIE;240;8;PhD;AAU;AAX
+Backend Systems;BKS;180;6;Bachelor;AAA;AAY
+Big Data;BGD;120;4;Master;AAF;AAZ
+DevOps;DOP;240;8;Integrated Master;AAR;ABA
+Blockchain Tech;BLK;240;8;PhD;AAU;ABB
+Quantum Computing;QNC;180;6;Bachelor;AAA;ABC
+Operating Systems;OPS;120;4;Master;AAF;ABD

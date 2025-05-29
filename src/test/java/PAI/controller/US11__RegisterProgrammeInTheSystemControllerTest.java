@@ -4,6 +4,8 @@ import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
+import PAI.domain.degreeType.DegreeTypeFactoryImpl;
+import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.department.Department;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
@@ -24,6 +26,8 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.persistence.mem.teacher.ITeacherListFactory;
 import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
 import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
+import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
+import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -65,7 +69,12 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
         ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler);
+
+        IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        
         MaxEcts maxEcts = new MaxEcts(240);
         Name dtname = new Name("Master");
         DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);

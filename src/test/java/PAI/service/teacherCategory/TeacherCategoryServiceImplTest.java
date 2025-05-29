@@ -200,7 +200,7 @@ class TeacherCategoryServiceImplTest {
         when(doubleTeacherCategoryID.getValue()).thenReturn(UUID.randomUUID());
 
         TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);
-        when(doubleTeacherCategory.getId()).thenReturn(doubleTeacherCategoryID);
+        when(doubleTeacherCategory.identity()).thenReturn(doubleTeacherCategoryID);
 
         ITeacherCategoryRepository doubleRepository = mock(ITeacherCategoryRepository.class);
         when(doubleRepository.ofIdentity(doubleTeacherCategoryID)).thenReturn(Optional.of(doubleTeacherCategory));

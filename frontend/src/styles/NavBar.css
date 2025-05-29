@@ -60,23 +60,27 @@
 }
 
 .navbar-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
+  /*position: absolute;*/
+  /*top: 100%;*/
+  /*left: 50%;*/
+  transform: translateX(-20%);
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  border-radius: 1rem;
+  /*z-index: 1000;*/
   display: none;
   list-style: none;
-  width: 100%;
-  min-width: 180px;
+  /*width: 100%;*/
+  /*min-width: 180px;*/
   padding: 0;
 }
 
 .navbar-dropdown-menu.show {
   display: block;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
 }
 
 .navbar-dropdown-menu li {
@@ -84,12 +88,18 @@
   padding: 0;
   margin: 0;
   background: none;
-  border: none;
+  /*border: none;*/
+  border-radius: 1rem 1rem 0rem 0rem ;
   box-shadow: none;
   outline: none;
   appearance: none;
   list-style: none;
   display: block;
+}
+
+.navbar-dropdown-menu li:nth-child(2) {
+  /* Your custom styles here */
+  border-radius: 0rem 0rem 1rem 1rem ;
 }
 
 .navbar-dropdown-menu .navbar-link {
@@ -122,6 +132,18 @@
 .navbar-link:hover i {
   color: #9a1a24;
   opacity: 100%;
+}
+
+.teacher-dropdown-hovered, .teacher-dropdown-hovered i {
+  color: #9a1a24 !important;
+  background: none !important;
+  transition: color 0.3s;
+}
+
+.teacher-icon-hovered {
+  color: #9a1a24 !important;
+  opacity: 1 !important;
+  transition: color 0.3s, opacity 0.3s;
 }
 
 /* Media Queries */
@@ -182,5 +204,3 @@
     font-size: 1.2rem;
   }
 }
-
-

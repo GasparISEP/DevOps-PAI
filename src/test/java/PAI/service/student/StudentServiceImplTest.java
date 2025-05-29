@@ -127,7 +127,7 @@ class StudentServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionIfStudentWithThatStudentIDOrNIFAlreadyExists() throws Exception {
+    void shouldThrowExceptionIfStudentWithThatStudentIDExists() {
         //arrange
         IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
         IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
@@ -151,8 +151,51 @@ class StudentServiceImplTest {
 
         when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(true);
 
-        //act + assert
-        assertThrows(Exception.class, () -> studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble));
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble))
+                .thenThrow(new IllegalArgumentException("StudentID already exists!"));
+
+        // act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+                        streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)
+        );
+        assertEquals("StudentID already exists!", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfStudentWithThatNIFExists() {
+        //arrange
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
+
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
+
+        StudentID studentIDDouble = mock(StudentID.class);
+        Name nameDouble = mock(Name.class);
+        NIF nifDouble = mock(NIF.class);
+        PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
+        Email emailDouble = mock(Email.class);
+        Street streetDouble = mock(Street.class);
+        PostalCode postalCodeDouble = mock(PostalCode.class);
+        Location locationDouble = mock(Location.class);
+        Country countryDouble = mock(Country.class);
+        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+        Student studentDouble = mock(Student.class);
+
+        when(studentFactoryDouble.newStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)).thenReturn(studentDouble);
+
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(true);
+
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble))
+                .thenThrow(new IllegalArgumentException("NIF already exists!"));
+
+        // act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+                        streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)
+        );
+        assertEquals("NIF already exists!", exception.getMessage());
     }
 
     @Test

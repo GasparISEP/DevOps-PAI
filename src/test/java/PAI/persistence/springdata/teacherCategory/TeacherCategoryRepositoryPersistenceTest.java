@@ -43,7 +43,7 @@ class TeacherCategoryRepositoryPersistenceTest {
         // Assert
         assertNotNull(registered);
         assertEquals(1, allCategories.size());
-        assertEquals("Professor Auxiliar", allCategories.get(0).getNameValue());
+        assertEquals("Professor Auxiliar", allCategories.get(0).getName().getName());
     }
 
     @Test

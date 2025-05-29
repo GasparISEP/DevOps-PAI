@@ -136,7 +136,7 @@ class ProgrammeEditionControllerAssemblerTest {
 
         assertEquals("ENG25", dto.programmeAcronym());
         assertEquals("Engenharia@2025", dto.programmeName());
-        assertEquals(schoolYearID.getSchoolYearID(), dto.schoolYearID());
+        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
     @Test
     void shouldReturnCorrectDtoUsingMockedProgrammeEdition() throws Exception {
@@ -154,7 +154,7 @@ class ProgrammeEditionControllerAssemblerTest {
 
         assertEquals("MockedName", dto.programmeName());
         assertEquals("MOCK", dto.programmeAcronym());
-        assertEquals(schoolYearID.getSchoolYearID(), dto.schoolYearID());
+        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
 
     @Test
@@ -176,7 +176,7 @@ class ProgrammeEditionControllerAssemblerTest {
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
         assertEquals("Programme", dto.programmeName());
-        assertEquals(schoolYearID.getSchoolYearID(), dto.schoolYearID());
+        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
     @Test
     void shouldThrowExceptionIfProgrammeEditionIsNull() {

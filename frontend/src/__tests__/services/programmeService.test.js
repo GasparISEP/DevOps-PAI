@@ -1,4 +1,4 @@
-import { registerProgramme } from '../../services/programmeService';
+import { registerProgramme} from '../../services/programmeService';
 
 describe('registerProgramme', () => {
     const mockPayload = { name: "Test Programme" };
