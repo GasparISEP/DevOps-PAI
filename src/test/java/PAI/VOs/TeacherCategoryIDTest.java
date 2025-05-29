@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class TeacherCategoryIDTest {
 
     @Test
@@ -74,6 +75,32 @@ class TeacherCategoryIDTest {
 
         // Act & Assert
         assertEquals(id, id); // this == o
+    }
+
+
+    @Test
+    void shouldHaveDifferentHashCodeIfHasDifferentId() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        UUID id1 = UUID.randomUUID();
+
+        TeacherCategoryID categoryID1 = new TeacherCategoryID(id);
+        TeacherCategoryID categoryID2 = new TeacherCategoryID(id1);
+
+        // Act + Assert
+        assertNotEquals(categoryID1.hashCode(), categoryID2.hashCode());
+    }
+
+    @Test
+    void shouldHaveSameHashCodeIfHasSameId() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        TeacherCategoryID categoryID1 = new TeacherCategoryID(id);
+        TeacherCategoryID categoryID2 = categoryID1;
+
+        // Act + Assert
+        assertEquals(categoryID1.hashCode(), categoryID2.hashCode());
     }
 
 }

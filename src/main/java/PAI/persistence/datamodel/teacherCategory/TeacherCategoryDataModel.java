@@ -1,5 +1,6 @@
 package PAI.persistence.datamodel.teacherCategory;
 
+import PAI.utils.ValidationUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -18,18 +19,12 @@ public class TeacherCategoryDataModel {
     private String name;
 
     protected TeacherCategoryDataModel() {
-        // Construtor padrão protegido para JPA
     }
 
     public TeacherCategoryDataModel(TeacherCategoryIDDataModel id, String name) {
-        if (id == null) {
-            throw new IllegalArgumentException("id não pode ser nulo");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("name não pode ser nulo");
-        }
-        this.id = id;
-        this.name = name;
+
+        this.id = ValidationUtils.validateNotNull(id, "Teacher Category ID DataModel");
+        this.name = ValidationUtils.validateNotNull(name, "Teacher Category Name");
     }
 
     public TeacherCategoryIDDataModel getId() {

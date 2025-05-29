@@ -23,4 +23,19 @@ class TeacherCategoryHateoasAssemblerImplTest {
         assertNotNull(result);
     }
 
+    @Test
+    void shouldReturnAnExceptionWhenInputIsNull () {
+        //arrange
+        TeacherCategoryHateoasAssemblerImpl hateoas = new TeacherCategoryHateoasAssemblerImpl();
+
+
+        // act
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            hateoas.toModel(null);
+        });
+
+        // assert
+        assertNotNull(exception.getMessage());
+    }
+
 }
