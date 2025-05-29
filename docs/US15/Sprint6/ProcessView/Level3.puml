@@ -9,7 +9,7 @@ participant "Repository" as R
 participant "Domain" as D
 participant "Factory" as F
 
-[o-> RC: (PUT) Request Update Working Percentage
+[o-> RC: (POST) Request Update Working Percentage
 activate RC
 RC -> S: updateTeacherWorkingPercentage(dateVO, wpVO, teacherIdVO)
 activate S
@@ -46,7 +46,7 @@ deactivate R
 
 S --> RC: Working Percentage Updated
 deactivate S
-[o<-- RC: 200 OK, Working Percentage Updated
+[o<-- RC: 201 CREATED TeacherCareerProgression
 deactivate RC
 
 @enduml
