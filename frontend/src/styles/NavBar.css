@@ -4,6 +4,8 @@
   align-items: center;
   max-width: 120rem;
   margin: 2.2rem auto;
+  padding: 0 2.2rem;
+  width: 100%;
 }
 
 .navbar {
@@ -11,7 +13,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 10rem;
-  max-width: 120rem;
+  width: 100%;
 }
 
 .logo-div {
@@ -19,10 +21,12 @@
   align-items: center;
   justify-content: center;
   width: 25rem;
+  min-width: 15rem;
 }
 
 .logo-img {
   width: 100%;
+  height: auto;
 }
 
 .navbar-links-list-div {
@@ -31,6 +35,7 @@
   justify-content: flex-start;
   gap: 3.2rem;
   list-style: none;
+  flex-wrap: wrap;
 }
 
 .navbar-link {
@@ -117,6 +122,65 @@
 .navbar-link:hover i {
   color: #9a1a24;
   opacity: 100%;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+  .navbar {
+    gap: 5rem;
+  }
+
+  .navbar-links-list-div {
+    gap: 2.4rem;
+  }
+
+  .navbar-link {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-navbar-div {
+    padding: 0 1.5rem;
+  }
+
+  .navbar {
+    gap: 3rem;
+  }
+
+  .logo-div {
+    width: 20rem;
+  }
+
+  .navbar-links-list-div {
+    gap: 1.8rem;
+  }
+
+  .navbar-link {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-navbar-div {
+    padding: 0 1rem;
+  }
+
+  .navbar {
+    gap: 2rem;
+  }
+
+  .logo-div {
+    width: 15rem;
+  }
+
+  .navbar-links-list-div {
+    gap: 1.2rem;
+  }
+
+  .navbar-link {
+    font-size: 1.2rem;
+  }
 }
 
 
