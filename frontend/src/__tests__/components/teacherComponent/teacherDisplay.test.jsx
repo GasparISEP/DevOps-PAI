@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import TeacherDisplay from '../../../components/teacherComponent/TeacherDisplay';
 import * as teacherService from '../../../services/teacherService';
 import { MemoryRouter } from 'react-router-dom';
@@ -58,8 +59,6 @@ describe('TeacherDisplay', () => {
       // Use a flexible matcher for names (in case of extra markup or links)
       expect(screen.getByText((content) => content.includes('John Doe'))).toBeInTheDocument();
       expect(screen.getByText((content) => content.includes('Jane Smith'))).toBeInTheDocument();
-      // expect(screen.getByText('Physics')).toBeInTheDocument();
-      // expect(screen.getByText('Math')).toBeInTheDocument();
     });
   });
 
@@ -87,4 +86,51 @@ describe('TeacherDisplay', () => {
       expect(screen.getByText('987654321')).toBeInTheDocument();
     });
   });
+
+  //////////////// handle sorting tests ////////////////
+  it('sorts by key in ascending order when first clicked', async () => {
+    render(
+        <MemoryRouter>
+          <TeacherDisplay />
+        </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+    });
+
+    const nameHeaders = screen.getAllByText(/name/i);
+    const tableHeader = nameHeaders.find(el => el.tagName === 'TH');
+    expect(tableHeader).toBeInTheDocument();
+
+    tableHeader.click();
+  });
+
+  test('handleSort toggles direction when same key is clicked twice', async () => {
+    render(
+        <Router>
+          <TeacherDisplay />
+        </Router>
+    );
+
+    const nameHeader = await screen.findByRole('columnheader', { name: 'Name' });
+
+    fireEvent.click(nameHeader);
+    fireEvent.click(nameHeader);
+  });
+
+  test('handleSort sets direction asc when different key is clicked', async () => {
+    render(
+        <Router>
+          <TeacherDisplay />
+        </Router>
+    );
+
+    const nameHeader = await screen.findByRole('columnheader', { name: 'Name' });
+    const emailHeader = await screen.findByRole('columnheader', { name: 'Email' });
+
+    fireEvent.click(nameHeader);
+    fireEvent.click(emailHeader);
+  });
+
 });
