@@ -27,7 +27,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         ProgrammeEditionID id = programmeEdition.identity();
         String programmeName = id.getProgrammeID().getName().toString();
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
-        UUID schoolYearID = id.getSchoolYearID().getSchoolYearID();
+        String schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
         return new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
     }
@@ -40,7 +40,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         Acronym programmeAcronym = new Acronym(dto.programmeAcronym());
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(dto.programmeName());
         ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
-        SchoolYearID schoolYearID = new SchoolYearID(dto.schoolYearID());
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(dto.schoolYearID()));
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
         return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
