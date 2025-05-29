@@ -9,6 +9,8 @@ import countryList from "react-select-country-list";
 import CountryFlag from "react-country-flag";
 import {Link} from "react-router-dom";
 import { fetchDepartments } from '../../services/departmentService';
+import TeacherSuccessModal from './TeacherSuccessModal';
+import TeacherErrorModal from './TeacherErrorModal';
 
 export default function TeacherForm() {
     const initialFormState = {
@@ -310,38 +312,17 @@ export default function TeacherForm() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>Success!</h2>
-                        <p>The teacher was registered successfully.</p>
-                        {success && (
-                            <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                <p><strong>Name:</strong> {success.name}</p>
-                                <p><strong>Acronym:</strong> {success.id}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
-                                <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Academic Background:</strong> {success.academicBackground}</p>
-                                <p><strong>Street:</strong> {success.street}</p>
-                                <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                                <p><strong>Location:</strong> {success.location}</p>
-                                <p><strong>Country:</strong> {success.country}</p>
-                                <p><strong>Country Code:</strong> {success.countryCode}</p>
-                                <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
-                                <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
-                            </div>
-                        )}
-                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
-                    </div>
-                </div>
+                <TeacherSuccessModal
+                    success={success}
+                    departments={departments}
+                    onClose={() => setShowModal(false)}
+                />
             )}
             {showErrorModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Registration Error</h2>
-                        <p>{error}</p>
-                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
-                    </div>
-                </div>
+                <TeacherErrorModal
+                    error={error}
+                    onClose={() => setShowErrorModal(false)}
+                />
             )}
         </div>
     );
