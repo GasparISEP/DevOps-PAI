@@ -3,6 +3,8 @@ import { registerProgramme } from '../../services/programmeService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css'
 import {Link} from "react-router-dom";
+import ProgrammeSuccessModal from "./ProgrammeSuccessModal";
+import ProgrammeErrorModal from "./ProgrammeErrorModal";
 
 export default function ProgrammeForm() {
     const [form, setForm] = useState({
@@ -108,7 +110,7 @@ export default function ProgrammeForm() {
                         <h1 style={{margin: 0}}>Register Programme</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary"
                               style={{textDecoration: 'none'}}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
@@ -192,7 +194,7 @@ export default function ProgrammeForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>
@@ -201,35 +203,20 @@ export default function ProgrammeForm() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>Success!</h2>
-                        <p>The programme was registered successfully.</p>
-                        {success && (
-                            <div className="success" style={{marginTop: '1rem', color: '#080'}}>
-                                <p><strong>Name:</strong> {success.name}</p>
-                                <p><strong>Acronym:</strong> {success.acronym}</p>
-                                <p><strong>Semesters:</strong> {success.quantSemesters}</p>
-                                <p><strong>Degree
-                                    Type:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.name || 'Unknown'}
-                                </p>
-                                <p><strong>ECTS Credits:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.maxEcts || 'Unknown'}</p>
-                                <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
-                                <p><strong>Programme's Director:</strong> {teachers.find(t => t.id === success.teacherID)?.name || 'Unknown'}</p>
-                            </div>
-                        )}
-                        <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
-                    </div>
-                </div>
+                <ProgrammeSuccessModal
+                    success={success}
+                    degreeTypes={degreeTypes}
+                    departments={departments}
+                    teachers={teachers}
+                    onClose={() => setShowModal(false)}
+                />
             )}
+
             {showErrorModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Registration Error</h2>
-                        <p>{error}</p>
-                        <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
-                    </div>
-                </div>
+                <ProgrammeErrorModal
+                    error={error}
+                    onClose={() => setShowErrorModal(false)}
+                />
             )}
         </div>
     );

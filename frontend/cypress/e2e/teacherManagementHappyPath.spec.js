@@ -1,5 +1,4 @@
-describe('Gestão de Teachers - Happy Path', () => {
-
+describe('Teachers Management - Happy Path', () => {
     beforeEach(() => {
         //garante que a app está no estado inicial
         cy.visit('/');
@@ -66,16 +65,19 @@ describe('Gestão de Teachers - Happy Path', () => {
         //location
         cy.get('input[name="location"]').type('Porto').wait(500)
         //country
-        cy.get('.teacher-form-input__control').click().wait(500);
-        cy.get('.teacher-form-input__input').type('Portugal{enter}').wait(500);
-        //phoneNumber - alterar
-        cy.get('input.student-phone-number').clear().type('912345678').wait(500)
+        cy.get('.teacher-form-select__control').click();
+        cy.get('.teacher-form-select__menu')
+            .should('be.visible')
+            .contains('Portugal')
+            .click();
+        //phoneNumber
+        cy.get('input.teacher-phone-number').clear().type('912345678').wait(500)
         //department
         cy.get('select[name="departmentID"]').select(1).wait(500);
 
         //4 Submete e aguarda PopUp
         cy.intercept('POST', '/teachers').as('saveTeacher')
-        cy.get('button[type="submit"]').highlightOutline().wait(800).click()
+        cy.contains('button', 'REGISTER').highlightOutline().wait(800).click();
         cy.wait('@saveTeacher').its('response.statusCode').should('eq', 201).wait(3000)
 
         //Verifica PopUp de sucesso
@@ -111,7 +113,7 @@ describe('Gestão de Teachers - Happy Path', () => {
         // Destaca-o em vermelho
         cy.get('@newRow')
             .invoke('css', 'background-color', 'rgba(255,0,0,0.2)')
-            .invoke('css', 'border', '2px solid red')
+            .invoke('css', 'border', '2px solid red').wait(2000)
     })
 })
 
