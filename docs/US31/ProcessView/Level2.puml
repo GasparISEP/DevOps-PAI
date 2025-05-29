@@ -11,33 +11,37 @@ participant "<<Container>> \n:Database" as BD #lightyellow
 
 activate Admin
 Admin -> FE ++: I want to register a Programme \nin the System
-FE -> BE ++: (GET) Request Degree Types
+FE -> BE ++: (GET) /degreetypes \nRequest Degree Types
 BE -> BD ++: (SELECT) Retrieve all Degree Types
 BD --> BE --: List of Degree Types
 BE --> FE --: (OK, 200) List of Degree Types
 FE --> Admin --: Choose a Degree Type
 Admin -> FE ++: Degree Type
 
-FE -> BE ++: (GET) Request Departments
+FE -> BE ++: (GET) /departments \nRequest Departments
 BE -> BD ++: (SELECT) Retrieve all Departments
 BD --> BE --: List of Departments
 BE --> FE --: (OK, 200) List of Departments
 FE --> Admin --: Choose a Department
 Admin -> FE ++: Department
 
-FE -> BE ++: (GET) Request Teachers
+FE -> BE ++: (GET) /teachers \nRequest Teachers
 BE -> BD ++: (SELECT) Retrieve all Teachers
 BD --> BE --: List of Teachers
 BE --> FE --: (OK, 200) List of Teachers
 FE --> Admin --: Choose a Programme Director
 Admin -> FE ++: Programme Director
 
-FE --> Admin --: Name, Acronym, Quantity Semesters?
-Admin -> FE ++: name, acronym, quantSemesters
-FE -> BE ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
-BE -> BD ++: (INSERT) Persist Programme to Database (Programme)
+FE --> Admin --: Name, Acronym?
+Admin -> FE ++: name, acronym
+FE -> BE ++: (POST) /programmes\nRequest register a Programme \n(ProgrammeDTO)
+BE -> BD ++: (SELECT EXISTS) Check if Programme name already exists
+BD --> BE --: False
+BE -> BD ++: (SELECT EXISTS) Check if Programme acronym already exists
+BD --> BE --: False
+BE -> BD ++: (INSERT) Persist Programme to Database (ProgrammeDataModel)
 BD --> BE --: Programme
-BE --> FE --: (201, Created) Programme
+BE --> FE --: (201, Created) ProgrammeDTO
 FE --> Admin --: Programme registered successfully! \n(Display Programme details)
 
 @enduml
