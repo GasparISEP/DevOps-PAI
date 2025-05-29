@@ -18,13 +18,21 @@ export default function HomePageCTA() {
         return message;
     }
 
+    const handleScroll = () => {
+        const section = document.getElementById('home-page-info-section');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+
     return (
         <section className="home-page-cta-section">
             <div className="cta-main-div">
                 <span><Greeting/> Welcome to Isep</span>
                 <h1>Creating Milestones for<br/>Future Generations</h1>
                 <div className="cta-btn-div">
-                    <button>LEARN MORE</button>
+                    <button onClick={handleScroll}>LEARN MORE</button>
                 </div>
 
             </div>

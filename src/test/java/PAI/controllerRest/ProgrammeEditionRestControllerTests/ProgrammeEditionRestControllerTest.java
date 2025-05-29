@@ -89,7 +89,7 @@ class ProgrammeEditionRestControllerTest {
 
         String programmeName = "Engineering";
         String programmeAcronym = "ENG";
-        UUID schoolYearID = UUID.randomUUID();
+        String  schoolYearID = UUID.randomUUID().toString();
 
         CountStudentsDto expectedDto =
                 new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);

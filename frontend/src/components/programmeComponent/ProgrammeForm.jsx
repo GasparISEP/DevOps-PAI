@@ -192,7 +192,7 @@ export default function ProgrammeForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>

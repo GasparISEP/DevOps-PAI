@@ -188,28 +188,35 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.nifcountry)}
                                     onChange={option => setForm(f => ({ ...f, nifcountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select NIF Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '554px',
-                                            height: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
                                             padding: 0,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -286,28 +293,35 @@ export default function StudentForm() {
                                     value={countryList().getData().find(option => option.label === form.addressCountry)}
                                     onChange={option => setForm(f => ({ ...f, addressCountry: option?.label ?? '' }))}
                                     formatOptionLabel={option => (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.5em', height: '1.5em' }} />
-                                            <span>{option.label}</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                            <CountryFlag countryCode={option.value} svg style={{ width: '1.9em', height: '1.9em' }} />
+                                            <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Address Country"
+                                    placeholder="Select Country"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            width: '554px',
-                                            height: '40px',
+                                            width: '54.3rem',
+                                            height: '4rem',
                                             border: '1px solid #ccc',
                                             borderRadius: '4px',
                                             padding: 0,
-                                            fontSize: '1rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
                                             color: '#000',
                                             boxShadow: state.isFocused ? '0 0 0 1px #ccc' : 'none',
                                             '&:hover': { border: '1px solid #999' }
+                                        }),
+                                        option: (base) => ({
+                                            ...base,
+                                            fontSize: '1.5rem',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }),
                                         placeholder: (base) => ({
                                             ...base,
@@ -378,7 +392,7 @@ export default function StudentForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>

@@ -55,15 +55,8 @@ export default function TeacherForm() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        if (name === 'postalCode' || name === 'postalBox') {
-            // Split the value into two parts if needed
-            let postalCode1 = name === 'postalCode' ? value : form.postalCode.split('-')[0] || '';
-            let postalCode2 = name === 'postalBox' ? value : form.postalCode.split('-')[1] || '';
-            let combined = postalCode2 ? `${postalCode1}-${postalCode2}` : postalCode1;
-            setForm(f => ({ ...f, postalCode: combined }));
-        } else {
-            setForm(f => ({ ...f, [name]: value }));
-        }
+        setForm(f => ({ ...f, [name]: value }));
+
     }
 
     useEffect(() => {
@@ -126,13 +119,16 @@ export default function TeacherForm() {
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
-                                <input className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required/>
-                                {error && error.includes('Name does not meet the validation requirements.') && (
-                                    <div className="error" style={{ color: 'red', marginTop: '0.5rem' }}>
-                                        Name does not meet the validation requirements.
-                                    </div>
-                                )}
+                                <input
+                                    className="form-input" placeholder="Enter Teacher's name" id="name" name="name"
+                                    value={form.name}
+                                    onChange={e => {
+                                        // Only allow letters and spaces
+                                        const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                        setForm(f => ({ ...f, name: value }));
+                                    }}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
@@ -185,27 +181,16 @@ export default function TeacherForm() {
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="postalCode">Postal Code</label>
-                                <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
-                                    <input
-                                        className="form-input"
-                                        placeholder="Enter Postal Code"
-                                        id="postalCode"
-                                        name="postalCode"
-                                        value={form.postalCode.split('-')[0] || ''}
-                                        onChange={handleChange}
-                                        required
-                                        style={{ flex: 1 }}
-                                    />
-                                    <input
-                                        className="form-input"
-                                        placeholder="Enter Postal Code"
-                                        id="postalBox"
-                                        name="postalBox"
-                                        value={form.postalCode.split('-')[1] || ''}
-                                        onChange={handleChange}
-                                        style={{ flex: 1 }}
-                                    />
-                                </div>
+                                <input
+                                    className="form-input"
+                                    placeholder="Enter Postal Code"
+                                    id="postalCode"
+                                    name="postalCode"
+                                    value={form.postalCode || ''}
+                                    onChange={handleChange}
+                                    required
+                                    style={{ width: '100%' }}
+                                />
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="location">Location</label>
@@ -323,7 +308,7 @@ export default function TeacherForm() {
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                                    {loading ? 'Registering…' : 'REGISTER'}
+                                    {loading ? 'REGISTERING…' : 'REGISTER'}
                                 </button>
                             </div>
                         </div>
@@ -342,7 +327,6 @@ export default function TeacherForm() {
                                 <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Academic Background:</strong> {success.academicBackground}</p>
                                 <p><strong>Street:</strong> {success.street}</p>
                                 <p><strong>Postal Code:</strong> {success.postalCode}</p>

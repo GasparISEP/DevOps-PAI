@@ -11,16 +11,22 @@ export async function registerTeacher(teacherDTO) {
 
     let responseData = null;
 
-    try {
-        responseData = await response.json();
-    } catch (e) {
-        console.warn("Response without JSON body.");
+    if (!response.ok) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            responseData = await response.json();
+        } else {
+            responseData = await response.text();
+        }
+        throw new Error(responseData);
     }
 
-    if (!response.ok) {
-        const errMsg = responseData?.message || `HTTP ${response.status}`;
-        throw new Error(errMsg);
+    try {
+        responseData = await response.json();
+    } catch (error) {
+        console.warn("Resposta sem corpo JSON");
     }
+
     return responseData;
 }
 

@@ -2,8 +2,10 @@ package PAI.controllerRest.ProgrammeEditionRestControllerTests;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.Programme.ProgrammeIDRequestDTO;
+import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import PAI.persistence.springdata.programme.ProgrammeRepositorySpringDataImpl;
@@ -20,11 +22,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -385,4 +392,20 @@ public class ProgrammeEditionRestControllerIntegrationTests {
         // assert
         assertEquals(HttpStatus.BAD_REQUEST.value(), statusCode);
     }
+    @Test
+    void getNumberOfStudents_returnsOkWithStudentCount() throws Exception {
+        mockMvc.perform(get("/programmeeditions/" + validProgrammeName + "/" + validAcronym + "/" + validSchoolYearId + "/students"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isNumber());
+    }
+    @Test
+    void getProgrammeEditions_returnsOkWithProgrammeEditions() throws Exception {
+        mockMvc.perform(get("/programmeeditions"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray());
+    }
+
+
 }

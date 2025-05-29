@@ -1,10 +1,10 @@
 @startuml
 skinparam linetype ortho
-skinparam ranksep 150
-skinparam nodesep 120
+skinparam ranksep 100
+skinparam nodesep 100
 skinparam packageBorderColor #F0B0B0
-skinparam arrowThickness 2
-top to bottom direction
+skinparam arrowThickness 1
+left to right direction
 
 
 title US05: "As an Administrator, I want to Register a Department in the System"\nLogical View Level 5
@@ -51,22 +51,22 @@ interface IDepartmentHateoasAssembler << interface >> {
 }
 
 package dto {
-entity DepartmentDTO << record >> {
+class DepartmentDTO << record >> {
   + name(): String
   + id(): String
   + acronym(): String
 }
-entity RegisterDepartmentRequest << record >> {
+class RegisterDepartmentRequest << record >> {
   + name(): String
   + acronym(): String
 }
-entity RegisterDepartmentRequestVOs << record >> {
+class RegisterDepartmentRequestVOs << record >> {
   + acronym(): DepartmentAcronym
   + name(): Name
 }
 
 }
-}
+
 '--- Services & Interfaces ---
 package Service {
     'skinparam PackageBorderColor White
@@ -100,8 +100,8 @@ package Factory {
     }
 }
 '--- Department Aggregate ---
-package Department {
-class Department <<root>> {
+package Aggregate {
+entity Department <<root>> {
   + equals(Object): boolean
   + changeDirector(TeacherID): boolean
   + identity(): DepartmentID
@@ -123,18 +123,13 @@ class DepartmentID << valueObject >>{
   + equals(Object): boolean
    acronym: DepartmentAcronym
 }
-class TeacherID << valueObject >>{
-  + hashCode(): int
-  + equals(Object): boolean
-   teacherID: String
-}
 class Name << valueObject >>{
   + hashCode(): int
   + equals(Object): boolean
   - isNameValid(String): boolean
    name: String
 }
-
+}
 '--- Repository IREPO---
 package Repository {
   interface IDepartmentRepository << interface >> {
@@ -209,55 +204,56 @@ package RepositorySpringData {
      departmentIDs: Set<DepartmentID>
   }
 }
+}
 
 
 
+RegisterDepartmentRequest <-left- DepartmentRestController
+DepartmentRestController "1" *-right-> "departmentAssembler\n1" IDepartmentAssembler
+DepartmentRestController "1" *-right-> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
+DepartmentRestController "1" *-right-> "departmentRegistrationService\n1" IDepartmentRegistrationService
 
-DepartmentRestController "1" *-[#595959,plain]-> "departmentAssembler\n1" IDepartmentAssembler
-DepartmentRestController "1" *-[#595959,plain]-> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
-DepartmentRestController "1" *-[#595959,plain]-> "departmentRegistrationService\n1" IDepartmentRegistrationService
+DepartmentAssemblerImpl -right-> DepartmentAcronym : "«create»"
+DepartmentAssemblerImpl -right-> DepartmentDTO : "«create»"
+DepartmentAssemblerImpl -right-> DepartmentID : "«create»"
+DepartmentAssemblerImpl -right-|>  IDepartmentAssembler
+DepartmentAssemblerImpl -right-> Name : "«create»"
+DepartmentAssemblerImpl -right-> RegisterDepartmentRequestVOs : "«create»"
 
-DepartmentAssemblerImpl -[dashed]-> DepartmentAcronym : "«create»"
-DepartmentAssemblerImpl -[dashed]-> DepartmentDTO : "«create»"
-DepartmentAssemblerImpl -[dashed]-> DepartmentID : "«create»"
-DepartmentAssemblerImpl -[#008200,dashed]-|>  IDepartmentAssembler
-DepartmentAssemblerImpl -[dashed]-> Name : "«create»"
-DepartmentAssemblerImpl -[dashed]-> RegisterDepartmentRequestVOs : "«create»"
+DepartmentHateoasAssemblerImpl -right-|> IDepartmentHateoasAssembler
 
-DepartmentHateoasAssemblerImpl -[#008200,dashed]-|> IDepartmentHateoasAssembler
+RegisterDepartmentRequestVOs "1" *-down-> "name\n1" Name
+RegisterDepartmentRequestVOs "1" *-down-> "_departmentAcronym\n1" DepartmentAcronym
 
-RegisterDepartmentRequestVOs "1" *-[#595959,plain]-> "name\n1" Name
-RegisterDepartmentRequestVOs "1" *-[#595959,plain]-> "_departmentAcronym\n1" acronym
+DepartmentRegistrationServiceImpl "1" *-right-> "departmentFactory\n1" IDepartmentFactory
+DepartmentRegistrationServiceImpl -right-|>  IDepartmentRegistrationService
+DepartmentRegistrationServiceImpl "1" *-right-> "departmentRepository\n1" IDepartmentRepository
 
-DepartmentRegistrationServiceImpl "1" *-[#595959,plain]-> "departmentFactory\n1" IDepartmentFactory
-DepartmentRegistrationServiceImpl -[#008200,dashed]-|>  IDepartmentRegistrationService
-DepartmentRegistrationServiceImpl "1" *-[#595959,plain]-> "departmentRepository\n1" IDepartmentRepository
+DepartmentFactoryImpl -right-> Department : "«create»"
+DepartmentFactoryImpl -right-|> IDepartmentFactory
 
-DepartmentFactoryImpl -[dashed]-> Department : "«create»"
-DepartmentFactoryImpl -[#008200,dashed]-|> IDepartmentFactory
+Department -up->  DepartmentID: "«create»"
+Department "1" *-up-> "_departmentId\n1" DepartmentID
+Department "1" *-up-> "_departmentName\n1" Name
+DepartmentID "1" *-up-> "_departmentAcronym\n1" DepartmentAcronym
 
-Department -[dashed]->  DepartmentID: "«create»"
-Department "1" *-[#595959,plain]-> "_departmentId\n1" DepartmentID
-Department "1" *-[#595959,plain]-> "_departmentName\n1" Name
-DepartmentID "1" *-[#595959,plain]-> "_departmentAcronym\n1" DepartmentAcronym
+DepartmentDataModel "1" *-right-> "id\n1" DepartmentIDDataModel
+DepartmentDataModel -right-> DepartmentIDDataModel: "«create»"
 
-DepartmentDataModel "1" *-[#595959,plain]-> "id\n1" DepartmentIDDataModel
-DepartmentDataModel -[dashed]-> DepartmentIDDataModel: "«create»"
+DepartmentRepositorySpringDataImpl "1" *-left-> "idMapper\n1" IDepartmentIDMapper
+DepartmentRepositorySpringDataImpl "1" *-left-> "departmentMapper\n1" IDepartmentMapper
+DepartmentRepositorySpringDataImpl -left-|>  IDepartmentRepository
+DepartmentRepositorySpringDataImpl "1" *-left-> "jpaRepo\n1" IDepartmentRepositorySpringData
 
-DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "idMapper\n1" IDepartmentIDMapper
-DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "departmentMapper\n1" IDepartmentMapper
-DepartmentRepositorySpringDataImpl -[#008200,dashed]-|>  IDepartmentRepository
-DepartmentRepositorySpringDataImpl "1" *-[#595959,plain]-> "jpaRepo\n1" IDepartmentRepositorySpringData
+DepartmentIDMapperImpl -right-> DepartmentAcronym : "«create»"
+DepartmentIDMapperImpl -right-> DepartmentID : "«create»"
+DepartmentIDMapperImpl -right-> DepartmentIDDataModel : "«create»"
+DepartmentIDMapperImpl -right-|> IDepartmentIDMapper
 
-DepartmentIDMapperImpl -[dashed]-> DepartmentAcronym : "«create»"
-DepartmentIDMapperImpl -[dashed]-> DepartmentID : "«create»"
-DepartmentIDMapperImpl -[dashed]-> DepartmentIDDataModel : "«create»"
-DepartmentIDMapperImpl -[#008200,dashed]-|> IDepartmentIDMapper
-
-DepartmentMapperImpl -[dashed]-> DepartmentAcronym : "«create»"
-DepartmentMapperImpl -[dashed]-> DepartmentDataModel : "«create»"
-DepartmentMapperImpl "1" *-[#595959,plain]-> "departmentFactory\n1" IDepartmentFactory
-DepartmentMapperImpl -[#008200,dashed]-|> IDepartmentMapper
-DepartmentMapperImpl -[dashed]-> Name : "«create»"
+DepartmentMapperImpl -left-> DepartmentAcronym : "«create»"
+DepartmentMapperImpl -left-> DepartmentDataModel : "«create»"
+DepartmentMapperImpl "1" -left-> "departmentFactory\n1" IDepartmentFactory
+DepartmentMapperImpl -left-|> IDepartmentMapper
+DepartmentMapperImpl -left-> Name : "«create»"
 
 @enduml
