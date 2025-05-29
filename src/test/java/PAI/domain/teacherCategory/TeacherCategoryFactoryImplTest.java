@@ -19,7 +19,7 @@ class TeacherCategoryFactoryImplTest {
 
         // Assert
         assertNotNull(category);
-        assertNotNull(category.getId());
+        assertNotNull(category.identity());
         assertEquals(name, category.getName());
     }
 

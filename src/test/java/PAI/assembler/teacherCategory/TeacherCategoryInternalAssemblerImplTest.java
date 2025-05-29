@@ -27,7 +27,7 @@ class TeacherCategoryInternalAssemblerImplTest {
 
         TeacherCategory doubleTeacherCategory = mock (TeacherCategory.class);
         when (doubleTeacherCategory.getName()).thenReturn(doubleName);
-        when (doubleTeacherCategory.getId()).thenReturn(doubleID);
+        when (doubleTeacherCategory.identity()).thenReturn(doubleID);
 
         TeacherCategoryInternalAssemblerImpl teacherCategoryAssembler = new TeacherCategoryInternalAssemblerImpl();
 
