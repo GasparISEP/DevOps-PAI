@@ -8,6 +8,7 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import CountryFlag from "react-country-flag";
 import {Link} from "react-router-dom";
+import { fetchDepartments } from '../../services/departmentService';
 
 export default function TeacherForm() {
     const initialFormState = {
@@ -34,23 +35,15 @@ export default function TeacherForm() {
     const [showErrorModal, setShowErrorModal] = useState(false);
 
     useEffect(() => {
-        async function fetchOptions() {
+        async function loadDepartments() {
             try {
-                const [deptRes] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_API_URL}/departments`),
-                ]);
-                const deptData = await deptRes.json();
-
-                console.log("Fetched departments:", deptData);
-
+                const deptData = await fetchDepartments();
                 setDepartments(deptData);
-
             } catch (err) {
-                console.error("Failed to load options:", err);
+                console.error("Failed to load departments:", err);
             }
         }
-
-        fetchOptions();
+        loadDepartments();
     }, []);
 
     function handleChange(e) {
@@ -109,7 +102,7 @@ export default function TeacherForm() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
                         <h1 style={{ margin: 0 }}>Register Teacher</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{ textDecoration: 'none' }}>
-                            Back to Main Page
+                            Back to Home Page
                         </Link>
                     </div>
 
