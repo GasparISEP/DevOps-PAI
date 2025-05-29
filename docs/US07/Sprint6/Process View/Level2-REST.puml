@@ -9,26 +9,23 @@ skinparam {
     DefaultTextAlignment center
 }
 
-actor Administrator as Admin #lightblue
+
 participant "Frontend" as FE #lightblue
 participant "Backend" as BE #lightblue
-database DB
 
-Admin -> FE: Request to create a school year
-activate FE #lightblue
-FE --> Admin: StartDate, EndDate, Description?
-deactivate FE #lightblue
-Admin -> FE: startDate, endDate, description
+
+
+[o-> FE: startDate, endDate, description
 activate FE #lightblue
 FE -> BE : (POST) Request to create a school year \n(startDate, endDate, description)
 activate BE #lightblue
-BE -> DB: (INSERT) Persist school year to \nDatabase (School Year)
-activate DB #lightblue
-DB --> BE: School Year
-deactivate DB #lightblue
+BE ->o]: (INSERT) Persist school year to \nDatabase (School Year)
+
+BE <-o]: School Year
+
 BE --> FE: (201 Created) Created school year
 deactivate BE #lightblue
-FE --> Admin: School year created successfully!
+[o<-- FE: School year created successfully!
 deactivate FE #lightblue
 
 @enduml
