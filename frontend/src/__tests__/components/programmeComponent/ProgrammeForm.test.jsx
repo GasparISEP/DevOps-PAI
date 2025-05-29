@@ -242,7 +242,13 @@ describe('ProgrammeForm tests', () => {
     test('closes error modal when clicking Close button', async () => {
         programmeService.registerProgramme.mockRejectedValue(new Error('Test error'));
 
-        render(<MemoryRouter><ProgrammeForm /></MemoryRouter>);
+        render(<MemoryRouter
+            future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+            }}
+            ><ProgrammeForm />
+        </MemoryRouter>);
 
         await waitFor(() => expect(screen.getByLabelText(/degree type/i)).toBeEnabled());
 
@@ -265,5 +271,4 @@ describe('ProgrammeForm tests', () => {
             expect(screen.queryByText(/test error/i)).not.toBeInTheDocument();
         });
     });
-
 });

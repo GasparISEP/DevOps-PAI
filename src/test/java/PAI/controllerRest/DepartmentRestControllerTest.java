@@ -344,4 +344,166 @@ class DepartmentRestControllerTest {
         assertEquals("Invalid department ID", response.getBody());
     }
 
+    @Test
+    void shouldReturnDepartmentById() {
+        // Arrange
+        String departmentId = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(departmentId));
+        Department department = mock(Department.class);
+        DepartmentDTO departmentDTO = mock(DepartmentDTO.class);
+
+        when(departmentAssembler.fromStringToDepartmentID(departmentId)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID)).thenReturn(java.util.Optional.of(department));
+        when(departmentAssembler.toDTO(department)).thenReturn(departmentDTO);
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(departmentId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(departmentDTO, response.getBody());
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenDepartmentDoesNotExist() {
+        // Arrange
+        String departmentId = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(departmentId));
+
+        when(departmentAssembler.fromStringToDepartmentID(departmentId)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID)).thenReturn(java.util.Optional.empty());
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(departmentId);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Department not found", response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrownForGetById() {
+        // Arrange
+        String invalidDepartmentId = "invalid-id";
+
+        when(departmentAssembler.fromStringToDepartmentID(invalidDepartmentId))
+                .thenThrow(new IllegalArgumentException("Invalid department ID"));
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(invalidDepartmentId);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid department ID", response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrownForGetById() {
+        // Arrange
+        String departmentId = "DEI";
+        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(departmentId));
+
+        when(departmentAssembler.fromStringToDepartmentID(departmentId)).thenReturn(departmentID);
+        when(registrationService.getDepartmentById(departmentID)).thenThrow(new RuntimeException("Database is down"));
+
+        // Act
+        ResponseEntity<?> response = controller.getDepartmentById(departmentId);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Unexpected error occurred", response.getBody());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrownForUpdateDirector() {
+        // Arrange
+        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
+        when(request.departmentID()).thenReturn("DEI");
+        when(request.teacherID()).thenReturn("MAF");
+
+        when(departmentAssembler.fromRequestToCommand(request))
+                .thenThrow(new IllegalArgumentException("Invalid department ID"));
+
+        // Act
+        ResponseEntity<?> response = controller.updateDepartmentDirector(request);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid department ID", response.getBody());
+    }
+
+    @Test
+    void shouldReturn409WhenBusinessRuleViolationExceptionIsThrownUpdateDirector() throws Exception {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+        IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
+        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
+
+        DepartmentRestController departmentRestController =
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
+
+        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
+        when(request.departmentID()).thenReturn("DEI");
+        when(request.teacherID()).thenReturn("MAF");
+
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        TeacherAcronym teacherAcronym = new TeacherAcronym("MAF");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
+        when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
+        when(command.department()).thenReturn(departmentID);
+        when(command.director()).thenReturn(teacherID);
+
+        when(updateDepartmentDirectorService.updateDirector(eq(departmentID), eq(teacherID)))
+                .thenThrow(new BusinessRuleViolationException("Director already assigned"));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.updateDepartmentDirector(request);
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Director already assigned", response.getBody());
+    }
+
+    @Test
+    void shouldReturn500WhenUnexpectedExceptionIsThrownUpdateDirector() throws Exception {
+        // Arrange
+        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+        IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
+        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
+
+        DepartmentRestController departmentRestController =
+                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
+
+        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
+        when(request.departmentID()).thenReturn("DEI");
+        when(request.teacherID()).thenReturn("MAF");
+
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
+        TeacherAcronym teacherAcronym = new TeacherAcronym("MAF");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+
+        DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
+        when(departmentAssembler.fromRequestToCommand(request)).thenReturn(command);
+        when(command.department()).thenReturn(departmentID);
+        when(command.director()).thenReturn(teacherID);
+
+        when(updateDepartmentDirectorService.updateDirector(eq(departmentID), eq(teacherID)))
+                .thenThrow(new RuntimeException("Unexpected database error"));
+
+        // Act
+        ResponseEntity<?> response = departmentRestController.updateDepartmentDirector(request);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Unexpected error occurred.", response.getBody());
+    }
+
+
+
 }

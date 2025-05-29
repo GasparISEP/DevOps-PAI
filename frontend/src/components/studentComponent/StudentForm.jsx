@@ -31,13 +31,14 @@ export default function StudentForm() {
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [formErrors, setFormErrors] = useState({});  // <-- Adicionado para erros
 
     function handleChange(e) {
         const { name, value } = e.target;
         let newValue = value;
 
-        if (['studentID', 'postalCodePart1', 'postalCodePart2'].includes(name)) {
-            newValue = value.replace(/[^0-9]/g, '');
+        if (name === 'postalCode') {
+            newValue = value.toUpperCase().replace(/[^A-Z0-9 -]/g, '');
         } else if (name === 'nif') {
             newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 18);
         } else if (['name', 'location', 'street'].includes(name)) {
@@ -56,14 +57,19 @@ export default function StudentForm() {
         setError('');
         setSuccess(null);
 
-        if (!form.phoneNumber) {
-            setError('⚠️ Fill in the phone number.');
-            return;
-        }
-        if (!/^\d{4}-\d{3}$/.test(form.postalCode)) {
-            setError('⚠️ Invalid zip code.');
-            return;
-        }
+        const errors = {};
+        if (!form.name) errors.name = '⚠️ Enter the student\'s name.';
+        if (!form.nif) errors.nif = '⚠️ Enter a valid NIF.';
+        if (!form.nifcountry) errors.nifcountry = '⚠️ Select a NIF country.';
+        if (!form.street) errors.street = '⚠️ Enter the street.';
+        if (!form.postalCode) errors.postalCode = '⚠️ Enter a valid postal code.';
+        if (!form.location) errors.location = '⚠️ Enter the location.';
+        if (!form.addressCountry) errors.addressCountry = '⚠️ Select an address country.';
+        if (!form.phoneNumber || form.phoneNumber.trim().length < 3) errors.phoneNumber = '⚠️ Enter a valid phone number.';
+        if (!form.email) errors.email = '⚠️ Enter a valid email.';
+
+        setFormErrors(errors);
+        if (Object.keys(errors).length > 0) return;
 
         setLoading(true);
 
@@ -140,9 +146,9 @@ export default function StudentForm() {
                                     type="text"
                                     value={form.name}
                                     onChange={handleChange}
-                                    required
                                     style={{ width: '554px' }}
                                 />
+                                {formErrors.name && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.name}</span>}
                             </div>
 
                             <div className="form-group">
@@ -158,9 +164,9 @@ export default function StudentForm() {
                                     maxLength="18"
                                     value={form.nif}
                                     onChange={handleChange}
-                                    required
                                     style={{ width: '554px' }}
                                 />
+                                {formErrors.nif && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.nif}</span>}
                             </div>
 
                             <div className="form-group">
@@ -207,6 +213,7 @@ export default function StudentForm() {
                                             ...base,
                                             fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#b5b5b5',
                                         }),
                                         input: (base) => ({
                                             ...base,
@@ -221,6 +228,7 @@ export default function StudentForm() {
                                         })
                                     }}
                                 />
+                                {formErrors.nifcountry && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.nifcountry}</span>}
                             </div>
 
                             <div className="form-group">
@@ -233,9 +241,9 @@ export default function StudentForm() {
                                     type="text"
                                     value={form.street}
                                     onChange={handleChange}
-                                    required
                                     style={{ width: '554px' }}
                                 />
+                                {formErrors.street && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.street}</span>}
                             </div>
 
                             <div className="form-group postal-code-group">
@@ -247,10 +255,10 @@ export default function StudentForm() {
                                     value={form.postalCode}
                                     onChange={handleChange}
                                     placeholder="Enter Student's Postal Code"
-                                    required
                                     className="form-input"
                                     style={{width: '554px'}}
                                 />
+                                {formErrors.postalCode && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.postalCode}</span>}
                                 </div>
 
                             <div className="form-group">
@@ -263,9 +271,9 @@ export default function StudentForm() {
                                     type="text"
                                     value={form.location}
                                     onChange={handleChange}
-                                    required
                                     style={{ width: '554px' }}
                                 />
+                                {formErrors.location && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.location}</span>}
                             </div>
 
                             <div className="form-group">
@@ -312,6 +320,7 @@ export default function StudentForm() {
                                             ...base,
                                             fontSize: '1.5rem',
                                             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+                                            color: '#b5b5b5',
                                         }),
                                         input: (base) => ({
                                             ...base,
@@ -326,6 +335,7 @@ export default function StudentForm() {
                                         })
                                     }}
                                 />
+                                {formErrors.addressCountry && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.addressCountry}</span>}
                             </div>
 
                             <div className="form-group">
@@ -349,7 +359,6 @@ export default function StudentForm() {
                                     dropdownStyle={{ zIndex: 9999 }}
                                     enableSearch
                                     searchClass="student-form-input"
-                                    required
                                     inputStyle={{ width: '554px', height: '4rem'}}
                                     inputProps={{
                                         onKeyDown: (e) => {
@@ -362,6 +371,7 @@ export default function StudentForm() {
                                         }
                                     }}
                                 />
+                                {formErrors.phoneNumber && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.phoneNumber}</span>}
                             </div>
 
                             <div className="form-group">
@@ -374,9 +384,9 @@ export default function StudentForm() {
                                     type="email"
                                     value={form.email}
                                     onChange={handleChange}
-                                    required
                                     style={{ width: '554px' }}
                                 />
+                                {formErrors.email && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.email}</span>}
                             </div>
 
 
