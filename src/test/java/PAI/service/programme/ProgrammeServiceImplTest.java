@@ -11,6 +11,7 @@ import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
@@ -116,7 +117,8 @@ class ProgrammeServiceImplTest {
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
-        Name nameDouble = mock(Name.class);
+        int numberOfSemesters = 6;
+        int numberOfEcts = 180;
 
         when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
         when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
@@ -127,9 +129,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
-        when(degreeTypeDouble.getName()).thenReturn(nameDouble);
-        when(degreeTypeDouble.getName().getName()).thenReturn("Bachelor");
-        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(6);
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -151,7 +153,8 @@ class ProgrammeServiceImplTest {
         createDoubles();
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
-        Name nameDouble = mock(Name.class);
+        int numberOfSemesters = 6;
+        int numberOfEcts = 180;
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
@@ -163,10 +166,10 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
-        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.of(degreeTypeDouble));
-        when(degreeTypeDouble.getName()).thenReturn(nameDouble);
-        when(nameDouble.getName()).thenReturn("Bachelor");
-        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(7);
+        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -186,7 +189,8 @@ class ProgrammeServiceImplTest {
         createDoubles();
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
-        Name nameDouble = mock(Name.class);
+        int numberOfSemesters = 6;
+        int numberOfEcts = 180;
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
@@ -198,10 +202,10 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
-        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.of(degreeTypeDouble));
-        when(degreeTypeDouble.getName()).thenReturn(nameDouble);
-        when(nameDouble.getName()).thenReturn("Bachelor");
-        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(7);
+        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -222,6 +226,10 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        int numberOfSemesters = 6;
+        int numberOfEcts = 180;
+
         when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
         when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
         when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
@@ -230,6 +238,11 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
+
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
@@ -237,6 +250,62 @@ class ProgrammeServiceImplTest {
 
         //Act + Assert
         assertThrows(Exception.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenQuantityOfSemesterIsLowerThanWhatIsAllowed() throws Exception {
+        //Arrange
+        createDoubles();
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        int numberOfSemesters = 5;
+        int numberOfEcts = 180;
+
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
+
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenQuantityOfSemesterIsHigherThanWhatIsAllowed() throws Exception {
+        //Arrange
+        createDoubles();
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+
+        DegreeType degreeTypeDouble = mock(DegreeType.class);
+        int numberOfSemesters = 11;
+        int numberOfEcts = 180;
+
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
+        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
+        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
+
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
     }
 
     @Test
