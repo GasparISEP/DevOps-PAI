@@ -10,7 +10,7 @@ public record CountStudentsDto(
 
         @NotBlank(message = "Programme acronym cannot be Blank") String programmeAcronym,
 
-        @NotNull(message = "schoolYearID cannot be Blank") UUID schoolYearID
+        @NotBlank(message = "schoolYearID cannot be Blank") String schoolYearID
 ) {}
 
 
