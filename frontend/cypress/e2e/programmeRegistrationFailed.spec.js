@@ -5,7 +5,7 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
         cy.wait(2000);
     });
 
-    it('demonstrates failed registration with invalid acronym (full word)', () => {
+    it('demonstrates failed registration with invalid acronym (full word) based on current form layout', () => {
         // Navigate to Programme Registration page
         cy.contains('Programme').then($elements => {
             cy.wrap($elements.first()).click({ force: true });
@@ -15,40 +15,41 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
         cy.url().should('include', '/programmes');
         cy.wait(2000);
 
-        // Fill the form with invalid acronym (full word instead of acronym)
-        cy.get('input[name="name"]')
-            .should('be.visible')
-            .clear()
-            .type('Computer Science', { delay: 100 }); // Slower typing for demo
-
-        // Use a full word as acronym - this should trigger the error
-        cy.get('input[name="acronym"]')
-            .should('be.visible')
-            .clear()
-            .type('Computer', { delay: 100 }); // Full word instead of "CS" - this is invalid
-
-        cy.get('input[name="quantSemesters"]')
-            .should('be.visible')
-            .clear()
-            .type('6', { delay: 100 });
-
-        // Fill the dropdowns with delays for demonstration
+        // Fill the dropdowns first, with delays for demonstration
+        // Degree Type (first dropdown)
         cy.get('select[name="degreeTypeID"]')
             .should('be.visible')
             .select(1);
         cy.wait(500);
 
+        // Department (second dropdown)
         cy.get('select[name="departmentID"]')
             .should('be.visible')
             .select(1);
         cy.wait(500);
 
+        // Programme Director (third dropdown)
         cy.get('select[name="teacherID"]')
             .should('be.visible')
             .select(1);
         cy.wait(500);
 
-        // Highlight the REGISTER button specifically (not the SUBSCRIBE button)
+        // Then fill the text inputs (Name, then Acronym)
+        cy.get('input[name="name"]')
+            .should('be.visible')
+            .clear()
+            .type('Computer Science', { delay: 100 });
+
+        // Use a full word as acronym - this should trigger the error
+        cy.get('input[name="acronym"]')
+            .should('be.visible')
+            .clear()
+            .type('Computer Science', { delay: 100 }); // Using a full word as invalid acronym
+
+
+        cy.wait(3000);
+
+        // Highlight the REGISTER button specifically
         cy.contains('button', 'REGISTER')
             .should('be.visible')
             .should('not.be.disabled')
@@ -72,6 +73,7 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
                 $error.css('background-color', '#ffe6e6');
             });
 
+        // Assert for the specific error message related to the acronym format
         cy.contains('Acronym must contain only uppercase letters, followed by optional digits', { timeout: 5000 })
             .should('be.visible')
             .then($errorMsg => {
@@ -86,33 +88,20 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
         // Wait to show the error message clearly in the recording
         cy.wait(5000);
 
-        // Try to close the error modal/dialog
-        cy.get('body').then(($body) => {
-            if ($body.find('.modal-btn').length > 0) {
-                cy.get('.modal-btn')
-                    .then($btn => $btn.css('border', '2px solid blue'))
-                    .wait(1000)
-                    .click();
-            } else if ($body.find('button:contains("OK")').length > 0) {
-                cy.get('button:contains("OK")')
-                    .then($btn => $btn.css('border', '2px solid blue'))
-                    .wait(1000)
-                    .click();
-            } else if ($body.find('button:contains("Close")').length > 0) {
-                cy.get('button:contains("Close")')
-                    .then($btn => $btn.css('border', '2px solid blue'))
-                    .wait(1000)
-                    .click();
-            }
-        });
+        // Try to close the error modal/dialog using the class name as seen in ProgrammeErrorModal.jsx
+        cy.get('button.modal-btn', { timeout: 5000 })
+            .should('be.visible')
+            .then($btn => $btn.css('border', '2px solid blue'))
+            .wait(1000)
+            .click();
 
-        cy.wait(2000);
+        cy.wait(2000); // Wait after closing modal
 
         // Verify we're still on the registration page (form submission failed)
         cy.url().should('include', '/programmes');
 
         // Show that the form is still there with the invalid data
-        cy.get('input[name="acronym"]').should('have.value', 'Computer');
+        cy.get('input[name="acronym"]').should('have.value', 'Math'); // Verify the invalid acronym is still in the input
 
         // Final screenshot showing we're back to the form
         cy.screenshot('demo-back-to-form-after-error');
@@ -127,6 +116,7 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
             { acronym: 'Engineering', name: 'Engineering Program' },
             { acronym: 'computer', name: 'Computer Science' }, // lowercase
             { acronym: 'BIO-TECH', name: 'Biotechnology' }, // with hyphen
+            { acronym: 'INV-AC', name: 'Another Invalid Acronym' } // Added another example
         ];
 
         invalidExamples.forEach((example, index) => {
@@ -141,13 +131,15 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
             });
             cy.url().should('include', '/programmes');
 
+            cy.get('select[name="degreeTypeID"]', { timeout: 10000 }).should('be.visible');
+
             // Fill form with current invalid example
-            cy.get('input[name="name"]').clear().type(example.name, { delay: 80 });
-            cy.get('input[name="acronym"]').clear().type(example.acronym, { delay: 80 });
-            cy.get('input[name="quantSemesters"]').clear().type('6');
-            cy.get('select[name="degreeTypeID"]').select(1);
-            cy.get('select[name="departmentID"]').select(1);
-            cy.get('select[name="teacherID"]').select(1);
+            cy.get('select[name="degreeTypeID"]').select(1).wait(300);
+            cy.get('select[name="departmentID"]').select(1).wait(300);
+            cy.get('select[name="teacherID"]').select(1).wait(300);
+
+            cy.get('input[name="name"]').clear().type(example.name, { delay: 150 });
+            cy.get('input[name="acronym"]').clear().type(example.acronym, { delay: 150 });
 
             // Submit and demonstrate the error
             cy.contains('button', 'REGISTER')
@@ -156,7 +148,7 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
                 .wait(1000)
                 .click();
 
-            cy.wait(2000);
+            cy.wait(2000); // Wait for error modal
 
             // Show the error message
             cy.contains('Acronym must contain only uppercase letters', { timeout: 8000 })
@@ -164,8 +156,14 @@ describe('Programme Registration - Invalid Acronym Demo', () => {
 
             cy.screenshot(`demo-invalid-example-${index + 1}-${example.acronym.replace(/[^a-zA-Z0-9]/g, '_')}`);
 
-            // Wait to show each example clearly
-            cy.wait(3000);
+            // Close the error modal for the next iteration
+             cy.get('button.modal-btn', { timeout: 5000 })
+                .should('be.visible')
+                .click();
+            cy.get('.modal-overlay', { timeout: 5000 }).should('not.exist');
+
+            // Wait to show each example clearly before the next loop iteration
+            cy.wait(5000);
         });
     });
 });
