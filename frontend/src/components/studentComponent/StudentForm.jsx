@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { registerStudent } from '../../services/studentService';
 import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
@@ -32,7 +32,7 @@ export default function StudentForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    useEffect(() => {
+    /*useEffect(() => {
         async function fetchLastStudentID() {
             try {
                 const response = await fetch('http://localhost:8081/students', {
@@ -59,7 +59,7 @@ export default function StudentForm() {
         }
 
         fetchLastStudentID();
-    }, []);
+    }, []);*/
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -77,9 +77,7 @@ export default function StudentForm() {
     }
 
     function clearForm() {
-        setForm(initialFormState);
-        setError('');
-        setSuccess(null);
+        window.location.reload();
     }
 
     async function handleSubmit(e) {
@@ -98,17 +96,31 @@ export default function StudentForm() {
 
         setLoading(true);
 
-        const payload = {
-            ...form,
-            studentID: Number(form.studentID),
-            academicEmail: `${form.studentID}@isep.ipp.pt`,
-            phoneCountryCode: form.countryCode,
-            phoneNumber: form.phoneNumber,
-            nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
-            addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
-        };
-
         try {
+            // Buscar o último studentID antes de prosseguir
+            const response = await fetch('http://localhost:8081/students', {
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(`HTTP ${response.status} - ${text}`);
+            }
+
+            const data = await response.json();
+            const nextID = (data.lastStudentID || 0) + 1;
+
+            // Preparar o payload com o novo studentID e outros campos
+            const payload = {
+                ...form,
+                studentID: nextID,  // Atribui o ID gerado dinamicamente
+                academicEmail: `${nextID}@isep.ipp.pt`,
+                phoneCountryCode: form.countryCode,
+                phoneNumber: form.phoneNumber,
+                nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
+                addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
+            };
+
             const resp = await registerStudent(payload);
             setSuccess(resp);
             setShowModal(true);
@@ -432,7 +444,7 @@ export default function StudentForm() {
                         )}
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
-                            window.location.reload();  // Força o reload da página
+                            window.location.reload();
                         }}>Close</button>
                     </div>
                 </div>
