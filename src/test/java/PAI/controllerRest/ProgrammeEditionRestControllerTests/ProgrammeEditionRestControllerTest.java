@@ -1,8 +1,9 @@
-package PAI.controllerRest;
+package PAI.controllerRest.ProgrammeEditionRestControllerTests;
 
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.controllerRest.ProgrammeEditionRestController;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
 import PAI.dto.programmeEdition.ProgrammeEditionDTO;
