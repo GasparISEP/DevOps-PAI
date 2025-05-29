@@ -45,8 +45,19 @@ interface IProgrammeService {
 }
 
 class ProgrammeServiceImpl {
-    +ProgrammeServiceImpl(programmeRepository: IProgrammeRepository)
+    -_programmeAssembler
+    +ProgrammeServiceImpl(programmeFactory: IProgrammeFactory, programmeRepository: IProgrammeRepository,\nprogrammeAssembler: IProgrammeAssembler, degreeTypeService: IDegreeTypeService)
     +registerProgramme (programmeVOsDTO: ProgrammeVOsDTO)
+}
+
+interface IDegreeTypeService {
+    +getDegreeTypeByID (degreeTypeID: DegreeTypeID)
+}
+
+class DegreeTypeService {
+    -_degreeTypeFactory
+    -_degreeTypeRepository
+    +getDegreeTypeByID (degreeTypeID: DegreeTypeID)
 }
 
 interface IProgrammeFactory {
@@ -62,16 +73,27 @@ interface IProgrammeRepository {
     +containsOfIdentity (programmeID: ProgrammeID))
 }
 
+interface IDegreeTypeRepository {
+    +ofIdentity (programmeID: ProgrammeID)
+}
+
 interface IProgrammeRepositorySpringData {
+    +save(programme: Programme)
+    +containsOfIdentity (programmeID: ProgrammeID))
+}
+
+interface IDegreeTypeRepositorySpringData {
+    +ofIdentity (programmeID: ProgrammeID)
 }
 
 class ProgrammeRepositorySpringData {
-     -_I_programmeFactory: IProgrammeDDDFactory
-     -_programmeRepo: List<Programme>
-     -_programmeRepoListFactory: IProgrammeDDDRepositoryListFactory
-     +ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper)
+     +ProgrammeRepositorySpringDataImpl(programmeMapper: IProgrammeMapper, programmeRepository, IProgrammeRepositorySpringData, programmeIDMapper: IProgrammeIDMapper)
      +save(programme: Programme)
      +containsOfIdentity (programmeID: ProgrammeID))
+}
+
+class DegreeTypeRepositorySpringData {
+     +ofIdentity (programmeID: ProgrammeID)
 }
 
 interface IProgrammeMapper {
@@ -84,12 +106,25 @@ class ProgrammeMapperImpl {
     +toDomain(programmeDataModel: ProgrammeDataModel)
 }
 
+interface IDegreeTypeMapper {
+    +toDataModel(degreeType: DegreeType)
+    +toDomain(degreeTypeDataModel: DegreeTypeDataModel)
+}
+
+class DegreeTypeMapperImpl {
+    +toDataModel(degreeType: DegreeType)
+    +toDomain(degreeTypeDataModel: DegreeTypeDataModel)
+}
+
 interface IProgrammeIDMapper {
     +toDataModel(programmeID: ProgrammeID)
     +toDomain(programmeIDDataModel: ProgrammeIDDataModel)
 }
 
-interface IDegreeTypeIDMapper {}
+interface IDegreeTypeIDMapper {
+    +toDataModel(degreeTypeID: DegreeTypeID)
+    +toDomain(degreeTypeIDDataModel: DegreeTypeIDDataModel)
+}
 
 interface IDepartmentIDMapper {}
 
@@ -100,6 +135,11 @@ interface IProgrammeFactory {}
 class ProgrammeIDMapperImpl {
     +toDataModel(programmeID: ProgrammeID)
     +toDomain(programmeIDDataModel: ProgrammeIDDataModel)
+}
+
+class DegreeTypeIDMapper {
+    +toDataModel(degreeTypeID: DegreeTypeID)
+    +toDomain(degreeTypeIDDataModel: DegreeTypeIDDataModel)
 }
 
 package "Programme Aggregate" {
@@ -197,7 +237,23 @@ IProgrammeAssembler "1" .u.> "*" ProgrammeVOsDTO
 IProgrammeService <|.- ProgrammeServiceImpl
 IProgrammeService "1" ..> "*" ProgrammeVOsDTO
 
-IProgrammeService "*" -r--> "1" IProgrammeRepository
+IProgrammeService "*" -r--> "_programmeRepository\n1" IProgrammeRepository
+IProgrammeService "*" -r--> "_programmeFactory\n1" IProgrammeFactory
+IProgrammeService "*" -u--> "_degreeTypeService\n1" IDegreeTypeService
+
+IDegreeTypeService "*" --l-> "_degreeTypeService\n1" IDegreeTypeRepository
+IDegreeTypeService <|.r. DegreeTypeService
+
+IDegreeTypeRepository <|.d. DegreeTypeRepositorySpringData
+IDegreeTypeRepository "*" ---> "_degreeTypeRepositorySpringData\n1" IDegreeTypeRepositorySpringData
+IDegreeTypeRepository "*" ---> "_degreeTypeMapper\n1" IDegreeTypeMapper
+IDegreeTypeRepository "*" ---> "_degreeTypeIDMapper\n1" IDegreeTypeIDMapper
+
+IDegreeTypeIDMapper "1" ..> "*" DegreeTypeID
+IDegreeTypeIDMapper "1" ..> "*" DegreeTypeIDDataModel
+
+IDegreeTypeMapper "1" ..> "*" DegreeType
+IDegreeTypeMapper "1" ..> "*" DegreeTypeDataModel
 
 IProgrammeFactory <|.d. ProgrammeFactoryImpl
 IProgrammeFactory "1" ..> "*" "<<root>>\nProgramme" : "<<creates>>"
