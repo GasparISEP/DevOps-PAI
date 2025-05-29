@@ -3,7 +3,7 @@ import React from 'react';
 export default function DurationSelector({ value, onChange, durations = [] }) {
     return (
         <div className="form-group">
-            <label className="form-label" htmlFor="duration">Duration (years)</label>
+            <label className="form-label" htmlFor="duration">Duration (semesters)</label>
             <select
                 className="form-input"
                 id="duration"
@@ -15,7 +15,7 @@ export default function DurationSelector({ value, onChange, durations = [] }) {
                 <option value="">Select duration</option>
                 {durations.map((duration) => (
                     <option key={duration} value={duration}>
-                        {duration} {duration === 1 ? 'year' : 'years'}
+                        {duration} {duration === 1 ? 'semester' : 'semesters'}
                     </option>
                 ))}
             </select>
