@@ -69,7 +69,7 @@ export default function TeacherDisplay() {
     }, []);
 
     useEffect(() => {
-        setCurrentPage(1); // Reset to first page when teachersPerPage changes
+        setCurrentPage(1); 
     }, [teachersPerPage]);
 
     if (loading) return (
