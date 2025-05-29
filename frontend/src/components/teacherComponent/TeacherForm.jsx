@@ -41,7 +41,12 @@ export default function TeacherForm() {
     // Images for background rotation
     const images = [teacherImg1, teacherImg2];
     const [bgIndex, setBgIndex] = useState(0);
+    const [nextIndex, setNextIndex] = useState(1);
     const [fade, setFade] = useState(false);
+
+    const FADE_IN_DURATION = 2000;
+    const VISIBLE_DURATION = 4000;
+    const FADE_OUT_DURATION = 2000;
 
     useEffect(() => {
         let fadeTimeout;
@@ -119,46 +124,30 @@ export default function TeacherForm() {
         }
     }
 
+    const currentImageStyle = {
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+        backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[bgIndex]})`,
+        backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
+        opacity: fade ? 0 : 1,
+        transition: `opacity ${fade ? FADE_OUT_DURATION : FADE_IN_DURATION}ms ease-in-out`,
+        zIndex: 1
+    };
+
+    const nextImageStyle = {
+        ...currentImageStyle,
+        backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[nextIndex]})`,
+        opacity: fade ? 1 : 0,
+        zIndex: 2
+    };
+
     return (
 
         <div className="form-main-component-div">
             <div className="form-main-grid">
 
                 <div className="form-img-main-div teacher-img-background" style={{position: 'relative', overflow: 'hidden'}}>
-                    {/* First image (current) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[bgIndex]})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
-                            opacity: fade ? 0 : 1,
-                            transition: 'opacity 1s ease-in-out',
-                            zIndex: 1
-                        }}
-                    />
-                    {/* Second image (next) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            backgroundImage: `linear-gradient(rgba(200, 26, 36, 0.5), rgba(228,7,7,0.6)), url(${images[(bgIndex+1)%images.length]})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
-                            opacity: fade ? 1 : 0,
-                            transition: 'opacity 1s ease-in-out',
-                            zIndex: 2
-                        }}
-                    />
+                    <div style={currentImageStyle} />
+                    <div style={nextImageStyle} />
                     <div className="form-logo-img-div" style={{position: 'relative', zIndex: 3}}>
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
