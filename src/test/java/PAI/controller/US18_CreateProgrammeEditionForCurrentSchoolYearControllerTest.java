@@ -531,7 +531,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
@@ -816,7 +816,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
@@ -920,7 +920,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName3 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Agricula");
         Acronym programmeAcronym3 = new Acronym("LEA");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
@@ -1021,7 +1021,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
@@ -1119,7 +1119,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentAcronym departmentAcronym = new DepartmentAcronym("DEI");
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
@@ -1204,7 +1204,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));
@@ -1288,7 +1288,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Test Programme");
         Acronym programmeAcronym = new Acronym("TP");
         MaxEcts maxEcts = new MaxEcts(30);
-        QuantSemesters quantSemesters = new QuantSemesters(4);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
         DegreeTypeID degreeTypeID = new DegreeTypeID("Licenciatura");
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("DEI"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("JFC"));

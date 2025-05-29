@@ -53,8 +53,8 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         // arrange
         String name = "ABC";
         String acronym = "ABC";
-        int maxOfEcts = 120;
-        int quantityOfSemesters = 2;
+        int maxOfEcts = 180;
+        int quantityOfSemesters = 6;
         DegreeTypeID degreeTypeID = new DegreeTypeID("123456789");
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("ALG"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("ALP"));
@@ -75,7 +75,7 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
 
         ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
         
-        MaxEcts maxEcts = new MaxEcts(240);
+        MaxEcts maxEcts = new MaxEcts(180);
         Name dtname = new Name("Master");
         DegreeType degreeType = new DegreeType(degreeTypeID, dtname, maxEcts);
         DepartmentAcronym dAcronym = new DepartmentAcronym("ALG");

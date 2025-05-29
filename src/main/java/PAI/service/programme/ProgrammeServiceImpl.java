@@ -64,11 +64,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         DegreeType degreeType = _degreeTypeService.getDegreeTypeById(degreeTypeID)
                 .orElseThrow(() -> new Exception("Degree type not found"));
 
-        if (!areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType)) {
-            throw new BusinessRuleViolationException(
-                    String.format("Invalid number of semesters for Degree Type: %s",
-                            degreeType.getName().getName()));
-        }
+        areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType);
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
@@ -191,17 +187,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
     private boolean areQtyOfSemesterAndDegreeTypeAligned (QuantSemesters semesters, DegreeType degreeType) {
 
-        String degreeTypeName = degreeType.getName().getName();
+        MaxEcts maxEcts = degreeType.getMaxEcts();
         int quantityOfSemesters = semesters.getQuantityOfSemesters();
+        int minNumberSemester = maxEcts.getMaxEcts() / 30;
+        int maxNumberSemester = minNumberSemester + 2;
 
-        if (degreeTypeName.equals("Bachelor") && (quantityOfSemesters < 6 || quantityOfSemesters > 8))
-            return false;
-        if (degreeTypeName.equals("Master") && (quantityOfSemesters < 2 || quantityOfSemesters > 4))
-            return false;
-        if (degreeTypeName.equals("Integrated Master") && (quantityOfSemesters < 10 || quantityOfSemesters > 12))
-            return false;
-        if (degreeTypeName.equals("PhD") && (quantityOfSemesters < 6 || quantityOfSemesters > 8))
-            return false;
+        if (quantityOfSemesters < minNumberSemester || quantityOfSemesters > maxNumberSemester){
+            throw new BusinessRuleViolationException("Quantity of Semesters should be " + minNumberSemester + " up to " + maxNumberSemester);
+        }
 
         return true;
     }

@@ -27,20 +27,6 @@ export default function ProgrammeForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
-    const degreeTypeSemestersFixed = {
-        "Bachelor": 6,
-        "Master": 4,
-        "Integrated Master": 10,
-        "PhD": 6
-    };
-
-    const degreeTypeMaxEctsFixed = {
-        "Bachelor": 180,
-        "Master": 120,
-        "Integrated Master": 300,
-        "PhD": 180
-    };
-
     useEffect(() => {
         async function fetchOptions() {
             try {
@@ -72,11 +58,10 @@ export default function ProgrammeForm() {
             if (name === "degreeTypeID") {
                 const selectedDegree = degreeTypes.find(d => d.id.toString() === value);
                 if (selectedDegree) {
-                    const fixedSemesters = degreeTypeSemestersFixed[selectedDegree.name] || '';
-                    updatedForm.quantSemesters = fixedSemesters;
+                    const maxEcts = parseInt(selectedDegree.maxEcts);
+                    updatedForm.maxEcts = maxEcts || '';
 
-                    const fixedMaxEcts = degreeTypeMaxEctsFixed[selectedDegree.name] || '';
-                    updatedForm.maxEcts = fixedMaxEcts;
+                    updatedForm.quantSemesters = maxEcts ? Math.ceil(maxEcts / 30) : '';
                 } else {
                     updatedForm.quantSemesters = '';
                     updatedForm.maxEcts = '';
@@ -130,8 +115,9 @@ export default function ProgrammeForm() {
 
     const selectedDegree = degreeTypes.find(d => d.id.toString() === form.degreeTypeID);
 
-    const fixedSemesters = selectedDegree ? degreeTypeSemestersFixed[selectedDegree.name] : null;
-    const fixedMaxEcts = selectedDegree ? degreeTypeMaxEctsFixed[selectedDegree.name] : null;
+
+    const displayedMaxEcts = selectedDegree ? parseInt(selectedDegree.maxEcts) : null;
+    const displayedSemesters = displayedMaxEcts ? Math.ceil(displayedMaxEcts / 30) : null;
 
     return (
         <div className="form-main-component-div">
@@ -170,16 +156,12 @@ export default function ProgrammeForm() {
                                     ))}
                                 </select>
                                 <div className="semester-and-Ects-div">
-                                {fixedSemesters !== null && (
-                                    <p className>
-                                        Semesters: {fixedSemesters}
-                                    </p>
-                                )}
-                                {fixedMaxEcts !== null && (
-                                    <p>
-                                        Max ECTS: {fixedMaxEcts}
-                                    </p>
-                                )}
+                                    {displayedSemesters !== null && (
+                                        <p>Semesters: {displayedSemesters}</p>
+                                    )}
+                                    {displayedMaxEcts !== null && (
+                                        <p>Max ECTS: {displayedMaxEcts}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -249,4 +231,3 @@ export default function ProgrammeForm() {
         </div>
     );
 }
-
