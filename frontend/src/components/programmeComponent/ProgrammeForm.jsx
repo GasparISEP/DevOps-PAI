@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { registerProgramme } from '../../services/programmeService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProgrammeSuccessModal from "./ProgrammeSuccessModal";
 import ProgrammeErrorModal from "./ProgrammeErrorModal";
 
@@ -11,6 +11,7 @@ export default function ProgrammeForm() {
         name: '',
         acronym: '',
         quantSemesters: '',
+        maxEcts: '',
         degreeTypeID: '',
         departmentID: '',
         teacherID: ''
@@ -26,6 +27,19 @@ export default function ProgrammeForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
+    const degreeTypeSemestersFixed = {
+        "Bachelor": 6,
+        "Master": 4,
+        "Integrated Master": 10,
+        "PhD": 6
+    };
+
+    const degreeTypeMaxEctsFixed = {
+        "Bachelor": 180,
+        "Master": 120,
+        "Integrated Master": 300,
+        "PhD": 180
+    };
 
     useEffect(() => {
         async function fetchOptions() {
@@ -50,7 +64,27 @@ export default function ProgrammeForm() {
     }, []);
 
     function handleChange(e) {
-        setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+
+        setForm((prevForm) => {
+            const updatedForm = { ...prevForm, [name]: value };
+
+            if (name === "degreeTypeID") {
+                const selectedDegree = degreeTypes.find(d => d.id.toString() === value);
+                if (selectedDegree) {
+                    const fixedSemesters = degreeTypeSemestersFixed[selectedDegree.name] || '';
+                    updatedForm.quantSemesters = fixedSemesters;
+
+                    const fixedMaxEcts = degreeTypeMaxEctsFixed[selectedDegree.name] || '';
+                    updatedForm.maxEcts = fixedMaxEcts;
+                } else {
+                    updatedForm.quantSemesters = '';
+                    updatedForm.maxEcts = '';
+                }
+            }
+
+            return updatedForm;
+        });
     }
 
     function handleClear() {
@@ -58,6 +92,7 @@ export default function ProgrammeForm() {
             name: '',
             acronym: '',
             quantSemesters: '',
+            maxEcts: '',
             degreeTypeID: '',
             departmentID: '',
             teacherID: ''
@@ -70,12 +105,15 @@ export default function ProgrammeForm() {
         setSuccess(null);
         setLoading(true);
         try {
-            const selectedDegreeType = degreeTypes.find(dt => dt.id === form.degreeTypeID);
+            const selectedDegreeType = degreeTypes.find(dt => dt.id.toString() === form.degreeTypeID);
+            if (!selectedDegreeType) throw new Error('Degree Type not selected or invalid.');
+
             const payload = {
                 ...form,
-                maxECTS: parseInt(selectedDegreeType.maxEcts),
-                quantSemesters: parseInt(form.quantSemesters)
+                quantSemesters: parseInt(form.quantSemesters),
+                maxECTS: parseInt(form.maxEcts)
             };
+
             const response = await registerProgramme(payload);
             setSuccess(response);
             setShowModal(true);
@@ -90,6 +128,11 @@ export default function ProgrammeForm() {
         }
     }
 
+    const selectedDegree = degreeTypes.find(d => d.id.toString() === form.degreeTypeID);
+
+    const fixedSemesters = selectedDegree ? degreeTypeSemestersFixed[selectedDegree.name] : null;
+    const fixedMaxEcts = selectedDegree ? degreeTypeMaxEctsFixed[selectedDegree.name] : null;
+
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
@@ -99,17 +142,11 @@ export default function ProgrammeForm() {
                     </div>
                 </div>
 
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={handleSubmit} autoComplete="off">
 
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginBottom: '2rem'
-                    }}>
-                        <h1 style={{margin: 0}}>Register Programme</h1>
-                        <Link to="/" className="pagination-btn2 pagination-btn-secondary"
-                              style={{textDecoration: 'none'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
+                        <h1 style={{ margin: 0 }}>Register Programme</h1>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary" style={{ textDecoration: 'none' }}>
                             Back to Home Page
                         </Link>
                     </div>
@@ -132,12 +169,23 @@ export default function ProgrammeForm() {
                                         <option key={d.id} value={d.id}>{d.name}</option>
                                     ))}
                                 </select>
+                                <div className="semester-and-Ects-div">
+                                {fixedSemesters !== null && (
+                                    <p className>
+                                        Semesters: {fixedSemesters}
+                                    </p>
+                                )}
+                                {fixedMaxEcts !== null && (
+                                    <p>
+                                        Max ECTS: {fixedMaxEcts}
+                                    </p>
+                                )}
+                                </div>
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="departmentID">Department</label>
-                                <select className="form-input" id="departmentID" name="departmentID"
-                                        value={form.departmentID} onChange={handleChange} required>
+                                <select className="form-input" id="departmentID" name="departmentID" value={form.departmentID} onChange={handleChange} required>
                                     <option value="" disabled hidden>Select Department</option>
                                     {departments.map(d => (
                                         <option key={d.id} value={d.id}>
@@ -149,8 +197,7 @@ export default function ProgrammeForm() {
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="teacherID">Programme's Director</label>
-                                <select className="form-input" id="teacherID" name="teacherID"
-                                        value={form.teacherID} onChange={handleChange} required>
+                                <select className="form-input" id="teacherID" name="teacherID" value={form.teacherID} onChange={handleChange} required>
                                     <option value="" disabled hidden>Select Teacher</option>
                                     {teachers.map(t => (
                                         <option key={t.id} value={t.id}>
@@ -162,35 +209,16 @@ export default function ProgrammeForm() {
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="name">Name</label>
-                                <input className="form-input" placeholder="Enter Programme's name" id="name" name="name"
-                                       value={form.name} onChange={handleChange} required/>
+                                <input className="form-input" placeholder="Enter Programme's name" id="name" name="name" value={form.name} onChange={handleChange} required />
                             </div>
 
                             <div className="form-group">
                                 <label className="form-label" htmlFor="acronym">Acronym</label>
-                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym"
-                                       name="acronym"
-                                       value={form.acronym} onChange={handleChange} required/>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="quantSemesters">Semesters</label>
-                                <input className="form-input"
-                                       placeholder="Enter number of semesters"
-                                       id="quantSemesters"
-                                       name="quantSemesters"
-                                       type="number"
-                                       min="1"
-                                       max="10"
-                                       value={form.quantSemesters}
-                                       onChange={handleChange}
-                                       required/>
+                                <input className="form-input" placeholder="Enter Programme's acronym" id="acronym" name="acronym" value={form.acronym} onChange={handleChange} required />
                             </div>
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary"
-                                        onClick={handleClear}
-                                        disabled={loading}>
+                                <button type="button" className="btn btn-secondary" onClick={handleClear} disabled={loading}>
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
@@ -221,3 +249,4 @@ export default function ProgrammeForm() {
         </div>
     );
 }
+
