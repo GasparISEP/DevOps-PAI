@@ -494,6 +494,30 @@ class CourseEditionRestControllerTest {
     }
 
     @Test
+    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsNotFoundWithMessage() throws Exception {
+        // Arrange
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID))
+                .thenThrow(new IllegalArgumentException("Invalid teacher or course edition"));
+
+        // Act & Assert
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Invalid teacher or course edition"));
+    }
+
+    @Test
     void getCourseEditionAverageGrade_Success() throws Exception {
         String programmeAcronym = "LEI";
         String VALID_SCHOOL_YEAR_UUID = "123e4567-e89b-12d3-a456-426614174000";
