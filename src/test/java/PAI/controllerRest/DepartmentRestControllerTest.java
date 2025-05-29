@@ -168,7 +168,7 @@ class DepartmentRestControllerTest {
     }
 
     @Test
-    void shouldReturnListOfDepartmentDTO() {
+    void shouldReturnListOfDepartmentDWDDTO() {
         // Arrange
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
@@ -179,15 +179,15 @@ class DepartmentRestControllerTest {
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         Department department3 = mock(Department.class);
-        DepartmentDTO departmentDTO1 = mock(DepartmentDTO.class);
-        DepartmentDTO departmentDTO2 = mock(DepartmentDTO.class);
-        DepartmentDTO departmentDTO3 = mock(DepartmentDTO.class);
+        DepartmentWithDirectorDTO departmentDTO1 = mock(DepartmentWithDirectorDTO.class);
+        DepartmentWithDirectorDTO departmentDTO2 = mock(DepartmentWithDirectorDTO.class);
+        DepartmentWithDirectorDTO departmentDTO3 = mock(DepartmentWithDirectorDTO.class);
 
         List<Department> departments = List.of(department1, department2, department3);
-        List<DepartmentDTO> departmentDTOs = List.of(departmentDTO1, departmentDTO2, departmentDTO3);
+        List<DepartmentWithDirectorDTO> departmentDTOs = List.of(departmentDTO1, departmentDTO2, departmentDTO3);
 
         when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
-        when(departmentAssembler.toDTOs(departments)).thenReturn(departmentDTOs);
+        when(departmentAssembler.toDWDDTOs(departments)).thenReturn(departmentDTOs);
 
         // Act
         ResponseEntity<?> response = departmentRestController.getAllDepartments();
@@ -199,7 +199,7 @@ class DepartmentRestControllerTest {
     }
 
     @Test
-    void shouldReturnEmptyListOfDepartmentDTOIfThereAreNoDepartments() {
+    void shouldReturnEmptyListOfDepartmentDWDDTOIfThereAreNoDepartments() {
         // Arrange
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
@@ -209,10 +209,10 @@ class DepartmentRestControllerTest {
 
 
         List<Department> departments = List.of();
-        List<DepartmentDTO> departmentDTOs = List.of();
+        List<DepartmentWithDirectorDTO> departmentDTOs = List.of();
 
         when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
-        when(departmentAssembler.toDTOs(departments)).thenReturn(departmentDTOs);
+        when(departmentAssembler.toDWDDTOs(departments)).thenReturn(departmentDTOs);
 
         // Act
         ResponseEntity<?> response = departmentRestController.getAllDepartments();
