@@ -16,7 +16,7 @@ public class Semester {
     }
 
     private boolean isSemesterValid(int semester) {
-        return semester >= 1 && semester <= 2;
+        return semester >= 1;
     }
 
     @Override
