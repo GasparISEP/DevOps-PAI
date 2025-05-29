@@ -4,8 +4,10 @@ autonumber
 
 participant "<<Component>>\n:Router" as RT #lightpink
 participant "<<Component>>\n:ProgrammeRestController" as C #lightgreen
-participant "<<Component>>\n:ProgrammeService" as S #lightblue
-participant "<<Component>>\n:ProgrammeRepository" as R #lightyellow
+participant "<<Component>>\n:ProgrammeService" as PS #lightblue
+participant "<<Component>>\n:DegreeTypeService" as DTS #lightblue
+participant "<<Component>>\n:ProgrammeRepository" as PR #lightyellow
+participant "<<Component>>\n:DegreeTypeRepository" as DTR #lightyellow
 participant "<<Component>>\n:Domain" as D #lightpink
 participant "Programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
@@ -13,37 +15,48 @@ participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 -> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
 
 RT -> C ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
-C -> S ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+C -> PS ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
 
-S -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
 D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
 activate P
 P --> D: Programme1
 deactivate P
-D --> S --: Programme1
+D --> PS --: Programme1
 
-S -> R ++: isNameAlreadyRegistered (name)
-R -> Drivers ++: existsByName (name)
+PS -> DTS ++: getDegreeTypeByID(degreeTypeID)
+DTS -> DTR ++: ofIdentity(degreeTypeID)
+DTR -> Drivers ++: ofIdentity(degreeTypeID)
+Drivers -> : ofIdentity(degreeTypeID)
+Drivers <-- : degreeType
+DTR <-- Drivers --: degreeType
+DTS <-- DTR --: degreeType
+PS <-- DTS --: degreeType
+
+PS -> PS : areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType)
+
+PS -> PR ++: isNameAlreadyRegistered (name)
+PR -> Drivers ++: existsByName (name)
 Drivers -> : existsByName (name)
 Drivers <-- : False
-Drivers --> R --: False
-R --> S --: False
+Drivers --> PR --: False
+PR --> PS --: False
 
-S -> R ++: isAcronymAlreadyRegistered (acronym)
-R -> Drivers ++: existsByAcronym (name)
+PS -> PR ++: isAcronymAlreadyRegistered (acronym)
+PR -> Drivers ++: existsByAcronym (name)
 Drivers -> : existsByAcronym (name)
 Drivers <-- : False
-Drivers --> R --: False
-R --> S --: False
+Drivers --> PR --: False
+PR --> PS --: False
 
-S -> R ++: save(Programme1)
-R -> Drivers ++: save(Programme1)
+PS -> PR ++: save(Programme1)
+PR -> Drivers ++: save(Programme1)
 Drivers -> : save(Programme1)
 Drivers <-- : Programme1
-Drivers --> R --: Programme1
-R --> S --: Programme1
+Drivers --> PR --: Programme1
+PR --> PS --: Programme1
 
-S --> C --: Programme1
+PS --> C --: Programme1
 C --> RT --: Programme1
 <-- RT --: (201, Created) Programme1
 @enduml

@@ -21,9 +21,9 @@ System --> Admin --: Choose a ProgrammeDirector
 
 Admin -> System  ++: Teacher
 
-System --> Admin  --: Name? Acronym? quantityOfSemesters?
+System --> Admin  --: Name? Acronym?
 
-Admin -> System  ++: name, acronym, quantityOfSemesters
+Admin -> System  ++: name, acronym
 
 System --> Admin  : Programme registered successfully! \n(Display Programme details)
 deactivate System
