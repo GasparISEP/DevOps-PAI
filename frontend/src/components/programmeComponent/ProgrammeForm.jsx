@@ -215,7 +215,8 @@ export default function ProgrammeForm() {
                                 </p>
                                 <p><strong>ECTS Credits:</strong> {degreeTypes.find(dt => dt.id === success.degreeTypeID)?.maxEcts || 'Unknown'}</p>
                                 <p><strong>Department:</strong> {departments.find(d => d.id === success.departmentID)?.name || 'Unknown'}</p>
-                                <p><strong>Programme's Director:</strong> {teachers.find(t => t.id === success.teacherID)?.name || 'Unknown'}</p>
+                                <p><strong>Programme's Director:</strong> {teachers.find(t => t.id === success.teacherID)?.name +
+                                    ' (' + teachers.find(t => t.id === success.teacherID)?.id + ')' || 'Unknown'}</p>
                             </div>
                         )}
                         <button className="modal-btn" onClick={() => setShowModal(false)}>Close</button>
