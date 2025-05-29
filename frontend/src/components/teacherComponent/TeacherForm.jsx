@@ -327,7 +327,6 @@ export default function TeacherForm() {
                                 <p><strong>Acronym:</strong> {success.id}</p>
                                 <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Nif:</strong> {success.nif}</p>
-                                <p><strong>Email:</strong> {success.email}</p>
                                 <p><strong>Academic Background:</strong> {success.academicBackground}</p>
                                 <p><strong>Street:</strong> {success.street}</p>
                                 <p><strong>Postal Code:</strong> {success.postalCode}</p>
