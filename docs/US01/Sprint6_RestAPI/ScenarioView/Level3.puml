@@ -24,7 +24,7 @@ end legend
 
 class US01_ConfigureTeacherCategoryRESTController #E0FFFF{
       + US01_ConfigureTeacherCategoryController (service : ITeacherCategoryService)
-      + configureTeacherCategory(name: String): \nTeacherCategoryResponseDTO
+      + configureTeacherCategory(name: String): TeacherCategoryResponseDTO
 }
 
 ' ======= SERVICE =======
@@ -174,12 +174,22 @@ class TeacherCategoryExternalAssemblerImpl #E0FFFF {
     + toVO (teacherCategoryRequestDTO: TeacherCategoryRequestDTO): Name
 }
 
+interface ITeacherCategoryHateoasAssembler #E0FFFF  {
+    + toModel (teacherCategoryResponseDTO: TeacherCategoryResponseDTO): \n EntityModel<TeacherCategoryResponseDTO>
+}
+
+class TeacherCategoryHateoasAssemblerImpl #E0FFFF {
+    + toModel (teacherCategoryResponseDTO: TeacherCategoryResponseDTO): \n EntityModel<TeacherCategoryResponseDTO>
+}
+
 ' ======= NAVIGABILITY =======
 
-US01_ConfigureTeacherCategoryRESTController "1" -u-> "_service  1             " ITeacherCategoryService
+US01_ConfigureTeacherCategoryRESTController "1" .u.> "_service  1             " ITeacherCategoryService
 US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryResponseDTO
 US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
-US01_ConfigureTeacherCategoryRESTController "1"--> "_assembler 1" ITeacherCategoryExternalAssembler
+US01_ConfigureTeacherCategoryRESTController "1"..> "_assembler 1" ITeacherCategoryExternalAssembler
+US01_ConfigureTeacherCategoryRESTController "1".u.> "_hateoasAssembler 1" ITeacherCategoryHateoasAssembler
+TeacherCategoryHateoasAssemblerImpl ..|> ITeacherCategoryHateoasAssembler
 
 TeacherCategoryExternalAssemblerImpl ..|> ITeacherCategoryExternalAssembler
 ITeacherCategoryExternalAssembler "1"..> "1" TeacherCategoryDTO
@@ -197,13 +207,14 @@ TeacherCategoryFactoryImpl..|> ITeacherCategoryFactory
 ITeacherCategoryFactory "1"..> "1" TeacherCategory
 
 TeacherCategoryRepositorySpringDataImpl ..|> ITeacherCategoryRepository
-TeacherCategoryRepositorySpringDataImpl "1"-u-> "1 _springData"ITeacherCategoryRepositorySpringData
-TeacherCategoryRepositorySpringDataImpl "1"..> "1" TeacherCategory
+TeacherCategoryRepositorySpringDataImpl "1"-u-> "1 _springData" ITeacherCategoryRepositorySpringData
+TeacherCategoryRepositorySpringDataImpl "1".u.> "1" TeacherCategory
 TeacherCategoryRepositorySpringDataImpl "1"..> "1" Name
 TeacherCategoryRepositorySpringDataImpl "1"-u-> "_mapper 1        " ITeacherCategoryMapper
 TeacherCategoryRepositorySpringDataImpl "1" -->"   _idMapper   1            " ITeacherCategoryIDMapper
 ITeacherCategoryRepositorySpringData "1" .u.> "1" TeacherCategoryDataModel
-ITeacherCategoryRepositorySpringData "1" ..> "1" Name
+ITeacherCategoryRepositorySpringData "1" .u.> "1" Name
+ITeacherCategoryRepository "1" .u.> "1" Name
 
 TeacherCategoryMapperImpl ..|> ITeacherCategoryMapper
 TeacherCategoryIDMapperImpl ..|> ITeacherCategoryIDMapper
@@ -215,6 +226,6 @@ ITeacherCategoryMapper "1"..> "1" TeacherCategory
 TeacherCategoryDataModel "1" --> "_idDataModel 1 "TeacherCategoryIDDataModel
 
 TeacherCategory "1"-u-> "                                            _name 1"Name
-TeacherCategory "1"--> "_id 1    "TeacherCategoryID
+TeacherCategory "1"-l-> "_id 1    "TeacherCategoryID
 
 @enduml
