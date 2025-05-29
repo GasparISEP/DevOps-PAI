@@ -32,6 +32,11 @@ describe('Course Registration Flow', () => {
             $el => $el.click()
         );
 
+        highlightAndAct(
+            cy.get('select[name="programme"]', { scrollBehavior: false }),
+            $el => $el.select(3)
+        );
+
         // Selects the Programme
         highlightAndAct(
             cy.get('select[name="programme"]'),
@@ -81,11 +86,10 @@ describe('Course Registration Flow', () => {
         cy.wait(120);
 
         // Confirmation PopUp
-        highlightAndAct(
             cy.contains('The course was registered successfully.').should('be.visible'),
             () => {
             }
-        );
+        ;
         cy.wait(120);
     });
 });
