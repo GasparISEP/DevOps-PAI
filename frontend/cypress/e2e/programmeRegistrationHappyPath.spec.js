@@ -6,7 +6,7 @@ describe('Successfully Register a Programme', () => {
     });
 
     it('navigates to programme registration', () => {
-        // Click Programme button directly
+        // Click Programme button
         cy.contains('Programme')
             .as('programmeLink');
 
@@ -16,7 +16,7 @@ describe('Successfully Register a Programme', () => {
             .wait(2000)
             .click();
 
-        // Verify URL
+        // Verify endpoint
         cy.url().should('include', '/programmes');
     });
 
@@ -43,7 +43,7 @@ describe('Successfully Register a Programme', () => {
         cy.get('select[name="degreeTypeID"]').select(1).wait(1000);
         // Department
         cy.get('select[name="departmentID"]').select(1).wait(1000);
-        // Programme Director (Teacher)
+        // Programme Director
         cy.get('select[name="teacherID"]').select(1).wait(1000);
 
         // Submit and wait for success
