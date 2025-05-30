@@ -9,7 +9,7 @@ participant ":UI" as ui #application
 participant ":CourseEditionRESTController" as ctrlrREST #business
 participant ":StudentGradeAssemblerImpl" as assembler #implementation
 participant ":GradeAStudentServiceImpl" as service #motivation
-participant ":StudentGradeRepositorySpringData" as sgr #lightcoral
+participant ":StudentGradeRepositorySpringData" as sgr #lightgreen
 participant ":StudentGradeMapper" as sgmp #mistyrose
 participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
 
@@ -24,6 +24,9 @@ RUC -> ui : This CourseEdition!
 
 ui --> RUC : Fill in the **Student grading** information
 RUC -> ui : grade, date, courseEditionID, studentID!
+
+note over ui : Springboot automatically converts from JSON to **D**ata **T**ransfer **O**bject
+
 ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
 activate ctrlrREST
 
@@ -37,21 +40,24 @@ service -> sgr : save(studentGrade1)
 activate sgr
 sgr -> sgmp : toData(studentGrade1)
 activate sgmp
-sgmp --> sgr : studentGradeDataModel1
+sgmp --> sgr : studentGradeDataModel1(studentIDDataModel, grade, date)
 deactivate sgmp
 sgr -> IStudentGradeRepoSpringData : save(studentGradeDataModel1)
 activate IStudentGradeRepoSpringData
 IStudentGradeRepoSpringData ->  : insert
-IStudentGradeRepoSpringData <--  : studentGradeDataModel1
-IStudentGradeRepoSpringData --> sgr : studentGrade1
+IStudentGradeRepoSpringData <--  : studentGradeDataModel1(studentIDDataModel, grade, date)
+IStudentGradeRepoSpringData --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
 deactivate IStudentGradeRepoSpringData
 sgr -> sgmp : toDomain(studentGradeDataModel1)
 activate sgmp
-sgmp --> sgr : studentGrade1
+sgmp --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
 deactivate sgmp
-sgr --> service -- : studentGrade1
+sgr --> service -- : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
 service --> ctrlrREST -- : Status Code 200 (OK!)
 ctrlrREST --> ui -- : Status Code 200 (OK!)
+
+note over ui : Springboot automatically converts from **D**ata **T**ransfer **O**bject to JSON
+
 ui --> RUC : Success!
 deactivate ui
 
