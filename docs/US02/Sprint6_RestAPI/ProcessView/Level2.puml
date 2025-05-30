@@ -6,25 +6,25 @@ skinparam shadowing true
 
 autonumber
 
-actor Administrator as admin #DeepSkyBlue
+
 participant "Frontend" as FE <<Container>> #LightBlue
 participant "Backend" as BE <<Container>> #LightGreen
 participant "Database" as DB <<Container>> #LightGray
 
 ' Início do processo
-admin -> FE: I want to configure an access method!
+-> FE: I want to configure an access method!
 activate FE #LightBlue
 
-FE -> admin: What access method name?
+<-- FE: What access method name?
 deactivate FE
 
-admin -> FE: Enter access method name!
+-> FE: Enter access method name!
 activate FE #LightBlue
 
-FE -> admin: Sure?
+<-- FE: Sure?
 deactivate FE
 
-admin -> FE: Yes!
+-> FE: Yes!
 activate FE #LightBlue
 
 FE -> BE: (POST) Request configure an access method (amRequestDTO)
@@ -38,7 +38,7 @@ deactivate DB
 BE --> FE: (201, Created) Access method configured!
 deactivate BE
 
-FE --> admin: Ok!
+<-- FE: Ok!
 deactivate FE
 
 @enduml
