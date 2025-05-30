@@ -64,7 +64,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         if (!isDateOfGradeWithinSchoolYearOfCourseEdition(gradeAStudentCommand.courseEditionID(), gradeAStudentCommand.date()))
             throw new BusinessRuleViolationException("Not possible to add grade as it's date is not inside the school year's range");
 
-        if (hasStudentAlreadyGradeAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
+        if (hasStudentAlreadyBeenGradedAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
             throw new BusinessRuleViolationException("Not possible to add grade as student has already been graded in this course edition");
 
         StudentGrade studentGrade = _studentGradeFactory.newGradeStudent(
@@ -126,7 +126,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         return true;
     }
 
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID) {
+    private boolean hasStudentAlreadyBeenGradedAtThisCourseEdition(StudentID student, CourseEditionID courseEditionID) {
         for ( StudentGrade existingGradeStudent : _studentGradeRepo.findAll()){
             if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
         }
