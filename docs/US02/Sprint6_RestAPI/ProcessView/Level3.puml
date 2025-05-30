@@ -75,7 +75,7 @@ Service --> Controller: amServiceDTO
 deactivate Service
 
 ref over Controller
-    Convert amServiceDTO to amRequestDTO
+    Convert amServiceDTO to amResponseDTO
 end
 
 Controller --> router: (201, Created) amResponse
