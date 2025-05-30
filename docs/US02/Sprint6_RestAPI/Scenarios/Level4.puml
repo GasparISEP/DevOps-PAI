@@ -2,7 +2,7 @@
 
 @startuml
 
-title US02: As an Administrator, I want to configure degree access methods in the system.\n(Process View - Level 4 - Full Backend Flow)
+title US02: As an Administrator, I want to configure degree access methods in the system.\n(Scenario - Level 4 - Full Backend Flow)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true

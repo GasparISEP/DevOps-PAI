@@ -4,6 +4,8 @@ skinparam nodesep 25
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
+title US02: As an Administrator, I want to configure degree access methods in the system.\n (Scenario View - Level 3 - Backend)
+
 legend left
 Legend:
 
