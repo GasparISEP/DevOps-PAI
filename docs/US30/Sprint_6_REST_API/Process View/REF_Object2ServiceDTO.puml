@@ -16,7 +16,7 @@ service -> assembler: toServiceDTO (courseInStudyPlan)
 
 activate assembler #LightBlue
 create "courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO"
-assembler -> "courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO": createCourseInStudyPlanServiceDTO (obj.getSemester,\n obj.getCurricularYear,\n obj.getCourseID,\n obj.getStudPlanID,\n obj.getDurationOfCourse,\n obj.QuantityOfCreditsEcts)
+assembler -> "courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO": createCourseInStudyPlanServiceDTO (courseInStudyPlan.getSemester,\n courseInStudyPlan.getCurricularYear,\n courseInStudyPlan.getCourseID,\n courseInStudyPlan.getStudPlanID,\n courseInStudyPlan.getDurationOfCourse,\n courseInStudyPlan.QuantityOfCreditsEcts)
 
 deactivate assembler
 deactivate service
