@@ -1,0 +1,65 @@
+@startuml
+
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Scenario View - Level 4 - Full Backend Flow)
+
+autonumber
+
+participant ":Router" as router <<component>> <<Router>> #teal
+participant ":CourseInStudyPlanRESTController" as restController <<component>> <<RESTController>> #teal
+participant ":CourseInStudyPlanControllerAssembler" as assembler <<component>> <<Assembler>> #LightGreen
+participant ":CourseInStudyPlanService" as service <<component>> <<Service>> #teal
+participant ":CourseInStudyPlanFactory" as factory <<component>> <<Factory>> #LightBlue
+participant ":CourseInStudyPlanRepository" as repository <<component>> <<Repository>> #teal
+participant ":CourseInStudyPlanSpringData" as springData <<component>> <<SpringData>> #LightGray
+
+note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
+
+-> router: POST /addCourseToProgramme (JSON)
+activate router #E1F5FE
+
+router -> restController: addCourseToProgramme(RequestDTO)
+activate restController #E1F5FE
+
+restController -> assembler: toCommand(RequestDTO)
+note right: Conversion from DTO to Command
+
+assembler --> restController: Command
+
+restController -> service: addCourseToProgramme(Command)
+activate service #E1F5FE
+
+service -> factory: createCourseInStudyPlan(Command)
+note right: Creation of CourseInStudyPlan Aggregate
+
+factory --> service: CourseInStudyPlan
+
+service -> repository: save(CourseInStudyPlan)
+activate repository #E1F5FE
+
+repository -> springData: save(CourseInStudyPlan)
+note right: Persistence via Spring Data
+
+springData --> repository: CourseInStudyPlan
+deactivate repository
+
+service -> assembler: toServiceDTO(CourseInStudyPlan)
+note right: Conversion to ServiceDTO
+
+assembler --> service: ServiceDTO
+
+service --> restController: ServiceDTO
+deactivate service
+
+restController -> assembler: toResponseDTO(ServiceDTO)
+note right: Conversion to ResponseDTO
+
+assembler --> restController: ResponseDTO
+
+restController --> router: (201, Created) ResponseDTO
+deactivate restController
+
+router --> router: Automatic Conversion to JSON
+
+<-- router: (201, Created) JSON
+
+@enduml
