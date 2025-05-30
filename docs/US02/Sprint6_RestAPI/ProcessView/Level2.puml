@@ -15,17 +15,13 @@ participant "Database" as DB <<Container>> #LightGray
 -> FE: I want to configure an access method!
 activate FE #LightBlue
 
-<-- FE: What access method name?
-deactivate FE
 
--> FE: Enter access method name!
-activate FE #LightBlue
 
-<-- FE: Sure?
-deactivate FE
 
--> FE: Yes!
-activate FE #LightBlue
+
+
+
+
 
 FE -> BE: (POST) Request configure an access method (amRequestDTO)
 activate BE #LightGreen
