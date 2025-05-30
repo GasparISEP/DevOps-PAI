@@ -58,6 +58,14 @@ class AccessMethodServiceAssemblerImpl {
     + toRequestDTO(accessMethodServiceDTO: AccessMethodServiceDTO): AccessMethodRequestDTO
 }
 
+interface IAccessMethodHateoasAssembler {
+    + toModel(dto: AccessMethodResponseDTO): EntityModel<AccessMethodResponseDTO>
+}
+
+class AccessMethodHateoasAssemblerImpl {
+    + toModel(accessMethod: AccessMethodResponseDTO): EntityModel<AccessMethodResponseDTO>
+}
+
 '===== SERVICE =======
 interface IAccessMethodService {
    + configureAccessMethod(command: RegisterAccessMethodCommand): AccessMethodServiceDTO
@@ -160,6 +168,9 @@ US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodRequestDTO
 US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodResponseDTO
 US02_ConfigureAccessMethod_RESTController "1"--> "1" IAccessMethodControllerAssembler
 US02_ConfigureAccessMethod_RESTController "1" ..> "1" RegisterAccessMethodCommand
+US02_ConfigureAccessMethod_RESTController "1" ..> "_hateoasAssembler 1" IAccessMethodHateoasAssembler
+
+AccessMethodHateoasAssemblerImpl ..|> IAccessMethodHateoasAssembler
 
 AccessMethodServiceImpl " "...|>" " IAccessMethodService
 AccessMethodServiceImpl "1".u..>"_repository 1" IAccessMethodRepository
