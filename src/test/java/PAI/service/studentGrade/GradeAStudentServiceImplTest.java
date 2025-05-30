@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Optional;
 import java.time.LocalDate;
 
@@ -324,6 +325,215 @@ class GradeAStudentServiceImplTest {
 
         // Assert
         assertEquals("Not possible to add grade as student is not enrolled in this course edition", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionDueToDateOfGradeBeingAfterTheCourseEditionSchoolYear () throws Exception {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        Grade mockGrade = mock(Grade.class);
+        Date mockDate = mock(Date.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        // Mock the entities needed for the date of grade validation
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
+        SchoolYearID mockSchoolYearID = mock(SchoolYearID.class);
+        SchoolYear mockSchoolYear = mock(SchoolYear.class);
+        Date mockStartDate = mock(Date.class);
+        Date mockEndDate = mock(Date.class);
+
+        when(command.grade()).thenReturn(mockGrade);
+        when(command.date()).thenReturn(mockDate);
+        when(command.studentID()).thenReturn(mockStudentID);
+        when(command.courseEditionID()).thenReturn(mockCourseEditionID);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(command.studentID(), command.courseEditionID())).thenReturn(true);
+
+        when(courseEditionRepo.ofIdentity(mockCourseEditionID))
+                .thenReturn(Optional.of(mockCourseEdition));
+        when(mockCourseEdition.getProgrammeEditionID())
+                .thenReturn(mockProgrammeEditionID);
+        when(programmeEditionRepo.ofIdentity(mockProgrammeEditionID))
+                .thenReturn(Optional.of(mockProgrammeEdition));
+        when(mockProgrammeEdition.findSchoolYearIDInProgrammeEdition())
+                .thenReturn(mockSchoolYearID);
+        when(schoolYearRepo.ofIdentity(mockSchoolYearID))
+                .thenReturn(Optional.of(mockSchoolYear));
+        when(mockSchoolYear.getStartDate()).thenReturn(mockStartDate);
+        when(mockSchoolYear.getEndDate()).thenReturn(mockEndDate);
+
+        LocalDate schoolYearStart = LocalDate.of(2024, 9, 1);
+        LocalDate schoolYearEnd = LocalDate.of(2025, 6, 30);
+        LocalDate gradeDate = LocalDate.of(2025, 8, 15);
+
+        when(mockStartDate.getLocalDate()).thenReturn(schoolYearStart);
+        when(mockEndDate.getLocalDate()).thenReturn(schoolYearEnd);
+        when(mockDate.getLocalDate()).thenReturn(gradeDate);
+
+        // Act
+        Exception ex = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Not possible to add grade as it's date is not inside the school year's range", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionDueToDateOfGradeBeingBeforeTheCourseEditionSchoolYear () throws Exception {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        Grade mockGrade = mock(Grade.class);
+        Date mockDate = mock(Date.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+
+        // Mock the entities needed for the date of grade validation
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
+        SchoolYearID mockSchoolYearID = mock(SchoolYearID.class);
+        SchoolYear mockSchoolYear = mock(SchoolYear.class);
+        Date mockStartDate = mock(Date.class);
+        Date mockEndDate = mock(Date.class);
+
+        when(command.grade()).thenReturn(mockGrade);
+        when(command.date()).thenReturn(mockDate);
+        when(command.studentID()).thenReturn(mockStudentID);
+        when(command.courseEditionID()).thenReturn(mockCourseEditionID);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(command.studentID(), command.courseEditionID())).thenReturn(true);
+
+        when(courseEditionRepo.ofIdentity(mockCourseEditionID))
+                .thenReturn(Optional.of(mockCourseEdition));
+        when(mockCourseEdition.getProgrammeEditionID())
+                .thenReturn(mockProgrammeEditionID);
+        when(programmeEditionRepo.ofIdentity(mockProgrammeEditionID))
+                .thenReturn(Optional.of(mockProgrammeEdition));
+        when(mockProgrammeEdition.findSchoolYearIDInProgrammeEdition())
+                .thenReturn(mockSchoolYearID);
+        when(schoolYearRepo.ofIdentity(mockSchoolYearID))
+                .thenReturn(Optional.of(mockSchoolYear));
+        when(mockSchoolYear.getStartDate()).thenReturn(mockStartDate);
+        when(mockSchoolYear.getEndDate()).thenReturn(mockEndDate);
+
+        LocalDate schoolYearStart = LocalDate.of(2024, 9, 1);
+        LocalDate schoolYearEnd = LocalDate.of(2025, 6, 30);
+        LocalDate gradeDate = LocalDate.of(2023, 8, 15);
+
+        when(mockStartDate.getLocalDate()).thenReturn(schoolYearStart);
+        when(mockEndDate.getLocalDate()).thenReturn(schoolYearEnd);
+        when(mockDate.getLocalDate()).thenReturn(gradeDate);
+
+        // Act
+        Exception ex = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Not possible to add grade as it's date is not inside the school year's range", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionDueToStudentAlreadyHavingBeenGradedInRespectiveCourseEdition() throws Exception {
+        // Arrange
+        GradeAStudentCommand command = mock(GradeAStudentCommand.class);
+
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo
+        );
+
+        // Mock the attributes from the command
+        Grade mockGrade = mock(Grade.class);
+        Date mockDate = mock(Date.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+
+        // Determine the behaviour of methods called on the command
+        when(command.grade()).thenReturn(mockGrade);
+        when(command.date()).thenReturn(mockDate);
+        when(command.studentID()).thenReturn(studentIDDouble);
+        when(command.courseEditionID()).thenReturn(courseEditionIDDouble);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(studentIDDouble, courseEditionIDDouble))
+                .thenReturn(true);
+
+        // Mock the entites needed for the School Year validation
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        ProgrammeEditionID mockProgrammeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition mockProgrammeEdition = mock(ProgrammeEdition.class);
+        SchoolYearID mockSchoolYearID = mock(SchoolYearID.class);
+        SchoolYear mockSchoolYear = mock(SchoolYear.class);
+        Date mockStartDate = mock(Date.class);
+        Date mockEndDate = mock(Date.class);
+
+        // Setup the calls for grade within School Year validation
+        when(courseEditionRepo.ofIdentity(courseEditionIDDouble))
+                .thenReturn(Optional.of(mockCourseEdition));
+        when(mockCourseEdition.getProgrammeEditionID())
+                .thenReturn(mockProgrammeEditionID);
+        when(programmeEditionRepo.ofIdentity(mockProgrammeEditionID))
+                .thenReturn(Optional.of(mockProgrammeEdition));
+        when(mockProgrammeEdition.findSchoolYearIDInProgrammeEdition())
+                .thenReturn(mockSchoolYearID);
+        when(schoolYearRepo.ofIdentity(mockSchoolYearID))
+                .thenReturn(Optional.of(mockSchoolYear));
+        when(mockSchoolYear.getStartDate()).thenReturn(mockStartDate);
+        when(mockSchoolYear.getEndDate()).thenReturn(mockEndDate);
+
+        // Setup the dates so that grade date is within the school year range (of the course edition)
+        LocalDate schoolYearStart = LocalDate.of(2024, 9, 1);
+        LocalDate schoolYearEnd = LocalDate.of(2025, 6, 30);
+        LocalDate gradeDate = LocalDate.of(2025, 3, 15);
+
+        when(mockStartDate.getLocalDate()).thenReturn(schoolYearStart);
+        when(mockEndDate.getLocalDate()).thenReturn(schoolYearEnd);
+        when(mockDate.getLocalDate()).thenReturn(gradeDate);
+
+        // Represents a StudentGrade already existing in the database
+        StudentGrade existingStudentGrade = mock(StudentGrade.class);
+
+        Iterable<StudentGrade> mockIterable = mock(Iterable.class);
+        Iterator<StudentGrade> mockIterator = mock(Iterator.class);
+
+        // Represents the findAll method in the repository
+        when(studentGradeRepo.findAll()).thenReturn(mockIterable);
+
+        // Setup iterator
+        when(mockIterable.iterator()).thenReturn(mockIterator);
+
+        // First call to hasNext() is true = there is an element
+        // Second call to hasNext() is false = has no more elements
+        when(mockIterator.hasNext()).thenReturn(true, false);
+
+        // When next() is called, return our existing grade
+        when(mockIterator.next()).thenReturn(existingStudentGrade);
+
+        // Both conditions are true which throws exception
+        when(existingStudentGrade.hasThisStudentID(studentIDDouble)).thenReturn(true);
+        when(existingStudentGrade.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
+
+        // Act
+        Exception ex = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.gradeAStudent(command);
+        });
+
+        // Assert
+        assertEquals("Not possible to add grade as student has already been graded in this course edition", ex.getMessage());
     }
 
     @Test
