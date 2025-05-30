@@ -17,7 +17,7 @@ restController -> assembler: toResponseDTO (courseServiceDTO)
 activate assembler #LightBlue
 
 create "courseInStudyResponseDTO: CourseInStudyPlanResponseDTO"
-assembler -> "courseInStudyResponseDTO: CourseInStudyPlanResponseDTO": createCourseInStudyPlan (courseVO.name,\n courseVO.code,\n courseVO.ects,\n courseVO.semester,\n courseVO.year,\n courseVO.programmeId)
+assembler -> "courseInStudyResponseDTO: CourseInStudyPlanResponseDTO": createCourseInStudyPlan (courseServiceDTO.name,\n courseServiceDTO.code,\n courseServiceDTO.ects,\n courseServiceDTO.semester,\n courseServiceDTO.year,\n courseServiceDTO.programmeId)
 
 deactivate assembler
 deactivate restController
