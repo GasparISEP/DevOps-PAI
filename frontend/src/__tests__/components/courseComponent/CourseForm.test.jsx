@@ -16,21 +16,21 @@ describe('CourseForm', () => {
                 if (url.includes('/programmes/ids')) {
                     return Promise.resolve({
                         ok: true,
-                        json: () => Promise.resolve([{ acronym: 'CS', name: 'Computer Science' }])
+                        json: () => Promise.resolve([{acronym: 'CS', name: 'Computer Science'}])
                     });
                 }
                 if (url.includes('/courses/ids')) {
                     return Promise.resolve({
                         ok: true,
-                        json: () => Promise.resolve([{ acronym: 'CS101', name: 'Intro to CS' }])
+                        json: () => Promise.resolve([{acronym: 'CS101', name: 'Intro to CS'}])
                     });
                 }
                 if (url.includes('/programmes/Computer Science/CS')) {
                     return Promise.resolve({
                         ok: true,
                         json: () => Promise.resolve({
-                            quantSemesters: { quantityOfSemesters: 4 },
-                            maxEcts: { maxEcts: 120 }
+                            quantSemesters: {quantityOfSemesters: 4},
+                            maxEcts: {maxEcts: 120}
                         })
                     });
                 }
@@ -45,81 +45,81 @@ describe('CourseForm', () => {
     });
 
     test('renders form with initial empty state', () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
         expect(screen.getByText('Register a Course')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /register/i})).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /clear/i})).toBeInTheDocument();
     });
 
 
     test('clears form when clear button clicked', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
         await waitFor(() => {
-            expect(screen.getByRole('combobox', { name: /programme/i })).toBeInTheDocument();
+            expect(screen.getByRole('combobox', {name: /programme/i})).toBeInTheDocument();
         });
 
-        fireEvent.change(screen.getByRole('combobox', { name: /programme/i }), { target: { value: 'CS' } });
+        fireEvent.change(screen.getByRole('combobox', {name: /programme/i}), {target: {value: 'CS'}});
 
         await waitFor(() => {
-            expect(screen.getByRole('spinbutton', { name: /ects/i })).toBeInTheDocument();
+            expect(screen.getByRole('spinbutton', {name: /ects/i})).toBeInTheDocument();
         });
 
-        fireEvent.change(screen.getByRole('spinbutton', { name: /ects/i }), { target: { value: '10' } });
+        fireEvent.change(screen.getByRole('spinbutton', {name: /ects/i}), {target: {value: '10'}});
 
-        fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+        fireEvent.click(screen.getByRole('button', {name: /clear/i}));
 
-        expect(screen.getByRole('combobox', { name: /programme/i }).value).toBe('');
-        expect(screen.getByRole('spinbutton', { name: /ects/i }).value).toBe('');
+        expect(screen.getByRole('combobox', {name: /programme/i}).value).toBe('');
+        expect(screen.getByRole('spinbutton', {name: /ects/i}).value).toBe('');
     });
 
     test('renders all dependent fields after selecting a programme', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
 
-        fireEvent.change(screen.getByRole('combobox', { name: /programme/i }), {
-            target: { value: 'CS' },
+        fireEvent.change(screen.getByRole('combobox', {name: /programme/i}), {
+            target: {value: 'CS'},
         });
 
         await waitFor(() => {
-            expect(screen.getByRole('combobox', { name: /curricular year/i })).toBeInTheDocument();
-            expect(screen.getByRole('combobox', { name: /course/i })).toBeInTheDocument();
-            expect(screen.getAllByRole('combobox', { name: /semester/i }).length).toBeGreaterThan(0);
-            expect(screen.getByRole('combobox', { name: /duration/i })).toBeInTheDocument();
-            expect(screen.getByRole('spinbutton', { name: /ects/i })).toBeInTheDocument();
+            expect(screen.getByRole('combobox', {name: /curricular year/i})).toBeInTheDocument();
+            expect(screen.getByRole('combobox', {name: /course/i})).toBeInTheDocument();
+            expect(screen.getAllByRole('combobox', {name: /semester/i}).length).toBeGreaterThan(0);
+            expect(screen.getByRole('combobox', {name: /duration/i})).toBeInTheDocument();
+            expect(screen.getByRole('spinbutton', {name: /ects/i})).toBeInTheDocument();
         });
     });
 
 
     test('submit button is always present and disabled until form is filled', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
-        const registerBtn = screen.getByRole('button', { name: /register/i });
+        const registerBtn = screen.getByRole('button', {name: /register/i});
         expect(registerBtn).toBeInTheDocument();
         expect(registerBtn).toBeEnabled(); // ou toBeDisabled() dependendo do comportamento inicial
     });
 
     test('ects input does not accept negative values', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
-        const ectsInput = await screen.findByRole('spinbutton', { name: /ects/i });
+        const ectsInput = await screen.findByRole('spinbutton', {name: /ects/i});
 
-        fireEvent.change(ectsInput, { target: { value: '-5' } });
+        fireEvent.change(ectsInput, {target: {value: '-5'}});
 
         expect(Number(ectsInput.value)).toBeGreaterThanOrEqual(0);
     });
 
     test('fills required fields and submits form', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
-        fireEvent.change(await screen.findByRole('combobox', { name: /programme/i }), { target: { value: 'CS' } });
-        fireEvent.change(screen.getByRole('combobox', { name: /course/i }), { target: { value: 'CS101' } });
-        fireEvent.change(screen.getByRole('combobox', { name: /curricular year/i }), { target: { value: '1' } });
-        fireEvent.change(screen.getAllByRole('combobox', { name: /semester/i })[0], { target: { value: '1' } });
-        fireEvent.change(screen.getByRole('combobox', { name: /duration/i }), { target: { value: '1' } });
-        fireEvent.change(screen.getByRole('spinbutton', { name: /ects/i }), { target: { value: '6' } });
+        fireEvent.change(await screen.findByRole('combobox', {name: /programme/i}), {target: {value: 'CS'}});
+        fireEvent.change(screen.getByRole('combobox', {name: /course/i}), {target: {value: 'CS101'}});
+        fireEvent.change(screen.getByRole('combobox', {name: /curricular year/i}), {target: {value: '1'}});
+        fireEvent.change(screen.getAllByRole('combobox', {name: /semester/i})[0], {target: {value: '1'}});
+        fireEvent.change(screen.getByRole('combobox', {name: /duration/i}), {target: {value: '1'}});
+        fireEvent.change(screen.getByRole('spinbutton', {name: /ects/i}), {target: {value: '6'}});
 
-        const button = screen.getByRole('button', { name: /register/i });
+        const button = screen.getByRole('button', {name: /register/i});
         fireEvent.click(button);
 
         expect(button).toBeInTheDocument();
@@ -127,15 +127,29 @@ describe('CourseForm', () => {
 
 
     test('ECTS input only accepts numeric values', async () => {
-        render(<MemoryRouter><CourseForm /></MemoryRouter>);
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
 
-        const ectsInput = screen.getByRole('spinbutton', { name: /ects/i });
-        fireEvent.change(ectsInput, { target: { value: 'abc' } });
+        const ectsInput = screen.getByRole('spinbutton', {name: /ects/i});
+        fireEvent.change(ectsInput, {target: {value: 'abc'}});
 
 
         expect(ectsInput.value).toBe('');
     });
 
 
+    it('shows error if initial fetch fails', async () => {
+        global.fetch.mockRejectedValueOnce(new Error('network error'));
+        const spyErr = jest.spyOn(console, 'error').mockImplementation(() => {
+        });
+        render(<MemoryRouter><CourseForm/></MemoryRouter>);
+        await waitFor(() =>
+            expect(spyErr).toHaveBeenCalledWith(
+                'Failed to load dropdown options:',
+                expect.any(Error)
+            )
+        );
+        spyErr.mockRestore();
+    });
 
 });
+
