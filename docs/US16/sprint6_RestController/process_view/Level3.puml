@@ -50,7 +50,7 @@ SE --> CT --: enrollment
 end group
 
 group HTTP Response
-CT --> FE --: HTTP 201 Created + EnrollmentDTO
+CT --> FE --: HTTP 201 Created
 FE --> ASC --: Student enrolled successfully
 end group
 

@@ -84,7 +84,7 @@ group Response Mapping
 Service --> Controller --: CourseEditionEnrolment
 Controller -> Assembler ++: toDto(CourseEditionEnrolment)
 Assembler --> Controller --: CourseEditionEnrolmentDto
-Controller --> UI --: HTTP response + CourseEditionEnrolmentDto
+Controller --> UI --: HTTP response
 UI --> ASC --: Success message
 end group
 
