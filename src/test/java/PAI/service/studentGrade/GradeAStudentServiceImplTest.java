@@ -199,6 +199,243 @@ class GradeAStudentServiceImplTest {
         when(schoolYearDouble1.getStartDate().getLocalDate()).thenReturn(startDate);
         when(schoolYearDouble1.getEndDate().getLocalDate()).thenReturn(endDate);
 
+        // Represents a StudentGrade already existing in the database
+        StudentGrade existingStudentGrade = mock(StudentGrade.class);
+
+        Iterable<StudentGrade> mockIterable = mock(Iterable.class);
+        Iterator<StudentGrade> mockIterator = mock(Iterator.class);
+
+        // Represents the findAll method in the repository
+        when(studentGradeRepo.findAll()).thenReturn(mockIterable);
+
+        // Setup iterator
+        when(mockIterable.iterator()).thenReturn(mockIterator);
+
+        // First call to hasNext() is true = there is an element
+        // Second call to hasNext() is false = has no more elements
+        when(mockIterator.hasNext()).thenReturn(true, false);
+
+        // When next() is called, return our existing grade
+        when(mockIterator.next()).thenReturn(existingStudentGrade);
+
+        // Both conditions are true which throws exception
+        when(existingStudentGrade.hasThisStudentID(studentIDDouble)).thenReturn(false);
+        when(existingStudentGrade.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
+        // Act
+        GradeAStudentResponseDTO result = service.gradeAStudent(commandDouble);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void gradeAStudentShouldGradeAStudentSuccessfully_StudentAlreadyHasAGradeButInDifferentCourseEdition () throws Exception {
+        // Arrange
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        Grade gradeDouble = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        SchoolYearID schoolYearIDDouble = mock(SchoolYearID.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        GradeAStudentCommand commandDouble = mock(GradeAStudentCommand.class);
+
+        when(commandDouble.grade()).thenReturn(gradeDouble);
+        when(commandDouble.date()).thenReturn(dateDouble);
+        when(commandDouble.studentID()).thenReturn(studentIDDouble);
+        when(commandDouble.courseEditionID()).thenReturn(courseEditionIDDouble);
+
+        StudentGrade studentGradeDouble = mock(StudentGrade.class);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(commandDouble.studentID(), commandDouble.courseEditionID())).thenReturn(true);
+        when(studentGradeFactory.newGradeStudent(
+                commandDouble.grade(), commandDouble.date(), commandDouble.studentID(), commandDouble.courseEditionID()
+        )).thenReturn(studentGradeDouble);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(studentIDDouble, courseEditionIDDouble)).thenReturn(true);
+        when(studentGradeRepo.containsOfIdentity(studentGradeDouble.identity())).thenReturn(false);
+        when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
+        when(studentGradeRepo.save(studentGradeDouble)).thenReturn(studentGradeDouble);
+
+        when(studentGradeDouble.get_studentID()).thenReturn(studentIDDouble);
+        when(studentIDDouble.getUniqueNumber()).thenReturn(1234567);
+        when(studentGradeDouble.knowGrade()).thenReturn(18.0);
+        when(studentGradeDouble.get_date()).thenReturn(dateDouble);
+        when(studentGradeDouble.get_courseEditionID()).thenReturn(courseEditionIDDouble);
+        when(courseEditionIDDouble.toString()).thenReturn("courseEdition123");
+        when(courseEditionIDDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
+        when(programmeEditionIDDouble.toString()).thenReturn("programmeEdition123");
+        when(courseEditionIDDouble.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanIDDouble);
+        when(courseInStudyPlanIDDouble.toString()).thenReturn("courseInStudyPlan123");
+        when(programmeEditionIDDouble.getSchoolYearID()).thenReturn(schoolYearIDDouble);
+        when(schoolYearIDDouble.toString()).thenReturn("schoolYear123");
+        when(programmeEditionIDDouble.getProgrammeID()).thenReturn(programmeIDDouble);
+        when(programmeIDDouble.toString()).thenReturn("programme123");
+        when(courseInStudyPlanIDDouble.getCourseID()).thenReturn(courseIDDouble);
+        when(courseIDDouble.toString()).thenReturn("course123");
+        when(courseInStudyPlanIDDouble.getStudyPlanID()).thenReturn(studyPlanIDDouble);
+        when(studyPlanIDDouble.toString()).thenReturn("studyPlan123");
+
+        // Arranging the behaviour of the isDateInRangeWithSchoolYear method
+        CourseEdition courseEditionDouble1 = mock(CourseEdition.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+
+        when(courseEditionRepo.ofIdentity(courseEditionIDDouble)).thenReturn(Optional.of(courseEditionDouble1));
+        when(courseEditionDouble1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
+        when(programmeEditionRepo.ofIdentity(programmeEditionIDDouble)).thenReturn(Optional.of(programmeEditionDouble1));
+        when(programmeEditionDouble1.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearIDDouble);
+        when(schoolYearRepo.ofIdentity(schoolYearIDDouble)).thenReturn(Optional.of(schoolYearDouble1));
+
+        LocalDate startDate = LocalDate.of(2024, 1, 1);
+        LocalDate endDate = LocalDate.of(2024, 12, 31);
+        LocalDate gradeDate = LocalDate.of(2024, 6, 1);
+
+        when(dateDouble.getLocalDate()).thenReturn(gradeDate);
+        when(schoolYearDouble1.getStartDate()).thenReturn(mock(Date.class));
+        when(schoolYearDouble1.getEndDate()).thenReturn(mock(Date.class));
+        when(schoolYearDouble1.getStartDate().getLocalDate()).thenReturn(startDate);
+        when(schoolYearDouble1.getEndDate().getLocalDate()).thenReturn(endDate);
+
+        // Represents a StudentGrade already existing in the database
+        StudentGrade existingStudentGrade = mock(StudentGrade.class);
+
+        Iterable<StudentGrade> mockIterable = mock(Iterable.class);
+        Iterator<StudentGrade> mockIterator = mock(Iterator.class);
+
+        // Represents the findAll method in the repository
+        when(studentGradeRepo.findAll()).thenReturn(mockIterable);
+
+        // Setup iterator
+        when(mockIterable.iterator()).thenReturn(mockIterator);
+
+        // First call to hasNext() is true = there is an element
+        // Second call to hasNext() is false = has no more elements
+        when(mockIterator.hasNext()).thenReturn(true, false);
+
+        // When next() is called, return our existing grade
+        when(mockIterator.next()).thenReturn(existingStudentGrade);
+
+        // Both conditions are true which throws exception
+        when(existingStudentGrade.hasThisStudentID(studentIDDouble)).thenReturn(true);
+        when(existingStudentGrade.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
+        // Act
+        GradeAStudentResponseDTO result = service.gradeAStudent(commandDouble);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    void gradeAStudentShouldGradeAStudentSuccessfully_CourseEditionAlreadyHasGradeButFromDifferentStudent () throws Exception {
+        // Arrange
+        GradeAStudentServiceImpl service = new GradeAStudentServiceImpl(
+                studentGradeFactory, studentGradeRepo, courseEditionRepo,
+                courseEditionEnrolmentRepo, programmeEditionRepo, schoolYearRepo);
+
+        Grade gradeDouble = mock(Grade.class);
+        Date dateDouble = mock(Date.class);
+        StudentID studentIDDouble = mock(StudentID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
+        SchoolYearID schoolYearIDDouble = mock(SchoolYearID.class);
+        CourseID courseIDDouble = mock(CourseID.class);
+        StudyPlanID studyPlanIDDouble = mock(StudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        GradeAStudentCommand commandDouble = mock(GradeAStudentCommand.class);
+
+        when(commandDouble.grade()).thenReturn(gradeDouble);
+        when(commandDouble.date()).thenReturn(dateDouble);
+        when(commandDouble.studentID()).thenReturn(studentIDDouble);
+        when(commandDouble.courseEditionID()).thenReturn(courseEditionIDDouble);
+
+        StudentGrade studentGradeDouble = mock(StudentGrade.class);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(commandDouble.studentID(), commandDouble.courseEditionID())).thenReturn(true);
+        when(studentGradeFactory.newGradeStudent(
+                commandDouble.grade(), commandDouble.date(), commandDouble.studentID(), commandDouble.courseEditionID()
+        )).thenReturn(studentGradeDouble);
+
+        when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(studentIDDouble, courseEditionIDDouble)).thenReturn(true);
+        when(studentGradeRepo.containsOfIdentity(studentGradeDouble.identity())).thenReturn(false);
+        when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
+        when(studentGradeRepo.save(studentGradeDouble)).thenReturn(studentGradeDouble);
+
+        when(studentGradeDouble.get_studentID()).thenReturn(studentIDDouble);
+        when(studentIDDouble.getUniqueNumber()).thenReturn(1234567);
+        when(studentGradeDouble.knowGrade()).thenReturn(18.0);
+        when(studentGradeDouble.get_date()).thenReturn(dateDouble);
+        when(studentGradeDouble.get_courseEditionID()).thenReturn(courseEditionIDDouble);
+        when(courseEditionIDDouble.toString()).thenReturn("courseEdition123");
+        when(courseEditionIDDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
+        when(programmeEditionIDDouble.toString()).thenReturn("programmeEdition123");
+        when(courseEditionIDDouble.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanIDDouble);
+        when(courseInStudyPlanIDDouble.toString()).thenReturn("courseInStudyPlan123");
+        when(programmeEditionIDDouble.getSchoolYearID()).thenReturn(schoolYearIDDouble);
+        when(schoolYearIDDouble.toString()).thenReturn("schoolYear123");
+        when(programmeEditionIDDouble.getProgrammeID()).thenReturn(programmeIDDouble);
+        when(programmeIDDouble.toString()).thenReturn("programme123");
+        when(courseInStudyPlanIDDouble.getCourseID()).thenReturn(courseIDDouble);
+        when(courseIDDouble.toString()).thenReturn("course123");
+        when(courseInStudyPlanIDDouble.getStudyPlanID()).thenReturn(studyPlanIDDouble);
+        when(studyPlanIDDouble.toString()).thenReturn("studyPlan123");
+
+        // Arranging the behaviour of the isDateInRangeWithSchoolYear method
+        CourseEdition courseEditionDouble1 = mock(CourseEdition.class);
+        ProgrammeEdition programmeEditionDouble1 = mock(ProgrammeEdition.class);
+        SchoolYear schoolYearDouble1 = mock(SchoolYear.class);
+
+        when(courseEditionRepo.ofIdentity(courseEditionIDDouble)).thenReturn(Optional.of(courseEditionDouble1));
+        when(courseEditionDouble1.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
+        when(programmeEditionRepo.ofIdentity(programmeEditionIDDouble)).thenReturn(Optional.of(programmeEditionDouble1));
+        when(programmeEditionDouble1.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearIDDouble);
+        when(schoolYearRepo.ofIdentity(schoolYearIDDouble)).thenReturn(Optional.of(schoolYearDouble1));
+
+        LocalDate startDate = LocalDate.of(2024, 1, 1);
+        LocalDate endDate = LocalDate.of(2024, 12, 31);
+        LocalDate gradeDate = LocalDate.of(2024, 6, 1);
+
+        when(dateDouble.getLocalDate()).thenReturn(gradeDate);
+        when(schoolYearDouble1.getStartDate()).thenReturn(mock(Date.class));
+        when(schoolYearDouble1.getEndDate()).thenReturn(mock(Date.class));
+        when(schoolYearDouble1.getStartDate().getLocalDate()).thenReturn(startDate);
+        when(schoolYearDouble1.getEndDate().getLocalDate()).thenReturn(endDate);
+
+        // Represents a StudentGrade already existing in the database
+        StudentGrade existingStudentGrade = mock(StudentGrade.class);
+
+        Iterable<StudentGrade> mockIterable = mock(Iterable.class);
+        Iterator<StudentGrade> mockIterator = mock(Iterator.class);
+
+        // Represents the findAll method in the repository
+        when(studentGradeRepo.findAll()).thenReturn(mockIterable);
+
+        // Setup iterator
+        when(mockIterable.iterator()).thenReturn(mockIterator);
+
+        // First call to hasNext() is true = there is an element
+        // Second call to hasNext() is false = has no more elements
+        when(mockIterator.hasNext()).thenReturn(true, false);
+
+        // When next() is called, return our existing grade
+        when(mockIterator.next()).thenReturn(existingStudentGrade);
+
+        // Both conditions are true which throws exception
+        when(existingStudentGrade.hasThisStudentID(studentIDDouble)).thenReturn(true);
+        when(existingStudentGrade.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
+
         // Act
         GradeAStudentResponseDTO result = service.gradeAStudent(commandDouble);
 

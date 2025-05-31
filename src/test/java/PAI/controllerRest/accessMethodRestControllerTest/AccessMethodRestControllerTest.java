@@ -1,4 +1,4 @@
-package PAI.controllerRest;
+package PAI.controllerRest.accessMethodRestControllerTest;
 
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.assembler.accessMethod.IAccessMethodControllerAssembler;

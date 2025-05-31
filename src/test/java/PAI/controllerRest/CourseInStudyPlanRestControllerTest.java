@@ -27,6 +27,55 @@ import static org.mockito.Mockito.when;
 class CourseInStudyPlanRestControllerTest {
 
     @Test
+    void shouldThrowException_WhenAddCourseServiceIsNull() {
+        // arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanRestController(assembler, null, studyPlanService, courseInStudyPlanService));
+    }
+
+    @Test
+    void shouldThrowException_WhenAssemblerIsNull() {
+        // arrange
+        IAddCourseToAProgrammeService addCourseService = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanRestController(null, addCourseService, studyPlanService, courseInStudyPlanService));
+    }
+
+    @Test
+    void shouldThrowException_WhenStudyPlanServiceIsNull() {
+        // arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService addCourseService = mock(IAddCourseToAProgrammeService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanRestController(assembler, addCourseService, null, courseInStudyPlanService));
+    }
+
+    @Test
+    void shouldThrowException_WhenCourseInStudyPlanServiceIsNull() {
+        // arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService addCourseService = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new CourseInStudyPlanRestController(assembler, addCourseService, studyPlanService, null));
+    }
+
+
+    @Test
     void should_CreateCourseInStudyPlanRestController() {
 
         // arrange

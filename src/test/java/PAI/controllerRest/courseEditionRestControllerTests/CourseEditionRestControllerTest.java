@@ -90,6 +90,7 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private CourseEditionEnrolmentDto validEnrolmentDto;
+
     @Autowired
     private CourseEditionRestController courseEditionRestController;
 
@@ -410,7 +411,7 @@ class CourseEditionRestControllerTest {
         when(gradeAStudentService.gradeAStudent(command)).thenReturn(responseDTO);
 
         // Act + Assert
-        mockMvc.perform(post("/courseeditions/studentGrades")
+        mockMvc.perform(post("/courseeditions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
             {

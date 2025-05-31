@@ -1,0 +1,15 @@
+@startuml
+
+left to right direction
+
+title As a RUC, I want to grade a student in a course edition.
+
+actor RUC as "**R**egente de **U**nidade **C**urricular"
+
+rectangle "<<PAI System>>" {
+    usecase "Grade a Student in a Course Edition" as usecase
+}
+
+RUC --> usecase
+
+@enduml
