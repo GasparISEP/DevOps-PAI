@@ -4,7 +4,7 @@ autonumber
 
 title As a Programme Director, I want to know the Average Grade of a Course Edition of my Programme. \n(Process View lvl 4)
 
-actor ASC as Admin #lightblue
+actor ProgrammeDirector as Admin #lightblue
 
 participant ":UI" as UI #lightblue
 participant "ceCtrl:CourseEditionRestController" as C #lightblue
