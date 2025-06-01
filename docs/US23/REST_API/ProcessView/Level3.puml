@@ -6,14 +6,14 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 title I want to know the approval percentage of a Course Edition \n (Process View Level 3)
 skinparam sequencemessagealign center
 
-actor RUC
+actor ProgrammeDirector
 participant ":Router" as Router <<Component>> #application
 participant ":Controller" as Controller <<Component>> #motivation
 participant ":Service" as Service <<Component>> #business
 participant ":Repository" as Repository <<Component>> #technology
 participant ":Domain" as Domain <<Component>> #physical
 
-RUC -> Router : Find approval rate in a **CourseEdition**
+ProgrammeDirector -> Router : Find approval rate in a **CourseEdition**
 activate Router
 Router -> Controller : **(GET)** Retrieve all Course Editions
 activate Controller
@@ -31,8 +31,8 @@ Controller --> Router : All Course Editions
 deactivate Controller
 
 
-Router --> RUC : Choose a Course Edition
-RUC -> Router : Course Edition!
+Router --> ProgrammeDirector : Choose a Course Edition
+ProgrammeDirector -> Router : Course Edition!
 
 
 Router -> Controller : **(POST)** Calculate approval rate
@@ -52,7 +52,7 @@ deactivate Service
 Controller --> Router : Approval rate
 deactivate Controller
 
-Router --> RUC : Approval rate!
+Router --> ProgrammeDirector : Approval rate!
 deactivate Router
 
 @enduml
