@@ -1,9 +1,6 @@
 package PAI.persistence.springdata.programme;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.DepartmentID;
-import PAI.VOs.Name;
-import PAI.VOs.ProgrammeID;
+import PAI.VOs.*;
 import PAI.domain.programme.Programme;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
@@ -101,12 +98,12 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     }
 
     @Override
-    public boolean existsByName(String name) {
-        return _iProgRepo.existsByName(name);
+    public boolean existsByName(NameWithNumbersAndSpecialChars name) {
+        return _iProgRepo.existsByName(name.getNameWithNumbersAndSpecialChars());
     }
 
     @Override
-    public boolean existsByAcronym(String acronym) {
-        return _iProgRepo.existsByAcronym(acronym);
+    public boolean existsByAcronym(Acronym acronym) {
+        return _iProgRepo.existsByAcronym(acronym.getAcronym());
     }
 }

@@ -137,8 +137,8 @@ class ProgrammeServiceImplTest {
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
-        when(_programmeRepositoryDouble.existsByName("_nameDouble")).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym("_acronymDouble")).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(false);
 
         //Act
         Programme result = service.registerProgramme(_programmeVOsDTODouble);
@@ -173,8 +173,7 @@ class ProgrammeServiceImplTest {
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(true);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
@@ -209,8 +208,8 @@ class ProgrammeServiceImplTest {
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(true);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
