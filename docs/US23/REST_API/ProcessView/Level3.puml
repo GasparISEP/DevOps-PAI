@@ -7,55 +7,52 @@ title I want to know the approval percentage of a Course Edition \n (Process Vie
 skinparam sequencemessagealign center
 
 actor RUC
-participant ":UI" as UI #application
-participant ":Controller" as controller #motivation
-participant ":Service" as service #business
-participant ":Repository" as repo #technology
-participant ":Domain" as domain #physical
-database db #wheat
+participant ":Router" as Router <<Component>> #application
+participant ":Controller" as Controller <<Component>> #motivation
+participant ":Service" as Service <<Component>> #business
+participant ":Repository" as Repository <<Component>> #technology
+participant ":Domain" as Domain <<Component>> #physical
 
-RUC -> UI : Find approval rate in a **CourseEdition**
-activate UI
-UI -> controller : Retrieve all Course Editions
-activate controller
-controller -> service : Retrieve all Course Editions
-activate service
-service -> repo : Retrieve all Course Editions
-activate repo
-repo -> db : Retrieve all Course Editions
-activate db
-db --> repo : All Course Editions
-deactivate db
-repo --> service : All Course Editions
-deactivate repo
-service --> controller : All Course Editions
-deactivate service
-controller --> UI : All Course Editions
-deactivate controller
+RUC -> Router : Find approval rate in a **CourseEdition**
+activate Router
+Router -> Controller : **(GET)** Retrieve all Course Editions
+activate Controller
+Controller -> Service : Retrieve all Course Editions
+activate Service
+Service -> Repository : Retrieve all Course Editions
+activate Repository
+Repository ->  : Retrieve all Course Editions
+Repository <--  : All Course Editions
+Repository --> Service : All Course Editions
+deactivate Repository
+Service --> Controller : All Course Editions
+deactivate Service
+Controller --> Router : All Course Editions
+deactivate Controller
 
 
-UI --> RUC : Choose a Course Edition
-RUC -> UI : Course Edition!
+Router --> RUC : Choose a Course Edition
+RUC -> Router : Course Edition!
 
 
-UI -> controller : Calculate approval rate
+Router -> Controller : **(POST)** Calculate approval rate
 
-activate controller
-controller -> service : Calculate approval rate
+activate Controller
+Controller -> Service : Calculate approval rate
 
-activate service
-service -> repo : Retrieve students' grades.
-activate repo
-repo --> service : Students' grades
-deactivate repo
+activate Service
+Service -> Repository : Retrieve students' grades.
+activate Repository
+Repository --> Service : Students' grades
+deactivate Repository
 
-service --> controller : Approval rate
-deactivate service
+Service --> Controller : Approval rate
+deactivate Service
 
-controller --> UI : Approval rate
-deactivate controller
+Controller --> Router : Approval rate
+deactivate Controller
 
-UI --> RUC : Approval rate!
-deactivate UI
+Router --> RUC : Approval rate!
+deactivate Router
 
 @enduml
