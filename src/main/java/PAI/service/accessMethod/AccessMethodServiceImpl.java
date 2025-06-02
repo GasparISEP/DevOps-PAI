@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static PAI.utils.ValidationUtils.validateNotBlank;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Service
@@ -33,8 +34,10 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
     @Override
     public AccessMethodServiceDTO configureAccessMethod(RegisterAccessMethodCommand command) {
+        validateNotNull(command, "RegisterAccessMethodCommand");
+
         if (repositoryAccessMethod.getAccessMethodByName(command.name()).isPresent()) {
-            throw new BusinessRuleViolationException("Access method already exists.");
+            throw new AlreadyRegisteredException("Access method");
         }
 
         AccessMethod newAccessMethod = accessMethodFactory.createAccessMethod(command.name());
@@ -45,11 +48,13 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
     @Override
     public AccessMethodServiceDTO getAccessMethodById(String id) {
+        validateNotBlank(id, "AccessMethod ID");
+
         UUID uuid;
         try {
             uuid = UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            return null;
+            throw new IllegalArgumentException("Invalid UUID format for AccessMethod ID.");
         }
 
         AccessMethodID accessMethodId = new AccessMethodID(uuid);

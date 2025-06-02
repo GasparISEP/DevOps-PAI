@@ -4,6 +4,8 @@ skinparam nodesep 25
 skinparam classBackgroundColor #E1F5FE
 skinparam linetype ortho
 
+title US02: As an Administrator, I want to configure degree access methods in the system.\n (Scenario View - Level 3 - Backend)
+
 legend left
 Legend:
 
@@ -56,6 +58,14 @@ interface IAccessMethodServiceAssembler{
 
 class AccessMethodServiceAssemblerImpl {
     + toRequestDTO(accessMethodServiceDTO: AccessMethodServiceDTO): AccessMethodRequestDTO
+}
+
+interface IAccessMethodHateoasAssembler {
+    + toModel(dto: AccessMethodResponseDTO): EntityModel<AccessMethodResponseDTO>
+}
+
+class AccessMethodHateoasAssemblerImpl {
+    + toModel(accessMethod: AccessMethodResponseDTO): EntityModel<AccessMethodResponseDTO>
 }
 
 '===== SERVICE =======
@@ -160,6 +170,9 @@ US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodRequestDTO
 US02_ConfigureAccessMethod_RESTController "1"..> "1" AccessMethodResponseDTO
 US02_ConfigureAccessMethod_RESTController "1"--> "1" IAccessMethodControllerAssembler
 US02_ConfigureAccessMethod_RESTController "1" ..> "1" RegisterAccessMethodCommand
+US02_ConfigureAccessMethod_RESTController "1" ..> "_hateoasAssembler 1" IAccessMethodHateoasAssembler
+
+AccessMethodHateoasAssemblerImpl ..|> IAccessMethodHateoasAssembler
 
 AccessMethodServiceImpl " "...|>" " IAccessMethodService
 AccessMethodServiceImpl "1".u..>"_repository 1" IAccessMethodRepository

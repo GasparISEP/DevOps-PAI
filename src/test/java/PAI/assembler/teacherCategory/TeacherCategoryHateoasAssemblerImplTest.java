@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 class TeacherCategoryHateoasAssemblerImplTest {
 
     @Test
-    void shouldReturnAnEntityModel () throws Exception {
+    void shouldReturnAnEntityModel () {
         //arrange
         TeacherCategoryHateoasAssemblerImpl hateoas = new TeacherCategoryHateoasAssemblerImpl();
 
@@ -21,6 +21,21 @@ class TeacherCategoryHateoasAssemblerImplTest {
 
         //assert
         assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnAnExceptionWhenInputIsNull () {
+        //arrange
+        TeacherCategoryHateoasAssemblerImpl hateoas = new TeacherCategoryHateoasAssemblerImpl();
+
+
+        // act
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            hateoas.toModel(null);
+        });
+
+        // assert
+        assertNotNull(exception.getMessage());
     }
 
 }

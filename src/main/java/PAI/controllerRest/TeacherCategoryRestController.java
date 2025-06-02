@@ -29,9 +29,12 @@ public class TeacherCategoryRestController {
                                          ITeacherCategoryExternalAssembler teacherCategoryAssembler,
                                          ITeacherCategoryHateoasAssembler teacherCategoryHateoasAssembler) {
 
-        this.teacherCategoryService = ValidationUtils.validateNotNull(teacherCategoryService, "Teacher Category Service Interface");
-        this.teacherCategoryAssembler = ValidationUtils.validateNotNull(teacherCategoryAssembler, "Teacher Category Assembler Interface");
-        this.teacherCategoryHateoasAssembler = ValidationUtils.validateNotNull(teacherCategoryHateoasAssembler, "Teacher Category Hateoas Assembler Interface");
+        this.teacherCategoryService = ValidationUtils.validateNotNull
+                (teacherCategoryService, "Teacher Category Service Interface");
+        this.teacherCategoryAssembler = ValidationUtils.validateNotNull
+                (teacherCategoryAssembler, "Teacher Category Assembler Interface");
+        this.teacherCategoryHateoasAssembler = ValidationUtils.validateNotNull
+                (teacherCategoryHateoasAssembler, "Teacher Category Hateoas Assembler Interface");
     }
 
     @PostMapping
@@ -75,6 +78,5 @@ public class TeacherCategoryRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
-
 
 }

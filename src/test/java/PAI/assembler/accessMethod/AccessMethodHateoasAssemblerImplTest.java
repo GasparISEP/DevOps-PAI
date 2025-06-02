@@ -10,25 +10,47 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccessMethodHateoasAssemblerImplTest {
 
     @Test
-    void toModel_ShouldReturnEntityModelWithSelfLink() {
+    void toModel_ShouldReturnNonNullEntityModel() {
         // Arrange
         AccessMethodHateoasAssemblerImpl assembler = new AccessMethodHateoasAssemblerImpl();
-        String id = "123e4567-e89b-12d3-a456-426614174000";
-        String name = "Test Access Method";
-
-        AccessMethodResponseDTO dto = new AccessMethodResponseDTO(id, name);
+        AccessMethodResponseDTO dto = new AccessMethodResponseDTO("123e4567-e89b-12d3-a456-426614174000", "Test Access Method");
 
         // Act
         EntityModel<AccessMethodResponseDTO> model = assembler.toModel(dto);
 
         // Assert
         assertNotNull(model);
-        assertEquals(dto, model.getContent());
+    }
 
+    @Test
+    void toModel_ShouldContainCorrectContent() {
+        // Arrange
+        AccessMethodHateoasAssemblerImpl assembler = new AccessMethodHateoasAssemblerImpl();
+        AccessMethodResponseDTO dto = new AccessMethodResponseDTO("123e4567-e89b-12d3-a456-426614174000", "Test Access Method");
+
+        // Act
+        EntityModel<AccessMethodResponseDTO> model = assembler.toModel(dto);
+
+        // Assert
+        assertEquals(dto, model.getContent());
+    }
+
+    @Test
+    void toModel_ShouldContainValidSelfLink() {
+        // Arrange
+        String id = "123e4567-e89b-12d3-a456-426614174000";
+        AccessMethodHateoasAssemblerImpl assembler = new AccessMethodHateoasAssemblerImpl();
+        AccessMethodResponseDTO dto = new AccessMethodResponseDTO(id, "Test Access Method");
+
+        // Act
+        EntityModel<AccessMethodResponseDTO> model = assembler.toModel(dto);
         Link selfLink = model.getLink("self").orElse(null);
+
+        // Assert
         assertNotNull(selfLink);
         assertTrue(selfLink.getHref().contains("/access-methods/" + id));
     }
+
 
     @Test
     void toModel_ShouldThrowException_WhenDtoIsNull() {

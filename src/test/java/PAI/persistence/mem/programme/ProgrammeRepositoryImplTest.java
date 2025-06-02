@@ -269,12 +269,12 @@ repository.save(programme);
     void testExistsByNameReturnsTrueWhenProgrammeExistsWithName() {
         // Arrange
         Programme programme = mock(Programme.class);
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        when(name.toString()).thenReturn("Test Programme");
-        when(programme.getProgrammeName()).thenReturn(name);
+        NameWithNumbersAndSpecialChars nameDouble1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars nameDouble2 = mock(NameWithNumbersAndSpecialChars.class);
 
-        ProgrammeID id = mock(ProgrammeID.class);
-        when(programme.identity()).thenReturn(id);
+        when(programme.getProgrammeName()).thenReturn(nameDouble1);
+        when(nameDouble1.getNameWithNumbersAndSpecialChars()).thenReturn("Test Programme");
+        when(nameDouble2.getNameWithNumbersAndSpecialChars()).thenReturn("Test Programme");
 
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
@@ -283,21 +283,49 @@ repository.save(programme);
         ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         repository.save(programme);
 
-        // Act & Assert
-        assertTrue(repository.existsByName("Test Programme"));
-        assertFalse(repository.existsByName("Nonexistent Programme"));
+        // Act
+        boolean result = repository.existsByName(nameDouble2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testExistsByNameReturnsFalseWhenProgrammeWithGivenNameDoesNotExist() {
+        // Arrange
+        Programme programme = mock(Programme.class);
+        NameWithNumbersAndSpecialChars nameDouble1 = mock(NameWithNumbersAndSpecialChars.class);
+        NameWithNumbersAndSpecialChars nameDouble2 = mock(NameWithNumbersAndSpecialChars.class);
+
+        when(programme.getProgrammeName()).thenReturn(nameDouble1);
+        when(nameDouble1.getNameWithNumbersAndSpecialChars()).thenReturn("ProgrammeName1");
+        when(nameDouble2.getNameWithNumbersAndSpecialChars()).thenReturn("ProgrammeName2");
+
+        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
+        repository.save(programme);
+
+        // Act
+        boolean result = repository.existsByName(nameDouble2);
+
+        // Assert
+        assertFalse(result);
     }
 
     @Test
     void testExistsByAcronymReturnsTrueWhenProgrammeExistsWithAcronym() {
         // Arrange
         Programme programme = mock(Programme.class);
-        Acronym acronym = mock(Acronym.class);
-        when(acronym.toString()).thenReturn("TP");
-        when(programme.getAcronym()).thenReturn(acronym);
+        Acronym acronymDouble1 = mock(Acronym.class);
+        Acronym acronymDouble2 = mock(Acronym.class);
 
-        ProgrammeID id = mock(ProgrammeID.class);
-        when(programme.identity()).thenReturn(id);
+        when(programme.getAcronym()).thenReturn(acronymDouble1);
+        when(acronymDouble1.getAcronym()).thenReturn("TP");
+        when(acronymDouble2.getAcronym()).thenReturn("TP");
+
 
         IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
         List<Programme> programmeList = new ArrayList<>();
@@ -306,8 +334,36 @@ repository.save(programme);
         ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
         repository.save(programme);
 
+        // Act
+        boolean result = repository.existsByAcronym(acronymDouble2);
+
         // Act & Assert
-        assertTrue(repository.existsByAcronym("TP"));
-        assertFalse(repository.existsByAcronym("XX"));
+        assertTrue(result);
+    }
+
+    @Test
+    void testExistsByAcronymReturnsFalseWhenProgrammeWithGivenAcronymDoesNotExist() {
+        // Arrange
+        Programme programme = mock(Programme.class);
+        Acronym acronymDouble1 = mock(Acronym.class);
+        Acronym acronymDouble2 = mock(Acronym.class);
+
+        when(programme.getAcronym()).thenReturn(acronymDouble1);
+        when(acronymDouble1.getAcronym()).thenReturn("TP");
+        when(acronymDouble2.getAcronym()).thenReturn("AB");
+
+
+        IProgrammeRepositoryListFactory listFactory = mock(IProgrammeRepositoryListFactory.class);
+        List<Programme> programmeList = new ArrayList<>();
+        when(listFactory.newProgrammeArrayList()).thenReturn(programmeList);
+
+        ProgrammeRepositoryImpl repository = new ProgrammeRepositoryImpl(listFactory);
+        repository.save(programme);
+
+        // Act
+        boolean result = repository.existsByAcronym(acronymDouble2);
+
+        // Act & Assert
+        assertFalse(result);
     }
 }

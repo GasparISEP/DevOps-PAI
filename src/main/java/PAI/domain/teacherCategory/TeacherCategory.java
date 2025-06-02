@@ -6,7 +6,6 @@ import PAI.ddd.AggregateRoot;
 import PAI.utils.ValidationUtils;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class TeacherCategory implements AggregateRoot<TeacherCategoryID> {
 

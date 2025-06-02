@@ -48,9 +48,14 @@ ref over Repository
 end
 
 
- Repository -> :  save (amDataModel)
 
-Repository <-- : amDataModelSaved
+
+participant ":IAccessMethodRepositorySpringData" as springDataRepository <<Component>>
+Repository -> springDataRepository: save (amDataModel)
+activate springDataRepository #LightBlue
+springDataRepository --> Repository : amDataModelSaved
+deactivate springDataRepository
+
 
 
 ref over Repository
@@ -70,7 +75,7 @@ Service --> Controller: amServiceDTO
 deactivate Service
 
 ref over Controller
-    Convert amServiceDTO to amRequestDTO
+    Convert amServiceDTO to amResponseDTO
 end
 
 Controller --> router: (201, Created) amResponse

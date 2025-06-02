@@ -2,19 +2,19 @@
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title: I want to know the approval percentage of a Course Edition \n (Process View Level 1)
-actor RUC
+actor ProgrammeDirector
 participant ":System" as System #lightblue
 
-RUC -> System  : I want to know the approval percentage of a Course Edition
+ProgrammeDirector -> System  : I want to know the approval percentage of a Course Edition
 activate System
-System --> RUC  : Which Course Edition?
+System --> ProgrammeDirector  : Which Course Edition?
 deactivate System
-RUC -> System  : Course Edition!
+ProgrammeDirector -> System  : Course Edition!
 activate System
-System --> RUC  : Confirm?
+System --> ProgrammeDirector  : Confirm?
 deactivate System
-RUC -> System  : Yes!
+ProgrammeDirector -> System  : Yes!
 activate System
-System --> RUC  : Success!
+System --> ProgrammeDirector  : Success!
 deactivate System
 @enduml

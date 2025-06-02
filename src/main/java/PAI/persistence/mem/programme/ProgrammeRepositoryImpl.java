@@ -1,7 +1,6 @@
 package PAI.persistence.mem.programme;
 
-import PAI.VOs.DepartmentID;
-import PAI.VOs.ProgrammeID;
+import PAI.VOs.*;
 import PAI.domain.programme.Programme;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
@@ -57,9 +56,9 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
     }
 
     @Override
-    public boolean existsByName(String name) {
+    public boolean existsByName(NameWithNumbersAndSpecialChars name) {
         for (Programme programme : _programmeRepo) {
-            if (programme.getProgrammeName().toString().equals(name)) {
+            if (programme.getProgrammeName().getNameWithNumbersAndSpecialChars().equals(name.getNameWithNumbersAndSpecialChars())) {
                 return true;
             }
         }
@@ -67,9 +66,9 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
     }
 
     @Override
-    public boolean existsByAcronym(String acronym) {
+    public boolean existsByAcronym(Acronym acronym) {
         for (Programme programme : _programmeRepo) {
-            if (programme.getAcronym().toString().equals(acronym)) {
+            if (programme.getAcronym().getAcronym().equals(acronym.getAcronym())) {
                 return true;
             }
         }

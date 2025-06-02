@@ -68,10 +68,10 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
-        if (_programmeRepository.existsByName(name.toString()))
+        if (_programmeRepository.existsByName(name))
             throw new AlreadyRegisteredException("Programme name");
 
-        if (_programmeRepository.existsByAcronym(acronym.toString()))
+        if (_programmeRepository.existsByAcronym(acronym))
             throw new AlreadyRegisteredException("Programme acronym");
 
         return _programmeRepository.save(programme);

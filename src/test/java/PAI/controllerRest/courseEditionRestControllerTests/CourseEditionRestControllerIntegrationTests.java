@@ -1,14 +1,37 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.TeacherAcronym;
+import PAI.VOs.TeacherID;
+import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
+import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
+import PAI.controllerRest.CourseEditionRestController;
+import PAI.dto.courseEdition.*;
+import PAI.service.courseEdition.DefineRucServiceImpl;
+import PAI.service.courseEdition.ICreateCourseEditionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -18,10 +41,26 @@ public class CourseEditionRestControllerIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private DefineRucServiceImpl defineRucService;
+
+    @MockBean
+    private CourseEditionAssemblerImpl courseEditionAssembler;
+
+    @MockBean
+    private CourseEditionHateoasAssembler courseEditionHateoasAssembler;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private ICreateCourseEditionService createCourseEditionService;
+
+
     @Test
     void shouldDefineRucSuccessfullyAndReturnAccepted() throws Exception {
         // Arrange
-        String validRequestBody = """
+        String requestBody = """
         {
             "teacherID": "AAB",
             "courseEditionDTO": {
@@ -37,12 +76,30 @@ public class CourseEditionRestControllerIntegrationTests {
         }
         """;
 
+        TeacherID teacherID = new TeacherID(new TeacherAcronym("AAB"));
+        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
+                "Data Science", "DSD", UUID.fromString("550e8400-e29b-41d4-a716-446655440002"),
+                "ARIT", "Arithmancy", LocalDate.parse("2023-07-01")
+        );
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        DefineRucResponseDTO responseDTO = new DefineRucResponseDTO("AAB", courseEditionDTO);
+        EntityModel<DefineRucResponseDTO> responseModel = EntityModel.of(responseDTO,
+                linkTo(methodOn(CourseEditionRestController.class).defineRucForCourseEdition(null))
+                        .withRel("define-ruc"));
+
+        when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
+        when(courseEditionAssembler.fromDtoToCourseEditionID(any())).thenReturn(courseEditionID);
+        when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
+        when(courseEditionHateoasAssembler.toModel(any())).thenReturn(responseModel);
+
         // Act & Assert
         mockMvc.perform(patch("/courseeditions/ruc")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validRequestBody))
+                        .content(requestBody))
                 .andExpect(status().isAccepted())
-                .andExpect(content().string("RUC successfully updated"));
+                .andExpect(jsonPath("$.teacherID").value("AAB"))
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/ruc"));
     }
 
     @Test
@@ -66,7 +123,7 @@ public class CourseEditionRestControllerIntegrationTests {
         mockMvc.perform(patch("/courseeditions/ruc")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidRequestBody))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -116,6 +173,113 @@ public class CourseEditionRestControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequestBody))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnInternalServerError() throws Exception {
+        String validRequestBody = """
+    {
+        "teacherID": "AAB",
+        "courseEditionDTO": {
+            "programmeName": "Data Science",
+            "programmeAcronym": "DSD",
+            "schoolYearID": "550e8400-e29b-41d4-a716-446655440002",
+            "courseAcronym": "ARIT",
+            "courseName": "Arithmancy",
+            "studyPlanProgrammeName": "",
+            "studyPlanProgrammeAcronym": "",
+            "studyPlanImplementationDate": "2023-07-01"
+        }
+    }
+    """;
+
+        when(defineRucService.assignRucToCourseEdition(any(), any()))
+                .thenThrow(new RuntimeException("Unexpected failure"));
+
+        mockMvc.perform(patch("/courseeditions/ruc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validRequestBody))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+                "Software Development", "SDV", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+
+        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+
+        CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
+                "courseEditionID123", "Software Development", "SDV",
+                requestDTO.schoolYearID(), "SA", "Software Architecture",
+                LocalDate.of(2023, 9, 1));
+
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
+
+        // Act
+        MvcResult result = mockMvc.perform(post("/courseeditions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/courseeditions/" + responseDTO.courseEditionID()))
+                .andReturn();
+
+        // Assert
+        String jsonResponse = result.getResponse().getContentAsString();
+        CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
+
+        assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
+        assertEquals(responseDTO.programmeName(), actualResponse.programmeName());
+        assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
+        assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
+        assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());
+        assertEquals(responseDTO.courseName(), actualResponse.courseName());
+        assertEquals(responseDTO.studyPlanImplementationDate(), actualResponse.studyPlanImplementationDate());
+    }
+
+    @Test
+    void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+
+        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
+                requestDTO.programmeName(), requestDTO.programmeAcronym(),
+                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
+                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
+
+        // Act & Assert
+        mockMvc.perform(post("/courseeditions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+                "LEI", "LEIC", UUID.randomUUID(),
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+
+        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Test Exception"));
+
+        // Act & Assert
+        mockMvc.perform(post("/courseeditions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Test Exception"));
     }
 }
 

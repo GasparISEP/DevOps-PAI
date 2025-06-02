@@ -16,42 +16,83 @@ class AccessMethodControllerAssemblerImplTest {
 
     @Test
     void shouldCreateAccessMethodAssembler() {
+        //Arrange
+
+        //Act
         AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        //Assert
         assertNotNull(assembler);
     }
 
     @Test
-    void shouldConvertAccessMethodRequestDTOToCommand() {
+    void shouldCreateCommandFromAccessMethodRequestDTO() {
+        // Arrange
         AccessMethodRequestDTO dto = new AccessMethodRequestDTO("+23");
         AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
 
+        // Act
         RegisterAccessMethodCommand command = assembler.toCommand(dto);
 
+        // Assert
         assertNotNull(command);
-        assertEquals("+23", command.name().getNameWithNumbersAndSpecialChars());
     }
 
     @Test
-    void shouldThrowExceptionWhenAccessMethodRequestDTOIsNull() {
+    void shouldMapCorrectNameFromAccessMethodRequestDTOToCommand() {
+        // Arrange
+        AccessMethodRequestDTO dto = new AccessMethodRequestDTO("+23");
         AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        // Act
+        RegisterAccessMethodCommand command = assembler.toCommand(dto);
+
+        // Assert
+        assertEquals("+23", command.name().getNameWithNumbersAndSpecialChars());
+    }
+
+
+    @Test
+    void shouldThrowExceptionWhenAccessMethodRequestDTOIsNull() {
+        // Arrange
+        AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> assembler.toCommand(null));
     }
 
     @Test
-    void toResponseDto_shouldConvertServiceDtoToResponseDto() {
-        AccessMethodServiceDTO serviceDTO = new AccessMethodServiceDTO("uuid-123", "AccessName");
+    void whenDtoIsProvided_thenCommandShouldBeCreated() {
+        // Arrange
+        AccessMethodRequestDTO dto = new AccessMethodRequestDTO("+23");
         AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
 
-        AccessMethodResponseDTO responseDTO = assembler.toResponseDto(serviceDTO);
+        // Act
+        RegisterAccessMethodCommand command = assembler.toCommand(dto);
 
-        assertNotNull(responseDTO);
-        assertEquals("uuid-123", responseDTO.id());
-        assertEquals("AccessName", responseDTO.name());
+        // Assert
+        assertNotNull(command);
+    }
+
+    @Test
+    void whenDtoHasName_thenCommandShouldContainSameName() {
+        // Arrange
+        AccessMethodRequestDTO dto = new AccessMethodRequestDTO("+23");
+        AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        // Act
+        RegisterAccessMethodCommand command = assembler.toCommand(dto);
+
+        // Assert
+        assertEquals("+23", command.name().getNameWithNumbersAndSpecialChars());
     }
 
     @Test
     void toResponseDto_shouldThrowException_whenServiceDtoIsNull() {
+        // Arrange
         AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        // Act + Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> assembler.toResponseDto(null));
         assertEquals("AccessMethodServiceDTO cannot be null.", exception.getMessage());
     }

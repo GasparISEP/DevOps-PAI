@@ -2,7 +2,6 @@ package PAI.initializer;
 
 import PAI.VOs.Name;
 import PAI.controller.US01_ConfigureTeacherCategoryController;
-import PAI.controller.US02_ConfigureAccessMethodController;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

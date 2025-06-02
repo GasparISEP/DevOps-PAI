@@ -75,12 +75,16 @@ ref over Controller
     Convert tcSavedDTO to tcSavedResponseDTO
 end
 
-Controller --> router: (201, Created) tcSavedResponseDTO
+participant ":ITeacherCategoryHateoasAssembler" as hateoasAssembler
+Controller -> hateoasAssembler: toModel (tcSavedResponseDTO)
+hateoasAssembler --> Controller: EntityModel<TeacherCategoryResponseDTO>
+
+Controller --> router: (201, Created) \n EntityModel<TeacherCategoryResponseDTO>
 deactivate Controller
 
 note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
-<-- router: (201, Created) tcSavedResponseJSON
+<-- router: (201, Created) \n teacherCategoryResponseJSON
 deactivate router
 
 @enduml

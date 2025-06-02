@@ -3,7 +3,6 @@ package PAI.persistence.springdata.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
-import PAI.domain.teacherCategory.TeacherCategoryFactorySpringImpl;
 import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
 import PAI.mapper.teacherCategory.TeacherCategoryMapperImpl;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
 
 @DataJpaTest
 @Import({

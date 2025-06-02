@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+title As an Programme Director, I want to know the average grade of a Course Edition in the system \n (Scenario View - Level 1)
+
+
+actor PD as "Programme Director"
+
+rectangle "<<PAI System>>" {
+    usecase "Calculate the average grade in a Course Edition" as UC1
+}
+
+PD --> UC1
+
+@enduml

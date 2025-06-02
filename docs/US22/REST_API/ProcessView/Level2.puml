@@ -5,33 +5,37 @@ title As a RUC, I want to grade a Student in a Course Edition \n (Process View L
 
 skinparam sequencemessagealign center
 
-actor RUC as RUC
-participant "Frontend" as FE #application
-participant "Backend" as BE #strategy
+participant "Frontend" as FE <<Container>> #application
+participant "Backend" as BE <<Container>> #strategy
+database Database
 
 
-RUC -> FE : Request to grade a Student in the Course Edition
+ -> FE : Request to grade a Student in the Course Edition
 activate FE
 
 
-FE -> BE : Retrieve all Course Editions
+FE -> BE : **(GET)** \n Retrieve all Course Editions
 activate BE
-BE --> : Retrieve all Course Editions
-BE <--  : All Course Editions
+BE --> Database : Retrieve all Course Editions
+activate Database
+BE <-- Database : All Course Editions
+deactivate Database
 BE --> FE : All Course Editions
 deactivate BE
-FE --> RUC : Which Course Edition?
-RUC -> FE : This Course Edition!
+ <-- FE : Course Edition?
+ -> FE : Course Edition!
 
-FE --> RUC: Student Grading form
-RUC -> FE: grade, date, studentID
-FE -> BE : Grade a Student in the Course Edition \n (grade, date, studentID)
+ <-- FE: Student Grading form
+ -> FE: grade, date, studentID
+FE -> BE : **(POST)** \n Grade a Student in the Course Edition \n (grade, date, studentID)
 activate BE
-BE ->  : Save Student's grade in Database \n (grade, date, studentID)
-BE <--  : StudentGrade \n (grade, date, studentID)
-BE --> FE: Created StudentGrade \n (grade, date, studentID)
+BE ->  Database : Save Student's grade in Database \n (grade, date, studentID)
+activate Database
+BE <-- Database : studentGrade \n (grade, date, studentID)
+deactivate Database
+BE --> FE: Created studentGrade \n (grade, date, studentID)
 deactivate BE
-FE --> RUC: Student graded successfully!
+ <-- FE: Student graded successfully!
 deactivate FE
 
 @enduml

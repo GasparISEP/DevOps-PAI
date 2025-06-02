@@ -137,8 +137,8 @@ class ProgrammeServiceImplTest {
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
-        when(_programmeRepositoryDouble.existsByName("_nameDouble")).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym("_acronymDouble")).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(false);
 
         //Act
         Programme result = service.registerProgramme(_programmeVOsDTODouble);
@@ -173,8 +173,7 @@ class ProgrammeServiceImplTest {
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(true);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
@@ -209,8 +208,8 @@ class ProgrammeServiceImplTest {
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble.toString())).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble.toString())).thenReturn(true);
+        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
+        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
@@ -784,5 +783,67 @@ class ProgrammeServiceImplTest {
 
         // act + assert
         assertThrows(NotFoundException.class, () -> service.getProgrammeDTOByID(_programmeIDDouble), "The Programme with ID" + _programmeIDDouble + " was not found");
+    }
+
+    @Test
+    void should_ThrowExceptionWhenProgrammeNotFoundByID(){
+
+        // arrange
+        createDoubles();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+
+        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
+
+        // act + assert
+        assertThrows(NotFoundException.class, () -> service.getProgrammeDTOByID(id), "Programme not found");
+    }
+
+    @Test
+    void should_ThrowExceptionWhenProgrammeNotFoundByIDWithMessage() {
+        // arrange
+        createDoubles();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+
+        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
+
+        // act + assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> service.getProgrammeDTOByID(id));
+        assertEquals("The Programme with ID " + id + " was not found", exception.getMessage());
+    }
+
+    @Test
+    void should_ThrowExceptionWhenRepositoryIsEmpty() {
+        // arrange
+        createDoubles();
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+
+        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
+
+        // act + assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> service.getProgrammeDTOByID(id));
+        assertEquals("The Programme with ID " + id + " was not found", exception.getMessage());
+    }
+
+    @Test
+    void should_ThrowExceptionWhenRepositoryIsNullOnServiceCreation() {
+        // arrange
+        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+        IProgrammeAssembler assembler = mock(IProgrammeAssembler.class);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+
+        // act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                new ProgrammeServiceImpl(factory, null, assembler,degreeTypeRegistrationService)
+        );
+        assertEquals("Programme Repository cannot be null", exception.getMessage());
     }
 }

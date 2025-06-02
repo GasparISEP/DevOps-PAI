@@ -95,6 +95,22 @@ class TeacherCategoryIDDataModelTest {
     }
 
     @Test
+    void shouldReturnAnDifferentHashCode() {
+        // Arrange
+        UUID uuid = UUID.randomUUID();
+        UUID uuid2 = UUID.randomUUID();
+        TeacherCategoryIDDataModel dataModel1 = new TeacherCategoryIDDataModel(uuid);
+        TeacherCategoryIDDataModel dataModel2 = new TeacherCategoryIDDataModel(uuid2);
+
+        // Act
+        int hash1 = dataModel1.hashCode();
+        int hash2 = dataModel2.hashCode();
+
+        // Assert
+        assertNotEquals(hash1, hash2);
+    }
+
+    @Test
     void getValueShouldReturnCorrectUUID() {
         // Arrange
         UUID uuid = UUID.randomUUID();

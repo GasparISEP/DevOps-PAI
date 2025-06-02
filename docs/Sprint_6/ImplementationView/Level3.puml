@@ -4,7 +4,7 @@ skinparam componentStyle component
 skinparam ArrowColor black
 skinparam defaultTextAlignment center
 
-title "PAI - Logical View Level 3"
+title "PAI - Implementation View Level 3"
 
     interface "REST API" as RESTAPI
     interface "FileIO" as FileIO

@@ -2,7 +2,9 @@ package PAI.domain.teacherCategory;
 
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TeacherCategoryFactoryImpl implements ITeacherCategoryFactory {
 
     @Override
