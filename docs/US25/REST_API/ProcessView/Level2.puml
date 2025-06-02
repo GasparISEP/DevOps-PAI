@@ -2,25 +2,26 @@
 
 autonumber
 
-title As a Programme, Director I want to know the Average Grade of a Course Edition of my Programme. \n(Process View lvl 2)
+title As a Programme Director I want to know the Average Grade of a Course Edition of my Programme. \n(Process View lvl 2)
 
 actor ProgrammeDirector as PD
 participant "<<SystemPAI>> \nFrontend" as FE #lightblue
 participant "<<SystemPAI>> \nBackend" as BE #lightgreen
 
-activate PD
+activate PD #lightblue
 PD -> FE ++ #application : Request Course Edition
-FE -> BE ++ #application: (GET) Course Editions
-BE -> : #application: Retrieve all Course Editions
-BE <-- : #application: List of Course Editions
-BE --> FE --: (OK, 200) List of Course Editions
-FE --> PD --: Provide List of Course Editions
+FE -> BE ++ #application: **GET** /courseeditions/
+BE -> : **SELECT** (CourseEdition) findAll()
+BE <-- : List<CourseEditions>
+BE --> FE --: (OK, 200) List<CourseEditions>
+FE --> PD --: Which Course Edition?
 
 PD -> FE ++ #application: Course Edition!
-FE -> BE ++ #application: (GET) Average Grades
-BE ->  : #application: Retrieve (CourseEditionID) Student Grades
+FE -> BE ++ #application: **GET** /averagegrade/
+BE ->  : **SELECT** (CourseEditionID) Student Grades
 BE <-- : List of Grades
 BE --> FE --: (OK, 200) Grades' Average
 FE --> PD --: Grades' Average!
+deactivate PD
 
 @enduml

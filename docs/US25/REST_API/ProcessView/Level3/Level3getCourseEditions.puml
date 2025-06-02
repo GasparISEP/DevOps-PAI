@@ -1,0 +1,36 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title I want to know the Average Grade of a Course Edition of a Programme. \n(Process View lvl 3)
+skinparam sequencemessagealign center
+
+participant ":Router" as Router <<Component>> #lightpink
+participant ":CourseEditionRestController" as Controller <<Component>> #motivation
+participant ":CreateCourseEditionServiceImpl" as Service <<Component>> #business
+participant ":CourseEditionRepository" as Repository <<Component>> #lightgreen
+participant ":Drivers" as D <<Component>> #technology
+
+-> Router : **GET** /courseeditions/
+activate Router
+Router -> Controller : findAllCourseEditions()
+activate Controller
+Controller -> Service : findAll()
+activate Service
+Service -> Repository : findAll()
+activate Repository
+Repository -> D ++: findAll()
+D -> : **SELECT** findAll()
+D <-- : List<CourseEditions>
+Repository <-- D -- : All Course Editions
+Repository --> Service : List<CourseEditions>
+deactivate Repository
+Service --> Controller : List<CourseEditions>
+deactivate Service
+Controller --> Router : List<CourseEditions>
+deactivate Controller
+<-- Router : (200, OK) List<CourseEditions>
+deactivate Router
+
+
+@enduml
