@@ -1,0 +1,16 @@
+@startuml
+!pragma layout smetana
+left to right direction
+
+title As an Academic Services Collaborator, I want to change the Programme Director in the system \n (Scenario View - Level 1)
+
+
+actor ASC as "Academic Services Collaborator"
+
+rectangle "<<PAI System>>" {
+    usecase "Change the Programme Director In The System" as UC1
+}
+
+ASC --> UC1
+
+@enduml

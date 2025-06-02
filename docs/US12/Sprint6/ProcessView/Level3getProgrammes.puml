@@ -1,0 +1,25 @@
+@startuml
+
+autonumber
+
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:ProgrammeRestController" as C #lightgreen
+participant "<<Component>>\n:ProgrammetService" as S #lightblue
+participant "<<Component>>\n:ProgrammesRepository" as R #lightyellow
+participant "<<Component>>\n:Drivers" as Drivers #strategy
+
+ -> RT ++: (GET) Request Programmes
+RT -> C ++: getAllProgrammes()
+C -> S ++: getAllProgrammes()
+S -> R ++: findAll()
+R -> Drivers ++: findAll()
+Drivers -> : (SELECT) findAll()
+Drivers <-- : List<Programmes>
+Drivers --> R --: List<Programmes>
+R --> S --: List<Programmes>
+S --> C --: List<Programmes>
+C --> RT --: List<Programmes>
+<-- RT --: (OK, 200) List<Programmes>
+
+@enduml

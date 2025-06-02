@@ -1,5 +1,5 @@
 @startuml
-
+!pragma layout smetana
 
 title "PAI \n (Logical View - Level 2)"
 

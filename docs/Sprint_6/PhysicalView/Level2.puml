@@ -1,6 +1,6 @@
 @startuml
 'https://plantuml.com/component-diagram
-
+!pragma layout smetana
 node "localhost:" as Localhost {
   [Browser + PAI FE]
 }

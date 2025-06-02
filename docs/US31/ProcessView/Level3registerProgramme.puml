@@ -14,7 +14,7 @@ participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
 -> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
 
-RT -> C ++: registerProgramme (ProgrammeDTO)
+RT -> C ++: registerProgramme (ProgrammeDirectorRequestDTO)
 C -> PS ++: registerProgramme (ProgrammeVOsDTO)
 
 PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
