@@ -12,23 +12,23 @@ participant "<<Component>> \nDatabase" as BD #lightyellow
 activate Admin
 Admin -> FE ++: Request change the Programme Director
 FE -> BE ++: (GET) Request Programme
-BE -> BD ++: Retrieve all Programmes
+BE -> BD ++: retrieveAllProgrammes()
 BD --> BE --: List of Programmes
 BE --> FE --: (OK, 200) List of Programmes
 FE --> Admin --: Provide List of Programmes
 Admin -> FE ++: Programme
 
 FE -> BE ++: (GET) Request Teachers
-BE -> BD ++: Retrieve all Teachers
+BE -> BD ++: retrieveAllTeachers()
 BD --> BE --: List of Teachers
 BE --> FE --: (OK, 200) List of Teachers
 FE --> Admin --: Provide List of Teachers
 Admin -> FE ++: Teachers
 
-FE -> BE ++: (PATCH) Request change the Programme Director
-BE -> BD ++: (INSERT) Persist Programme Director to Database (Programme Director)
+FE -> BE ++: (PATCH) /assigndirector
+BE -> BD ++: (INSERT) save (Programme Director)
 BD --> BE --: Programme Director
-BE --> FE --: (201 Updated) Updated Programme Director
+BE --> FE --: (204 Updated) Updated Programme Director
 FE --> Admin --: Programme Director updated successfully!
 
 @enduml
