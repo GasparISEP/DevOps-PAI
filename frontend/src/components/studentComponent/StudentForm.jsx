@@ -360,16 +360,16 @@ export default function StudentForm() {
                                     enableSearch
                                     searchClass="student-form-input"
                                     inputStyle={{ width: '554px', height: '4rem'}}
-                                    inputProps={{
-                                        onKeyDown: (e) => {
-                                            const phone = form.phoneNumber;
-                                            const isPortugal = form.countryCode === '+351';
-
-                                            if (isPortugal && phone.length >= 9 && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
-                                                e.preventDefault();
-                                            }
-                                        }
-                                    }}
+                                    // inputProps={{
+                                    //     onKeyDown: (e) => {
+                                    //         const phone = form.phoneNumber;
+                                    //         const isPortugal = form.countryCode === '+351';
+                                    //
+                                    //         if (isPortugal && phone.length >= 9 && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                                    //             e.preventDefault();
+                                    //         }
+                                    //     }
+                                    // }}
                                 />
                                 {formErrors.phoneNumber && <span style={{ color: 'red', fontSize: '1.2rem' }}>{formErrors.phoneNumber}</span>}
                             </div>
