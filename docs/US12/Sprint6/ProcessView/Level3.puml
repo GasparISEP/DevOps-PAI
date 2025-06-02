@@ -15,7 +15,7 @@ participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
 
 
--> RT ++: (POST) Request change a Programme Director \n(programmeName, programmeAcronym, teacherAcronym)
+-> RT ++: (PATCH) /assigndirector
 
 RT -> C ++: ChangeProgrammeDirector (ProgrammeDirectorDTO)
 C -> S ++: ProgrammeDirectorVOsDTO
@@ -50,7 +50,7 @@ R --> S --: Saved Programme Director
 
 S --> C --: Saved Programme Director
 C --> RT --: Saved Programme Director
-<-- RT --: (200, OK) Programme Director
+<-- RT --: (204) Programme Director
 
 
 @enduml

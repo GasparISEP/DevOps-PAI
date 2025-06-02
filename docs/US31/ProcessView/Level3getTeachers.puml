@@ -8,12 +8,12 @@ participant "<<Component>>\n:TeacherRegistrationService" as S #lightblue
 participant "<<Component>>\n:TeacherRepository" as R #lightyellow
 participant "<<Component>>\n:Drivers" as Drivers #strategy
 
--> RT ++: (GET) Request Teachers
+-> RT ++: **GET** /teachers
 RT -> C ++: getAllTeachers()
 C -> S ++: getAllTeachers()
 S -> R ++: findAll()
 R -> Drivers ++: findAll()
-Drivers -> : (SELECT) findAll()
+Drivers -> : **SELECT** findAll()
 Drivers <-- : List<Teachers>
 Drivers --> R --: List<Teachers>
 R --> S --: List<Teachers>

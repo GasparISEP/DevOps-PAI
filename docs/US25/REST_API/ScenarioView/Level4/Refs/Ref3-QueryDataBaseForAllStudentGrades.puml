@@ -1,0 +1,25 @@
+@startuml
+
+autonumber
+
+title Query database for all CourseEditions
+
+participant ":StudentGradeRepositorySpringData" as SGR #lightgreen
+participant ":StudentGradeEnrolmentMapperImpl" as SGEM #lightgrey
+participant ":IStudentGradeRepositorySpringData" as SGRSD
+
+activate SGR
+SGR -> SGRSD ++ : findAll()
+SGRSD ->  : findAll()
+SGRSD <--  : List <StudentGradeDataModel>
+SGRSD -> SGR --: List <StudentGradeDataModel>
+
+loop for each StudentGradeDataModel, convert into Domain entity
+    SGR -> SGEM : toDomain(studentGradeDataModel)
+    activate SGEM
+    SGEM --> SGR : studentGrade!
+    deactivate SGEM
+end
+
+deactivate SGR
+@enduml

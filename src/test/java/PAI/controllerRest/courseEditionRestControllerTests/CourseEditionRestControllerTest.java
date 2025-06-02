@@ -110,10 +110,13 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudent_thenReturnsCreated() throws Exception {
         // Arrange
-        CourseEditionEnrolment mockEnrolment = mock(CourseEditionEnrolment.class);
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockEnrolment);
-        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockStudentID);
+        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(true);
 
         // Act & Assert
@@ -126,10 +129,13 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentAlreadyEnrolled_thenReturnsBadRequest() throws Exception {
         // Arrange
-        CourseEditionEnrolment mockEnrolment = mock(CourseEditionEnrolment.class);
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockEnrolment);
-        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockStudentID);
+        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(false);
 
         // Act & Assert
@@ -162,7 +168,7 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentWithException_thenReturnsBadRequest() throws Exception {
         // Arrange
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenThrow(new RuntimeException("Test exception"));
 
         // Act & Assert

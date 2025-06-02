@@ -5,47 +5,37 @@ title As an Administrator, I want to configure a DegreeType in the System \n (Pr
 
 skinparam sequenceMessageAlign center
 
-actor Administrator
-participant ":UI" as UI #application
-participant ":Controller" as Controller #motivation
-participant ":Service" as Service #business
-participant ":Repository" as Repo #technology
-participant ":Domain" as Domain #physical
-database DB
 
-Administrator -> UI : Fill DegreeType form (Name, MaxEcts)
-activate UI
-UI -> Controller : register DegreeType(Name, MaxEcts)
+participant ":Router" as Router <<Component>> #application
+participant ":DegreeTypeRestController" as Controller <<Component>> #motivation
+participant ":IDegreeTypeRegistrationService" as Service <<Component>> #business
+participant ":DegreeTypeRepositoryImpl" as Repo <<Component>> #technology
+participant ":Domain" as Domain <<Component>> #physical
+
+-> Router : POST /degreetypes/
+activate Router
+Router -> Controller : registerDegreeType(RegisterDegreeTypeRequest request)
 activate Controller
 
-Controller -> Service : register DegreeType(Name, MaxEcts)
+Controller -> Service : createAndSaveDegreeType(RegisterDegreeTypeCommand requestCommand)
 activate Service
 
-Service -> Domain : create DegreeType
+Service -> Domain : create(Name name, MaxEcts maxEcts)
 activate Domain
 Domain --> Service : DegreeType
 deactivate Domain
 
-Service -> Repo : Check if DegreeType exists
+Service -> Repo : containsOfIdentity(DegreeTypeID id)
 activate Repo
 
-Repo -> DB : Check if DegreeType exists
-activate DB
-
-DB --> Repo : DegreeType does not exist
-deactivate DB
+Repo ->  : containsOfIdentity(DegreeTypeID id)
+Repo <--  : Degree Type does not exist
 
 Repo --> Service : DegreeType does not exist
 deactivate Repo
 
-Service -> Repo : Save DegreeType
+Service -> Repo : save(DegreeType degreeType)
 activate Repo
-
-Repo -> DB : Save DegreeType
-activate DB
-
-DB --> Repo : DegreeType saved
-deactivate DB
 
 Repo --> Service : DegreeType saved
 deactivate Repo
@@ -53,10 +43,11 @@ deactivate Repo
 Service --> Controller : DegreeType saved
 deactivate Service
 
-Controller --> UI : DegreeType saved
+Controller --> Router : DegreeType saved
 deactivate Controller
 
-UI --> Administrator : DegreeType registered successfully
-deactivate UI
+<-- Router : (200, OK) DegreeType Registered
+deactivate Router
+
 
 @enduml

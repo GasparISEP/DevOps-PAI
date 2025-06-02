@@ -107,19 +107,7 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/assign-director")
-    public ResponseEntity<ProgrammeDirectorResponseDTO> getProgrammeDirectorInfo() {
-        try {
-            List<Programme> programmes = (List<Programme>) _programmeService.findAll();
-            List<Teacher> teachers = (List<Teacher>) _teacherService.getAllTeachers();
-            ProgrammeDirectorResponseDTO response = _programmeDirectorAssembler.fromDomainToDTO(programmes, teachers);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/assign-director")
+    @PatchMapping("/assigndirector")
     public ResponseEntity<Void> assignProgrammeDirector(@RequestBody ProgrammeDirectorRequestDTO dto) {
         if (dto == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -128,7 +116,7 @@ public class ProgrammeRestController {
             ProgrammeID programmeID = new ProgrammeID(vosDTO.getProgrammeName(), vosDTO.getProgrammeAcronym());
             TeacherID teacherID = new TeacherID(vosDTO.getTeacherAcronym());
             _programmeService.changeProgrammeDirector(programmeID, teacherID);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
