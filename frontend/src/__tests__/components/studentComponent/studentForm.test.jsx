@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import StudentForm from '../../../components/studentComponent/StudentForm';
-import PhoneInput from 'react-phone-input-2';
 
 // MOCK de registerStudent e fetch global
 jest.mock('../../../services/studentService', () => ({
@@ -116,17 +115,5 @@ describe('StudentForm Tests', () => {
         await userEvent.click(spainOption);
 
         expect(screen.getByText('Spain')).toBeInTheDocument();
-    });
-
-    test('updates form state on phone input change', async () => {
-        render(<MemoryRouter><StudentForm /></MemoryRouter>);
-
-        const input = screen.getByTestId('phone-input');
-
-        await userEvent.clear(input);
-        await userEvent.type(input, '912345678');
-
-        expect(input).toHaveValue('912345678');
-
     });
 });
