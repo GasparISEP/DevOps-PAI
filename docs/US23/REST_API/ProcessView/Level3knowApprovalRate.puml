@@ -1,0 +1,39 @@
+@startuml
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title I want to know the approval percentage of a Course Edition \n (Process View Level 3)
+skinparam sequencemessagealign center
+
+participant ":Router" as Router <<Component>> #application
+participant ":CourseEditionRestController" as Controller <<Component>> #motivation
+participant ":GradeAStudentService" as Service <<Component>> #business
+participant ":StudentGradeRepository" as Repository <<Component>> #technology
+participant ":Domain" as Domain <<Component>> #physical
+
+
+
+-> Router : GET /approvalpercentage/
+activate Router
+Router -> Controller : getCourseEditionApprovalRate()
+
+activate Controller
+Controller -> Service : knowApprovalRate()
+
+activate Service
+Service -> Repository : findAll()
+activate Repository
+Repository --> Service : Students' grades
+deactivate Repository
+
+Service --> Controller : Approval rate
+deactivate Service
+
+Controller --> Router : Approval rate
+deactivate Controller
+
+<-- Router : (200, OK) Approval Rate
+deactivate Router
+
+@enduml
