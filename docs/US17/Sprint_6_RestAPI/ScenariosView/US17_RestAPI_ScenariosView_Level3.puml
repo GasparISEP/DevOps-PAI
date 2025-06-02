@@ -1,0 +1,89 @@
+@startuml
+
+title US17: \n"As an Academic Services Coordinator, I want to enrol a Student in a Programme Edition"\nScenario View – Level 4 (Sequence Diagram)
+
+autonumber
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
+actor "Academic Services Coordinator" as ASC
+participant ":Frontend" as UI
+participant ":Router" as Router
+participant ":StudentProgrammeEditionEnrolmentRestController" as Controller
+participant ":IStudentProgrammeEditionEnrolmentService" as Service
+participant ":IStudentProgrammeEditionEnrolmentAssembler" as Assembler
+participant ":IStudentProgrammeEditionEnrolmentFactory" as Factory
+participant "r1:ProgrammeEditionEnrolmentRequest" as Request #LightYellow
+participant "agg1:ProgrammeEditionEnrolment" as Enrolment #LightBlue
+participant ":IStudentProgrammeEditionEnrolmentRepository" as Repository
+participant ":ProgrammeEditionEnrolmentID" as EnrolmentID #LightYellow
+participant "dm1:ProgrammeEditionEnrolmentDataModel" as EnrolmentDM #LightYellow
+participant ":IProgrammeEditionEnrolmentSpringDataRepository" as SpringDataRepo
+participant "dto1:StudentProgrammeEditionEnrolmentDTO" as DTO #LightYellow
+
+group Human Interaction
+ASC -> UI ++: I want to enrol a student in a programme edition
+UI --> ASC --: Prompt: Select Student + Programme + School Year
+ASC -> UI ++: Fill and submit enrolment form
+end group
+
+group HTTP Request
+UI -> Router ++: (POST) /programme-edition-enrolments\nwith JSON
+Router -> Controller ++: POST with ProgrammeEditionEnrolmentRequest
+end group
+
+group Controller → Service
+Controller -> Service ++: enrolStudentInProgrammeEdition(StudentID, ProgrammeID, SchoolYearID)
+end group
+
+group Application Service Logic
+Service -> EnrolmentID **: <create> ProgrammeEditionEnrolmentID
+Service -> Repository ++: existsByID(EnrolmentID)
+Repository -> SpringDataRepo ++: existsById(...)
+SpringDataRepo --> Repository --: false
+Repository --> Service --: false
+end group
+
+group Aggregate Creation
+Service -> Factory ++: create(EnrolmentID, StudentID, ProgrammeEditionID)
+Factory -> Enrolment **: <create> ProgrammeEditionEnrolment
+Factory --> Service --: agg1
+end group
+
+group Persistence
+Service -> Repository ++: save(agg1)
+
+group Domain → DataModel
+Repository -> EnrolmentDM **: <create> ProgrammeEditionEnrolmentDataModel
+Repository -> SpringDataRepo ++: save(EnrolmentDM)
+SpringDataRepo -> : INSERT INTO programme_edition_enrolments
+SpringDataRepo <-- : EnrolmentDM.saved
+SpringDataRepo --> Repository --: EnrolmentDM.saved
+end group
+
+Repository --> Service --: agg1
+end group
+
+group DTO Mapping
+Service -> Assembler ++: toDTO(agg1)
+Assembler -> DTO **: <create> StudentProgrammeEditionEnrolmentDTO
+Assembler --> Service --: dto1
+Service --> Controller --: dto1
+end group
+
+group HTTP Response
+Controller -> Router --: HTTP 201 Created + dto1
+Router --> UI --: JSON Response with DTO
+end group
+
+group User Notification
+UI --> ASC --: Student successfully enrolled
+end group
+
+@enduml

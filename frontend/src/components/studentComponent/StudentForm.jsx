@@ -184,7 +184,7 @@ export default function StudentForm() {
                                             <span style={{ fontSize: '1.5rem', fontWeight: 400 }}>{option.label}</span>
                                         </div>
                                     )}
-                                    placeholder="Select Country"
+                                    placeholder="Select Countries"
                                     isSearchable
                                     menuPlacement="auto"
                                     menuPosition="fixed"
