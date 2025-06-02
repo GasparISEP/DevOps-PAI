@@ -18,24 +18,49 @@ public class RootRestControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void shouldReturnCapabilitiesWithAllowHeader() throws Exception {
-        //Act & Assert
-        mockMvc.perform(options("/"))
+    void shouldReturnCapabilitiesWithAllowHeaderForAdministratorRole() throws Exception {
+        mockMvc.perform(options("/").param("role", "administrator"))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.ALLOW, containsString("GET")))
                 .andExpect(header().string(HttpHeaders.ALLOW, containsString("OPTIONS")))
                 .andExpect(jsonPath("$.teachers").exists())
                 .andExpect(jsonPath("$.departments").exists())
-                .andExpect(jsonPath("$.teachers.url", startsWith("http")))
-                .andExpect(jsonPath("$.teachers.roles.administrator", hasItem("GET")));
+                .andExpect(jsonPath("$.teachers.methods", hasItems("GET", "POST")));
     }
 
     @Test
-    void shouldReturnCapabilitiesOnGetRequest() throws Exception {
-        mockMvc.perform(get("/"))
+    void shouldReturnCapabilitiesOnGetRequestForStudentRole() throws Exception {
+        mockMvc.perform(get("/").param("role", "student"))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.ALLOW, containsString("GET")))
                 .andExpect(jsonPath("$.teachers").exists())
-                .andExpect(jsonPath("$.departments").exists());
+                .andExpect(jsonPath("$.teachers.methods", hasItem("GET")))
+                .andExpect(jsonPath("$.departments.methods", hasItem("GET")))
+                .andExpect(jsonPath("$.teachers.methods", not(hasItem("POST")))); // student não tem POST
+    }
+
+    @Test
+    void shouldReturnAnonymousCapabilitiesWhenRoleIsMissing() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.info", containsString("Role not recognized")));
+    }
+
+    @Test
+    void shouldReturnEmptyCapabilitiesForUnknownRole() throws Exception {
+        mockMvc.perform(get("/").param("role", "ghost"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.info", containsString("Role not recognized")));
+    }
+
+    @Test
+    void shouldReturnFullCatalogOnCatalogEndpoint() throws Exception {
+        mockMvc.perform(get("/catalog"))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.ALLOW, containsString("GET")))
+                .andExpect(jsonPath("$.teachers").exists())
+                .andExpect(jsonPath("$.departments").exists())
+                .andExpect(jsonPath("$.students").exists());
     }
 }
+
