@@ -1,11 +1,9 @@
 @startuml
 
-
 title "PAI \n (Logical View - Level 2)"
 
 interface UI
 interface "API REST"
-
 
 component "<<System>>\nPAI" {
   portin " " as p1
@@ -14,27 +12,24 @@ component "<<System>>\nPAI" {
   component Frontend
   component BD
   interface " " as I1
-
 }
 
 component Frontend {
 portin " " as p4
+portin " " as p5
 }
 
 component Backend {
-portin " " as p5
-portout " " as p6
+portin " " as p6
+portout " " as p7
 }
 
-
-
-I1 -right- BD
-p5-up- p4
+I1 -left- BD
+p6-up- p5
 p1 -up- UI
 p2 -up- "API REST"
-p2 -down-p5
+p2 -down-p6
 p1 -down-p4
-p6 -down-(I1
-
+p7 -down-(I1
 
 @enduml
