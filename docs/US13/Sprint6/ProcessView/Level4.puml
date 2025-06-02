@@ -1,0 +1,79 @@
+@startuml
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+autonumber
+
+participant "Router" as RO
+participant ":TeacherRestController" as RC
+participant ":TeacherWithRelevantDataAssembler" as TA
+participant ":TeacherWithRelevantDataService" as S
+participant ":TeacherFactory" as TF
+participant "AD1:Address" as AD1
+participant "T1:Teacher" as T1
+participant ":TeacherRepositorySD" as TR
+participant ":TeacherCareerProgressionFactory" as TCPF
+participant "TCPID1:TeacherCareerProgressionID" as TCPID
+participant "TCP1:TeacherCareerProgression" as TCP
+participant ":TeacherCareerProgressionRepositorySD" as TCPR
+participant ":TeacherCategoryRepository" as TCR
+
+database DB
+
+
+[o-> RO++: (GET) Request List of Categories
+RO -> RC++: registerTeacherWithRelevantData(\nteacherWithRelevantDataRequestDTO)
+
+loop
+RC -> TA ++: Convert DTO to VOs for\nTeacher and Career Progression
+|||
+TA --> RC --: Return VOs
+|||
+end loop
+|||
+
+RC -> S++: registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground,\nstreet, postalCode, location, country, departmentID, date, teacherCategoryID, workingPercentage)
+S -> TF ++: createTeacher(teacherID, name, email, nif, phoneNumber,\nacademicBackground, street, postalCode, location, country, departmentID);
+
+TF -> AD1 **: createAddress(street, postalCode, location, country);
+activate AD1
+AD1 --> TF --: AD1:Address
+
+TF -> T1 **: Teacher(teacherID, name, email, nif, phoneNumber,\nacademicBackground, address, departmentID)
+activate T1
+T1 --> TF --: T1:Teacher
+TF --> S --: T1:Teacher
+S -> TR ++: existsByTeacherIdOrNif(teacher.identity(), teacher.getNIF())
+TR -> TR: converts to DataModel
+TR -> DB ++: Fetch Teacher List
+DB --> TR --: Teacher List
+TR -> TR: Verify if exists
+TR -> DB ++: Post T1 Teacher
+DB --> TR --: Teacher Saved
+TR --> S --: T1:Teacher
+
+S -> TCPF ++: createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID)
+TCPF -> TCPID **: TeacherCareerProgressionID()
+activate TCPID
+TCPID --> TCPF --: TCPID1:TeacherCareerProgressionID
+TCPF -> TCP **: TeacherCareerProgression(teacherCareerProgressionId,\ndate, teacherCategoryID, workingPercentage, teacherID)
+activate TCP
+TCP --> TCPF --: "TCP1:TeacherCareerProgression"
+TCPF --> S --: TCP1:TeacherCareerProgression
+S -> TCPR ++: containsOfIdentity(tcp.getID())
+TCPR -> TCPR: convets to DataModel
+TCPR -> DB ++: Fetch Teacher Career Progression List
+DB --> TCPR --: Teacher Career Progression List
+TCPR -> TCPR: Verify if exists
+TCPR -> DB ++: Post TCP1 Teacher\nCareer Progression
+DB --> TCPR --: Teacher Career\nProgression Saved
+TCPR --> S --: TCP1:TeacherCareerProgression
+S -> TCR ++: ofIdentity(teacherCareerProgression.getTeacherCategoryID())
+TCR -> DB++: Fetch Teacher Category
+DB --> TCR --: TC1:TeacherCategory
+TCR --> S --: TC1:TeacherCategory
+S --> RC --: TeacherWithRelevantDataDTO
+RC --> RO --: TeacherWithRelevantDataDTO
+
+[o<-- RO --: (201 OK) Created Teacher and\nCareer Progression Successfully\t
+
+@enduml

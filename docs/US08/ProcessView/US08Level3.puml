@@ -2,13 +2,11 @@
 
 autonumber
 
-title As an ASC I want to register a Student in the System \n (Process View Level 3)
-
 participant "Router" as RO #lightblue
 participant "Controller" as C #lightgreen
 participant "Service" as S #lightblue
-participant "Repository" as R #lightyellow
 participant "Domain" as D #lightpink
+participant "Repository" as R #lightyellow
 
 [o-> RO ++: (POST) Request Register\nStudent in the System
 
