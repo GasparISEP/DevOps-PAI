@@ -3,10 +3,8 @@
 skinparam ranksep 60
 skinparam nodesep 60
 
-class TeachersRestController {
-    +TeachersRestController(teacherCareerProgressionService: ITeacherCareerProgressionService,\n teacherCategoryService: ITeacherCategoryService, teacherService: ITeacherService)
-    +findAll()
-    +updateTeacherCategoryInTeacherCareerProgression(date: String,\n teacherCategoryID: String, teacherAcronym: String, NIF : String, country: String)
+class TeacherRestController {
+    +updateTeacherCategoryInTeacherCareerProgression(UpdateTeacherCategoryRequestDTO request)
 }
 
 class TeacherCareerProgressionService {
@@ -14,40 +12,47 @@ class TeacherCareerProgressionService {
     +updateTeachersCategoryInTeacherCareerProgression(dateVO: DateVO,\n teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
+class updateTeacherCategoryRequestDTO {
+    -date: String
+    -teacherID: String
+    -teacherCategoryID :String
+    +updateTeacherCategoryRequestDTO(date: String, teacherID: String, teacherCategoryID :String)
+}
+
+interface ITeacherCareerAssembler {
+  + toCommand(dto: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
+  + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
+}
+
+class TeacherCareerAssemblerImpl {
+  + toCommand(dto: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
+  + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
+}
+
+class UpdateTeacherCategoryResponseDTO {
+  - teacherID: String
+  - date: String
+  - teacherCategoryID: String
+  - workingPercentage: int
+}
+
+' Commands
+class UpdateTeacherCategoryCommand {
+  - teacherID: TeacherID
+  - date: Date
+  - teacherCategoryID: TeacherCategoryID
+}
+
 interface ITeacherCareerProgressionService {
     +updateTeachersCategoryInTeacherCareerProgression(dateVO: DateVO,\n teacherCategoryIDVO: TeacherCategoryIDVO, teacherIDVO: TeacherIDVO)
 }
 
-interface ITeacherCategoryRepo {
-    +findAll()
+interface ITeacherRepository {
+  + containsOfIdentity(teacherID: TeacherID): boolean
 }
 
-class TeacherCategoryRepository {
-    +findAll()
-}
-
-interface ITeacherCategoryDTOMapper {
-    +fromDomainToDTO(teacherCategory: Name)
-}
-
-class TeacherCategoryDTOMapper{
-+fromDomainToDTO(teacherCategory: Name)
-}
-
-interface ITeacherDTOMapper {
-    +fromDomainToDTO(teacherCategory: Name)
-}
-
-class TeacherDTOMapper{
-+fromDomainToDTO(teacher: Name)
-}
-
-
-
-interface ITeacherCategoryService {
-}
-
-class TeacherCategoryService {
+interface ITeacherCategoryRepository {
+  + containsOfIdentity(categoryID: TeacherCategoryID): boolean
 }
 
 package "Teacher Aggregate" {
@@ -92,7 +97,10 @@ class TeacherCareerProgressionRepository {
 }
 
 class TeacherRepository {
-    +findAll()
+    +containsOfIdentity()
+}
+
+class TeacherCategoryRepository {
     +containsOfIdentity()
 }
 
@@ -105,8 +113,8 @@ interface ITeacherCareerProgressionRepository {
     +findLastTCPFromTeacherID(teacherIDVO: TeacherIDVO)
 }
 
+
 interface ITeacherRepository {
-    +findAll()
     +containsOfIdentity()
 }
 
@@ -161,40 +169,33 @@ class TeacherCareerProgressionDataModel {
     -Country : String
 }
 
-class TeacherService {
-    +findAll()
-}
-
-interface ITeacherService {
-    +findAll()
-}
 
 interface ITeacherCareerProgressionRepositorySpringData {
     +save()
     +findTopByTeacherIDOrderByDateDesc()
 }
 
-TeachersRestController "1" --> "_teacherCategoryService \n 1" ITeacherCategoryService
-TeachersRestController "1" --> "_teacherService \n 1" ITeacherService
-TeachersRestController "1" --> "_teacherCareerProgressionService \n 1" ITeacherCareerProgressionService
-TeachersRestController "*" -right-> "1" ITeacherCategoryDTOMapper
-TeacherCategoryDTOMapper  ..> ITeacherCategoryDTOMapper
-TeachersRestController "*" -up-> "1" ITeacherDTOMapper
-TeacherDTOMapper  ..> ITeacherDTOMapper
-ITeacherService "1" <|.. "1" TeacherService
+TeacherRestController "1" ..> "_teacherCareerProgressionService \n 1" ITeacherCareerProgressionService
+TeacherRestController "1" ..> updateTeacherCategoryRequestDTO
+TeacherRestController "1" ..> ITeacherCareerAssembler
+TeacherCareerAssemblerImpl ..|> ITeacherCareerAssembler
+TeacherCareerAssemblerImpl ..> updateTeacherCategoryRequestDTO
+TeacherCareerAssemblerImpl ..>UpdateTeacherCategoryCommand
+TeacherCareerAssemblerImpl ..> UpdateTeacherCategoryResponseDTO
+TeacherCareerProgressionService ..> ITeacherRepository
+TeacherCareerProgressionService ..> ITeacherCategoryRepository
+TeacherCategoryRepository ..|> ITeacherCategoryRepository
+
+
+
 ITeacherCareerProgressionService "1" <|.. "1" TeacherCareerProgressionService
 TeacherCareerProgressionService "1" ..> "1" ITeacherCareerProgressionFactory
-TeacherCategoryService "1" .u.|> "1" ITeacherCategoryService
-TeacherService "1" --> "_teacherRepository \n 1" ITeacherRepository
-TeacherCategoryService "1" --> "_teacherCategoryService \n 1" ITeacherCategoryRepo
-TeacherCategoryRepository "1" ..|> "1" ITeacherCategoryRepo
-TeacherCareerProgressionService "1" ---> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
-"<<Root>>\n <<Entity>>\n Teacher" "_teachers         \n 1..*           " <-- "1" ITeacherRepository
-TeacherCareerProgressionMapper "1" -u-> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
-TeacherCareerProgressionRepository "1" --> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
+TeacherCareerProgressionService "1" ...> "_teacherCareerProgressionRepository \n 1" ITeacherCareerProgressionRepository
+TeacherCareerProgressionMapper "1" .u-> "_teacherCareerProgressionFactory \n1" ITeacherCareerProgressionFactory
+TeacherCareerProgressionRepository "1" ..> "_teacherCareerProgressionMapper \n1" ITeacherCareerProgressionMapper
 ITeacherCareerProgressionMapper "1" <|.. "1" TeacherCareerProgressionMapper
 TeacherCareerProgressionMapper "1" ..> "1" TeacherCareerProgressionDataModel
-TeacherCareerProgressionMapper "1" --> "_teacherCareerProgressionIDMapper\n1" ITeacherCareerProgressionIDMapper
+TeacherCareerProgressionMapper "1" ..> "_teacherCareerProgressionIDMapper\n1" ITeacherCareerProgressionIDMapper
 ITeacherCareerProgressionIDMapper "1" <|.. "1" TeacherCareerProgressionIDMapper
 TeacherCareerProgressionIDDataModel "1" <.. "1" TeacherCareerProgressionIDMapper
 "<<Value Object>>\n TeacherIDVO" "1  " <-- "\n 1..*     " "<<Root>>\n <<Entity>>\nTeacherCareerProgression"
