@@ -9,12 +9,12 @@ participant "<<Component>> \nFrontend" as FE #application
 participant "<<Component>> \nBackend" as BE #strategy
 participant "<<Component>> \nDataBase" as Database #strategy
 
-
+activate ProgrammeDirector
 ProgrammeDirector -> FE : Find the approval percentage of a Course Edition
 activate FE
-FE -> BE : (GET) \n Retrieve all Course Editions
+FE -> BE : GET /courseeditions/
 activate BE
-BE --> Database : (GET) \n Retrieve all Course Editions
+BE --> Database : findAllCourseEditions
 activate Database
 Database --> BE : All Course Editions
 deactivate Database
@@ -35,6 +35,6 @@ BE --> FE : Approval rate
 deactivate BE
 FE --> ProgrammeDirector : Approval rate
 deactivate FE
-
+deactivate ProgrammeDirector
 
 @enduml
