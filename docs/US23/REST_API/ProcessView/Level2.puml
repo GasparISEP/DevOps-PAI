@@ -5,19 +5,19 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 title: I want to know the approval percentage of a Course Edition \n (Process View Level 2)
 actor ProgrammeDirector as ProgrammeDirector #lightgrey
 
-participant ":Frontend" as FE #application
-participant ":Backend" as BE #strategy
-database DB
+participant "<<Component>> \nFrontend" as FE #application
+participant "<<Component>> \nBackend" as BE #strategy
+participant "<<Component>> \nDataBase" as Database #strategy
 
 
 ProgrammeDirector -> FE : Find the approval percentage of a Course Edition
 activate FE
 FE -> BE : (GET) \n Retrieve all Course Editions
 activate BE
-BE --> DB : (GET) \n Retrieve all Course Editions
-activate DB
-DB --> BE : All Course Editions
-deactivate DB
+BE --> Database : (GET) \n Retrieve all Course Editions
+activate Database
+Database --> BE : All Course Editions
+deactivate Database
 BE --> FE : All Course Editions
 deactivate BE
 FE --> ProgrammeDirector : Which Course Edition?
@@ -27,10 +27,10 @@ ProgrammeDirector -> FE: Course Edition!
 activate FE
 FE -> BE : (GET) \n Approval rate of Course Edition
 activate BE
-BE --> DB : (GET) \n Calculate approval rate
-activate DB
-DB --> BE :Approval rate
-deactivate DB
+BE --> Database : (GET) \n Calculate approval rate
+activate Database
+Database --> BE :Approval rate
+deactivate Database
 BE --> FE : Approval rate
 deactivate BE
 FE --> ProgrammeDirector : Approval rate
