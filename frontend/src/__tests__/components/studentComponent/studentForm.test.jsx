@@ -1,13 +1,30 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import StudentForm from '../../../components/studentComponent/StudentForm';
+import PhoneInput from 'react-phone-input-2';
 
 // MOCK de registerStudent e fetch global
 jest.mock('../../../services/studentService', () => ({
     registerStudent: jest.fn(),
 }));
 global.fetch = jest.fn();
+
+jest.mock('react-country-flag', () => ({
+    __esModule: true,
+    default: ({ countryCode }) => (
+        <img alt={countryCode} data-testid="country-flag" />
+    ),
+}));
+
+jest.mock('react-select-country-list', () => () => ({
+    getData: () => [
+        { value: 'pt', label: 'Portugal' },
+        { value: 'es', label: 'Spain' },
+        { value: 'fr', label: 'France' },
+    ],
+}));
 
 describe('StudentForm Tests', () => {
     beforeEach(() => {
@@ -75,5 +92,41 @@ describe('StudentForm Tests', () => {
         expect(window.location.reload).toHaveBeenCalled();
 
         window.location = originalLocation;
+    });
+
+    test('updates form.nifcountry when a country is selected', async () => {
+        render(<MemoryRouter><StudentForm /></MemoryRouter>);
+
+        const placeholder = screen.getByText('Select Countries');
+        await userEvent.click(placeholder);
+
+        const spainOption = await screen.findByText('Spain');
+        await userEvent.click(spainOption);
+
+        expect(screen.getByText('Spain')).toBeInTheDocument();
+    });
+
+    test('updates form.addressCountry when a country is selected', async () => {
+        render(<MemoryRouter><StudentForm /></MemoryRouter>);
+
+        const placeholder = screen.getByText('Select Country');
+        await userEvent.click(placeholder);
+
+        const spainOption = await screen.findByText('Spain');
+        await userEvent.click(spainOption);
+
+        expect(screen.getByText('Spain')).toBeInTheDocument();
+    });
+
+    test('updates form state on phone input change', async () => {
+        render(<MemoryRouter><StudentForm /></MemoryRouter>);
+
+        const input = screen.getByTestId('phone-input');
+
+        await userEvent.clear(input);
+        await userEvent.type(input, '912345678');
+
+        expect(input).toHaveValue('912345678');
+
     });
 });
