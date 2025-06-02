@@ -14,7 +14,7 @@ ProgrammeDirector -> FE : Find the approval percentage of a Course Edition
 activate FE
 FE -> BE : GET /courseeditions/
 activate BE
-BE --> Database : findAllCourseEditions
+BE --> Database : findAllCourseEditions()
 activate Database
 Database --> BE : All Course Editions
 deactivate Database
@@ -25,9 +25,9 @@ deactivate FE
 
 ProgrammeDirector -> FE: Course Edition!
 activate FE
-FE -> BE : (GET) \n Approval rate of Course Edition
+FE -> BE : GET /approvalpercentage/
 activate BE
-BE --> Database : (GET) \n Calculate approval rate
+BE --> Database : getCourseEditionApprovalRate()
 activate Database
 Database --> BE :Approval rate
 deactivate Database
