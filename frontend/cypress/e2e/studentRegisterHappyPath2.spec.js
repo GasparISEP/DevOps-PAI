@@ -1,7 +1,7 @@
 // 🔒 Disable scroll just for this test file
 Cypress.config('scrollBehavior', false);
 
-describe('Student Registration Flow - Duplicated NIF', () => {
+describe('Student Registration Flow - Same NIF different country', () => {
     // Cypress-friendly highlight + action helper
     function highlightAndAct(chainable, actionCallback) {
         chainable
@@ -72,7 +72,7 @@ describe('Student Registration Flow - Duplicated NIF', () => {
         // Location
         highlightAndAct(
             cy.get('#location'),
-            $el => $el.type('Porto')
+            $el => $el.type('Paris')
         );
 
         // Address Country (France)

@@ -3,6 +3,7 @@
 title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
 autonumber
 
+participant "Router" as RO
 participant "RESTController" as RC
 participant "Service" as S
 participant "Repository" as R
@@ -10,25 +11,30 @@ participant "Domain" as D
 database DB
 
 
-[o-> RC++: (GET) Request List of Categories
+[o-> RO++: (GET) Request List of Categories
+RO -> RC++: Request Teacher Categories
 RC -> S++: Request Teacher Categories
 S -> R ++: Request Teacher Categories
 R -> DB ++: Fetch Teacher Categories List
 DB --> R --: List of Teacher Categories
 R --> S --: List of Teacher Categories
 S --> RC --: List of Teacher Categories
-[o<-- RC --: (200 OK) Display Teacher Category List
+RC --> RO --: List of Teacher Categories
+[o<-- RO --: (200 OK) Display Teacher Category List
 
-[o-> RC++: (GET) Request List of Departments
+[o-> RO++: (GET) Request List of Departments
+RO -> RC++: Request Departments
 RC -> S++: Request Departments
 S -> R ++: Request Departments
 R -> DB ++: Fetch Departments List
 DB --> R --: List of Departments Categories
 R --> S --: List of Departments
 S --> RC --: List of Departments
-[o<-- RC --: (200 OK) Display Department List
+RC --> RO --: List of Departments
+[o<-- RO --: (200 OK) Display Department List
 
-[o-> RC++: (POST) Request Register\nTeacher with relevant data
+[o-> RO++: (POST) Request Register\nTeacher with relevant data
+RO -> RC++: Register Teacher
 RC -> S++: Register Teacher
 S -> D ++: Create Teacher
 D --> S --: Teacher
@@ -57,6 +63,7 @@ R -> DB ++: Save Teacher Career Progression
 DB --> R --: Teacher Career Progression Saved
 R --> S --: Teacher Career Progression registered
 S --> RC --: Teacher Career Progression registered
-[o<-- RC --: (201 OK) Created Teacher and\nCareer Progression Successfully\t
+RC --> RO --: Teacher Career Progression registered
+[o<-- RO --: (201 OK) Created Teacher and\nCareer Progression Successfully\t
 
 @enduml
