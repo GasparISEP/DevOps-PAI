@@ -40,8 +40,10 @@ UI -> C ++ #lightblue: getAverageGrade(courseEditionID)
 C -> S ++ #lightblue: getAverageGrade(courseEditionID)
 
 S -> SGR ++ #lightblue: findAll()
-SGR -> : findAll()
-SGR <--  : List<StudentGrade>
+ref over SGR
+    Query database for all StudentGrades
+end ref
+
 SGR --> S --: List<StudentGrade>
 
 group Loop for each StudentGrade
