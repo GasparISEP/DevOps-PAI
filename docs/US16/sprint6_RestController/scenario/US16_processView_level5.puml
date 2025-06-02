@@ -23,40 +23,36 @@ participant ":CourseEditionEnrolmentRestController" as Controller
 participant ":CourseEditionEnrolmentService" as Service
 participant ":CourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentAssembler" as Assembler
+participant ":CourseEditionEnrolmentFactory" as Factory
+participant "CourseEditionEnrolment" as Enrolment
+
 database "Database" as DB
 
 router -> Controller: POST /courseeditions/students/enrolments
 activate Controller
 
-Controller -> Assembler: toDomain(CourseEditionEnrolmentDto)
+Controller -> Assembler: toCourseEditionID(CourseEditionEnrolmentDto)
 activate Assembler
-note right of Assembler
-  Transformations:
-  1. String studentId -> StudentID VO
-  2. String programmeName -> NameWithNumbersAndSpecialChars VO
-  3. String programmeAcronym -> Acronym VO
-  4. String schoolYearId -> UUID -> SchoolYearID VO
-  5. String courseName -> Name VO
-  6. String courseAcronym -> Acronym VO
-  7. String studyPlanDate -> Date VO
-  Creates nested VOs:
-  - ProgrammeID
-  - ProgrammeEditionID
-  - CourseID
-  - StudyPlanID
-  - CourseInStudyPlanID
-  - CourseEditionID
-end note
-Assembler --> Controller: CourseEditionEnrolment
+Assembler --> Controller: CourseEditionID
+deactivate Assembler
+Controller -> Assembler: toStudentID(CourseEditionEnrolmentDto)
+activate Assembler
+Assembler --> Controller: StudentID
 deactivate Assembler
 
-Controller -> Service: enrolStudentInACourseEdition(CourseEditionEnrolment)
+Controller -> Service: enrolStudentInACourseEdition(CourseEditionID, StudentID)
 activate Service
+Service -> Factory: createCourseEditionEnrolment(CourseEditionID, StudentID)
+activate Factory
+create Enrolment
+Factory -> Enrolment: create
+Factory --> Service: CourseEditionEnrolment
+deactivate Factory
 
 Service -> Service: validateEnrollment(courseEditionEnrolment)
 Service -> Repository: isStudentEnrolledInCourseEdition(studentId, courseEditionId)
 activate Repository
-Repository -> DB: SELECT * FROM course_edition_enrolments
+Repository -> DB: SELECT * FROM CourseEditionEnrolment WHERE CourseEditionEnrolment.CourseEditionID = ? AND CourseEditionEnrolment.StudentID = ?
 activate DB
 DB --> Repository: ResultSet
 deactivate DB
