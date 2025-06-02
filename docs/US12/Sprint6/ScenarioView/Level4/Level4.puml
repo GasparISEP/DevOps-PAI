@@ -16,9 +16,6 @@ Admin -> UI ++: I want to change a programme director in the System
 
 UI -> C ++: getAllProgrammes()
 
-ref over C
-          Get Programmes List
-end ref
 
 C --> UI --: List<ProgrammeDTO>
 
@@ -28,9 +25,6 @@ Admin -> UI ++: Programme
 
 UI -> C ++: getAllTeachers()
 
-ref over C
-          Get Teachers List
-end ref
 
 C --> UI --: List<TeacherDTO>
 
@@ -40,10 +34,6 @@ Admin -> UI ++: teacher
 
 UI -> C ++: changeAProgrammeDirectorInTheSystem \n(ProgrammeRequestDTO)
 
-ref over C
-    Convert ProgrammeRequestDTO
-    to ProgrammeVOsDTO
-end ref
 
 C -> PS ++: changeProgrammeDirector(programmeIDVO, teacherIDVO)
 
@@ -53,18 +43,10 @@ P -> PS --: PD1
 
 PS -> PR ++: saveProgrammeDirector(PD1)
 
-ref over PR
-    Save in Database
-    Convert domain object to DataModel and persist using JPA
-end ref
 
 PR --> PS --: PD1
 
 PS --> C --: PD1
-
-ref over C
-    Convert PD1 to ProgrammeResponseDTO
-end ref
 
 C --> UI --: ProgrammeResponseDTO
 

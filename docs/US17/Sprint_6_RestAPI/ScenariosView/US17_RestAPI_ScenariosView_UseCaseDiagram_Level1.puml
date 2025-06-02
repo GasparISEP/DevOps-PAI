@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+title US17: \nAs an Academic Services Coordinator, I want to enrol a Student in a Programme Edition \nScenario View – Level 1
+
+actor ASC as "Academic Services Coordinator"
+
+rectangle "<<PAI System>>" {
+    usecase "Enrol a Student in a Programme Edition" as UC17
+}
+
+ASC --> UC17
+
+@enduml
+

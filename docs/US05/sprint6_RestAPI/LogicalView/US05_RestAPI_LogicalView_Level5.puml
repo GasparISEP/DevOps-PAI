@@ -1,7 +1,7 @@
 @startuml
 skinparam linetype ortho
-skinparam ranksep 100
-skinparam nodesep 100
+skinparam ranksep 250
+skinparam nodesep 250
 skinparam packageBorderColor #F0B0B0
 skinparam arrowThickness 1
 left to right direction
@@ -209,51 +209,51 @@ package RepositorySpringData {
 
 
 RegisterDepartmentRequest <-left- DepartmentRestController
-DepartmentRestController "1" *-right-> "departmentAssembler\n1" IDepartmentAssembler
-DepartmentRestController "1" *-right-> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
-DepartmentRestController "1" *-right-> "departmentRegistrationService\n1" IDepartmentRegistrationService
+DepartmentRestController "1" .right.> "departmentAssembler\n1" IDepartmentAssembler
+DepartmentRestController "1" .right.> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
+DepartmentRestController "1" .right.> "departmentRegistrationService\n1" IDepartmentRegistrationService
 
 DepartmentAssemblerImpl -right-> DepartmentAcronym : "«create»"
 DepartmentAssemblerImpl -right-> DepartmentDTO : "«create»"
 DepartmentAssemblerImpl -right-> DepartmentID : "«create»"
-DepartmentAssemblerImpl -right-|>  IDepartmentAssembler
+DepartmentAssemblerImpl .right.|>  IDepartmentAssembler
 DepartmentAssemblerImpl -right-> Name : "«create»"
 DepartmentAssemblerImpl -right-> RegisterDepartmentRequestVOs : "«create»"
 
-DepartmentHateoasAssemblerImpl -right-|> IDepartmentHateoasAssembler
+DepartmentHateoasAssemblerImpl .right.|> IDepartmentHateoasAssembler
 
 RegisterDepartmentRequestVOs "1" *-down-> "name\n1" Name
 RegisterDepartmentRequestVOs "1" *-down-> "_departmentAcronym\n1" DepartmentAcronym
 
-DepartmentRegistrationServiceImpl "1" *-right-> "departmentFactory\n1" IDepartmentFactory
-DepartmentRegistrationServiceImpl -right-|>  IDepartmentRegistrationService
-DepartmentRegistrationServiceImpl "1" *-right-> "departmentRepository\n1" IDepartmentRepository
+DepartmentRegistrationServiceImpl "1" .right.> "departmentFactory\n1" IDepartmentFactory
+DepartmentRegistrationServiceImpl .right.|>  IDepartmentRegistrationService
+DepartmentRegistrationServiceImpl "1" .right.> "departmentRepository\n1" IDepartmentRepository
 
 DepartmentFactoryImpl -right-> Department : "«create»"
-DepartmentFactoryImpl -right-|> IDepartmentFactory
+DepartmentFactoryImpl .right.|> IDepartmentFactory
 
 Department -up->  DepartmentID: "«create»"
 Department "1" *-up-> "_departmentId\n1" DepartmentID
 Department "1" *-up-> "_departmentName\n1" Name
 DepartmentID "1" *-up-> "_departmentAcronym\n1" DepartmentAcronym
 
-DepartmentDataModel "1" *-right-> "id\n1" DepartmentIDDataModel
+DepartmentDataModel "1" -right-> "id\n1" DepartmentIDDataModel
 DepartmentDataModel -right-> DepartmentIDDataModel: "«create»"
 
-DepartmentRepositorySpringDataImpl "1" *-left-> "idMapper\n1" IDepartmentIDMapper
-DepartmentRepositorySpringDataImpl "1" *-left-> "departmentMapper\n1" IDepartmentMapper
-DepartmentRepositorySpringDataImpl -left-|>  IDepartmentRepository
-DepartmentRepositorySpringDataImpl "1" *-left-> "jpaRepo\n1" IDepartmentRepositorySpringData
+DepartmentRepositorySpringDataImpl "1" .left.> "idMapper\n1" IDepartmentIDMapper
+DepartmentRepositorySpringDataImpl "1" .left.> "departmentMapper\n1" IDepartmentMapper
+DepartmentRepositorySpringDataImpl .left.|>  IDepartmentRepository
+DepartmentRepositorySpringDataImpl "1" -left-> "jpaRepo\n1" IDepartmentRepositorySpringData
 
 DepartmentIDMapperImpl -right-> DepartmentAcronym : "«create»"
 DepartmentIDMapperImpl -right-> DepartmentID : "«create»"
 DepartmentIDMapperImpl -right-> DepartmentIDDataModel : "«create»"
-DepartmentIDMapperImpl -right-|> IDepartmentIDMapper
+DepartmentIDMapperImpl .right.|> IDepartmentIDMapper
 
 DepartmentMapperImpl -left-> DepartmentAcronym : "«create»"
 DepartmentMapperImpl -left-> DepartmentDataModel : "«create»"
-DepartmentMapperImpl "1" -left-> "departmentFactory\n1" IDepartmentFactory
-DepartmentMapperImpl -left-|> IDepartmentMapper
+DepartmentMapperImpl "1" .left.> "departmentFactory\n1" IDepartmentFactory
+DepartmentMapperImpl .left.|> IDepartmentMapper
 DepartmentMapperImpl -left-> Name : "«create»"
 
 @enduml

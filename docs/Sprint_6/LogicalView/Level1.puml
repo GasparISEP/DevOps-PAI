@@ -1,5 +1,5 @@
 @startuml
-
+!pragma layout smetana
 skinparam rectangle {
   BorderColor Orange
   BackgroundColor White

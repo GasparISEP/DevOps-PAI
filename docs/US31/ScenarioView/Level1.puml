@@ -1,4 +1,5 @@
 @startuml
+!pragma layout smetana
 left to right direction
 
 title As an Academic Services Collaborator, I want to register a Programme in the system \n (Scenario View - Level 1)
