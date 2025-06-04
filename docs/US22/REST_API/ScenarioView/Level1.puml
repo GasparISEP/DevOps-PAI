@@ -2,9 +2,9 @@
 
 left to right direction
 
-title As a RUC, I want to grade a student in a course edition.
+title __Use Case__: \n As a RUC, I want to grade a student in a course edition.
 
-actor RUC as "**R**egente de **U**nidade **C**urricular"
+actor RUC as "**__R__**egente de **__U__**nidade **__C__**urricular"
 
 rectangle "<<PAI System>>" {
     usecase "Grade a Student in a Course Edition" as usecase

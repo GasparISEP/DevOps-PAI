@@ -3,49 +3,68 @@
 autonumber
 skinparam {
   SequenceLifeLineBorderColor gray
-  SequenceParticipantBorderColor darkgreen
+  SequenceParticipantBorderColor black
   DefaultTextAlignment center
 }
 
-title UC: As an Administrator, I want to create a school year in the System\n(Process View Level 3)
+title As an Administrator, I want to create a school year in the System\n(Process View Level 3)
 
-participant ":Routers" as Routers #olivedrab
-participant ":ControllerRest" as C #seagreen
-participant ":Service" as S #forestgreen
-participant ":Domain" as D #teal
-participant ":Repository" as R #lightseagreen
+participant ":Routers" as Routers #ffe082
+participant ":ControllerRest" as C #ffe082
+participant ":Service" as S #ffe082
+participant ":Domain" as D #ffe082
+participant "SchoolYear1:SchoolYear" as SY #ffe082
+participant ":Repository" as R #ffe082
 
-
-[o-> Routers: Fill School Year Form (startDate, endDate,\n description)
+[o-> Routers: **POST** /schoolyears \n(schoolYearDTO)
 activate Routers #seashell
-Routers -> C: Submit School Year Form
+Routers -> C: createSchoolYear(schoolYearDTO)
 activate C #seashell
-C -> S: Create School Year
+C -> S: createSchoolYear(schoolYearDTO)
 activate S #seashell
-S -> D: Create School Year
+
+ref over S, D
+**Transform:**
+DTO → Domain Object
+end ref
+
+S -> D: addSchoolYear\n(description, startDate, endDate)
 activate D #seashell
-D --> S: School Year
+D -> SY**: addSchoolYear\n(description, startDate, endDate)
+activate SY #seashell
+SY --> D: schoolYear1
+deactivate SY
+D --> S: schoolYear1
 deactivate D #seashell
-S -> R: Check if School Year exists
+
+S -> R: schoolYearExists(schoolYear1)
 activate R #seashell
-R ->o]: Check if School Year exists
+R ->o]: schoolYearExists(schoolYear1)
 
-R<--o]: School Year does not exist
+R<--o]: False
 
-R --> S: School Year does not exist
+R --> S: False
 deactivate R #seashell
-S -> R: Save School Year
+
+S -> R: save(schoolYear1)
 activate R #seashell
-R ->o]: Save School Year
+R ->o]: save(schoolYear1)
 
-R<--o]: Saved!
+R<--o]: schoolYear1
 
-R --> S: School Year!
+R --> S: schoolYear1
 deactivate R #seashell
-S --> C: School YearDTO!
+
+ref over S, D
+**Transform:**
+Domain → DTO
+end ref
+
+S --> C: schoolYearDTO1
 deactivate S #seashell
-C --> Routers: School YearDTO!
+C --> Routers: schoolYearDTO1
 deactivate C #seashell
-[o<- Routers: School YearDTO!
+[o<- Routers: (Created 201) schoolYearDTO1
 deactivate Routers #seashell
+
 @enduml

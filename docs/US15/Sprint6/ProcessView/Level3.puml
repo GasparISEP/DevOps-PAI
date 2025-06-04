@@ -3,50 +3,57 @@
 title UC: Update Teacher Working Percentage\n(Process View Level 3)
 autonumber
 
-participant "RESTController" as RC
-participant "Service" as S
-participant "Repository" as R
-participant "Domain" as D
-participant "Factory" as F
+participant ":Router" as RT
+participant ":RESTController" as RC
+participant ":Service" as S
+participant ":Repository" as R
+participant ":Domain" as D
+participant ":Factory" as F
 
-[o-> RC: (POST) Request Update Working Percentage
-activate RC
-RC -> S: updateTeacherWorkingPercentage(dateVO, wpVO, teacherIdVO)
-activate S
+[o-->RT #application
+activate RT #application
+RT -> RC: POST /career-progressions\nBody: { acronym, workingPercentage, date }
+activate RC #application
+
+RC -> S: updateTeacherWorkingPercentage\n(teacherIdVO, workingPercentageVO, dateVO)
+activate S #application
 
 S -> R: Check if Teacher Exists
-activate R
-R --> S: Teacher exists
+activate R #application
+R --> S: Teacher found
 deactivate R
 
 S -> R: Get Last Career Progression
-activate R
+activate R #application
 R --> S: lastTCP (Domain object)
 deactivate R
 
-S -> D: Validate Business Rules (date, wp)
-activate D
-D --> S: Validation OK
-deactivate D
-
-S -> F: Create new Career Progression
-activate F
+S -> F: Create new TeacherCareerProgression
+activate F #application
 F --> S: newTCP
 deactivate F
 
+S -> D: Validate Business Rules (newTCP, lastTCP)
+activate D #application
+D --> S: Validation OK
+deactivate D
+
 S -> R: Check for Duplicates
-activate R
+activate R #application
 R --> S: No duplicate found
 deactivate R
 
 S -> R: Save Career Progression
-activate R
+activate R #application
 R --> S: newTCP saved
 deactivate R
 
 S --> RC: Working Percentage Updated
 deactivate S
-[o<-- RC: 201 CREATED TeacherCareerProgression
+RC--> RT: Response(201 Created)
 deactivate RC
+[o<--RT #application
+deactivate R
+deactivate RT
 
 @enduml

@@ -72,8 +72,9 @@ public CourseEditionRestController(
     @PostMapping("/students/enrolments")
     public ResponseEntity<String> enrolStudentInCourseEdition(@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) throws Exception {
         try {
-            CourseEditionEnrolment courseEditionEnrolment = courseEditionEnrolmentAssembler.toDomain(courseEditionEnrolmentDTO);
-            boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(courseEditionEnrolment.knowStudent(), courseEditionEnrolment.knowCourseEdition());
+            CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDTO);
+            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDTO);
+            boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(studentID, courseEditionID);
             if (enrolment) {
                     return ResponseEntity.status(HttpStatus.CREATED).body("Student enrolled in course edition");
             } else {

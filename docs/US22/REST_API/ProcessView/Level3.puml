@@ -14,14 +14,14 @@ participant ":Domain" as domain <<Component>> #implementation
 
  -> router : Select **Student grading** in a **CourseEdition** functionality
 activate router
-router -> controller : **(GET)** \n Retrieve all Course Editions
+router -> controller : **(GET)** \n /courseeditions
 activate controller
-controller -> service : Retrieve all Course Editions
+controller -> service : findAllCourseEditions()
 activate service
-service -> repo : Retrieve all Course Editions
+service -> repo : findAllCourseEditions()
 activate repo
-repo ->  : Retrieve all Course Editions
-repo <--  : All Course Editions
+repo ->  : findAll()
+repo <--  : List <CourseEditionResponseDTO>
 
 repo --> service : All Course Editions
 deactivate repo
@@ -35,10 +35,10 @@ deactivate controller
  -> router : This Course Edition!
  <-- router : Fill in the **Student grading** information
  -> router : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
-router -> controller : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+router -> controller : **(POST)** \n studentgrades/register
 
 activate controller
-controller -> service : Create a new Student grade \n (grade, date, studentID, courseEditionID)
+controller -> service : <Create> StudentGrade \n (grade, date, studentID, courseEditionID)
 
 activate service
 service -> repo : Validate grading constraints
@@ -46,16 +46,16 @@ activate repo
 repo --> service : validated
 deactivate repo
 
-service -> domain : Create new Student grade
+service -> domain : <Create> StudentGrade
 activate domain
-domain --> service : Student Grade
+domain --> service : studentGrade
 deactivate domain
 
-service -> repo : save Student Grade
+service -> repo : save(studentGrade)
 activate repo
-repo -> : save
+repo -> : **Insert**
 repo <--  : saved!
-repo --> service : Student Grade saved!
+repo --> service : studentGrade!
 deactivate repo
 
 service --> controller : Student Grade saved!

@@ -20,35 +20,24 @@ import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.VOs.StudentID;
 import PAI.VOs.StudyPlanID;
-import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 
 @Component
 public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolmentAssembler {
     
-    private final ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory;
-
-
-    public CourseEditionEnrolmentAssemblerImpl(ICourseEditionEnrolmentFactory courseEditionEnrolmentFactory) {
-        if(courseEditionEnrolmentFactory == null){  
-            throw new IllegalArgumentException("Course edition enrolment factory is null");
-        }
-        this.courseEditionEnrolmentFactory = courseEditionEnrolmentFactory;
-    }
-
     @Override
-    public CourseEditionEnrolment toDomain(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
-        if(courseEditionEnrolmentDto == null){
-            throw new IllegalArgumentException("Course edition enrolment dto is null");
-        }
-        StudentID studentID = createStudentID(courseEditionEnrolmentDto.studentUniqueNumber());
+    public CourseEditionID toCourseEditionID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
         ProgrammeID programmeID = createProgrammeID(courseEditionEnrolmentDto.programmeName(), courseEditionEnrolmentDto.programmeAcronym());
         SchoolYearID schoolYearID = createSchoolYearID(courseEditionEnrolmentDto.schoolYearId());
         CourseID courseID = createCourseID(courseEditionEnrolmentDto.courseAcronym(), courseEditionEnrolmentDto.courseName());
         StudyPlanID studyPlanID = createStudyPlanID(courseEditionEnrolmentDto.studyPlanDate(), programmeID);
         CourseInStudyPlanID courseInStudyPlanID = createCourseInStudyPlanID(courseID, studyPlanID);
         ProgrammeEditionID programmeEditionID = createProgrammeEditionID(programmeID, schoolYearID);
-        CourseEditionID courseEditionID = createCourseEditionID(programmeEditionID, courseInStudyPlanID);
-        return courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentID, courseEditionID);
+        return createCourseEditionID(programmeEditionID, courseInStudyPlanID);
+    }
+
+    @Override
+    public StudentID toStudentID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
+        return createStudentID(courseEditionEnrolmentDto.studentUniqueNumber());
     }
 
     private StudentID createStudentID(int studentUniqueNumber) {

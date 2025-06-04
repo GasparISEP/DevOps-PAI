@@ -93,14 +93,15 @@ public class DepartmentRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
-    @PatchMapping
+    @PatchMapping("/{departmentID}/director")
     public ResponseEntity<?> updateDepartmentDirector(
-            @Valid @RequestBody DepartmentWithDirectorRequest request) {
+            @PathVariable("departmentID") String departmentID,
+            @Valid @RequestBody  DepartmentWithDirectorRequest request){
         try {
-            DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(request);
-            DepartmentID departmentID = command.department();
+            DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(departmentID, request);
+            DepartmentID departmentID2 = command.department();
             TeacherID teacherID = command.director();
-            DepartmentWithDirectorDTO dto = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+            DepartmentWithDirectorDTO dto = updateDepartmentDirectorService.updateDirector(departmentID2, teacherID);
             return new ResponseEntity<>(dto, HttpStatus.OK); // 200
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage()); //400
