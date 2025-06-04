@@ -1,18 +1,14 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
-import PAI.dto.student.IStudentDTOAssembler;
+import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.student.IStudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.Map;
