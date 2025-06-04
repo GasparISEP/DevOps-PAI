@@ -1,6 +1,6 @@
 @startuml
 
-' US43 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
+' US34 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
 ' Process View - Level 1 (C4 Level 1 Style)
 
 autonumber
@@ -12,8 +12,8 @@ skinparam sequence {
 
 title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 1)
 
-actor ASC #Wheat
-participant ":SystemPAI" as System <<component>> #LightBlue
+actor ASC
+participant ":SystemPAI" as System <<component>>
 
 ASC -> System ++: I want to enrol a student in a programme edition.
 System --> ASC --: Which student?
