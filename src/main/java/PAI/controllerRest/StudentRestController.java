@@ -3,9 +3,11 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.domain.student.Student;
 import PAI.assembler.student.IStudentDTOAssembler;
+import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.student.IStudentService;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +22,19 @@ public class StudentRestController {
 
     private final IStudentService service;
     private final IStudentDTOAssembler mapper;
+    private final IStudentHateoasAssembler hateoasAssembler;
 
-    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper) {
+    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler) {
         this.service = service;
         this.mapper = mapper;
+        this.hateoasAssembler = hateoasAssembler;
     }
 
     @PostMapping()
-    public ResponseEntity<StudentResponseDTO> registerAStudent (@RequestBody StudentDTO studentDTO){
-        if (studentDTO == null){
+    public ResponseEntity<EntityModel<StudentResponseDTO>> registerAStudent(@RequestBody StudentDTO studentDTO) {
+        if (studentDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
 
         StudentID studentID = mapper.toStudentID(studentDTO);
         Name name = mapper.toName(studentDTO);
@@ -41,18 +44,20 @@ public class StudentRestController {
         Address address = mapper.toAddress(studentDTO);
         StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
 
+        Student student = service.registerStudent(
+                studentID, name, nif, phoneNumber, email,
+                address.getStreet(), address.getPostalCode(),
+                address.getLocation(), address.getCountry(), studentAcademicEmail
+        );
 
-        Student student = service.registerStudent(studentID, name, nif, phoneNumber, email, address.getStreet(), address.getPostalCode(), address.getLocation(), address.getCountry(), studentAcademicEmail);
-
-
-        StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);
-        return new ResponseEntity<>(studentResponseDTO, HttpStatus.CREATED);
+        EntityModel<StudentResponseDTO> studentResponse = hateoasAssembler.toModel(student);
+        return new ResponseEntity<>(studentResponse, HttpStatus.CREATED);
     }
+
     @GetMapping()
     public ResponseEntity<Map<String, Integer>> getLastStudentID() {
         int value = service.getLastStudentID();
         Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
         return ResponseEntity.ok(response);
     }
-
 }
