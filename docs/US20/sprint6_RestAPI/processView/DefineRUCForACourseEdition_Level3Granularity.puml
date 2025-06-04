@@ -16,7 +16,7 @@ participant ":Domain" as Domain <<Component>>
 participant ":Repository" as Repository <<Component>>
 
 
--> Router: getAllTeachers()
+-> Router: GET /teachers
 
 
 activate Router #E1F5FE
@@ -35,20 +35,20 @@ Repository --> Service: List<Teacher>
 deactivate Repository
 Service --> Controller: List<Teacher>
 deactivate Service
-Controller --> Router: (200 OK) – List<TeacherDTO>
+Controller --> Router: 200 OK – List<TeacherDTO>
 deactivate Controller
 note over Router #E0E0E0
   Returned DTOs are automatically converted to JSON
   by the framework after the controller finishes execution.
 end note
-<-- Router: (200 OK) – List<TeacherDTO> as JSON
+<-- Router: 200 OK – List<TeacherDTO> as JSON
 deactivate Router
 
 
 
 
 
---> Router: findAllCourseEditions()
+--> Router: GET /courseeditions
 activate Router  #E1F5FE
 Router -> Controller: findAllCourseEditions()
 activate Controller  #E1F5FE
@@ -63,16 +63,16 @@ Repository --> Service: List<CourseEdition>
 deactivate Repository
 Service --> Controller: List<CourseEdition>
 deactivate Service
-Controller --> Router: (200 OK) – List<CourseEditionDTO>
+Controller --> Router: 200 OK – List<CourseEditionDTO>
 deactivate Controller
 note over Router #E0E0E0
   Returned DTOs are automatically converted to JSON
   by the framework after the controller finishes execution.
 end note
-<-- Router: (200 OK) - List<CourseEditionDTO> as JSON
+<-- Router: 200 OK - List<CourseEditionDTO> as JSON
 deactivate Router
 
--> Router: defineRucForACourseEdition(DefineRUCRequestDTO) as JSON
+-> Router: PATCH /courseeditions/ruc + body {...}
 activate Router #E1F5FE
 
 note over Router #E0E0E0
@@ -97,8 +97,8 @@ Repository --> Service: true
 deactivate Repository
 Service --> Controller: true
 deactivate Service
-Controller --> Router: (200 OK) RUC successfully updated
+Controller --> Router:  200 OK + body {DefineRucResponseDTO + hypermedia}
 deactivate Controller
-<-- Router: (200 OK) RUC successfully updated
+<-- Router: 200 OK + body {DefineRucResponseDTO + hypermedia}
 deactivate Router
 @enduml
