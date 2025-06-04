@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant ":Router" as r #cornflowerblue
+participant ":ControllerRest" as c #cornflowerblue
+participant ":Service" as s #cornflowerblue
+participant ":Repository" as rep #cornflowerblue
+
+
+[o-> r++ : **Get** /programmeenrolments/{studentid} (studentIdDTO)
+r->c++ : getAllProgrammeEnrolmentsByStudentID (studentIdDTO)
+c-> s++ : getAllProgrammeEnrolmentsByStudentID (studentIdDTO)
+
+ref over c, c
+**transform** :
+DTO to Domain
+end ref
+
+s-> rep++ : getAllProgrammeEnrolmentsByStudentID (studentId)
+
+ref over rep, rep
+**transform** :
+Domain to DataModel
+end ref
+
+rep ->o] : **SELECT** fetchAllProgrammeEnrolments (studentIdDataModel)
+rep <--o] : List<ProgrammeID>
+rep --> s-- : List<ProgrammeID>
+s --> c-- : List<ProgrammeID>
+
+ref over c, c
+**transform** :
+Domain to DTO
+end ref
+
+c --> r-- : List<ProgrammeIdDTO>
+[o<-- r --: (Ok, 200) List<ProgrammeIdDTO>
+@enduml
