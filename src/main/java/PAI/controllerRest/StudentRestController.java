@@ -7,13 +7,18 @@ import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.student.IStudentService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -50,14 +55,30 @@ public class StudentRestController {
                 address.getLocation(), address.getCountry(), studentAcademicEmail
         );
 
-        EntityModel<StudentResponseDTO> studentResponse = hateoasAssembler.toModel(student);
-        return new ResponseEntity<>(studentResponse, HttpStatus.CREATED);
+        StudentResponseDTO responseDTO = mapper.toStudentResponseDTO(student);
+        EntityModel<StudentResponseDTO> studentModel = hateoasAssembler.toModel(responseDTO);
+
+        return new ResponseEntity<>(studentModel, HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/last-id")
     public ResponseEntity<Map<String, Integer>> getLastStudentID() {
         int value = service.getLastStudentID();
         Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<CollectionModel<EntityModel<StudentResponseDTO>>> getAllStudents() {
+        List<Student> students = service.getAllStudents();
+
+        List<EntityModel<StudentResponseDTO>> studentModels = students.stream()
+                .map(mapper::toStudentResponseDTO)
+                .map(hateoasAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(CollectionModel.of(studentModels,
+                linkTo(methodOn(StudentRestController.class).getAllStudents()).withSelfRel()
+        ));
     }
 }

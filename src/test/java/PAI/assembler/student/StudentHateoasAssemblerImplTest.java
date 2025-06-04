@@ -1,47 +1,41 @@
 package PAI.assembler.student;
 
 import PAI.controllerRest.StudentRestController;
-import PAI.domain.student.Student;
 import PAI.dto.student.StudentResponseDTO;
-import PAI.VOs.StudentID;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 class StudentHateoasAssemblerImplTest {
 
     @Test
-    void toModel_shouldReturnEntityModelWithLinks() {
+    void toModel_shouldReturnEntityModelWithCorrectLinks() {
         // Arrange
-        StudentDTOAssemblerImpl mockDtoAssembler = mock(StudentDTOAssemblerImpl.class);
-        StudentHateoasAssemblerImpl assembler = new StudentHateoasAssemblerImpl(mockDtoAssembler);
+        StudentHateoasAssemblerImpl assembler = new StudentHateoasAssemblerImpl();
 
-        Student mockStudent = mock(Student.class);
-        StudentID studentID = new StudentID(1234567);
-
-        StudentResponseDTO mockDto = new StudentResponseDTO(
-                1234567, "Name", "123456789", "PT",
-                "Rua", "1234-567", "Cidade", "Portugal",
-                "+351", "912345678", "email@example.com", "123456789@ipt.pt"
+        StudentResponseDTO dto = new StudentResponseDTO(
+                1234567, "João Silva", "123456789", "Portugal",
+                "Rua Central", "1234-567", "Porto", "Portugal",
+                "+351", "912345678", "joao.silva@example.com", "1234567@ipt.pt"
         );
 
-        when(mockStudent.getStudentID()).thenReturn(studentID);
-        when(mockDtoAssembler.toStudentResponseDTO(mockStudent)).thenReturn(mockDto);
-
         // Act
-        EntityModel<StudentResponseDTO> result = assembler.toModel(mockStudent);
+        EntityModel<StudentResponseDTO> result = assembler.toModel(dto);
 
         // Assert
         assertNotNull(result);
-        assertEquals(mockDto, result.getContent());
+        assertEquals(dto, result.getContent());
+
+        // Verificar link "last-student-id"
         assertTrue(result.getLinks().hasLink("last-student-id"));
+        String expectedHref1 = linkTo(methodOn(StudentRestController.class).getLastStudentID()).toUri().toString();
+        assertEquals(expectedHref1, result.getLink("last-student-id").get().getHref());
 
-        String expectedHref = linkTo(methodOn(StudentRestController.class).getLastStudentID()).toUri().toString();
-        assertEquals(expectedHref, result.getLink("last-student-id").get().getHref());
-
-        verify(mockDtoAssembler, times(1)).toStudentResponseDTO(mockStudent);
+        // Verificar link "all"
+        assertTrue(result.getLinks().hasLink("all"));
+        String expectedHref2 = linkTo(methodOn(StudentRestController.class).getAllStudents()).toUri().toString();
+        assertEquals(expectedHref2, result.getLink("all").get().getHref());
     }
 }

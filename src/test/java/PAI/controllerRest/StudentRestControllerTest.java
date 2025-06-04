@@ -12,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,7 +93,8 @@ class StudentRestControllerTest {
         EntityModel<StudentResponseDTO> entityModel = EntityModel.of(responseDTO);
         entityModel.add(linkTo(methodOn(StudentRestController.class).getLastStudentID()).withRel("last-student-id"));
 
-        when(hateoasAssembler.toModel(student)).thenReturn(entityModel);
+        when(mapper.toStudentResponseDTO(student)).thenReturn(responseDTO);
+        when(hateoasAssembler.toModel(responseDTO)).thenReturn(entityModel);
 
         // Act
         ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(dto);
@@ -107,14 +110,8 @@ class StudentRestControllerTest {
         assertEquals("last-student-id", link.getRel().value());
         assertEquals(linkTo(methodOn(StudentRestController.class).getLastStudentID()).toUri().toString(), link.getHref());
 
-        verify(hateoasAssembler, times(1)).toModel(student);
-        verify(mapper, times(1)).toStudentID(dto);
-        verify(mapper, times(1)).toName(dto);
-        verify(mapper, times(1)).toNIF(dto);
-        verify(mapper, times(1)).toPhoneNumber(dto);
-        verify(mapper, times(1)).toEmail(dto);
-        verify(mapper, times(1)).toAddress(dto);
-        verify(mapper, times(1)).toAcademicEmail(dto);
+        verify(hateoasAssembler, times(1)).toModel(responseDTO);
+        verify(mapper, times(1)).toStudentResponseDTO(student);
     }
 
     @Test
@@ -128,5 +125,40 @@ class StudentRestControllerTest {
         assertNotNull(response.getBody());
         assertTrue(response.getBody().containsKey("lastStudentID"));
         assertEquals(lastStudentID, response.getBody().get("lastStudentID"));
+    }
+
+    @Test
+    void whenGetAllStudents_thenReturnsCollectionWithHateoasLinks() {
+        // Arrange
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+        List<Student> students = List.of(student1, student2);
+
+        when(studentService.getAllStudents()).thenReturn(students);
+
+        StudentResponseDTO dto1 = mock(StudentResponseDTO.class);
+        StudentResponseDTO dto2 = mock(StudentResponseDTO.class);
+
+        EntityModel<StudentResponseDTO> model1 = EntityModel.of(dto1);
+        EntityModel<StudentResponseDTO> model2 = EntityModel.of(dto2);
+
+        when(mapper.toStudentResponseDTO(student1)).thenReturn(dto1);
+        when(mapper.toStudentResponseDTO(student2)).thenReturn(dto2);
+        when(hateoasAssembler.toModel(dto1)).thenReturn(model1);
+        when(hateoasAssembler.toModel(dto2)).thenReturn(model2);
+
+        // Act
+        ResponseEntity<CollectionModel<EntityModel<StudentResponseDTO>>> response = studentRestController.getAllStudents();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().getContent().size());
+
+        verify(studentService).getAllStudents();
+        verify(mapper).toStudentResponseDTO(student1);
+        verify(mapper).toStudentResponseDTO(student2);
+        verify(hateoasAssembler).toModel(dto1);
+        verify(hateoasAssembler).toModel(dto2);
     }
 }

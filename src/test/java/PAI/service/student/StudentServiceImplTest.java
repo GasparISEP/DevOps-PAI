@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -246,6 +247,30 @@ class StudentServiceImplTest {
         //assert
         assertEquals(number,result);
 
+    }
+
+    @Test
+    void shouldReturnAllStudents() {
+        // arrange
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
+
+        Student student1 = mock(Student.class);
+        Student student2 = mock(Student.class);
+
+        Iterable<Student> iterable = List.of(student1, student2);
+
+        when(studentRepositoryDouble.findAll()).thenReturn(iterable);
+
+        // act
+        List<Student> result = studentServiceImpl.getAllStudents();
+
+        // assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(student1));
+        assertTrue(result.contains(student2));
     }
 
 }
