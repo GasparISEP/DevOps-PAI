@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant ":Router" as r #crimson
+participant ":ControllerRest" as c #crimson
+participant ":Service" as s #crimson
+participant ":Repository" as rep #crimson
+
+
+[o-> r++ : **Get** /courseEditions/{programmeEditionId} (programmeEditionIdDTO)
+r->c++ : getAllCourseEditionsByProgrammeEditionID (programmeEditionIdDTO)
+c-> s++ : getAllCourseEditionsByProgrammeEditionID (programmeEditionIdDTO)
+
+ref over c, c
+**transform** :
+DTO to Domain
+end ref
+
+s-> rep++ : getAllCourseEditionsByProgrammeEditionID (programmeEditionId)
+
+ref over rep, rep
+**transform** :
+Domain to DataModel
+end ref
+
+rep ->o] : **SELECT** fetchAllCourseEditions (programmeEditionIdDataModel)
+rep <--o] : List<CourseEditionsId>
+rep --> s-- : List<CourseEditionsId>
+s --> c-- : List<CourseEditionsId>
+
+ref over c, c
+**transform** :
+Domain to DTO
+end ref
+
+c --> r-- : List<CourseEditionsIdDTO>
+[o<-- r --: (Ok, 200) List<CourseEditionsIdDTO>
+@enduml

@@ -3,10 +3,10 @@
 
 autonumber
 
-participant ":Router" as r #cornflowerblue
-participant ":ControllerRest" as c #cornflowerblue
-participant ":Service" as s #cornflowerblue
-participant ":Repository" as rep #cornflowerblue
+participant ":Router" as r #orchid
+participant ":ControllerRest" as c #orchid
+participant ":Service" as s #orchid
+participant ":Repository" as rep #orchid
 
 
 [o-> r++ : **Get** /programmeeditions/{programmeid} (programmeIdDTO)
