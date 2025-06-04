@@ -1,16 +1,18 @@
 @startuml
 
-title "PAI \n (Logical View - Level 2)"
+title "PAI \n (Implementation View - Level 2)"
 
 interface UI
 interface "API REST"
+interface "FileIO" as FileIO
 
 component "<<System>>\nPAI" {
   portin " " as p1
   portin " " as p2
+  portin " " as p3
   component Backend
   component Frontend
-  component BD
+  component "Relational BD" as BD
   interface " " as I1
   interface " " as I2
 }
@@ -30,6 +32,7 @@ I2 -down- p6
 
 p1 -up- UI
 p2 -up- "API REST"
+p3 -up-( FileIO
 p2 -down-p6
 p1 -down-p4
 p7 -down-(I1
