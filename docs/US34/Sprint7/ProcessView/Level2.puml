@@ -1,0 +1,46 @@
+@startuml
+
+' US34 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
+' Process View - Level 2 (Frontend, Backend, DB)
+
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+}
+
+title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 2)
+
+actor ASC
+participant ":Frontend" as FE <<component>>
+participant ":Backend" as BE <<component>>
+participant ":Database" as DB <<database>>
+
+' Fase 1 – Consulta
+ASC -> FE ++: Wants to enrol student in a programme edition
+FE -> BE ++: Get programme editions for selected school year\n(GET /programme-editions?schoolYearID={id})
+BE -> DB ++: Retrieve programme editions by school year
+DB --> BE --: List of programme editions
+BE --> FE --: Return list of programme editions (200 OK)
+FE --> ASC --: Display programme editions to select
+
+ASC -> FE ++: Select programme edition
+FE -> BE ++: Get programme edition details (GET /programme-editions/{editionID})
+BE -> DB ++: Fetch programme edition by ID
+DB --> BE --: Programme edition data with associated courses
+BE --> FE --: Return programme edition details (200 OK)
+FE --> ASC --: Display programme edition and its courses
+
+
+
+'Fase 2 – Inscrição
+ASC -> FE ++: Selects courses to enrol the student
+FE -> BE ++: Submit enrolment request with studentID and selected courses\n(POST /programme-editions/enrolments/{editionID})
+BE -> DB ++: Save enrolment (programme + selected courses)
+DB --> BE --: Enrolment saved successfully
+BE --> FE --: Confirm successful enrolment (201 Created)
+FE --> ASC --: Show enrolment success message
+
+
+@enduml

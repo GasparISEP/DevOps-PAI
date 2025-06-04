@@ -1,0 +1,34 @@
+@startuml
+
+' US34 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
+' Process View - Level 1 (C4 Level 1 Style)
+
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+}
+
+title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 1)
+
+actor ASC
+participant ":SystemPAI" as System <<component>>
+
+ASC -> System ++: I want to enrol a student in a programme edition.
+System --> ASC --: Which student?
+
+ASC -> System ++: Select a student.
+System --> ASC --: Which programme edition?
+ASC -> System ++: Select one edition.
+
+System --> ASC--: Which courses?
+ASC -> System++: Select courses.
+
+System --> ASC--: Confirm enrolment?
+ASC -> System ++: Yes, enrol the student.
+
+System --> ASC --: Student enrolled successfully!
+
+@enduml
+

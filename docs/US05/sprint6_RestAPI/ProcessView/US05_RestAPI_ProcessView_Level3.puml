@@ -14,42 +14,43 @@ title US05: Register a Department in the System\nProcess View – Level 3
 
 actor ADM as "Administrator"
 participant ":Frontend" as FE
+participant ":Router" as RT
 participant ":Controller" as CT
 participant ":Service" as SE
 participant ":Domain" as DM
 participant ":Repository" as RE
+participant ":Driver" as DV
 
-group Human Interaction
+
 ADM -> FE ++: Request to register a department
 FE --> ADM --: Prompt: "Fill in department details"
 ADM -> FE ++: Enter name and acronym
-end group
+FE -> RT ++: POST /departments \n{body: name, acronym}
+RT -> CT ++: (POST) /departments {request}
 
-group HTTP Request
-FE -> CT ++: (POST) /departments {request}
-end group
 
-group Application Service Invocation
-CT -> SE ++: createAndSaveDepartment
+CT -> SE ++: createAndSaveDepartment (requestVOs)
 
-group Domain Logic
-SE -> DM ++: new Department
+
+SE -> DM ++: createDepartment (name, acronym)
 DM --> SE --: department
-end group
 
-group Persistence
-SE -> RE ++: save department
-RE -> :(INSERT INTO departments)
-RE <-- : persisted
-RE --> SE --: Persisted department
-end group
+
+
+SE -> RE ++: save (department)
+RE -> DV++: save (department)
+DV ->: INSERT INTO departments
+DV <--: persisted department
+DV --> RE -- : department
+RE --> SE --: department
+
 
 SE --> CT --: department
-end group
 
-group HTTP Response
-CT --> FE --: HTTP 201 Created + \nobject + Hypermedia links
+
+CT --> RT --: HTTP 201 Created + \ndepartmentDTO + Hypermedia links
+RT --> FE --: HTTP 201 Created + \ndepartmentDTO + Hypermedia links
 FE --> ADM --: Department registered successfully
-end group
+
 
 @enduml

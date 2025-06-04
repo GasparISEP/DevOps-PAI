@@ -1,18 +1,22 @@
 @startuml
 skinparam linetype ortho
-skinparam ranksep 250
-skinparam nodesep 250
+skinparam ranksep 300
+skinparam nodesep 300
 skinparam packageBorderColor #F0B0B0
 skinparam arrowThickness 1
 left to right direction
 
 
-title US05: "As an Administrator, I want to Register a Department in the System"\nLogical View Level 5
+title US05: "As an Administrator, I want to Register a Department in the System"\nImplementation View Level 4
 
 package US05 {
 '--- Controller ---
 package controller {
   class DepartmentRestController <<restController>> {
+    departmentService: IDepartmentRegistrationService
+    departmentAssembler: IDepartmentAssembler
+    departmentHateoasAssembler: IDepartmentHateoasAssembler
+    updateDepartmentDirectorService: IUpdateDepartmentDirectorService
     + getDepartmentById(String): ResponseEntity<?>
     + registerDepartment(RegisterDepartmentRequest): ResponseEntity<?>
     + updateDepartmentDirector(DepartmentWithDirectorRequest): ResponseEntity<?>
@@ -73,12 +77,12 @@ package Service {
     interface IDepartmentRegistrationService << interface >> {
       + createAndSaveDepartment(RegisterDepartmentRequestVOs): Department
       + getDepartmentById(DepartmentID): Optional<Department>
-       allDepartments: Iterable<Department>
     }
     class DepartmentRegistrationServiceImpl {
+      departmentFactory: IDepartmentFactory
+      departmentRepository: IDepartmentRepository
       + createAndSaveDepartment(RegisterDepartmentRequestVOs): Department
       + getDepartmentById(DepartmentID): Optional<Department>
-       allDepartments: Iterable<Department>
     }
 }
 
@@ -138,7 +142,6 @@ package Repository {
     + save(Department): Department
     + findAll(): List<Department>
     + ofIdentity(DepartmentID): Optional<Department>
-     departmentIDs: Set<DepartmentID>
   }
   }
 }
@@ -169,15 +172,10 @@ package Persistence {
     package DataModel {
     class DepartmentDataModel <<dataModel>> {
       - id: DepartmentIDDataModel
-      - directorId: TeacherIDDataModel
       - name: String
       - acronym: String
       + equals(Object): boolean
       + hashCode(): int
-       name: String
-       id: DepartmentIDDataModel
-       acronym: String
-       directorId: TeacherIDDataModel
     }
 
 
@@ -188,6 +186,7 @@ package Persistence {
        departmentID: String
     }
     }
+    '--- Repositories ---
 package RepositorySpringData {
   interface IDepartmentRepositorySpringData << interface >> {
     + save(DepartmentDataModel): DepartmentDataModel
@@ -201,17 +200,19 @@ package RepositorySpringData {
     + containsOfIdentity(DepartmentID): boolean
     + findDepartmentByID(DepartmentID): Optional<Department>
     + ofIdentity(DepartmentID): Optional<Department>
-     departmentIDs: Set<DepartmentID>
+    departmentMapper: IDepartmentMapper
+    idMapper: IDepartmentIDMapper
+    departmentRepositorySpringData: IDepartmentRepositorySpringData
   }
 }
 }
 
 
 
-RegisterDepartmentRequest <-left- DepartmentRestController
-DepartmentRestController "1" .right.> "departmentAssembler\n1" IDepartmentAssembler
-DepartmentRestController "1" .right.> "departmentHateoasAssembler\n1" IDepartmentHateoasAssembler
-DepartmentRestController "1" .right.> "departmentRegistrationService\n1" IDepartmentRegistrationService
+RegisterDepartmentRequest <-left- DepartmentRestController : "«create»"
+DepartmentRestController "1" .right.> IDepartmentAssembler : "uses"
+DepartmentRestController "1" .right.> IDepartmentHateoasAssembler : "uses"
+DepartmentRestController "1" .right.> IDepartmentRegistrationService : "uses"
 
 DepartmentAssemblerImpl -right-> DepartmentAcronym : "«create»"
 DepartmentAssemblerImpl -right-> DepartmentDTO : "«create»"
@@ -220,40 +221,40 @@ DepartmentAssemblerImpl .right.|>  IDepartmentAssembler
 DepartmentAssemblerImpl -right-> Name : "«create»"
 DepartmentAssemblerImpl -right-> RegisterDepartmentRequestVOs : "«create»"
 
-DepartmentHateoasAssemblerImpl .right.|> IDepartmentHateoasAssembler
+DepartmentHateoasAssemblerImpl .right.|> IDepartmentHateoasAssembler : "implements"
 
-RegisterDepartmentRequestVOs "1" *-down-> "name\n1" Name
-RegisterDepartmentRequestVOs "1" *-down-> "_departmentAcronym\n1" DepartmentAcronym
+RegisterDepartmentRequestVOs "1" -down-> Name : "contains"
+RegisterDepartmentRequestVOs "1" -down-> DepartmentAcronym : "contains"
 
-DepartmentRegistrationServiceImpl "1" .right.> "departmentFactory\n1" IDepartmentFactory
-DepartmentRegistrationServiceImpl .right.|>  IDepartmentRegistrationService
-DepartmentRegistrationServiceImpl "1" .right.> "departmentRepository\n1" IDepartmentRepository
+DepartmentRegistrationServiceImpl "1" .right.> IDepartmentFactory : "uses"
+DepartmentRegistrationServiceImpl .right.|>  IDepartmentRegistrationService : "implements"
+DepartmentRegistrationServiceImpl "1" .right.> IDepartmentRepository : "uses"
 
 DepartmentFactoryImpl -right-> Department : "«create»"
-DepartmentFactoryImpl .right.|> IDepartmentFactory
+DepartmentFactoryImpl .right.|> IDepartmentFactory : "implements"
 
 Department -up->  DepartmentID: "«create»"
-Department "1" *-up-> "_departmentId\n1" DepartmentID
-Department "1" *-up-> "_departmentName\n1" Name
-DepartmentID "1" *-up-> "_departmentAcronym\n1" DepartmentAcronym
+Department "1" -up-> DepartmentID : "contains"
+Department "1" -up-> Name : "contains"
+DepartmentID "1" -up-> DepartmentAcronym : "contains"
 
-DepartmentDataModel "1" -right-> "id\n1" DepartmentIDDataModel
-DepartmentDataModel -right-> DepartmentIDDataModel: "«create»"
+DepartmentDataModel "1" -right-> DepartmentIDDataModel : "contains"
 
-DepartmentRepositorySpringDataImpl "1" .left.> "idMapper\n1" IDepartmentIDMapper
-DepartmentRepositorySpringDataImpl "1" .left.> "departmentMapper\n1" IDepartmentMapper
-DepartmentRepositorySpringDataImpl .left.|>  IDepartmentRepository
-DepartmentRepositorySpringDataImpl "1" -left-> "jpaRepo\n1" IDepartmentRepositorySpringData
+DepartmentRepositorySpringDataImpl "1" .left.> IDepartmentIDMapper : "uses"
+DepartmentRepositorySpringDataImpl "1" .left.> IDepartmentMapper : "uses"
+DepartmentRepositorySpringDataImpl .left.|>  IDepartmentRepository: "implements"
+DepartmentRepositorySpringDataImpl "1" .left.> IDepartmentRepositorySpringData: "uses"
+IDepartmentRepositorySpringData "1" -down-|> JPARepository : "extends"
 
 DepartmentIDMapperImpl -right-> DepartmentAcronym : "«create»"
 DepartmentIDMapperImpl -right-> DepartmentID : "«create»"
 DepartmentIDMapperImpl -right-> DepartmentIDDataModel : "«create»"
-DepartmentIDMapperImpl .right.|> IDepartmentIDMapper
+DepartmentIDMapperImpl .right.|> IDepartmentIDMapper : "implements"
 
 DepartmentMapperImpl -left-> DepartmentAcronym : "«create»"
 DepartmentMapperImpl -left-> DepartmentDataModel : "«create»"
-DepartmentMapperImpl "1" .left.> "departmentFactory\n1" IDepartmentFactory
-DepartmentMapperImpl .left.|> IDepartmentMapper
+DepartmentMapperImpl "1" .left.>  IDepartmentFactory : "uses"
+DepartmentMapperImpl .left.|> IDepartmentMapper : "implements"
 DepartmentMapperImpl -left-> Name : "«create»"
 
 @enduml

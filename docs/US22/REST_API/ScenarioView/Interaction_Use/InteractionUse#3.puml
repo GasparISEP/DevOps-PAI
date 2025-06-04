@@ -17,8 +17,8 @@ service -> ceer : isStudentEnrolledInCourseEdition (studentID, courseEditionID)
 activate ceer
 
 ceer ->  : findAll()
-ceer <--  :  courseEditionEnrolmentDataModel
-ceer -> ceemp : toDomain
+ceer <--  :  List <CourseEditionEnrolmentDataModel>
+ceer -> ceemp : toDomain()
 activate ceemp
 ceemp --> ceer : List <CourseEditionEnrolment>
 deactivate ceemp

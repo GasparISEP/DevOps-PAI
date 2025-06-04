@@ -2,40 +2,38 @@
 
 autonumber
 title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 2)
-
 skinparam sequencemessagealign center
 
+actor RUC as RUC
 participant "Frontend" as FE <<Container>> #application
 participant "Backend" as BE <<Container>> #strategy
 database Database
 
 
- -> FE : Request to grade a Student in the Course Edition
+RUC -> FE : Request to grade a Student in the Course Edition
 activate FE
-
-
-FE -> BE : **(GET)** \n Retrieve all Course Editions
+FE -> BE : **(GET)** \n /courseeditions
 activate BE
-BE --> Database : Retrieve all Course Editions
+BE --> Database : **(GET)** \n findAllCourseEditions()
 activate Database
-BE <-- Database : All Course Editions
+BE <-- Database : List <CourseEditionResponseDTO>
 deactivate Database
 BE --> FE : All Course Editions
 deactivate BE
- <-- FE : Course Edition?
- -> FE : Course Edition!
+FE --> RUC : Course Edition?
+RUC -> FE : Course Edition!
 
- <-- FE: Student Grading form
- -> FE: grade, date, studentID
-FE -> BE : **(POST)** \n Grade a Student in the Course Edition \n (grade, date, studentID)
+FE --> RUC: Student Grading form
+RUC -> FE: grade, date, studentID
+FE -> BE : **(POST)** \n studentgrades/register
 activate BE
-BE ->  Database : Save Student's grade in Database \n (grade, date, studentID)
+BE -> Database : **(INSERT)** \n save (studentGradeDataModel)
 activate Database
 BE <-- Database : studentGrade \n (grade, date, studentID)
 deactivate Database
-BE --> FE: Created studentGrade \n (grade, date, studentID)
+BE --> FE: studentGrade \n (grade, date, studentID)
 deactivate BE
- <-- FE: Student graded successfully!
+FE --> RUC: Student graded successfully!
 deactivate FE
 
 @enduml

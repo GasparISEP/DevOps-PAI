@@ -7,8 +7,8 @@ autonumber
 actor RUC
 participant ":UI" as ui #application
 participant ":CourseEditionRESTController" as ctrlrREST #business
-participant ":StudentGradeAssemblerImpl" as assembler #implementation
 participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":StudentGradeAssemblerImpl" as assembler #implementation
 participant ":StudentGradeRepositorySpringData" as sgr #lightgreen
 participant ":StudentGradeMapper" as sgmp #mistyrose
 participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
@@ -25,7 +25,7 @@ RUC -> ui : This CourseEdition!
 ui --> RUC : Fill in the **Student grading** information
 RUC -> ui : grade, date, courseEditionID, studentID!
 
-note over ui : Springboot automatically converts from JSON to **D**ata **T**ransfer **O**bject
+note over ui : Springboot automatically converts from JSON to **__D__**ata **__T__**ransfer **__O__**bject
 
 ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
 activate ctrlrREST
@@ -40,23 +40,28 @@ service -> sgr : save(studentGrade1)
 activate sgr
 sgr -> sgmp : toData(studentGrade1)
 activate sgmp
-sgmp --> sgr : studentGradeDataModel1(studentIDDataModel, grade, date)
+sgmp --> sgr : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
 deactivate sgmp
-sgr -> IStudentGradeRepoSpringData : save(studentGradeDataModel1)
+sgr -> IStudentGradeRepoSpringData : save (studentGradeDataModel1)
 activate IStudentGradeRepoSpringData
-IStudentGradeRepoSpringData ->  : insert
-IStudentGradeRepoSpringData <--  : studentGradeDataModel1(studentIDDataModel, grade, date)
+IStudentGradeRepoSpringData ->  : **Insert**
+IStudentGradeRepoSpringData <--  : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
 IStudentGradeRepoSpringData --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
 deactivate IStudentGradeRepoSpringData
-sgr -> sgmp : toDomain(studentGradeDataModel1)
+sgr -> sgmp : toDomain (studentGradeDataModel1)
 activate sgmp
 sgmp --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
 deactivate sgmp
 sgr --> service -- : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
-service --> ctrlrREST -- : Status Code 200 (OK!)
+service -> assembler : toDTO(studentGrade1)
+activate assembler
+assembler --> service : studentGradeResponseDTO1 \n (grade, date, studentID, courseEditionID)
+deactivate assembler
+service --> ctrlrREST : studentGradeResponseDTO1 \n (grade, date, studentID, courseEditionID)
+deactivate service
 ctrlrREST --> ui -- : Status Code 200 (OK!)
 
-note over ui : Springboot automatically converts from **D**ata **T**ransfer **O**bject to JSON
+note over ui : Springboot automatically converts from **__D__**ata **__T__**ransfer **__O__**bject to JSON
 
 ui --> RUC : Success!
 deactivate ui
