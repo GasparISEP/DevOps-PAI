@@ -4,7 +4,7 @@ title "PAI \n (Implementation View - Level 2)"
 
 interface UI
 interface "API REST"
-interface "FileIO" as FileIO
+interface "File I/O" as FileIO
 
 component "<<System>>\nPAI" {
   portin " " as p1
@@ -33,6 +33,7 @@ I2 -down- p6
 p1 -up- UI
 p2 -up- "API REST"
 p3 -up-( FileIO
+p6 -up- p3
 p2 -down-p6
 p1 -down-p4
 p7 -down-(I1
