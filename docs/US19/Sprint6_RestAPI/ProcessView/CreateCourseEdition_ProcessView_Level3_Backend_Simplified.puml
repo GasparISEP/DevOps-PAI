@@ -26,15 +26,16 @@ database "Database" as DB #E1F5FE
 
 == Step 1: HTTP POST Request ==
 
--> Router: POST /courseeditions\nwith CourseEditionRequestDTO (JSON)
+-> Router: POST /courseeditions (JSON)
 activate Router
-
+note over Router #EEEEEE
+Spring converts JSON into
+CourseEditionRequestDTO
+end note
 Router -> Controller: createCourseEdition(requestDTO)
 activate Controller
 
 note over Controller #EEEEEE
-Spring converts JSON into
-CourseEditionRequestDTO
 Controller calls assembler.toCommand()
 to convert to CreateCourseEditionCommand
 end note
