@@ -8,6 +8,7 @@ import PAI.mapper.department.IDepartmentMapper;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
 import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -30,9 +31,32 @@ public class DepartmentRepositorySpringDataImpl implements IDepartmentRepository
     @Override
     public Department save(Department department) {
         try {
-            DepartmentDataModel departmentDataModel = departmentMapper.toDataModel(department);
-            DepartmentDataModel saved = jpaRepo.save(departmentDataModel);
+            // Verifica se já existe um DepartmentDataModel com o mesmo ID
+            DepartmentIDDataModel id = idMapper.toDataModel(department.identity());
+
+            Optional<DepartmentDataModel> existing = jpaRepo.findById(id);
+            DepartmentDataModel dataModel;
+
+            if (existing.isPresent()) {
+                dataModel = existing.get(); // usa o da sessão atual
+            } else {
+                dataModel = new DepartmentDataModel(); // novo
+                dataModel.setId(id);
+            }
+
+            // atualiza os campos
+            dataModel.setAcronym(department.getAcronym().getAcronym());
+            dataModel.setName(department.getName().getName());
+
+            if (department.getDirectorID() != null) {
+                dataModel.setDirectorId(new TeacherIDDataModel(department.getDirectorID().getTeacherAcronym().getAcronym()));
+            } else {
+                dataModel.setDirectorId(null);
+            }
+
+            DepartmentDataModel saved = jpaRepo.save(dataModel);
             return departmentMapper.toDomain(saved);
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to save department: " + department.getName().getName(), e);
         }
