@@ -325,7 +325,7 @@ class DepartmentAssemblerImplTest {
             departmentAssembler.fromRequestToCommand(null, requestDouble);
         });
 
-        assertEquals("Department ID cannot be null", thrown.getMessage());
+        assertEquals("DepartmentID cannot be null", thrown.getMessage());
     }
 
 
