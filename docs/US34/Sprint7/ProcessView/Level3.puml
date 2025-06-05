@@ -7,9 +7,7 @@ participant ":Router" as r #gold
 participant ":ControllerRest" as c #gold
 participant ":Service" as s #gold
 participant ":Domain" as d #gold
-participant "programmeEditionEnrolment1:\nProgrammeEditionEnrolment" as PEE #gold
 participant ":Repository" as rep #gold
-participant "courseEditionEnrolment1:\nCourseEditionEnrolment" as CEE #gold
 skinparam DefaultTextAlignment center
 
 
@@ -23,21 +21,16 @@ end ref
 |||
 c-> s++ : enrolStudentInProgrammeEditionAndSetOfCourses\n(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, \nList<selectedCourseEditionsDto>,date,enrolmentStatus)
 
-s->d ++: createProgrammeEditionEnrolment(programmeEditionId, \nstudentID,enrolmentStatus,date)
-d -> PEE  ** : newProgrammeEditionEnrolment\n(programmeEditionID,studentID,\nprogrammeEditionId, studentID,enrolmentStatus,date)
-activate PEE
-PEE --> d-- : programmeEditionEnrolment1
+s->d ++: createProgrammeEditionEnrolment\n(programmeEditionId, \nstudentID,enrolmentStatus,date)
+
 d --> s-- : programmeEditionEnrolment1
-s -> rep++: save (:programmeEditionEnrolment1)
-rep ->o] : save(:programmeEditionEnrolment1)
+s->d ++: createAll(courseEditionId, \nstudentID, enrolmentStatus,date )
+d --> s-- : List<courseEditionEnrolments>
+s -> rep++: save (programmeEditionEnrolment1)
+rep ->o] : save(programmeEditionEnrolment1)
 rep <--o] : programmeEditionEnrolment1
 rep --> s -- : programmeEditionEnrolment1
 
-s->d ++: createAll(courseEditionId, studentID, enrolmentStatus,date )
-d -> CEE  ** : createAll(courseEditionId, studentID, enrolmentStatus,date)
-activate CEE
-CEE --> d-- : List<courseEditionEnrolments>
-d --> s-- : List<courseEditionEnrolments>
 s -> rep++: saveAll (List<courseEditionEnrolments>)
 rep ->o] : saveAll(List<courseEditionEnrolments>)
 rep <-o] : List<courseEditionEnrolments>
