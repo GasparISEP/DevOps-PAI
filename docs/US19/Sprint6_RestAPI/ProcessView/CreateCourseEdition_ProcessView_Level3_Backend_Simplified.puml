@@ -74,17 +74,17 @@ deactivate DB
 Repository --> Service: saved CourseEdition
 deactivate Repository
 
-Service --> Controller: CourseEdition
-deactivate Service
+
 
 == Step 3: Assemble Response DTO ==
 
 alt if CourseEdition is not null
-    Controller -> SAssembler: toResponseDTO(courseEdition)
+    Service -> SAssembler: toResponseDTO(courseEdition)
     activate SAssembler
-    SAssembler --> Controller: CourseEditionResponseDTO
+    SAssembler --> Service: CourseEditionResponseDTO
     deactivate SAssembler
-
+    Service --> Controller: CourseEditionResponseDTO
+    deactivate Service
     Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
 
 end
@@ -93,5 +93,4 @@ deactivate Controller
 
 <-- Router: Response
 deactivate Router
-
 @enduml
