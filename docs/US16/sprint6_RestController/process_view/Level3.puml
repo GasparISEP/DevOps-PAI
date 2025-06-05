@@ -6,20 +6,20 @@ skinparam sequence {
     LifelineBackgroundColor LightBlue
     ActorBorderColor black
     ActorBackgroundColor LightGray
-    GroupBorderColor #cccccc
-    GroupBackgroundColor #f2f2f2
 }
 
 title US16: Enroll a Student in a Course Edition\nProcess View – Level 3
 
 actor ASC as "Academic Services Coordinator"
 participant ":Frontend" as FE
+participant ":Router" as RT
 participant ":Controller" as CT
 participant ":Service" as SE
+participant ":Factory" as FA
 participant ":Domain" as DM
 participant ":Repository" as RE
+participant ":Driver" as Driver
 
-group Human Interaction
 ASC -> FE ++: Request to enroll a student
 FE --> ASC --: Prompt: "Enter student ID"
 ASC -> FE ++: Input: "12345"
@@ -27,31 +27,25 @@ FE --> ASC --: Display programme editions
 ASC -> FE ++: Select programme edition
 FE --> ASC --: Display course editions
 ASC -> FE ++: Select course edition
-end group
 
-group HTTP Request
-FE -> CT ++: (POST) /courseeditions/students/enrolments with JSON {request}
-end group
+FE -> RT ++: (POST) /courseeditions/students/enrolments with JSON {request}
+RT -> CT ++: Forward request
 
-group Application Service Invocation
-CT -> SE ++: enrollStudentInCourseEdition(command)
+CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolmentDto)
 
-group Domain Logic
-SE -> DM ++: CourseEditionEnrolment enrollment = new CourseEditionEnrolment(command.studentId(), command.programmeEditionId(), command.courseEditionId())
-DM --> SE --: enrollment
-end group
+SE -> FA ++: createCourseEditionEnrolment(CourseEditionID, StudentID)
+FA -> DM ++: new CourseEditionEnrolment()
+DM --> FA --: CourseEditionEnrolment
+FA --> SE --: CourseEditionEnrolment
 
-group Persistence
-SE -> RE ++: save(enrollment)
-RE --> SE --: Persisted enrollment
-end group
+SE -> RE ++: save(CourseEditionEnrolment)
+RE -> Driver: persist
+RE --> SE --: Persisted CourseEditionEnrolment
 
-SE --> CT --: enrollment
-end group
+SE --> CT --: CourseEditionEnrolment
+CT --> RT --: HTTP 201 Created
 
-group HTTP Response
-CT --> FE --: HTTP 201 Created + EnrollmentDTO
+RT --> FE --: HTTP 201 Created
 FE --> ASC --: Student enrolled successfully
-end group
 
 @enduml

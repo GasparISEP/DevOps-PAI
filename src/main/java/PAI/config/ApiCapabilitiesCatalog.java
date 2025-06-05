@@ -152,4 +152,32 @@ public class ApiCapabilitiesCatalog {
 
         return api;
     }
+
+
+    public static Map<String, Object> getCapabilitiesForRole(String role) {
+        String normalizedRole = role.toLowerCase();
+        Map<String, Object> all = getCapabilities();
+        Map<String, Object> filtered = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Object> entry : all.entrySet()) {
+            String resource = entry.getKey();
+            Map<String, Object> value = (Map<String, Object>) entry.getValue();
+            String url = (String) value.get("url");
+
+            Map<String, List<String>> roles = (Map<String, List<String>>) value.get("roles");
+
+            if (roles.containsKey(normalizedRole)) {
+                filtered.put(resource, Map.of(
+                        "url", url,
+                        "methods", roles.get(normalizedRole)
+                ));
+            }
+        }
+
+        if (filtered.isEmpty()) {
+            filtered.put("info", "Role not recognized. Only basic capabilities exposed.");
+        }
+
+        return filtered;
+    }
 }

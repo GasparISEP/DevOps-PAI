@@ -1,0 +1,325 @@
+@startuml
+title US22: I want to grade a student in a CourseEdition
+'left to right direction
+
+class CourseEditionRESTController {
+    +enrolStudentInCourseEdition(courseEditionEnrolmentDTO : CourseEditionEnrolmentDto)
+    +removeStudentEnrolmentFromACourseEdition(removeCourseEditionEnrolmentDTO : RemoveCourseEditionEnrolmentDTO)
+    +createCourseEdition(dto : CourseEditionRequestDTO)
+    +gradeAStudent(request : GradeAStudentRequestDTO)
+}
+
+interface IGradeAStudentService {
+        +gradeAStudent(gradeAStudentCommand : GradeAStudentCommand)
+}
+
+interface GradeAStudentServiceImpl {
+        -_studentGradeFactory : IStudentGradeFactory
+        -_studentGradeRepo : IStudentGradeRepository
+        -_courseEditionRepo : ICourseEditionRepository
+        -_courseEditionEnrolmentRepo : ICourseEditionEnrolmentRepository
+        -_programmeEditionRepo : IProgrammeEditionRepository
+        -_schoolYearRepo : ISchoolYearRepository
+        +gradeAStudent(gradeAStudentCommand : GradeAStudentCommand)
+}
+
+interface IStudentGradeFactory {
+    +newGradeStudent : StudentGrade (grade : Grade, date : Date, student : StudentID, courseEditionID : CourseEditionID)
+    +newGradeStudentFromDataModel : StudentGrade (grade : Grade, date : Date, student : StudentID, courseEditionID : CourseEditionID, studentGradeID : StudentGradeID)
+}
+
+interface IStudentGradeRepository {
+    +save : StudentGrade(entity : StudentGrade)
+    +findAll : Iterable<StudentGrade> ()
+    +ofIdentity : Optional<StudentGrade> (studentGradeID : StudentGradeID)
+    +containsOfIdentity : boolean (studentGradeID : StudentGradeID)
+}
+
+interface ICourseEditionRepository {
+    +findCourseEditionsByProgrammeEditionID : List<CourseEditionID> (programmeEditionId : ProgrammeEditionID)
+    +findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID : List<CourseEditionID> (programmeEditionId : ProgrammeEditionID, courseInStudyPlanId : CourseInStudyPlanID)
+}
+
+interface ICourseEditionEnrolmentRepository {
+    +isStudentEnrolledInCourseEdition : boolean (studentId : StudentID, courseEditionId : CourseEditionID)
+    +findByStudentAndEdition : Optional<CourseEditionEnrolment> (studentId : StudentID, courseEditionId : CourseEditionID)
+    +numberOfStudentsEnrolledInCourseEdition : int (courseEditionId : CourseEditionID)
+    +enrolStudentInProgrammeCourseEditions : void (studentId : StudentID, courseEditions : List<CourseEditionID>)
+    +getInternalSet : Set<CourseEditionEnrolment> ()
+}
+
+interface IProgrammeEditionRepository {
+    +save : ProgrammeEdition (programmeEdition : ProgrammeEdition)
+    +findAll : Iterable<ProgrammeEdition> ()
+    +ofIdentity : Optional<ProgrammeEdition> (id : ProgrammeEditionID)
+    +containsOfIdentity : boolean (id : ProgrammeEditionID)
+    +findProgrammeEditionIDByProgrammeIDAndSchoolYearID : Optional <ProgrammeEditionID> (programmeid : ProgrammeID, schoolYearid : SchoolYearID)
+    +getProgrammeEditionsByProgrammeID : List<ProgrammeEdition> (programmeid : ProgrammeID)
+    +findByProgrammeIDs : List<ProgrammeEdition> (programmeIDs : List<ProgrammeID>)
+    +findByID : Optional<ProgrammeEdition> (id : ProgrammeEditionID)
+}
+
+interface ISchoolYearRepository {
+    +schoolYearExists : boolean (schoolYear : SchoolYear)
+    +getCurrentSchoolYear : Optional<SchoolYear> ()
+    +getAllSchoolYearsIDs : List<SchoolYearID> ()
+    +findBySchoolYearID : Optional<SchoolYear> (schoolYearID : SchoolYearID)
+}
+
+interface IStudentGradeAssembler {
+    +domainToDTO(studentGrade : StudentGrade)
+    +dtoToDomain(gradeAstudentRequestDTO : GradeAStudentRequestDTO)
+}
+
+class StudentGradeAssembler {
+    +domainToDTO(studentGrade : StudentGrade)
+    +dtoToDomain(gradeAStudentRequestDTO : GradeAStudentRequestDTO)
+}
+
+class GradeAStudentRequestDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -studentUniqueNumber : int
+    -grade : int
+    -date : String
+}
+
+class GradeAStudentResponseDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -studentUniqueNumber : int
+    -grade : int
+    -date : String
+}
+
+class GradeAStudentCommand {
+    -grade : Grade
+    -date: Date
+    -studentID : StudentID
+    -courseEditionId : CourseEditionID
+    -studentGradeId : StudentGradeID
+}
+
+class CourseEditionRequestDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -teacherId : String
+}
+
+class CourseEditionResponseDTO {
+    -studentGradeId : String
+    -courseEditionId : String
+    -programmeEditionId : String
+    -courseInStudyPlanID : String
+    -programmeId : String
+    -schoolYearId : String
+    -courseId : String
+    -studyPlanId : String
+    -teacherId : String
+}
+
+class CourseEditionAssembler {
+    -courseEditionId : CourseEditionsID
+    -courseInStudyPlanId : CourseInStudyPlanID
+    -programmeEditionId : ProgrammeEditionID
+    -teacherId : TeacherID
+}
+
+package "StudentGrade" {
+entity "<<root>>\nGradeStudent"  {
+    +hasThisCourseEdition(CourseEdition : CourseEdition)
+    +knowCourseEdition()
+    +get_studentID()
+    +get_courseEdition()
+    +equals (objectToCompare: Object)
+
+    }
+
+}
+class Grade <<ValueObject>> {
+        -grade: double
+        +knowGrade()
+    }
+    class LocalDate <<ValueObject>> {
+            -date: String
+            +isDateValid(String date)
+            +get_date()
+        }
+
+ class StudentGradeId <<ValueObject>> {
+    -courseEditionID
+    -studentID
+    +equals()
+    +toString()
+        }
+
+class StudentGradeRepository {
+    +addGradeToStudent(Grade, Date, student, CourseEdition)
+    +knowAverageGrade(Course Edition)
+    +knowApprovalRate(Course Edition)
+    +findIdByStudent (StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeRepositoryInterface {
+   +addGradeToStudent(Grade, Date, student, CourseEdition)
+   +knowAverageGrade(Course Edition)
+   +knowApprovalRate(Course Edition)
+   +findIdByStudent (StudentGrade studentGrade)
+       +save(StudentGrade entity)
+       +findAll()
+       +ofIdentity(StudentGradeID id)
+       +containsOfIdentity(StudentGradeID id)
+}
+
+interface IStudentGradeFactory {
+    +newGradeStudent()
+}
+
+
+class StudentGradeFactoryImpl {
+    +newGradeStudent()
+}
+
+
+
+class StudentId <<ValueObject>> {
+uniqueNumber: int
++equals()
++getUniqueNumber()
++isEquals()
+            }
+
+package "Student" {
+entity "<<root>>\nStudent"  {
+        +Student(uniqueNumber: String, name: String, NIF: String, phone: String, email: String, address: Address)
+         +isStudentRepeated(students: List<Student>)
+         +hasSameUniqueNumber(Student student)
+         +hasSameNIF (Student student)
+         +getUniqueNumber(): String
+         +hasThisUniqueNumber(String uniqueNumber)
+
+    }
+
+    }
+    class Name <<ValueObject>> {
+                    -Name : String
+                    +getName()
+                    +equals()
+                    +hashCode()
+                }
+        class NIF <<ValueObject>> {
+                     -NIF : String
+                }
+        class Phone <<ValueObject>> {
+                         -CountryCode: String
+                         -Number: String
+                    }
+        class Email <<ValueObject>> {
+                         -Email: String
+                        }
+         class Address <<ValueObject>> {
+                         -Street
+                         -PostalCode
+                         -Location
+                         -Country
+                            }
+class CourseEditionId <<ValueObject>> {
+-ProgrammeEditionID
+-CourseInStudyPlanID
++toString()
++equals()
+            }
+
+
+package "CourseEdition" {
+entity "<<root>>\nCourseEdition"  {
+        +Equals(objectToCompare: Object)
+      +setRuc(Teacher: ruc)
+      +whatProgrammeEditionBelongsThisCourseEdition ()
+      +getCourse()
+
+    }
+    }
+
+
+"<<root>>\nStudent" "*" --> "1" Name
+"<<root>>\nStudent" "*" --> "1" NIF
+"<<root>>\nStudent" "*" --> "1" Email
+"<<root>>\nStudent" "*" --> "1" Phone
+"<<root>>\nStudent" "*" --> "1" Address
+"<<root>>\nGradeStudent" "*" --> "1" Grade
+"<<root>>\nGradeStudent" "*" --> "1" LocalDate
+"<<root>>\nGradeStudent" --> "1" StudentId: belongs
+"<<root>>\nGradeStudent" --> "1" CourseEditionId : refers to
+IGradeAStudentService "1" ....> IStudentGradeFactory
+IStudentGradeFactory "1" ....> "Creates" "<<root>>\nGradeStudent"
+IStudentGradeFactory  <|..  StudentGradeFactoryImpl
+
+GradeAStudentRequestDTO "1" --> "1" CourseEditionRESTController
+CourseEditionRESTController "1" --> "1" StudentGradeAssembler
+GradeAStudentRequestDTO "1" --> "1" StudentGradeAssembler
+StudentGradeAssembler "1" --> "1" GradeAStudentCommand
+IStudentGradeAssembler "1" --> "1" StudentGradeAssembler
+StudentGradeAssembler "1" --> "1" GradeAStudentServiceImpl
+GradeAStudentResponseDTO "1" --> "1" GradeAStudentServiceImpl
+
+
+CourseEditionRequestDTO "1" --> "1" CourseEditionRESTController
+CourseEditionRESTController "1" --> "1" CourseEditionAssembler
+CourseEditionRequestDTO "1" --> "1" CourseEditionAssembler
+CourseEditionResponseDTO "1" --> "1" GradeAStudentServiceImpl
+
+
+"<<root>>\nGradeStudent" --> "1" StudentGradeId
+"<<root>>\nCourseEdition" --> "1" CourseEditionId
+"<<root>>\nStudent" --> "1" StudentId
+IGradeAStudentService <|..GradeAStudentServiceImpl
+IStudentGradeRepositoryInterface <|..StudentGradeRepository
+IStudentGradeRepositoryInterface ....> IStudentGradeFactory
+
+
+IGradeAStudentService "1" ....> "*" "<<root>>\nGradeStudent"
+
+
+IGradeAStudentService "1" ..|> IStudentGradeRepositoryInterface
+CourseEditionRESTController "*" ..> "1" IGradeAStudentService
+
+GradeAStudentCommand "1" --> "1" Grade
+GradeAStudentCommand "1" --> "1" Date
+GradeAStudentCommand "1" --> "1" StudentID
+GradeAStudentCommand "1" --> "1" CourseEditionID
+
+GradeAStudentServiceImpl "1" ..> "1" GradeAStudentCommand
+GradeAStudentServiceImpl "1" ..> "1" StudentGrade
+
+GradeAStudentServiceImpl "1" --> "1" IStudentGradeFactory
+GradeAStudentServiceImpl "1" --> "1" IStudentGradeRepository
+GradeAStudentServiceImpl "1" --> "1" ICourseEditionRepository
+GradeAStudentServiceImpl "1" --> "1" ICourseEditionEnrolmentRepository
+GradeAStudentServiceImpl "1" --> "1" IProgrammeEditionRepository
+GradeAStudentServiceImpl "1" --> "1" ISchoolYearRepository
+
+
+@enduml

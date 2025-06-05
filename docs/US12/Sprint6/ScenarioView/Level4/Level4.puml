@@ -1,0 +1,55 @@
+@startuml
+autonumber
+
+title As an ASC, I want to change a programme director in the system.
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightyellow
+participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "pService:ProgrammeService" as PS #physical
+participant "P1:Programme" as P #lightpink
+participant "pRepo:ProgrammeRepository" as PR #lightcyan
+
+activate Admin
+Admin -> UI ++: I want to change a programme director in the System
+
+UI -> C ++: getAllProgrammes()
+
+
+C --> UI --: List<ProgrammeDTO>
+
+UI --> Admin --: Choose a Programme from the list
+
+Admin -> UI ++: Programme
+
+UI -> C ++: getAllTeachers()
+
+
+C --> UI --: List<TeacherDTO>
+
+UI --> Admin --: Choose a Teacher from the list
+
+Admin -> UI ++: teacher
+
+UI -> C ++: changeAProgrammeDirectorInTheSystem \n(ProgrammeRequestDTO)
+
+
+C -> PS ++: changeProgrammeDirector(programmeIDVO, teacherIDVO)
+
+PS -> P ++: newProgrammeDirector(programmeIDVO, teacherIDVO)
+
+P -> PS --: PD1
+
+PS -> PR ++: saveProgrammeDirector(PD1)
+
+
+PR --> PS --: PD1
+
+PS --> C --: PD1
+
+C --> UI --: ProgrammeResponseDTO
+
+UI --> Admin --: Programme Director updated successfully!
+
+@enduml

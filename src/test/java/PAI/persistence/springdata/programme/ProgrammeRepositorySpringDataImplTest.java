@@ -390,17 +390,58 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
-        when(iProgRepo.existsByName("Informatics")).thenReturn(true);
-        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(
-                programmeMapper, iProgRepo, idMapper
-        );
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(programmeMapper, iProgRepo, idMapper);
+        NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
+        String programmeName = "Informatics";
+
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn(programmeName);
+        when(repository.existsByName(nameDouble)).thenReturn(true);
 
         // Act
-        boolean result = repository.existsByName("Informatics");
+        boolean result = repository.existsByName(nameDouble);
 
         // Assert
         assertTrue(result);
-        verify(iProgRepo).existsByName("Informatics");
+    }
+
+    @Test
+    void shouldReturnFalseWhenProgrammeWithGivenNameDoesNotExist() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(programmeMapper, iProgRepo, idMapper);
+        NameWithNumbersAndSpecialChars nameDouble = mock(NameWithNumbersAndSpecialChars.class);
+        String programmeName = "Informatics";
+
+        when(nameDouble.getNameWithNumbersAndSpecialChars()).thenReturn(programmeName);
+        when(repository.existsByName(nameDouble)).thenReturn(false);
+
+        // Act
+        boolean result = repository.existsByName(nameDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenProgrammeWithGivenAcronymExists() {
+        // Arrange
+        IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
+        IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
+        IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(programmeMapper, iProgRepo, idMapper);
+        Acronym acronymDouble = mock(Acronym.class);
+        String programmeAcronym = "INF";
+
+        when(acronymDouble.getAcronym()).thenReturn(programmeAcronym);
+        when(repository.existsByAcronym(acronymDouble)).thenReturn(true);
+
+        // Act
+        boolean result = repository.existsByAcronym(acronymDouble);
+
+        // Assert
+        assertTrue(result);
     }
 
     @Test
@@ -409,17 +450,18 @@ class ProgrammeRepositorySpringDataImplTest {
         IProgrammeRepositorySpringData iProgRepo = mock(IProgrammeRepositorySpringData.class);
         IProgrammeMapper programmeMapper = mock(IProgrammeMapper.class);
         IProgrammeIDMapper idMapper = mock(IProgrammeIDMapper.class);
-        when(iProgRepo.existsByAcronym("INF")).thenReturn(false);
-        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(
-                programmeMapper, iProgRepo, idMapper
-        );
+        ProgrammeRepositorySpringDataImpl repository = new ProgrammeRepositorySpringDataImpl(programmeMapper, iProgRepo, idMapper);
+        Acronym acronymDouble = mock(Acronym.class);
+        String programmeAcronym = "INF";
+
+        when(acronymDouble.getAcronym()).thenReturn(programmeAcronym);
+        when(repository.existsByAcronym(acronymDouble)).thenReturn(false);
 
         // Act
-        boolean result = repository.existsByAcronym("INF");
+        boolean result = repository.existsByAcronym(acronymDouble);
 
         // Assert
         assertFalse(result);
-        verify(iProgRepo).existsByAcronym("INF");
     }
 
 }

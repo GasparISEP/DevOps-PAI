@@ -72,8 +72,9 @@ public CourseEditionRestController(
     @PostMapping("/students/enrolments")
     public ResponseEntity<String> enrolStudentInCourseEdition(@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) throws Exception {
         try {
-            CourseEditionEnrolment courseEditionEnrolment = courseEditionEnrolmentAssembler.toDomain(courseEditionEnrolmentDTO);
-            boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(courseEditionEnrolment.knowStudent(), courseEditionEnrolment.knowCourseEdition());
+            CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDTO);
+            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDTO);
+            boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(studentID, courseEditionID);
             if (enrolment) {
                     return ResponseEntity.status(HttpStatus.CREATED).body("Student enrolled in course edition");
             } else {
@@ -194,28 +195,23 @@ public CourseEditionRestController(
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/studentGrades")
-    public ResponseEntity<?> gradeAStudent (@RequestBody @Valid GradeAStudentRequestDTO request) {
+    @PostMapping("/studentgrades/register")
+    public ResponseEntity<?> gradeAStudent (@RequestBody @Valid GradeAStudentRequestDTO request) throws Exception {
 
-        try {
-            // Convert requestDTO to command
-            GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
-            // Call Service to Grade a Student
-            GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
-            // Return 201 Status Code (Ok!)
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (Exception e) {
-            // Return 400 Status Code (Bad Request) for business rule violations
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        // Convert requestDTO to command
+        GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
+        // Call Service to Grade a Student
+        GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
+        // Return 201 Status Code (Ok!)
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/averagegrade")
     public ResponseEntity<Double> getCourseEditionAverageGrade(
-            @RequestParam("programmeAcronym") String programmeAcronym,
-            @RequestParam("schoolYearId") String schoolYearId,
-            @RequestParam("courseAcronym") String courseAcronym,
-            @RequestParam("studyPlanDate") String studyPlanDate
+            @RequestParam("programmeAcronym") @Valid String programmeAcronym,
+            @RequestParam("schoolYearId") @Valid String schoolYearId,
+            @RequestParam("courseAcronym") @Valid String courseAcronym,
+            @RequestParam("studyPlanDate") @Valid String studyPlanDate
     ) throws Exception {
 
         UUID schoolYearUUID = UUID.fromString(schoolYearId);

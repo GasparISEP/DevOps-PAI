@@ -1,4 +1,5 @@
 @startuml
+!pragma layout smetana
 title US11: I want to register a programme in the system
 
 class ProgrammeRestController {

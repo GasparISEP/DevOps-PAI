@@ -1,30 +1,40 @@
 // microfiche: frontend/cypress/e2e/courseRegistrationHappyPath.spec.js
 
 // This Function highlights an element, which will be selected.
-function highlightAndAct(chainable, actionCallback, outline = '3px solid #add8e6', bg = '#add8e6') {
+function highlightAndAct(chainable, actionCallback, outline = '3px solid black') {
     chainable
         .should('exist')
         .then($el => {
             const originalOutline = $el.css('outline');
-            const originalBg = $el.css('background-color');
+            const originalOutlineOffset = $el.css('outline-offset');
 
             $el.css('outline', outline);
-            $el.css('background-color', bg);
+            $el.css('outline-offset', '2px'); // This creates a small gap between the element and the outline
 
             return Cypress.Promise.delay(1000).then(() => {
-                actionCallback(cy.wrap($el));
+                actionCallback(cy.wrap($el, { log: false }));
                 return Cypress.Promise.delay(1000).then(() => {
                     $el.css('outline', originalOutline);
-                    $el.css('background-color', originalBg);
+                    $el.css('outline-offset', originalOutlineOffset);
                 });
             });
         });
 }
 
 describe('Course Registration Flow', () => {
+    beforeEach(() => {
+        // Set a larger viewport size
+        cy.viewport(1550, 1250);
+
+        // Add CSS to zoom out the page
+        cy.document().then((doc) => {
+            doc.body.style.zoom = "100%";  // You can adjust this value (75% = zoomed out, higher than 100% = zoomed in)
+        });
+    });
+
     it('Fills the Formulary of the Course', () => {
         cy.visit('http://localhost:3000');
-        cy.wait(150);
+        cy.wait(500);
 
         // Access the Formulary
         highlightAndAct(
@@ -81,15 +91,14 @@ describe('Course Registration Flow', () => {
 
         // Submit the Formulary
         highlightAndAct(
-        cy.contains('REGISTER').should('be.visible'),
-            $el => $el.click());
-        cy.wait(120);
+            cy.contains('REGISTER').should('be.visible'),
+            $el => $el.click()
+        );
+        cy.wait(300);
 
         // Confirmation PopUp
-            cy.contains('The course was registered successfully.').should('be.visible'),
-            () => {
-            }
-        ;
-        cy.wait(120);
+        cy.contains('The course was registered successfully.')
+            .should('be.visible');
+        cy.wait(300);
     });
 });

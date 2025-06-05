@@ -24,7 +24,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
@@ -32,6 +34,7 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -88,6 +91,9 @@ class CourseEditionRestControllerTest {
     @MockBean
     private CourseEditionEnrolmentDto validEnrolmentDto;
 
+    @Autowired
+    private CourseEditionRestController courseEditionRestController;
+
     @BeforeEach
     void setUp() {
         validEnrolmentDto = new CourseEditionEnrolmentDto(
@@ -104,10 +110,13 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudent_thenReturnsCreated() throws Exception {
         // Arrange
-        CourseEditionEnrolment mockEnrolment = mock(CourseEditionEnrolment.class);
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockEnrolment);
-        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockStudentID);
+        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(true);
 
         // Act & Assert
@@ -120,10 +129,13 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentAlreadyEnrolled_thenReturnsBadRequest() throws Exception {
         // Arrange
-        CourseEditionEnrolment mockEnrolment = mock(CourseEditionEnrolment.class);
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockEnrolment);
-        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockCourseEditionID);
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(mockStudentID);
+        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(false);
 
         // Act & Assert
@@ -156,7 +168,7 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentWithException_thenReturnsBadRequest() throws Exception {
         // Arrange
-        when(courseEditionEnrolmentAssembler.toDomain(any(CourseEditionEnrolmentDto.class)))
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenThrow(new RuntimeException("Test exception"));
 
         // Act & Assert
@@ -205,83 +217,72 @@ class CourseEditionRestControllerTest {
     }
 
     @Test
-    void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
+    void whenValidRequest_thenReturnsCreatedResponse() {
         // Arrange
-        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "Software Development", "SDV", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+        UUID schoolYearID = UUID.randomUUID();
+
+        CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
+                "LEI", "LEIC", schoolYearID,
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
+        );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+                dto.programmeName(), dto.programmeAcronym(), dto.schoolYearID(),
+                dto.courseAcronym(), dto.courseName(), dto.studyPlanImplementationDate()
+        );
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123", "Software Development", "SDV",
-                requestDTO.schoolYearID(), "SA", "Software Architecture",
-                LocalDate.of(2023, 9, 1));
+                "id123", "LEI", "LEIC", schoolYearID,
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
+        );
 
-        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
-        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
+        when(courseEditionAssembler.toCommand(dto)).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any()))
+                .thenReturn(responseDTO);
 
         // Act
-        MvcResult result = mockMvc.perform(post("/courseeditions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/courseeditions/" + responseDTO.courseEditionID()))
-                .andReturn();
+        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
 
         // Assert
-        String jsonResponse = result.getResponse().getContentAsString();
-        CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
-
-        assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
-        assertEquals(responseDTO.programmeName(), actualResponse.programmeName());
-        assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
-        assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
-        assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());
-        assertEquals(responseDTO.courseName(), actualResponse.courseName());
-        assertEquals(responseDTO.studyPlanImplementationDate(), actualResponse.studyPlanImplementationDate());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertTrue(response.getHeaders().getLocation().toString().contains("/courseeditions/id123"));
+        assertEquals(responseDTO, response.getBody());
     }
 
     @Test
-    void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
+    void whenServiceReturnsNull_thenReturnsBadRequest() {
         // Arrange
-        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+        CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
+        );
 
-        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
-
-        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(mock(CreateCourseEditionCommand.class));
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
 
-        // Act & Assert
-        mockMvc.perform(post("/courseeditions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isBadRequest());
+        // Act
+        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
-    void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
+    void whenExceptionThrown_thenReturnsBadRequestWithMessage() {
         // Arrange
-        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+        CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
+        );
 
-        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Test Exception"));
+        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Invalid request"));
 
-        // Act & Assert
-        mockMvc.perform(post("/courseeditions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Test Exception"));
+        // Act
+        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid request", response.getBody());
     }
 
     @Test
@@ -374,7 +375,7 @@ class CourseEditionRestControllerTest {
         when(gradeAStudentService.gradeAStudent(command)).thenReturn(responseDTO);
 
         // Act + Assert
-        mockMvc.perform(post("/courseeditions/studentGrades")
+        mockMvc.perform(post("/courseeditions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
             {

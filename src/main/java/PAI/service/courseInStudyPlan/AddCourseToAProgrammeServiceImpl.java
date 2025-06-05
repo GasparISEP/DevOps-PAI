@@ -11,6 +11,8 @@ import PAI.exception.BusinessRuleViolationException;
 import PAI.service.studyPlan.IStudyPlanService;
 import org.springframework.stereotype.Service;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeService {
 
@@ -21,10 +23,10 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
 
     public AddCourseToAProgrammeServiceImpl(IStudyPlanService studyPlanService, ICourseInStudyPlanRepository repository,
                                             ICourseInStudyPlanFactory factory, ICourseInStudyPlanBusinessAssembler businessAssembler) {
-        this.studyPlanService = studyPlanService;
-        this.repository = repository;
-        this.factory = factory;
-        this.businessAssembler = businessAssembler;
+        this.studyPlanService = validateNotNull(studyPlanService, "StudyPlanService");
+        this.repository = validateNotNull(repository, "CourseInStudyPlanRepository");
+        this.factory = validateNotNull(factory, "CourseInStudyPlanFactory");
+        this.businessAssembler = validateNotNull(businessAssembler, "CourseInStudyPlanBusinessAssembler");
     }
 
     @Override

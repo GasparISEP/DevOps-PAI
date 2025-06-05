@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @RestController
 @RequestMapping("/course-in-study-plan")
 public class CourseInStudyPlanRestController {
@@ -31,12 +33,14 @@ public class CourseInStudyPlanRestController {
     private final IStudyPlanService studyPlanService;
     private final ICourseInStudyPlanService courseInStudyPlanService;
 
-    public CourseInStudyPlanRestController(ICourseInStudyPlanAssembler assembler, IAddCourseToAProgrammeService service,
-                                           IStudyPlanService studyPlanService, ICourseInStudyPlanService courseInStudyPlanService) {
-        this.service = service;
-        this.assembler = assembler;
-        this.studyPlanService = studyPlanService;
-        this.courseInStudyPlanService = courseInStudyPlanService;
+    public CourseInStudyPlanRestController(ICourseInStudyPlanAssembler assembler,
+                                           IAddCourseToAProgrammeService service,
+                                           IStudyPlanService studyPlanService,
+                                           ICourseInStudyPlanService courseInStudyPlanService) {
+        this.assembler = validateNotNull(assembler, "CourseInStudyPlanAssembler");
+        this.service = validateNotNull(service, "AddCourseToAProgrammeService");
+        this.studyPlanService = validateNotNull(studyPlanService, "StudyPlanService");
+        this.courseInStudyPlanService = validateNotNull(courseInStudyPlanService, "CourseInStudyPlanService");
     }
 
     @PostMapping

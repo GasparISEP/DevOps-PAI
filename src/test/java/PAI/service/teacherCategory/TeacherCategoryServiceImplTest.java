@@ -60,7 +60,7 @@ class TeacherCategoryServiceImplTest {
     }
 
     @Test
-    void whenRegisterExistingCategory_thenThrowsAlreadyRegisteredException() throws Exception {
+    void whenRegisterExistingCategory_thenThrowsAlreadyRegisteredException() {
         // Arrange
         Name doubleName = mock(Name.class);
         TeacherCategory doubleTeacherCategory = mock(TeacherCategory.class);

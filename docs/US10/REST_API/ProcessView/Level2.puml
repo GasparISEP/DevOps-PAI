@@ -12,12 +12,12 @@ database DB
 
 Administrator -> FE : Register DegreeType (Name, MaxEcts)
 activate FE
-FE -> BE : (POST) /degree-types \n Name, MaxEcts
+FE -> BE : POST /degreetypes/
 activate BE
 
-BE -> DB : (INSERT) Save new DegreeType
+BE -> DB : registerDegreeType(Name name, MaxEcts maxEcts)
 activate DB
-DB --> BE : DegreeType saved
+DB --> BE : DegreeType registered
 deactivate DB
 
 BE --> FE : DegreeType registered successfully

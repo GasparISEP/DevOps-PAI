@@ -5,40 +5,40 @@ title As a RUC, I want to grade a Student in a Course Edition \n (Process View L
 skinparam sequencemessagealign center
 autonumber
 
-actor RUC
-participant ":UI" as ui #application
-participant ":Controller" as controller #motivation
-participant ":Service" as service #business
-participant ":Repository" as repo #technology
-participant ":Domain" as domain #implementation
 
-RUC -> ui : Select **Student grading** in a **CourseEdition** functionality
-activate ui
-ui -> controller : **(GET)** \n Retrieve all Course Editions
+participant ":Router" as router <<Component>> #application
+participant ":Controller" as controller <<Component>> #motivation
+participant ":Service" as service <<Component>> #business
+participant ":Repository" as repo <<Component>> #technology
+participant ":Domain" as domain <<Component>> #implementation
+
+ -> router : Select **Student grading** in a **CourseEdition** functionality
+activate router
+router -> controller : **(GET)** \n /courseeditions
 activate controller
-controller -> service : Retrieve all Course Editions
+controller -> service : findAllCourseEditions()
 activate service
-service -> repo : Retrieve all Course Editions
+service -> repo : findAllCourseEditions()
 activate repo
-repo ->  : Retrieve all Course Editions
-repo <--  : All Course Editions
+repo ->  : findAll()
+repo <--  : List <CourseEditionResponseDTO>
 
 repo --> service : All Course Editions
 deactivate repo
 service --> controller : All Course Editions
 deactivate service
-controller --> ui : All Course Editions
+controller --> router : All Course Editions
 deactivate controller
 
 
-ui --> RUC : Which Course Edition?
-RUC -> ui : This Course Edition!
-ui --> RUC : Fill in the **Student grading** information
-RUC -> ui : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
-ui -> controller : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+ <-- router : Which Course Edition?
+ -> router : This Course Edition!
+ <-- router : Fill in the **Student grading** information
+ -> router : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+router -> controller : **(POST)** \n studentgrades/register
 
 activate controller
-controller -> service : Create a new Student grade \n (grade, date, studentID, courseEditionID)
+controller -> service : <Create> StudentGrade \n (grade, date, studentID, courseEditionID)
 
 activate service
 service -> repo : Validate grading constraints
@@ -46,25 +46,25 @@ activate repo
 repo --> service : validated
 deactivate repo
 
-service -> domain : Create new Student grade
+service -> domain : <Create> StudentGrade
 activate domain
-domain --> service : Student Grade
+domain --> service : studentGrade
 deactivate domain
 
-service -> repo : save Student Grade
+service -> repo : save(studentGrade)
 activate repo
-repo -> : save
+repo -> : **Insert**
 repo <--  : saved!
-repo --> service : Student Grade saved!
+repo --> service : studentGrade!
 deactivate repo
 
 service --> controller : Student Grade saved!
 deactivate service
 
-controller --> ui : Student Grade saved!
+controller --> router : Student Grade saved!
 deactivate controller
 
-ui --> RUC : Student graded successfully!
-deactivate ui
+ <-- router : Student graded successfully!
+deactivate router
 
 @enduml

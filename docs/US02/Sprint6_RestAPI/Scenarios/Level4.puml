@@ -1,0 +1,99 @@
+
+
+@startuml
+
+title US02: As an Administrator, I want to configure degree access methods in the system\n(Scenario - Level 4 - Full Backend Flow)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+
+autonumber
+
+participant ":Router" as router
+-> router: POST /access-methods\n + body\n{  "name": "Special"}
+activate router #LightBlue
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+participant ":AccessMethodRESTController" as Controller
+router -> Controller: configureAccessMethod(accessMethodRequestDTO)
+activate Controller #LightBlue
+
+ref over Controller
+    Convert accessMethodRequestDTO to accessMethodCommand
+end
+
+participant ":IAccessMethodService" as Service
+Controller -> Service: configureAccessMethod\n (accessMethodCommand)
+activate Service #LightBlue
+
+
+participant ":IAccessMethodFactory" as Factory
+Service -> Factory: createAccessMethod (nameVO)
+activate Factory #LightBlue 
+
+create "amID:AccessMethodID"
+Factory -> "amID:AccessMethodID": create ()
+
+create "am:AccessMethod"
+Factory -> "am:AccessMethod": create (amID, name)
+
+Factory --> Service: amro
+deactivate Factory
+
+
+participant ":IAccessMethodRepository" as Repository
+Service -> Repository: getAccessMethodByName (am.name)
+activate Repository #LightBlue 
+Repository --> Service: Optional.empty
+deactivate Repository
+
+Service -> Repository: saveAccessMethod (am)
+activate Repository #LightBlue 
+
+ref over Repository
+    Convert am to DataModel
+end
+
+participant ":IAccessMethodRepositorySpringData" as springDataRepository
+Repository -> springDataRepository: save (amDataModel)
+activate springDataRepository #LightBlue 
+springDataRepository --> Repository : amDataModelSaved
+deactivate springDataRepository
+
+ref over Repository
+    Convert amDataModelSaved to Domain
+end
+
+Repository --> Service: amSaved
+deactivate Repository
+
+
+ref over Service
+    Convert amSaved to amServiceDTO
+end
+
+Service --> Controller: amServiceDTO
+
+deactivate Service
+
+ref over Controller
+    Convert amServiceDTO to amResponseDTO
+end
+
+participant ":IAccessMethodHateoasAssembler" as hateoasAssembler
+Controller -> hateoasAssembler: toModel (amResponseDTO)
+activate hateoasAssembler #LightBlue
+hateoasAssembler --> Controller: EntityModel<AccessMethodResponseDTO>
+deactivate hateoasAssembler #LightBlue
+Controller --> router: 201 + body\n {EntityModel<AccessMethodResponseDTO>}
+deactivate Controller
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router: 201 + body\n {EntityModel<AccessMethodResponseDTO>}
+
+deactivate router
+
+@enduml
+

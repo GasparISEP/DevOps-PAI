@@ -61,19 +61,16 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         if (!_courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
             throw new BusinessRuleViolationException("Not possible to add grade as student is not enrolled in this course edition");
 
-        if (!isDateOfGradeWithinSchoolYear(gradeAStudentCommand.courseEditionID(), gradeAStudentCommand.date()))
+        if (!isDateOfGradeWithinSchoolYearOfCourseEdition(gradeAStudentCommand.courseEditionID(), gradeAStudentCommand.date()))
             throw new BusinessRuleViolationException("Not possible to add grade as it's date is not inside the school year's range");
 
-        if (hasStudentAlreadyGradeAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
+        if (hasStudentAlreadyBeenGradedAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
             throw new BusinessRuleViolationException("Not possible to add grade as student has already been graded in this course edition");
 
         StudentGrade studentGrade = _studentGradeFactory.newGradeStudent(
             gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
             gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
         );
-
-        if (_studentGradeRepo.containsOfIdentity(studentGrade.identity()))
-            throw new BusinessRuleViolationException("The provided grade for this Student in this Course Edition already exists.");
 
         _studentGradeRepo.save(studentGrade);
 
@@ -112,7 +109,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
             throw new IllegalArgumentException("Course Edition ID cannot be null");
     }
 
-    private boolean isDateOfGradeWithinSchoolYear(CourseEditionID courseEditionID, Date dates) {
+    private boolean isDateOfGradeWithinSchoolYearOfCourseEdition(CourseEditionID courseEditionID, Date dates) {
 
         Optional<CourseEdition> courseEdition = _courseEditionRepo.ofIdentity(courseEditionID);
         ProgrammeEditionID programmeEditionID = courseEdition.get().getProgrammeEditionID();
@@ -129,7 +126,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         return true;
     }
 
-    private boolean hasStudentAlreadyGradeAtThisCourseEdition (StudentID student, CourseEditionID courseEditionID) {
+    private boolean hasStudentAlreadyBeenGradedAtThisCourseEdition(StudentID student, CourseEditionID courseEditionID) {
         for ( StudentGrade existingGradeStudent : _studentGradeRepo.findAll()){
             if ( existingGradeStudent.hasThisStudentID(student) && existingGradeStudent.hasThisCourseEditionID(courseEditionID)) return true;
         }

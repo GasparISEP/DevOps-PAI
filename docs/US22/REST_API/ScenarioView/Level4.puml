@@ -1,0 +1,69 @@
+@startuml
+
+title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 4)
+skinparam sequencemessagealign center
+autonumber
+
+actor RUC
+participant ":UI" as ui #application
+participant ":CourseEditionRESTController" as ctrlrREST #business
+participant ":GradeAStudentServiceImpl" as service #motivation
+participant ":StudentGradeAssemblerImpl" as assembler #implementation
+participant ":StudentGradeRepositorySpringData" as sgr #lightgreen
+participant ":StudentGradeMapper" as sgmp #mistyrose
+participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
+
+
+RUC -> ui : I want to **grade a Student** in a Course Edition
+activate ui
+
+ref over ui : \t    **Interaction Use #1** \n \n \t **(GET)** \n \t \t Retrieves All Course Editions from Database
+
+ui --> RUC : Which CourseEdition?
+RUC -> ui : This CourseEdition!
+
+ui --> RUC : Fill in the **Student grading** information
+RUC -> ui : grade, date, courseEditionID, studentID!
+
+note over ui : Springboot automatically converts from JSON to **__D__**ata **__T__**ransfer **__O__**bject
+
+ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
+activate ctrlrREST
+
+ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert StudentGradeRequestDTO \n \t \t \t \t      into GradeAStudentCommand
+
+
+ctrlrREST -> service : gradeAStudent (gradeAStudentCommand)
+activate service
+ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t          Validate Grading Business Rules and \n \t \t \t \t  Create **StudentGrade** Entity
+service -> sgr : save(studentGrade1)
+activate sgr
+sgr -> sgmp : toData(studentGrade1)
+activate sgmp
+sgmp --> sgr : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
+deactivate sgmp
+sgr -> IStudentGradeRepoSpringData : save (studentGradeDataModel1)
+activate IStudentGradeRepoSpringData
+IStudentGradeRepoSpringData ->  : **Insert**
+IStudentGradeRepoSpringData <--  : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
+IStudentGradeRepoSpringData --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
+deactivate IStudentGradeRepoSpringData
+sgr -> sgmp : toDomain (studentGradeDataModel1)
+activate sgmp
+sgmp --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
+deactivate sgmp
+sgr --> service -- : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
+service -> assembler : toDTO(studentGrade1)
+activate assembler
+assembler --> service : studentGradeResponseDTO1 \n (grade, date, studentID, courseEditionID)
+deactivate assembler
+service --> ctrlrREST : studentGradeResponseDTO1 \n (grade, date, studentID, courseEditionID)
+deactivate service
+ctrlrREST --> ui -- : Status Code 200 (OK!)
+
+note over ui : Springboot automatically converts from **__D__**ata **__T__**ransfer **__O__**bject to JSON
+
+ui --> RUC : Success!
+deactivate ui
+
+@enduml

@@ -34,7 +34,7 @@ BE -> DB ++: SELECT ProgrammeEdition WHERE programmeId AND schoolYearId
 BE -> DB ++: EXISTS ProgrammeEditionEnrolment (studentId, editionId)?
 BE -> DB ++: INSERT INTO ProgrammeEditionEnrolments
 DB --> BE --: OK
-BE --> FE --: 200 OK
+BE --> FE --: 201 Created
 FE --> ASC --: Enrolment successful
 
 @enduml

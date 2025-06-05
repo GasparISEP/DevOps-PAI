@@ -12,10 +12,10 @@ participant "<<Component>>\n:Domain" as D #lightpink
 participant "Programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
--> RT ++: (POST) Request register a Programme \n(name, acronym, maxECTS, quantSemesters, \ndegreeType, department, programmeDirector)
+-> RT ++: **POST** /programmes
 
-RT -> C ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
-C -> PS ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+RT -> C ++: registerProgramme (ProgrammeDTO)
+C -> PS ++: registerProgramme (ProgrammeVOsDTO)
 
 PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
 D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)

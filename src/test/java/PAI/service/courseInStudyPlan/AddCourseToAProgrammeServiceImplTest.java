@@ -474,70 +474,127 @@ class AddCourseToAProgrammeServiceImplTest {
         });
     }
 
-//    @Test
-//    void should_NotCreateCourseInStudyPlan_ifDurationOfCourseIsInvalid() throws Exception {
-//
-//        // arrange
-//        Semester semester = new Semester(1);
-//        CurricularYear curricularYear = new CurricularYear(1);
-//        Acronym courseAcronym = new Acronym("CS101");
-//        Name courseName = new Name("Computer Science");
-//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
-//        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
-//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(10);
-//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
-//
-//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
-//                semester,
-//                curricularYear,
-//                courseAcronym,
-//                courseName,
-//                programmeAcronym,
-//                programmeName,
-//                studyPlanImplementationDate,
-//                duration,
-//                credits
-//        );
-//
-//        // act + assert
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-//            service.addCourseToAProgramme(command);
-//        });
-//
-//        assertEquals("The duration of the current year is invalid.", exception.getMessage());
-//    }
-//
-//    @Test
-//    void should_NotCreateCourseInStudyPlan_ifQuantityOfCreditsECTSIsInvalid() throws Exception {
-//
-//        // arrange
-//        Semester semester = new Semester(1);
-//        CurricularYear curricularYear = new CurricularYear(1);
-//        Acronym courseAcronym = new Acronym("CS101");
-//        Name courseName = new Name("Computer Science");
-//        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
-//        Acronym programmeAcronym = new Acronym("CS");
-//        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
-//        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
-//        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(0.0);
-//
-//        CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
-//                semester,
-//                curricularYear,
-//                courseAcronym,
-//                courseName,
-//                programmeAcronym,
-//                programmeName,
-//                studyPlanImplementationDate,
-//                duration,
-//                credits
-//        );
-//
-//        // act + assert
-//        assertThrows(IllegalArgumentException.class, () -> {
-//            service.addCourseToAProgramme(command);
-//        });
-//    }
+
+    @Test
+    void should_ThrowException_When_StudyPlanServiceIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new AddCourseToAProgrammeServiceImpl(
+                        null,
+                        mock(ICourseInStudyPlanRepository.class),
+                        mock(ICourseInStudyPlanFactory.class),
+                        mock(ICourseInStudyPlanBusinessAssembler.class)
+                )
+        );
+    }
+
+    @Test
+    void should_ThrowException_When_RepositoryIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new AddCourseToAProgrammeServiceImpl(
+                        mock(IStudyPlanService.class),
+                        null,
+                        mock(ICourseInStudyPlanFactory.class),
+                        mock(ICourseInStudyPlanBusinessAssembler.class)
+                )
+        );
+    }
+
+    @Test
+    void should_ThrowException_When_FactoryIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new AddCourseToAProgrammeServiceImpl(
+                        mock(IStudyPlanService.class),
+                        mock(ICourseInStudyPlanRepository.class),
+                        null,
+                        mock(ICourseInStudyPlanBusinessAssembler.class)
+                )
+        );
+    }
+
+    @Test
+    void should_ThrowException_When_BusinessAssemblerIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new AddCourseToAProgrammeServiceImpl(
+                        mock(IStudyPlanService.class),
+                        mock(ICourseInStudyPlanRepository.class),
+                        mock(ICourseInStudyPlanFactory.class),
+                        null
+                )
+        );
+    }
+
+    @Test
+    void should_CreateInstance_When_AllDependenciesAreNotNull() {
+        assertDoesNotThrow(() ->
+                new AddCourseToAProgrammeServiceImpl(
+                        mock(IStudyPlanService.class),
+                        mock(ICourseInStudyPlanRepository.class),
+                        mock(ICourseInStudyPlanFactory.class),
+                        mock(ICourseInStudyPlanBusinessAssembler.class)
+                )
+        );
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifDurationOfCourseIsInvalid() throws Exception {
+        // arrange
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
+        CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(3.0);
+
+        // act + assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(10);
+            CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                    semester,
+                    curricularYear,
+                    courseAcronym,
+                    courseName,
+                    programmeAcronym,
+                    programmeName,
+                    studyPlanImplementationDate,
+                    duration,
+                    credits
+            );
+            service.addCourseToAProgramme(command);
+        });
+
+        assertEquals("The duration of the current year is invalid.", exception.getMessage());
+    }
+
+    @Test
+    void should_NotCreateCourseInStudyPlan_ifQuantityOfCreditsECTSIsInvalid() {
+        // arrange
+        Semester semester = new Semester(1);
+        CurricularYear curricularYear = new CurricularYear(1);
+        Acronym courseAcronym = new Acronym("CS101");
+        Name courseName = new Name("Computer Science");
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
+        Acronym programmeAcronym = new Acronym("CS");
+        PAI.VOs.Date studyPlanImplementationDate = new PAI.VOs.Date("01-01-2023");
+        DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(1);
+
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(0.0);
+            CourseInStudyPlanCommand command = new CourseInStudyPlanCommand(
+                    semester,
+                    curricularYear,
+                    courseAcronym,
+                    courseName,
+                    programmeAcronym,
+                    programmeName,
+                    studyPlanImplementationDate,
+                    duration,
+                    credits
+            );
+            service.addCourseToAProgramme(command);
+        });
+    }
 }
 

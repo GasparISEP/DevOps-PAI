@@ -8,8 +8,6 @@ skinparam sequence {
     LifelineBackgroundColor LightBlue
     ActorBorderColor black
     ActorBackgroundColor LightGray
-    GroupBorderColor #cccccc
-    GroupBackgroundColor #f2f2f2
 }
 
 actor "Academic Services Coordinator" as ASC
@@ -22,7 +20,6 @@ participant ":CourseEditionEnrolmentFactory" as Factory
 participant ":CourseEditionEnrolmentDataModelMapper" as DataModelMapper
 database "DB" as SpringDataRepo
 
-group Human Interaction
 ASC -> UI ++: Request to enroll a student
 UI --> ASC --: Prompt: "Enter student ID"
 ASC -> UI ++: Input: "12345"
@@ -30,42 +27,21 @@ UI --> ASC --: Display programme editions
 ASC -> UI ++: Select programme edition
 UI --> ASC --: Display course editions
 ASC -> UI ++: Select course edition
-end group
 
-group Controller Layer
 UI -> Controller ++: (POST) /courseeditions/students/enrolments {request}
-Controller -> Assembler ++: toDomain(CourseEditionEnrolmentDto)
-note right of Assembler
-  Transformations:
-  1. String studentId -> StudentID VO
-  2. String programmeName -> NameWithNumbersAndSpecialChars VO
-  3. String programmeAcronym -> Acronym VO
-  4. String schoolYearId -> UUID -> SchoolYearID VO
-  5. String courseName -> Name VO
-  6. String courseAcronym -> Acronym VO
-  7. String studyPlanDate -> Date VO
-  Creates nested VOs:
-  - ProgrammeID
-  - ProgrammeEditionID
-  - CourseID
-  - StudyPlanID
-  - CourseInStudyPlanID
-  - CourseEditionID
-end note
-Assembler --> Controller --: CourseEditionEnrolment
-end group
+Controller -> Assembler ++: toCourseEditionID(CourseEditionEnrolmentDto)
+Assembler --> Controller --: CourseEditionID
+Controller -> Assembler ++: toStudentID(CourseEditionEnrolmentDto)
+Assembler --> Controller --: StudentID
 
-group Application + Domain Logic
 Controller -> Service ++: enrollStudentInCourseEdition
-Service -> Factory ++: create Enrollment
+Service -> Factory ++: createCourseEditionEnrolment(CourseEditionID, StudentID)
 Factory --> Service --: CourseEditionEnrolment
 Service -> Repository ++: validate enrollment
-Repository -> SpringDataRepo ++: validate enrollment
+Repository -> SpringDataRepo ++: SELECT * FROM CourseEditionEnrolment WHERE CourseEditionEnrolment.CourseEditionID = ? AND CourseEditionEnrolment.StudentID = ?
 SpringDataRepo --> Repository --: validation
 Repository --> Service --: validation
-end group
 
-group Persistence
 Service -> Repository ++: save enrollment
 Repository -> DataModelMapper ++: toDataModel(CourseEditionEnrolment)
 note right of DataModelMapper
@@ -75,17 +51,14 @@ note right of DataModelMapper
   3. All nested VOs -> corresponding DataModels
 end note
 DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
-Repository -> SpringDataRepo ++: save CourseEditionEnrolmentDataModel
+Repository -> SpringDataRepo ++: INSERT INTO CourseEditionEnrolment
 SpringDataRepo --> Repository --: persisted
 Repository --> Service --: persisted
-end group
 
-group Response Mapping
 Service --> Controller --: CourseEditionEnrolment
 Controller -> Assembler ++: toDto(CourseEditionEnrolment)
 Assembler --> Controller --: CourseEditionEnrolmentDto
-Controller --> UI --: HTTP response + CourseEditionEnrolmentDto
+Controller --> UI --: HTTP response
 UI --> ASC --: Success message
-end group
 
 @enduml

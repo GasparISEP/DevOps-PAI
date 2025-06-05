@@ -13,7 +13,7 @@ participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
 
--> router: configureTeacherCategory (tcJSON)
+-> router: POST /teachercategories + body {"name": "Assistant"}
 activate router #E1F5FE
 
 router -> controller: configureTeacherCategory (tcRequestDTO)
@@ -37,10 +37,10 @@ deactivate repository
 service --> controller: teacherCategorySavedDTO
 deactivate service
 
-controller --> router: (201, Created) teacherCategorySavedResponseDTO
+controller --> router: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate controller
 
-<-- router: (201, Created) teacherCategoryResponseJSON
+<-- router: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate router
 
 @enduml

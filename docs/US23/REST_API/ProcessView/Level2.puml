@@ -3,38 +3,38 @@ autonumber
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title: I want to know the approval percentage of a Course Edition \n (Process View Level 2)
-actor RUC as RUC #lightgrey
+actor ProgrammeDirector as ProgrammeDirector #lightgrey
 
-participant ":Frontend" as FE #application
-participant ":Backend" as BE #strategy
-database DB
+participant "<<Component>> \nFrontend" as FE #application
+participant "<<Component>> \nBackend" as BE #strategy
+participant "<<Component>> \nDataBase" as Database #strategy
 
-
-RUC -> FE : Find the approval percentage of a Course Edition
+activate ProgrammeDirector
+ProgrammeDirector -> FE : Find the approval percentage of a Course Edition
 activate FE
-FE -> BE : (GET) \n Retrieve all Course Editions
+FE -> BE : GET /courseeditions/
 activate BE
-BE --> DB : (GET) \n Retrieve all Course Editions
-activate DB
-DB --> BE : All Course Editions
-deactivate DB
+BE --> Database : findAllCourseEditions()
+activate Database
+Database --> BE : All Course Editions
+deactivate Database
 BE --> FE : All Course Editions
 deactivate BE
-FE --> RUC : Which Course Edition?
+FE --> ProgrammeDirector : Which Course Edition?
 deactivate FE
 
-RUC -> FE: Course Edition!
+ProgrammeDirector -> FE: Course Edition!
 activate FE
-FE -> BE : (GET) \n Approval rate of Course Edition
+FE -> BE : GET /approvalpercentage/
 activate BE
-BE --> DB : (GET) \n Calculate approval rate
-activate DB
-DB --> BE :Approval rate
-deactivate DB
+BE --> Database : getCourseEditionApprovalRate()
+activate Database
+Database --> BE :Approval rate
+deactivate Database
 BE --> FE : Approval rate
 deactivate BE
-FE --> RUC : Approval rate
+FE --> ProgrammeDirector : Approval rate
 deactivate FE
-
+deactivate ProgrammeDirector
 
 @enduml

@@ -1,0 +1,25 @@
+@startuml
+
+autonumber
+
+title Query database for all CourseEditions
+
+participant ":CourseEditionRepositorySpringData" as CER #lightgreen
+participant ":CourseEditionEnrolmentMapperImpl" as CEEM #lightgrey
+participant ":ICourseEditionRepositorySpringData" as CERS
+
+activate CER
+CER -> CERS ++ : findAll()
+CERS ->  : findAll()
+CERS <--  : List <CourseEditionDataModel>
+CERS -> CER --: List <CourseEditionDataModel>
+
+loop for each CourseEditionDataModel, convert into Domain entity
+    CER -> CEEM : toDomain(courseEditionDataModel)
+    activate CEEM
+    CEEM --> CER : courseEdition!
+    deactivate CEEM
+end
+
+deactivate CER
+@enduml

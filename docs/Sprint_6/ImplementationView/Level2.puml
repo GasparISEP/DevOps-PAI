@@ -1,0 +1,41 @@
+@startuml
+
+title "PAI \n (Implementation View - Level 2)"
+
+interface UI
+interface "API REST"
+interface "File I/O" as FileIO
+
+component "<<System>>\nPAI" {
+  portin " " as p1
+  portin " " as p2
+  portin " " as p3
+  component Backend
+  component Frontend
+  component "Relational BD" as BD
+  interface " " as I1
+  interface " " as I2
+}
+
+component Frontend {
+portin " " as p4
+portin " " as p5
+}
+
+component Backend {
+portin " " as p6
+portout " " as p7
+}
+
+I1 -left- BD
+I2 -down- p6
+
+p1 -up- UI
+p2 -up- "API REST"
+p3 -up-( FileIO
+p6 -up- p3
+p2 -down-p6
+p1 -down-p4
+p7 -down-(I1
+p5 -down-(I2
+@enduml

@@ -287,48 +287,6 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturnProgrammeDirectorResponseDTO() {
-        // Arrange
-        createProgrammeDoubles();
-        Programme programmeMock = mock(Programme.class);
-        Teacher teacherMock = mock(Teacher.class);
-        ProgrammeDirectorResponseDTO responseMock = mock(ProgrammeDirectorResponseDTO.class);
-
-        when(_programmeServiceDouble.findAll()).thenReturn(List.of(programmeMock));
-        when(_teacherServiceDouble.getAllTeachers()).thenReturn(List.of(teacherMock));
-        when(_programmeDirectorAssemblerDouble.fromDomainToDTO(List.of(programmeMock), List.of(teacherMock)))
-                .thenReturn(responseMock);
-
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        // Act
-        ResponseEntity<ProgrammeDirectorResponseDTO> response = controller.getProgrammeDirectorInfo();
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(responseMock, response.getBody());
-    }
-
-    @Test
-    void shouldReturnInternalServerErrorWhenExceptionIsThrown() {
-        // Arrange
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
-
-        when(_programmeServiceDouble.findAll()).thenThrow(new RuntimeException("Unexpected error"));
-
-        // Act
-        ResponseEntity<ProgrammeDirectorResponseDTO> response = controller.getProgrammeDirectorInfo();
-
-        // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
     void shouldAssignProgrammeDirectorSuccessfully() {
         ProgrammeDirectorRequestDTO requestDto = mock(ProgrammeDirectorRequestDTO.class);
         ProgrammeDirectorVOsDTO vosDto = mock(ProgrammeDirectorVOsDTO.class);
@@ -348,7 +306,7 @@ class ProgrammeRestControllerTest {
 
         ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test

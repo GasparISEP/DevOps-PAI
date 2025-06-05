@@ -1,0 +1,232 @@
+@startuml
+!pragma layout smetana
+title US11: I want to assign a programme director in the system
+
+class ProgrammeRestController {
+    +US11_RegisterProgrammeInTheSystemController(programmeService: IProgrammeService, programmeAssembler: IProgrammeDTOMapper)
+    +getProgrammeDirectorInfo(): ResponseEntity<ProgrammeDirectorResponseDTO>
+    +assignProgrammeDirector(dto: ProgrammeDirectorRequestDTO): ResponseEntity<Void>
+    }
+
+class ProgrammeDirectorRequestDTO {
+    - programmeName: String
+    - programmeAcronym: String
+    - teacherAcronym: String
+    + ProgrammeDirectorRequestDTO(programmeName: String, programmeAcronym: String, teacherAcronym: String)
+    + getProgrammeName(): String
+    + getProgrammeAcronym(): String
+    + getTeacherAcronym(): String
+}
+
+class ProgrammeDirectorVOsDTO {
+    - programmeName: NameWithNumbersAndSpecialChars
+    - programmeAcronym: Acronym
+    - teacherAcronym: TeacherAcronym
+    + ProgrammeDirectorVOsDTO(programmeName: NameWithNumbersAndSpecialChars, programmeAcronym: Acronym, teacherAcronym: TeacherAcronym)
+    + getProgrammeName(): NameWithNumbersAndSpecialChars
+    + getProgrammeAcronym(): Acronym
+    + getTeacherAcronym(): TeacherAcronym
+}
+
+class ProgrammeDirectorResponseDTO {
+    - programmes: List<ProgrammeDTO>
+    - teachers: List<TeacherDTO>
+    + ProgrammeDirectorResponseDTO()
+    + ProgrammeDirectorResponseDTO(programmes: List<ProgrammeDTO>, teachers: List<TeacherDTO>)
+    + getProgrammes(): List<ProgrammeDTO>
+    + getTeachers(): List<TeacherDTO>
+    + getProgrammeName(): String
+    + getProgrammeAcronym(): String
+    + TeacherDTO(teacherAcronym: String)
+    + getTeacherAcronym(): String
+    }
+
+
+interface IProgrammeService {
+    +registerProgramme (name: NameWithNumbersAndSpecialChars, acronym: Acronym, quantityOfEcts: QuantEcts,
+    quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, departmentID: DepartmentID, programmeDirectorID: TeacherID)
+}
+
+class ProgrammeServiceImpl {
+    +ProgrammeServiceImpl(programmeRepository: IProgrammeRepository)
+    +changeProgrammeDirector(programmeID: ProgrammeID, programmeDirectorID: TeacherID): boolean
+}
+
+interface IProgrammeFactory {
+    +createProgramme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \nquantityOfEcts: QuantEcts, quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \ndepartmentID: DepartmentID, programmeDirectorID: TeacherID)
+}
+
+class ProgrammeFactoryImpl {
+    +createProgramme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \nquantityOfEcts: QuantEcts, quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \ndepartmentID: DepartmentID, programmeDirectorID: TeacherID)
+}
+
+interface IProgrammeRepository {
+    +save(programme: Programme)
+    +containsOfIdentity (programmeID: ProgrammeID))
+}
+
+interface IProgrammeRepositorySpringData {
+}
+
+class ProgrammeRepositorySpringData {
+     -_I_programmeFactory: IProgrammeDDDFactory
+     -_programmeRepo: List<Programme>
+     -_programmeRepoListFactory: IProgrammeDDDRepositoryListFactory
+     +ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper)
+     +save(programme: Programme)
+     +containsOfIdentity (programmeID: ProgrammeID))
+}
+
+interface IProgrammeMapper {
+    +toDataModel(programme: Programme)
+    +toDomain(programmeDataModel: ProgrammeDataModel)
+}
+
+class ProgrammeMapperImpl {
+    +toDataModel(programme: Programme)
+    +toDomain(programmeDataModel: ProgrammeDataModel)
+}
+
+interface IProgrammeIDMapper {
+    +toDataModel(programmeID: ProgrammeID)
+    +toDomain(programmeIDDataModel: ProgrammeIDDataModel)
+}
+
+interface ITeacherIDMapper {}
+
+interface IProgrammeFactory {}
+
+class ProgrammeIDMapperImpl {
+    +toDataModel(programmeID: ProgrammeID)
+    +toDomain(programmeIDDataModel: ProgrammeIDDataModel)
+}
+
+package "Programme Aggregate" {
+    class "<<root>>\nProgramme" {
+        +Programme(name: NameWithNumbersAndSpecialChars, acronym: Acronym, \nquantityOfEcts: QuantEcts, quantityOfSemesters: QuantSemesters, degreeTypeID: DegreeTypeID, \ndepartmentID: DepartmentID, programmeDirectorID: TeacherID)
+        +getProgrammeID()
+        +getQuantEcts()
+        +getQuantSemesters()
+        +getAcronym()
+        +getProgrammeName()
+        +getDegreeTypeID()
+        +getDepartment()
+        +getProgrammeDirectorID()
+    }
+}
+
+class ProgrammeID <<ValueObject>> {
+    -_progID: String
+    +ProgrammeID()
+    +getProgrammeID(): String
+    +equals(Object o): boolean
+}
+
+class DepartmentID <<ValueObject>> {}
+
+class Acronym <<ValueObject>> {}
+
+class NameWithNumbersAndSpecialChars <<ValueObject>> {}
+
+class quantEcts <<ValueObject>> {}
+
+class QuantSemesters <<ValueObject>> {}
+
+class DegreeTypeID <<ValueObject>> {}
+
+class TeacherID <<ValueObject>> {}
+
+class ProgrammeDataModel {
+    -_name: String
+    -_acronym: String
+    -_quantSemesters: Integer
+    -_quantEcts: Integer
+    +ProgrammeDataModel()
+    +ProgrammeDataModel(programmeID: ProgrammeIDDataModel, name: String, acronym: String, quantSemesters: Integer, quantEcts: Integer,
+    degreeTypeID: DegreeTypeIDDataModel, departmentID: DepartmentIDDataModel, progDirectorID: TeacherIDDataModel)
+    +getName()
+    +getAcronym()
+    +getQuantSemesters()
+    +getQuantEcts()
+    +getDegreeTypeID()
+    +getDepartmentID()
+    +getProgrammeDirectorID()
+    +getProgID()
+}
+
+class ProgrammeIDDataModel {
+    -_programmeName: String
+    -_programmeAcronym: String
+    +TeacherIDDataModel()
+    +TeacherIDDataModel(teacherAcronym: String)
+    +getTeacherAcronym()
+}
+
+class TeacherIDDataModel {
+    -_teacherAcronym: String
+    +TeacherIDDataModel()
+    +TeacherIDDataModel(teacherAcronym: String)
+    +getTeacherAcronym()
+}
+
+interface IProgrammeDirectorAssembler {
+    + fromDomainToDTO(programmes: List<Programme>, teachers: List<Teacher>): ProgrammeDirectorResponseDTO
+    + fromDTOToDomain(dto: ProgrammeDirectorRequestDTO): ProgrammeDirectorVOsDTO
+}
+
+class ProgrammeDirectorAssembler {
+    + fromDomainToDTO(programmes: List<Programme>, teachers: List<Teacher>): ProgrammeDirectorResponseDTO
+    + fromDTOToDomain(dto: ProgrammeDirectorRequestDTO): ProgrammeDirectorVOsDTO
+}
+
+
+
+ProgrammeRestController "*" -u--> "_programmeService\n1" IProgrammeService
+
+IProgrammeService <|.- ProgrammeServiceImpl
+
+IProgrammeService "*" ---> "1" IProgrammeRepository
+
+IProgrammeFactory <|.d. ProgrammeFactoryImpl
+IProgrammeFactory "1" ..> "*" "<<root>>\nProgramme" : "<<creates>>"
+
+IProgrammeRepository <|.u- ProgrammeRepositorySpringData
+IProgrammeRepository "*" ---> "_programmeMapper\n1" IProgrammeMapper
+IProgrammeRepository "*" ---> "_programmeIDMapper\n1" IProgrammeIDMapper
+IProgrammeRepository "*" ---> "_programmeRepositorySpringData\n1" IProgrammeRepositorySpringData
+IProgrammeRepository "1" ..> "*" "<<root>>\nProgramme"
+IProgrammeRepository "1" ..> "*" ProgrammeDataModel
+
+IProgrammeMapper <|.u. ProgrammeMapperImpl
+IProgrammeMapper "1" ..> "*" "<<root>>\nProgramme"
+IProgrammeMapper "1" ..> "*" ProgrammeDataModel
+IProgrammeMapper "*" -u-> "_programmeIDMapper\n1" IProgrammeIDMapper
+IProgrammeMapper "*" -u-> "_teacherIDMapper\n1" ITeacherIDMapper
+IProgrammeMapper "*" -u-> "_programmeFactory\n1" IProgrammeFactory
+
+IProgrammeIDMapper <|.. ProgrammeIDMapperImpl
+IProgrammeIDMapper "1" ..> "*" "<<root>>\nProgramme"
+IProgrammeIDMapper "1" ..> "*" ProgrammeIDDataModel
+
+"<<root>>\nProgramme" "*" ---> "1" TeacherID
+"<<root>>\nProgramme" "*" ---> "1" DegreeTypeID
+"<<root>>\nProgramme" "*" ---> "1" DepartmentID
+"<<root>>\nProgramme" "*" ---> "1" QuantSemesters
+"<<root>>\nProgramme" "*" ---> "1" quantEcts
+"<<root>>\nProgramme" "1" ---> "1" Acronym
+"<<root>>\nProgramme" "1" ---> "1" NameWithNumbersAndSpecialChars
+"<<root>>\nProgramme" "1" ---> "1" ProgrammeID
+
+ProgrammeDataModel "*" ---> "_teacherID\n1" TeacherIDDataModel
+ProgrammeDataModel "1" ---> "_programmeID\n1" ProgrammeIDDataModel
+
+IProgrammeDirectorAssembler <|.. ProgrammeDirectorAssembler
+ProgrammeRestController "*" ---> "_programmeDTOMapper\n1" IProgrammeDirectorAssembler
+IProgrammeDirectorAssembler "1" .u.> "*" ProgrammeDirectorRequestDTO
+IProgrammeDirectorAssembler "1" .u.> "*" ProgrammeDirectorResponseDTO
+IProgrammeDirectorAssembler "1" .u.> "*" ProgrammeDirectorVOsDTO
+ProgrammeRestController "1" ..> "*" ProgrammeDirectorResponseDTO
+ProgrammeRestController "1" ..> "*" ProgrammeDirectorRequestDTO
+ProgrammeRestController "1" ..> "*" ProgrammeDirectorVOsDTO
+IProgrammeService "1" ..> "*" ProgrammeDirectorVOsDTO
+@enduml

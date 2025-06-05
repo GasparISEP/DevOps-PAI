@@ -2,34 +2,36 @@
 
 autonumber
 title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 2)
-
 skinparam sequencemessagealign center
 
 actor RUC as RUC
-participant "Frontend" as FE #application
-participant "Backend" as BE #strategy
+participant "Frontend" as FE <<Container>> #application
+participant "Backend" as BE <<Container>> #strategy
+database Database
 
 
 RUC -> FE : Request to grade a Student in the Course Edition
 activate FE
-
-
-FE -> BE : Retrieve all Course Editions
+FE -> BE : **(GET)** \n /courseeditions
 activate BE
-BE --> : Retrieve all Course Editions
-BE <--  : All Course Editions
+BE --> Database : **(GET)** \n findAllCourseEditions()
+activate Database
+BE <-- Database : List <CourseEditionResponseDTO>
+deactivate Database
 BE --> FE : All Course Editions
 deactivate BE
-FE --> RUC : Which Course Edition?
-RUC -> FE : This Course Edition!
+FE --> RUC : Course Edition?
+RUC -> FE : Course Edition!
 
 FE --> RUC: Student Grading form
 RUC -> FE: grade, date, studentID
-FE -> BE : Grade a Student in the Course Edition \n (grade, date, studentID)
+FE -> BE : **(POST)** \n studentgrades/register
 activate BE
-BE ->  : Save Student's grade in Database \n (grade, date, studentID)
-BE <--  : StudentGrade \n (grade, date, studentID)
-BE --> FE: Created StudentGrade \n (grade, date, studentID)
+BE -> Database : **(INSERT)** \n save (studentGradeDataModel)
+activate Database
+BE <-- Database : studentGrade \n (grade, date, studentID)
+deactivate Database
+BE --> FE: studentGrade \n (grade, date, studentID)
 deactivate BE
 FE --> RUC: Student graded successfully!
 deactivate FE

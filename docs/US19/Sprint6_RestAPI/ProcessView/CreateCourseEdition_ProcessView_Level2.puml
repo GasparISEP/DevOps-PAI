@@ -19,65 +19,88 @@ participant "<<Container>>\nFrontend" as Frontend #E1F5FE
 participant "<<Container>>\nBackend" as Backend #E1F5FE
 database "<<Container>>\nDatabase" as Database #E1F5FE
 
-ASC -> Frontend: I want to create a course edition
+ASC -> Frontend: Access course edition creation form
 activate Frontend
 
-Frontend -> Backend: (GET) Request available degree types
+Frontend -> Backend: GET /degreetypes
 activate Backend
-Backend -> Database: (SELECT) Retrieve all degree types
+Backend -> Database: SELECT * FROM degree_types
 activate Database
-Database --> Backend: List of degree types
+Database --> Backend: 200 OK + degree types
 deactivate Database
-Backend --> Frontend: (200 OK) List of degree types
+Backend --> Frontend: 200 OK + degree types
 deactivate Backend
-Frontend --> ASC: Please select degree type
+Frontend --> ASC: Display degree type options
+deactivate Frontend
 
 ASC -> Frontend: Select degree type
-Frontend -> Backend: (GET) Request programmes for selected degree type
+activate Frontend
+Frontend -> Backend: GET /programmes/{degreeTypeID}
 activate Backend
-Backend -> Database: (SELECT) Retrieve programmes
+Backend -> Database: SELECT * FROM programmes
 activate Database
-Database --> Backend: List of programmes
+Database --> Backend: 200 OK + programmes
 deactivate Database
-Backend --> Frontend: (200 OK) List of programmes
+Backend --> Frontend: 200 OK + programmes
 deactivate Backend
-Frontend --> ASC: Please select programme
+Frontend --> ASC: Display programme options
+deactivate Frontend
 
 ASC -> Frontend: Select programme
-Frontend -> Backend: (GET) Request courses from study plan for selected programme
+activate Frontend
+Frontend -> Backend: GET /course-in-study-plan/{acronym}
 activate Backend
-Backend -> Database: (SELECT) Retrieve courses in study plan
+Backend -> Database: SELECT * FROM courses_in_study_plan
 activate Database
-Database --> Backend: List of courses in study plan
+Database --> Backend: 200 OK + courses in study plan
 deactivate Database
-Backend --> Frontend: (200 OK) List of courses in study plan
+Backend --> Frontend: 200 OK + courses in study plan
 deactivate Backend
-Frontend --> ASC: Please select programme edition
+Frontend --> ASC: Display courses in study plan
+deactivate Frontend
 
 ASC -> Frontend: Select programme edition
-Frontend -> Backend: (GET) Request programme editions for selected programme
+activate Frontend
+Frontend -> Backend: GET /programmeeditions/\nprogramme/{programmeacronym}
 activate Backend
-Backend -> Database: (SELECT) Retrieve programme editions
+Backend -> Database: SELECT * FROM programme_editions
 activate Database
-Database --> Backend: List of programme editions
+Database --> Backend: 200 OK + programme editions
 deactivate Database
-Backend --> Frontend: (200 OK) List of programme editions
+Backend --> Frontend: 200 OK + programme editions
 deactivate Backend
-Frontend --> ASC: Programme edition selected
-
+Frontend --> ASC: Display programme edition options
+deactivate Frontend
 
 ASC -> Frontend: Confirm course edition creation
-Frontend -> Backend: (POST) Submit course edition creation
+activate Frontend
+Frontend -> Backend: POST /courseeditions (...)
+note over Frontend, Backend #HoneyDew
+Request body (JSON):
+{
+  programmeName: "...",
+  programmeAcronym: "...",
+  schoolYearID: "...",
+  courseAcronym: "...",
+  courseName: "...",
+  studyPlanImplementationDate: "..."
+}
+end note
 activate Backend
-  'Applies business rules:
-
-
-Backend -> Database: (INSERT) Persist course edition
+Backend -> Database: INSERT INTO course_editions (data)
 activate Database
-Database --> Backend: Course edition persisted
+Database --> Backend: Confirmation + new courseEditionID
 deactivate Database
-
-Backend --> Frontend: (200 OK) Course edition created
+Backend --> Frontend: 201 Created + course edition data + ID
+note over Backend, Frontend #HoneyDew
+Response body (JSON):
+{
+  courseEditionID: NEW COURSE EDITION ID,
+  programmeName: "...",
+  programmeAcronym: "...",
+  ...
+}
+end note
 deactivate Backend
 Frontend --> ASC: Course edition created successfully!
 deactivate Frontend

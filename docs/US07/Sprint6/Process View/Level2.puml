@@ -1,0 +1,30 @@
+@startuml
+autonumber
+
+title As an Administrator, I want to create a school year in the System\n(Process View Level 2)
+
+skinparam {
+    SequenceLifeLineBorderColor gray
+    SequenceParticipantBorderColor darkblue
+    DefaultTextAlignment center
+}
+
+actor "Administrator" as AD #lightblue
+participant "<<Container>> \n:Frontend" as FE #lightblue
+participant "<<Container>> \n:Backend" as BE #lightblue
+database DB #lightblue
+
+AD -> FE: I want to create a school year \nin the system
+activate FE #lightblue
+FE -> BE: **POST** /schoolyears \n(schoolYearDTO)
+activate BE #lightblue
+BE ->DB: **INSERT** save(schoolYearDataModel)
+activate DB #lightblue
+BE <-DB: schoolYear
+deactivate DB
+BE --> FE: (Created, 201) schoolYearDTO
+deactivate BE
+AD <-- FE: School Year registered successfully! \n(Display School Year details)
+deactivate FE
+
+@enduml
