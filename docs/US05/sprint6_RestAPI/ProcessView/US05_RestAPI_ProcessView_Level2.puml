@@ -17,9 +17,9 @@ FE --> ADM --: Request name, acronym
 ADM -> FE ++: Enter name, acronym
 
 FE -> BE ++: HTTP Request \n(POST) /departments
-BE -> DB ++: (INSERT INTO) departments
+BE -> DB ++: INSERT INTO departments
 DB --> BE --: Registration confirmed
-BE --> FE --: HTTP Response
+BE --> FE --: HTTP Response (201 Created) + \n EntityModel<DepartmentDTO>
 FE --> ADM --: Registered department successfully
 
 @enduml

@@ -57,7 +57,7 @@ mapper --> datamodel: ProgrammeEditionEnrolmentDataModel
 
 service -> springRepo: save(datamodel)
 springRepo -> db: INSERT INTO ...
-springRepo --> service: OK
+springRepo --> service: EnrolmentDM.saved (ID)
 
 service --> controller: success
 controller --> router: HTTP 200 OK

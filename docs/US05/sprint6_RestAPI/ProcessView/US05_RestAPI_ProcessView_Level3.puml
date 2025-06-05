@@ -48,8 +48,8 @@ RE --> SE --: department
 SE --> CT --: department
 
 
-CT --> RT --: HTTP 201 Created + \ndepartmentDTO + Hypermedia links
-RT --> FE --: HTTP 201 Created + \ndepartmentDTO + Hypermedia links
+CT --> RT --: HTTP 201 Created + \nEntityModel<DepartmentDTO>
+RT --> FE --: HTTP 201 Created + \nEntityModel<DepartmentDTO>
 FE --> ADM --: Department registered successfully
 
 

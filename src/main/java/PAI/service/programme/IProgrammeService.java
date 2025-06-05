@@ -2,6 +2,7 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 
@@ -20,5 +21,6 @@ public interface IProgrammeService {
     Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
     List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
     List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id);
+    Iterable<ProgrammeDTO> getAllProgrammes();
 }
 

@@ -2,7 +2,12 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.degreeType.DegreeType;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.ISchoolYearFactory;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
@@ -10,11 +15,13 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +29,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -845,5 +853,67 @@ class ProgrammeServiceImplTest {
                 new ProgrammeServiceImpl(factory, null, assembler,degreeTypeRegistrationService)
         );
         assertEquals("Programme Repository cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnListOfProgrammes () {
+        // Arrange
+        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+        IProgrammeRepository repository = mock(IProgrammeRepository.class);
+        IProgrammeAssembler assembler = mock(IProgrammeAssembler.class);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService);
+
+        Programme prog1 = mock(Programme.class);
+        Programme prog2 = mock(Programme.class);
+        Programme prog3 = mock(Programme.class);
+        List<Programme> programmes = List.of(prog1, prog2, prog3);
+        when(repository.findAll()).thenReturn(programmes);
+
+        ProgrammeDTO progDTO1 = mock(ProgrammeDTO.class);
+        ProgrammeDTO progDTO2 = mock(ProgrammeDTO.class);
+        ProgrammeDTO progDTO3 = mock(ProgrammeDTO.class);
+
+        when(assembler.fromDomainToDTO(prog1)).thenReturn(progDTO1);
+        when(assembler.fromDomainToDTO(prog2)).thenReturn(progDTO2);
+        when(assembler.fromDomainToDTO(prog3)).thenReturn(progDTO3);
+
+        // Act
+        Iterable<ProgrammeDTO> result = service.getAllProgrammes();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        List<ProgrammeDTO> listResult = new ArrayList<>();
+        result.forEach(listResult::add);
+        assertEquals(3, listResult.size());
+        assertTrue(listResult.contains(progDTO1));
+        assertTrue(listResult.contains(progDTO2));
+        assertTrue(listResult.contains(progDTO3));
+    }
+
+    @Test
+    void shouldReturnEmptyListOfProgrammesIfThereAreNoProgrammes () {
+        // Arrange
+        IProgrammeFactory factory = mock(IProgrammeFactory.class);
+        IProgrammeRepository repository = mock(IProgrammeRepository.class);
+        IProgrammeAssembler assembler = mock(IProgrammeAssembler.class);
+        IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService);
+
+        List<Programme> programmes = List.of();
+        when(repository.findAll()).thenReturn(programmes);
+
+        // Act
+        Iterable<ProgrammeDTO> result = service.getAllProgrammes();
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
+        List<ProgrammeDTO> listResult = new ArrayList<>();
+        result.forEach(listResult::add);
+        assertEquals(0, listResult.size());
     }
 }

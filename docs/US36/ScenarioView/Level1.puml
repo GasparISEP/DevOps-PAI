@@ -1,0 +1,15 @@
+@startuml
+
+left to right direction
+
+title  As an ASC, I want to get the number of students enrolled in a course edition using a Web UI.
+
+actor ASC as "**A**cademic **S**ervices **C**ollaborator"
+
+rectangle "<<PAI System>>" {
+    usecase "Get the number of students enrolled in a Course Edition" as usecase
+}
+
+ASC --> usecase
+
+@enduml

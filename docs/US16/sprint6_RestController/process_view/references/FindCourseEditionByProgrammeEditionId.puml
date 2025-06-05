@@ -7,6 +7,7 @@ participant ":Router" as router
 participant ":CourseEditionRestController" as ceCtrl
 activate ceCtrl
 participant ":CourseEditionAssembler" as ceAssembler
+participant ":CourseEditionHateoasAssembler" as ceHateoasAssembler
 participant ":CourseEditionService" as ceService
 participant ":CourseEditionRepository" as ceRepo
 participant ":CourseEditionMapper" as ceMapper
@@ -43,21 +44,24 @@ end
 
 ceRepo -> ceService: List<CourseEditionID>
 ceService --> ceCtrl --: List<CourseEditionID>
-ceCtrl -> ceAssembler ++: toResponseDTOList(List<CourseEditionID>)
-
-loop for CourseEditionID[i]
-    note over of ceAssembler
-        Invokes CourseEditionResponseDTO
-             to construct object
-    end note
-end
-ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
-ceCtrl --> router: List<CourseEditionResponseDTO>
+ceCtrl -> ceHateoasAssembler ++: toCollectionModel(List<CourseEditionID>)
+note right of ceHateoasAssembler
+  Create CollectionModel with:
+  - Self link for collection
+  - EntityModel for each CourseEdition
+  - Links for each CourseEdition:
+    - Self
+    - Enroll student
+    - View details
+end note
+ceHateoasAssembler --> ceCtrl --: CollectionModel<CourseEditionResponseDTO>
+ceCtrl --> router: CollectionModel<CourseEditionResponseDTO>
 
 legend right
   DTO = Data Transfer Object
   Mapper = Convert DataModel to Domain
   Assembler = Convert Domain to DTO
+  HATEOAS Assembler = Convert Domain to EntityModel with links
 end legend
 
 @enduml 

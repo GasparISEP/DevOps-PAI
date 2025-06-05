@@ -103,4 +103,9 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<SchoolYear> getSchoolYearByID(SchoolYearID schoolYearID) {
+        return schoolYearRepository.findBySchoolYearID(schoolYearID);
+    }
 }

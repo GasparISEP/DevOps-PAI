@@ -43,9 +43,10 @@ RE -> Driver: persist
 RE --> SE --: Persisted CourseEditionEnrolment
 
 SE --> CT --: CourseEditionEnrolment
-CT --> RT --: HTTP 201 Created
 
-RT --> FE --: HTTP 201 Created
-FE --> ASC --: Student enrolled successfully
+CT --> RT --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
+
+RT --> FE --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
+FE --> ASC --: Student enrolled successfully with navigation links
 
 @enduml

@@ -2,6 +2,7 @@ package PAI.assembler.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
@@ -10,6 +11,7 @@ import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 public class SchoolYearAssembler implements ISchoolYearAssembler {
@@ -70,5 +72,13 @@ public class SchoolYearAssembler implements ISchoolYearAssembler {
 
     public Date toStartDate(SchoolYearDTO syDTO) {
         return new Date(syDTO.getStartDate());
+    }
+
+    public SchoolYearID fromStringToSchoolYearID(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("SchoolYearID cannot be null or blank");
+        }
+        UUID uuid = UUID.fromString(id);
+        return new SchoolYearID(uuid);
     }
 }

@@ -181,26 +181,13 @@ class CourseEditionRestControllerTest {
     @Test
     void whenRemoveStudentEnrolmentFromACourseEdition_thenReturnsSuccess() throws Exception {
         //arrange
-        //ProgrammeEditionID
-        String programmeName = "programmeName";
-        String programmeAcronym = "LEI";
-        UUID schoolYearId = UUID.randomUUID();
-
-        //CourseInStudyPlan
-        String courseAcronym = "SAS";
-        String courseName = "Desenvolvimento de Software";
-        String studyPlanProgrammeName = "studyPlanProgrammeName";
-        String studyPlanProgrammeAcronym  = "LEI1";
-        String studyPlanImplementationDate = "01-10-2024";
-
-        int studentID = 1241924;
-
-        RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO = new RemoveCourseEditionEnrolmentDTO(programmeName, programmeAcronym, schoolYearId, courseAcronym, courseName, studyPlanProgrammeName, studyPlanProgrammeAcronym, studyPlanImplementationDate, studentID);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(true);
         //act + assert
         mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(removeCourseEditionEnrolmentDTO)))
+                .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isAccepted());
 
     }
@@ -208,53 +195,27 @@ class CourseEditionRestControllerTest {
     @Test
     void shouldReturnBadRequestWhenRemoveCourseEditionEnrolment_throwsException() throws Exception {
         //arrange
-        //ProgrammeEditionID
-        String programmeName = "programmeName";
-        String programmeAcronym = "LEI";
-        UUID schoolYearId = UUID.randomUUID();
-
-        //CourseInStudyPlan
-        String courseAcronym = "SAS";
-        String courseName = "Desenvolvimento de Software";
-        String studyPlanProgrammeName = "studyPlanProgrammeName";
-        String studyPlanProgrammeAcronym  = "LEI1";
-        String studyPlanImplementationDate = "01-10-2024";
-
-        int studentID = 1241924;
-
-        RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO = new RemoveCourseEditionEnrolmentDTO(programmeName, programmeAcronym, schoolYearId, courseAcronym, courseName, studyPlanProgrammeName, studyPlanProgrammeAcronym, studyPlanImplementationDate, studentID);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenThrow(new RuntimeException("Test exception"));
 
         //act + assert
         mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(removeCourseEditionEnrolmentDTO)))
+                        .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void shouldReturnNotAcceptableWhenRemoveCourseEditionEnrolmentCannotBeRemoved() throws Exception {
         //arrange
-        //ProgrammeEditionID
-        String programmeName = "programmeName";
-        String programmeAcronym = "LEI";
-        UUID schoolYearId = UUID.randomUUID();
-
-        //CourseInStudyPlan
-        String courseAcronym = "SAS";
-        String courseName = "Desenvolvimento de Software";
-        String studyPlanProgrammeName = "studyPlanProgrammeName";
-        String studyPlanProgrammeAcronym  = "LEI1";
-        String studyPlanImplementationDate = "01-10-2024";
-
-        int studentID = 1241924;
-
-        RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO = new RemoveCourseEditionEnrolmentDTO(programmeName, programmeAcronym, schoolYearId, courseAcronym, courseName, studyPlanProgrammeName, studyPlanProgrammeAcronym, studyPlanImplementationDate, studentID);
+        when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(false);
         //act + assert
         mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(removeCourseEditionEnrolmentDTO)))
+                        .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isNotAcceptable());
     }
 

@@ -14,6 +14,7 @@ actor "Academic Services Coordinator" as ASC
 participant ":Frontend" as UI
 participant ":CourseEditionEnrolmentRestController" as Controller
 participant ":CourseEditionEnrolmentAssembler" as Assembler
+participant ":CourseEditionEnrolmentHateoasAssemblerImpl" as HateoasAssembler
 participant ":ICourseEditionEnrolmentService" as Service
 participant ":ICourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentFactory" as Factory
@@ -52,13 +53,18 @@ note right of DataModelMapper
 end note
 DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
 Repository -> SpringDataRepo ++: INSERT INTO CourseEditionEnrolment
-SpringDataRepo --> Repository --: persisted
-Repository --> Service --: persisted
+SpringDataRepo --> Repository --: CourseEditionEnrolment
+Repository --> Service --: CourseEditionEnrolment
 
 Service --> Controller --: CourseEditionEnrolment
-Controller -> Assembler ++: toDto(CourseEditionEnrolment)
-Assembler --> Controller --: CourseEditionEnrolmentDto
-Controller --> UI --: HTTP response
-UI --> ASC --: Success message
+Controller -> HateoasAssembler ++: toModel(CourseEditionEnrolment)
+note right of HateoasAssembler
+  Create EntityModel with:
+  - Self link
+end note
+HateoasAssembler --> Controller --: EntityModel<CourseEditionEnrolmentDto>
+
+Controller --> UI --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
+UI --> ASC --: Success message with navigation links
 
 @enduml
