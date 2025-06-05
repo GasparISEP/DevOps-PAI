@@ -1,0 +1,120 @@
+@startuml
+title : US18_Create A Programme Edition For The Current School Year \n (Process View with Implementation details - Level 4 - Backend)
+autonumber
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":Router" as Router
+participant ":ProgrammeEditionRESTController" as CPEC
+participant ":IProgrammeEditionRegistrationService" as PES
+participant ":IProgrammeEditionFactory" as PEF
+
+
+'get all programmes name
+
+-> Router: POST /programmeeditions + body {"programme": {"name": "Computer Science Engineering","acronym": "CSE"}, "schoolYear": {"id": "7ed3c1a3-ec53-429a-ab57-1052bad47328"}}
+activate Router #E1F5FE
+note over Router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+
+'''''''''''''''''''''''''''''''''''''''''
+Router -> CPEC: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestDTO)
+
+ref over CPEC
+    Convert programmeEditionRequestDTO to programmeEditionDTO
+end
+'create programmeEdition for current School Year
+activate CPEC #E1F5FE
+CPEC -> PES:createProgrammeEditionAndSave(programmeEditionDTO)
+ref over PES
+    Convert programmeEditionDTO to programmeID and schoolYearID
+end
+activate PES #E1F5FE
+ref over PES
+    Validate if programmeID and schoolYearID exist in respective Repositories
+end
+
+alt programmeExists && schoolYearExists
+PES -> PEF: createProgrammeEdition(programmeID, schoolYearID)
+activate PEF #E1F5FE
+create "pe1ID:ProgrammeEditionID" as PEID
+PEF -> PEID : <create> ()
+activate PEID #E1F5FE
+PEID --> PEF: pe1ID
+deactivate PEID
+create "pe1:ProgrammeEdition" as PE
+
+PEF -> PE : <create> (pe1ID, programmeID, schoolYearID)
+activate PE #E1F5FE
+participant ":ProgrammeEditionRepositorySpringDataImpl" as PER
+PE --> PEF: pe1
+deactivate PE
+PEF --> PES: pe1
+deactivate PEF
+PES -> PER: containsOfIdentity(pe1ID)
+activate PER #E1F5FE
+PER --> PES: false
+
+alt !isProgrammeEditionAlreadyRegistered
+PES -> PER: save(pe1)
+participant ":IProgrammeEditionMapper" as PEMapper
+PER -> PEMapper: toDataModel(pe1)
+activate PEMapper #E1F5FE
+participant ":IProgrammeEditionIDMapper" as PEIDMapper
+PEMapper -> PEIDMapper: toDataModel(pe1ID)
+activate PEIDMapper #E1F5FE
+create "pe1IDDataModel:ProgrammeEditionIDDataModel" as pe1IDDataModel
+PEIDMapper -> pe1IDDataModel : <create> ()
+activate pe1IDDataModel #E1F5FE
+pe1IDDataModel --> PEIDMapper: pe1IDDataModel
+deactivate pe1IDDataModel
+PEIDMapper -->PEMapper: pe1IDDataModel
+deactivate PEIDMapper
+create "pe1DataModel:ProgrammeEditionDataModel" as pe1DataModel
+
+PEMapper -> pe1DataModel : <create> ()
+activate pe1DataModel #E1F5FE
+pe1DataModel --> PEMapper: pe1DataModel
+deactivate pe1DataModel
+PEMapper --> PER: Optional <ProgrammeEditionDataModel>
+deactivate PEMapper
+alt isPresent
+participant ":IProgrammeEditionSpringDataRepository" as IPER
+PER -> IPER: save(pe1DataModel)
+activate IPER #E1F5FE
+ref over PER
+Convert pe1DataModel to Domain
+end
+IPER--> PER: pe1
+deactivate IPER
+end
+PER --> PES: pe1
+deactivate PER
+participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler
+PES --> ProgrammeEditionAssembler: toDTO(pe1ID, syID)
+activate ProgrammeEditionAssembler #E1F5FE
+create "programmeEditionDTO:ProgrammeEditionDTO" as programmeEditionDTO
+
+ProgrammeEditionAssembler -> programmeEditionDTO : <create> ()
+activate programmeEditionDTO #E1F5FE
+
+programmeEditionDTO --> ProgrammeEditionAssembler: programmeEditionDTO
+deactivate programmeEditionDTO
+ProgrammeEditionAssembler --> PES: programmeEditionDTO
+deactivate ProgrammeEditionAssembler
+
+end
+end
+PES --> CPEC: programmeEditionDTO
+deactivate PES
+ref over CPEC
+    Convert programmeEditionDTO to programmeEditionResponseDTO
+end
+
+
+CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate CPEC
+note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
+
+<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate Router
+@enduml
