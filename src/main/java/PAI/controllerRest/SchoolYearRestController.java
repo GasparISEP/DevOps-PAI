@@ -2,6 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
@@ -71,6 +72,25 @@ public class SchoolYearRestController {
             return new ResponseEntity<>(currentSchoolYearResponseDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No current School Year", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSchoolYearByID(@PathVariable("id") String id) {
+        try {
+            SchoolYearID schoolYearID = schoolYearAssembler.fromStringToSchoolYearID(id);
+
+            Optional<SchoolYear> schoolYear = schoolYearService.getSchoolYearByID(schoolYearID);
+            if (schoolYear.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SchoolYear not found");
+            }
+
+            SchoolYearDTO schoolYearDTO = schoolYearAssembler.toDTO(schoolYear.get());
+            return ResponseEntity.ok(schoolYearDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
 }
