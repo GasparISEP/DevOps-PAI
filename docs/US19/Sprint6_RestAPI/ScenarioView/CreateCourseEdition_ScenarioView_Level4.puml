@@ -1,5 +1,5 @@
 @startuml
-title US19: As an ASC, I want to create a Course Edition\n(Process View - Level 3: Core Backend Flow)
+title US19: As an ASC, I want to create a Course Edition\n(Scenario View - Level 4: Detailed Backend Flow)
 
 autonumber
 
@@ -20,9 +20,11 @@ participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as 
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
 participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
-participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
-participant "<<component>>\n:ICourseEditionServiceAssembler\n(Assembler)" as SAssembler #E1F5FE
+participant "<<component>>\n:CourseEditionRepositoryImpl\n(Repository Custom)" as RepositoryImpl #E1F5FE
+participant "<<component>>\n:CourseEditionMapper\n(Mapper)" as Mapper #E1F5FE
+participant "<<component>>\n:ICourseEditionRepositorySpringData\n(Spring Data Repository)" as RepositorySpringData #E1F5FE
 database "Database" as DB #E1F5FE
+participant "<<component>>\n:ICourseEditionServiceAssembler\n(Response Assembler)" as SAssembler #E1F5FE
 
 == Step 1: HTTP POST Request ==
 
@@ -48,32 +50,44 @@ deactivate Assembler
 
 == Step 2: Call Service ==
 
-Controller -> Service: createCourseEditionAndReturnDTO\n(courseInStudyPlanID, programmeEditionID)
+Controller -> Service: createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID)
 activate Service
 
-
-Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)
+Service -> Factory: createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)
 activate Factory
 
 Factory --> Service: CourseEdition (domain object)
 deactivate Factory
 
-Service -> Repository: containsOfIdentity(courseEdition.identity())
-activate Repository
-Repository --> Service: false (not exists)
-deactivate Repository
+Service -> RepositoryImpl: containsOfIdentity(courseEdition.identity())
+activate RepositoryImpl
+RepositoryImpl --> Service: false (not exists)
+deactivate RepositoryImpl
 
-Service -> Repository: save(courseEdition)
-activate Repository
+Service -> RepositoryImpl: save(courseEdition)
+activate RepositoryImpl
 
-Repository -> DB: INSERT course_edition data
+RepositoryImpl -> Mapper: toDataModel(courseEdition)
+activate Mapper
+Mapper --> RepositoryImpl: courseEditionDataModel
+deactivate Mapper
+
+RepositoryImpl -> RepositorySpringData: save(courseEditionDataModel)
+activate RepositorySpringData
+RepositorySpringData -> DB: INSERT INTO course_edition
 activate DB
-DB --> Repository: success
+DB --> RepositorySpringData: success + saved dataModel
 deactivate DB
+RepositorySpringData --> RepositoryImpl: courseEditionDataModel saved
+deactivate RepositorySpringData
 
-Repository --> Service: saved CourseEdition
-deactivate Repository
+RepositoryImpl -> Mapper: toDomain(courseEditionDataModel)
+activate Mapper
+Mapper --> RepositoryImpl: courseEdition saved
+deactivate Mapper
 
+RepositoryImpl --> Service: courseEdition saved
+deactivate RepositoryImpl
 
 
 == Step 3: Assemble Response DTO ==
@@ -86,11 +100,11 @@ alt if CourseEdition is not null
     Service --> Controller: CourseEditionResponseDTO
     deactivate Service
     Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
-
 end
 
 deactivate Controller
 
 <-- Router: Response
 deactivate Router
+
 @enduml

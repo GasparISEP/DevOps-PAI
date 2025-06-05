@@ -1,0 +1,54 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant ":Router" as r #gold
+participant ":ControllerRest" as c #gold
+participant ":Service" as s #gold
+participant ":Domain" as d #gold
+participant "programmeEditionEnrolment1:ProgrammeEditionEnrolment" as PEE
+participant ":Repository" as rep #gold
+participant "courseEditionEnrolment1:CourseEditionEnrolment" as CEE
+
+
+
+[o-> r++ : **POST** /programmeeditonenrolment/registercourseeditions (schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
+r->c++ : enrolStudentinProgrammeEditionAndSetOfCourses(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
+|||
+ref over c, c
+**transform** :
+DTO to Domain
+end ref
+|||
+c-> s++ : enrolStudentInProgrammeEditionAndSetOfCourses(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
+
+s->d ++: createProgrammeEditionEnrolment(programmeEditionId, studentID,enrolmentStatus,date)
+d -> PEE  ** : newProgrammeEditionEnrolment(programmeEditionID,studentID,programmeEditionId, studentID,enrolmentStatus,date)
+activate PEE
+PEE --> d-- : programmeEditionEnrolment1
+d --> s-- : programmeEditionEnrolment1
+s -> rep++: save (:programmeEditionEnrolment1)
+rep ->o] : save(:programmeEditionEnrolment1)
+rep <--o] : programmeEditionEnrolment1
+rep --> s -- : programmeEditionEnrolment1
+
+s->d ++: createAll(courseEditionId, studentID, enrolmentStatus,date )
+d -> CEE  ** : createAll(courseEditionId, studentID, enrolmentStatus,date)
+activate CEE
+CEE --> d-- : List<courseEditionEnrolments>
+d --> s-- : List<courseEditionEnrolments>
+s -> rep++: saveAll (List<courseEditionEnrolments>)
+rep ->o] : saveAll(List<courseEditionEnrolments>)
+rep <-o] : List<courseEditionEnrolments>
+rep --> s -- : List<courseEditionEnrolments>
+s --> c : List<courseEditionEnrolments>, programmeEditionEnrolment1 , studentID
+
+ref over c, c
+**transform** :
+Domain to DTO
+end ref
+
+c --> r-- : List<courseEditionEnrolmentsDTO>, programmeEditionEnrolment1DTO , studentIdDTO
+[o<-- r --: (Ok, 200) List<courseEditionEnrolmentsDTO>, programmeEditionEnrolment1DTO , studentIdDTO
+@enduml

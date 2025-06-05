@@ -75,12 +75,32 @@ deactivate Frontend
 ASC -> Frontend: Confirm course edition creation
 activate Frontend
 Frontend -> Backend: POST /courseeditions (...)
+note over Frontend, Backend #HoneyDew
+Request body (JSON):
+{
+  programmeName: "...",
+  programmeAcronym: "...",
+  schoolYearID: "...",
+  courseAcronym: "...",
+  courseName: "...",
+  studyPlanImplementationDate: "..."
+}
+end note
 activate Backend
-Backend -> Database: INSERT INTO course_editions (...)
+Backend -> Database: INSERT INTO course_editions (data)
 activate Database
 Database --> Backend: Confirmation + new courseEditionID
 deactivate Database
-Backend --> Frontend: 201 Created + course edition ID
+Backend --> Frontend: 201 Created + course edition data + ID
+note over Backend, Frontend #HoneyDew
+Response body (JSON):
+{
+  courseEditionID: NEW COURSE EDITION ID,
+  programmeName: "...",
+  programmeAcronym: "...",
+  ...
+}
+end note
 deactivate Backend
 Frontend --> ASC: Course edition created successfully!
 deactivate Frontend

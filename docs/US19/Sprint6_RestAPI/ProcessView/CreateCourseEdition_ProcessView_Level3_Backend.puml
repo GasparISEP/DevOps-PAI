@@ -144,16 +144,14 @@ deactivate DB
 Repository --> Service: saved CourseEdition
 deactivate Repository
 
-Service --> Controller: CourseEdition
-deactivate Service
-
 
 alt if CourseEdition is not null
-    Controller -> SAssembler: toResponseDTO(courseEdition)
+    Service -> SAssembler: toResponseDTO(courseEdition)
     activate SAssembler
-    SAssembler --> Controller: CourseEditionResponseDTO
+    SAssembler --> Service: CourseEditionResponseDTO
     deactivate SAssembler
-
+    Service --> Controller: CourseEditionResponseDTO
+    deactivate Service
     Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
 
 end
@@ -163,4 +161,3 @@ deactivate Controller
 <-- Router: Reponse
 deactivate Router
 @enduml
-
