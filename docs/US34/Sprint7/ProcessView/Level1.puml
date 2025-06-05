@@ -16,11 +16,14 @@ actor ASC
 participant ":SystemPAI" as System <<component>>
 
 ASC -> System ++: I want to enrol a student in a programme edition.
-System --> ASC --: Which student?
+System --> ASC--: Which student?
+ASC -> System++: "This" student.
 
-ASC -> System ++: Select a student.
-System --> ASC --: Which programme edition?
-ASC -> System ++: Select one edition.
+System --> ASC --: Which school year?
+
+ASC -> System ++: Select a school year.
+System --> ASC --: Which programme?
+ASC -> System ++: Select a programme.
 
 System --> ASC--: Which courses?
 ASC -> System++: Select courses.
