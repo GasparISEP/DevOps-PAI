@@ -62,9 +62,9 @@ deactivate ProgrammeController
 <-- Router: programmesList
 deactivate Router
 
--> Router: GET /coursesinstudyplan/\n{acronym}/{name}
+-> Router: GET /coursesinstudyplan/{acronym}
 activate Router
-Router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeEditionID)
+Router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeAcronym)
 activate CSPController
 note over CSPController #EEEEEE
 Spring Boot automatically converts
@@ -79,9 +79,9 @@ deactivate CSPController
 <-- Router: coursesInStudyPlanList
 deactivate Router
 
--> Router: GET /programmeeditions/programme/\n{programmeName}/{programmeAcronym}
+-> Router: GET /programmeeditions/programme/\n{programmeAcronym}
 activate Router
-Router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeID)
+Router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeAcronym)
 activate PEController
 note over PEController #EEEEEE
 Spring Boot automatically converts
@@ -97,15 +97,16 @@ deactivate PEController
 deactivate Router
 
 
--> Router: POST /courseeditions\nwith CourseEditionRequestDTO (JSON)
+-> Router: POST /courseeditions (JSON)
 activate Router
-
+note over Router #EEEEEE
+Spring converts JSON into
+CourseEditionRequestDTO
+end note
 Router -> Controller: createCourseEdition(requestDTO)
 activate Controller
 
 note over Controller #EEEEEE
-Spring converts JSON into
-CourseEditionRequestDTO
 Controller calls assembler.toCommand()
 to convert to CreateCourseEditionCommand
 end note
@@ -121,7 +122,7 @@ Controller -> Service: createCourseEditionAndReturnDTO\n(courseInStudyPlanID, pr
 activate Service
 
 
-Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID, programmeEditionID)
+Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
 activate Factory
 
 Factory --> Service: CourseEdition (domain object)

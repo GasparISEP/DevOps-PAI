@@ -86,14 +86,17 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
     }
 
     @Override
-    public DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request) {
-        if (request == null) {
-            throw new IllegalArgumentException("DepartmentWithDirectorRequest cannot be null");
+    public DepartmentWithDirectorCommand fromRequestToCommand(String departmentID, DepartmentWithDirectorRequest teacherID) {
+        if (departmentID == null) {
+            throw new IllegalArgumentException("DepartmentID cannot be null");
         }
-        DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(request.departmentID()));
-        TeacherID director = new TeacherID(new TeacherAcronym(request.teacherID()));
+        if (teacherID == null) {
+            throw new IllegalArgumentException("Teacher ID cannot be null");
+        }
+        DepartmentID depID = new DepartmentID(new DepartmentAcronym(departmentID));
+        TeacherID dirID = new TeacherID(new TeacherAcronym(teacherID.teacherID()));
 
-        return new DepartmentWithDirectorCommand(departmentID, director);
+        return new DepartmentWithDirectorCommand(depID, dirID);
     }
 
     @Override

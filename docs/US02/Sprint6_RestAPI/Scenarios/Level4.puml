@@ -2,7 +2,7 @@
 
 @startuml
 
-title US02: As an Administrator, I want to configure degree access methods in the system.\n(Scenario - Level 4 - Full Backend Flow)
+title US02: As an Administrator, I want to configure degree access methods in the system\n(Scenario - Level 4 - Full Backend Flow)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -11,7 +11,7 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router
--> router: configureAccessMethod(JSON)
+-> router: POST /access-methods\n + body\n{  "name": "Special"}
 activate router #LightBlue
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
@@ -86,12 +86,13 @@ Controller -> hateoasAssembler: toModel (amResponseDTO)
 activate hateoasAssembler #LightBlue
 hateoasAssembler --> Controller: EntityModel<AccessMethodResponseDTO>
 deactivate hateoasAssembler #LightBlue
-Controller --> router: (201, Created)\n EntityModel<AccessMethodResponseDTO>
+Controller --> router: 201 + body\n {EntityModel<AccessMethodResponseDTO>}
 deactivate Controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
-<-- router: (201, Created) JSON
+<-- router: 201 + body\n {EntityModel<AccessMethodResponseDTO>}
+
 deactivate router
 
 @enduml

@@ -20,7 +20,7 @@ public interface IDepartmentAssembler {
 
     Iterable<DepartmentWithDirectorDTO> toDWDDTOs(Iterable<Department> departments);
 
-    DepartmentWithDirectorCommand fromRequestToCommand(DepartmentWithDirectorRequest request);
+    DepartmentWithDirectorCommand fromRequestToCommand(String departmentID, DepartmentWithDirectorRequest directorID);
 
     DepartmentID fromStringToDepartmentID(String id);
 }

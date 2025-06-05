@@ -1,7 +1,9 @@
-package PAI.dto.student;
+package PAI.assembler.student;
 
 import PAI.VOs.*;
 import PAI.domain.student.Student;
+import PAI.dto.student.StudentDTO;
+import PAI.dto.student.StudentResponseDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
