@@ -1,6 +1,6 @@
 @startuml
 
-title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 3 Granularity)
+title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 3 - Backend)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -12,50 +12,30 @@ participant ":RESTController" as controller <<Component>>
 participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
--> router: select a programmeEdition()
-activate router #E1F5FE
-router -> controller :getallprogrammeEditions()
-activate controller#E1F5FE
-controller -> service : getallprogrammeEditions()
-activate service#E1F5FE
-service -> repository:getallprogrammeEditions()
-activate repository#E1F5FE
-repository --> service:List<ProgrammeEdition> programmeEditions
-deactivate repository#E1F5FE
-service --> controller : List<ProgrammeEdition> programmeEditions
-deactivate service
-controller --> router:(200,ok)List of all programmeEditions
-deactivate controller#E1F5FE
-<-- router:(200,ok)List of all programmeEditions
-deactivate router #E1F5FE
--> router: getNumberOfStudentsInAProgrammeEdition (ProgrammeEditionJSON)
+
+-> router: GET /programmeeditions/{programmeEditionId}/students
 activate router #E1F5FE
 
-router -> controller: getNumberOfStudents (CountStudentsDto)
+router -> controller: getNumberOfStudents(CountStudentsDto)
 activate controller #E1F5FE
 
-controller -> service: getNumberOfStudents (CountStudentsDto)
+controller -> service: getNumberOfStudents(programmeEditionId)
 activate service #E1F5FE
 
-service -> domain: countTotalNumberOfStudentsInAProgrammeEdition
-activate domain #E1F5FE
 
-domain --> service: ProgrammeEdition
-deactivate domain
-
-service -> repository: getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEditionID)
+service -> repository: countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO)
 activate repository #E1F5FE
 
-repository --> service: List<ProgrammeEditionEnrolments>programmeEditionEnrolments
+repository --> service: int totalNumberOfStudents
 deactivate repository
 
-service --> controller: totalNumberOfStudents
+service --> controller: int totalNumberOfStudents
 deactivate service
 
-controller --> router: (200, ok) totalNumberOfStudents
+controller --> router: 200 + body {totalNumberOfStudents}
 deactivate controller
 
-<-- router: (200,ok) totalNumberOfStudents
+<-- router: 200 + body {totalNumberOfStudents}
 deactivate router
 
 @enduml
