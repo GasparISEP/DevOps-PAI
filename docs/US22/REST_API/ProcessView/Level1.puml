@@ -6,15 +6,23 @@ title As a RUC, I want to grade a Student in a CourseEdition \n (Process View Le
 
 participant ":System" as System #lightblue
 
-RUC -> System  : Select "Student grading in a Course Edition"
+RUC -> System : Select "Student grading in a Course Edition"
+activate RUC
 activate System
-System --> RUC  : Which CourseEdition?
+System --> RUC : Which CourseEdition?
+deactivate System
 RUC -> System : Course Edition!
-System --> RUC : Student Grading form
+activate System
+System --> RUC : Student Grade information?
+deactivate System
 RUC -> System : grade, date, studentID
+activate System
 System --> RUC : Confirm?
+deactivate System
 RUC -> System : Confirm.
+activate System
 System --> RUC : Success!
+deactivate RUC
 deactivate System
 
 @enduml
