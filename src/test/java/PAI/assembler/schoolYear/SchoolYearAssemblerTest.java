@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -207,5 +206,40 @@ class SchoolYearAssemblerTest {
         assertThrows(IllegalArgumentException.class, () -> {
             schoolYearAssembler.toResponseDTO(currentSchoolYearDTO);
         });
+    }
+
+    @Test
+    void shouldTransformStringIDtoSchoolYearID() {
+        //arrange
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(schoolYearFactory);
+        String id = "550e8400-e29b-41d4-a716-446655440000";
+
+        //act
+        SchoolYearID syID = schoolYearAssembler.fromStringToSchoolYearID(id);
+
+        //assert
+        assertNotNull(syID);
+    }
+
+    @Test
+    void shouldNotTransformStringIDtoSchoolYearIDWhenStringIsBlank() {
+        //arrange
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(schoolYearFactory);
+        String id = "";
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class , () -> schoolYearAssembler.fromStringToSchoolYearID(id));
+    }
+
+    @Test
+    void shouldNotTransformStringIDtoSchoolYearIDWhenStringIsNull() {
+        //arrange
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler schoolYearAssembler = new SchoolYearAssembler(schoolYearFactory);
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class , () -> schoolYearAssembler.fromStringToSchoolYearID(null));
     }
 }
