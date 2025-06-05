@@ -22,29 +22,43 @@ class DepartmentMapperImplTest {
         assertNotNull(departmentMapper);
     }
     @Test
-    void toDataModel(){
-        //arrange
-        String acronym = "ABC";
-        String name = "Department";
+    void toDataModel_shouldMapAllFieldsCorrectly() throws Exception {
+        // arrange
+        String acronymString = "ABC";
+        String nameString = "Department";
 
+        // Mocks dos value objects
         DepartmentAcronym departmentAcronymMock = mock(DepartmentAcronym.class);
+        DepartmentID departmentIDMock = mock(DepartmentID.class);
         Name nameMock = mock(Name.class);
 
-        IDepartmentFactory departmentFactoryMock = mock(IDepartmentFactory.class);
-        DepartmentMapperImpl departmentMapper = new DepartmentMapperImpl(departmentFactoryMock);
-        Department departmentMock = mock(Department.class);
+        // Setup da cadeia de chamadas identity().getAcronym().getAcronym()
+        when(departmentAcronymMock.getAcronym()).thenReturn(acronymString);
+        when(departmentIDMock.getAcronym()).thenReturn(departmentAcronymMock);
 
-        when(departmentAcronymMock.getAcronym()).thenReturn(acronym);
-        when(nameMock.getName()).thenReturn(name);
+        // Mock do nome
+        when(nameMock.getName()).thenReturn(nameString);
+
+        // Mocks do domínio
+        Department departmentMock = mock(Department.class);
+        when(departmentMock.identity()).thenReturn(departmentIDMock);
         when(departmentMock.getAcronym()).thenReturn(departmentAcronymMock);
         when(departmentMock.getName()).thenReturn(nameMock);
+        when(departmentMock.getDirectorID()).thenReturn(null); // sem diretor
 
-        //act
-        DepartmentDataModel departmentDataModel =departmentMapper.toDataModel(departmentMock) ;
-        //assert
+        // mapper
+        IDepartmentFactory departmentFactoryMock = mock(IDepartmentFactory.class);
+        DepartmentMapperImpl departmentMapper = new DepartmentMapperImpl(departmentFactoryMock);
+
+        // act
+        DepartmentDataModel departmentDataModel = departmentMapper.toDataModel(departmentMock);
+
+        // assert
         assertNotNull(departmentDataModel);
-        assertEquals(acronym,departmentDataModel.getAcronym());
-        assertEquals(name,departmentDataModel.getName());
+        assertEquals(acronymString, departmentDataModel.getAcronym());
+        assertEquals(nameString, departmentDataModel.getName());
+        assertNotNull(departmentDataModel.getId());
+        assertNull(departmentDataModel.getDirectorId());
     }
     @Test
     void toDataModelWithDirectorID() {
@@ -53,17 +67,23 @@ class DepartmentMapperImplTest {
         String name = "Department";
         String teacherAcronym = "TCH";
 
+        // Mocks dos value objects
         DepartmentAcronym departmentAcronymMock = mock(DepartmentAcronym.class);
+        DepartmentID departmentIDMock = mock(DepartmentID.class);
         Name nameMock = mock(Name.class);
         TeacherAcronym teacherAcronymMock = mock(TeacherAcronym.class);
         TeacherID teacherIDMock = mock(TeacherID.class);
 
+        // Configurar retorno das chamadas encadeadas
         when(departmentAcronymMock.getAcronym()).thenReturn(acronym);
+        when(departmentIDMock.getAcronym()).thenReturn(departmentAcronymMock);
         when(nameMock.getName()).thenReturn(name);
         when(teacherAcronymMock.getAcronym()).thenReturn(teacherAcronym);
         when(teacherIDMock.getTeacherAcronym()).thenReturn(teacherAcronymMock);
 
+        // Mock do agregado
         Department departmentMock = mock(Department.class);
+        when(departmentMock.identity()).thenReturn(departmentIDMock);
         when(departmentMock.getAcronym()).thenReturn(departmentAcronymMock);
         when(departmentMock.getName()).thenReturn(nameMock);
         when(departmentMock.getDirectorID()).thenReturn(teacherIDMock);
@@ -78,6 +98,7 @@ class DepartmentMapperImplTest {
         assertNotNull(departmentDataModel);
         assertEquals(acronym, departmentDataModel.getAcronym());
         assertEquals(name, departmentDataModel.getName());
+        assertNotNull(departmentDataModel.getId());
         assertNotNull(departmentDataModel.getDirectorId());
         assertEquals(teacherAcronym, departmentDataModel.getDirectorId().getTeacherAcronym());
     }
