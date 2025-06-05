@@ -198,4 +198,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
         return true;
     }
+
+    public Iterable<ProgrammeDTO> getAllProgrammes() {
+        Iterable<Programme> programme = _programmeRepository.findAll();
+        List<ProgrammeDTO> programmeDTOS = new ArrayList<>();
+        for (Programme existingProgramme : programme) {
+            ProgrammeDTO programmeDTO = _programmeAssembler.fromDomainToDTO(existingProgramme);
+            programmeDTOS.add(programmeDTO);
+        }
+        return programmeDTOS;
+    }
 }
