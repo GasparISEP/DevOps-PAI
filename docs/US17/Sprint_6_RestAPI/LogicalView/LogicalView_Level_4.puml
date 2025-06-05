@@ -1,6 +1,5 @@
-
 @startuml
-title Logical View - US17: Enrol a Student (Organizado por Camadas)
+title Logical View - US17: Enrol a Student in a programme edition (Organizado por Camadas)
 
 skinparam ranksep 60
 skinparam nodesep 60
@@ -62,6 +61,17 @@ rectangle "Infrastructure Layer" {
         + existsByID(ProgrammeEditionEnrolmentID): boolean
         + save(ProgrammeEditionEnrolment): void
     }
+
+    class ProgrammeEditionEnrolmentRepositorySpringDataImpl <<RepositoryImpl>> {
+        + existsByID(ProgrammeEditionEnrolmentID): boolean
+        + save(ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+        + findByStudentAndProgrammeEdition(...): Optional<ProgrammeEditionEnrolment>
+    }
+
+    interface IProgrammeEditionEnrolmentRepositorySpringData <<SpringDataRepository>> {
+        + findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(...)
+        + findAllById_ProgrammeEditionIdDataModel(...)
+    }
 }
 
 ' === MAPPER / ASSEMBLER ===
@@ -118,7 +128,11 @@ ProgrammeEditionEnrolmentFactoryImpl --> ProgrammeEditionID
 StudentProgrammeEditionEnrolmentAssemblerImpl ..|> IStudentProgrammeEditionEnrolmentAssembler
 StudentProgrammeEditionEnrolmentAssemblerImpl --> StudentProgrammeEditionEnrolmentDTO
 StudentProgrammeEditionEnrolmentAssemblerImpl --> ProgrammeEdition
+
 ProgrammeEdition --> ProgrammeID
 ProgrammeEdition --> SchoolYearID
+
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..|> IProgrammeEditionEnrolmentRepository
+ProgrammeEditionEnrolmentRepositorySpringDataImpl --> IProgrammeEditionEnrolmentRepositorySpringData
 
 @enduml
