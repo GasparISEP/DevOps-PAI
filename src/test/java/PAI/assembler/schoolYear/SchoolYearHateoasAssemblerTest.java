@@ -31,8 +31,8 @@ class SchoolYearHateoasAssemblerTest {
         String selfHref = model.getLink("self").get().getHref();
         String allHref = model.getLink("all").get().getHref();
 
-        assertTrue(selfHref.contains("/schoolyears/HI"));
-        assertTrue(allHref.contains("/schoolyears"));
+        assertTrue(selfHref.contains("/school-years/HI"));
+        assertTrue(allHref.contains("/school-years"));
     }
 
 }
