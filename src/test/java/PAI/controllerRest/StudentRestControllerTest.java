@@ -70,8 +70,8 @@ class StudentRestControllerTest {
 
         Student student = mock(Student.class);
         when(studentService.registerStudent(
-                id, name, nif, phone, email,
-                street, postalCode, location, country, acadEmail
+                 name, nif, phone, email,
+                street, postalCode, location, country
         )).thenReturn(student);
 
         StudentResponseDTO responseDTO = mock(StudentResponseDTO.class);

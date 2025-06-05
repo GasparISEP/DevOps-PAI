@@ -29,17 +29,17 @@ class StudentInitializerTest {
 
         // assert
         verify(controller).registerStudent(
-                1102840, "Student AAA", "112233445", "Portugal", "+351", "911234567",
+                 "Student AAA", "112233445", "Portugal", "+351", "911234567",
                 "studentAAA@gmail.com", "Rua Numero 1", "4000-100", "Porto", "Portugal"
         );
 
         verify(controller).registerStudent(
-                1102841, "Student AAB", "112233446", "Portugal", "+351", "911234568",
+                 "Student AAB", "112233446", "Portugal", "+351", "911234568",
                 "studentAAB@gmail.com", "Praceta Numero 2", "4000-101", "Porto", "Portugal"
         );
 
         verify(controller).registerStudent(
-                1102842, "Student AAC", "112233447", "Portugal", "+351", "911234569",
+                 "Student AAC", "112233447", "Portugal", "+351", "911234569",
                 "studentAAC@gmail.com", "Rua Numero 3", "4000-102", "Porto", "Portugal"
         );
 
