@@ -1,15 +1,14 @@
 @startuml
 
-title US02: As an Administrator, I want to configure degree access methods in the system.\n(Process View - Level 3 - Backend)
+title US02: As an Administrator, I want to configure degree access methods in the system\n(Process View - Level 3 - Backend)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
 
 autonumber
-
 participant ":Router" as router <<Component>>
--> router: configureAccessMethod(JSON)
+-> router:  POST /access-methods\n + body\n{  "name": "Special"}
 activate router #LightBlue
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
@@ -78,12 +77,12 @@ ref over Controller
     Convert amServiceDTO to amResponseDTO
 end
 
-Controller --> router: (201, Created) amResponse
+Controller --> router: 201 + body\n {AccessMethodResponseDTO + hypermedia}
 deactivate Controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
-<-- router: (201, Created) JSON
+<-- router: 201 + body\n {AccessMethodResponseDTO + hypermedia}
 deactivate router
 
 @enduml

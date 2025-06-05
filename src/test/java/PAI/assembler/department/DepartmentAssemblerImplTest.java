@@ -285,26 +285,47 @@ class DepartmentAssemblerImplTest {
     @Test
     void shouldConvertRequestToDepartmentWithDirectorCommand() {
         // Arrange
+        String departmentID = "DEI";
         DepartmentWithDirectorRequest requestDouble = mock(DepartmentWithDirectorRequest.class);
-        when(requestDouble.departmentID()).thenReturn("DEI");
         when(requestDouble.teacherID()).thenReturn("MAJ");
 
         DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
 
         // Act
-        DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(requestDouble);
+        DepartmentWithDirectorCommand command = departmentAssembler.fromRequestToCommand(departmentID, requestDouble);
 
         // Assert
         assertNotNull(command);
     }
+
     @Test
     void shouldThrowExceptionWhenRequestIsNull() {
-        //Arrange
+        // Arrange
+        String departmentID = "DEI";
         DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            departmentAssembler.fromRequestToCommand(null);
+
+        // Act + Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.fromRequestToCommand(departmentID, null);
         });
+
+        assertEquals("Teacher ID cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDepartmentIDIsNull() {
+        // Arrange
+        DepartmentWithDirectorRequest requestDouble = mock(DepartmentWithDirectorRequest.class);
+        when(requestDouble.teacherID()).thenReturn("MAJ");
+
+        DepartmentAssemblerImpl departmentAssembler = new DepartmentAssemblerImpl();
+
+        // Act + Assert
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            departmentAssembler.fromRequestToCommand(null, requestDouble);
+        });
+
+        assertEquals("DepartmentID cannot be null", thrown.getMessage());
     }
 
 

@@ -8,24 +8,35 @@ skinparam shadowing true
 
 autonumber
 
-
+actor Administrator as admin
 participant ":Frontend" as frontend <<Container>>
 participant ":Backend" as backend <<Container>>
 participant ":Database" as db <<Container>>
 
 
--> frontend: Yes!
+admin -> frontend: I want to configure teacher categories!
+activate frontend #E1F5FE
+frontend --> admin: What teacher category name?Add commentMore actions
+deactivate frontend
 
-frontend -> backend: (POST) Request configure a TeacherCategory (tcJSON)
+admin -> frontend: Enter teacher category name!
+activate frontend #E1F5FE
+frontend --> admin: Sure?
+deactivate frontend
+
+admin -> frontend: Yes!
+activate frontend #E1F5FE
+
+frontend -> backend: POST /teachercategories + body {"name": "Assistant"}
 activate backend #E1F5FE
 
-backend -> db: (INSERT) Persist TeacherCategory (teacherCategory)
+backend -> db: INSERT INTO teacherCategory (id, name) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
 activate db #E1F5FE
 
 db --> backend: teacherCategory
 deactivate db
 
-backend --> frontend: (201, Created) TeacherCategory configurated!
+backend --> frontend: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate backend
 
 <-- frontend : Ok!
