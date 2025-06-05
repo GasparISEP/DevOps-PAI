@@ -52,13 +52,14 @@ note right of DataModelMapper
 end note
 DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
 Repository -> SpringDataRepo ++: INSERT INTO CourseEditionEnrolment
-SpringDataRepo --> Repository --: persisted
-Repository --> Service --: persisted
+SpringDataRepo --> Repository --: CourseEditionEnrolment
+Repository --> Service --: CourseEditionEnrolment
 
 Service --> Controller --: CourseEditionEnrolment
 Controller -> Assembler ++: toDto(CourseEditionEnrolment)
-Assembler --> Controller --: CourseEditionEnrolmentDto
-Controller --> UI --: HTTP response
-UI --> ASC --: Success message
+
+Assembler --> Controller --: CourseEditionEnrolmentDto **with links**
+Controller --> UI --: HTTP 201 Created **with Location header and enriched DTO**
+UI --> ASC --: Success message with navigation links
 
 @enduml
