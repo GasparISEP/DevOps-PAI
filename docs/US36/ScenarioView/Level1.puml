@@ -1,22 +1,15 @@
 @startuml
-'https://plantuml.com/use-case-diagram
 
-:Main Admin: as Admin
-(Use the application) as (Use)
+left to right direction
 
-User -> (Start)
-User --> (Use)
+title  As an ASC, I want to get the number of students enrolled in a course edition using a Web UI.
 
-Admin ---> (Use)
+actor ASC as "**A**cademic **S**ervices **C**ollaborator"
 
-note right of Admin : This is an example.
+rectangle "<<PAI System>>" {
+    usecase "Get the number of students enrolled in a Course Edition" as usecase
+}
 
-note right of (Use)
-A note can also
-be on several lines
-end note
+ASC --> usecase
 
-note "This note is connected\nto several objects." as N2
-(Start) .. N2
-N2 .. (Use)
 @enduml
