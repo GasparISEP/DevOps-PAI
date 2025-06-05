@@ -8,8 +8,10 @@ import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -462,6 +464,26 @@ class SchoolYearServiceImplTest {
 
         //assert
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldGetSchoolYearByID() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(SchoolYearRepositoryImpl.class);
+        ISchoolYearFactory schoolYearFactory = mock(SchoolYearFactoryImpl.class);
+        ISchoolYearAssembler schoolYearAssembler = mock(SchoolYearAssembler.class);
+        ISchoolYearService schoolYearService = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory, schoolYearAssembler);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        when(schoolYearRepository.findBySchoolYearID(schoolYearID)).thenReturn(Optional.of(schoolYear));
+
+        //act
+        Optional<SchoolYear> opt1 = schoolYearService.getSchoolYearByID(schoolYearID);
+
+        //assert
+        assertTrue(opt1.isPresent());
     }
 
 }
