@@ -6,6 +6,7 @@ title As an ASC I want to register a Programme \n (Process View Level 1)
 actor ASC as Admin
 participant "<<System>>\n:SystemPAI" as System
 
+activate Admin
 activate System
 Admin -> System  : I Want to register a Programme in the System.
 
