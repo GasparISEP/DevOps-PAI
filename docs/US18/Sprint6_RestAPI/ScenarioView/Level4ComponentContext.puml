@@ -1,5 +1,5 @@
 @startuml
-title : US18_Create A Programme Edition For The Current School Year \n (Process View - Level 3 - Backend)
+title : US18_Create A Programme Edition For The Current School Year \n (Process View with Implementation details - Level 4 - Backend)
 autonumber
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -12,7 +12,7 @@ participant ":IProgrammeEditionFactory" as PEF
 
 'get all programmes name
 
--> Router: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestJSON)
+-> Router: POST /programmeeditions + body {"programme": {"name": "Computer Science Engineering","acronym": "CSE"}, "schoolYear": {"id": "7ed3c1a3-ec53-429a-ab57-1052bad47328"}}
 activate Router #E1F5FE
 note over Router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
@@ -111,10 +111,10 @@ ref over CPEC
 end
 
 
-CPEC --> Router : (201, Created) programmeEditionResponseDTO
+CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate CPEC
 note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
-<-- Router: (201, Created) programmeEditionResponseJSON
+<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate Router
 @enduml

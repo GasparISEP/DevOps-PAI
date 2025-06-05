@@ -2,7 +2,9 @@ package PAI.controllerRest;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
+import PAI.VOs.SchoolYearID;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.ISchoolYearHateoasAssembler;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
@@ -20,14 +22,16 @@ public class SchoolYearRestController {
 
     private final ISchoolYearAssembler schoolYearAssembler;
     private final ISchoolYearService schoolYearService;
+    private final ISchoolYearHateoasAssembler schoolYearHateoasAssembler;
 
-    public SchoolYearRestController(ISchoolYearAssembler iSYMapperDTO, ISchoolYearService iSYService) {
+    public SchoolYearRestController(ISchoolYearAssembler iSYMapperDTO, ISchoolYearService iSYService, ISchoolYearHateoasAssembler iSYAssembler) {
         schoolYearAssembler = iSYMapperDTO;
         schoolYearService = iSYService;
+        schoolYearHateoasAssembler = iSYAssembler;
     }
 
     @PostMapping()
-    public ResponseEntity<SchoolYearDTO> createASchoolYear(@RequestBody SchoolYearDTO schoolYearDTO) {
+    public ResponseEntity<?> createASchoolYear(@RequestBody SchoolYearDTO schoolYearDTO) {
         if (schoolYearDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -40,8 +44,8 @@ public class SchoolYearRestController {
             SchoolYear schoolYear = schoolYearService.addSchoolYear(description, startDate, endDate);
 
             if (schoolYear != null) {
-                SchoolYearDTO schoolYearDTO1 = schoolYearAssembler.toDTO(schoolYear);
-                return new ResponseEntity<>(schoolYearDTO1, HttpStatus.CREATED);
+                CurrentSchoolYearDTO schoolYearDTO1 = schoolYearAssembler.toCurrentSchoolYearDTO(schoolYear);
+                return ResponseEntity.status(HttpStatus.CREATED).body(schoolYearHateoasAssembler.toModel(schoolYearDTO1));
             } else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -71,6 +75,25 @@ public class SchoolYearRestController {
             return new ResponseEntity<>(currentSchoolYearResponseDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No current School Year", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSchoolYearByID(@PathVariable("id") String id) {
+        try {
+            SchoolYearID schoolYearID = schoolYearAssembler.fromStringToSchoolYearID(id);
+
+            Optional<SchoolYear> schoolYear = schoolYearService.getSchoolYearByID(schoolYearID);
+            if (schoolYear.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SchoolYear not found");
+            }
+
+            SchoolYearDTO schoolYearDTO = schoolYearAssembler.toDTO(schoolYear.get());
+            return ResponseEntity.ok(schoolYearDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
     }
 }
