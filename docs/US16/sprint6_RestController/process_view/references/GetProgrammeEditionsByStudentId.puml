@@ -10,6 +10,7 @@ participant ":ProgrammeEditionEnrolmentService" as peeService
 participant ":ProgrammeEditionEnrolmentRepository" as peeRepo
 participant ":SchoolYearRepository" as syRepo
 participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
+participant ":ProgrammeEditionEnrolmentHateoasAssembler" as peeHateoasAssembler
 database DB
 
 router -> peeCtrl: GET /programme-edition-enrolments/students?studentId={id}
@@ -21,27 +22,21 @@ DB --> peeRepo --: List<ProgrammeEditionID>
 peeRepo --> peeService --: List<ProgrammeEditionID>
 peeService --> peeCtrl --: List<ProgrammeEditionID>
 
-peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionID>, StudentID)
+peeCtrl -> peeHateoasAssembler ++: toCollectionModel(List<ProgrammeEditionID>, StudentID)
 
-loop for ProgrammeEditionID[i]
-    note over of peeAssembler
-        Invokes ProgrammeEditionEnrolmentDetailDTO
-             to construct object using
-             ProgrammeEditionID and StudentID
-            
-    end note
-    
-    peeAssembler -> syRepo ++: findBySchoolYearID(SchoolYearID)
+loop for ProgrammeEditionID[i]  
+    peeHateoasAssembler -> syRepo ++: findBySchoolYearID(SchoolYearID)
     syRepo -> DB ++: SELECT * FROM school_years\nWHERE id = SchoolYearID
     DB --> syRepo --: SchoolYearDataModel
-    syRepo --> peeAssembler --: SchoolYear
+    syRepo --> peeHateoasAssembler --: SchoolYear
 end
-peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
-peeCtrl --> router: List<ProgrammeEditionEnrolmentDetailDTO>
+peeHateoasAssembler --> peeCtrl --: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
+peeCtrl --> router: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
 
 legend right
   DTO = Data Transfer Object
   Assembler = Convert Domain to DTO
+  HATEOAS Assembler = Convert Domain to EntityModel with links
 end legend
 
-@enduml 
+@enduml
