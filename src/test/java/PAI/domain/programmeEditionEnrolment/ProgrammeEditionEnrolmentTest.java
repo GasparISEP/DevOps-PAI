@@ -20,9 +20,10 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
         //act + assert
-        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, programmeEditionEnrolmentGeneratedID);
 
     }
 
@@ -33,9 +34,10 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
         Date localDate = mock(Date.class);
         EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
         //act + assert
-        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, localDate, enrolmentStatus);
+        ProgrammeEditionEnrolment pee1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, localDate, enrolmentStatus, programmeEditionEnrolmentGeneratedID);
 
     }
 
@@ -44,7 +46,7 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null, null));
     }
 
     @Test
@@ -52,14 +54,14 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null,null, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(null, null,null, null, null));
     }
 
     @Test
     void programmeEditionIdAndDateNullGenerateException() throws Exception {
 
         StudentID studentDoubleId = mock(StudentID.class);
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null, null,null));
     }
 
     @Test
@@ -68,7 +70,7 @@ class ProgrammeEditionEnrolmentTest {
         Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(null, doubleProgrammeEditionId, validDate, null);
+            new ProgrammeEditionEnrolment(null, doubleProgrammeEditionId, validDate, null, null);
         });
     }
 
@@ -78,7 +80,7 @@ class ProgrammeEditionEnrolmentTest {
         Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(doubleStudentID, null, validDate, null);
+            new ProgrammeEditionEnrolment(doubleStudentID, null, validDate, null, null);
         });
     }
 
@@ -87,7 +89,7 @@ class ProgrammeEditionEnrolmentTest {
         Date validDate = mock(Date.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ProgrammeEditionEnrolment(null, null, validDate, null);
+            new ProgrammeEditionEnrolment(null, null, validDate, null, null);
         });
     }
 
@@ -99,7 +101,7 @@ class ProgrammeEditionEnrolmentTest {
         EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         // Act
-        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null, enrolmentStatus);
+        ProgrammeEditionEnrolment enrolment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null, enrolmentStatus, null);
 
         // Assert
         assertEquals(Date.now(), enrolment.getEnrolmentDate());
@@ -110,7 +112,7 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionEnrolment(studentDoubleId, null, null));
     }
 
     @Test
@@ -120,7 +122,7 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
 
         //act
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, null);
 
         //assert
         assertFalse(enrollment1.equals(null));
@@ -132,9 +134,10 @@ class ProgrammeEditionEnrolmentTest {
         //arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
         //act
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, programmeEditionEnrolmentGeneratedID);
 
         //assert
         assertTrue(enrollment1.equals(enrollment1));
@@ -145,10 +148,11 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange with mock objects
         StudentID studentMockId = mock(StudentID.class);
         ProgrammeEditionID programmeEditionMock = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
         // Act
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentMockId, programmeEditionMock);
-        ProgrammeEditionEnrolment enrollment2 = new ProgrammeEditionEnrolment(studentMockId, programmeEditionMock);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(studentMockId, programmeEditionMock, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment enrollment2 = new ProgrammeEditionEnrolment(studentMockId, programmeEditionMock, programmeEditionEnrolmentGeneratedID);
 
         // Assert
         assertTrue(enrollment1.equals(enrollment2));
@@ -160,8 +164,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentDouble = mock(StudentID.class);
         ProgrammeEditionID peDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDouble, peDouble);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDouble, peDouble, programmeEditionEnrolmentGeneratedID);
 
         // Act
         ProgrammeEditionID foundProgrammeEditionId = enrollment.findProgrammeEditionInEnrolment();
@@ -175,8 +180,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, programmeEditionEnrolmentGeneratedID);
 
         // Act
         ProgrammeEditionID foundProgrammeEdition = enrollment.findProgrammeEditionInEnrolment();
@@ -190,8 +196,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDoubleId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDoubleId, programmeEditionEnrolmentGeneratedID);
 
         // Act
         StudentID foundStudentId = enrollment.findStudentInProgrammeEdition();
@@ -205,8 +212,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentDoubleId = mock(StudentID.class);
         ProgrammeEditionID peDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDouble);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentDoubleId, peDouble, programmeEditionEnrolmentGeneratedID);
 
         // Act
         StudentID foundStudentId = enrollment.findStudentInProgrammeEdition();
@@ -222,7 +230,9 @@ class ProgrammeEditionEnrolmentTest {
         StudentID doubleSt1Id = mock(StudentID.class);
 
         ProgrammeEditionID doublePEId = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleSt1Id, doublePEId);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleSt1Id, doublePEId, programmeEditionEnrolmentGeneratedID);
 
         // Act
         StudentID studentId = enrollment.findStudentInProgrammeEdition();
@@ -237,9 +247,9 @@ class ProgrammeEditionEnrolmentTest {
 
         StudentID st1Id = mock(StudentID.class);
         ProgrammeEditionID pe1Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(st1Id, pe1Id);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(st1Id, pe1Id, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertFalse(enrollment.equals(new Object()));
@@ -251,9 +261,10 @@ class ProgrammeEditionEnrolmentTest {
         StudentID student1Id = mock(StudentID.class);
         StudentID student2Id = mock(StudentID.class);
         ProgrammeEditionID editionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1Id, editionId);
-        ProgrammeEditionEnrolment enrollment2 = new ProgrammeEditionEnrolment(student2Id, editionId);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1Id, editionId, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment enrollment2 = new ProgrammeEditionEnrolment(student2Id, editionId, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertFalse(enrollment1.equals(enrollment2));
@@ -264,7 +275,8 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doublePEId = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertTrue(enrollment.hasSameStudent(doubleStudentId));
@@ -277,8 +289,9 @@ class ProgrammeEditionEnrolmentTest {
         StudentID doubleStudentId = mock(StudentID.class);
         StudentID doubleStudentId2 = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doubleProgrammeEditionId);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doubleProgrammeEditionId, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertFalse(enrollment.hasSameStudent(doubleStudentId2));
@@ -289,7 +302,8 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doublePEId = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doublePEId, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertTrue(enrollment.hasSameProgrammeEdition(doublePEId));
@@ -301,8 +315,9 @@ class ProgrammeEditionEnrolmentTest {
         StudentID doubleStudentId = mock(StudentID.class);
         ProgrammeEditionID doubleProgrammeEditionId = mock(ProgrammeEditionID.class);
         ProgrammeEditionID doubleProgrammeEdition1Id = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doubleProgrammeEditionId);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(doubleStudentId, doubleProgrammeEditionId, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertFalse(enrollment.hasSameProgrammeEdition(doubleProgrammeEdition1Id));
@@ -427,9 +442,10 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
-        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID, programmeEditionEnrolmentGeneratedID);
 
         // Act & Assert
         assertEquals(enrolment1.hashCode(), enrolment2.hashCode());
@@ -441,7 +457,9 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         ProgrammeEditionEnrolmentID result = programmeEditionEnrolment.identity();
@@ -455,8 +473,10 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
-        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = programmeEditionEnrolment.sameAs(programmeEditionEnrolment1);
@@ -471,7 +491,9 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = programmeEditionEnrolment.sameAs(null);
@@ -486,7 +508,9 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID studentIDDouble = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment programmeEditionEnrolment = new ProgrammeEditionEnrolment(studentIDDouble, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
 
         // act
@@ -504,9 +528,10 @@ class ProgrammeEditionEnrolmentTest {
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
         StudentID studentID2 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
-        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2);
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
@@ -522,9 +547,10 @@ class ProgrammeEditionEnrolmentTest {
         StudentID studentID1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
         StudentID studentID2 = mock(StudentID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
-        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID1);
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID1, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
@@ -540,9 +566,10 @@ class ProgrammeEditionEnrolmentTest {
         StudentID studentID1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
         ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
-        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID2);
+        ProgrammeEditionEnrolment programmeEditionEnrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment programmeEditionEnrolment2 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID2, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = programmeEditionEnrolment1.sameAs(programmeEditionEnrolment2);
@@ -558,8 +585,9 @@ class ProgrammeEditionEnrolmentTest {
         StudentID student1 = mock(StudentID.class);
         StudentID student2 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = enrollment1.hasSameStudent(student2);
@@ -574,7 +602,9 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrollment1 = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = enrollment1.hasSameStudent(null);
@@ -589,7 +619,9 @@ class ProgrammeEditionEnrolmentTest {
         // arrange
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(student1, programmeEditionIDDouble, programmeEditionEnrolmentGeneratedID);
 
         // act
         boolean result = enrollment.hasSameProgrammeEdition(null);
@@ -603,9 +635,10 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
-        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
-        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID);
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID, programmeEditionID, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID, programmeEditionID, programmeEditionEnrolmentGeneratedID);
 
         // Act
         int hash1 = enrolment1.hashCode();
@@ -624,8 +657,10 @@ class ProgrammeEditionEnrolmentTest {
         StudentID studentID2 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
 
-        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1);
-        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrolment1 = new ProgrammeEditionEnrolment(studentID1, programmeEditionID1, programmeEditionEnrolmentGeneratedID);
+        ProgrammeEditionEnrolment enrolment2 = new ProgrammeEditionEnrolment(studentID2, programmeEditionID2, programmeEditionEnrolmentGeneratedID);
 
         // Act
         int hash1 = enrolment1.hashCode();
@@ -642,8 +677,10 @@ class ProgrammeEditionEnrolmentTest {
         SchoolYearID schoolYear1 = mock(SchoolYearID.class);
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
-        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1, programmeEditionEnrolmentGeneratedID);
         List<ProgrammeID> programmeIDs = List.of(programmeID1);
         //act
         boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
@@ -659,8 +696,10 @@ class ProgrammeEditionEnrolmentTest {
         SchoolYearID schoolYear1 = mock(SchoolYearID.class);
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(false);
-        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1, programmeEditionEnrolmentGeneratedID);
         List<ProgrammeID> programmeIDs = List.of(programmeID1);
         //act
         boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
@@ -676,8 +715,10 @@ class ProgrammeEditionEnrolmentTest {
         SchoolYearID schoolYear1 = mock(SchoolYearID.class);
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
-        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1, programmeEditionEnrolmentGeneratedID);
         List<ProgrammeID> programmeIDs = List.of();
         //act
         boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
@@ -693,8 +734,10 @@ class ProgrammeEditionEnrolmentTest {
         SchoolYearID schoolYear1 = mock(SchoolYearID.class);
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
-        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1, programmeEditionEnrolmentGeneratedID);
         List<ProgrammeID> programmeIDs = null;
         //act
         boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
@@ -710,8 +753,10 @@ class ProgrammeEditionEnrolmentTest {
         SchoolYearID schoolYear1 = null;
         StudentID student1 = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         when(programmeEditionID1.isSameProgrammeEdition(programmeID1, schoolYear1)).thenReturn(true);
-        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1);
+        ProgrammeEditionEnrolment pee1=new ProgrammeEditionEnrolment(student1,programmeEditionID1, programmeEditionEnrolmentGeneratedID);
         List<ProgrammeID> programmeIDs = List.of(programmeID1);
         //act
         boolean result = pee1.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear1,programmeIDs);
@@ -725,9 +770,10 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentIDMock = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
 
         // Act
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock, programmeEditionEnrolmentGeneratedID);
 
         // Assert
         assertTrue(enrollment.isEnrolmentActive(), "New enrolment should be active by default");
@@ -738,7 +784,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentIDMock = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock, programmeEditionEnrolmentGeneratedID);
 
         // Act
         enrollment.deactivateEnrolment();
@@ -752,7 +800,9 @@ class ProgrammeEditionEnrolmentTest {
         // Arrange
         StudentID studentIDMock = mock(StudentID.class);
         ProgrammeEditionID programmeEditionIDMock = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolment enrollment = new ProgrammeEditionEnrolment(studentIDMock, programmeEditionIDMock, programmeEditionEnrolmentGeneratedID);
 
         // Act
         enrollment.deactivateEnrolment();

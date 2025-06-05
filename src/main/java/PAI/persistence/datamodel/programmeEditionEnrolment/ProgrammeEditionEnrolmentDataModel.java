@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Programme_edition_enrolments")
@@ -22,14 +23,18 @@ public class ProgrammeEditionEnrolmentDataModel implements Serializable {
     @Version
     private Long version;
 
+    @Column (name= "generated_ID", nullable = false)
+    private UUID generatedID;
+
     public ProgrammeEditionEnrolmentDataModel() {
     }
 
     public ProgrammeEditionEnrolmentDataModel(ProgrammeEditionEnrolmentIDDataModel id,
-                                              LocalDate enrolmentDate, boolean isActive) {
+                                              LocalDate enrolmentDate, boolean isActive, UUID generatedID) {
         this.id = id;
         this._enrolmentDate = enrolmentDate;
         this.isActive = isActive;
+        this.generatedID = generatedID;
     }
 
     public ProgrammeEditionEnrolmentIDDataModel getProgrammeEditionEnrolmentIDDataModel() {
@@ -56,4 +61,5 @@ public class ProgrammeEditionEnrolmentDataModel implements Serializable {
         return Objects.hash(id);
     }
 
+    public UUID getGeneratedID() {return generatedID;}
 }

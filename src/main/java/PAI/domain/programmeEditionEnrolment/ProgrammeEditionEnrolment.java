@@ -16,22 +16,25 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
     private ProgrammeEditionEnrolmentID _programmeEditionEnrolmentID;
     private StudentID _studentId;
     private EnrolmentStatus _isActive;
+    private ProgrammeEditionEnrolmentGeneratedID _programmeEditionEnrolmentGeneratedID;
 
     //constructor
-    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId) {
+    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
         this._enrolmentDate = new Date(LocalDate.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
         this._isActive = new EnrolmentStatus(true);
+        this._programmeEditionEnrolmentGeneratedID = programmeEditionEnrolmentGeneratedID;
     }
 
-    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive) {
+    public ProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive, ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID) {
         validateStudent(studentId);
         validateProgrammeEdition(programmeEditionId);
         this._enrolmentDate = ((enrolmentDate != null) ? enrolmentDate : Date.now());
         this._programmeEditionEnrolmentID = new ProgrammeEditionEnrolmentID(programmeEditionId, studentId);
         this._isActive = isActive;
+        this._programmeEditionEnrolmentGeneratedID = programmeEditionEnrolmentGeneratedID;
     }
 
     private void validateStudent(StudentID studentId) {
@@ -114,5 +117,9 @@ public class ProgrammeEditionEnrolment implements AggregateRoot<ProgrammeEdition
 
     public void deactivateEnrolment() {
         this._isActive = new EnrolmentStatus(false);
+    }
+
+    public ProgrammeEditionEnrolmentGeneratedID getProgrammeEditionEnrolmentGeneratedID() {
+        return _programmeEditionEnrolmentGeneratedID;
     }
 }
