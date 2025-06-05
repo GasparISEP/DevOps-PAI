@@ -23,6 +23,7 @@ participant ":CourseEditionEnrolmentRestController" as Controller
 participant ":CourseEditionEnrolmentService" as Service
 participant ":CourseEditionEnrolmentRepository" as Repository
 participant ":CourseEditionEnrolmentAssembler" as Assembler
+participant ":CourseEditionEnrolmentHateoasAssemblerImpl" as HateoasAssembler
 participant ":CourseEditionEnrolmentFactory" as Factory
 participant "CourseEditionEnrolment" as Enrolment
 
@@ -77,13 +78,22 @@ Repository -> DB: INSERT INTO course_edition_enrolments
 activate DB
 DB --> Repository: Success
 deactivate DB
-Repository --> Service: true
+Repository --> Service: CourseEditionEnrolment
 deactivate Repository
 
-Service --> Controller: true
+Service --> Controller: CourseEditionEnrolment
 deactivate Service
 
-Controller --> router: 201 Created
+Controller -> HateoasAssembler: toModel(CourseEditionEnrolment)
+activate HateoasAssembler
+note right of HateoasAssembler
+  Create EntityModel with:
+  - Self link
+end note
+HateoasAssembler --> Controller: EntityModel<CourseEditionEnrolmentDto>
+deactivate HateoasAssembler
+
+Controller --> router: 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
 deactivate Controller
 
 @enduml 
