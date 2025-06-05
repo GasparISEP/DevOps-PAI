@@ -15,32 +15,40 @@ title US34: Enrol a Student in a Programme Edition (including the enrolment in a
 actor ASC
 participant ":Frontend" as FE <<component>>
 participant ":Backend" as BE <<component>>
-participant ":Database" as DB <<database>>
+database ":Database" as DB <<database>>
 
 ' Fase 1 – Consulta
 ASC -> FE ++: Wants to enrol student in a programme edition
-FE -> BE ++: Get programme editions for selected school year\n(GET /programme-editions?schoolYearID={id})
-BE -> DB ++: Retrieve programme editions by school year
-DB --> BE --: List of programme editions
-BE --> FE --: Return list of programme editions (200 OK)
-FE --> ASC --: Display programme editions to select
+FE -> BE ++: Get programmes where student is enrolled \n(GET /programmes?studentID={id})
+BE -> DB ++: Retrieve programmes where student is enrolled
+DB --> BE --: List of programmes where student is enrolled
+BE --> FE --: Return list of programmes (200 OK)
+FE --> ASC --: Display programmes
 
-ASC -> FE ++: Select programme edition
-FE -> BE ++: Get programme edition details (GET /programme-editions/{editionID})
-BE -> DB ++: Fetch programme edition by ID
-DB --> BE --: Programme edition data with associated courses
-BE --> FE --: Return programme edition details (200 OK)
-FE --> ASC --: Display programme edition and its courses
-
-
+ASC -> FE ++: Select programme and school year
+FE -> BE ++: Get programe edition \n(GET /programme-editions?schoolYearID={id}&programmeID={id})
+BE -> DB ++: Fetch programe edition by programme ID and school  ID
+DB --> BE --: Programme edition fetched
+BE --> FE --: Return programme edition
+FE -> BE ++: Get course editions for programme edition \n(GET /course-editions?programmeEditionID={id})
+BE -> DB ++: Fetch course editions by programme edition ID
+DB --> BE --: List of course editions
+BE --> FE --: Return course editions
+FE --> ASC --: Display course edition list
 
 'Fase 2 – Inscrição
-ASC -> FE ++: Selects courses to enrol the student
-FE -> BE ++: Submit enrolment request with studentID and selected courses\n(POST /programme-editions/enrolments/{editionID})
-BE -> DB ++: Save enrolment (programme + selected courses)
-DB --> BE --: Enrolment saved successfully
-BE --> FE --: Confirm successful enrolment (201 Created)
-FE --> ASC --: Show enrolment success message
+ASC -> FE ++: Confirms enrolment (programme + selected courses)
 
+FE -> BE ++: Submit programme edition enrolment \n(POST /programme-editions/enrolments/{editionID})
+BE -> DB ++: Save programme edition enrolment
+DB --> BE --: Programme edition enrolment saved
+BE --> FE --: Programme enrolment confirmed (201 Created)
+
+FE -> BE ++: Submit course editions enrolment \n(POST /course-editions/enrolments/{editionID})
+BE -> DB ++: Save course editions enrolments
+DB --> BE --: Course editions enrolments saved
+
+BE --> FE --: Course enrolments confirmed (201 Created)
+FE --> ASC --: Show enrolment success message
 
 @enduml
