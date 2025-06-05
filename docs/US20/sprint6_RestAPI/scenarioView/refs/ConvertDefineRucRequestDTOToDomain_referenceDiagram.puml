@@ -18,11 +18,11 @@ participant ":CourseEditionAssembler" as Assembler
 activate Controller #E1F5FE
 Controller -> DTO : getTeacherID()
 activate DTO #E1F5FE
-DTO --> Controller : String (teacherID)
+DTO --> Controller : "teacherID"
 deactivate DTO
 
 == Create TeacherID ==
-Controller -> Assembler : createTeacherID(teacherID)
+Controller -> Assembler : createTeacherID("teacherID")
 activate Assembler #E1F5FE
 Assembler -> ":TeacherAcronym"** : new TeacherAcronym(teacherID)
 Assembler -> ":TeacherID" ** : new TeacherID(teacherAcronym)
