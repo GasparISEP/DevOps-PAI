@@ -1,0 +1,64 @@
+@startuml
+title : US18_Create A Programme Edition For The Current School Year \n (Process View - Level 3 - Backend)
+autonumber
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":Router" as Router <<Component>>
+participant ":RESTController" as CPEC <<Component>>
+participant ":Service" as PES <<Component>>
+participant ":Domain" as PEF <<Component>>
+
+
+'get all programmes name
+
+-> Router: POST /programmeeditions + body {"programme": {"name": "Computer Science Engineering","acronym": "CSE"}, "schoolYear": {"id": "7ed3c1a3-ec53-429a-ab57-1052bad47328"}}
+activate Router #E1F5FE
+note over Router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+
+'''''''''''''''''''''''''''''''''''''''''
+Router -> CPEC: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestDTO)
+
+ref over CPEC
+    Convert programmeEditionRequestDTO to programmeEditionDTO
+end
+'create programmeEdition for current School Year
+activate CPEC #E1F5FE
+CPEC -> PES:createProgrammeEditionAndSave(programmeEditionDTO)
+ref over PES
+    Convert programmeEditionDTO to programmeID and schoolYearID
+end
+activate PES #E1F5FE
+ref over PES
+    Validate if programmeID and schoolYearID exist in respective Repositories
+end
+
+alt programmeExists && schoolYearExists
+PES -> PEF: createProgrammeEdition(programmeID, schoolYearID)
+activate PEF #E1F5FE
+
+participant ":Repository" as PER <<Component>>
+
+PEF --> PES: pe1
+deactivate PEF
+
+PES -> PER: save(pe1)
+activate PER #E1F5FE
+
+PER --> PES: pe1
+deactivate PER
+end
+PES --> CPEC: programmeEditionDTO
+deactivate PES
+ref over CPEC
+    Convert programmeEditionDTO to programmeEditionResponseDTO
+end
+
+
+CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate CPEC
+note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
+
+<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate Router
+@enduml

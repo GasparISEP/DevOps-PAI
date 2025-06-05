@@ -14,6 +14,7 @@ skinparam sequence {
 
 actor "Administrator" as ADM
 participant ":Frontend" as UI
+participant ":Router" as RT
 participant ":DepartmentRestController" as Controller
 participant ":IDepartmentAssembler" as Assembler
 participant ":IDepartmentHateoasAssembler" as HAAssembler
@@ -22,52 +23,51 @@ participant ":IDepartmentRepository" as Repository
 participant ":DepartmentFactory" as Factory
 participant ":DepartmentDataModelMapper" as DataModelMapper
 
-group Human Interaction
+
 ADM -> UI ++: Request to register a department
 UI --> ADM --: Prompt: "Fill in department details"
 ADM -> UI ++: Enter name and acronym
-end group
 
-group Controller Layer
-UI -> Controller ++: (POST) /departments {request}
+
+UI -> RT ++: POST /departments \n{body: name, acronym}
+RT -> Controller ++: POST /departments {request}
 Controller -> Assembler ++: RegisterDepartmentRequest
 Assembler --> Controller --: RegisterDepartmentRequestVOs
-end group
 
 
-group Application + Domain Logic
-Controller -> Service ++: createAndSaveDepartment
-Service -> Factory ++: create Department
-Factory --> Service --: Department
-end group
 
-group Validation
-Service -> Repository ++: validate department
-Repository -> : validate department
-Repository <-- : validation result
-Repository --> Service --: validation result
-end group
 
-group Persistence
-Service -> Repository ++: save department
-Repository -> DataModelMapper ++: map to DepartmentDataModel
-DataModelMapper --> Repository --: DepartmentDataModel
-Repository -> : (INSERT INTO departments)
-Repository <-- : persisted Department
-Repository --> Service --: persisted Department
-end group
+Controller -> Service ++: createAndSaveDepartment (requestVOs)
+Service -> Factory ++: createDepartment (name, acronym)
+Factory --> Service --: department
 
-group Response Mapping
-Service --> Controller --: Department
-Controller -> Assembler ++: assemble to DepartmentDTO
-Assembler --> Controller --: DepartmentDTO
-Controller -> HAAssembler ++: assemble to EntityModel<DepartmentDTO>
-HAAssembler --> Controller --: EntityModel<DepartmentDTO>
-end group
 
-group HTTP Response
-Controller --> UI --: HTTP 201 Created + \nEntityModel<DepartmentDTO>
-UI --> ADM --: Success message
-end group
+
+Service -> Repository ++: containsOfIdentity (departmentId)
+Repository -> : containsOfIdentity (departmentId)
+Repository <-- : false
+Repository --> Service --: false
+
+
+
+Service -> Repository ++: save (department)
+Repository -> DataModelMapper ++: toDataModel (department)
+DataModelMapper --> Repository --: departmentDataModel
+Repository -> : INSERT INTO departments
+Repository <-- : departmentDataModel
+Repository --> Service --: department
+
+
+Service --> Controller --: department
+Controller -> Assembler ++: toDTO (department)
+Assembler --> Controller --: departmentDTO
+Controller -> HAAssembler ++: toModel (departmentDTO)
+HAAssembler --> Controller --: EntityModel<DepartmentDTO> departmentDTOHateoas
+
+
+Controller --> RT --: HTTP 201 Created + departmentDTOHateoas
+RT --> UI --: HTTP 201 Created + \ndepartmentDTOHateoas
+UI --> ADM --: OK. Created.
+
 
 @enduml
