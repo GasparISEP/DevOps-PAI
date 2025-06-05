@@ -3,12 +3,15 @@ package PAI.service.department;
 import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.TeacherID;
+import PAI.assembler.department.IDepartmentAssembler;
 import PAI.domain.department.Department;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import org.junit.jupiter.api.Test;
+
 import java.util.Optional;
+
 import PAI.VOs.*;
 import PAI.dto.department.DepartmentWithDirectorDTO;
 
@@ -18,12 +21,64 @@ import static org.mockito.Mockito.*;
 class UpdateDepartmentDirectorServiceImplTest {
 
     @Test
+    void constructor_shouldThrowException_whenDepartmentRepositoryIsNull() {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
+
+        // 1. departmentRepository é null
+        Exception ex1 = assertThrows(IllegalArgumentException.class, () ->
+                new UpdateDepartmentDirectorServiceImpl(null, teacherRepositoryDouble, departmentAssemblerDouble)
+        );
+        assertEquals("Dependencies cannot be null.", ex1.getMessage());
+    }
+
+    @Test
+    void constructor_shouldThrowException_whenTeacherRepositoryIsNull() {
+
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
+
+        // 2. teacherRepository é null
+        Exception ex2 = assertThrows(IllegalArgumentException.class, () ->
+                new UpdateDepartmentDirectorServiceImpl(departmentRepositoryDouble, null, departmentAssemblerDouble)
+        );
+        assertEquals("Dependencies cannot be null.", ex2.getMessage());
+    }
+
+    @Test
+    void constructor_shouldThrowException_whenDepartmentAssemblerIsNull() {
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+
+        // 3. departmentAssembler é null
+        Exception ex3 = assertThrows(IllegalArgumentException.class, () ->
+                new UpdateDepartmentDirectorServiceImpl(departmentRepositoryDouble, teacherRepositoryDouble, null)
+        );
+        assertEquals("Dependencies cannot be null.", ex3.getMessage());
+    }
+    @Test
+    void shouldConstruct() {
+        //Arrange
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
+
+        // Act
+        UpdateDepartmentDirectorServiceImpl result  = new UpdateDepartmentDirectorServiceImpl(departmentRepositoryDouble, teacherRepositoryDouble, departmentAssemblerDouble);
+         // Assert
+
+        assertNotNull(result);
+    }
+
+    @Test
     void shouldUpdateDirectorSuccessfully() throws Exception {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -37,38 +92,60 @@ class UpdateDepartmentDirectorServiceImplTest {
 
         // Simula que o teacher pertence ao departamento
         when(teacher.isInDepartment(departmentID)).thenReturn(true);
-        when(department.changeDirector(teacherID)).thenReturn(true);
-        when(departmentRepository.save(department)).thenReturn(department);
 
-        // Simula os VOs do departamento
-        when(department.identity()).thenReturn(departmentID);
-        when(departmentID.toString()).thenReturn("ABC");
-
-        Name nameVO = mock(Name.class);
-        when(nameVO.toString()).thenReturn("Department of Engineering and Informatics");
-        when(department.getName()).thenReturn(nameVO);
-        String name = nameVO.toString();
-
-        when(department.getAcronym()).thenReturn(mock(DepartmentAcronym.class));
-        when(department.getAcronym().toString()).thenReturn("DEI");
-        String acronym = department.getAcronym().toString();
-
-        TeacherID directorID = mock(TeacherID.class);
-        when(department.getDirectorID()).thenReturn(directorID);
-        when(directorID.toString()).thenReturn("MAF");
-        String director = directorID.toString();
+        // Simula o DTO criado pelo assembler
+        DepartmentWithDirectorDTO expectedDTO = new DepartmentWithDirectorDTO("ABC", "Astronomy", "AAA", "MAF");
+        when(departmentAssembler.toDWDDTO(department)).thenReturn(expectedDTO);
 
         // Act
         DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
 
         // Assert
         assertNotNull(result);
-        assertEquals("ABC", result.id());
-        assertEquals(name, result.name());
-        assertEquals(acronym, result.acronym());
-        assertEquals(director, result.teacherID());
+        assertEquals(expectedDTO, result); // usa o próprio DTO esperado
+
         verify(department).changeDirector(teacherID);
         verify(departmentRepository).save(department);
+        verify(departmentAssembler).toDWDDTO(department);
+    }
+
+    @Test
+    void shouldUpdateDirectorSuccessfullyWhenAlreadyExistsADirector() throws Exception {
+        // Arrange
+        IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
+        UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID existingDirectorID = mock(TeacherID.class); // Diretor atual
+        TeacherID newDirectorID = mock(TeacherID.class);      // Novo diretor
+
+        Department department = mock(Department.class);
+        Teacher newDirector = mock(Teacher.class);
+
+        // Simula retorno dos repositórios
+        when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
+        when(teacherRepository.ofIdentity(newDirectorID)).thenReturn(Optional.of(newDirector));
+
+        // Simula que o teacher pertence ao departamento
+        when(newDirector.isInDepartment(departmentID)).thenReturn(true);
+
+        // Simula que o departamento já tinha um diretor
+        when(department.getDirectorID()).thenReturn(existingDirectorID);
+
+        // Simula o DTO criado pelo assembler
+        DepartmentWithDirectorDTO expectedDTO = new DepartmentWithDirectorDTO("ABC", "Astronomy", "AAA", "MAF");
+        when(departmentAssembler.toDWDDTO(department)).thenReturn(expectedDTO);
+
+        // Act
+        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, newDirectorID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedDTO, result);
+
     }
 
 
@@ -77,8 +154,9 @@ class UpdateDepartmentDirectorServiceImplTest {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -99,8 +177,9 @@ class UpdateDepartmentDirectorServiceImplTest {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = null;
@@ -116,8 +195,9 @@ class UpdateDepartmentDirectorServiceImplTest {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = null;
         TeacherID teacherID = mock(TeacherID.class);
@@ -132,10 +212,11 @@ class UpdateDepartmentDirectorServiceImplTest {
     void shouldThrowExceptionWhenDepartmentRepositoryIsNull() {
         // Arrange
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new UpdateDepartmentDirectorServiceImpl(null, teacherRepository);
+            new UpdateDepartmentDirectorServiceImpl(null, teacherRepository, departmentAssembler);
         });
     }
 
@@ -143,10 +224,24 @@ class UpdateDepartmentDirectorServiceImplTest {
     void shouldThrowExceptionWhenTeacherRepositoryIsNull() {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            new UpdateDepartmentDirectorServiceImpl(departmentRepository, null);
+            new UpdateDepartmentDirectorServiceImpl(departmentRepository, null, departmentAssembler);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDepartmentAssemblerIsNull() {
+        // Arrange
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
+
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, null);
         });
     }
 
@@ -155,8 +250,9 @@ class UpdateDepartmentDirectorServiceImplTest {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -172,110 +268,94 @@ class UpdateDepartmentDirectorServiceImplTest {
         assertEquals("Teacher not found for the given ID.", exception.getMessage());
     }
 
-
     @Test
-    void shouldAddDirectorWhenDepartmentDoesNotHaveADirector() throws Exception {
+    void updateDirector_shouldThrowException_whenTeacherNotInDepartment() throws Exception {
         // Arrange
         IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository, departmentAssembler);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
-        Teacher teacher = mock(Teacher.class);
-        Department department = mock(Department.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        // Simula retorno dos repositórios
-        when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
-        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
+        when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(departmentDouble));
+        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacherDouble));
+        when(teacherDouble.isInDepartment(departmentID)).thenReturn(false); // <- chave do teste
 
-        // Simula pertença e estado do departamento
-        when(teacher.isInDepartment(departmentID)).thenReturn(true);
-        when(department.getDirectorID()).thenReturn(null); // Não há diretor
-        when(department.changeDirector(teacherID)).thenReturn(true);
-        when(departmentRepository.save(department)).thenReturn(department);
+        // Act + Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> updateDepartmentDirectorService.updateDirector(departmentID, teacherID)
+        );
 
-        // Simula info usada no DTO
-        when(department.identity()).thenReturn(departmentID);
-        when(departmentID.toString()).thenReturn("DEF");
-
-        Name nameVO = mock(Name.class);
-        when(nameVO.toString()).thenReturn("Department of Mathematics");
-        when(department.getName()).thenReturn(nameVO);
-
-        DepartmentAcronym acronymVO = mock(DepartmentAcronym.class);
-        when(acronymVO.toString()).thenReturn("DM");
-        when(department.getAcronym()).thenReturn(acronymVO);
-
-        when(department.getDirectorID()).thenReturn(teacherID);
-        when(teacherID.toString()).thenReturn("JSS");
-
-        // Act
-        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("DEF", result.id());
-        assertEquals("Department of Mathematics", result.name());
-        assertEquals("DM", result.acronym());
-        assertEquals("JSS", result.teacherID());
-        verify(department).changeDirector(teacherID);
-        verify(departmentRepository).save(department);
+        assertEquals("Teacher does not belong to Department.", exception.getMessage());
     }
 
-
     @Test
-    void shouldReplaceDirectorWhenDepartmentAlreadyHasDirector() throws Exception {
+    void updateDirector_shouldThrowRuntimeException_whenSavingDepartmentFails() throws Exception {
         // Arrange
-        IDepartmentRepository departmentRepository = mock(IDepartmentRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        UpdateDepartmentDirectorServiceImpl updateDepartmentDirectorService =
-                new UpdateDepartmentDirectorServiceImpl(departmentRepository, teacherRepository);
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
+
+        UpdateDepartmentDirectorServiceImpl service =
+                new UpdateDepartmentDirectorServiceImpl(departmentRepositoryDouble, teacherRepositoryDouble, departmentAssemblerDouble);
 
         DepartmentID departmentID = mock(DepartmentID.class);
         TeacherID teacherID = mock(TeacherID.class);
-        TeacherID existingDirectorID = mock(TeacherID.class);
-        Department department = mock(Department.class);
-        Teacher teacher = mock(Teacher.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
 
-        // Simula repositórios
-        when(departmentRepository.findDepartmentByID(departmentID)).thenReturn(Optional.of(department));
-        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
+        when(departmentRepositoryDouble.findDepartmentByID(departmentID)).thenReturn(Optional.of(departmentDouble));
+        when(teacherRepositoryDouble.ofIdentity(teacherID)).thenReturn(Optional.of(teacherDouble));
+        when(teacherDouble.isInDepartment(departmentID)).thenReturn(true);
 
-        // Simula estado do departamento e professor
-        when(department.identity()).thenReturn(departmentID);
-        when(department.getDirectorID()).thenReturn(existingDirectorID);
-        when(teacher.isInDepartment(departmentID)).thenReturn(true);
-        when(department.changeDirector(teacherID)).thenReturn(true);
-        when(departmentRepository.save(department)).thenReturn(department);
+        // Simular falha ao guardar
+        when(departmentRepositoryDouble.save(departmentDouble)).thenThrow(new RuntimeException("Database error"));
 
-        // Simula o que é usado na criação do DTO
-        when(departmentID.toString()).thenReturn("ABC");
+        // Act + Assert
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> service.updateDirector(departmentID, teacherID)
+        );
 
-        Name nameVO = mock(Name.class);
-        when(nameVO.toString()).thenReturn("Department of Engineering and Informatics");
-        when(department.getName()).thenReturn(nameVO);
+        assertEquals("Department was not save.", exception.getMessage());
+        assertEquals("Database error", exception.getCause().getMessage()); // opcional: validação da causa
+    }
 
-        DepartmentAcronym acronymVO = mock(DepartmentAcronym.class);
-        when(acronymVO.toString()).thenReturn("DEI");
-        when(department.getAcronym()).thenReturn(acronymVO);
+    @Test
+    void updateDirector_shouldReturnDTO_whenUpdateSuccessful() throws Exception {
+        // Arrange
+        IDepartmentRepository departmentRepositoryDouble = mock(IDepartmentRepository.class);
+        ITeacherRepository teacherRepositoryDouble = mock(ITeacherRepository.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
 
-        when(department.getDirectorID()).thenReturn(teacherID);
-        when(teacherID.toString()).thenReturn("MAF");
+        UpdateDepartmentDirectorServiceImpl service =
+                new UpdateDepartmentDirectorServiceImpl(departmentRepositoryDouble, teacherRepositoryDouble, departmentAssemblerDouble);
+
+        DepartmentID departmentID = mock(DepartmentID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        Department departmentDouble = mock(Department.class);
+        Teacher teacherDouble = mock(Teacher.class);
+        DepartmentWithDirectorDTO dtoDouble = mock(DepartmentWithDirectorDTO.class);
+
+        when(departmentRepositoryDouble.findDepartmentByID(departmentID)).thenReturn(Optional.of(departmentDouble));
+        when(teacherRepositoryDouble.ofIdentity(teacherID)).thenReturn(Optional.of(teacherDouble));
+        when(teacherDouble.isInDepartment(departmentID)).thenReturn(true);
+        when(departmentRepositoryDouble.save(departmentDouble)).thenReturn(departmentDouble);
+        when(departmentAssemblerDouble.toDWDDTO(departmentDouble)).thenReturn(dtoDouble);
 
         // Act
-        DepartmentWithDirectorDTO result = updateDepartmentDirectorService.updateDirector(departmentID, teacherID);
+        DepartmentWithDirectorDTO result = service.updateDirector(departmentID, teacherID);
 
         // Assert
         assertNotNull(result);
-        assertEquals("ABC", result.id());
-        assertEquals("Department of Engineering and Informatics", result.name());
-        assertEquals("DEI", result.acronym());
-        assertEquals("MAF", result.teacherID());
-
-        verify(department).changeDirector(teacherID);
-        verify(departmentRepository).save(department);
+        assertEquals(dtoDouble, result);
+        verify(departmentAssemblerDouble, times(1)).toDWDDTO(departmentDouble);
     }
 }
 
