@@ -7,24 +7,24 @@ participant ":Router" as r #gold
 participant ":ControllerRest" as c #gold
 participant ":Service" as s #gold
 participant ":Domain" as d #gold
-participant "programmeEditionEnrolment1:ProgrammeEditionEnrolment" as PEE
+participant "programmeEditionEnrolment1:\nProgrammeEditionEnrolment" as PEE #gold
 participant ":Repository" as rep #gold
-participant "courseEditionEnrolment1:CourseEditionEnrolment" as CEE
+participant "courseEditionEnrolment1:\nCourseEditionEnrolment" as CEE #gold
+skinparam DefaultTextAlignment center
 
 
-
-[o-> r++ : **POST** /programmeeditonenrolment/registercourseeditions (schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
-r->c++ : enrolStudentinProgrammeEditionAndSetOfCourses(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
+[o-> r++ : **POST** /programmeeditonenrolment/registercourseeditions \n(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, \nList<selectedCourseEditionsDto>,date,enrolmentStatus)
+r->c++ : enrolStudentinProgrammeEditionAndSetOfCourses\n(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, \nList<selectedCourseEditionsDto>,date,enrolmentStatus)
 |||
 ref over c, c
 **transform** :
 DTO to Domain
 end ref
 |||
-c-> s++ : enrolStudentInProgrammeEditionAndSetOfCourses(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, List<selectedCourseEditionsDto>,date,enrolmentStatus)
+c-> s++ : enrolStudentInProgrammeEditionAndSetOfCourses\n(schoolYearIdDto,studentIdDTO, programmeEditionIdDTO, \nList<selectedCourseEditionsDto>,date,enrolmentStatus)
 
-s->d ++: createProgrammeEditionEnrolment(programmeEditionId, studentID,enrolmentStatus,date)
-d -> PEE  ** : newProgrammeEditionEnrolment(programmeEditionID,studentID,programmeEditionId, studentID,enrolmentStatus,date)
+s->d ++: createProgrammeEditionEnrolment(programmeEditionId, \nstudentID,enrolmentStatus,date)
+d -> PEE  ** : newProgrammeEditionEnrolment\n(programmeEditionID,studentID,\nprogrammeEditionId, studentID,enrolmentStatus,date)
 activate PEE
 PEE --> d-- : programmeEditionEnrolment1
 d --> s-- : programmeEditionEnrolment1
@@ -41,14 +41,14 @@ d --> s-- : List<courseEditionEnrolments>
 s -> rep++: saveAll (List<courseEditionEnrolments>)
 rep ->o] : saveAll(List<courseEditionEnrolments>)
 rep <-o] : List<courseEditionEnrolments>
-rep --> s -- : List<courseEditionEnrolments>
-s --> c : List<courseEditionEnrolments>, programmeEditionEnrolment1 , studentID
+rep --> s --: List<courseEditionEnrolments>
+s --> c --: List<courseEditionEnrolments>, \nprogrammeEditionEnrolment1 , studentID
 
 ref over c, c
 **transform** :
 Domain to DTO
 end ref
 
-c --> r-- : List<courseEditionEnrolmentsDTO>, programmeEditionEnrolment1DTO , studentIdDTO
-[o<-- r --: (Ok, 200) List<courseEditionEnrolmentsDTO>, programmeEditionEnrolment1DTO , studentIdDTO
+c --> r-- : List<courseEditionEnrolmentsDTO>, \nprogrammeEditionEnrolment1DTO , studentIdDTO
+[o<-- r --: (Ok, 200) List<courseEditionEnrolmentsDTO>, p\nrogrammeEditionEnrolment1DTO , studentIdDTO
 @enduml
