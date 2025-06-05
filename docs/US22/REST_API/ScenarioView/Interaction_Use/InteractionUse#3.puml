@@ -18,10 +18,13 @@ activate ceer
 
 ceer ->  : findAll()
 ceer <--  :  List <CourseEditionEnrolmentDataModel>
+
+loop [. for each courseEdition, convert toDomain]
 ceer -> ceemp : toDomain()
 activate ceemp
 ceemp --> ceer : List <CourseEditionEnrolment>
 deactivate ceemp
+end loop
 ceer --> service : true
 deactivate ceer
 
