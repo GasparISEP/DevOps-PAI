@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockConstruction;
 
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
+
+import java.util.UUID;
 
 class ProgrammeEditionEnrolmentFactoryImplTest {
 
@@ -121,6 +120,63 @@ class ProgrammeEditionEnrolmentFactoryImplTest {
         assertEquals("ProgrammeEdition cannot be null.", exception.getMessage());
     }
 
+    @Test
+    void shouldCreateEnrolmentWhenAllParametersAreValid() throws Exception {
+        StudentID studentId = mock(StudentID.class);
+        ProgrammeID programmeId = mock(ProgrammeID.class);
+        SchoolYearID schoolYearId = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
+
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentGeneratedID generatedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+
+        ProgrammeEditionEnrolment enrolment = factory.createWithEnrolmentDateFromDataModel(
+                studentId, programmeEditionId, enrolmentDate, status, generatedID
+        );
+
+        assertNotNull(enrolment);
+        assertEquals(generatedID, enrolment.getProgrammeEditionEnrolmentGeneratedID());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStudentIdIsNull() throws Exception {
+        ProgrammeID programmeId = mock(ProgrammeID.class);
+        SchoolYearID schoolYearId = mock(SchoolYearID.class);
+        ProgrammeEditionID programmeEditionId = new ProgrammeEditionID(programmeId, schoolYearId);
+
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentGeneratedID generatedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            factory.createWithEnrolmentDateFromDataModel(
+                    null, programmeEditionId, enrolmentDate, status, generatedID
+            );
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionIdIsNull() {
+        StudentID studentId = mock(StudentID.class);
+
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+        ProgrammeEditionEnrolmentGeneratedID generatedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
+        ProgrammeEditionEnrolmentFactoryImpl factory = new ProgrammeEditionEnrolmentFactoryImpl();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            factory.createWithEnrolmentDateFromDataModel(
+                    studentId, null, enrolmentDate, status, generatedID
+            );
+        });
+    }
 }
 
 

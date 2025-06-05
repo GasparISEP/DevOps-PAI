@@ -15,4 +15,6 @@ public interface IProgrammeEditionEnrolmentFactory {
     ) {
         return newProgrammeEditionEnrolment(studentID, programmeEditionID);
     }
-}
+
+    ProgrammeEditionEnrolment createWithEnrolmentDateFromDataModel(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive, ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID);
+    }

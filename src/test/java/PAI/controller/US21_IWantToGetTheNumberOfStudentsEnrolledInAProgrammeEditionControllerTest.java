@@ -41,6 +41,8 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +115,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             new NameWithNumbersAndSpecialChars("Computer Sci"),
             new Acronym("SWE")
         );
+        /*UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedIDID = new ProgrammeEditionEnrolmentGeneratedID(programmeEditionErolmentGeneratedID);*/
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
 
         // Act
@@ -120,6 +124,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         
         // Assert
         assertEquals(1, result);
+
+
     }
 
     @Test
@@ -131,6 +137,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
             new NameWithNumbersAndSpecialChars("Chemistry"),
             new Acronym("CHY")
         );
+
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
 
         // Act
