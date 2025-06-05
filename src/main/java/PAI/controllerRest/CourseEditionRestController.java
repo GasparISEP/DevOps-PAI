@@ -88,9 +88,10 @@ public CourseEditionRestController(
     @PatchMapping("/enrolments/students/remove")
     public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
         try {
-            CourseEditionEnrolment courseEditionEnrolment = courseEditionEnrolmentAssembler.toDomain(courseEditionEnrolmentDto);
+            CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDto);
+            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDto);
 
-            boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(courseEditionEnrolment.knowStudent(), courseEditionEnrolment.knowCourseEdition());
+            boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
 
             if (removed) {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
