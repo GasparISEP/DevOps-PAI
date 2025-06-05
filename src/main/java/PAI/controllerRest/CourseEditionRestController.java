@@ -85,24 +85,11 @@ public CourseEditionRestController(
     }
 
     @PatchMapping("/enrolments/students/remove")
-    public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody RemoveCourseEditionEnrolmentDTO removeCourseEditionEnrolmentDTO) throws Exception {
+    public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
         try {
-            //For mapper-------------------
-            CourseEditionID courseEditionID =
-                    new CourseEditionID(new ProgrammeEditionID(
-                            new ProgrammeID(new NameWithNumbersAndSpecialChars(removeCourseEditionEnrolmentDTO.programmeName()), new Acronym(removeCourseEditionEnrolmentDTO.programmeAcronym())),
-                            new SchoolYearID(removeCourseEditionEnrolmentDTO.schoolYearId())
-                    ),
-                            new CourseInStudyPlanID(
-                                    new CourseID(new Acronym(removeCourseEditionEnrolmentDTO.courseAcronym()), new Name(removeCourseEditionEnrolmentDTO.courseName())),
-                                    new StudyPlanID(new ProgrammeID(new NameWithNumbersAndSpecialChars(removeCourseEditionEnrolmentDTO.studyPlanProgrammeName()), new Acronym(removeCourseEditionEnrolmentDTO.studyPlanProgrammeAcronym())),
-                                            new Date(removeCourseEditionEnrolmentDTO.studyPlanProgrammeDate()))
-                            ));
+            CourseEditionEnrolment courseEditionEnrolment = courseEditionEnrolmentAssembler.toDomain(courseEditionEnrolmentDto);
 
-            StudentID studentID = new StudentID(removeCourseEditionEnrolmentDTO.studentID());
-            //--------------
-
-            boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
+            boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(courseEditionEnrolment.knowStudent(), courseEditionEnrolment.knowCourseEdition());
 
             if (removed) {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully removed the enrolment from course edition");
