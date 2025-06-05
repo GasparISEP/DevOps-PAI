@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/schoolyears")
+@RequestMapping("/school-years")
 public class SchoolYearRestController {
 
     private final ISchoolYearAssembler schoolYearAssembler;

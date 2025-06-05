@@ -4,15 +4,19 @@ import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.ISchoolYearHateoasAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.*;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.programme.IProgrammeService;
+import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,14 +29,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 class ProgrammeRestControllerTest {
 
@@ -463,5 +468,89 @@ class ProgrammeRestControllerTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new NameWithNumbersAndSpecialChars(invalidName);
         });
+    }
+
+    @Test
+    void shouldReturnAListOfSchoolYears () {
+        // Arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        ProgrammeDTO dto1 = mock(ProgrammeDTO.class);
+        ProgrammeDTO dto2 = mock(ProgrammeDTO.class);
+        ProgrammeDTO dto3 = mock(ProgrammeDTO.class);
+        List<ProgrammeDTO> progDTOS = List.of(dto1, dto2, dto3);
+        when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
+
+        // Act
+        ResponseEntity<?> response = controller.getAllProgrammes();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(progDTOS, response.getBody());
+        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
+        verify(_programmeServiceDouble).getAllProgrammes();
+        assertTrue(((Collection<?>) response.getBody()).contains(dto2));
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfSchoolYearsIfThereAreNoSchoolYearsInTheSystem () {
+        // Arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        List<ProgrammeDTO> progDTOS = List.of();
+        when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
+
+        // Act
+        ResponseEntity<?> response = controller.getAllProgrammes();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(progDTOS, response.getBody());
+        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
+        verify(_programmeServiceDouble).getAllProgrammes();
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
+        // Arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        String errorMessage = "Invalid input data";
+
+        when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new IllegalArgumentException(errorMessage));
+
+        // Act
+        ResponseEntity<?> response = controller.getAllProgrammes();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCodeValue());
+        assertEquals(errorMessage, response.getBody());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
+        // Arrange
+        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
+                _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble, _teacherServiceDouble);
+
+        when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new RuntimeException("Database is down"));
+
+        // Act
+        ResponseEntity<?> response = controller.getAllProgrammes();
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+        assertEquals("Unexpected error occurred", response.getBody());
     }
 }
