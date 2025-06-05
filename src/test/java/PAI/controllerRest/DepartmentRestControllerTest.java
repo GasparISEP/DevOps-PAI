@@ -467,6 +467,7 @@ class DepartmentRestControllerTest {
         DepartmentRestController departmentRestController =
                 new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
 
+        // Arrange request
         DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
         when(request.teacherID()).thenReturn(teacherIDStr);
 
@@ -475,11 +476,13 @@ class DepartmentRestControllerTest {
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
+        // Arrange command
         DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
         when(departmentAssembler.fromRequestToCommand(departmentIDStr, request)).thenReturn(command);
         when(command.department()).thenReturn(departmentID);
         when(command.director()).thenReturn(teacherID);
 
+        //Exception
         when(updateDepartmentDirectorService.updateDirector(departmentID, teacherID))
                 .thenThrow(new BusinessRuleViolationException("Director already assigned"));
 
@@ -493,42 +496,46 @@ class DepartmentRestControllerTest {
 
     @Test
     void shouldReturn500WhenUnexpectedExceptionIsThrownUpdateDirector() throws Exception {
-
         // Arrange
         String departmentIDStr = "DEI";
         String teacherIDStr = "MAF";
 
-        IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
-        IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
-        IUpdateDepartmentDirectorService updateDepartmentDirectorService = mock(IUpdateDepartmentDirectorService.class);
-        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
+        IDepartmentRegistrationService departmentRegistrationServiceDouble = mock(IDepartmentRegistrationService.class);
+        IDepartmentAssembler departmentAssemblerDouble = mock(IDepartmentAssembler.class);
+        IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
+        IDepartmentHateoasAssembler departmentHateoasAssemblerDouble = mock(IDepartmentHateoasAssembler.class);
 
-        DepartmentRestController departmentRestController =
-                new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorService, departmentHateoasAssembler);
+        DepartmentRestController controller = new DepartmentRestController(departmentRegistrationServiceDouble,departmentAssemblerDouble,updateDepartmentDirectorServiceDouble,
+                departmentHateoasAssemblerDouble );
 
-        DepartmentWithDirectorRequest request = mock(DepartmentWithDirectorRequest.class);
-        when(request.teacherID()).thenReturn(teacherIDStr);
+        // Arrange Request
+        DepartmentWithDirectorRequest requestDouble = mock(DepartmentWithDirectorRequest.class);
+        when(requestDouble.teacherID()).thenReturn(teacherIDStr);
+
 
         DepartmentAcronym departmentAcronym = new DepartmentAcronym(departmentIDStr);
         TeacherAcronym teacherAcronym = new TeacherAcronym(teacherIDStr);
         DepartmentID departmentID = new DepartmentID(departmentAcronym);
         TeacherID teacherID = new TeacherID(teacherAcronym);
 
-        DepartmentWithDirectorCommand command = mock(DepartmentWithDirectorCommand.class);
-        when(departmentAssembler.fromRequestToCommand(departmentIDStr, request)).thenReturn(command);
-        when(command.department()).thenReturn(departmentID);
-        when(command.director()).thenReturn(teacherID);
+        //Arrange Command
+        when(departmentAssemblerDouble.fromRequestToCommand(departmentIDStr, requestDouble)).thenReturn(mock(DepartmentWithDirectorCommand.class));
+        DepartmentWithDirectorCommand commandDouble = mock(DepartmentWithDirectorCommand.class);
+        when(departmentAssemblerDouble.fromRequestToCommand(departmentIDStr, requestDouble)).thenReturn(commandDouble);
+        when(commandDouble.department()).thenReturn(departmentID);
+        when(commandDouble.director()).thenReturn(teacherID);
 
-        when(updateDepartmentDirectorService.updateDirector(eq(departmentID), eq(teacherID)))
-                .thenThrow(new RuntimeException("Unexpected database error"));
+        // Exception
+        when(updateDepartmentDirectorServiceDouble.updateDirector(departmentID, teacherID)).thenThrow(new RuntimeException("BOOM"));
 
         // Act
-        ResponseEntity<?> response = departmentRestController.updateDepartmentDirector(departmentIDStr, request);
+        ResponseEntity<?> response = controller.updateDepartmentDirector(departmentIDStr, requestDouble);
 
         // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Unexpected error occurred.", response.getBody());
+        assertTrue(response.getBody().toString().contains("Internal Error: BOOM"));
     }
+
 
     @Test
     void shouldReturnDepartmentByIdWithExpectedDTO() {
