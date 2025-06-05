@@ -1,12 +1,14 @@
-package PAI.dto.schoolYear;
+package PAI.assembler.schoolYear;
 
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
-import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
+import PAI.dto.schoolYear.CurrentSchoolYearDTO;
+import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -18,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class SchoolYearMapperDTOTest {
+class SchoolYearAssemblerTest {
 
     @Test
     void shouldConstructASchoolYearDTOMapper() {
