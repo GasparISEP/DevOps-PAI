@@ -2,6 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
+import PAI.assembler.schoolYear.ISchoolYearHateoasAssembler;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.department.DepartmentDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
@@ -26,9 +27,10 @@ class SchoolYearRestControllerTest {
         //Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
 
         //Act
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         //Assert
         assertNotNull(syRestController);
@@ -40,10 +42,11 @@ class SchoolYearRestControllerTest {
         //Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController schoolYearRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController schoolYearRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         //Act
-        ResponseEntity<SchoolYearDTO> resp = schoolYearRestController.createASchoolYear(null);
+        ResponseEntity<?> resp = schoolYearRestController.createASchoolYear(null);
 
         //Assert
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -54,7 +57,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         SchoolYearDTO dto = mock(SchoolYearDTO.class);
 
@@ -72,7 +76,7 @@ class SchoolYearRestControllerTest {
         when(iSYMapperDTO.toDTO(schoolYear)).thenReturn(dto);
 
         // Act
-        ResponseEntity<SchoolYearDTO> resp = syRestController.createASchoolYear(dto);
+        ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
 
         // Assert
         assertEquals(HttpStatus.CREATED, resp.getStatusCode());
@@ -84,13 +88,14 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         when(iSYService.addSchoolYear(any(), any(), any())).thenReturn(null);
         SchoolYearDTO dto = mock(SchoolYearDTO.class);
 
         // Act
-        ResponseEntity<SchoolYearDTO> resp = syRestController.createASchoolYear(dto);
+        ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -101,13 +106,14 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         SchoolYearDTO dto = mock(SchoolYearDTO.class);
         when(iSYMapperDTO.toDescription(dto)).thenThrow(new RuntimeException("Invalid"));
 
         // Act
-        ResponseEntity<SchoolYearDTO> resp = syRestController.createASchoolYear(dto);
+        ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -118,7 +124,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         SchoolYearDTO dto1 = mock(SchoolYearDTO.class);
         SchoolYearDTO dto2 = mock(SchoolYearDTO.class);
@@ -143,7 +150,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         List<SchoolYearDTO> schoolYearDTOS = List.of();
         when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
@@ -164,7 +172,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         String errorMessage = "Invalid input data";
 
@@ -184,7 +193,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         when(iSYService.getAllSchoolYears()).thenThrow(new RuntimeException("Database is down"));
 
@@ -202,7 +212,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
         CurrentSchoolYearDTO currentSchoolYearDTO = mock(CurrentSchoolYearDTO.class);
         CurrentSchoolYearResponseDTO currentSchoolYearResponseDTO = mock(CurrentSchoolYearResponseDTO.class);
         when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.of(currentSchoolYearDTO));
@@ -221,7 +232,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
         when(iSYService.getCurrentSchoolYear()).thenReturn(Optional.empty());
 
@@ -238,7 +250,8 @@ class SchoolYearRestControllerTest {
         //arrange
         ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService, iSYHateoas);
 
         String id = "550e8400-e29b-41d4-a716-446655440000";
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -262,7 +275,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService, iSYHateoas);
 
         String id = "550e8400-e29b-41d4-a716-446655440000";
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -282,7 +296,8 @@ class SchoolYearRestControllerTest {
         // Arrange
         ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService, iSYHateoas);
 
         String invalidId = "550e8400-e29b-41d4-a716-446655440000";
 
@@ -303,7 +318,8 @@ class SchoolYearRestControllerTest {
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService);
+        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController syRestController = new SchoolYearRestController(schoolYearAssembler,iSYService, iSYHateoas);
 
         when(schoolYearAssembler.fromStringToSchoolYearID(id)).thenReturn(schoolYearID);
         when(iSYService.getSchoolYearByID(schoolYearID))
