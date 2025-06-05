@@ -75,15 +75,21 @@ Service -> Repository: save(courseEditionEnrolmentDataModel)
 activate Repository
 Repository -> DB: INSERT INTO course_edition_enrolments
 activate DB
-DB --> Repository: Success
-deactivate DB
-Repository --> Service: true
+  DB --> Repository: Success
+  deactivate DB
+Repository --> Service: CourseEditionEnrolment
 deactivate Repository
 
-Service --> Controller: true
+Service --> Controller: CourseEditionEnrolment
 deactivate Service
 
-Controller --> router: 201 Created
+Controller -> Assembler: toDto(CourseEditionEnrolment)
+activate Assembler
+
+Assembler --> Controller: CourseEditionEnrolmentDto **with links**
+deactivate Assembler
+
+Controller --> router: 201 Created **with Location header and enriched DTO**
 deactivate Controller
 
 @enduml 
