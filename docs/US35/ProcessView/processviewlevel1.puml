@@ -1,0 +1,25 @@
+@startuml
+autonumber
+
+title As an ASC I want to remove the enrolment of a student \n in a course edition (Process View Level 1)
+
+actor ASC as Admin
+participant "<<System>>\n:SystemPAI" as System
+
+Admin -> System : I want to remove a student's enrolment from a Course Edition
+
+System --> Admin : Select a Course Edition
+
+Admin -> System : Course Edition selected
+
+System --> Admin : Here is the list of students enrolled
+
+Admin -> System : Select a Student to remove
+
+System --> Admin : Confirm removal?
+
+Admin -> System : Confirm
+
+System --> Admin : Enrolment removed successfully!
+
+@enduml
