@@ -74,8 +74,6 @@ export default function StudentForm() {
 
         try {
 
-
-            // Preparar o payload com o novo studentID e outros campos
             const payload = {
                 ...form,
                 phoneCountryCode: form.countryCode,
@@ -398,6 +396,7 @@ export default function StudentForm() {
                         <p>The student was registered successfully.</p>
                         {success && (
                                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                                    <p><strong>Student ID:</strong> {success.studentID}</p>
                                     <p><strong>Name:</strong> {success.name}</p>
                                     <p><strong>NIF:</strong> {success.nif}</p>
                                     <p><strong>NIF Country:</strong> {success.nifcountry}</p>
@@ -407,6 +406,7 @@ export default function StudentForm() {
                                     <p><strong>Address Country:</strong> {success.addressCountry}</p>
                                     <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
                                     <p><strong>Email:</strong> {success.email}</p>
+                                    <p><strong>Academic Email:</strong> {success.academicEmail}</p>
                                 </div>
                         )}
                         <button className="modal-btn" onClick={() => {
