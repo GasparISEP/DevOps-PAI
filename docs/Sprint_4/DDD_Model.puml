@@ -2,6 +2,7 @@
 skinparam ranksep 120
 skinparam nodesep 120
 skinparam classArrowFontSize 16
+!pragma layout smetana
 
 package "CourseInStudyPlan Aggregate" {
     entity "<<root>>\nCourseInStudyPlan" {
