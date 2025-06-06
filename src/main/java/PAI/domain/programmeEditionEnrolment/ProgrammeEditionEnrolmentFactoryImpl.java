@@ -1,9 +1,6 @@
 package PAI.domain.programmeEditionEnrolment;
 
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +17,9 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
             throw new IllegalArgumentException("ProgrammeEdition cannot be null.");
         }
 
-        return new ProgrammeEditionEnrolment(studentId, programmeEditionId);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = new ProgrammeEditionEnrolmentGeneratedID();
+
+        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, programmeEditionEnrolmentGeneratedID);
     }
 
     @Override
@@ -34,6 +33,22 @@ public class ProgrammeEditionEnrolmentFactoryImpl implements IProgrammeEditionEn
             throw new IllegalArgumentException("ProgrammeEdition cannot be null.");
         }
 
-        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, enrolmentDate, isActive);
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = new ProgrammeEditionEnrolmentGeneratedID();
+
+        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, enrolmentDate, isActive, programmeEditionEnrolmentGeneratedID);
+    }
+
+    @Override
+    public ProgrammeEditionEnrolment createWithEnrolmentDateFromDataModel(StudentID studentId, ProgrammeEditionID programmeEditionId, Date enrolmentDate, EnrolmentStatus isActive, ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID) {
+
+        if (studentId == null) {
+            throw new IllegalArgumentException("Student cannot be null.");
+        }
+
+        if (programmeEditionId == null) {
+            throw new IllegalArgumentException("ProgrammeEdition cannot be null.");
+        }
+
+        return new ProgrammeEditionEnrolment(studentId, programmeEditionId, enrolmentDate, isActive, programmeEditionEnrolmentGeneratedID);
     }
 }

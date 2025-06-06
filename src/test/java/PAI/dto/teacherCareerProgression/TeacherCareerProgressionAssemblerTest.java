@@ -1,8 +1,8 @@
 package PAI.dto.teacherCareerProgression;
 
 import PAI.VOs.*;
+import PAI.assembler.teacherCareerProgression.TeacherCareerProgressionAssembler;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 

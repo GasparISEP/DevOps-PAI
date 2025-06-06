@@ -1,6 +1,7 @@
 package PAI.mapper.department;
 
 import PAI.VOs.DepartmentAcronym;
+
 import PAI.VOs.Name;
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
@@ -8,6 +9,7 @@ import PAI.domain.department.Department;
 import PAI.domain.department.IDepartmentFactory;
 import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.department.DepartmentDataModel;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 
 import org.springframework.stereotype.Component;
 @Component
@@ -16,20 +18,28 @@ public class DepartmentMapperImpl implements IDepartmentMapper {
     public DepartmentMapperImpl(IDepartmentFactory departmentFactory) {
         this.departmentFactory = departmentFactory;
     }
-    @Override
+
     public DepartmentDataModel toDataModel(Department department) {
         if (department == null) {
             throw new IllegalArgumentException("department Cannot be null");
         }
-        String name = department.getName().getName();
-        String acronym = department.getAcronym().getAcronym();
-        if(department.getDirectorID() != null) {
+
+        DepartmentDataModel dataModel = new DepartmentDataModel();
+        dataModel.setId(new DepartmentIDDataModel(department.identity().getAcronym().getAcronym()));
+        dataModel.setName(department.getName().getName());
+        dataModel.setAcronym(department.getAcronym().getAcronym());
+
+        if (department.getDirectorID() != null) {
             String teacherAcronym = department.getDirectorID().getTeacherAcronym().getAcronym();
             TeacherIDDataModel directorID = new TeacherIDDataModel(teacherAcronym);
-            return new DepartmentDataModel(name,acronym,directorID);
+            dataModel.setDirectorId(directorID);
+        } else {
+            dataModel.setDirectorId(null);
         }
-        return new DepartmentDataModel(name,acronym);
+
+        return dataModel;
     }
+
     @Override
     public Department toDomain(DepartmentDataModel departmentDataModel) throws Exception {
         if (departmentDataModel == null) {

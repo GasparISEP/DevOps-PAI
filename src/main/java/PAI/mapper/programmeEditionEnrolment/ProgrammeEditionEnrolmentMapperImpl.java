@@ -42,7 +42,8 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
         ProgrammeEditionID programmeEditionId = pEEID.get().getProgrammeEditionId();
         Date enrolmentDate = new Date(dataModel.getEnrolmentDate());
         EnrolmentStatus enrolmentStatus = new EnrolmentStatus(dataModel.isActive());
-        return Optional.of(_programmeEditionEnrolmentFactory.createWithEnrolmentDate(studentID, programmeEditionId,enrolmentDate, enrolmentStatus ));
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = new ProgrammeEditionEnrolmentGeneratedID(dataModel.getGeneratedID());
+        return Optional.of(_programmeEditionEnrolmentFactory.createWithEnrolmentDateFromDataModel(studentID, programmeEditionId,enrolmentDate, enrolmentStatus, programmeEditionEnrolmentGeneratedID));
     }
 
     @Override
@@ -54,6 +55,6 @@ public class ProgrammeEditionEnrolmentMapperImpl implements IProgrammeEditionEnr
 
         Optional<ProgrammeEditionEnrolmentIDDataModel> idDataModel = _programmeEditionEnrolmentIDMapper.toDataModel(domain.identity());
 
-        return Optional.of(new ProgrammeEditionEnrolmentDataModel(idDataModel.get(), domain.getEnrolmentDate().getLocalDate(),domain.isEnrolmentActive()));
+        return Optional.of(new ProgrammeEditionEnrolmentDataModel(idDataModel.get(), domain.getEnrolmentDate().getLocalDate(),domain.isEnrolmentActive(), domain.getProgrammeEditionEnrolmentGeneratedID().toUUID()));
     }
 }

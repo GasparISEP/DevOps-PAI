@@ -6,7 +6,6 @@ import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerPr
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.dto.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
 import org.junit.jupiter.api.Test;

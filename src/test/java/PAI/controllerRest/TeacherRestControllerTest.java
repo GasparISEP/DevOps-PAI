@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
+import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;
@@ -23,7 +24,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 class TeacherRestControllerTest {
 

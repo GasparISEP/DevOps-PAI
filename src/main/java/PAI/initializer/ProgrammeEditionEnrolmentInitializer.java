@@ -39,12 +39,13 @@ public class ProgrammeEditionEnrolmentInitializer {
                     line = line.replace("\uFEFF", "");
                     String[] fields = line.split(",");
 
-                    if (fields.length == 4) {
+                    if (fields.length == 5) {
                         try {
                             int studentNum = Integer.parseInt(fields[0].trim());
                             Acronym programmeAcronym = new Acronym(fields[1].trim());
                             NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(fields[2].trim());
                             UUID schoolYear = UUID.fromString(fields[3].trim());
+                            UUID generatedID = UUID.fromString(fields[4].trim());
 
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
                             StudentID studentID = new StudentID(studentNum);

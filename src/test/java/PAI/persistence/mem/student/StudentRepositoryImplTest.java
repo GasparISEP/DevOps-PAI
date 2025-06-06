@@ -234,7 +234,7 @@ class StudentRepositoryImplTest {
     }
 
     @Test
-    void shouldReturnZeroWhenStudentListIsEmpty() {
+    void shouldReturn1MillionWhenStudentListIsEmpty() {
         // Arrange
         List<Student> emptyList = new ArrayList<>();
         when(studentListFactory.newArrayList()).thenReturn(emptyList);
@@ -244,7 +244,7 @@ class StudentRepositoryImplTest {
         int result = studentRepositoryImpl.lastStudentID();
 
         // Assert
-        assertEquals(0, result);
+        assertEquals(1000000, result);
     }
 
     @Test

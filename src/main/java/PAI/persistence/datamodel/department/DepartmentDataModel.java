@@ -48,6 +48,12 @@ public class DepartmentDataModel {
 
     public void setDirectorId(TeacherIDDataModel directorId) { this.directorId = directorId; }
 
+    public void setId(DepartmentIDDataModel id) { this.id = id;    }
+
+    public void setName(String name) { this.name = name;    }
+
+    public void setAcronym(String acronym) { this.acronym = acronym;   }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

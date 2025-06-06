@@ -1,7 +1,8 @@
-package PAI.dto.teacherCareerProgression;
+package PAI.assembler.teacherCareerProgression;
 import PAI.VOs.*;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 
+import PAI.dto.teacherCareerProgression.*;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

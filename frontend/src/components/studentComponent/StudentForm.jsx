@@ -10,7 +10,6 @@ import '../../styles/Form.css';
 import {Link} from "react-router-dom";
 
 const initialFormState = {
-    studentID: '',
     name: '',
     nif: '',
     nifcountry: '',
@@ -74,24 +73,11 @@ export default function StudentForm() {
         setLoading(true);
 
         try {
-            // Buscar o último studentID antes de prosseguir
-            const response = await fetch('http://localhost:8081/students', {
-                headers: { 'Accept': 'application/json' }
-            });
 
-            if (!response.ok) {
-                const text = await response.text();
-                throw new Error(`HTTP ${response.status} - ${text}`);
-            }
-
-            const data = await response.json();
-            const nextID = (data.lastStudentID || 0) + 1;
 
             // Preparar o payload com o novo studentID e outros campos
             const payload = {
                 ...form,
-                studentID: nextID,  // Atribui o ID gerado dinamicamente
-                academicEmail: `${nextID}@isep.ipp.pt`,
                 phoneCountryCode: form.countryCode,
                 phoneNumber: form.phoneNumber,
                 nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
