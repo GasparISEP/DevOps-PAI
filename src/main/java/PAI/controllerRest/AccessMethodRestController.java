@@ -5,12 +5,17 @@ import PAI.dto.accessMethod.*;
 import PAI.assembler.accessMethod.IAccessMethodHateoasAssembler;
 import PAI.service.accessMethod.IAccessMethodService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static PAI.utils.ValidationUtils.validateNotNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/access-methods")
@@ -51,6 +56,19 @@ public class AccessMethodRestController {
         AccessMethodResponseDTO responseDTO = assembler.toResponseDto(serviceDTO);
         EntityModel<AccessMethodResponseDTO> resource = hateoasAssembler.toModel(responseDTO);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping
+    public ResponseEntity<CollectionModel<EntityModel<AccessMethodResponseDTO>>> getAllAccessMethods() {
+        List<AccessMethodServiceDTO> serviceDTOs = accessMethodService.getAllAccessMethods();
+        if (serviceDTOs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        List<AccessMethodResponseDTO> responseDTOs = assembler.toResponseDtoList(serviceDTOs);
+        CollectionModel<EntityModel<AccessMethodResponseDTO>> collectionModel = hateoasAssembler.toCollectionModel(responseDTOs);
+
+        return ResponseEntity.ok(collectionModel);
     }
 }
 

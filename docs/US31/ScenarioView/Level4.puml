@@ -6,6 +6,9 @@ title As an ASC, I want to register a programme in the system.
 actor ASC as Admin
 
 participant ":UI" as UI #lightyellow
+participant "dtCtrl:DegreeTypeRestController" as dtC #lightblue
+participant "dCtrl:DepartmentRestController" as dC #lightpink
+participant "tCtrl:TeacherRestController" as tC #lightyellow
 participant "pCtrl:ProgrammeRestController" as C #implementation
 participant "pService:ProgrammeService" as PS #physical
 participant "pFactory:ProgrammeFactory" as PF #strategy
@@ -16,45 +19,45 @@ participant "pRepo:ProgrammeRepository" as PR #lightcyan
 activate Admin
 Admin -> UI ++: I want to register a Programme in the System
 
-UI -> C ++: getAllDegreeTypes()
+UI -> dtC ++: getAllDegreeTypes()
 
-ref over C
+ref over dtC
           Get DegreeTypes List
 end ref
 
-C --> UI --: List<DegreeTypeDTO>
+dtC --> UI --: List<DegreeTypeDTO>
 
 UI --> Admin --: Choose a Degree Type from the list
 
 Admin -> UI ++: degreeType
 
-UI -> C ++: getAllDepartments()
+UI -> dC ++: getAllDepartments()
 
-ref over C
+ref over dC
           Get Departments List
 end ref
 
-C --> UI --: List<DepartmentDTO>
+dC --> UI --: List<DepartmentDTO>
 
 UI --> Admin --: Choose a Department from the list
 
 Admin -> UI ++: department
 
-UI -> C ++: getAllTeachers()
+UI -> tC ++: getAllTeachers()
 
-ref over C
+ref over tC
           Get Teachers List
 end ref
 
-C --> UI --: List<TeacherDTO>
+tC --> UI --: List<TeacherDTO>
 
 UI --> Admin --: Choose a Programme Director from the list
 
 Admin -> UI ++: teacher
 
-UI --> Admin --: Name? Acronym? Maximum of Ects credits\nper Semester? Quantity of Semesters?
+UI --> Admin --: Name? Acronym?
 
-Admin -> UI ++: name, acronym, maxOfEcts, quantityOfSemesters
+Admin -> UI ++: name, acronym
 
 UI -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
 

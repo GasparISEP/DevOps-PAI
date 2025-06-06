@@ -2,12 +2,12 @@
 
 autonumber
 
-title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 3)
+title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 3 - getCourseEditions)
 
 participant "<<Component>>\n:Router" as Router #lightblue
-participant "<<Component>>\n:CourseEditionRestController" as C #lightpink
-participant "<<Component>>\n:CourseEditionService" as S #lightyellow
-participant "<<Component>>\n:CourseEditionRepository" as R #lightgreen
+participant "<<Component>>\nCEC:CourseEditionRestController" as C #lightpink
+participant "<<Component>>\nCES:CourseEditionService" as S #lightyellow
+participant "<<Component>>\nCER:CourseEditionRepository" as R #lightgreen
 participant "<<Component>>\n:Drivers" as D #strategy
 
  -> Router ++: **GET** /course-editions

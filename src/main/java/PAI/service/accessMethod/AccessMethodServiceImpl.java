@@ -12,7 +12,9 @@ import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 import static PAI.utils.ValidationUtils.validateNotBlank;
 import static PAI.utils.ValidationUtils.validateNotNull;
@@ -61,7 +63,19 @@ public class AccessMethodServiceImpl implements IAccessMethodService {
 
         return repositoryAccessMethod.ofIdentity(accessMethodId)
                 .map(assembler::toDTO)
-                .orElse(null);
+                .orElseThrow(() -> new BusinessRuleViolationException("Access method not found with ID " + id));
+    }
+
+    @Override
+    public List<AccessMethodServiceDTO> getAllAccessMethods() {
+        Iterable<AccessMethod> iterable = repositoryAccessMethod.findAll();
+
+        List<AccessMethod> accessMethods = StreamSupport.stream(iterable.spliterator(), false)
+                .toList();
+        if (accessMethods.isEmpty()) {
+            throw new BusinessRuleViolationException("No access methods found.");
+        }
+        return assembler.toDTOList(accessMethods);
     }
 }
 

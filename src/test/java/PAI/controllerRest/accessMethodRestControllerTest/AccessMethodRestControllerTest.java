@@ -12,6 +12,7 @@ import PAI.service.accessMethod.IAccessMethodService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -19,12 +20,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
+import java.util.Collections;
+import java.util.List;
 
 
 @WebMvcTest(AccessMethodRestController.class)
@@ -129,4 +135,56 @@ public class AccessMethodRestControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void getAllAccessMethods_shouldReturn200WithCollection() throws Exception {
+        // Arrange
+        List<AccessMethodServiceDTO> serviceDTOs = List.of(
+                new AccessMethodServiceDTO("id1", "Name1"),
+                new AccessMethodServiceDTO("id2", "Name2")
+        );
+
+        List<AccessMethodResponseDTO> responseDTOs = List.of(
+                new AccessMethodResponseDTO("id1", "Name1"),
+                new AccessMethodResponseDTO("id2", "Name2")
+        );
+
+        CollectionModel<EntityModel<AccessMethodResponseDTO>> collectionModel =
+                CollectionModel.of(
+                        responseDTOs.stream()
+                                .map(dto -> EntityModel.of(dto))
+                                .toList(),
+                        linkTo(methodOn(AccessMethodRestController.class).getAllAccessMethods()).withSelfRel()
+                );
+
+        when(service.getAllAccessMethods()).thenReturn(serviceDTOs);
+        when(assembler.toResponseDtoList(serviceDTOs)).thenReturn(responseDTOs);
+        when(hateoasAssembler.toCollectionModel(responseDTOs)).thenReturn(collectionModel);
+
+        // Act & Assert
+        mockMvc.perform(get("/access-methods"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.accessMethodResponseDTOList").exists())
+                .andExpect(jsonPath("$._links.self.href").exists());
+    }
+
+    @Test
+    void getAllAccessMethods_shouldReturn204WhenNoData() throws Exception {
+        // Arrange
+        when(service.getAllAccessMethods()).thenReturn(List.of());
+
+        // Act & Assert
+        mockMvc.perform(get("/access-methods"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldReturn204WhenNoAccessMethods() throws Exception {
+
+        // Arrange
+        when(service.getAllAccessMethods()).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        mockMvc.perform(get("/access-methods"))
+                .andExpect(status().isNoContent());
+    }
 }
