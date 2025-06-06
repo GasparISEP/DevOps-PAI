@@ -1,7 +1,5 @@
 package PAI.VOs;
 
-import PAI.ddd.DomainId;
-
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,7 +14,7 @@ public class CourseEditionEnrolmentGeneratedID {
 
     public CourseEditionEnrolmentGeneratedID(UUID schoolYearID) {
         if (schoolYearID == null){
-            throw new IllegalArgumentException("Course Edition Enrolment ID cannot be null");
+            throw new IllegalArgumentException("Course Edition Enrolment Generated ID cannot be null");
         }
         this._courseEditionEnrolmentID = schoolYearID;
     }
