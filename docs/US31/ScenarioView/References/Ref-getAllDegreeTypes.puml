@@ -29,13 +29,9 @@ M --> DTR --: degreeType[i]
 end
 
 DTR --> DTS --: List<DegreeType>
-loop for DegreeType[i]
-DTS -> DTA ++ :fromDomainToDTO(degreeType[i]))
-DTA -> DTDTO ++: newDegreeTypeDTO(degreeType[i]))
-DTDTO --> DTA --: degreeTypeDTO[i]
-DTA --> DTS --: degreeTypeDTO[i]
-end
-DTS --> C --: List<DegreeTypeDTO>
+DTS --> C --: List<DegreeType>
+C -> DTA ++: toDTOs(List<DegreeType>)
+DTA --> C --: List<DegreeTypeDTO>
 deactivate C
 
 @enduml

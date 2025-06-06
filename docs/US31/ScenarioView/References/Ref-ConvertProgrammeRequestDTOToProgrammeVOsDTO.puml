@@ -1,8 +1,8 @@
 @startuml
 autonumber
 
-participant "pService:ProgrammeServiceImpl" as PS #implementation
-participant "pMapper:ProgrammeAssembler" as PA #lightgreen
+participant "pController:ProgrammeRestController" as PS #implementation
+participant "pAssembler:ProgrammeAssembler" as PA #lightgreen
 participant "programmeVOsDTO:ProgrammeVOsDTO" as PDTO
 
 activate PS
