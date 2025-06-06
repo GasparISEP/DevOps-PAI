@@ -1,5 +1,7 @@
 package PAI.assembler.teacher;
 
+import PAI.VOs.DepartmentID;
+import PAI.VOs.TeacherID;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
@@ -12,4 +14,6 @@ public interface ITeacherAssembler {
     TeacherDTO toDTO(Teacher teacher);
 
     Iterable<TeacherDTO> toDTOs(Iterable<Teacher> teachers);
+
+    TeacherID fromStringToTeacherID(String id);
 }

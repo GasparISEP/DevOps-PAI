@@ -22,37 +22,30 @@ class UpdateTeacherWorkingPercentageRequestDTOTest {
 
     @Test
     void shouldPassValidationWhenAllFieldsAreValid() {
-        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024", "ABC", 70);
+        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024", 70);
         Set<ConstraintViolation<UpdateTeacherWorkingPercentageRequestDTO>> violations = validator.validate(request);
         assertTrue(violations.isEmpty());
     }
 
     @Test
     void shouldFailValidationWhenDateIsBlank() {
-        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO(" ", "ABC", 70);
+        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO(" ", 70);
         Set<ConstraintViolation<UpdateTeacherWorkingPercentageRequestDTO>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Date is required.")));
     }
 
-    @Test
-    void shouldFailValidationWhenTeacherIdIsBlank() {
-        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024", "", 70);
-        Set<ConstraintViolation<UpdateTeacherWorkingPercentageRequestDTO>> violations = validator.validate(request);
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Teacher ID required.")));
-    }
 
     @Test
     void shouldFailValidationWhenWorkingPercentageIsNegative() {
-        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024", "ABC",-1 );
+        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024",-1 );
         Set<ConstraintViolation<UpdateTeacherWorkingPercentageRequestDTO>> violations = validator.validate(request);
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Working percentage must be at least 0")));
     }
 
     @Test
     void shouldFailValidationWhenWorkingPercentageIsAbove100() {
-        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024", "ABC",101 );
+        UpdateTeacherWorkingPercentageRequestDTO request = new UpdateTeacherWorkingPercentageRequestDTO("12-05-2024",101 );
         Set<ConstraintViolation<UpdateTeacherWorkingPercentageRequestDTO>> violations = validator.validate(request);
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Working percentage must be at most 100")));
     }

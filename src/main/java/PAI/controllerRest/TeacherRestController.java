@@ -4,6 +4,8 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
+import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
+import PAI.assembler.teacherCareerProgression.UpdateTeacherWorkingPercentageHateoasAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;
@@ -30,14 +32,16 @@ public class TeacherRestController {
     private final ITeacherCareerProgressionAssembler careerAssembler;
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
+    private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
 
-    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler) {
+    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
         this.teacherRegistrationService = teacherService;
         this.teacherAssembler = teacherAssembler;
         this.careerService = careerService;
         this.careerAssembler = careerAssembler;
         this.teacherWithRelevantDataService = teacherWithRelevantDataService;
         this.teacherWithRelevantDataAssembler = teacherWithRelevantDataAssembler;
+        this.updateTeacherWorkingPercentageHateoasAssembler = updateTeacherWorkingPercentageHateoasAssembler;
     }
 
     @GetMapping
@@ -75,6 +79,28 @@ public class TeacherRestController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTeacherById(@PathVariable("id") String id) {
+        try {
+            TeacherID teacherID = teacherAssembler.fromStringToTeacherID(id);
+
+            Optional<Teacher> teacher = teacherRegistrationService.getTeacherById(teacherID);
+            if (teacher.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
+            }
+
+            TeacherDTO responseDTO = teacherAssembler.toDTO(teacher.get());
+            return ResponseEntity.ok(responseDTO);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
+        }
+    }
+
     @PostMapping("/careerprogressions/{teacherID}/categories")
     public ResponseEntity<?> updateTeacherCategory(@Valid @RequestBody UpdateTeacherCategoryRequestDTO request) {
         try {
@@ -97,9 +123,10 @@ public class TeacherRestController {
 
     @PostMapping("/careerprogressions/{teacherID}/working-percentage")
     public ResponseEntity<?> updateTeacherWorkingPercentage(
+            @PathVariable ("teacherID") String teacherID,
             @Valid @RequestBody UpdateTeacherWorkingPercentageRequestDTO request) {
         try {
-            UpdateTeacherWorkingPercentageCommand command = careerAssembler.toUpdateTeacherWorkingPercentageCommand(request);
+            UpdateTeacherWorkingPercentageCommand command = careerAssembler.toUpdateTeacherWorkingPercentageCommand(teacherID, request);
             Optional<TeacherCareerProgression> result = careerService.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
             if (result.isEmpty()) {
@@ -107,7 +134,8 @@ public class TeacherRestController {
             }
 
             UpdateTeacherWorkingPercentageResponseDTO responseDTO = careerAssembler.toUpdateWorkingPercentageDTO(result.get());
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    updateTeacherWorkingPercentageHateoasAssembler.toModel(responseDTO));
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

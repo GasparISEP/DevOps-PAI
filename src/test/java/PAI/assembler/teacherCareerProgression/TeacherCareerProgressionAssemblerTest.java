@@ -1,8 +1,8 @@
-package PAI.dto.teacherCareerProgression;
+package PAI.assembler.teacherCareerProgression;
 
 import PAI.VOs.*;
-import PAI.assembler.teacherCareerProgression.TeacherCareerProgressionAssembler;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
+import PAI.dto.teacherCareerProgression.*;
 import org.junit.jupiter.api.Test;
 
 
@@ -112,13 +112,13 @@ class TeacherCareerProgressionAssemblerTest {
         //arrange
         TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
         UpdateTeacherWorkingPercentageRequestDTO requestDTO = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
+        String teacherID = "ABV";
 
         when(requestDTO.date()).thenReturn("22-02-2022");
-        when(requestDTO.teacherID()).thenReturn("ABC");
         when(requestDTO.workingPercentage()).thenReturn(70);
 
         //act
-        UpdateTeacherWorkingPercentageCommand result = assembler.toUpdateTeacherWorkingPercentageCommand(requestDTO);
+        UpdateTeacherWorkingPercentageCommand result = assembler.toUpdateTeacherWorkingPercentageCommand(teacherID, requestDTO);
 
         //assert
         assertNotNull(result);

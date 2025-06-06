@@ -68,4 +68,12 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
         }
         return listDTO;
     }
+
+    @Override
+    public TeacherID fromStringToTeacherID(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Teacher ID cannot be null or blank");
+        }
+        return new TeacherID(new TeacherAcronym(id));
+    }
 }
