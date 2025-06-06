@@ -9,7 +9,6 @@ class StudentDTOTest {
     @Test
     void shouldCreateStudentDTO() {
         //Arrange
-        int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
         String nifCountry = "Portugal";
@@ -22,11 +21,10 @@ class StudentDTOTest {
         String email = "paulo.andre@mail.pt";
 
         //Act
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+        StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
 
         //Assert
         assertNotNull(studentDTO);
-        assertEquals(studentID, studentDTO.getStudentID());
         assertEquals(studentName, studentDTO.getName());
         assertEquals(nif, studentDTO.getNIF());
         assertEquals(nifCountry, studentDTO.getNIFCountry());
@@ -45,7 +43,6 @@ class StudentDTOTest {
         StudentDTO studentDTO = new StudentDTO();
 
         //Act
-        studentDTO.setStudentID(1234567);
         studentDTO.setName("Paulo");
         studentDTO.setNIF("123456789");
         studentDTO.setNIFCountry("Portugal");
@@ -58,7 +55,6 @@ class StudentDTOTest {
         studentDTO.setEmail("paulo.andre@mail.pt");
 
         //Assert
-        assertEquals(1234567, studentDTO.getStudentID());
         assertEquals("Paulo", studentDTO.getName());
         assertEquals("123456789", studentDTO.getNIF());
         assertEquals("Portugal", studentDTO.getNIFCountry());

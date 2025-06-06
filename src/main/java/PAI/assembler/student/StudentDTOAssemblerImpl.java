@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentDTOAssemblerImpl implements IStudentDTOAssembler{
 
-    public StudentID toStudentID(StudentDTO studentDTO) {
-        return new StudentID(studentDTO.getStudentID());
-    }
-
     public Name toName(StudentDTO studentDTO) {
         return new Name(studentDTO.getName());
     }
@@ -31,10 +27,6 @@ public class StudentDTOAssemblerImpl implements IStudentDTOAssembler{
 
     public Address toAddress(StudentDTO studentDTO) {
         return new Address(new Street(studentDTO.getStreet()), new PostalCode(studentDTO.getPostalCode()), new Location(studentDTO.getLocation()), new Country(studentDTO.getAddressCountry()));
-    }
-
-    public StudentAcademicEmail toAcademicEmail(StudentDTO studentDTO) {
-        return new StudentAcademicEmail(studentDTO.getStudentID());
     }
 
     public StudentResponseDTO toStudentResponseDTO(Student student) {

@@ -46,7 +46,6 @@ class StudentRestControllerTest {
     void whenServiceReturnsStudent_thenReturnsCreated() {
         StudentDTO dto = mock(StudentDTO.class);
 
-        StudentID id = new StudentID(1234567);
         Name name = new Name("João Silva");
         NIF nif = new NIF("123456789", new Country("Portugal"));
         PhoneNumber phone = new PhoneNumber("+351", "912345678");
@@ -60,13 +59,11 @@ class StudentRestControllerTest {
 
         StudentAcademicEmail acadEmail = new StudentAcademicEmail(1234567);
 
-        when(mapper.toStudentID(dto)).thenReturn(id);
         when(mapper.toName(dto)).thenReturn(name);
         when(mapper.toNIF(dto)).thenReturn(nif);
         when(mapper.toPhoneNumber(dto)).thenReturn(phone);
         when(mapper.toEmail(dto)).thenReturn(email);
         when(mapper.toAddress(dto)).thenReturn(address);
-        when(mapper.toAcademicEmail(dto)).thenReturn(acadEmail);
 
         Student student = mock(Student.class);
         when(studentService.registerStudent(

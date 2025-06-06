@@ -2,7 +2,6 @@ package PAI.dto.student;
 
 public class StudentDTO {
 
-    private int _studentID;
     private String _name;
     private String _NIF;
     private String _NIFCountry;
@@ -16,10 +15,9 @@ public class StudentDTO {
 
     public StudentDTO() {}
 
-    public StudentDTO(int studentID, String name, String NIF, String NIFCountry, String street, String postalCode,
+    public StudentDTO(String name, String NIF, String NIFCountry, String street, String postalCode,
                       String location, String addressCountry, String phoneCountryCode, String phoneNumber, String email) {
 
-        this._studentID = studentID;
         this._name = name;
         this._NIF = NIF;
         this._NIFCountry = NIFCountry;
@@ -30,10 +28,6 @@ public class StudentDTO {
         this._phoneCountryCode = phoneCountryCode;
         this._phoneNumber = phoneNumber;
         this._email = email;
-    }
-
-    public int getStudentID() {
-        return _studentID;
     }
 
     public String getName() {
@@ -74,10 +68,6 @@ public class StudentDTO {
 
     public String getEmail() {
         return _email;
-    }
-
-    public void setStudentID(int _studentID) {
-        this._studentID = _studentID;
     }
 
     public void setName(String _name) {
