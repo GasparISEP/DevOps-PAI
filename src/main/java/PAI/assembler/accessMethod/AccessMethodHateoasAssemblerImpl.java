@@ -2,9 +2,12 @@ package PAI.assembler.accessMethod;
 
 import PAI.controllerRest.AccessMethodRestController;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -22,8 +25,22 @@ public class AccessMethodHateoasAssemblerImpl implements
         return EntityModel.of(dto,
                 linkTo(methodOn(AccessMethodRestController.class)
                         .getAccessMethodById(dto.id()))
-                        .withSelfRel()
+                        .withSelfRel(),
 
+                linkTo(methodOn(AccessMethodRestController.class)
+                        .getAllAccessMethods())
+                        .withRel("collection")
         );
     }
+
+    @Override
+    public CollectionModel<EntityModel<AccessMethodResponseDTO>> toCollectionModel(List<AccessMethodResponseDTO> dtos) {
+        List<EntityModel<AccessMethodResponseDTO>> models = dtos.stream()
+                .map(this::toModel)
+                .toList();
+
+        return CollectionModel.of(models,
+                linkTo(methodOn(AccessMethodRestController.class).getAllAccessMethods()).withSelfRel());
+    }
 }
+
