@@ -18,36 +18,8 @@ participant "tcpF:ITCPfactory" as TCPf #burlywood
 participant "tcp1:TeacherCareerProgression" as TCP1
 
 HRC -> UI : I want to update Teacher's working percentage
-activate HRC
 activate UI
-UI -> Controller : findAll()
-activate Controller
-Controller -> service : findAll()
-activate service
-service -> TRepo : findAll()
-activate TRepo
-TRepo --> service : teachersList
-deactivate TRepo
-service --> Controller : teachersList
-deactivate service
-Controller --> UI : teachersList
-deactivate Controller
-UI --> HRC : Which Teacher?
-deactivate UI
-
-HRC -> UI: Teacher's acronym
-activate UI
-UI --> HRC: What working percentage?
-deactivate UI
-
-HRC -> UI: Working percentage
-activate UI
-UI --> HRC: What date?
-deactivate UI
-
-HRC -> UI: Date
-activate UI
-UI -> Controller : updateTeacherWorkingPercentage \n(teacherAcronym, date, workingPercentage)
+UI -> Controller : updateTeacherWorkingPercentage \n((UpdateTeacherWorkingPercentageRequestDTO request))
 activate Controller
 
 ref over Controller
@@ -127,13 +99,13 @@ activate TCPRepoSpringData
 TCPRepoSpringData --> TCPRepo : tcpDM
 deactivate TCPRepoSpringData
 
-TCPRepo --> service : tcp1
+TCPRepo --> service : tcp1 saved
 deactivate TCPRepo
 
-service --> Controller : true
+service --> Controller : tcp1 saved
 deactivate service
 
-Controller --> UI : true
+Controller --> UI : Response(201 Created)
 deactivate Controller
 
 UI --> HRC : Success!
