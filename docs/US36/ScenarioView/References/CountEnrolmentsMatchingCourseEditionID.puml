@@ -1,0 +1,20 @@
+@startuml
+
+autonumber
+
+title Count enrolments matching courseEditionID
+
+participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
+participant "ceIDMapper:CourseEditionIDMapper" as M #lightgreen
+participant "courseEditionIDDataModel:CourseEditionIDDataModel" as DM
+
+activate R
+R -> M ++ : toDataModel(courseEditionID)
+M -> DM**: newCourseEditionIDDataModel(courseEditionID)
+activate DM
+DM --> M --: courseEditionIDDataModel
+M --> R --: courseEditionIDDataModel
+R -> : countById_CourseEditionIDAndActiveTrue(courseEditionIDDataModel)
+R <-- :studentCount
+
+@enduml
