@@ -1,8 +1,7 @@
-package PAI.dto.teacherCareerProgression;
+package PAI.assembler.teacherCareerProgression;
 
-import PAI.VOs.*;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import org.hibernate.sql.Update;
+import PAI.dto.teacherCareerProgression.*;
 
 public interface ITeacherCareerProgressionAssembler {
     UpdateTeacherWorkingPercentageResponseDTO toUpdateWorkingPercentageDTO(TeacherCareerProgression teacherCareerProgression);

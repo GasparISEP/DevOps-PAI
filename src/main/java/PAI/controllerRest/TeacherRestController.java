@@ -3,6 +3,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
+import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;
