@@ -1,6 +1,6 @@
 @startuml
 @startuml
-
+!pragma layout smetana
 title <<Component>> \n <<Container (C4)>> \n Logical View - Level 3 - Backend
 
 component "<<Component>>\nBackend " as BE{

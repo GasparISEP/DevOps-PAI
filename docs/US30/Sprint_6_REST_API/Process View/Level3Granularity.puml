@@ -45,19 +45,19 @@ ref over service
     to courseInStudyPlanServiceDTO
 end
 
+
+service --> restController: courseInStudyPlanServiceDTO
+deactivate service
 ref over restController
     Convert courseInStudyPlanServiceDTO
     to courseInStudyPlanResponseDTO
 end
 
-service --> restController: courseInStudyPlanServiceDTO
-deactivate service
-
 restController --> router: (201, Created) courseInStudyPlanResponseDTO
+
 deactivate restController
-
 <-- router: (201, Created) courseInStudyPlanJSON
-
+deactivate router
 note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
 @enduml
