@@ -22,49 +22,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/programmeEnrolment")
 public class ProgrammeEnrolmentRestController {
 
-    private final IProgrammeEnrolmentService programmeEnrolmentService;
-    private final IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
     private final ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler;
     private final ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService;
 
-
-
-    public ProgrammeEnrolmentRestController(
-            IProgrammeEnrolmentService programmeEnrolmentService,
-            IProgrammeEnrolmentAssembler programmeEnrolmentMapper,
-            ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler,
-            ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService) {
-        this.programmeEnrolmentService = programmeEnrolmentService;
-        this.programmeEnrolmentMapper = programmeEnrolmentMapper;
+    public ProgrammeEnrolmentRestController(ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService) {
         this.totalEnrolledStudentsAssembler = totalEnrolledStudentsAssembler;
         this.totalEnrolledStudentsService = totalEnrolledStudentsService;
-    }
-
-    @PostMapping()
-    public ResponseEntity<ProgrammeEnrolmentResponseDTO> enrolStudentInProgramme (@RequestBody ProgrammeEnrolmentDTO programmeEnrolmentDTO){
-        if (programmeEnrolmentDTO == null){
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-            StudentID studentID = programmeEnrolmentMapper.toStudentID(programmeEnrolmentDTO);
-            AccessMethodID accessMethodID = programmeEnrolmentMapper.toAccessMethodID(programmeEnrolmentDTO);
-            ProgrammeID programmeID = programmeEnrolmentMapper.toProgrammeID(programmeEnrolmentDTO);
-            Date date = programmeEnrolmentMapper.toDateVO(programmeEnrolmentDTO);
-
-            ProgrammeEnrolment programmeEnrolment = programmeEnrolmentService.enrolStudentInProgramme(studentID,accessMethodID,programmeID,date);
-
-            if(programmeEnrolment!=null){
-                ProgrammeEnrolmentResponseDTO programmeEnrolmentResponseDTO = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(programmeEnrolment);
-                return new ResponseEntity<>(programmeEnrolmentResponseDTO, HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
     @GetMapping("/totalEnrolledStudents")
