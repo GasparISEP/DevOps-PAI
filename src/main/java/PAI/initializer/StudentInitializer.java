@@ -35,7 +35,12 @@ public class StudentInitializer {
                 line = line.replace("\uFEFF", "");
                 String[] fields = line.split(";");
 
-                int StudentNumber = Integer.parseInt(fields[0]);
+                if (fields.length < 11) {
+                    System.err.println("⚠️ Skipping malformed line: " + line);
+                    continue;
+                }
+
+
                 String name = fields[1];
                 String nif = fields[2];
                 String countryNif = fields[3];
@@ -47,7 +52,16 @@ public class StudentInitializer {
                 String location = fields[9];
                 String country = fields[10];
 
-                controller.registerStudent(StudentNumber, name, nif, countryNif, countryCode, phoneNumber, email, street, postalCode, location, country);
+
+
+                try {
+                    controller.registerStudent(name, nif, countryNif, countryCode, phoneNumber, email, street, postalCode, location, country);
+                    System.out.println("✅ Student registered: " + name);
+                } catch (Exception e) {
+                    System.err.println("❌ Failed to register student: " + name);
+                    e.printStackTrace(); // 🔍 now you'll see what failed
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,4 +72,5 @@ public class StudentInitializer {
 
         System.out.println("\nStudent data loading time: " + duration + " ms\n");
     }
+
 }

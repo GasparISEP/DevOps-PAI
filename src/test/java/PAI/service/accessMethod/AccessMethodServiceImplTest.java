@@ -13,6 +13,7 @@ import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -185,7 +186,7 @@ class AccessMethodServiceImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenAccessMethodNotFound() {
+    void shouldThrowBusinessRuleViolationExceptionWhenAccessMethodNotFound() {
         // Arrange
         IRepositoryAccessMethod repositoryMock = mock(IRepositoryAccessMethod.class);
         IAccessMethodServiceAssembler assemblerMock = mock(IAccessMethodServiceAssembler.class);
@@ -196,14 +197,14 @@ class AccessMethodServiceImplTest {
         UUID validUUID = UUID.randomUUID();
         String id = validUUID.toString();
 
-        when(repositoryMock.ofIdentity(new AccessMethodID(validUUID)))
-                .thenReturn(Optional.empty());
+        when(repositoryMock.ofIdentity(new AccessMethodID(validUUID))).thenReturn(Optional.empty());
 
-        // Act
-        AccessMethodServiceDTO result = service.getAccessMethodById(id);
+        // Act & Assert
+        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.getAccessMethodById(id);
+        });
 
-        // Assert
-        assertNull(result);
+        assertEquals("Access method not found with ID " + id, exception.getMessage());
     }
 
     @Test
@@ -311,4 +312,50 @@ class AccessMethodServiceImplTest {
         assertEquals("Invalid UUID format for AccessMethod ID.", exception.getMessage());
     }
 
+    @Test
+    void shouldReturnListOfAccessMethodServiceDTOsWhenRepositoryIsNotEmpty() {
+        // Arrange
+        IRepositoryAccessMethod repositoryMock = mock(IRepositoryAccessMethod.class);
+        IAccessMethodServiceAssembler assemblerMock = mock(IAccessMethodServiceAssembler.class);
+        IAccessMethodFactory factoryMock = mock(IAccessMethodFactory.class);
+
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(factoryMock, repositoryMock, assemblerMock);
+
+        AccessMethod accessMethod1 = mock(AccessMethod.class);
+        AccessMethod accessMethod2 = mock(AccessMethod.class);
+
+        List<AccessMethod> domainList = List.of(accessMethod1, accessMethod2);
+        List<AccessMethodServiceDTO> dtoList = List.of(
+                mock(AccessMethodServiceDTO.class),
+                mock(AccessMethodServiceDTO.class)
+        );
+
+        when(repositoryMock.findAll()).thenReturn(domainList);
+        when(assemblerMock.toDTOList(domainList)).thenReturn(dtoList);
+
+        // Act
+        List<AccessMethodServiceDTO> result = service.getAllAccessMethods();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(dtoList.size(), result.size());
+        assertEquals(dtoList, result);
+    }
+
+    @Test
+    void shouldThrowBusinessRuleViolationExceptionWhenNoAccessMethodsFound() {
+        // Arrange
+        IRepositoryAccessMethod repositoryMock = mock(IRepositoryAccessMethod.class);
+        IAccessMethodServiceAssembler assemblerMock = mock(IAccessMethodServiceAssembler.class);
+        IAccessMethodFactory factoryMock = mock(IAccessMethodFactory.class);
+
+        AccessMethodServiceImpl service = new AccessMethodServiceImpl(factoryMock, repositoryMock, assemblerMock);
+
+        when(repositoryMock.findAll()).thenReturn(List.of()); // empty list
+
+        // Act & Assert
+        BusinessRuleViolationException exception = assertThrows(BusinessRuleViolationException.class, service::getAllAccessMethods);
+
+        assertEquals("No access methods found.", exception.getMessage());
+    }
 }

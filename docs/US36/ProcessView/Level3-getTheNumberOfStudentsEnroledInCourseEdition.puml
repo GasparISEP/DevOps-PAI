@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 3 - getTheNumberOfStudentsEnrolledInCourseEdition)
+
+participant "<<Component>>\n:Router" as Router #lightblue
+participant "<<Component>>\nCEC:CourseEditionRestController" as C #lightpink
+participant "<<Component>>\nCEES:courseEditionEnrolmentService" as S #lightyellow
+participant "<<Component>>\nCEER:CourseEditionEnrolmentRepository" as R #lightgreen
+participant "<<Component>>\n:Drivers" as D #strategy
+
+-> Router ++: **GET** /course-editions/{id}/student-count
+Router -> C ++: getNumberOfStudentsInCourseEdition\n(selectedCourseEditionIDDTO)
+C -> S ++: numberOfStudentsEnrolledInCourseEdition\n(courseEditionID)
+S -> R ++: numberOfStudentsEnrolledInCourseEdition\n(courseEditionID)
+R -> D ++: countById_CourseEditionIDAndActiveTrue\n
+D -> : **SELECT** countById_CourseEditionIDAndActiveTrue\n(courseEditionIDDataModel)
+D <--: studentCount
+D --> R --: studentCount
+R --> S --: studentCount
+S --> C --: studentCount
+C --> Router --: studentCount
+ <-- Router --:(OK, 200) studentCount
+
+@enduml

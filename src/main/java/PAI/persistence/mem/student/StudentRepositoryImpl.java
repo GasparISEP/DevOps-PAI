@@ -61,8 +61,9 @@ import java.util.Optional;
 
         @Override
         public int lastStudentID() {
-            if(_students.isEmpty()) return 0;
+            if (_students.isEmpty()) return 1000000;
             return _students.getLast().getStudentID().getUniqueNumber();
         }
 
-}
+
+    }

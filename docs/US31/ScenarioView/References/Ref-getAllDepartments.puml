@@ -1,7 +1,7 @@
 @startuml
 autonumber
 
-participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "dCtrl:DepartmentRestController" as C #implementation
 participant "dService:DepartmentService" as DPS #strategy
 participant "dtAssember:DepartmentAssember" as DA #lightpink
 participant "dDTO:DepartmentDTO" as DDTO #lightgreen

@@ -1,7 +1,7 @@
 @startuml
 autonumber
 
-participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "dtCtrl:DegreeTypeRestController" as C #implementation
 participant "dtService:DegreeTypeService" as DTS #lightblue
 participant "dtAssembler:DegreeTypeAssembler" as DTA #lightpink
 participant "dtDTO:DegreeTypeDTO" as DTDTO #lightgreen

@@ -3,8 +3,12 @@ package PAI.assembler.accessMethod;
 import PAI.VOs.AccessMethodID;
 import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.domain.accessMethod.AccessMethod;
+import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.accessMethod.AccessMethodServiceDTO;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -80,6 +84,40 @@ class AccessMethodServiceAssemblerImplTest {
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> assembler.toDTO(null));
         assertEquals("AccessMethod cannot be null.", exception.getMessage());
+    }
+    @Test
+    void toResponseDtoList_shouldConvertListCorrectly() {
+        // Arrange
+        AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        List<AccessMethodServiceDTO> serviceDTOs = List.of(
+                new AccessMethodServiceDTO("id1", "Name1"),
+                new AccessMethodServiceDTO("id2", "Name2")
+        );
+
+        // Act
+        List<AccessMethodResponseDTO> responseDTOs = assembler.toResponseDtoList(serviceDTOs);
+
+        // Assert
+        assertNotNull(responseDTOs);
+        assertEquals(serviceDTOs.size(), responseDTOs.size());
+        assertEquals("id1", responseDTOs.get(0).id());
+        assertEquals("Name1", responseDTOs.get(0).name());
+        assertEquals("id2", responseDTOs.get(1).id());
+        assertEquals("Name2", responseDTOs.get(1).name());
+    }
+
+    @Test
+    void toResponseDtoList_shouldThrowExceptionWhenListIsNull() {
+        // Arrange
+        AccessMethodControllerAssemblerImpl assembler = new AccessMethodControllerAssemblerImpl();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toResponseDtoList(null);
+        });
+
+        assertEquals("AccessMethodServiceDTO List cannot be null.", exception.getMessage());
     }
 
 }

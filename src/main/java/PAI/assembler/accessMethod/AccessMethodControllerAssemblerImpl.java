@@ -7,6 +7,8 @@ import PAI.dto.accessMethod.AccessMethodRequestDTO;
 import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Component
@@ -26,6 +28,15 @@ public class AccessMethodControllerAssemblerImpl implements IAccessMethodControl
         return new AccessMethodResponseDTO(
                 amServiceDTO.id(),
                 amServiceDTO.name());
+    }
+
+    @Override
+    public List<AccessMethodResponseDTO> toResponseDtoList(List<AccessMethodServiceDTO> serviceDTOs) {
+        validateNotNull(serviceDTOs, "AccessMethodServiceDTO List");
+
+        return serviceDTOs.stream()
+                .map(this::toResponseDto)
+                .toList();
     }
 
 }

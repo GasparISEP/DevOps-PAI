@@ -18,27 +18,101 @@ class DepartmentRepositorySpringDataImplTest {
 
 
     @Test
-    void shouldReturnEqualIfSaveWasSuccessful() throws Exception {
+    void shouldSaveADepartmentSuccessfulIfDirectorIsNotNul() throws Exception {
         // Arrange
-        IDepartmentRepositorySpringData departmentRepository = Mockito.mock(IDepartmentRepositorySpringData.class);
-        IDepartmentMapper departmentMapper = Mockito.mock(IDepartmentMapper.class);
-        IDepartmentIDMapper departmentIDMapper = Mockito.mock(IDepartmentIDMapper.class);
+        IDepartmentRepositorySpringData departmentRepositoryDouble = mock(IDepartmentRepositorySpringData.class);
+        IDepartmentIDMapper departmentIDMapperDouble = mock(IDepartmentIDMapper.class);
+        IDepartmentMapper departmentMapperDouble = mock(IDepartmentMapper.class);
 
         DepartmentRepositorySpringDataImpl departmentRepositorySpringData =
-                new DepartmentRepositorySpringDataImpl(departmentRepository, departmentIDMapper, departmentMapper);
+                new DepartmentRepositorySpringDataImpl(departmentRepositoryDouble, departmentIDMapperDouble, departmentMapperDouble);
 
-        Department departmentMock = Mockito.mock(Department.class);
-        DepartmentDataModel departmentDataModel = Mockito.mock(DepartmentDataModel.class);
-        when(departmentMapper.toDataModel(departmentMock)).thenReturn(departmentDataModel);
-        when(departmentRepository.save(departmentDataModel)).thenReturn(departmentDataModel);
-        when(departmentMapper.toDomain(departmentDataModel)).thenReturn(departmentMock);
+        // Domain mocks
+        Department departmentMock = mock(Department.class);
+        DepartmentID departmentIDMock = mock(DepartmentID.class);
+        Name nameMock = mock(Name.class);
+        DepartmentAcronym acronymMock = mock(DepartmentAcronym.class);
+        TeacherID directorID = mock(TeacherID.class);
+
+        // DataModel mocks
+        DepartmentIDDataModel idDataModel = new DepartmentIDDataModel("DEI");
+        DepartmentDataModel existingDataModel = new DepartmentDataModel();
+        existingDataModel.setId(idDataModel);
+
+        // Setup department domain object
+        when(departmentMock.identity()).thenReturn(departmentIDMock);
+        when(departmentIDMapperDouble.toDataModel(departmentIDMock)).thenReturn(idDataModel);
+        when(departmentRepositoryDouble.findById(idDataModel)).thenReturn(Optional.of(existingDataModel));
+
+        when(departmentMock.getAcronym()).thenReturn(acronymMock);
+        when(departmentIDMock.getAcronym()).thenReturn(acronymMock);
+        when(acronymMock.getAcronym()).thenReturn("DEI");
+
+        when(departmentMock.getName()).thenReturn(nameMock);
+        when(nameMock.getName()).thenReturn("Test Department");
+
+        when(departmentMock.getDirectorID()).thenReturn(directorID);
+        when(directorID.getTeacherAcronym()).thenReturn(new TeacherAcronym("AAA"));
+
+        // Simular save e retorno
+        when(departmentRepositoryDouble.save(existingDataModel)).thenReturn(existingDataModel);
+        when(departmentMapperDouble.toDomain(existingDataModel)).thenReturn(departmentMock);
 
         // Act
         Department result = departmentRepositorySpringData.save(departmentMock);
 
         // Assert
         assertEquals(departmentMock, result);
+
     }
+    @Test
+    void shouldSaveADepartmentSuccessfulIfDirectorIsNul() throws Exception {
+        // Arrange
+        IDepartmentRepositorySpringData departmentRepositoryDouble = mock(IDepartmentRepositorySpringData.class);
+        IDepartmentIDMapper departmentIDMapperDouble = mock(IDepartmentIDMapper.class);
+        IDepartmentMapper departmentMapperDouble = mock(IDepartmentMapper.class);
+
+        DepartmentRepositorySpringDataImpl departmentRepositorySpringData =
+                new DepartmentRepositorySpringDataImpl(departmentRepositoryDouble, departmentIDMapperDouble, departmentMapperDouble);
+
+        // Domain mocks
+        Department departmentMock = mock(Department.class);
+        DepartmentID departmentIDMock = mock(DepartmentID.class);
+        Name nameMock = mock(Name.class);
+        DepartmentAcronym acronymMock = mock(DepartmentAcronym.class);
+
+        // DataModel mocks
+        DepartmentIDDataModel idDataModel = new DepartmentIDDataModel("DEI");
+        DepartmentDataModel existingDataModel = new DepartmentDataModel();
+        existingDataModel.setId(idDataModel);
+
+        // Setup department domain object
+        when(departmentMock.identity()).thenReturn(departmentIDMock);
+        when(departmentIDMapperDouble.toDataModel(departmentIDMock)).thenReturn(idDataModel);
+        when(departmentRepositoryDouble.findById(idDataModel)).thenReturn(Optional.of(existingDataModel));
+
+        when(departmentMock.getAcronym()).thenReturn(acronymMock);
+        when(departmentIDMock.getAcronym()).thenReturn(acronymMock);
+        when(acronymMock.getAcronym()).thenReturn("DEI");
+
+        when(departmentMock.getName()).thenReturn(nameMock);
+        when(nameMock.getName()).thenReturn("Test Department");
+
+        when(departmentMock.getDirectorID()).thenReturn(null);
+
+        // Simular save e retorno
+        when(departmentRepositoryDouble.save(existingDataModel)).thenReturn(existingDataModel);
+        when(departmentMapperDouble.toDomain(existingDataModel)).thenReturn(departmentMock);
+
+        // Act
+        Department result = departmentRepositorySpringData.save(departmentMock);
+
+        // Assert
+        assertEquals(departmentMock, result);
+
+    }
+
+
     @Test
     void shouldThrowExceptionIfSaveWasNotSuccessful() {
         // Arrange

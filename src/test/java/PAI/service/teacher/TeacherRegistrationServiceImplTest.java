@@ -9,6 +9,7 @@ import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -643,5 +644,46 @@ class TeacherRegistrationServiceImplTest {
         // Assert
         List<Teacher> resultList = (List<Teacher>) result;
         assertTrue(resultList.isEmpty());
+    }
+    @Test
+    void shouldReturnTeacherWhenFound() {
+        ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        TeacherRegistrationServiceImpl service = new TeacherRegistrationServiceImpl(teacherFactory, teacherRepository);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        Teacher teacher = mock(Teacher.class);
+        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.of(teacher));
+
+        Optional<Teacher> result = service.getTeacherById(teacherID);
+
+        assertTrue(result.isPresent());
+        assertEquals(teacher, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenNotFound() {
+        ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        TeacherRegistrationServiceImpl service = new TeacherRegistrationServiceImpl(teacherFactory, teacherRepository);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacherRepository.ofIdentity(teacherID)).thenReturn(Optional.empty());
+
+        Optional<Teacher> result = service.getTeacherById(teacherID);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldPropagateExceptionFromRepository() {
+        ITeacherFactory teacherFactory = mock(ITeacherFactory.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        TeacherRegistrationServiceImpl service = new TeacherRegistrationServiceImpl(teacherFactory, teacherRepository);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacherRepository.ofIdentity(teacherID)).thenThrow(new RuntimeException("Error"));
+
+        assertThrows(RuntimeException.class, () -> service.getTeacherById(teacherID));
     }
 }

@@ -1,0 +1,26 @@
+@startuml
+autonumber
+
+title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 2)
+
+actor ASC as Admin #lightblue
+participant "<<Container>> \n:Frontend" as FE #lightblue
+participant "<<Container>> \n:Backend" as BE #lightgreen
+participant "<<Container>> \n:Database" as BD #lightyellow
+
+activate Admin
+Admin -> FE ++ : I want to get the number of students \nenrolled in a course edition
+FE -> BE ++ : **GET** /course-editions
+BE -> BD ++ : **SELECT** retrieveAllCourseEditions()
+BD --> BE --: List<CourseEditions>
+BE --> FE --: (OK, 200) List<CourseEditions>
+FE --> Admin --: Which course edition?
+
+Admin -> FE ++ : courseEdition
+FE -> BE ++ : **GET** /course-editions/{id}/student-count
+
+BE -> BD ++ : **SELECT** countEnrolledStudents(courseEditionID)
+BD --> BE --: studentCount
+BE --> FE --: (OK, 200) studentCount
+FE --> Admin --: There are [studentCount] students \nenrolled in courseEdition
+@enduml

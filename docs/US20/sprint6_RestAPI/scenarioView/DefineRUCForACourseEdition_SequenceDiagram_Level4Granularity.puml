@@ -16,6 +16,7 @@ participant ":CourseEditionRestController" as Controller
 participant ":IDefineRucService" as CourseService
 participant ":ICourseEditionRepository" as CourseRepo
 participant ":CourseEditionMapper" as CourseMapper
+participant ":ICourseEditionHateoasAssembler" as HateoasAssembler
 participant ":CourseEdition" as CourseEdition
 participant ":ICourseEditionRepositorySpringData" as SpringCourseRepo
 participant ":ITeacherRepository" as TeacherRepo
@@ -23,14 +24,12 @@ participant ":ITeacherRepositorySpringData" as TeacherRepoSpringData
 
 
 '--- Find Teachers ---
--> Router: getAllTeachers()
+-> Router: GET /teachers
 activate Router  #E1F5FE
 Router -> TeacherController : getAllTeachers()
 activate TeacherController #E1F5FE
 
 note over TeacherController #EEEEEE
-Receives HTTP request: GET /teachers
-
 Spring Boot automatically converts
 incoming JSON into DTOs
 end note
@@ -39,21 +38,19 @@ ref over TeacherController
        <b>Get List of Teachers</b>
 end ref
 
-TeacherController --> Router:  (200 OK) – List<TeacherDTO>
+TeacherController --> Router: 200 OK – List<TeacherDTO>
 deactivate TeacherController
-<-- Router: (200 OK) – List<TeacherDTO> as JSON
+<-- Router: 200 OK – List<TeacherDTO> as JSON
 deactivate Router
 
 
 ' --- Find Course Editions ---
--> Router: findAllCourseEditions()
+-> Router: GET /courseeditions
 activate Router  #E1F5FE
 Router -> Controller : findAllCourseEditions()
 activate Controller  #E1F5FE
 
 note over Controller #EEEEEE
-Receives HTTP request: GET /courseEditions
-
 Spring Boot automatically converts
 incoming JSON into DTOs
 end note
@@ -62,22 +59,20 @@ ref over Controller
        <b>Get List of Course Editions</b>
 end ref
 
-Controller --> Router : (200 OK) - List<CourseEditionDTO>
+Controller --> Router : 200 OK - List<CourseEditionDTO>
 deactivate Controller
-<-- Router: (200 OK) - List<CourseEditionDTO> as JSON
+<-- Router: 200 OK - List<CourseEditionDTO> as JSON
 deactivate Router  #E1F5FE
 
 
 
 '--- Assign RUC to Course Edition ---
--> Router: defineRucForACourseEdition (defineRucRequestDTO) as JSON
+-> Router: PATCH /courseeditions/ruc + body {...}
 activate Router  #E1F5FE
 Router -> Controller : defineRucForCourseEdition(defineRucRequestDTO)
 activate Controller #E1F5FE
 
 note over Controller #EEEEEE
-Receives HTTP request: PATCH /courseeditions/ruc
-
 Spring Boot automatically converts
 incoming JSON into DTOs
 end note
@@ -143,9 +138,14 @@ deactivate CourseRepo
 
 CourseService --> Controller : true
 deactivate CourseService
-Controller --> Router:  (200 OK) RUC successfully updated
+Controller -> Controller: new DefineRucResponseDTO(teacherID, courseEditionDTO)
+Controller -> HateoasAssembler: toModel(defineRucResponseDTO)
+activate HateoasAssembler #E1F5FE
+HateoasAssembler --> Controller: EntityModel<defineRucResponseDTO>
+deactivate HateoasAssembler
+Controller --> Router:   200 OK + body {DefineRucResponseDTO + hypermedia}
 deactivate Controller
-<-- Router: (200 OK) RUC successfully updated
+<-- Router:   200 OK + body {DefineRucResponseDTO + hypermedia}
 deactivate Router
 
 @enduml

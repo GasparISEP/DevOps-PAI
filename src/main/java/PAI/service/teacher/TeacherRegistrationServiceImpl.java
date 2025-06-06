@@ -1,11 +1,16 @@
 package PAI.service.teacher;
 
+import PAI.VOs.DepartmentID;
+import PAI.VOs.TeacherID;
+import PAI.domain.department.Department;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.ITeacherFactory;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TeacherRegistrationServiceImpl implements ITeacherRegistrationService {
@@ -48,5 +53,10 @@ public class TeacherRegistrationServiceImpl implements ITeacherRegistrationServi
 
     public Iterable<Teacher> getAllTeachers() {
         return teacherRepository.findAll();
+    }
+
+    @Override
+    public Optional<Teacher> getTeacherById(TeacherID teacherID) {
+        return teacherRepository.ofIdentity(teacherID);
     }
 }

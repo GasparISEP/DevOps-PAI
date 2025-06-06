@@ -26,6 +26,39 @@ class CourseFactoryImplTest {
     }
 
     @Test
+    void shouldGenerateNewCourseGeneratedIDForEachCourse() {
+        //arrange
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+
+        //act
+        Course course1 = courseFactoryImpl.createCourse(name, acronym);
+        Course course2 = courseFactoryImpl.createCourse(name, acronym);
+
+        //assert
+        assertNotNull(course1.getCourseGeneratedID());
+        assertNotNull(course2.getCourseGeneratedID());
+        assertNotEquals(course1.getCourseGeneratedID(), course2.getCourseGeneratedID());
+    }
+
+    @Test
+    void shouldCreateCorrectCourseIDFromNameAndAcronymAndGenarateCourseGeneratedID() {
+        //arrange
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        Name name = new Name("Test Course");
+        Acronym acronym = new Acronym("TC");
+
+        //act
+        Course course = courseFactoryImpl.createCourse(name, acronym);
+
+        //assert
+        CourseID expectedCourseID = new CourseID(acronym, name);
+        assertEquals(expectedCourseID, course.identity());
+        assertNotNull(course.getCourseGeneratedID());
+    }
+
+    @Test
     void mockingConstructorThrowingException(){
         //arrange
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
@@ -54,14 +87,43 @@ class CourseFactoryImplTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         try (MockedConstruction<Course> mockCourseDDD = mockConstruction(Course.class, (mock, context) ->{
         })) {
             //act
-            Course course = courseFactoryImpl.createCourse(courseID, name, acronym);
+            Course course = courseFactoryImpl.createCourse(courseGeneratedID, courseID, name, acronym);
             //assert
             assertNotNull(course);
         }
+    }
+
+    @Test
+    void shouldUseProvidedCourseGeneratedID() {
+        //arrange
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID expectedCourseGeneratedID = new CourseGeneratedID();
+
+        //act
+        Course course = courseFactoryImpl.createCourse(expectedCourseGeneratedID, courseID, name, acronym);
+
+        //assert
+        assertEquals(expectedCourseGeneratedID, course.getCourseGeneratedID());
+    }
+    
+    @Test
+    void shouldThrowExceptionWhenCourseGeneratedIDIsNull() {
+        // Arrange
+        CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(null, courseID, name, acronym));
     }
 
     @Test
@@ -70,9 +132,10 @@ class CourseFactoryImplTest {
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(null, name, acronym));
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(courseGeneratedID, null, name, acronym));
     }
 
     @Test
@@ -81,9 +144,10 @@ class CourseFactoryImplTest {
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseID courseID = mock(CourseID.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(courseID, null, acronym));
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(courseGeneratedID, courseID, null, acronym));
     }
 
     @Test
@@ -92,9 +156,10 @@ class CourseFactoryImplTest {
         CourseFactoryImpl courseFactoryImpl = new CourseFactoryImpl();
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(courseID, name, null));
+        assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(courseGeneratedID, courseID, name, null));
     }
 
     @Test
@@ -125,5 +190,4 @@ class CourseFactoryImplTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> courseFactoryImpl.createCourse(name, null));
     }
-
 }

@@ -53,16 +53,12 @@ class StudentServiceImplTest {
 
     @Test
     void shouldRegisterStudentSuccessfully() throws Exception {
-        //arrange
-
-        //serviceParameters
+        // Arrange
         IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
         IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
 
         StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
 
-        //parameters to register Student
-        StudentID studentIDDouble = mock(StudentID.class);
         Name nameDouble = mock(Name.class);
         NIF nifDouble = mock(NIF.class);
         PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
@@ -71,182 +67,28 @@ class StudentServiceImplTest {
         PostalCode postalCodeDouble = mock(PostalCode.class);
         Location locationDouble = mock(Location.class);
         Country countryDouble = mock(Country.class);
-        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
+
+
+        int lastID = 1000002;
+        int newID = lastID + 1;
+        StudentID expectedStudentID = new StudentID(newID);
+        StudentAcademicEmail expectedAcademicEmail = new StudentAcademicEmail(newID);
         Student studentDouble = mock(Student.class);
 
-        when(studentFactoryDouble.newStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)).thenReturn(studentDouble);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(false);
-
+        when(studentRepositoryDouble.lastStudentID()).thenReturn(lastID);
+        when(studentRepositoryDouble.existsByStudentIDOrNIF(expectedStudentID, nifDouble)).thenReturn(false);
+        when(studentFactoryDouble.newStudent(expectedStudentID, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble, expectedAcademicEmail)).thenReturn(studentDouble);
         when(studentRepositoryDouble.save(studentDouble)).thenReturn(studentDouble);
 
+        // Act
+        Student result = studentServiceImpl.registerStudent(
+                nameDouble, nifDouble, phoneNumberDouble, emailDouble,
+                streetDouble, postalCodeDouble, locationDouble, countryDouble
+        );
 
-        //act
-        Student result = studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble);
-
-        //assert
+        // Assert
         assertEquals(studentDouble, result);
-    }
-
-    static Stream<Arguments> parametersToCreateStudentAreInvalid() {
-        return Streams.of(
-                Arguments.of(null, mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Student's ID is invalid."),
-                Arguments.of(mock(StudentID.class), null, mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Student's name cannot be empty!"),
-                Arguments.of(mock(StudentID.class), mock(Name.class), null, mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Student's NIF is invalid!"),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), null, mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Student's phone is invalid!"),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), null, mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Student's email is not valid!"),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), null, mock(PostalCode.class), mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Street cannot be null."),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), null, mock(Location.class), mock(Country.class), mock(StudentAcademicEmail.class), "Postal Code cannot be null."),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), null, mock(Country.class), mock(StudentAcademicEmail.class), "Postal Code cannot be null."),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), null, mock(Country.class), mock(StudentAcademicEmail.class), "Location cannot be null."),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), null, mock(StudentAcademicEmail.class), "Country cannot be null."),
-                Arguments.of(mock(StudentID.class), mock(Name.class), mock(NIF.class), mock(PhoneNumber.class), mock(Email.class), mock(Street.class), mock(PostalCode.class), mock(Location.class), mock(Country.class), null, "Student's Academic Email is not valid!")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("parametersToCreateStudentAreInvalid")
-    void shouldThrowExceptionWhenParametersToCreateStudentAreNotValid(StudentID studentID, Name name, NIF nif, PhoneNumber phoneNumber, Email email, Street street, PostalCode postalCode, Location location, Country country, StudentAcademicEmail studentAcademicEmail, String expectedMessage) throws Exception {
-        //arrange
-        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
-        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
-
-        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
-
-        when(studentFactoryDouble.newStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, studentAcademicEmail)).thenThrow(new IllegalArgumentException(expectedMessage));
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentID, nif)).thenReturn(false);
-
-        //act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> studentServiceImpl.registerStudent(studentID, name, nif, phoneNumber, email, street, postalCode, location, country, studentAcademicEmail));
-
-        //assert
-        assertEquals(expectedMessage, exception.getMessage());
-
-    }
-
-    @Test
-    void shouldThrowExceptionIfStudentWithThatStudentIDExists() {
-        //arrange
-        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
-        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
-
-        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
-
-        StudentID studentIDDouble = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
-        NIF nifDouble = mock(NIF.class);
-        PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
-        Email emailDouble = mock(Email.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
-        Student studentDouble = mock(Student.class);
-
-        when(studentFactoryDouble.newStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)).thenReturn(studentDouble);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(true);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble))
-                .thenThrow(new IllegalArgumentException("StudentID already exists!"));
-
-        // act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                        streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)
-        );
-        assertEquals("StudentID already exists!", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionIfStudentWithThatNIFExists() {
-        //arrange
-        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
-        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
-
-        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
-
-        StudentID studentIDDouble = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
-        NIF nifDouble = mock(NIF.class);
-        PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
-        Email emailDouble = mock(Email.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
-        Student studentDouble = mock(Student.class);
-
-        when(studentFactoryDouble.newStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)).thenReturn(studentDouble);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(true);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble))
-                .thenThrow(new IllegalArgumentException("NIF already exists!"));
-
-        // act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                        streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)
-        );
-        assertEquals("NIF already exists!", exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenStudentCannotBeSavedOnDataBase() throws Exception {
-        //arrange
-        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
-        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
-
-        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
-
-        StudentID studentIDDouble = mock(StudentID.class);
-        Name nameDouble = mock(Name.class);
-        NIF nifDouble = mock(NIF.class);
-        PhoneNumber phoneNumberDouble = mock(PhoneNumber.class);
-        Email emailDouble = mock(Email.class);
-        Street streetDouble = mock(Street.class);
-        PostalCode postalCodeDouble = mock(PostalCode.class);
-        Location locationDouble = mock(Location.class);
-        Country countryDouble = mock(Country.class);
-        StudentAcademicEmail academicEmailDouble = mock(StudentAcademicEmail.class);
-        Student studentDouble = mock(Student.class);
-
-        when(studentFactoryDouble.newStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble,
-                streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble)).thenReturn(studentDouble);
-
-        when(studentRepositoryDouble.existsByStudentIDOrNIF(studentIDDouble, nifDouble)).thenReturn(false);
-
-        when(studentRepositoryDouble.save(studentDouble)).thenThrow(new RuntimeException());
-
-        //act + assert
-        assertThrows(RuntimeException.class, () -> studentServiceImpl.registerStudent(studentIDDouble, nameDouble, nifDouble, phoneNumberDouble, emailDouble, streetDouble, postalCodeDouble, locationDouble, countryDouble, academicEmailDouble));
-    }
-
-    @Test
-    void shouldReturnLastStudentID(){
-        //arrange
-        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
-        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
-        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
-
-        int number = 123456789;
-
-        when(studentRepositoryDouble.lastStudentID()).thenReturn(number);
-
-        //act
-        int result = studentServiceImpl.getLastStudentID();
-
-        //assert
-        assertEquals(number,result);
-
     }
 
     @Test

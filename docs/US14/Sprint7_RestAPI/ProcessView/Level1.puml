@@ -1,0 +1,42 @@
+@startuml
+
+title US14: As an HRC, I want to update the teacher's category in the system \n (Process View - Level 1 - System)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor HRC as admin
+participant ":SystemPAI" as System <<System>>
+
+admin -> System: I want to update teacher's category!
+activate System #E1F5FE
+
+System --> admin: What teacher?
+deactivate System
+
+admin -> System: Enter teacher acronym!
+activate System #E1F5FE
+
+System --> admin: What teacher category?
+deactivate System
+
+admin -> System: Enter teacher category!
+activate System #E1F5FE
+
+System --> admin: What date?
+deactivate System
+
+admin -> System: Date!
+activate System #E1F5FE
+
+System --> admin: Sure?
+deactivate System
+
+admin -> System: Yes!
+activate System #E1F5FE
+
+System --> admin: Ok!
+deactivate System
+@enduml

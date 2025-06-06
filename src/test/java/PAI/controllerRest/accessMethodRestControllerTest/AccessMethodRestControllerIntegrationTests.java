@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -123,8 +124,35 @@ public class AccessMethodRestControllerIntegrationTests {
         MvcResult result = mockMvc.perform(get(uri)).andReturn();
 
         //Assert
-        assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
     }
+
+    @Test
+    void shouldReturn200AndListOfAccessMethods() throws Exception {
+        // Arrange
+        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Method One");
+        AccessMethodID id1 = new AccessMethodID(UUID.randomUUID());
+        AccessMethod am1 = new AccessMethod(id1, name1);
+        repository.save(am1);
+
+        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Method Two");
+        AccessMethodID id2 = new AccessMethodID(UUID.randomUUID());
+        AccessMethod am2 = new AccessMethod(id2, name2);
+        repository.save(am2);
+
+        // Act
+        MvcResult result = mockMvc.perform(get("/access-methods"))
+                .andReturn();
+
+        // Assert
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+        String responseBody = result.getResponse().getContentAsString();
+        assertTrue(responseBody.contains(id1.getAccessMethodID().toString()));
+        assertTrue(responseBody.contains("Method One"));
+        assertTrue(responseBody.contains(id2.getAccessMethodID().toString()));
+        assertTrue(responseBody.contains("Method Two"));
+    }
+
 }
 
 

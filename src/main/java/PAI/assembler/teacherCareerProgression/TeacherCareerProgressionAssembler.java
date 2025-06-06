@@ -1,7 +1,8 @@
-package PAI.dto.teacherCareerProgression;
+package PAI.assembler.teacherCareerProgression;
 import PAI.VOs.*;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 
+import PAI.dto.teacherCareerProgression.*;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -21,9 +22,9 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
         return new UpdateTeacherWorkingPercentageResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
     }
     @Override
-    public UpdateTeacherWorkingPercentageCommand toUpdateTeacherWorkingPercentageCommand(UpdateTeacherWorkingPercentageRequestDTO request) {
+    public UpdateTeacherWorkingPercentageCommand toUpdateTeacherWorkingPercentageCommand(String teacherIDStr, UpdateTeacherWorkingPercentageRequestDTO request) {
         Date date = new Date(request.date());
-        TeacherID teacherID = new TeacherID(new TeacherAcronym(request.teacherID()));
+        TeacherID teacherID = new TeacherID(new TeacherAcronym(teacherIDStr));
         WorkingPercentage workingPercentage = new WorkingPercentage(request.workingPercentage());
         return new UpdateTeacherWorkingPercentageCommand(date,teacherID,workingPercentage);
     }
