@@ -13,7 +13,7 @@ participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<reposi
 activate ProgrammeService
 ProgrammeService -> ProgrammeFactory ++: **registerProgramme**(nameVO, acronymVO, \nquantityOfEctsVO, quantityOfSemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
 
-ProgrammeFactory -> ProgrammeID **: **createProgrammeID**(nameVO, acronymVO)
+ProgrammeFactory -> ProgrammeID **: **createProgrammeID**(acronymVO)
 activate ProgrammeID
 ProgrammeID --> ProgrammeFactory --: \t PIDVO1
 |||

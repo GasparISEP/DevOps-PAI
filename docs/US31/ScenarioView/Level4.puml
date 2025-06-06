@@ -67,7 +67,7 @@ C -> PS ++: registerProgramme(programmeVOsDTO)
 
 PS -> PF ++: registerProgramme(nameVO, acronymVO, \nmaxEctsVO, quantitySemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO)
 
-PF -> PID **: newProgrammeID(nameVO, acronymVO)
+PF -> PID **: newProgrammeID(acronymVO)
 activate PID
 PID --> PF --: \t PIDVO1
 PF -> P **: newProgramme(nameVO, acronymVO, \nmaxEctsVO, quantitySemestersVO, \ndegreeTypeIDVO, departmentIDVO, teacherIDVO, PIDVO1)
