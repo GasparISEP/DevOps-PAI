@@ -36,18 +36,13 @@ public class StudentRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-
-        //StudentID studentID = mapper.toStudentID(studentDTO);
         Name name = mapper.toName(studentDTO);
         NIF nif = mapper.toNIF(studentDTO);
         PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
         Email email = mapper.toEmail(studentDTO);
         Address address = mapper.toAddress(studentDTO);
-//        StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
-
 
         Student student = service.registerStudent( name, nif, phoneNumber, email, address.getStreet(), address.getPostalCode(), address.getLocation(), address.getCountry());
-
 
         StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);
         return new ResponseEntity<>(studentResponseDTO, HttpStatus.CREATED);
@@ -58,5 +53,4 @@ public class StudentRestController {
         Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
         return ResponseEntity.ok(response);
     }
-
 }

@@ -1,0 +1,15 @@
+@startuml
+
+autonumber
+
+participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
+participant "scDTOAssembler:StudentCountDTOAssembler" as A #lightblue
+participant "studentCountDTO:StudentCountDTO" as DTO
+
+activate ceC
+ceC -> A ++: fromDomainToDTO(studentCount)
+A -> DTO**: newStudentCountDTO(studentCount)
+DTO --> A--: studentCountDTO
+A --> ceC--: studentCountDTO
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+
+autonumber
+
+title As an ASC, I want to know the number of students enrolled in a Course Edition
+
+actor ASC as Admin
+
+participant ":UI" as UI #lightblue
+participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
+participant "ceService:CourseEditionEnrolmentService" as S #lightblue
+participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightpink
+
+activate Admin
+Admin -> UI ++: I want to get the number of students \nenrolled in a course edition
+
+UI -> ceC ++: getAllCourseEditions()
+
+ref over ceC
+    Get CourseEditions List
+end ref
+
+ceC --> UI --: List<CourseEditionDTO>
+UI --> Admin --: Which course edition?
+
+Admin -> UI ++ : courseEdition
+
+UI -> ceC ++ : getNumberOfStudentsInCourseEdition\n(selectedCourseEditionIdDTO)
+
+ref over ceC
+    Convert DTO to CourseEditionIDVO
+end ref
+
+ceC -> S ++ : numberOfStudentsEnrolledInCourseEdition(courseEditionID)
+
+S -> R ++ : numberOfStudentsEnrolledInCourseEdition\n(courseEditionID)
+
+ref over R
+    Count enrolments matching courseEditionID
+end ref
+
+R --> S --: studentCount
+S --> ceC --: studentCount
+
+ref over ceC
+    Convert studentCount to studentCountDTO
+end ref
+
+ceC --> UI --: studentCountDTO
+UI --> Admin --: There are [studentCount] students \nenrolled in courseEdition
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+autonumber
+
+participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
+participant "CEAssembler:CourseEditionAssembler" as A #strategy
+participant "courseEditionDTO:CourseEditionResponseDTO" as DTO
+participant "CEService:CourseEditionService" as ceS #lightblue
+participant "CERepository:CourseEditionRepositorySpringData" as ceR #lightpink
+participant "CEMapper:CourseEditionMapper" as M #lightyellow
+participant "CEFactory:CourseEditionFactory" as F #implementation
+participant "courseEdition:CourseEdition" as ce
+
+activate ceC
+ceC -> ceS ++: findAll()
+ceS -> ceR ++: findAll()
+ceR -> :findAll()
+ceR <-- : List<CourseEditionDataModel>
+
+loop for CourseEditionDataModel[i]
+ceR -> M ++: toDomain(courseEditionDataModel[i])
+M -> F ++: createCourseEditionFromDataModel\n(courseEditionDataModel[i])
+F -> ce**: newCourseEdition(courseEditionID, courseInStudyPlanID, \nprogrammeEditionID, teacherID)
+activate ce
+ce --> F --: courseEdition[i]
+F --> M --: courseEdition[i]
+M --> ceR --: courseEdition[i]
+end
+
+ceR --> ceS --: List<CourseEdition>
+ceS --> ceC --: List<CourseEdition>
+
+loop for CourseEdition[i]
+ceC -> A ++: toResponseDTO(courseEdition[i])
+A -> DTO**: newCourseEdition(courseEdition[i])
+activate DTO
+DTO --> A --: courseEditionDTO[i]
+A --> ceC --: courseEditionDTO[i]
+end
+
+@enduml

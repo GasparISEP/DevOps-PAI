@@ -12,33 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class StudentDTOAssemblerImplTest {
 
     @Test
-    void toStudentID() {
-        //Arrange
-        int studentID = 1234567;
-        String studentName = "Paulo";
-        String nif = "123456789";
-        String nifCountry = "Portugal";
-        String street = "Rua dos Pintos";
-        String postalCode = "1234-000";
-        String location = "Coimbra";
-        String addressCountry = "Portugal";
-        String phoneCountryCode = "+351";
-        String phoneNumber = "987654321";
-        String email = "paulo.andre@mail.pt";
-
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
-        IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
-
-        //Act
-        StudentID result = assembler.toStudentID(studentDTO);
-        //Assert
-        assertEquals(1234567, result.getUniqueNumber());
-    }
-
-    @Test
     void toName() {
         //Arrange
-        int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
         String nifCountry = "Portugal";
@@ -50,7 +25,7 @@ class StudentDTOAssemblerImplTest {
         String phoneNumber = "987654321";
         String email = "paulo.andre@mail.pt";
 
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+        StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
         IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
 
         //Act
@@ -62,7 +37,6 @@ class StudentDTOAssemblerImplTest {
     @Test
     void toNIF() {
         //Arrange
-        int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
         String nifCountry = "Portugal";
@@ -74,7 +48,7 @@ class StudentDTOAssemblerImplTest {
         String phoneNumber = "987654321";
         String email = "paulo.andre@mail.pt";
 
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+        StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
         IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
 
         //Act
@@ -88,7 +62,6 @@ class StudentDTOAssemblerImplTest {
     @Test
     void toPhoneNumber() {
             //Arrange
-            int studentID = 1234567;
             String studentName = "Paulo";
             String nif = "123456789";
             String nifCountry = "Portugal";
@@ -100,7 +73,7 @@ class StudentDTOAssemblerImplTest {
             String phoneNumber = "987654321";
             String email = "paulo.andre@mail.pt";
 
-            StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+            StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
             IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
 
             //Act
@@ -114,7 +87,6 @@ class StudentDTOAssemblerImplTest {
     @Test
     void toEmail() {
         //Arrange
-        int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
         String nifCountry = "Portugal";
@@ -126,7 +98,7 @@ class StudentDTOAssemblerImplTest {
         String phoneNumber = "987654321";
         String email = "paulo.andre@mail.pt";
 
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+        StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
         IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
 
         //Act
@@ -139,7 +111,6 @@ class StudentDTOAssemblerImplTest {
     @Test
     void toAddress() {
         //Arrange
-        int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
         String nifCountry = "Portugal";
@@ -151,7 +122,7 @@ class StudentDTOAssemblerImplTest {
         String phoneNumber = "987654321";
         String email = "paulo.andre@mail.pt";
 
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
+        StudentDTO studentDTO = new StudentDTO(studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
         IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
 
         //Act
@@ -162,31 +133,6 @@ class StudentDTOAssemblerImplTest {
         assertEquals("1234-000", result.getPostalCode().getPostalCode());
         assertEquals("Coimbra", result.getLocation().getLocation());
         assertEquals("Portugal", result.getCountry().getCountryName());
-    }
-
-    @Test
-    void toAcademicEmail() {
-        //Arrange
-        int studentID = 1234567;
-        String studentName = "Paulo";
-        String nif = "123456789";
-        String nifCountry = "Portugal";
-        String street = "Rua dos Pintos";
-        String postalCode = "1234-000";
-        String location = "Coimbra";
-        String addressCountry = "Portugal";
-        String phoneCountryCode = "+351";
-        String phoneNumber = "987654321";
-        String email = "paulo.andre@mail.pt";
-
-        StudentDTO studentDTO = new StudentDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email);
-        IStudentDTOAssembler assembler = new StudentDTOAssemblerImpl();
-
-        //Act
-        StudentAcademicEmail result = assembler.toAcademicEmail(studentDTO);
-
-        //Assert
-        assertEquals("1234567@isep.ipp.pt", result.getStudentEmail());
     }
 
     @Test
