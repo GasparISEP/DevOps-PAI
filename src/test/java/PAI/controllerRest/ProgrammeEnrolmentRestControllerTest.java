@@ -2,13 +2,10 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
+
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
-import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
+
 import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -45,7 +39,6 @@ class ProgrammeEnrolmentRestControllerTest {
     @Test
     void shouldReturnTotalNumberOfEnrolledStudents() throws Exception {
         // Arrange
-        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService iTotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService = mock(ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService.class);
 
         ProgrammeEnrolmentRestController programmeEnrolmentRestController = new ProgrammeEnrolmentRestController(totalEnrolledStudentsAssembler,totalEnrolledStudentsService);
 
@@ -83,10 +76,8 @@ class ProgrammeEnrolmentRestControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestWhenDepartmentIDIsNotInTheSystem() throws Exception {
+    void shouldReturnBadRequestWhenDepartmentIDIsNotInTheSystem()  {
         // Arrange
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
-        IProgrammeEnrolmentAssembler programmeEnrolmentAssembler = mock(IProgrammeEnrolmentAssembler.class);
         ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler = mock(ITotalEnrolledStudentsAssembler.class);
         ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService = mock(ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService.class);
         ProgrammeEnrolmentRestController programmeEnrolmentRestController = new ProgrammeEnrolmentRestController(totalEnrolledStudentsAssembler,totalEnrolledStudentsService);
@@ -104,10 +95,8 @@ class ProgrammeEnrolmentRestControllerTest {
     }
 
     @Test
-    void shouldReturnInternalServerErrorWhenDepartmentIDIsNotInTheSystem() throws Exception {
+    void shouldReturnInternalServerErrorWhenDepartmentIDIsNotInTheSystem()  {
         // Arrange
-        IProgrammeEnrolmentService programmeEnrolmentService = mock(IProgrammeEnrolmentService.class);
-        IProgrammeEnrolmentAssembler programmeEnrolmentAssembler = mock(IProgrammeEnrolmentAssembler.class);
         ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler = mock(ITotalEnrolledStudentsAssembler.class);
         ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService = mock(ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService.class);
         ProgrammeEnrolmentRestController programmeEnrolmentRestController = new ProgrammeEnrolmentRestController(totalEnrolledStudentsAssembler,totalEnrolledStudentsService);
