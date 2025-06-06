@@ -129,12 +129,12 @@ public class StudyPlanRepositoryImplTest {
     @Test
     void ofIdentityShouldReturnEmptyWhenNoMatchingID() throws Exception {
         //arrange
-        ProgrammeID pid1 = new ProgrammeID(new NameWithNumbersAndSpecialChars("ENGENHARIA"), new Acronym("ENG"));
+        ProgrammeID pid1 = new ProgrammeID(new Acronym("ENG"));
         Date date1 = new Date("01-01-2023");
         StudyPlanID id1 = new StudyPlanID(pid1, date1);
         StudyPlan sp = new StudyPlan(pid1, date1, new DurationInYears(3), new MaxEcts(180), id1);
         repository.save(sp);
-        ProgrammeID pid2 = new ProgrammeID(new NameWithNumbersAndSpecialChars("DIREITO"), new Acronym("DIR"));
+        ProgrammeID pid2 = new ProgrammeID(new Acronym("DIR"));
         Date date2 = new Date("02-02-2024");
         StudyPlanID id2 = new StudyPlanID(pid2, date2);
         //act
@@ -146,12 +146,12 @@ public class StudyPlanRepositoryImplTest {
     @Test
     void containsOfIdentityShouldReturnFalseWhenNoMatchingID() throws Exception {
         //arrange
-        ProgrammeID pid1 = new ProgrammeID(new NameWithNumbersAndSpecialChars("MATEMÁTICA"), new Acronym("MAT"));
+        ProgrammeID pid1 = new ProgrammeID(new Acronym("MAT"));
         Date date1 = new Date("10-03-2023");
         StudyPlanID id1 = new StudyPlanID(pid1, date1);
         StudyPlan sp = new StudyPlan(pid1, date1, new DurationInYears(3), new MaxEcts(180), id1);
         repository.save(sp);
-        ProgrammeID pid2 = new ProgrammeID(new NameWithNumbersAndSpecialChars("HISTÓRIA"), new Acronym("HIS"));
+        ProgrammeID pid2 = new ProgrammeID(new Acronym("HIS"));
         Date date2 = new Date("01-04-2024");
         StudyPlanID id2 = new StudyPlanID(pid2, date2);
 

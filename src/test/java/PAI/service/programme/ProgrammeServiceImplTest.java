@@ -2,12 +2,7 @@ package PAI.service.programme;
 
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
-import PAI.assembler.schoolYear.ISchoolYearAssembler;
-import PAI.assembler.schoolYear.SchoolYearAssembler;
 import PAI.domain.degreeType.DegreeType;
-import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.domain.schoolYear.ISchoolYearFactory;
-import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
@@ -15,13 +10,11 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
-import PAI.service.schoolYear.SchoolYearServiceImpl;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +29,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -562,7 +554,7 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeDouble.identity()).thenReturn(id);
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
@@ -582,9 +574,9 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
-        when(_programme2Double.identity()).thenReturn(new ProgrammeID(_name2Double, _acronym2Double));
+        when(_programme2Double.identity()).thenReturn(new ProgrammeID(_acronym2Double));
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programme2Double));
 
         // Act
@@ -601,7 +593,7 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of());
 
@@ -714,10 +706,10 @@ class ProgrammeServiceImplTest {
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
 
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         when(programme1.getProgrammeID()).thenReturn(programmeID);
 
-        ProgrammeIDDTO dto1 = new ProgrammeIDDTO("Engenharia Informática", "LEI");
+        ProgrammeIDDTO dto1 = new ProgrammeIDDTO("LEI");
         when(_programmeAssemblerDouble.toDTO(programmeID)).thenReturn(dto1);
 
         List<Programme> programmes = List.of(programme1, programme2);
@@ -729,7 +721,6 @@ class ProgrammeServiceImplTest {
         // Assert
         assertEquals(1, result.size());
         assertEquals("LEI", result.get(0).acronym());
-        assertEquals("Engenharia Informática", result.get(0).name());
     }
 
     @Test
@@ -757,7 +748,7 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
         ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
 
         when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.of(_programmeDouble));
@@ -801,7 +792,7 @@ class ProgrammeServiceImplTest {
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
 
@@ -816,7 +807,7 @@ class ProgrammeServiceImplTest {
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
 
@@ -832,7 +823,7 @@ class ProgrammeServiceImplTest {
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
 
-        ProgrammeID id = new ProgrammeID(_nameDouble, _acronymDouble);
+        ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.empty());
 

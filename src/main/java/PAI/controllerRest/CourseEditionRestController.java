@@ -109,7 +109,6 @@ public CourseEditionRestController(
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
             ProgrammeID programmeID = new ProgrammeID(
-                    new NameWithNumbersAndSpecialChars(command.programmeName()),
                     new Acronym(command.programmeAcronym()));
 
             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
@@ -218,8 +217,7 @@ public CourseEditionRestController(
         UUID schoolYearUUID = UUID.fromString(schoolYearId);
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
-        ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Placeholder Name"), //Dummies
+        ProgrammeID programmeID = new ProgrammeID(//Dummies
                 new Acronym(programmeAcronym));
 
         CourseEditionID courseEditionID = new CourseEditionID(
@@ -247,7 +245,6 @@ public CourseEditionRestController(
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Placeholder Name"),
                 new Acronym(programmeAcronym));
 
         CourseEditionID courseEditionID = new CourseEditionID(

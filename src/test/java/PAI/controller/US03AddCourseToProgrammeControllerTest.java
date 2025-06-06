@@ -337,9 +337,8 @@ public class US03AddCourseToProgrammeControllerTest {
         int duration = 1;
         double quantEcts = 10.0;
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        ProgrammeID programmeID = new ProgrammeID(acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         QuantSemesters quantityOfSemesters = new QuantSemesters(2);
@@ -366,9 +365,8 @@ public class US03AddCourseToProgrammeControllerTest {
         int duration = 1;
         double quantEcts = 40.0;
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        ProgrammeID programmeID = new ProgrammeID(acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         QuantSemesters quantityOfSemesters = new QuantSemesters(2);
@@ -409,9 +407,8 @@ public class US03AddCourseToProgrammeControllerTest {
     void shouldReturnLatestStudyPlanByProgrammeID_Integration() throws Exception {
         // arrange
         US03_AddCourseToProgrammeController controller = new US03_AddCourseToProgrammeController(programmeService, courseService, studyPlanService, courseInStudyPlanService);
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        ProgrammeID programmeID = new ProgrammeID(acronymProgramme);
 
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
@@ -440,9 +437,8 @@ public class US03AddCourseToProgrammeControllerTest {
         int duration = 1;
         double quantEcts = 10.0;
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("LEI");
         Acronym acronymProgramme = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronymProgramme);
+        ProgrammeID programmeID = new ProgrammeID(acronymProgramme);
         MaxEcts maxQuantEcts = new MaxEcts(30);
         Date date = new Date("10-10-2022");
         QuantSemesters quantityOfSemesters = new QuantSemesters(2);

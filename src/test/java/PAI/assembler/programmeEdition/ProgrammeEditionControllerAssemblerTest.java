@@ -83,7 +83,6 @@ class ProgrammeEditionControllerAssemblerTest {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(programmeID.getProgrammeName()).thenReturn("Computer Science");
         when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
@@ -112,7 +111,6 @@ class ProgrammeEditionControllerAssemblerTest {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = null;
-        when(programmeID.getProgrammeName()).thenReturn("Computer Science");
         when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
 
         // Act + Assert
@@ -122,9 +120,8 @@ class ProgrammeEditionControllerAssemblerTest {
     }
     @Test
     void shouldHandleDifferentProgrammeNamesAndAcronyms() throws Exception {
-        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Engenharia@2025");
         Acronym programmeAcronym = new Acronym("ENG25");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
@@ -135,14 +132,12 @@ class ProgrammeEditionControllerAssemblerTest {
         CountStudentsDto dto = assembler.toCountDTO(programmeEdition);
 
         assertEquals("ENG25", dto.programmeAcronym());
-        assertEquals("Engenharia@2025", dto.programmeName());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
     @Test
     void shouldReturnCorrectDtoUsingMockedProgrammeEdition() throws Exception {
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("MockedName"),
                 new Acronym("MOCK")
         );
         SchoolYearID schoolYearID = new SchoolYearID();
@@ -152,7 +147,6 @@ class ProgrammeEditionControllerAssemblerTest {
 
         CountStudentsDto dto = assembler.toCountDTO(programmeEdition);
 
-        assertEquals("MockedName", dto.programmeName());
         assertEquals("MOCK", dto.programmeAcronym());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
@@ -160,9 +154,8 @@ class ProgrammeEditionControllerAssemblerTest {
     @Test
     void shouldReturnAProgrammeEditionDTO() throws Exception {
         // Arrange
-        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Programme");
         Acronym programmeAcronym = new Acronym("PPP");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
@@ -175,7 +168,6 @@ class ProgrammeEditionControllerAssemblerTest {
 
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
-        assertEquals("Programme", dto.programmeName());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
     @Test

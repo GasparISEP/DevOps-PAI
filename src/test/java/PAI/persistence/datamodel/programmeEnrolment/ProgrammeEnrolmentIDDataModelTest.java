@@ -104,15 +104,13 @@ class ProgrammeEnrolmentIDDataModelTest {
         StudentIDDataModel studentID1 = new StudentIDDataModel(1234567);
         StudentIDDataModel studentID2 = new StudentIDDataModel(1234567);
 
-        String nameDM = "Ola";
         String acronymDM = "OLA";
 
-        ProgrammeIDDataModel programmeID1 = new ProgrammeIDDataModel(nameDM, acronymDM);
+        ProgrammeIDDataModel programmeID1 = new ProgrammeIDDataModel(acronymDM);
 
-        String nameDM2 = "Ola";
         String acronymDM2 = "OLA";
 
-        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel(nameDM2, acronymDM2);
+        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel(acronymDM2);
 
         //act
         ProgrammeEnrolmentIDDataModel id1 = new ProgrammeEnrolmentIDDataModel(studentID1, programmeID1);

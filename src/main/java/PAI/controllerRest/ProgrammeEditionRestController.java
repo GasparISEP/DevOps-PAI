@@ -46,27 +46,24 @@ public class ProgrammeEditionRestController {
         return ResponseEntity.ok(programmeEditionDtos);
     }
 
-    @GetMapping("/{programmeName}/{programmeAcronym}/{schoolYearID}/students")
+    @GetMapping("/{programmeid}/{schoolYearID}/students")
     public ResponseEntity<Integer> getNumberOfStudents(
-            @PathVariable("programmeName") String programmeName,
-            @PathVariable("programmeAcronym") String programmeAcronym,
+            @PathVariable("programmeid") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
         CountStudentsDto dto =
-                new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
+                new CountStudentsDto(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 
         return ResponseEntity.ok(totalStudents);
     }
 
-    @GetMapping("/programme/{programmeName}/{programmeAcronym}")
+    @GetMapping("/programme/{programmeid}")
     public ResponseEntity<List<ProgrammeEditionDTO>> getProgrammeEditionsByProgrammeID(
-            @PathVariable String programmeName,
-            @PathVariable String programmeAcronym) throws Exception {
+            @PathVariable("programmeid") String programmeAcronym) throws Exception {
 
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(programmeName),
                 new Acronym(programmeAcronym)
         );
 

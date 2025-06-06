@@ -53,9 +53,8 @@ class StudyPlanMapperImplTest {
     @Test
     void shouldReturnStudyPlanDataModel() throws Exception {
         //arrange
-        NameWithNumbersAndSpecialChars progname = new NameWithNumbersAndSpecialChars("Programme");
         Acronym progacronym = new Acronym("PRO");
-        ProgrammeID progID = new ProgrammeID(progname, progacronym);
+        ProgrammeID progID = new ProgrammeID(progacronym);
 
         Date date = mock(Date.class);
         DurationInYears durationInYears = new DurationInYears(4);
@@ -75,7 +74,7 @@ class StudyPlanMapperImplTest {
 
     @Test
     void shouldReturnDomainStudyPlan() throws Exception {
-        ProgrammeIDDataModel progIDdm = new ProgrammeIDDataModel("Programme", "PRO");
+        ProgrammeIDDataModel progIDdm = new ProgrammeIDDataModel("PRO");
         LocalDate implementationdate = mock(LocalDate.class);
         StudyPlanIDDataModel spIDdm = new StudyPlanIDDataModel(progIDdm, implementationdate);
         MaxEcts maxEcts = new MaxEcts(30);

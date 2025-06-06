@@ -7,9 +7,6 @@ public record ProgrammeEditionEnrolmentDetailDto(
     int studentID,
 
     @NotBlank
-    String programmeName,
-
-    @NotBlank
     String programmeAcronym,
 
     @NotBlank

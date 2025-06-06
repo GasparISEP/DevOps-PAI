@@ -319,14 +319,12 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         SchoolYearID schoolYearID2 = new SchoolYearID();
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID2);
 
-        NameWithNumbersAndSpecialChars name2 = new NameWithNumbersAndSpecialChars("Programme2");
         Acronym acronym2 = new Acronym("P2");
-        ProgrammeID programmeID2 = new ProgrammeID(name2, acronym2);
+        ProgrammeID programmeID2 = new ProgrammeID(acronym2);
         ProgrammeEditionID programmeEditionID2 = new ProgrammeEditionID(programmeID2, schoolYearID2);
 
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -383,9 +381,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -453,9 +450,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID studentID = mock(StudentID.class);
         StudentID studentID2 = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -518,9 +514,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -593,9 +588,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID studentID2 = mock(StudentID.class);
 
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -666,9 +660,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1,acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 

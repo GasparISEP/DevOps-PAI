@@ -52,13 +52,11 @@ public class CourseInStudyPlanRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
     }
 
-    @GetMapping("/{acronym}/{name}")
+    @GetMapping("/{programmeid}")
     public ResponseEntity<List<CourseInStudyPlanResponseDTO>> getCoursesInStudyPlanByProgrammeID(
-            @PathVariable("acronym") String acronym,
-            @PathVariable("name") String name) throws Exception {
+            @PathVariable("programmeid") String acronym) throws Exception {
 
         ProgrammeID programmeIdVO = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(name),
                 new Acronym(acronym)
         );
 

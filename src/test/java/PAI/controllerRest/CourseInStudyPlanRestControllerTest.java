@@ -146,10 +146,9 @@ class CourseInStudyPlanRestControllerTest {
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, addCourseServiceDouble, studyPlanService, courseInStudyPlanService);
 
-        String name = "Engineering";
         String acronym = "ENG";
 
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym));
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(acronym));
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
@@ -167,7 +166,7 @@ class CourseInStudyPlanRestControllerTest {
         when(assemblerDouble.toDTO(serviceDTO2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
+        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -186,17 +185,16 @@ class CourseInStudyPlanRestControllerTest {
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, addCourseServiceDouble, studyPlanService, courseInStudyPlanService);
 
-        String name = "Law";
         String acronym = "LAW";
 
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym));
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(acronym));
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
         when(courseInStudyPlanService.getCourseSummariesByStudyPlanID(studyPlanID)).thenReturn(new ArrayList<>());
 
         // Act
-        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
+        ResponseEntity<List<CourseInStudyPlanResponseDTO>> response = controller.getCoursesInStudyPlanByProgrammeID(acronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -213,17 +211,16 @@ class CourseInStudyPlanRestControllerTest {
         ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
         CourseInStudyPlanRestController controller = new CourseInStudyPlanRestController(assemblerDouble, addCourseServiceDouble, studyPlanService, courseInStudyPlanService);
 
-        String name = "Math";
         String acronym = "MAT";
 
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym));
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(acronym));
 
         when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
                 .thenThrow(new RuntimeException("Service failure"));
 
         // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.getCoursesInStudyPlanByProgrammeID(acronym, name);
+            controller.getCoursesInStudyPlanByProgrammeID(acronym);
         });
 
         assertEquals("Service failure", exception.getMessage());

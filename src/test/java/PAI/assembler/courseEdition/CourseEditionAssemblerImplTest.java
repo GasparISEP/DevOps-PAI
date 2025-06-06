@@ -72,7 +72,6 @@ class CourseEditionAssemblerImplTest {
         String courseName = "Intro to Programming";
         LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
 
-        when(programmeID.getProgrammeName()).thenReturn(programmeName);
         when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
         when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
         when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
@@ -92,7 +91,6 @@ class CourseEditionAssemblerImplTest {
 
         // Assert
         assertEquals(courseEditionID.toString(), dto.courseEditionID());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
@@ -149,7 +147,6 @@ class CourseEditionAssemblerImplTest {
         when(programmeEditionID.getProgrammeID()).thenReturn(programmeID);
         when(programmeEditionID.getSchoolYearID()).thenReturn(schoolYearID);
 
-        when(programmeID.getProgrammeName()).thenReturn(programmeName);
         when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
         
         when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
@@ -169,7 +166,6 @@ class CourseEditionAssemblerImplTest {
         assertEquals(1, result.size());
         CourseEditionResponseDTO dto = result.get(0);
         assertEquals("CE-1", dto.courseEditionID());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
@@ -234,7 +230,6 @@ class CourseEditionAssemblerImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("Software Engineering", result.getProgrammeID().getProgrammeName());
         assertEquals("SE", result.getProgrammeID().getProgrammeAcronym());
         assertEquals(schoolYearUUID, result.getSchoolYearID().getSchoolYearID());
     }
@@ -270,7 +265,6 @@ class CourseEditionAssemblerImplTest {
         assertEquals("CS101", result.getCourseID().getCourseAcronymValue());
         assertEquals("Intro to Programming", result.getCourseID().getCourseNameValue());
         assertEquals("SE", result.getStudyPlanID().getProgrammeID().getProgrammeAcronym());
-        assertEquals("Software Engineering", result.getStudyPlanID().getProgrammeID().getProgrammeName());
         assertEquals(implementationDate, result.getStudyPlanID().getLocalDate());
     }
 

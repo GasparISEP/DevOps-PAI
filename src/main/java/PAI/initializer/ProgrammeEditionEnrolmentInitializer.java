@@ -39,20 +39,19 @@ public class ProgrammeEditionEnrolmentInitializer {
                     line = line.replace("\uFEFF", "");
                     String[] fields = line.split(",");
 
-                    if (fields.length == 5) {
+                    if (fields.length == 4) {
                         try {
                             int studentNum = Integer.parseInt(fields[0].trim());
                             Acronym programmeAcronym = new Acronym(fields[1].trim());
-                            NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(fields[2].trim());
-                            UUID schoolYear = UUID.fromString(fields[3].trim());
-                            UUID generatedID = UUID.fromString(fields[4].trim());
+                            UUID schoolYear = UUID.fromString(fields[2].trim());
+                            UUID generatedID = UUID.fromString(fields[3].trim());
 
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
                             StudentID studentID = new StudentID(studentNum);
-                            ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+                            ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
                             //controller.enrolStudentInProgrammeEditionAndSetOfCoursesEditions(studentID,programmeID,schoolYearID);
-                            service.enrolStudentInProgrammeEdition( studentID,  programmeEditionID);
+                            service.enrolStudentInProgrammeEdition(studentID,  programmeEditionID);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

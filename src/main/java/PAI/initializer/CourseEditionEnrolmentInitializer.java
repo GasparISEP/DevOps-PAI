@@ -40,20 +40,19 @@ public class CourseEditionEnrolmentInitializer {
                     line = line.replace("\uFEFF", "");
                     String[] fields = line.split(",");
 
-                    if (fields.length == 7) {
+                    if (fields.length == 6) {
                         try {
                             int studentNum = Integer.parseInt(fields[0].trim());
                            Acronym programmeAcronym = new Acronym(fields[1].trim());
-                            NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(fields[2].trim());
-                            UUID schoolYear = UUID.fromString(fields[3].trim());
-                            int studyPlanStartYear = Integer.parseInt(fields[4].trim());
-                            Acronym courseAcronym = new Acronym(fields[5].trim());
-                            Name courseName = new Name(fields[6].trim());
+                            UUID schoolYear = UUID.fromString(fields[2].trim());
+                            int studyPlanStartYear = Integer.parseInt(fields[3].trim());
+                            Acronym courseAcronym = new Acronym(fields[4].trim());
+                            Name courseName = new Name(fields[5].trim());
 
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
                             Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,1,1));
                             StudentID studentID = new StudentID(studentNum);
-                            ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+                            ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
                             StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanYear);
                             CourseID courseID = new CourseID(courseAcronym, courseName);

@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 public record CourseEditionEnrolmentDto(
 
     @NotBlank(message = "Student unique number is required")
-    int studentUniqueNumber,        
-    @NotBlank(message = "Programme name is required")
-    String programmeName,        
+    int studentUniqueNumber,
     @NotBlank(message = "Programme acronym is required")
     String programmeAcronym,        
     @NotBlank(message = "School year ID is required")

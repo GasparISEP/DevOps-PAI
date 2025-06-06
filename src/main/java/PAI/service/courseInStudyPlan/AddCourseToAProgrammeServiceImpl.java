@@ -52,7 +52,7 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
     }
 
     private ProgrammeID buildProgrammeID(CourseInStudyPlanCommand command) {
-        return new ProgrammeID(command.programmeName(), command.programmeAcronym());
+        return new ProgrammeID(command.programmeAcronym());
     }
 
     private StudyPlanID getStudyPlanID(ProgrammeID programmeID) {

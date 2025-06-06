@@ -15,10 +15,9 @@ class CountStudentsDtoTest {
         String yearId = UUID.randomUUID().toString();
 
         // Act
-        CountStudentsDto dto = new CountStudentsDto(name, acronym, yearId);
+        CountStudentsDto dto = new CountStudentsDto(acronym, yearId);
 
         // Assert
-        assertEquals(name, dto.programmeName());
         assertEquals(acronym, dto.programmeAcronym());
         assertEquals(yearId, dto.schoolYearID());
     }

@@ -215,7 +215,7 @@ public class CourseEditionRestControllerIntegrationTests {
                 requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123", "Software Development", "SDV",
+                "courseEditionID123","SDV",
                 requestDTO.schoolYearID(), "SA", "Software Architecture",
                 LocalDate.of(2023, 9, 1));
 
@@ -235,7 +235,6 @@ public class CourseEditionRestControllerIntegrationTests {
         CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
 
         assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
-        assertEquals(responseDTO.programmeName(), actualResponse.programmeName());
         assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
         assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
         assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());

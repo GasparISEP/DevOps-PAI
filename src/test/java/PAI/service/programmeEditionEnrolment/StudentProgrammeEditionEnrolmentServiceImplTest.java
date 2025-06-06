@@ -52,7 +52,6 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             // Arrange
             StudentID studentID = new StudentID(1500000);
             ProgrammeID programmeID = new ProgrammeID(
-                    new NameWithNumbersAndSpecialChars("Informática"),
                     new Acronym("LEI")
             );
             List<ProgrammeID> programmeIDs = List.of(programmeID);
@@ -65,7 +64,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             );
 
             List<ProgrammeEdition> editions = List.of(programmeEdition);
-            StudentProgrammeEditionEnrolmentDTO dto = new StudentProgrammeEditionEnrolmentDTO("LEI", "Informática", schoolYearID.getSchoolYearID().toString());
+            StudentProgrammeEditionEnrolmentDTO dto = new StudentProgrammeEditionEnrolmentDTO("LEI", schoolYearID.getSchoolYearID().toString());
 
             when(programmeEnrolmentRepository.findProgrammesByStudent(studentID)).thenReturn(programmeIDs);
             when(programmeEditionRepository.findByProgrammeIDs(programmeIDs)).thenReturn(editions);
@@ -78,7 +77,6 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             assertNotNull(result);
             assertEquals(1, result.size());
             assertEquals("LEI", result.get(0).getProgrammeAcronym());
-            assertEquals("Informática", result.get(0).getProgrammeName());
         } catch (Exception e) {
             fail("Exceção inesperada: " + e.getMessage());
         }
@@ -89,7 +87,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         try {
             // Arrange
             StudentID studentID = new StudentID(1234567);
-            ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
+            ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
@@ -119,7 +117,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     @Test
     void enrolStudentInProgrammeEdition_shouldThrowIfStudentNotEnrolledInProgramme() {
         StudentID studentID = new StudentID(1500001);
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
+        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
         SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
 
         when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
@@ -133,7 +131,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     void enrolStudentInProgrammeEdition_shouldThrowIfAlreadyEnrolled() {
         try {
             StudentID studentID = new StudentID(1500001);
-            ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars("Informática"), new Acronym("LEI"));
+            ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
             ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
@@ -158,7 +156,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         try {
             StudentID studentID = new StudentID(1500001);
             ProgrammeID programmeID = new ProgrammeID(
-                    new NameWithNumbersAndSpecialChars("Engenharia"), new Acronym("LEI")
+                    new Acronym("LEI")
             );
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);

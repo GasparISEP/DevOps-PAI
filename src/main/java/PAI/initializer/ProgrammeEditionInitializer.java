@@ -40,11 +40,10 @@ public class ProgrammeEditionInitializer {
                 if (fields.length == 3) {
                     try {
                         Acronym programmeAcronym = new Acronym(fields[0].trim());
-                        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(fields[1].trim());
-                        UUID schoolYear = UUID.fromString(fields[2].trim());
+                        UUID schoolYear = UUID.fromString(fields[1].trim());
 
                         SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
-                        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+                        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
 
                         ProgrammeEdition programmeEdition = service.createProgrammeEdition(programmeID, schoolYearID);
                         service.saveProgrammeEdition(programmeEdition);

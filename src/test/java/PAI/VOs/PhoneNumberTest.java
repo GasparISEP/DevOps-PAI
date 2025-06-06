@@ -1,6 +1,5 @@
 package PAI.VOs;
 
-import PAI.domain.course.Course;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -242,10 +241,10 @@ class PhoneNumberTest {
         String number = "999999999";
 
         PhoneNumber phoneNumberTest = new PhoneNumber(countryCode,number);
-        Course course = mock(Course.class);
+        Object otherObject = mock(Object.class);
 
         //Act
-        boolean result = phoneNumberTest.equals(course);
+        boolean result = phoneNumberTest.equals(otherObject);
 
         //Assert
         assertFalse(result);

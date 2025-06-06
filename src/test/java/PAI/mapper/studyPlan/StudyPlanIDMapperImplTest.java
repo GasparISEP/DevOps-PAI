@@ -17,7 +17,6 @@ class StudyPlanIDMapperImplTest {
     @Test
     void shouldCreateSPIDDataModel() {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
         Acronym acronym = mock(Acronym.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
@@ -26,7 +25,6 @@ class StudyPlanIDMapperImplTest {
         LocalDate localDate = mock(LocalDate.class);
 
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
-        when(programmeID.getName()).thenReturn(name);
         when(programmeID.getAcronym()).thenReturn(acronym);
         when(studyPlanID.getLocalDate()).thenReturn(localDate);
 
@@ -40,7 +38,6 @@ class StudyPlanIDMapperImplTest {
     @Test
     void shouldCreateSPIDDomain() {
         //arrange
-        String name = "GASPAR";
         String acronym = "GAS";
         ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
         StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
@@ -49,7 +46,6 @@ class StudyPlanIDMapperImplTest {
         LocalDate date = mock(LocalDate.class);
 
         when(studyPlanIDDataModel.getProgrammeID()).thenReturn(programmeIDDataModel);
-        when(programmeIDDataModel.getName()).thenReturn(name);
         when(programmeIDDataModel.getAcronym()).thenReturn(acronym);
         when(studyPlanIDDataModel.getImplementationDate()).thenReturn(date);
 

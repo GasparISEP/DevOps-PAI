@@ -45,11 +45,8 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
         return new CourseEditionResponseDTO(
                 courseEdition.identity().toString(),
-
-                programmeID.getProgrammeName(),
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
-
                 cspID.getCourseID().getCourseAcronymValue(),
                 cspID.getCourseID().getCourseNameValue(),
                 cspID.getStudyPlanID().getLocalDate()
@@ -64,13 +61,12 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
         List<CourseEditionResponseDTO> courseEditionResponseDTOs = new ArrayList<>();
         for (CourseEditionID courseEditionID : courseEditionIDs) {
             String courseEditionIDToDto = courseEditionID.toString();
-            String programmeName = courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeName();
             String programmeAcronym = courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeAcronym();
             UUID schoolYearID = courseEditionID.getProgrammeEditionID().getSchoolYearID().getSchoolYearID();
             String courseName = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue();
             String courseAcronym = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseAcronymValue();
             LocalDate studyPlanImplementationDate = courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getLocalDate();
-            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(courseEditionIDToDto, programmeName, programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate); 
+            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(courseEditionIDToDto, programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate);
             courseEditionResponseDTOs.add(courseEditionResponseDTO);
         }
         return courseEditionResponseDTOs;
@@ -82,7 +78,6 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     public CourseEditionID fromDtoToCourseEditionID (SelectedCourseEditionIdDTO courseEditionDTO) throws Exception{
         ProgrammeID programmeID= new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(courseEditionDTO.programmeName()),
                 new Acronym(courseEditionDTO.programmeAcronym()));
         SchoolYearID schoolYearID= new SchoolYearID(courseEditionDTO.schoolYearID());
         ProgrammeEditionID programmeEditionID= new ProgrammeEditionID(programmeID, schoolYearID);
@@ -108,7 +103,6 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             throw new Exception("CourseEditionRequestDTO cannot be null");
         }
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(courseEditionRequestDTO.programmeName()),
                 new Acronym(courseEditionRequestDTO.programmeAcronym()));
         SchoolYearID schoolYearID = new SchoolYearID(courseEditionRequestDTO.schoolYearID());
         return new ProgrammeEditionID(programmeID, schoolYearID);
@@ -120,7 +114,6 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             throw new Exception("CourseEditionRequestDTO cannot be null");
         }
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars(courseEditionRequestDTO.programmeName()),
                 new Acronym(courseEditionRequestDTO.programmeAcronym()));
         CourseID courseID = new CourseID(
                 new Acronym(courseEditionRequestDTO.courseAcronym()),

@@ -116,10 +116,10 @@ class StudyPlanIDDataModelTest {
 
     @Test
     void DifferentHashCode() {
-        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("PED", "DEP");
+        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("DEP");
         LocalDate date = LocalDate.of(2020, 1, 1);
 
-        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel("DEP", "PED");
+        ProgrammeIDDataModel programmeID2 = new ProgrammeIDDataModel("PED");
         LocalDate date2 = LocalDate.of(2023, 3, 3);
 
         StudyPlanIDDataModel dm1 = new StudyPlanIDDataModel(programmeID, date);
@@ -130,7 +130,7 @@ class StudyPlanIDDataModelTest {
 
     @Test
     void hashCodeMustBeDifferentFromSubtractedComponents() {
-        ProgrammeIDDataModel pid = new ProgrammeIDDataModel("ENG", "ENG");
+        ProgrammeIDDataModel pid = new ProgrammeIDDataModel("ENG");
         LocalDate date = LocalDate.of(2024, 4, 29);
 
         StudyPlanIDDataModel id = new StudyPlanIDDataModel(pid, date);

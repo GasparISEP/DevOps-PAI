@@ -106,7 +106,7 @@ class ProgrammeEnrolmentIDTest {
     @Test
     public void testEquals_SameValues() {
         StudentID studentIDDouble = mock(StudentID.class);
-        ProgrammeID programmeIDDouble = new ProgrammeID(new NameWithNumbersAndSpecialChars("name"), new Acronym("ACR"));
+        ProgrammeID programmeIDDouble = new ProgrammeID(new Acronym("ACR"));
 
 
         ProgrammeEnrolmentID id1 = new ProgrammeEnrolmentID(studentIDDouble, programmeIDDouble);

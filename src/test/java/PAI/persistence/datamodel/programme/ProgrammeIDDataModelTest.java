@@ -24,33 +24,21 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void testConstructor() {
         //arrange
-        String name = "Ola";
         String acronym = "OLA";
 
         //act
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(name, acronym);
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(acronym);
 
         //assert
-        assertEquals(name, dataModel.getName());
         assertEquals(acronym, dataModel.getAcronym());
-    }
-
-    @Test
-    public void testConstructorIsNullWithNullName() {
-        //arrange
-        String acronym = "OLA";
-
-        //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeIDDataModel(null,acronym));
     }
 
     @Test
     public void testConstructorIsNullWithNullAcronym() {
         //arrange
-        String name = "name";
 
         //act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeIDDataModel(name, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeIDDataModel(null));
     }
 
     @Test
@@ -58,7 +46,6 @@ public class ProgrammeIDDataModelTest {
         //arrange
         ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel();
         //act + assert
-        assertNull(dataModel.getName());
         assertNull(dataModel.getAcronym());
     }
 
@@ -71,12 +58,10 @@ public class ProgrammeIDDataModelTest {
 
         when(name.getNameWithNumbersAndSpecialChars()).thenReturn("Ola");
         when(acronym.getAcronym()).thenReturn("OLA");
-        when(progID.getName()).thenReturn(name);
         when(progID.getAcronym()).thenReturn(acronym);
-
-        String nameDM = "Ola";
+        
         String acronymDM = "OLA";
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(nameDM, acronymDM);
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel(acronymDM);
 
         //act
         int res = dataModel.hashCode();
@@ -87,7 +72,7 @@ public class ProgrammeIDDataModelTest {
 
     @Test
     public void testHashCodeNonZero() {
-        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel("Ola", "OLA");
+        ProgrammeIDDataModel dataModel = new ProgrammeIDDataModel("OLA");
         int hash = dataModel.hashCode();
         assertNotEquals(0, hash);
     }
@@ -96,7 +81,7 @@ public class ProgrammeIDDataModelTest {
     public void shouldReturnTrueIfObjectsAreEquals() {
         // Arrange
 
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Ola", "OLA");
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("OLA");
         Object progIDDataModel2 = progIDDataModel;
 
         // Act
@@ -109,11 +94,10 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnTrueIfTwoProgIDDMAreEquals() {
         // Arrange
-        String name = "Ola";
         String acronym = "OLA";
 
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(name, acronym);
-        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel(name, acronym);
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel(acronym);
+        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel(acronym);
 
         // Act
         boolean result = progIDDataModel.equals(progIDDataModel2);
@@ -125,8 +109,8 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfTwoProgIDDMAreNotEquals() {
         // Arrange
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
-        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel("Ola", "OLA");
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("SIM");
+        ProgrammeIDDataModel progIDDataModel2 = new ProgrammeIDDataModel("OLA");
 
         // Act
         boolean result = progIDDataModel.equals(progIDDataModel2);
@@ -138,7 +122,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfProgIDDMAreNotEqualsWithNull() {
         // Arrange
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("SIM");
         ProgrammeIDDataModel progIDDataModel2 = null;
 
         // Act
@@ -151,7 +135,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfTwoProgIDDMAreNotEqualsBecauseTheyAreOfDifferentClass() {
         // Arrange
-        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("Sim", "SIM");
+        ProgrammeIDDataModel progIDDataModel = new ProgrammeIDDataModel("SIM");
         Object progIDDataModel2 = new Object();
 
         // Act
@@ -164,7 +148,7 @@ public class ProgrammeIDDataModelTest {
     @Test
     public void shouldReturnFalseIfProgIDDataModelNotEqualsWithDifferentObject() {
         // Arrange
-        ProgrammeIDDataModel progIDDM = new ProgrammeIDDataModel("Sim", "SIM");
+        ProgrammeIDDataModel progIDDM = new ProgrammeIDDataModel("SIM");
         ProgrammeIDDataModel progIDDM2 = new ProgrammeIDDataModel();
 
         // Act

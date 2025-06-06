@@ -57,7 +57,6 @@ class StudyPlanAssemblerImplTest {
     private StudyPlan createDoublesDTO() {
         // Arrange
         StudyPlan studyPlan = mock(StudyPlan.class);
-        String programmeName = "Biology";
         String programmeAcronym = "BIO1";
         LocalDate date = LocalDate.of(2025, 9, 1);
         int maxEcts = 30;
@@ -71,7 +70,6 @@ class StudyPlanAssemblerImplTest {
         when(studyPlan.getStartDate()).thenReturn(startDate);
         when(studyPlan.getMaxEcts()).thenReturn(ects);
         when(studyPlan.getDurationInYears()).thenReturn(duration);
-        when(programmeId.getProgrammeName()).thenReturn(programmeName);
         when(programmeId.getProgrammeAcronym()).thenReturn(programmeAcronym);
         when(startDate.getLocalDate()).thenReturn(date);
         when(ects.getMaxEcts()).thenReturn(maxEcts);
@@ -99,13 +97,11 @@ class StudyPlanAssemblerImplTest {
     private StudyPlanDTO createDoublesResponseDTO() {
         // Assert
         StudyPlanDTO studyPlanDto = mock(StudyPlanDTO.class);
-        String programmeName = "Biology";
         String programmeAcronym = "BIO1";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
         int maxEcts = 30;
         int durationInYears = 3;
 
-        when(studyPlanDto.getProgrammeName()).thenReturn(programmeName);
         when(studyPlanDto.getProgrammeAcronym()).thenReturn(programmeAcronym);
         when(studyPlanDto.getStartDate()).thenReturn(startDate);
         when(studyPlanDto.getDurationInYears()).thenReturn(durationInYears);

@@ -98,7 +98,6 @@ class CourseEditionRestControllerTest {
     void setUp() {
         validEnrolmentDto = new CourseEditionEnrolmentDto(
             1100000,
-            "LEI",
             "LEIC",
             "123e4567-e89b-12d3-a456-426614174000",
             "ESOFT",
@@ -150,7 +149,6 @@ class CourseEditionRestControllerTest {
         // Arrange
         CourseEditionEnrolmentDto invalidDto = new CourseEditionEnrolmentDto(
             0,
-            "",
             "",
             "",
             "",
@@ -235,7 +233,7 @@ class CourseEditionRestControllerTest {
         );
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "id123", "LEI", "LEIC", schoolYearID,
+                "id123", "LEIC", schoolYearID,
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -329,7 +327,6 @@ class CourseEditionRestControllerTest {
 
         CourseEditionResponseDTO responseDouble1 = new CourseEditionResponseDTO(
             "courseEdition123",
-            "Programme1",
             "PRG1",
             UUID.randomUUID(),
             "Course1",
@@ -339,7 +336,6 @@ class CourseEditionRestControllerTest {
 
         CourseEditionResponseDTO responseDouble2 = new CourseEditionResponseDTO(
             "courseEdition456",
-            "Programme2",
             "PRG2",
             UUID.randomUUID(),
             "Course2",

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProgrammeFactoryImpl implements IProgrammeFactory {
     public Programme registerProgramme (NameWithNumbersAndSpecialChars name, Acronym acronym, MaxEcts maxOfEcts, QuantSemesters quantityOfSemesters, DegreeTypeID degreeTypeID, DepartmentID departmentID, TeacherID programmeDirectorID) {
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         return new Programme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, programmeDirectorID, programmeID);
     }
 

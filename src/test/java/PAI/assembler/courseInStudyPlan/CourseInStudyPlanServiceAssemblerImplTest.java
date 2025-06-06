@@ -46,7 +46,6 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         when(course.getStudyplanID()).thenReturn(studyPlanID);
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
         when(programmeID.getProgrammeAcronym()).thenReturn("ENG");
-        when(programmeID.getProgrammeName()).thenReturn("Engineering");
 
         when(studyPlanID.getDate()).thenReturn(date);
         when(date.getLocalDate()).thenReturn(java.time.LocalDate.of(2025, 5, 27));
@@ -67,7 +66,6 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         assertEquals("CS101", dto.courseAcronym());
         assertEquals("Intro to CS", dto.courseName());
         assertEquals("ENG", dto.programmeAcronym());
-        assertEquals("Engineering", dto.programmeName());
         assertEquals("2025-05-27", dto.studyPlanDate());
         assertEquals(1, dto.duration());
         assertEquals(6.0, dto.credits());

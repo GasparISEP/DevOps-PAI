@@ -21,8 +21,7 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
         CourseID courseID = new CourseID(courseAcronym, courseName);
 
         Acronym programmeAcronym = new Acronym("ENG");
-        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Engineering");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
 
         Date studyPlanDate = new Date("01-05-2026");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
@@ -50,7 +49,6 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
         assertEquals("CS101", dto.courseAcronym());
         assertEquals("Computer Science", dto.courseName());
         assertEquals("ENG", dto.programmeAcronym());
-        assertEquals("Engineering", dto.programmeName());
         assertEquals(studyPlanDate.toString(), dto.studyPlanDate());
         assertEquals(2, dto.duration());
         assertEquals(6.0, dto.credits());

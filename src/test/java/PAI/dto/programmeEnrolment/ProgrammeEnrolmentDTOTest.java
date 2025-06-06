@@ -1,4 +1,4 @@
-package PAI.dto;
+package PAI.dto.programmeEnrolment;
 
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import org.junit.jupiter.api.Test;
@@ -15,13 +15,12 @@ class ProgrammeEnrolmentDTOTest {
         // Arrange
         int studentID = 1234567;
         String acessMethodID = "1";
-        String programmeName = "1";
         String programmeAcronym = "LEI";
         LocalDate date = mock(LocalDate.class);
 
 
         // Act
-        ProgrammeEnrolmentDTO programmeEnrolmentDTO = new ProgrammeEnrolmentDTO(studentID,acessMethodID,programmeName,programmeAcronym,date);
+        ProgrammeEnrolmentDTO programmeEnrolmentDTO = new ProgrammeEnrolmentDTO(studentID,acessMethodID,programmeAcronym,date);
 
         // Assert
         assertNotNull(programmeEnrolmentDTO);
@@ -31,15 +30,13 @@ class ProgrammeEnrolmentDTOTest {
     void testGetters() {
         int studentID = 123;
         String accessMethodID = "AM123";
-        String programmeName = "Computer Science";
         String programmeAcronym = "CS";
         LocalDate date = LocalDate.of(2025, 5, 20);
 
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentID, accessMethodID, programmeName, programmeAcronym, date);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentID, accessMethodID, programmeAcronym, date);
 
         assertEquals(studentID, dto.getStudentID());
         assertEquals(accessMethodID, dto.getAccessMethodID());
-        assertEquals(programmeName, dto.getProgrammeName());
         assertEquals(programmeAcronym, dto.getProgrammeAcronym());
         assertEquals(date, dto.getDate());
     }

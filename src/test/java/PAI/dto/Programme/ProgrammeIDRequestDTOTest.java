@@ -22,30 +22,14 @@ class ProgrammeIDRequestDTOTest {
 
     @Test
     public void testValidProgrammeIDRequestDTO() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("Computer Science", "CSE");
+        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("CSE");
         Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void testBlankName() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("  ", "CSE");
-        Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
-        assertFalse(violations.isEmpty());
-        assertEquals("Programme Name is required", violations.iterator().next().getMessage());
-    }
-
-    @Test
-    public void testNullName() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO(null, "CSE");
-        Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
-        assertFalse(violations.isEmpty());
-        assertEquals("Programme Name is required", violations.iterator().next().getMessage());
-    }
-
-    @Test
     public void testShortAcronym() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("Engineering", "CS");
+        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("CS");
         Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertEquals("Acronym must have 3 characters", violations.iterator().next().getMessage());
@@ -53,7 +37,7 @@ class ProgrammeIDRequestDTOTest {
 
     @Test
     public void testLongAcronym() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("Engineering", "COMP");
+        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("COMP");
         Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertEquals("Acronym must have 3 characters", violations.iterator().next().getMessage());
@@ -61,7 +45,7 @@ class ProgrammeIDRequestDTOTest {
 
     @Test
     public void testNullAcronym() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("Engineering", null);
+        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO( null);
         Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertEquals("Programme Acronym is required", violations.iterator().next().getMessage());
@@ -69,7 +53,7 @@ class ProgrammeIDRequestDTOTest {
 
     @Test
     public void testBlankAcronym() {
-        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("Engineering", "");
+        ProgrammeIDRequestDTO dto = new ProgrammeIDRequestDTO("");
         Set<ConstraintViolation<ProgrammeIDRequestDTO>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertEquals("Acronym must have 3 characters", violations.iterator().next().getMessage());

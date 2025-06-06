@@ -132,7 +132,7 @@ class StudyPlanDataModelTest {
     @Test
     void testHashCodeConsistency() throws Exception {
         //arrange
-        ProgrammeIDDataModel programmeIDDataModel = new ProgrammeIDDataModel("TROLHA", "TRO");
+        ProgrammeIDDataModel programmeIDDataModel = new ProgrammeIDDataModel("TRO");
         LocalDate date = LocalDate.of(2000, 3, 21);
 
         StudyPlanIDDataModel id = new StudyPlanIDDataModel(programmeIDDataModel, date);
@@ -166,11 +166,11 @@ class StudyPlanDataModelTest {
     @Test
     void testDifferentHashCode() throws Exception {
         //arrange
-        ProgrammeIDDataModel programmeIDDataModel1 = new ProgrammeIDDataModel("TROLHA", "TRO");
+        ProgrammeIDDataModel programmeIDDataModel1 = new ProgrammeIDDataModel("TRO");
         LocalDate date1 = LocalDate.of(2000, 3, 21);
         StudyPlanIDDataModel id1 = new StudyPlanIDDataModel(programmeIDDataModel1, date1);
 
-        ProgrammeIDDataModel programmeIDDataModel2 = new ProgrammeIDDataModel("AJUDANTE", "AJU");
+        ProgrammeIDDataModel programmeIDDataModel2 = new ProgrammeIDDataModel("AJU");
         LocalDate date2 = LocalDate.of(1991, 3, 21);
         StudyPlanIDDataModel id2 = new StudyPlanIDDataModel(programmeIDDataModel2, date2);
 

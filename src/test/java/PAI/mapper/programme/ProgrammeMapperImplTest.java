@@ -82,7 +82,6 @@ public class ProgrammeMapperImplTest {
         when(quantSemesters.getQuantityOfSemesters()).thenReturn(6);
 
         when(programme.getProgrammeID()).thenReturn(programmeID);
-        when(programmeID.getName()).thenReturn(name);
         when(name.getNameWithNumbersAndSpecialChars()).thenReturn("name");
         when(programmeID.getAcronym()).thenReturn(acronym);
         when(acronym.getAcronym()).thenReturn("OLA");
@@ -104,7 +103,6 @@ public class ProgrammeMapperImplTest {
         when(teacherIDDataModel.getTeacherAcronym()).thenReturn("PSN");
 
         when(programmeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
-        when(programmeIDDataModel.getName()).thenReturn("id");
         when(programmeIDDataModel.getAcronym()).thenReturn("PSN");
 
         when(programme.getProgrammeDirectorID()).thenReturn(progDirectorID);
@@ -171,7 +169,6 @@ public class ProgrammeMapperImplTest {
 
         when(dataModel.getProgID()).thenReturn(programmeIDDataModel);
         when(programmeIDDataModel.getAcronym()).thenReturn("OLA");
-        when(programmeIDDataModel.getName()).thenReturn("name");
 
         when(dataModel.getDegreeTypeID()).thenReturn(degreeTypeIDDataModel);
         when(degreeTypeIDDataModel.getDegreeTypeID()).thenReturn("id");

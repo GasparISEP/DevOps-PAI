@@ -452,9 +452,8 @@ class ProgrammeEnrolmentTest {
         StudentID studentID2 = mock(StudentID.class);
 
         AccessMethodID accessMethodID = new AccessMethodID();
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("ola");
         Acronym acronym = new Acronym("HI");
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         Date dateDouble = new Date(LocalDate.now());
 
         ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);

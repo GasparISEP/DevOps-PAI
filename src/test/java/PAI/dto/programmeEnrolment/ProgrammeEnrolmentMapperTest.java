@@ -17,9 +17,8 @@ class ProgrammeEnrolmentMapperTest {
         // Arrange
         StudentID sid = new StudentID(1234567);
         AccessMethodID aid = new AccessMethodID(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
-        NameWithNumbersAndSpecialChars nameVo = new NameWithNumbersAndSpecialChars("Engenharia Informática");
         Acronym acronymVo = new Acronym("EG");
-        ProgrammeID pid = new ProgrammeID(nameVo, acronymVo);
+        ProgrammeID pid = new ProgrammeID(acronymVo);
         LocalDate localDate = LocalDate.of(2025, 5, 20);
         Date dateVo = new Date(localDate);
 
@@ -41,11 +40,10 @@ class ProgrammeEnrolmentMapperTest {
         // arrange
         int studentIDValue = 1234567;
         String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
-        String programmeNameValue = "Engenharia Informática";
         String programmeAcronymValue = "EI";
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeAcronymValue, enrolmentDate);
         ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
 
 
@@ -62,11 +60,10 @@ class ProgrammeEnrolmentMapperTest {
         // arrange
         int studentIDValue = 1234567;
         String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
-        String programmeNameValue = "Engenharia Informática";
         String programmeAcronymValue = "EI";
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeAcronymValue, enrolmentDate);
         ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
 
 
@@ -83,18 +80,18 @@ class ProgrammeEnrolmentMapperTest {
         // arrange
         int studentIDValue = 1234567;
         String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
-        String programmeNameValue = "Engenharia Informática";
         String programmeAcronymValue = "EI";
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
+        ProgrammeID programmeIdExpected = new ProgrammeID(new Acronym(programmeAcronymValue));
 
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeAcronymValue, enrolmentDate);
         ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
 
         //act
         ProgrammeID programmeID = mapper.toProgrammeID(dto);
 
         //assert
-        assertEquals(programmeNameValue, programmeID.getName().getNameWithNumbersAndSpecialChars());
+        assertEquals(programmeIdExpected, programmeID);
     }
 
     @Test
@@ -103,11 +100,10 @@ class ProgrammeEnrolmentMapperTest {
         // arrange
         int studentIDValue = 1234567;
         String accessMethodUUID = "550e8400-e29b-41d4-a716-446655440000";
-        String programmeNameValue = "Engenharia Informática";
         String programmeAcronymValue = "EI";
         LocalDate enrolmentDate = LocalDate.of(2025, 6, 1);
 
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeNameValue, programmeAcronymValue, enrolmentDate);
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(studentIDValue, accessMethodUUID, programmeAcronymValue, enrolmentDate);
         ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
 
         //act
@@ -116,9 +112,5 @@ class ProgrammeEnrolmentMapperTest {
         //assert
         assertEquals(enrolmentDate, date.getLocalDate());
     }
-
-
-
-
 }
 

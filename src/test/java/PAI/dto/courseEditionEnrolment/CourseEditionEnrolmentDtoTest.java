@@ -10,7 +10,6 @@ class CourseEditionEnrolmentDtoTest {
     void shouldCreateValidCourseEditionEnrolmentDto() {
         // Arrange
         int studentUniqueNumber = 1100000;
-        String programmeName = "LEI";
         String programmeAcronym = "LEIC";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
@@ -20,7 +19,6 @@ class CourseEditionEnrolmentDtoTest {
         // Act
         CourseEditionEnrolmentDto dto = new CourseEditionEnrolmentDto(
             studentUniqueNumber,
-            programmeName,
             programmeAcronym,
             schoolYearId,
             courseAcronym,
@@ -31,7 +29,6 @@ class CourseEditionEnrolmentDtoTest {
         // Assert
         assertNotNull(dto);
         assertEquals(studentUniqueNumber, dto.studentUniqueNumber());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearId, dto.schoolYearId());
         assertEquals(courseAcronym, dto.courseAcronym());
@@ -43,7 +40,6 @@ class CourseEditionEnrolmentDtoTest {
     void shouldCreateDtoWithMinimumValues() {
         // Arrange
         int studentUniqueNumber = 1;
-        String programmeName = "A";
         String programmeAcronym = "B";
         String schoolYearId = "00000000-0000-0000-0000-000000000000";
         String courseAcronym = "C";
@@ -53,7 +49,6 @@ class CourseEditionEnrolmentDtoTest {
         // Act
         CourseEditionEnrolmentDto dto = new CourseEditionEnrolmentDto(
             studentUniqueNumber,
-            programmeName,
             programmeAcronym,
             schoolYearId,
             courseAcronym,
@@ -64,7 +59,6 @@ class CourseEditionEnrolmentDtoTest {
         // Assert
         assertNotNull(dto);
         assertEquals(studentUniqueNumber, dto.studentUniqueNumber());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearId, dto.schoolYearId());
         assertEquals(courseAcronym, dto.courseAcronym());

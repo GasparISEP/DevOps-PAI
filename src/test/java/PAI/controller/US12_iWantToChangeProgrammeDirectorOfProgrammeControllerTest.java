@@ -74,7 +74,7 @@ class US12_iWantToChangeProgrammeDirectorOfProgrammeControllerTest {
         PostalCode postalCode = new PostalCode("4450-234");
         Location  location = new Location("Algures");
         Address address = new Address(street,postalCode,location,country);
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
 
         Teacher teacher2 = new Teacher(teacherID2,name,email,nif,phoneNumber,academicBackground,address,departmentID);
 

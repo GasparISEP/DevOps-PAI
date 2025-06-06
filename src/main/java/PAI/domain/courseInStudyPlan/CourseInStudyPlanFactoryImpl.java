@@ -32,7 +32,7 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
         CurricularYear curricularYear = command.curricularYear();
         CourseID courseID = new CourseID(command.courseAcronym(), command.courseName());
         StudyPlanID studyPlanID = new StudyPlanID(
-                new ProgrammeID(command.programmeName(), command.programmeAcronym()),
+                new ProgrammeID(command.programmeAcronym()),
                 command.studyPlanDate()
         );
         DurationCourseInCurricularYear durationOfCourse = command.duration();

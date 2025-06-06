@@ -16,10 +16,10 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
     public ProgrammeEnrolmentResponseDTO toProgrammeEnrolmentDTO (ProgrammeEnrolment programmeEnrolment){
         int studentID = programmeEnrolment.getStudentID().getUniqueNumber();
         String accessMethodId = programmeEnrolment.getAccessMethodID().toString();
-        String programmeName = programmeEnrolment.getProgrammeID().getName().getNameWithNumbersAndSpecialChars();
+        String programmeAcronym = programmeEnrolment.getProgrammeID().getProgrammeAcronym();
         LocalDate date = programmeEnrolment.getDate().getLocalDate();
 
-        return new ProgrammeEnrolmentResponseDTO(studentID,accessMethodId,programmeName,date);
+        return new ProgrammeEnrolmentResponseDTO(studentID,accessMethodId,programmeAcronym,date);
 
     }
 
@@ -32,10 +32,9 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
     }
 
     public ProgrammeID toProgrammeID (ProgrammeEnrolmentDTO programmeDTO){
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeDTO.getProgrammeName());
         Acronym acronym = new Acronym(programmeDTO.getProgrammeAcronym());
 
-        return new ProgrammeID(name,acronym);
+        return new ProgrammeID(acronym);
     }
 
     public Date toDateVO (ProgrammeEnrolmentDTO programmeDTO){

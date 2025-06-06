@@ -272,6 +272,26 @@ class ProgrammeTest {
     }
 
     @Test
+    void shouldReturnFalseWhenObjectIsNotAProgramme() {
+        //arrange
+        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym1 = mock(Acronym.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
+        QuantSemesters qtySemesters1 = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
+        DepartmentID department1 = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Programme programme1 = new Programme(name1, acronym1, maxEcts, qtySemesters1, degreeTypeID1, department1, programmeDirectorID, programmeID);
+        Object otherObject = mock(Object.class);
+
+        //act
+        boolean result = programme1.equals(otherObject);
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
     void isEqualsReturnTrue() {
         //arrange
         NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
@@ -506,7 +526,7 @@ class ProgrammeTest {
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
 
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
 
 
@@ -522,7 +542,7 @@ class ProgrammeTest {
         DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
         DepartmentID department1 = mock(DepartmentID.class);
         TeacherID programmeDirectorID = mock(TeacherID.class);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
         Programme programme = new Programme(name, acronym, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
 
@@ -623,7 +643,7 @@ class ProgrammeTest {
         //arrange
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Computer Science");
         Acronym acronym = new Acronym("CS");
-        ProgrammeID expectedId = new ProgrammeID(name, acronym);
+        ProgrammeID expectedId = new ProgrammeID(acronym);
         Programme programme = new Programme(name, acronym, mock(MaxEcts.class), mock(QuantSemesters.class), mock(DegreeTypeID.class), mock(DepartmentID.class), mock(TeacherID.class), expectedId);
 
         //act + assert
@@ -717,6 +737,26 @@ class ProgrammeTest {
         boolean result = CE.hasThisDegreeTypeID(CEE.getDegreeTypeID());
         //assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnTrueIfNameAndAcronymAreTheSame() {
+        //arrenge
+        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym1 = mock(Acronym.class);
+        MaxEcts maxEcts = mock(MaxEcts.class);
+        QuantSemesters qtySemesters = mock(QuantSemesters.class);
+        DegreeTypeID degreeTypeID = mock(DegreeTypeID.class);
+        DegreeTypeID degreeTypeID1 = mock(DegreeTypeID.class);
+        DepartmentID department1 = mock(DepartmentID.class);
+        TeacherID programmeDirectorID = mock(TeacherID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Programme programme1 = new Programme(name, acronym1, maxEcts, qtySemesters, degreeTypeID, department1, programmeDirectorID, programmeID);
+        Programme programme2 = new Programme(name, acronym1, maxEcts, qtySemesters, degreeTypeID1, department1, programmeDirectorID, programmeID);
+        //act
+        boolean result = programme1.sameAs(programme2);
+        //assert
+        assertTrue(result);
     }
 
 }

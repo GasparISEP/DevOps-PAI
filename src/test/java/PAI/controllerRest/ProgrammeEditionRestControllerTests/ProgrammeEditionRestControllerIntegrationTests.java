@@ -68,7 +68,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
         DegreeTypeID degreeTypeID = new DegreeTypeID(UUID.randomUUID().toString());
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym("AAA"));
         TeacherID teacherID = new TeacherID(new TeacherAcronym("AAA"));
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         Programme programme = new Programme(name, acronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID, programmeID);
         programmeRepository.save(programme);
     }
@@ -78,26 +78,6 @@ public class ProgrammeEditionRestControllerIntegrationTests {
         // arrange
         String uri = "/programmeeditions";
         String body = "{}";
-
-        MvcResult result = mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andReturn();
-
-        // act
-        int statusCode = result.getResponse().getStatus();
-
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST.value(), statusCode);
-    }
-
-    @Test
-    void shouldReturn400WhenProgrammeNameIsEmpty() throws Exception {
-        // arrange
-        String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO("", validAcronym);
-        SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
-        ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
-        String body = new ObjectMapper().writeValueAsString(requestBody);
 
         MvcResult result = mockMvc.perform(post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -131,30 +111,10 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     }
 
     @Test
-    void shouldReturn400WhenProgrammeNameIsNull() throws Exception {
-        // arrange
-        String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(null, validAcronym);
-        SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
-        ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
-        String body = new ObjectMapper().writeValueAsString(requestBody);
-
-        MvcResult result = mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andReturn();
-
-        // act
-        int statusCode = result.getResponse().getStatus();
-
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST.value(), statusCode);
-    }
-
-    @Test
     void shouldReturn400WhenAcronymNameIsEmpty() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, "");
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO("");
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -174,7 +134,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenAcronymIsNull() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, null);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(null);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -194,7 +154,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenAcronymIsShort() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, "CS");
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO("CS");
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -214,7 +174,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenAcronymIsLong() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, "CSEE");
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO( "CSEE");
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -234,7 +194,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenSchoolYearIsEmpty() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO("");
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -254,7 +214,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenSchoolYearIsNull() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(null);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -274,7 +234,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenSchoolYearIsMissing() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = null;
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -294,7 +254,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenSchoolYearIsInvalidUUID() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO("I-AM-UUID");
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -314,7 +274,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn201WhenParametersAreValid() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -329,7 +289,6 @@ public class ProgrammeEditionRestControllerIntegrationTests {
         // assert
         assertEquals(HttpStatus.CREATED.value(), statusCode);
         assertTrue(result.getResponse().getContentAsString().contains(validSchoolYearId));
-        assertTrue(result.getResponse().getContentAsString().contains(validProgrammeName));
         assertTrue(result.getResponse().getContentAsString().contains(validAcronym));
     }
 
@@ -337,28 +296,8 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenSchoolYearNotInRepo() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, validAcronym);
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO("c46eb9c9-2b4f-4c6b-bf3c-4704589bbbbb");
-        ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
-        String body = new ObjectMapper().writeValueAsString(requestBody);
-
-        MvcResult result = mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andReturn();
-
-        // act
-        int statusCode = result.getResponse().getStatus();
-
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST.value(), statusCode);
-    }
-
-    @Test
-    void shouldReturn400WhenProgrammeNameNotInRepo() throws Exception {
-        // arrange
-        String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO("programme", validAcronym);
-        SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
 
@@ -377,7 +316,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     void shouldReturn400WhenAcronymNotInRepo() throws Exception {
         // arrange
         String uri = "/programmeeditions";
-        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validProgrammeName, "BBB");
+        ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO("BBB");
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
         String body = new ObjectMapper().writeValueAsString(requestBody);
@@ -394,7 +333,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     }
     @Test
     void getNumberOfStudents_returnsOkWithStudentCount() throws Exception {
-        mockMvc.perform(get("/programmeeditions/" + validProgrammeName + "/" + validAcronym + "/" + validSchoolYearId + "/students"))
+        mockMvc.perform(get("/programmeeditions/" + validAcronym + "/" + validSchoolYearId + "/students"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNumber());

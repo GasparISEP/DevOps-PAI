@@ -20,14 +20,12 @@ class ProgrammeIDMapperImplTest {
 
         ProgrammeIDDataModel dataModel = mock(ProgrammeIDDataModel.class);
 
-        when(dataModel.getName()).thenReturn("A");
         when(dataModel.getAcronym()).thenReturn("OLA");
 
         //act
         ProgrammeID res = mapper.toDomain(dataModel);
 
         //assert
-        assertEquals("A", res.getName().getNameWithNumbersAndSpecialChars());
         assertEquals("OLA", res.getAcronym().getAcronym());
     }
 
@@ -45,13 +43,11 @@ class ProgrammeIDMapperImplTest {
         ProgrammeID progID = mock(ProgrammeID.class);
 
         when(progID.getAcronym()).thenReturn(acronym);
-        when(progID.getName()).thenReturn(name);
 
         //act
         ProgrammeIDDataModel res = mapper.toData(progID);
 
         //assert
         assertEquals(acronym.getAcronym(), res.getAcronym());
-        assertEquals(name.getNameWithNumbersAndSpecialChars(), res.getName());
     }
 }

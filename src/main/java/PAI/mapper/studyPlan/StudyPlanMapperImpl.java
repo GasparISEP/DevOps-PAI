@@ -37,11 +37,9 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
         StudyPlanID studyPlanID = _studyPlanIDMapper.toDomain(studyPlanDataModel.getStudyPlanIDDataModel());
 
-        NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getName());
-
         Acronym progAcronym = new Acronym(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getAcronym());
 
-        ProgrammeID programmeID = new ProgrammeID(progName, progAcronym);
+        ProgrammeID programmeID = new ProgrammeID(progAcronym);
 
         Date implementationDate = new Date(studyPlanDataModel.getStudyPlanIDDataModel().getImplementationDate());
 

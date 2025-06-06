@@ -22,7 +22,7 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         if (programmeEditionRequest == null) {
             throw new IllegalArgumentException("ProgrammeEditionRequestDTO cannot be null");
         }
-        ProgrammeIDDTO idDto = new ProgrammeIDDTO(programmeEditionRequest.programme().name(), programmeEditionRequest.programme().acronym());
+        ProgrammeIDDTO idDto = new ProgrammeIDDTO(programmeEditionRequest.programme().acronym());
         SchoolYearIDDTO schoolYearIDDTO = new SchoolYearIDDTO(programmeEditionRequest.schoolYear().id());
         return new ProgrammeEditionDTO(idDto,schoolYearIDDTO);
     }
@@ -32,7 +32,7 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
-        ProgrammeIDResponseDTO programmeResponseDTO = new ProgrammeIDResponseDTO(programmeEdition.programme().name(), programmeEdition.programme().acronym());
+        ProgrammeIDResponseDTO programmeResponseDTO = new ProgrammeIDResponseDTO(programmeEdition.programme().acronym());
         SchoolYearIDResponseDTO syResponseDTO = new SchoolYearIDResponseDTO(programmeEdition.schoolYear().id());
         return new ProgrammeEditionResponseDTO(programmeResponseDTO, syResponseDTO);
     }
@@ -42,10 +42,9 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         if (programmeID == null || schoolYearID == null) {
             throw new IllegalArgumentException("programmeID and or schoolYearID cannot be null");
         }
-        String programmeName = programmeID.getProgrammeName();
         String programmeAcronym = programmeID.getProgrammeAcronym();
         String schoolYearId = schoolYearID.getSchoolYearID().toString();
-        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeAcronym);
         SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
     }
@@ -55,10 +54,9 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
         ProgrammeEditionID id = programmeEdition.identity();
-        String programmeName = id.getProgrammeID().getName().toString();
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String  schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
+        return new CountStudentsDto(programmeAcronym, schoolYearID);
     }
 }

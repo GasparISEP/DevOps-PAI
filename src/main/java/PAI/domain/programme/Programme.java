@@ -121,14 +121,9 @@ public class Programme implements AggregateRoot<ProgrammeID> {
         return _programmeID;
     }
 
-    @Override
     public boolean sameAs(Object object) {
-        if (object instanceof Programme) {
-            Programme programme = (Programme) object;
-
-            if (this._name.equals(programme._name) && (this._acronym.equals(programme._acronym)) )
-                return true;
-        }
-        return false;
+        if (this == object) return true;
+        if (!(object instanceof Programme thatProgramme)) return false;
+        return this._name.equals(thatProgramme._name) && this._acronym.equals(thatProgramme._acronym);
     }
 }

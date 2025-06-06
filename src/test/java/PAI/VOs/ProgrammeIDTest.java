@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,88 +8,67 @@ import static org.mockito.Mockito.mock;
 
 class ProgrammeIDTest {
 
+    private Acronym _acronymDouble;
+    private ProgrammeID _programmeId;
+
+    @BeforeEach
+    void constructorSetUp(){
+        _acronymDouble = mock(Acronym.class);
+        _programmeId = new ProgrammeID(_acronymDouble);
+    }
+
     @Test
     void shouldCreateProgrammeID() throws IllegalArgumentException {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(_acronymDouble);
 
         //act+assert
         assertNotNull(programmeID);
     }
 
     @Test
-    void shouldntCreateProgrammeIDWithNullName() throws IllegalArgumentException {
-        //arrange
-        Acronym acronym = mock(Acronym.class);
-
-        //act+assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeID(null,acronym));
-    }
-
-    @Test
     void shouldntCreateProgrammeIDWithNullAcronym() throws IllegalArgumentException {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
 
         //act+assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeID(name,null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeID(null));
     }
 
     @Test
-    void shouldntCreateProgrammeIDIfBothComponentsAreNull() throws IllegalArgumentException {
+    void shouldReturnTrueIfSameProgrammeIDObject() throws IllegalArgumentException {
+        //arrange
 
-        //arrange+act+assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeID(null,null));
+        //act+assert
+        assertEquals(_programmeId, _programmeId);
     }
 
     @Test
     void shouldReturnTrueIfSameProgID() throws IllegalArgumentException {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        ProgrammeID progID = new ProgrammeID(name, acronym);
-        ProgrammeID progID1 = progID;
+        ProgrammeID programmeId2 = new ProgrammeID(_acronymDouble);
 
         //act+assert
-        assertEquals(progID,progID1);
-    }
-
-    @Test
-    void shouldReturnTrueIfBothProgIDHaveTheSameContent() throws IllegalArgumentException {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        ProgrammeID progID = new ProgrammeID(name, acronym);
-        ProgrammeID progID1 = new ProgrammeID(name, acronym);
-
-        //act+assert
-        assertEquals(progID,progID1);
+        assertEquals(_programmeId, programmeId2);
     }
 
     @Test
     void shouldReturnNotEqualsIfProgIDsHaveDifferentContent() {
         //Arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Acronym acronym1 = mock(Acronym.class);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
-          //Act+Assert
-        assertNotEquals(programmeID1, programmeID);
+        Acronym acronymDouble2 = mock(Acronym.class);
+        ProgrammeID programmeId2 = new ProgrammeID(acronymDouble2);
+
+        //Act+Assert
+        assertNotEquals(_programmeId, programmeId2);
     }
 
     @Test
     void shouldReturnFalseIfTheProgrammeIDsAreFromDifferentInstances() throws IllegalArgumentException {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        ProgrammeID progID = new ProgrammeID(name, acronym);
-        Object o = new Object();
+        Object anotherObject = new Object();
+
         //act
-        boolean result = progID.equals(o);
+        boolean result = _programmeId.equals(anotherObject);
+
         //assert
         assertFalse(result);
     }
@@ -96,12 +76,11 @@ class ProgrammeIDTest {
     @Test
     void shouldReturnFalseWhenOneOfTheProgrammeIDsIsNull() throws IllegalArgumentException {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        ProgrammeID progID = new ProgrammeID(name, acronym);
         ProgrammeID progID1 = null;
+
         //act
-        boolean result = progID.equals(progID1);
+        boolean result = _programmeId.equals(progID1);
+
         //assert
         assertFalse(result);
     }
@@ -110,100 +89,51 @@ class ProgrammeIDTest {
     // hashCode Test - non isolated test
     @Test
     void shouldReturnAnImmutableHashCode() throws Exception {
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("bacoco");//mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = new Acronym("POR");//mock(Acronym.class);
 
-        int nameHashCode = name.hashCode();
-        int acronymHashCode = acronym.hashCode();
-
-        ProgrammeID progID = new ProgrammeID(name, acronym);
+        int acronymHashCode = _acronymDouble.hashCode();
 
         // Act
-        int result = progID.hashCode();
+        int result = _programmeId.hashCode();
 
         // Assert
-        assertEquals(nameHashCode + acronymHashCode, result);
-        assertNotEquals(nameHashCode - acronymHashCode, result);
+        assertEquals(acronymHashCode, result);
     }
 
     // hashCode Test - non isolated test
     @Test
     void shouldReturnAnImmutableHashCodeWithMock() throws Exception {
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
 
-        int nameHashCode = name.hashCode();
-        int acronymHashCode = acronym.hashCode();
-
-        ProgrammeID progID = new ProgrammeID(name, acronym);
+        int acronymHashCode = _acronymDouble.hashCode();
 
         // Act
-        int result = progID.hashCode();
+        int result = _programmeId.hashCode();
 
         // Assert
-        assertEquals(nameHashCode + acronymHashCode, result);
-        assertNotEquals(nameHashCode - acronymHashCode, result);
-    }
-
-    @Test
-    void shouldGetName() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
-
-        //act
-        NameWithNumbersAndSpecialChars res = progID.getName();
-
-        //assert
-        assertEquals(res, name);
-    }
-
-    @Test
-    void shouldNotGetName() {
-        //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        NameWithNumbersAndSpecialChars name1 = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name1,acronym);
-
-        //act
-        NameWithNumbersAndSpecialChars res = progID.getName();
-
-        //assert
-        assertNotEquals(res, name);
+        assertEquals(acronymHashCode, result);
     }
 
     @Test
     void shouldGetAcronym() {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym);
 
         //act
-        Acronym res = progID.getAcronym();
+        Acronym result = _programmeId.getAcronym();
 
         //assert
-        assertEquals(res, acronym);
+        assertEquals(result, _acronymDouble);
     }
 
     @Test
-    void shouldNotGetAcronnym() {
+    void shouldGetProgrammeAcronymString() {
         //arrange
-        NameWithNumbersAndSpecialChars name = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronym = mock(Acronym.class);
-        Acronym acronym1 = mock(Acronym.class);
-
-        ProgrammeID progID = new ProgrammeID(name,acronym1);
+        String acronymString = "IPM";
+        Acronym acronym = new Acronym(acronymString);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
 
         //act
-        Acronym res = progID.getAcronym();
+        String result = programmeID.getProgrammeAcronym();
 
         //assert
-        assertNotEquals(res, acronym);
+        assertEquals(acronymString, result);
     }
 }

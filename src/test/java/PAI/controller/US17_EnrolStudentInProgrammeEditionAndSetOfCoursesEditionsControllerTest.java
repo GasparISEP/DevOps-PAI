@@ -418,9 +418,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         AccessMethodID amId = new AccessMethodID();
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+        ProgrammeID programmeId = new ProgrammeID(pAcronym);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
             ProgrammeEnrolment programmeEnrolment = programmeEnrolmentFactory.createProgrammeEnrolment(studentID, amId, programmeId, date);
@@ -537,9 +536,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
 
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+        ProgrammeID programmeId = new ProgrammeID(pAcronym);
 
         programmeEditionFactory.createProgrammeEdition(programmeId, schoolYearId);
 
@@ -623,9 +621,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodID amId = new AccessMethodID();
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+        ProgrammeID programmeId = new ProgrammeID(pAcronym);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
             programmeEnrolmentService.enrolStudentInProgramme(studentID, amId, programmeId, date);
@@ -711,9 +708,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodID amId = new AccessMethodID();
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+        ProgrammeID programmeId = new ProgrammeID(pAcronym);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
             programmeEnrolmentService.enrolStudentInProgramme(studentID, amId, programmeId, date);
@@ -805,9 +801,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         AccessMethodID amId = new AccessMethodID();
         StudentID studentID = mock(StudentID.class);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars = new NameWithNumbersAndSpecialChars("Computer Engineering");
         Acronym pAcronym = new Acronym("CEN");
-        ProgrammeID programmeId = new ProgrammeID(nameWithNumbersAndSpecialChars, pAcronym);
+        ProgrammeID programmeId = new ProgrammeID(pAcronym);
 
         if (!programmeEnrolmentRepository.isStudentEnrolled(studentID, programmeId)) {
             programmeEnrolmentService.enrolStudentInProgramme(studentID, amId, programmeId, date);

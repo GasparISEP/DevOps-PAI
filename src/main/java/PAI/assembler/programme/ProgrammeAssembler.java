@@ -45,9 +45,8 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
         if (programmeID == null) {
             throw new IllegalArgumentException("Programme ID cannot be null");
         }
-        String programmeName = programmeID.getProgrammeName();
         String programmeAcronym = programmeID.getProgrammeAcronym();
-        return new ProgrammeIDDTO(programmeName, programmeAcronym);
+        return new ProgrammeIDDTO(programmeAcronym);
     }
 
     @Override
@@ -55,6 +54,6 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
         if (programmeIDDTO == null) {
             throw new IllegalArgumentException("ProgrammeIDDTO cannot be null");
         }
-        return new ProgrammeIDResponseDTO(programmeIDDTO.name(), programmeIDDTO.acronym());
+        return new ProgrammeIDResponseDTO(programmeIDDTO.acronym());
     }
 }

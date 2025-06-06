@@ -111,12 +111,12 @@ class StudentRestControllerTest {
     @Test
     void whenServiceReturnsEnrolment_thenReturnsCreatedWithBody1() throws Exception {
         // Arrange
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "Engenharia Informática", "EI", java.time.LocalDate.of(2025,5,20));
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "EI", java.time.LocalDate.of(2025,5,20));
 
 
         StudentID sid       = new StudentID(1234567);
         AccessMethodID am   = new AccessMethodID(UUID.randomUUID());
-        ProgrammeID pid     = new ProgrammeID(new NameWithNumbersAndSpecialChars("Engenharia Informática"), new Acronym("EI"));
+        ProgrammeID pid     = new ProgrammeID(new Acronym("EI"));
         Date date           = new Date(java.time.LocalDate.of(2025,5,20));
 
         when(programmeEnrolmentMapperDTO.toStudentID (dto)).thenReturn(sid);
@@ -149,12 +149,12 @@ class StudentRestControllerTest {
     @Test
     void whenServiceReturnsNull_thenReturnsBadRequest() throws Exception {
         // Arrange
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "Engenharia Informática","EI", java.time.LocalDate.now());
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "EI", java.time.LocalDate.now());
 
 
         when(programmeEnrolmentMapperDTO.toStudentID(dto)).thenReturn(new StudentID(1234567));
         when(programmeEnrolmentMapperDTO.toAccessMethodID(dto)).thenReturn(new AccessMethodID(UUID.randomUUID()));
-        when(programmeEnrolmentMapperDTO.toProgrammeID(dto)).thenReturn(new ProgrammeID(new NameWithNumbersAndSpecialChars("Engenharia Informática"), new Acronym("EI")));
+        when(programmeEnrolmentMapperDTO.toProgrammeID(dto)).thenReturn(new ProgrammeID(new Acronym("EI")));
         when(programmeEnrolmentMapperDTO.toDateVO(dto)).thenReturn(new Date(java.time.LocalDate.now()));
 
 
@@ -171,7 +171,7 @@ class StudentRestControllerTest {
     @Test
     void whenAnyExceptionThrown_thenReturnsBadRequest() throws Exception {
         // Arrange
-        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "Engenharia Informática","EI", java.time.LocalDate.now());
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO(1234567, UUID.randomUUID().toString(), "EI", java.time.LocalDate.now());
 
         when(programmeEnrolmentMapperDTO.toStudentID(dto)).thenThrow(new RuntimeException("Invalid"));
 

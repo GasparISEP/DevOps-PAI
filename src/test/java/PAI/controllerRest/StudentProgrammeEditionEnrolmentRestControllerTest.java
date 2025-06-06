@@ -55,7 +55,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         String schoolYearId = UUID.randomUUID().toString();
 
         List<StudentProgrammeEditionEnrolmentDTO> mockResult = List.of(
-                new StudentProgrammeEditionEnrolmentDTO("LEI", "Informática", schoolYearId)
+                new StudentProgrammeEditionEnrolmentDTO("LEI", schoolYearId)
         );
 
         when(service.findAvailableProgrammeEditionsForStudent(studentID)).thenReturn(mockResult);
@@ -95,7 +95,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
 
         doNothing().when(service).enrolStudentInProgrammeEdition(
                 new StudentID(Integer.parseInt(studentId)),
-                new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                new ProgrammeID(new Acronym(acronym)),
                 new SchoolYearID(UUID.fromString(schoolYearId))
         );
 
@@ -106,7 +106,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         verify(service).enrolStudentInProgrammeEdition(
                 new StudentID(Integer.parseInt(studentId)),
-                new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                new ProgrammeID(new Acronym(acronym)),
                 new SchoolYearID(UUID.fromString(schoolYearId))
         );
     }
@@ -128,7 +128,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
                 .when(service)
                 .enrolStudentInProgrammeEdition(
                     new StudentID(Integer.parseInt(studentId)),
-                    new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+                    new ProgrammeID(new Acronym(acronym)),
                     new SchoolYearID(UUID.fromString(schoolYearId))
                 );
 
@@ -139,7 +139,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         assertEquals(400, response.getStatusCodeValue());
         verify(service).enrolStudentInProgrammeEdition(
             new StudentID(Integer.parseInt(studentId)),
-            new ProgrammeID(new NameWithNumbersAndSpecialChars(name), new Acronym(acronym)),
+            new ProgrammeID(new Acronym(acronym)),
             new SchoolYearID(UUID.fromString(schoolYearId))
         );
     }
@@ -170,7 +170,6 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentDetailDto = new ProgrammeEditionEnrolmentDetailDto(
             1000001,
-            "Engenharia Informática",
             "LEI",
             "2024-2025",
             "some-uuid-string"
@@ -183,7 +182,7 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         when(programmeEditionEnrolmentAssembler.toDtoList(anyList(), any(StudentID.class)))
             .thenReturn(listOfDetailDtos);
 
-        String expectedJson = "[{\"studentID\":1000001,\"programmeName\":\"Engenharia Informática\",\"programmeAcronym\":\"LEI\",\"schoolYearDescription\":\"2024-2025\",\"schoolYearID\":\"some-uuid-string\"}]";
+        String expectedJson = "[{\"studentID\":1000001,\"programmeAcronym\":\"LEI\",\"schoolYearDescription\":\"2024-2025\",\"schoolYearID\":\"some-uuid-string\"}]";
 
         // Act && Assert
         mockMvc.perform(get("/students/programme-edition-enrolments/students")

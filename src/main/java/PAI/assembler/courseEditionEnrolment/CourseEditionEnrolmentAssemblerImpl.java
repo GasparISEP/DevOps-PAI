@@ -26,7 +26,7 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
     
     @Override
     public CourseEditionID toCourseEditionID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
-        ProgrammeID programmeID = createProgrammeID(courseEditionEnrolmentDto.programmeName(), courseEditionEnrolmentDto.programmeAcronym());
+        ProgrammeID programmeID = createProgrammeID(courseEditionEnrolmentDto.programmeAcronym());
         SchoolYearID schoolYearID = createSchoolYearID(courseEditionEnrolmentDto.schoolYearId());
         CourseID courseID = createCourseID(courseEditionEnrolmentDto.courseAcronym(), courseEditionEnrolmentDto.courseName());
         StudyPlanID studyPlanID = createStudyPlanID(courseEditionEnrolmentDto.studyPlanDate(), programmeID);
@@ -44,10 +44,9 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
         return new StudentID(studentUniqueNumber);
     }
 
-    private ProgrammeID createProgrammeID(String programmeName, String programmeAcronym) {
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeName);
+    private ProgrammeID createProgrammeID(String programmeAcronym) {
         Acronym acronym = new Acronym(programmeAcronym);
-        return new ProgrammeID(name, acronym);
+        return new ProgrammeID(acronym);
     }
 
     private SchoolYearID createSchoolYearID(String schoolYearId) {

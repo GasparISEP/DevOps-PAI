@@ -24,9 +24,8 @@ class ProgrammeEditionAssemblerImplTest {
     @Test
     void shouldReturnAProgrammeEditionDTO() throws Exception {
         // Arrange
-        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Programme");
         Acronym programmeAcronym = new Acronym("PPP");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
@@ -39,7 +38,6 @@ class ProgrammeEditionAssemblerImplTest {
 
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
-        assertEquals("Programme", dto.programmeName());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
     }
 
@@ -56,18 +54,16 @@ class ProgrammeEditionAssemblerImplTest {
     @Test
     void shouldReturnAProgrammeEdition() throws Exception {
         // Arrange
-        String programmeName = "Programme";
         String programmeAcronym = "PPP";
         String schoolYearID = UUID.randomUUID().toString();
 
-        CountStudentsDto dto = new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
+        CountStudentsDto dto = new CountStudentsDto(programmeAcronym, schoolYearID);
 
         // Act
         ProgrammeEdition programmeEdition = assembler.CountStudentsInProgrammeEditionDTOtoDomain(dto);
 
         // Assert
         assertEquals("PPP", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeAcronym());
-        assertEquals("Programme", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeName());
         assertEquals(schoolYearID, programmeEdition.findSchoolYearIDInProgrammeEdition().getSchoolYearID().toString());
     }
 
@@ -114,7 +110,6 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeEditionDTO dto = mock(ProgrammeEditionDTO.class);
-        when(programmeIDDTO.name()).thenReturn("Computer Science");
         when(programmeIDDTO.acronym()).thenReturn("CSE");
         when(dto.programme()).thenReturn(programmeIDDTO);
 
@@ -130,7 +125,6 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeEditionDTO dto = null;
-        when(programmeIDDTO.name()).thenReturn("Computer Science");
         when(programmeIDDTO.acronym()).thenReturn("CSE");
 
         // Act + Assert
@@ -144,7 +138,6 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(programmeID.getProgrammeName()).thenReturn("Computer Science");
         when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
@@ -173,7 +166,6 @@ class ProgrammeEditionAssemblerImplTest {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = null;
-        when(programmeID.getProgrammeName()).thenReturn("Computer Science");
         when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
 
         // Act + Assert

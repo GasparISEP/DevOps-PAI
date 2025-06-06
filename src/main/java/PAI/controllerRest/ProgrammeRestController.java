@@ -113,7 +113,7 @@ public class ProgrammeRestController {
 
         try {
             ProgrammeDirectorVOsDTO vosDTO = _programmeDirectorAssembler.fromDTOToDomain(dto);
-            ProgrammeID programmeID = new ProgrammeID(vosDTO.getProgrammeName(), vosDTO.getProgrammeAcronym());
+            ProgrammeID programmeID = new ProgrammeID(vosDTO.getProgrammeAcronym());
             TeacherID teacherID = new TeacherID(vosDTO.getTeacherAcronym());
             _programmeService.changeProgrammeDirector(programmeID, teacherID);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -138,13 +138,11 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{name}/{acronym}")
-    public ResponseEntity<Object> getProgrammeByID (@PathVariable("name") String name,
-                                                    @PathVariable("acronym") String acronym){
+    @GetMapping("/{programmeid}")
+    public ResponseEntity<Object> getProgrammeByID (@PathVariable("programmeid") String acronym){
 
         Acronym acronym1 = new Acronym(acronym);
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars(name);
-        ProgrammeID programmeID = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID = new ProgrammeID(acronym1);
 
         Optional<Programme> programmeDTO = _programmeService.getProgrammeByID(programmeID);
 

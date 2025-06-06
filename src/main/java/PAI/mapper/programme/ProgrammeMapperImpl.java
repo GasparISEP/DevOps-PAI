@@ -37,7 +37,7 @@ public class ProgrammeMapperImpl implements IProgrammeMapper {
         DepartmentIDDataModel departIDDM = _departmentIDMapper.toDataModel(programme.getDepartment());
         DegreeTypeIDDataModel degreeTIDDM = _degreeTypeIDMapper.toDataModel(programme.getDegreeTypeID());
 
-        return new ProgrammeDataModel(progIDDM, programme.getProgrammeID().getName().getNameWithNumbersAndSpecialChars(), programme.getAcronym().getAcronym(), programme.getQuantSemesters().getQuantityOfSemesters(),
+        return new ProgrammeDataModel(progIDDM, programme.getProgrammeName().getNameWithNumbersAndSpecialChars(), programme.getAcronym().getAcronym(), programme.getQuantSemesters().getQuantityOfSemesters(),
                 programme.getMaxEcts().getMaxEcts(), degreeTIDDM, departIDDM, teacherIDDM);
     }
 
