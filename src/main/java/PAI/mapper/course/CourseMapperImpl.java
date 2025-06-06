@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CourseMapperImpl implements ICourseMapper {
@@ -30,8 +31,10 @@ public class CourseMapperImpl implements ICourseMapper {
         CourseID courseID = courseIDMapper.toDomain(courseDataModel.getCourseID());
         Name name = new Name(courseDataModel.getName());
         Acronym acronym = new Acronym(courseDataModel.getAcronym());
+        UUID courseUUID = courseDataModel.getCourseGeneratedID();
+        CourseGeneratedID courseGeneratedID = new CourseGeneratedID(courseUUID);
 
-        return courseFactory.createCourse(courseID, name, acronym);
+        return courseFactory.createCourse(courseGeneratedID, courseID, name, acronym);
     }
 
     @Override
@@ -44,9 +47,12 @@ public class CourseMapperImpl implements ICourseMapper {
         String name = course.getName().getName();
 
         CourseIDDataModel courseIDDataModel = courseIDMapper.toDataModel(course.identity());
+        CourseGeneratedID courseGeneratedID = course.getCourseGeneratedID();
+        UUID courseUUID = courseGeneratedID.getCourseGeneratedID();
 
         return new CourseDataModel(
                 courseIDDataModel,
+                courseUUID,
                 name,
                 acronym
         );

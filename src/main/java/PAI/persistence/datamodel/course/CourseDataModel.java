@@ -3,6 +3,7 @@ package PAI.persistence.datamodel.course;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "COURSE")
@@ -10,6 +11,9 @@ public class CourseDataModel
 {
     @EmbeddedId
     private CourseIDDataModel courseID;
+
+    @Column(name = "course_generated_id")
+    private UUID courseGeneratedID;
 
     @Column(name = "course_name")
     private String name;
@@ -23,9 +27,10 @@ public class CourseDataModel
 
     public CourseDataModel() {}
 
-    public CourseDataModel(CourseIDDataModel courseIDDataModel, String name, String acronym) {
+    public CourseDataModel(CourseIDDataModel courseIDDataModel, UUID courseGeneratedID, String name, String acronym) {
 
         courseID = courseIDDataModel;
+        this.courseGeneratedID = courseGeneratedID;
         this.name = name;
         this.acronym = acronym;
     }
@@ -48,6 +53,8 @@ public class CourseDataModel
     public String getAcronym() {return acronym;}
 
     public CourseIDDataModel getCourseID() {return courseID; }
+
+    public UUID getCourseGeneratedID() {return courseGeneratedID; }
 
     public Long getVersion() { return version; }
 }

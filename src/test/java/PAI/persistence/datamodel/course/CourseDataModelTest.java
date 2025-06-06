@@ -7,6 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 
 class CourseDataModelTest {
 
@@ -26,9 +28,10 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
+        UUID courseGeneratedID = mock(UUID.class);
 
         //Act
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID,name, acronym);
         //Assert
         assertNotNull(courseDataModel);
 
@@ -40,8 +43,9 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID,name, acronym);
         //Act
         String expected = courseDataModel.getName();
         //Assert
@@ -55,8 +59,9 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID,name, acronym);
 
         //Act
         String expected = courseDataModel.getAcronym();
@@ -72,8 +77,9 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = ("Alchemy");
         String acronym = ("ALC");
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID,name, acronym);
 
         //Act
         CourseIDDataModel expected = courseDataModel.getCourseID();
@@ -89,8 +95,9 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String name = "Software Development";
         String acronym = "DSOFT";
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID, name, acronym);
 
         // Act
         Long expected = courseDataModel.getVersion();
@@ -107,9 +114,10 @@ class CourseDataModelTest {
 
         String acronym = "ALC";
         String name = "Alchemy";
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel1 = new CourseDataModel(courseIDDataModel1, name, acronym);
-        CourseDataModel courseDataModel2 = new CourseDataModel(courseIDDataModel2, name, acronym);
+        CourseDataModel courseDataModel1 = new CourseDataModel(courseIDDataModel1,courseGeneratedID, name, acronym);
+        CourseDataModel courseDataModel2 = new CourseDataModel(courseIDDataModel2,courseGeneratedID, name, acronym);
 
         // Act
         boolean result = courseDataModel1.equals(courseDataModel2);
@@ -124,9 +132,10 @@ class CourseDataModelTest {
 
         String acronym = "ALC";
         String name = "Alchemy";
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel1 = new CourseDataModel(courseIDDataModel, name, acronym);
-        CourseDataModel courseDataModel2 = new CourseDataModel(courseIDDataModel, name, acronym);
+        CourseDataModel courseDataModel1 = new CourseDataModel(courseIDDataModel,courseGeneratedID, name, acronym);
+        CourseDataModel courseDataModel2 = new CourseDataModel(courseIDDataModel,courseGeneratedID, name, acronym);
 
         // Act
         boolean result = courseDataModel1.equals(courseDataModel2);
@@ -140,13 +149,31 @@ class CourseDataModelTest {
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         String acronym = "ALC";
         String name = "Alchemy";
+        UUID courseGeneratedID = mock(UUID.class);
 
-        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, name, acronym);
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel,courseGeneratedID, name, acronym);
 
         //Act
         int result = courseDataModel.hashCode();
 
         //Assert
         assertEquals(courseDataModel.hashCode(),result);
+    }
+
+    @Test
+    void shouldReturnCourseGeneratedIDFromCourseDataModel() {
+        // Arrange
+        CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
+        String name = "Alchemy";
+        String acronym = "ALC";
+        UUID courseGeneratedID = mock(UUID.class);
+
+        CourseDataModel courseDataModel = new CourseDataModel(courseIDDataModel, courseGeneratedID, name, acronym);
+
+        // Act
+        UUID result = courseDataModel.getCourseGeneratedID();
+
+        // Assert
+        assertEquals(courseGeneratedID, result);
     }
 }

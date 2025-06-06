@@ -18,9 +18,10 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //Act
-        Course course = new Course(courseID, name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Assert
         assertNotNull(course);
@@ -32,8 +33,9 @@ class CourseTest {
         //Arrange
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
         //act + assert
-        assertThrows(Exception.class, () -> new Course(null,name, acronym));
+        assertThrows(Exception.class, () -> new Course(courseGeneratedID, null, name, acronym));
     }
 
     @Test
@@ -42,9 +44,10 @@ class CourseTest {
         //Arrange
         CourseID courseID = mock(CourseID.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Course(courseID,null, acronym));
+        assertThrows(Exception.class, () -> new Course(courseGeneratedID, courseID, null, acronym));
     }
 
     @Test
@@ -53,11 +56,23 @@ class CourseTest {
         //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //act + assert
-        assertThrows(Exception.class, () -> new Course(courseID,name, null));
+        assertThrows(Exception.class, () -> new Course(courseGeneratedID, courseID, name, null));
     }
 
+    @Test
+    void shouldThrowExceptionIfCourseGeneratedIDIsInvalid() {
+        //SUT = Course -> CourseID, Name, Acronym as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+
+        //act + assert
+        assertThrows(Exception.class, () -> new Course(null, courseID, name, acronym));
+    }
 
     @Test
     void shouldReturnCorrectIdentity() {
@@ -66,12 +81,13 @@ class CourseTest {
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         CourseID courseID = mock(CourseID.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //Act
-        Course course = new Course(courseID, name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         // Assert
-        assertNotNull(course.identity());
+        assertEquals(courseID, course.identity());
     }
 
     @Test
@@ -81,8 +97,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Act
         CourseID courseIdentity = course.identity();
@@ -98,8 +115,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Act
         CourseID courseIdentity = course.identity();
@@ -115,10 +133,11 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //Act
         //Spy simulates error identity()
-        Course course = spy(new Course(courseID,name, acronym));
+        Course course = spy(new Course(courseGeneratedID, courseID, name, acronym));
         doThrow(new RuntimeException("sim error")).when(course).identity();
 
         //Assert
@@ -132,8 +151,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Act
         boolean result = course.equals(course);
@@ -148,8 +168,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
         //Act
         boolean result = course.equals(null);
         //Assert
@@ -163,9 +184,10 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID, name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID, name, acronym);
         //Act
         boolean result = course.equals(course2);
 
@@ -179,10 +201,11 @@ class CourseTest {
         //Arrange
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
-        Acronym acronym = mock(Acronym.class);;
+        Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID, name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID, name, acronym);
         //Act
         boolean result = course.equals(course2);
 
@@ -197,9 +220,10 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        CourseEdition courseEdition = mock (CourseEdition.class);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        CourseEdition courseEdition = mock(CourseEdition.class);
 
         //Act
         boolean result = course.equals(courseEdition);
@@ -216,9 +240,10 @@ class CourseTest {
         CourseID courseID2 = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID2, name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID2, name, acronym);
         //Act
         boolean result = course.equals(course2);
 
@@ -233,8 +258,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
         Object courseDDD2 = course;
 
         //Act
@@ -251,8 +277,9 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         //Act
@@ -269,9 +296,10 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Act
         boolean result = course.sameAs(course2);
@@ -287,9 +315,10 @@ class CourseTest {
         Name name = mock(Name.class);
         Name name2 = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID,name2, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID, name2, acronym);
 
         //Act
         boolean result = course.sameAs(course2);
@@ -306,9 +335,10 @@ class CourseTest {
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
         Acronym acronym2 = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
-        Course course = new Course(courseID,name, acronym);
-        Course course2 = new Course(courseID,name, acronym2);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+        Course course2 = new Course(courseGeneratedID, courseID, name, acronym2);
 
         //Act
         boolean result = course.sameAs(course2);
@@ -324,9 +354,10 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //Act
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Assert
         assertEquals(name, course.getName());
@@ -339,12 +370,27 @@ class CourseTest {
         CourseID courseID = mock(CourseID.class);
         Name name = mock(Name.class);
         Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
 
         //Act
-        Course course = new Course(courseID,name, acronym);
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
 
         //Assert
         assertEquals(acronym, course.getAcronym());
     }
 
+    @Test
+    void shouldReturnCourseGeneratedIDFromCourse() {
+        //SUT = Course -> CourseID, Name , Acronym as Doubles
+        //Arrange
+        CourseID courseID = mock(CourseID.class);
+        Name name = mock(Name.class);
+        Acronym acronym = mock(Acronym.class);
+        CourseGeneratedID courseGeneratedID = mock(CourseGeneratedID.class);
+        //Act
+        Course course = new Course(courseGeneratedID, courseID, name, acronym);
+
+        //Assert
+        assertEquals(courseGeneratedID, course.getCourseGeneratedID());
+    }
 }

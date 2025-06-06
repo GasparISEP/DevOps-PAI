@@ -5,11 +5,12 @@ import PAI.ddd.AggregateRoot;
 
 public class Course implements AggregateRoot<CourseID> {
 
+    private final CourseGeneratedID _courseGeneratedID;
     private final CourseID _courseID;
     private final Name _name;
     private final Acronym _acronym;
 
-    public Course(CourseID courseID, Name name, Acronym acronym){
+    public Course(CourseGeneratedID courseGeneratedID, CourseID courseID, Name name, Acronym acronym){
         if(courseID == null){
             throw new IllegalArgumentException("Course Id must be valid");
         }
@@ -19,7 +20,10 @@ public class Course implements AggregateRoot<CourseID> {
         if(acronym == null){
             throw new IllegalArgumentException("Course Acronym must be valid");
         }
-
+        if(courseGeneratedID == null){
+            throw new IllegalArgumentException("Course Generated ID must be valid");
+        }
+        this._courseGeneratedID = courseGeneratedID;
         this._courseID = courseID;
         this._name = name;
         this._acronym = acronym;
@@ -62,5 +66,9 @@ public class Course implements AggregateRoot<CourseID> {
 
     public Acronym getAcronym() {
         return _acronym;
+    }
+
+    public CourseGeneratedID getCourseGeneratedID() {
+        return _courseGeneratedID;
     }
 }
