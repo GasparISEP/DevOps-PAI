@@ -455,12 +455,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -595,12 +597,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
         SchoolYearRepositoryImpl schoolYearRepository = new SchoolYearRepositoryImpl(schoolYearListFactoryImpl);
@@ -734,12 +738,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -873,12 +879,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -992,12 +1000,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -1125,12 +1135,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -1267,12 +1279,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -1408,12 +1422,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -1551,12 +1567,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();
@@ -1694,12 +1712,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         Student student2 = new Student(studentID2, name2, nif2, phone2, email2, address2, academicEmail2);
         Student student3 = new Student(studentID3, name3, nif3, phone3, email3, address3, academicEmail3);
 
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedID = mock(ProgrammeEditionEnrolmentGeneratedID.class);
+
         ProgrammeEditionEnrolmentListFactoryImpl programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         ProgrammeEditionEnrolmentRepositoryImpl programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity()));
-        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity()));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student1.identity(), edition1.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student2.identity(), edition2.identity(), programmeEditionEnrolmentGeneratedID));
+        programmeEditionEnrolmentRepository.save(new ProgrammeEditionEnrolment(student3.identity(), edition3.identity(), programmeEditionEnrolmentGeneratedID));
 
         SchoolYearFactoryImpl schoolYearFactoryImpl = new SchoolYearFactoryImpl();
         SchoolYearListFactoryImpl schoolYearListFactoryImpl = new SchoolYearListFactoryImpl();

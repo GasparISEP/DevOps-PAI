@@ -24,7 +24,7 @@ public class SchoolYearRestControllerIntegrationTests {
     @Test
     void shouldReturn200WithCurrentSchoolYear() throws Exception {
         // arrange
-        String uri = "/schoolyears/current";
+        String uri = "/school-years/current";
 
         MvcResult result = mockMvc.perform(get(uri)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();

@@ -150,6 +150,11 @@ class DefineRucRequestDTO #cbfcd9 {
     - teacherID: String
 }
 
+class DefineRucResponseDTO  #cbfcd9 {
+    - teacherID: String
+}
+
+
 class SelectedCourseEditionIDDTO #cbfcd9 {
    - programmeName: String
    - programmeAcronym: String
@@ -159,6 +164,14 @@ class SelectedCourseEditionIDDTO #cbfcd9 {
    - studyPlanImplementationDate: LocalDate
 }
 
+class CourseEditionHateoasAssembler #cbfcd9 {
+   + toModel(dto: DefineRucResponseDTO): EntityModel<DefineRucResponseDTO>
+}
+
+interface ICourseEditionHateoasAssembler #cbfcd9 {
+   + toModel(dto: DefineRucResponseDTO): EntityModel<DefineRucResponseDTO>
+}
+
 ' ======= Associations =======
 CourseEditionRESTController "1" --> "1 _service" IDefineRucService
 CourseEditionRESTController "1" --> "1 _assembler          "ICourseEditionAssembler
@@ -166,12 +179,17 @@ CourseEditionRESTController "1" ..> "*" CourseEditionID
 CourseEditionRESTController "1" ..> "*" TeacherID
 CourseEditionRESTController "1" ..> "*" DefineRucRequestDTO
 CourseEditionRESTController "1" ..> "*" SelectedCourseEditionIDDTO
+CourseEditionRESTController "1" ..> "*" DefineRucResponseDTO
+CourseEditionRESTController "1" --> "1 _hateoasAssembler" ICourseEditionHateoasAssembler
 
 DefineRucRequestDTO "1" -> "1" SelectedCourseEditionIDDTO
+DefineRucResponseDTO "1" -> "1 _courseEditionDTO" SelectedCourseEditionIDDTO
 CourseEditionAssemblerImpl ..|> ICourseEditionAssembler
 ICourseEditionAssembler "1" ..> "*" CourseEditionID
 ICourseEditionAssembler "1" ..> "*" TeacherID
 ICourseEditionAssembler "1" ..> "*" DefineRucRequestDTO
+CourseEditionHateoasAssembler ..|> ICourseEditionHateoasAssembler
+CourseEditionHateoasAssembler "1" ..> "*" DefineRucResponseDTO
 DefineRucServiceImpl  ..|>  IDefineRucService
 DefineRucServiceImpl "1" --> "1 _teacherRepo" ITeacherRepository
 DefineRucServiceImpl "1" --> "1 _courseEditionRepo" ICourseEditionRepository

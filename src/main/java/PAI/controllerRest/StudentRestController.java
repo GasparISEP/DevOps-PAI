@@ -37,16 +37,16 @@ public class StudentRestController {
         }
 
 
-        StudentID studentID = mapper.toStudentID(studentDTO);
+        //StudentID studentID = mapper.toStudentID(studentDTO);
         Name name = mapper.toName(studentDTO);
         NIF nif = mapper.toNIF(studentDTO);
         PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
         Email email = mapper.toEmail(studentDTO);
         Address address = mapper.toAddress(studentDTO);
-        StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
+//        StudentAcademicEmail studentAcademicEmail = mapper.toAcademicEmail(studentDTO);
 
 
-        Student student = service.registerStudent(studentID, name, nif, phoneNumber, email, address.getStreet(), address.getPostalCode(), address.getLocation(), address.getCountry(), studentAcademicEmail);
+        Student student = service.registerStudent( name, nif, phoneNumber, email, address.getStreet(), address.getPostalCode(), address.getLocation(), address.getCountry());
 
 
         StudentResponseDTO studentResponseDTO = mapper.toStudentResponseDTO(student);

@@ -28,16 +28,20 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Student registerStudent(StudentID studentID, Name name, NIF nif, PhoneNumber phoneNumber, Email email,
+    public Student registerStudent(Name name, NIF nif, PhoneNumber phoneNumber, Email email,
                                    Street street, PostalCode postalCode, Location location,
-                                   Country country, StudentAcademicEmail academicEmail) {
+                                   Country country) {
 
-        Student student = _studentFactory.newStudent(studentID, name, nif, phoneNumber, email,
+        StudentID lastStudentIDPlusOne = new StudentID(getLastStudentID()+1);
+        StudentAcademicEmail academicEmail = new StudentAcademicEmail(lastStudentIDPlusOne.getUniqueNumber());
+
+        Student student = _studentFactory.newStudent(lastStudentIDPlusOne, name, nif, phoneNumber, email,
                 street, postalCode, location, country, academicEmail);
 
-        _studentRepository.existsByStudentIDOrNIF(studentID, nif);
+        _studentRepository.existsByStudentIDOrNIF(lastStudentIDPlusOne, nif);
 
         return _studentRepository.save(student);
+
     }
 
     @Override

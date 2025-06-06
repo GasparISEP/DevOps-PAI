@@ -64,13 +64,13 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         Student studentDouble = mock(Student.class);
 
         when(studentServiceDouble.registerStudent(
-                any(StudentID.class), any(Name.class), any(NIF.class),
+                 any(Name.class), any(NIF.class),
                 any(PhoneNumber.class), any(Email.class), any(Street.class), any(PostalCode.class),
-                any(Location.class), any(Country.class), any(StudentAcademicEmail.class)))
+                any(Location.class), any(Country.class)))
                 .thenReturn(studentDouble);
 
         //act
-        Student result = ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country);
+        Student result = ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country);
 
         //assert
         assertEquals(studentDouble, result);
@@ -81,32 +81,6 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
                 Arguments.of(999999),
                 Arguments.of(2000000)
         );
-    }
-
-    @ParameterizedTest
-    @MethodSource("studentIDIsInvalid")
-    void studentIsNotRegisteredBecauseStudentIDIsInvalid(int uniqueNumber) {
-
-        //arrange
-        IStudentService studentServiceDouble = mock(IStudentService.class);
-        US08_IWantToRegisterAStudentInTheSystemController ctrl = new US08_IWantToRegisterAStudentInTheSystemController(studentServiceDouble);
-
-        String name = "Miguel";
-        String nif = "123456789";
-        String nifCountry = "Portugal";
-        String countryCode = "+351";
-        String phoneNumber = "987654321";
-        String email = "miguel@gmail.com";
-        String street = "Praça da Canção";
-        String postalCode = "1234-56";
-        String location = "Coimbra";
-        String country = "Portugal";
-
-        //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
-
-        //assert
-        assertEquals("Invalid unique number", exception.getMessage());
     }
 
     static Stream<Arguments> nameIsInvalid() {
@@ -142,7 +116,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
 
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals("Name does not meet the validation requirements.", exception.getMessage());
@@ -220,7 +194,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         String country = "Portugal";
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals(expectedMessage, exception.getMessage());
@@ -257,7 +231,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         String country = "Portugal";
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals("This email is not valid.", exception.getMessage());
@@ -291,7 +265,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         String country = "Portugal";
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals("Street cannot be empty.", exception.getMessage());
@@ -325,7 +299,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         String country = "Portugal";
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals("Postal code cannot be empty!", exception.getMessage());
@@ -358,7 +332,7 @@ class US08_IWantToRegisterAStudentInTheSystemControllerTest {
         String country = "Portugal";
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent(uniqueNumber, name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> ctrl.registerStudent( name, nif, nifCountry, countryCode, phoneNumber, email, street, postalCode, location, country));
 
         //assert
         assertEquals("Location name cannot be null or empty", exception.getMessage());

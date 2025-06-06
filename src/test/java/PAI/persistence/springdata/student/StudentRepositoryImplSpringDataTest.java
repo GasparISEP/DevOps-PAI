@@ -351,9 +351,9 @@ public class StudentRepositoryImplSpringDataTest {
     }
 
     @Test
-    void testLastStudentIDReturnsFallbackWhenZero() {
+    void testLastStudentIDReturnsFallbackWhenNull() {
         // Arrange
-        when(repoMock.lastStudentID()).thenReturn(0);
+        when(repoMock.lastStudentID()).thenReturn(null);
 
         // Act
         int result = repository.lastStudentID();
@@ -361,5 +361,6 @@ public class StudentRepositoryImplSpringDataTest {
         // Assert
         assertEquals(1000000, result);
     }
+
 
 }

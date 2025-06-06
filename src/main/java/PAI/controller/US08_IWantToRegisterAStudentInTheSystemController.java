@@ -18,11 +18,12 @@ public class US08_IWantToRegisterAStudentInTheSystemController {
          _studentService = studentService;
     }
 
-    public Student registerStudent (int uniqueNumber, String name, String nif, String countryNIF,
+    public Student registerStudent ( String name, String nif, String countryNIF,
                                     String countryCode, String phoneNumber, String email, String street,
                                     String postalCode, String location, String country) throws Exception {
+        System.out.println("📥 Received student: " + name); // ✅ Add this line
 
-        StudentID studentID = new StudentID(uniqueNumber);
+
         Name nameVO = new Name(name);
         Country nifCountry = new Country(countryNIF);
         NIF nifVO = new NIF (nif, nifCountry);
@@ -32,9 +33,9 @@ public class US08_IWantToRegisterAStudentInTheSystemController {
         PostalCode postalCodeVO = new PostalCode(postalCode);
         Location locationVO = new Location(location);
         Country countryVO = new Country(country);
-        StudentAcademicEmail academicEmailVO = new StudentAcademicEmail(uniqueNumber);
 
-        return _studentService.registerStudent(studentID, nameVO, nifVO, phone, emailVO, streetVO, postalCodeVO, locationVO, countryVO, academicEmailVO);
+
+        return _studentService.registerStudent(nameVO, nifVO, phone, emailVO, streetVO, postalCodeVO, locationVO, countryVO);
 
     }
 

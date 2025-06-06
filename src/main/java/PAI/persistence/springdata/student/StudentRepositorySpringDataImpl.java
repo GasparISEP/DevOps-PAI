@@ -114,9 +114,13 @@ public class StudentRepositorySpringDataImpl implements IStudentRepository {
     @Override
     public int lastStudentID() {
         Integer last = studentRepositorySpringData.lastStudentID();
-        if(last == 0 ) return 1000000;
-        return last;
+        if (last == null || last == 0) {
+            return 1000000;
+        }
+        return last ;
     }
+
+
 
 
 
