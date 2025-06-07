@@ -74,7 +74,7 @@ deactivate Frontend
 
 ASC -> Frontend: Yes, confirm
 activate Frontend
-Frontend -> Backend: POST /course-in-study-plan + body
+Frontend -> Backend: POST /courses-in-study-plan + body
 note over Frontend, Backend #HoneyDew
 Request body (JSON):
 {
