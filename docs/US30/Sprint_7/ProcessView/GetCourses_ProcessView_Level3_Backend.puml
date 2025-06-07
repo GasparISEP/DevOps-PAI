@@ -1,0 +1,57 @@
+@startuml
+title (Process View - Level 3: Components)\nDetailed Backend Flow: Retrieve List of Courses
+
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:CourseRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:ICourseService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:ICourseRepository\n(Repository)" as Repository #E1F5FE
+database "Database" as DB #E1F5FE
+participant "<<component>>\n:ICourseAssembler\n(Assembler)" as Assembler #E1F5FE
+
+-> Router: GET /courses/{ids}
+activate Router
+
+Router -> Controller: getAllCoursesIDDTO():\n<List<CourseIDDTO>>
+activate Controller
+
+Controller -> Service: getAllCourseIDDTO()
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository -> DB: SELECT * FROM courses
+activate DB
+
+DB --> Repository: List<CourseDataModel>
+deactivate DB
+
+Repository --> Service: List<Course>
+deactivate Repository
+
+Service -> Assembler: toIDDTO(List<Course>)
+activate Assembler
+
+Assembler --> Service: List<CourseIDDTO>
+deactivate Assembler
+Service --> Controller: List<CourseIDDTO>
+deactivate Service
+
+note over Controller #EEEEEE
+Spring Boot converts DTOs to JSON automatically
+end note
+
+Controller --> Router: courseIDDTOList (JSON)
+deactivate Controller
+
+<-- Router: 200 OK + courseIDDTOList
+deactivate Router
+
+@enduml

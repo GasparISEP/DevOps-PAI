@@ -35,7 +35,7 @@ deactivate Frontend
 
 ASC -> Frontend: Select Programme
 activate Frontend
-Frontend -> Backend: GET /courses
+Frontend -> Backend: GET /courses/{ids}
 activate Backend
 Backend -> Database: SELECT * FROM courses
 activate Database
