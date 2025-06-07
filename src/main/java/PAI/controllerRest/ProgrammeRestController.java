@@ -138,8 +138,8 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{programmeid}")
-    public ResponseEntity<Object> getProgrammeByID (@PathVariable("programmeid") String acronym){
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getProgrammeByID (@PathVariable("id") String acronym){
 
         Acronym acronym1 = new Acronym(acronym);
         ProgrammeID programmeID = new ProgrammeID(acronym1);
