@@ -19,6 +19,7 @@ class StudyPlanTest {
     private StudyPlan studyPlan1;
     private StudyPlan studyPlan2;
     private StudyPlan studyPlan3;
+    private StudyPlanGeneratedID generatedID;
 
     @BeforeEach
     void createDoubles() {
@@ -29,12 +30,13 @@ class StudyPlanTest {
         maxEcts = mock(MaxEcts.class);
         studyPlanID = new StudyPlanID(programmeID, startDate);
         studyPlanID2 = new StudyPlanID(programmeID2, startDate);
+        generatedID = mock(StudyPlanGeneratedID.class);
     }
 
     private void createStudyPlans() {
-        studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
-        studyPlan2 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
-        studyPlan3 = new StudyPlan(programmeID2, startDate, durationInYears, maxEcts, studyPlanID2);
+        studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
+        studyPlan2 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
+        studyPlan3 = new StudyPlan(programmeID2, startDate, durationInYears, maxEcts, studyPlanID2, generatedID);
     }
 
     @Test
@@ -43,7 +45,7 @@ class StudyPlanTest {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
         // Act
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         // Assert
         assertNotNull(studyPlan);
@@ -55,7 +57,7 @@ class StudyPlanTest {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
         // Act
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         // Assert
         assertNotNull(studyPlanID);
@@ -69,8 +71,8 @@ class StudyPlanTest {
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID1, startDate);
 
         // Act
-        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID1);
-        StudyPlan studyPlan2 = new StudyPlan(programmeID1, startDate, durationInYears, maxEcts, studyPlanID2);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID1, generatedID);
+        StudyPlan studyPlan2 = new StudyPlan(programmeID1, startDate, durationInYears, maxEcts, studyPlanID2, generatedID);
 
         // Assert
         assertNotEquals(studyPlan1.identity(), studyPlan2.identity());
@@ -84,8 +86,8 @@ class StudyPlanTest {
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeID, implementationDate1);
 
         // Act
-        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID1);
-        StudyPlan studyPlan2 = new StudyPlan(programmeID, implementationDate1, durationInYears, maxEcts, studyPlanID2);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID1, generatedID);
+        StudyPlan studyPlan2 = new StudyPlan(programmeID, implementationDate1, durationInYears, maxEcts, studyPlanID2, generatedID);
 
         // Assert
         assertNotEquals(studyPlan1.identity(), studyPlan2.identity());
@@ -96,7 +98,7 @@ class StudyPlanTest {
         // arrange
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
         // act
         ProgrammeID result = studyPlan1.getProgrammeID();
         // assert
@@ -108,7 +110,7 @@ class StudyPlanTest {
         // arrange
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
         // act
         MaxEcts result = studyPlan1.getMaxEcts();
 
@@ -121,7 +123,7 @@ class StudyPlanTest {
         // arrange
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan1 = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
         // act
         DurationInYears result = studyPlan1.getDurationInYears();
 
@@ -135,7 +137,7 @@ class StudyPlanTest {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
         StudyPlanID id = new StudyPlanID(programmeID, startDate);
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         //act + assert
         assertEquals(id, studyPlan.identity());
@@ -146,7 +148,7 @@ class StudyPlanTest {
         //arrange
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         //act + assert
         assertTrue(studyPlan.sameAs(studyPlan));
@@ -173,7 +175,7 @@ class StudyPlanTest {
     @Test
     void testSameAsReturnsFalseForNull() {
         //arrange
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         //act + assert
         assertFalse(studyPlan.sameAs(null));
@@ -184,7 +186,7 @@ class StudyPlanTest {
         //arrange
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         Object other = new Object();
 
@@ -194,36 +196,43 @@ class StudyPlanTest {
 
     @Test
     void constructorShouldThrowWhenProgrammeIDIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlan(null, mock(Date.class), mock(DurationInYears.class), mock(MaxEcts.class), mock(StudyPlanID.class));
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(null, mock(Date.class), mock(DurationInYears.class), mock(MaxEcts.class), mock(StudyPlanID.class), mock(StudyPlanGeneratedID.class));
         });
     }
 
     @Test
     void constructorShouldThrowWhenImplementationDateIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlan(mock(ProgrammeID.class), null, mock(DurationInYears.class), mock(MaxEcts.class), mock(StudyPlanID.class));
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(mock(ProgrammeID.class), null, mock(DurationInYears.class), mock(MaxEcts.class), mock(StudyPlanID.class), mock(StudyPlanGeneratedID.class));
         });
     }
 
     @Test
     void constructorShouldThrowWhenDurationInYearsIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), null, mock(MaxEcts.class), mock(StudyPlanID.class));
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), null, mock(MaxEcts.class), mock(StudyPlanID.class), mock(StudyPlanGeneratedID.class));
         });
     }
 
     @Test
     void constructorShouldThrowWhenMaxEctsIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), mock(DurationInYears.class), null, mock(StudyPlanID.class));
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), mock(DurationInYears.class), null, mock(StudyPlanID.class), mock(StudyPlanGeneratedID.class));
         });
     }
 
     @Test
     void constructorShouldThrowWhenStudyPlanIDIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), mock(DurationInYears.class), mock(MaxEcts.class), null);
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), mock(DurationInYears.class), mock(MaxEcts.class), null, mock(StudyPlanGeneratedID.class));
+        });
+    }
+
+    @Test
+    void constructorShouldThrowWhenStudyPlanGeneratedIDIsNull() {
+        assertThrows(NullPointerException.class, () -> {
+            new StudyPlan(mock(ProgrammeID.class), mock(Date.class), mock(DurationInYears.class), mock(MaxEcts.class), mock(StudyPlanID.class), null);
         });
     }
 
@@ -238,7 +247,7 @@ class StudyPlanTest {
     void testEqualsReturnsFalseForNull() {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan plan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan plan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         assertNotEquals(plan, null);
     }
@@ -247,7 +256,7 @@ class StudyPlanTest {
     void testEqualsReturnsFalseForDifferentClass() {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, startDate);
 
-        StudyPlan plan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID);
+        StudyPlan plan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
 
         assertNotEquals(plan, new Object());
     }
@@ -265,8 +274,8 @@ class StudyPlanTest {
         StudyPlanID id1 = new StudyPlanID(programmeID, implementationDate);
         StudyPlanID id2 = new StudyPlanID(otherProgrammeID, otherImplementationDate);
 
-        StudyPlan plan1 = new StudyPlan(programmeID, implementationDate, duration, ects, id1);
-        StudyPlan plan2 = new StudyPlan(otherProgrammeID, otherImplementationDate, duration, ects, id2);
+        StudyPlan plan1 = new StudyPlan(programmeID, implementationDate, duration, ects, id1, generatedID);
+        StudyPlan plan2 = new StudyPlan(otherProgrammeID, otherImplementationDate, duration, ects, id2, generatedID);
 
         assertNotEquals(plan1, plan2);
     }
@@ -281,5 +290,17 @@ class StudyPlanTest {
 
         // Assert
         assertSame(result, startDate);
+    }
+
+    @Test
+    void getGeneratedIDShouldReturnStudyPlanGeneratedID () {
+        // Arrange
+        StudyPlan studyPlan = new StudyPlan(programmeID, startDate, durationInYears, maxEcts, studyPlanID, generatedID);
+
+        // Act
+        StudyPlanGeneratedID result = studyPlan.getGeneratedID();
+
+        // Assert
+        assertInstanceOf(StudyPlanGeneratedID.class, result);
     }
 }

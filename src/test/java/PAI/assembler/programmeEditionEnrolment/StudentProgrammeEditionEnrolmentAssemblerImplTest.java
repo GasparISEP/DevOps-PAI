@@ -17,9 +17,8 @@ class StudentProgrammeEditionEnrolmentAssemblerImplTest {
     @Test
     void toDTO_validProgrammeEdition_returnsCorrectDTO() throws Exception {
         // Arrange
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
         Acronym acronym = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
         SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
@@ -32,7 +31,6 @@ class StudentProgrammeEditionEnrolmentAssemblerImplTest {
 
         // Assert
         assertEquals("LEI", dto.getProgrammeAcronym());
-        assertEquals("Engenharia Informática", dto.getProgrammeName());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.getSchoolYearId());
     }
 

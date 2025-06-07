@@ -19,7 +19,6 @@ public class StudentProgrammeEditionEnrolmentAssemblerImpl implements IStudentPr
 
         return new StudentProgrammeEditionEnrolmentDTO(
                 programmeID.getAcronym().toString(),
-                programmeID.getName().toString(),
                 schoolYearID.getSchoolYearID().toString()
         );
     }

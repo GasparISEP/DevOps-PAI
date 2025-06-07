@@ -25,7 +25,6 @@ class CourseEditionResponseDTOTest {
         //act
         CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
                 courseEditionID,
-                programmeName,
                 programmeAcronym,
                 schoolYearID,
                 courseAcronym,
@@ -35,7 +34,6 @@ class CourseEditionResponseDTOTest {
 
         //assert
         assertEquals(courseEditionID, dto.courseEditionID());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());

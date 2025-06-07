@@ -25,11 +25,10 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
         ProgrammeEditionID id = programmeEdition.identity();
-        String programmeName = id.getProgrammeID().getName().toString();
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
+        return new CountStudentsDto(programmeAcronym, schoolYearID);
     }
 
     @Override
@@ -38,8 +37,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
         Acronym programmeAcronym = new Acronym(dto.programmeAcronym());
-        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(dto.programmeName());
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(dto.schoolYearID()));
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
@@ -60,9 +58,8 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         if (programmeEditionDTO == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
-        String programmeName = programmeEditionDTO.programme().name();
         String programmeAcronym = programmeEditionDTO.programme().acronym();
-        return new ProgrammeID(new NameWithNumbersAndSpecialChars(programmeName), new Acronym(programmeAcronym));
+        return new ProgrammeID(new Acronym(programmeAcronym));
     }
 
     @Override
@@ -70,10 +67,9 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         if (programmeID == null || schoolYearID == null) {
             throw new IllegalArgumentException("programmeID and or schoolYearID cannot be null");
         }
-        String programmeName = programmeID.getProgrammeName();
         String programmeAcronym = programmeID.getProgrammeAcronym();
         String schoolYearId = schoolYearID.getSchoolYearID().toString();
-        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeName, programmeAcronym);
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeAcronym);
         SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
         return new ProgrammeEditionDTO(programmeIDDTO, schoolYearIDRequestDTO);
     }
@@ -83,7 +79,7 @@ public class ProgrammeEditionAssemblerImpl implements IProgrammeEditionAssembler
         if (programmeEditionIdDto == null) {
             throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
         }
-        ProgrammeID programmeID = new ProgrammeID(new NameWithNumbersAndSpecialChars(programmeEditionIdDto.programmeName()), new Acronym(programmeEditionIdDto.programmeAcronym()));
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeEditionIdDto.programmeAcronym()));
         SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
         return new ProgrammeEditionID(programmeID, schoolYearID);
     }

@@ -20,24 +20,12 @@ class StudyPlanResponseDTOTest {
     @BeforeEach
     void setup() {
         // Arrange
-        _programmeName = "Biology";
         _programmeAcronym = "BIO2";
         _dateDouble = mock(LocalDate.class);
         _durationInYearsDouble = 3;
         _MaxEtcsDouble = 30;
-        _studyPlanResponseDTO = new StudyPlanResponseDTO(_programmeName, _programmeAcronym,
+        _studyPlanResponseDTO = new StudyPlanResponseDTO(_programmeAcronym,
                 _dateDouble, _durationInYearsDouble, _MaxEtcsDouble);
-    }
-
-    @Test
-    void shouldReturnProgrammeNameWhenGetProgrammeNameIsCalled() {
-        // Arrange
-
-        // Act
-        String result = _studyPlanResponseDTO.getProgrammeName();
-
-        // Assert
-        assertSame(result, _programmeName);
     }
 
     @Test

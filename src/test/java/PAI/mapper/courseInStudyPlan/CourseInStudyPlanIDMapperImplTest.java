@@ -50,9 +50,8 @@ public class CourseInStudyPlanIDMapperImplTest {
     @Test
     void toDataModelShouldMapDomainToDataModel() {
         // Arrange: criação do domínio
-        NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars("ProgrammeName");
         Acronym progAcronym = new Acronym("PN");
-        ProgrammeID programmeID = new ProgrammeID(progName, progAcronym);
+        ProgrammeID programmeID = new ProgrammeID(progAcronym);
         Date planDate = new Date(LocalDate.of(2025, 4, 18));
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, planDate);
 
@@ -68,7 +67,6 @@ public class CourseInStudyPlanIDMapperImplTest {
         // Assert: verifica StudyPlanIDDataModel
         StudyPlanIDDataModel spDM = dm.getStudyPlanIDDataModel();
         ProgrammeIDDataModel progDM = spDM.getProgrammeID();
-        assertEquals("ProgrammeName", progDM.getName());
         assertEquals("PN",           progDM.getAcronym());
         assertEquals(LocalDate.of(2025, 4, 18), spDM.getImplementationDate());
 
@@ -81,7 +79,7 @@ public class CourseInStudyPlanIDMapperImplTest {
     @Test
     void toDomainShouldMapDataModelToDomain() {
         // Arrange: criação do DataModel
-        ProgrammeIDDataModel progDM = new ProgrammeIDDataModel("ProgrammeName", "PN");
+        ProgrammeIDDataModel progDM = new ProgrammeIDDataModel("PN");
         StudyPlanIDDataModel spDM = new StudyPlanIDDataModel(progDM, LocalDate.of(2025, 4, 18));
         CourseIDDataModel cDM = new CourseIDDataModel("CCC", "CourseName");
 
@@ -93,8 +91,6 @@ public class CourseInStudyPlanIDMapperImplTest {
         // Assert: verifica StudyPlanID
         StudyPlanID spDomain = domainId.getStudyPlanID();
         ProgrammeID progDomain = spDomain.getProgrammeID();
-        assertEquals("ProgrammeName",
-                progDomain.getName().getNameWithNumbersAndSpecialChars());
         assertEquals("PN",
                 progDomain.getAcronym().getAcronym());
         assertEquals(LocalDate.of(2025, 4, 18),

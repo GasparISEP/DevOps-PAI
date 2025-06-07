@@ -38,7 +38,6 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
                 courseInStudyPlanServiceDTO.courseAcronym(),
                 courseInStudyPlanServiceDTO.courseName(),
                 courseInStudyPlanServiceDTO.programmeAcronym(),
-                courseInStudyPlanServiceDTO.programmeName(),
                 courseInStudyPlanServiceDTO.studyPlanDate(),
                 courseInStudyPlanServiceDTO.duration(),
                 courseInStudyPlanServiceDTO.credits(),

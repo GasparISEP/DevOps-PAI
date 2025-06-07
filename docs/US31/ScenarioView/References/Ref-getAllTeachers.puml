@@ -29,13 +29,8 @@ M --> TR --: teacher[i]
 end
 
 TR --> TS --: List<Teacher>
-loop for Teacher[i]
-TS -> TA ++ :fromDomainToDTO(teacher[i]))
-TA -> TDTO ++: newTeacherDTO(teacher[i]))
-TDTO --> TA --: teacherDTO[i]
-TA --> TS --: teacherDTO[i]
-end
-
-TS --> C --: List<TeacherDTO>
+TS --> C --: List<Teacher>
+C -> TA ++: toDTOs(List<Teacher>)
+TA --> C --: List<TeacherDTO>
 deactivate C
 @enduml

@@ -84,8 +84,36 @@ export default function StudentForm() {
                 addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
             };
 
-            const resp = await registerStudent(payload);
-            setSuccess(resp);
+            const raw = await registerStudent(payload);
+            console.log('[DEBUG] raw resp:', raw);
+
+            const { _links, ...data } = raw;
+
+            console.log('[DEBUG] extracted data:', data);
+            console.log('[DEBUG] data keys:', Object.keys(data));
+
+            Object.entries(data).forEach(([k, v]) => {
+                console.log(`  ${k}:`, v);
+            });
+
+            const cleanResp = {
+                studentID: data.studentID,
+                name: data.name,
+                nif: data.nif,
+                nifCountry: data.nifCountry,
+                street: data.street,
+                postalCode: data.postalCode,
+                location: data.location,
+                addressCountry: data.addressCountry,
+                countryCode: data.countryCode,
+                phoneNumber: data.phoneNumber,
+                email: data.email,
+                academicEmail: data.academicEmail
+            };
+
+            console.log('[DEBUG] cleanResp:', cleanResp);
+
+            setSuccess(cleanResp);
             setShowModal(true);
         } catch (err) {
             setError(err.message || 'An unexpected error occurred.');
@@ -391,24 +419,24 @@ export default function StudentForm() {
                 </form>
             </div>
 
-            {showModal && (
+            {showModal && success && (
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>Success!</h2>
                         <p>The student was registered successfully.</p>
-                        {success && (
-                                <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                    <p><strong>Name:</strong> {success.name}</p>
-                                    <p><strong>NIF:</strong> {success.nif}</p>
-                                    <p><strong>NIF Country:</strong> {success.nifcountry}</p>
-                                    <p><strong>Street:</strong> {success.street}</p>
-                                    <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                                    <p><strong>Location:</strong> {success.location}</p>
-                                    <p><strong>Address Country:</strong> {success.addressCountry}</p>
-                                    <p><strong>Phone Number:</strong> {success.phoneNumber}</p>
-                                    <p><strong>Email:</strong> {success.email}</p>
-                                </div>
-                        )}
+                        <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                            <p><strong>Student ID:</strong> {success.studentID}</p>
+                            <p><strong>Name:</strong> {success.name}</p>
+                            <p><strong>NIF:</strong> {success.nif}</p>
+                            <p><strong>NIF Country:</strong> {success.nifCountry}</p>
+                            <p><strong>Street:</strong> {success.street}</p>
+                            <p><strong>Postal Code:</strong> {success.postalCode}</p>
+                            <p><strong>Location:</strong> {success.location}</p>
+                            <p><strong>Address Country:</strong> {success.addressCountry}</p>
+                            <p><strong>Phone Number:</strong> {success.countryCode} {success.phoneNumber}</p>
+                            <p><strong>Email:</strong> {success.email}</p>
+                            <p><strong>Academic Email:</strong> {success.academicEmail}</p>
+                        </div>
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
                             window.location.reload();

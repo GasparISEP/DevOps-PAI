@@ -26,13 +26,11 @@ class CourseEditionServiceAssemblerImplTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         UUID uuid = UUID.randomUUID();
-        String programmeName = "Software Engineering";
         String programmeAcronym = "SE";
         String courseAcronym = "CS101";
         String courseName = "Intro to Programming";
         LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
 
-        when(programmeID.getProgrammeName()).thenReturn(programmeName);
         when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
         when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
         when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
@@ -52,7 +50,6 @@ class CourseEditionServiceAssemblerImplTest {
 
         // Assert
         assertEquals(courseEditionID.toString(), dto.courseEditionID());
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());

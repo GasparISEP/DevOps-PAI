@@ -55,10 +55,10 @@ ref over CPEC
 end
 
 
-CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO}
 deactivate CPEC
 note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
-<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+<-- Router: 201 + body {ProgrammeEditionResponseDTO}
 deactivate Router
 @enduml

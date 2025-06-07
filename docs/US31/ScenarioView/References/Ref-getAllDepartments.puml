@@ -30,13 +30,9 @@ M --> DPR --: department[i]
 end
 
 DPR --> DPS --: List<Department>
-loop for Department[i]
-DPS -> DA ++ :fromDomainToDTO(department[i]))
-DA -> DDTO ++: newDepartmentDTO(department[i]))
-DDTO --> DA --: departmentDTO[i]
-DA --> DPS --: departmentDTO[i]
-end
+DPS --> C --: List<Department>
+C --> DA ++: toDTOs(List<Department>)
 
-DPS --> C --: List<DepartmentDTO>
+DA --> C --: List<DepartmentDTO>
 deactivate C
 @enduml

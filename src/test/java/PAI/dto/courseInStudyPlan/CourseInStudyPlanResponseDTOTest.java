@@ -35,7 +35,6 @@ class CourseInStudyPlanResponseDTOTest {
                 1,
                 1,
                 "CS101",
-                "Computer Science",
                 "CS",
                 "Informatics",
                 "2023-09-01",
@@ -57,7 +56,6 @@ class CourseInStudyPlanResponseDTOTest {
                 "",
                 "",
                 "",
-                "",
                 null,
                 4,
                 6.0,
@@ -72,7 +70,7 @@ class CourseInStudyPlanResponseDTOTest {
                 .filter(v -> v.getMessage().contains("cannot be blank") || v.getMessage().contains("is required"))
                 .count();
 
-        assertEquals(5, notBlankViolations, "There should be 5 violations related to @NotBlank and @NotNull constraints");
+        assertEquals(4, notBlankViolations, "There should be 5 violations related to @NotBlank and @NotNull constraints");
     }
 
     @Test
@@ -81,7 +79,6 @@ class CourseInStudyPlanResponseDTOTest {
                 0, // invalid duration
                 1,
                 "CS101",
-                "Computer Science",
                 "CS",
                 "Informatics",
                 "2023-09-01",
@@ -95,7 +92,6 @@ class CourseInStudyPlanResponseDTOTest {
                 1,
                 1,
                 "CS101",
-                "Computer Science",
                 "CS",
                 "Informatics",
                 "2023-09-01",
@@ -115,7 +111,6 @@ class CourseInStudyPlanResponseDTOTest {
                 1,
                 1,
                 "CS101",
-                "Computer Science",
                 "CS",
                 "Informatics",
                 "2023-09-01",
@@ -129,7 +124,6 @@ class CourseInStudyPlanResponseDTOTest {
                 1,
                 1,
                 "CS101",
-                "Computer Science",
                 "CS",
                 "Informatics",
                 "2023-09-01",

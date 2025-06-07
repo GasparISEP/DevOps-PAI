@@ -199,7 +199,6 @@ class ProgrammeRepositorySpringDataImplTest {
         ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo,iProgIdMapper);
 
         ProgrammeID id = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Master in Informatics and Computer Engineering"),
                 new Acronym("MIEIC")
         );
         ProgrammeDataModel dataModel = mock(ProgrammeDataModel.class);
@@ -230,7 +229,6 @@ class ProgrammeRepositorySpringDataImplTest {
         ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo,iProgIdMapper);
 
         ProgrammeID id = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Non-existing Programme"),
                 new Acronym("NEP")
         );
 
@@ -281,7 +279,6 @@ class ProgrammeRepositorySpringDataImplTest {
         ProgrammeRepositorySpringDataImpl progRepo = new ProgrammeRepositorySpringDataImpl(iProgMapper, iProgRepo,iProgIdMapper);
 
         ProgrammeID id = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Non-existing Programme"),
                 new Acronym("NEP")
         );
 

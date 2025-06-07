@@ -17,7 +17,7 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
         Grade grade = createGrade(requestDTO.grade());
         Date date = createDate(requestDTO.date());
         StudentID studentID = createStudentID(requestDTO.studentUniqueNumber());
-        ProgrammeID programmeID = createProgrammeID(requestDTO.programmeName(), requestDTO.programmeAcronym());
+        ProgrammeID programmeID = createProgrammeID(requestDTO.programmeAcronym());
         SchoolYearID schoolYearID = createSchoolYearID(requestDTO.schoolYearId());
         CourseID courseID = createCourseID(requestDTO.courseAcronym(), requestDTO.courseName());
         StudyPlanID studyPlanID = createStudyPlanID(requestDTO.studyPlanImplementationDate(), programmeID);
@@ -56,10 +56,9 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
     }
 
     // The methods below serve the method above
-    private ProgrammeID createProgrammeID(String programmeName, String programmeAcronym) {
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeName);
+    private ProgrammeID createProgrammeID(String programmeAcronym) {
         Acronym acronym = new Acronym(programmeAcronym);
-        return new ProgrammeID(name, acronym);
+        return new ProgrammeID(acronym);
     }
 
     private SchoolYearID createSchoolYearID(String schoolYearId) {

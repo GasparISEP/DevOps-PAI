@@ -35,14 +35,12 @@ public class ProgrammeEditionEnrolmentAssemblerImpl implements IProgrammeEdition
         List<ProgrammeEditionEnrolmentDetailDto> programmeEditionEnrolmentDetailDtos = new ArrayList<>();
 
         for(ProgrammeEditionID programmeEditionId : programmeEditionEnrolments) {
-            String programmeName =  programmeEditionId.getProgrammeID().getProgrammeName();
             String programmeAcronym = programmeEditionId.getProgrammeID().getProgrammeAcronym();
             SchoolYearID schoolYearID = programmeEditionId.getSchoolYearID();
             String schoolYearDescription = getSchoolYearDescription(schoolYearID);
             int studentUniqueNumber = studentID.getUniqueNumber();
             ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentDetailDto = new ProgrammeEditionEnrolmentDetailDto(
                 studentUniqueNumber,
-                programmeName,
                 programmeAcronym,
                 schoolYearDescription,
                 schoolYearID.getSchoolYearID().toString()

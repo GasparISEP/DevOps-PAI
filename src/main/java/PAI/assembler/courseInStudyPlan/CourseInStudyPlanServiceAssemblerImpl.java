@@ -19,7 +19,6 @@ public class CourseInStudyPlanServiceAssemblerImpl implements ICourseInStudyPlan
                 course.getCourseID().getCourseAcronymValue(),
                 course.getCourseID().getCourseNameValue(),
                 course.getStudyplanID().getProgrammeID().getProgrammeAcronym(),
-                course.getStudyplanID().getProgrammeID().getProgrammeName(),
                 course.getStudyplanID().getDate().getLocalDate().toString(),
                 course.getDurationOfCourse().getDuration(),
                 course.getQuantityOfCreditsEcts().toDouble(),

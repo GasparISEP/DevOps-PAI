@@ -159,7 +159,7 @@ class AddCourseToAProgrammeServiceImplTest {
         CourseID courseID = new CourseID(courseAcronym, courseName);
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
         Acronym programmeAcronym = new Acronym("CS");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
@@ -201,7 +201,7 @@ class AddCourseToAProgrammeServiceImplTest {
         CourseID courseID = new CourseID(courseAcronym, courseName);
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
         Acronym programmeAcronym = new Acronym("CS");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
@@ -253,7 +253,7 @@ class AddCourseToAProgrammeServiceImplTest {
         CourseID courseID = new CourseID(courseAcronym, courseName);
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
         Acronym programmeAcronym = new Acronym("CS");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
@@ -305,7 +305,7 @@ class AddCourseToAProgrammeServiceImplTest {
         CourseID courseID = new CourseID(courseAcronym, courseName);
         NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Computer Science Programme");
         Acronym programmeAcronym = new Acronym("CS");
-        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         PAI.VOs.Date studyPlanDate = new PAI.VOs.Date("01-01-2023");
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);

@@ -144,7 +144,7 @@ class TeacherCategoryRestControllerTest {
         when(serviceInterface.configureTeacherCategory(doubleName))
                 .thenThrow(new AlreadyRegisteredException("Teacher Category already exists!"));
 
-        MvcResult result = mockMvc.perform(post("/teachercategories")
+        MvcResult result = mockMvc.perform(post("/teacher-categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequestBody)
         ).andReturn();
@@ -191,7 +191,7 @@ class TeacherCategoryRestControllerTest {
         when(serviceInterface.getTeacherCategoryByID(mockId))
                 .thenThrow(new PAI.exception.NotFoundException("Teacher Category ID was not found."));
 
-        MvcResult result = mockMvc.perform(get("/teachercategories/" + id)).andReturn();
+        MvcResult result = mockMvc.perform(get("/teacher-categories/" + id)).andReturn();
 
         // act
         int statusCode = result.getResponse().getStatus();

@@ -2,6 +2,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.RemoveCourseEditionEnrolmentDTO;
@@ -45,6 +46,7 @@ public class CourseEditionRestController {
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
     private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+    private final IStudentCountAssembler studentCountAssembler;
 
 public CourseEditionRestController(
         ICourseEditionEnrolmentService courseEditionEnrolmentService,
@@ -55,7 +57,8 @@ public CourseEditionRestController(
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
         IProgrammeEditionAssembler programmeEditionAssembler,
-        IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler
+        IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
+        IStudentCountAssembler studentCountAssembler
 ) {
     this.courseEditionEnrolmentService = courseEditionEnrolmentService;
     this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
@@ -67,6 +70,7 @@ public CourseEditionRestController(
     this.programmeEditionAssembler = programmeEditionAssembler;
     this.defineRucService = defineRucService;
     this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
+    this.studentCountAssembler = studentCountAssembler;
 }
 
     @PostMapping("/students/enrolments")
@@ -108,22 +112,21 @@ public CourseEditionRestController(
     public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
-            ProgrammeID programmeID = new ProgrammeID(
-                    new NameWithNumbersAndSpecialChars(command.programmeName()),
-                    new Acronym(command.programmeAcronym()));
+
+            ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
 
             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
-                    new CourseID(
-                            new Acronym(command.courseAcronym()),
-                            new Name(command.courseName())),
-                    new StudyPlanID(programmeID, new Date(command.studyPlanImplementationDate())));
+                    new CourseID(command.courseAcronym(), command.courseName()),
+                    new StudyPlanID(programmeID, new Date(String.valueOf(command.studyPlanImplementationDate())))
+            );
 
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
                     programmeID,
-                    new SchoolYearID(command.schoolYearID()));
+                    command.schoolYearID()
+            );
 
-            CourseEditionResponseDTO responseDTO = createCourseEditionService
-                    .createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+            CourseEditionResponseDTO responseDTO =
+                    createCourseEditionService.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
             if (responseDTO == null) {
                 return ResponseEntity.badRequest().build();
@@ -137,6 +140,7 @@ public CourseEditionRestController(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 
     @PatchMapping("/ruc")
     public ResponseEntity<?> defineRucForCourseEdition(@RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
@@ -218,8 +222,7 @@ public CourseEditionRestController(
         UUID schoolYearUUID = UUID.fromString(schoolYearId);
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
-        ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Placeholder Name"), //Dummies
+        ProgrammeID programmeID = new ProgrammeID(//Dummies
                 new Acronym(programmeAcronym));
 
         CourseEditionID courseEditionID = new CourseEditionID(
@@ -247,7 +250,6 @@ public CourseEditionRestController(
         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("Placeholder Name"),
                 new Acronym(programmeAcronym));
 
         CourseEditionID courseEditionID = new CourseEditionID(
@@ -262,11 +264,12 @@ public CourseEditionRestController(
     }
 
     @PostMapping("/studentscount")
-    public ResponseEntity<Integer> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {
+    public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {
         try {
             CourseEditionID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionID(dto);
-            int count = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
-            return ResponseEntity.ok(count);
+            int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
+            StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
+            return ResponseEntity.ok(studentCountDTO);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(null);

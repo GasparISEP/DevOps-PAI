@@ -1,0 +1,115 @@
+@startuml
+title US30: As an ASC, I want to add a course to a programme using a Web UI\n (Process View - Level 2: Containers)
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC  #LightBlue/White
+participant "<<Container>>\nFrontend" as Frontend #E1F5FE
+participant "<<Container>>\nBackend" as Backend #E1F5FE
+database "<<Container>>\nDatabase" as Database #E1F5FE
+
+ASC -> Frontend: I want to add a Course to a Programme!\nAccess form
+activate Frontend
+
+Frontend -> Backend: GET /programmes
+activate Backend
+Backend -> Database: SELECT * FROM programmes
+activate Database
+Database --> Backend: 200 OK + programmes
+deactivate Database
+Backend --> Frontend: 200 OK + programmes
+deactivate Backend
+Frontend --> ASC: Display programme options
+deactivate Frontend
+
+ASC -> Frontend: Select Programme
+activate Frontend
+Frontend -> Backend: GET /courses/{ids}
+activate Backend
+Backend -> Database: SELECT * FROM courses
+activate Database
+Database --> Backend: 200 OK + courses
+deactivate Database
+Backend --> Frontend: 200 OK + courses
+deactivate Backend
+Frontend --> ASC: Display course options
+deactivate Frontend
+
+ASC -> Frontend: Select Course
+activate Frontend
+Frontend --> ASC: Which Curricular Year?
+deactivate Frontend
+
+ASC --> Frontend: Select Curricular Year
+activate Frontend
+Frontend --> ASC: Which Semester?
+deactivate Frontend
+
+ASC -> Frontend: Select Semester
+activate Frontend
+Frontend --> ASC: Duration of Course in Semester?
+deactivate Frontend
+
+ASC --> Frontend: Select Duration
+activate Frontend
+Frontend --> ASC: Quantity of Credits?
+deactivate Frontend
+
+ASC -> Frontend: Select ECTS credits
+activate Frontend
+Frontend --> ASC: Confirm adding a course to a programme?
+deactivate Frontend
+
+
+ASC -> Frontend: Yes, confirm
+activate Frontend
+Frontend -> Backend: POST /courses-in-study-plan + body
+note over Frontend, Backend #HoneyDew
+Request body (JSON):
+{
+  semester: "...",
+  curricularYear: "...",
+  courseAcronym: "...",
+  courseName: "...",
+  programmeAcronym: "...",
+  programmeName: "..."
+  studyPlanDate: "..."
+  duration: "..."
+  credits: "..."
+}
+end note
+activate Backend
+Backend -> Database: INSERT INTO courses_in_study_plan (data)
+activate Database
+Database --> Backend: Confirmation + new courseInStudyPlan
+deactivate Database
+Backend --> Frontend: 201 Created + body
+note over Backend, Frontend #HoneyDew
+Response body (JSON) + hypermedia:
+{
+  courseInStudyPlanID: "..."
+  semester: "...",
+  curricularYear: "...",
+  ...
+    _links: {
+      self: {
+        href: "/course-in-study-plan"
+      }
+    }
+}
+end note
+deactivate Backend
+Frontend --> ASC: Course added to a programme successfully!
+deactivate Frontend
+@enduml

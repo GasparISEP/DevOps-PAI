@@ -54,13 +54,12 @@ public class CourseEditionInitializer {
                         Name courseName = new Name(fields[2].trim());
                         UUID schoolYearUUID = UUID.fromString(fields[5].trim());
                         Acronym programmeAcronym = new Acronym(fields[6].trim());
-                        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars(fields[7].trim());
 
                         // Create domain IDs
                         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
                         // Create ProgrammeID for both edition and programme (they are the same)
-                        ProgrammeID programmeID = new ProgrammeID(programmeName, programmeAcronym);
+                        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
                         // Create CourseID

@@ -36,7 +36,6 @@ class CourseEditionEnrolmentAssemblerImplTest {
     void toCourseEditionID_shouldReturnCorrectCourseEditionID() throws Exception {
         // Arrange
         CourseEditionEnrolmentDto dto = mock(CourseEditionEnrolmentDto.class);
-        when(dto.programmeName()).thenReturn("LEI");
         when(dto.programmeAcronym()).thenReturn("LEIC");
         when(dto.schoolYearId()).thenReturn("123e4567-e89b-12d3-a456-426614174000");
         when(dto.courseAcronym()).thenReturn("ESOFT");
@@ -48,7 +47,6 @@ class CourseEditionEnrolmentAssemblerImplTest {
 
         // Assert
         assertNotNull(courseEditionID);
-        assertEquals(dto.programmeName(), courseEditionID.getProgrammeEditionID().getProgrammeID().getName().getValue());
         assertEquals(dto.programmeAcronym(), courseEditionID.getProgrammeEditionID().getProgrammeID().getAcronym().getValue());
         assertEquals(dto.schoolYearId(), courseEditionID.getProgrammeEditionID().getSchoolYearID().getSchoolYearID().toString());
         assertEquals(dto.courseAcronym(), courseEditionID.getCourseInStudyPlanID().getCourseID().getAcronym().getValue());

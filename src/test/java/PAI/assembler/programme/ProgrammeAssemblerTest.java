@@ -106,7 +106,6 @@ class ProgrammeAssemblerTest {
         // Arrange
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
         ProgrammeID programmeIDDouble = mock(ProgrammeID.class);
-        when(programmeIDDouble.getProgrammeName()).thenReturn("Computer Science");
         when(programmeIDDouble.getProgrammeAcronym()).thenReturn("CSE");
 
         // Act
@@ -114,7 +113,6 @@ class ProgrammeAssemblerTest {
 
         // Assert
         assertNotNull(programmeIDDTO);
-        assertEquals(programmeIDDTO.name(), "Computer Science");
         assertEquals(programmeIDDTO.acronym(), "CSE");
     }
 
@@ -135,7 +133,6 @@ class ProgrammeAssemblerTest {
         // Arrange
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
-        when(programmeIDDTO.name()).thenReturn("Computer Science");
         when(programmeIDDTO.acronym()).thenReturn("CSE");
 
         // Act
@@ -143,7 +140,6 @@ class ProgrammeAssemblerTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(result.name(), "Computer Science");
         assertEquals(result.acronym(), "CSE");
     }
 

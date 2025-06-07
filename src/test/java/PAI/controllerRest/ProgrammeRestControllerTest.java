@@ -354,7 +354,7 @@ class ProgrammeRestControllerTest {
 
         String degreeTypeIdStr = "123";
 
-        ProgrammeIDDTO dto = new ProgrammeIDDTO("Name", "Acr");
+        ProgrammeIDDTO dto = new ProgrammeIDDTO("Acr");
 
         when(_programmeServiceDouble.getProgrammeIDDTOsByDegreeTypeID(any(DegreeTypeID.class)))
                 .thenReturn(List.of(dto));
@@ -366,7 +366,6 @@ class ProgrammeRestControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
-        assertEquals("Name", response.getBody().get(0).name());
         assertEquals("Acr", response.getBody().get(0).acronym());
     }
 
@@ -420,19 +419,17 @@ class ProgrammeRestControllerTest {
                 _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
-        String name = "Computer Sci";
         String acronym = "CSD";
 
         ProgrammeID doubleProgrammeID = mock(ProgrammeID.class);
         when(doubleProgrammeID.getProgrammeAcronym()).thenReturn(acronym);
 
-        when(doubleProgrammeID.getProgrammeName()).thenReturn(name);
 
         Programme programmeMock = mock(Programme.class);
         when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
                 .thenReturn(Optional.of(programmeMock));
         //act
-        ResponseEntity<Object> result = controller.getProgrammeByID(name,acronym);
+        ResponseEntity<Object> result = controller.getProgrammeByID(acronym);
 
         //assert
         assertEquals(result.getStatusCode(),HttpStatus.OK);
@@ -445,14 +442,13 @@ class ProgrammeRestControllerTest {
                 _programmeAssemblerDouble, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _teacherServiceDouble);
 
-        String name = "Nonexistent Programme";
         String acronym = "XYZ";
 
         when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
                 .thenReturn(Optional.empty());
 
         // act
-        ResponseEntity<Object> result = controller.getProgrammeByID(name, acronym);
+        ResponseEntity<Object> result = controller.getProgrammeByID(acronym);
 
         // assert
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());

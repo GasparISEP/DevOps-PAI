@@ -18,7 +18,7 @@ activate frontend #E1F5FE
 
 frontend -> backend: GET /programmes/ids
 activate backend #E1F5FE
-backend --> frontend: 200 + body {List<ProgrammeIDResponseDTO> + hypermedia}
+backend --> frontend: 200 + body {List<ProgrammeIDResponseDTO>}
 
 
 ASC <-- frontend: What programme name?
@@ -27,7 +27,7 @@ ASC -> frontend: Entered programme name!
 
 
 frontend -> backend: GET /schoolyears/current
-backend --> frontend: 200 + body {CurrentSchoolYearResponseDTO + hypermedia}
+backend --> frontend: 200 + body {CurrentSchoolYearResponseDTO}
 ASC <-- frontend: What school year uuid?
 
 ASC -> frontend: Entered school year uuid!
@@ -43,7 +43,7 @@ activate DB #LightGray
 DB --> backend: programmeEdition
 deactivate DB
 
-backend --> frontend: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+backend --> frontend: 201 + body {ProgrammeEditionResponseDTO}
 deactivate backend
 
 ASC <-- frontend: Ok!

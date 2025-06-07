@@ -1,0 +1,29 @@
+@startuml
+
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Process View Level 3 - removeStudentFromCourseEdition)
+
+
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+participant ":Router" as RT <<Component>> #lightpink
+participant "CERC:CourseEditionRestController " as C <<Component>> #motivation
+participant "CEES:CourseEditionEnrolmentService" as S <<Component>> #business
+participant "CEER:CourseEditionEnrolmentRepository" as RP <<Component>> #lightgreen
+participant ":Drivers" as D <<Component>> #technology
+
+ -> RT ++: **PATCH**  /courseeditions/enrolments/students/remove \t
+ '/course-editions/{id}/students/{id}/
+ RT -> C ++: removeStudentFromCourseEdition(CourseEditionEnrolmentDto)
+ C -> S ++: removeCourseEditionEnrolment(studentID, courseEditionID)
+ S -> RP ++: findByStudentAndEdition(studentID, courseEditionID)
+ RP -> D ++: findByStudentAndEdition(studentIDDTO, courseEditionIDDTO)
+ D -> : **SELECT** findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel)
+
+ D <--  : courseEditionEnrolmentDataModel
+ D --> RP --: courseEditionEnrolmentDataModel
+ RP --> S --: courseEditionEnrolment
+ S --> C --: True!
+ C --> RT --: (ACCEPTED, 202)
+  <-- RT --: (ACCEPTED, 202) Successfully removed the \n enrolment from course edition
+@enduml

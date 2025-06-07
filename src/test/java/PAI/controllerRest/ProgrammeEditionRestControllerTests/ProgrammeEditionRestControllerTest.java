@@ -87,18 +87,17 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        String programmeName = "Engineering";
         String programmeAcronym = "ENG";
         String  schoolYearID = UUID.randomUUID().toString();
 
         CountStudentsDto expectedDto =
-                new CountStudentsDto(programmeName, programmeAcronym, schoolYearID);
+                new CountStudentsDto(programmeAcronym, schoolYearID);
 
         // Mock service behavior
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);
 
         // Act
-        ResponseEntity<Integer> response = controller.getNumberOfStudents(programmeName, programmeAcronym, schoolYearID);
+        ResponseEntity<Integer> response = controller.getNumberOfStudents(programmeAcronym, schoolYearID);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -133,12 +132,10 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        String programmeName = "Engineering";
         String programmeAcronym = "ENG";
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeName);
         Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
 
         SchoolYearID schoolYearID1 = new SchoolYearID(UUID.randomUUID());
         SchoolYearID schoolYearID2 = new SchoolYearID(UUID.randomUUID());
@@ -149,11 +146,11 @@ class ProgrammeEditionRestControllerTest {
         List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
 
         ProgrammeEditionDTO dto1 = new ProgrammeEditionDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeName, programmeAcronym),
+                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
                 new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID1.getSchoolYearID().toString())
         );
         ProgrammeEditionDTO dto2 = new ProgrammeEditionDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeName, programmeAcronym),
+                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
                 new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID2.getSchoolYearID().toString())
         );
 
@@ -162,7 +159,7 @@ class ProgrammeEditionRestControllerTest {
         when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -182,17 +179,15 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        String programmeName = "Engineering";
         String programmeAcronym = "ENG";
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeName);
         Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
 
         // Act
-        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -209,33 +204,15 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        String programmeName = "Engineering";
         String programmeAcronym = "ENG";
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeName);
         Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(name, acronym);
+        ProgrammeID programmeID = new ProgrammeID(acronym);
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenThrow(new RuntimeException("Internal error"));
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeName, programmeAcronym));
-    }
-
-
-    @Test
-    void getProgrammeEditionsByProgrammeID_shouldThrowExceptionIfInvalidValueObject() {
-        // Arrange
-        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
-        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
-
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
-
-        String invalidProgrammeName = "";
-        String validAcronym = "ENG";
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> controller.getProgrammeEditionsByProgrammeID(invalidProgrammeName, validAcronym));
+        assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeAcronym));
     }
 
 

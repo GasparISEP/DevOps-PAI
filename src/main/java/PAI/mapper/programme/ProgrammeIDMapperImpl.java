@@ -11,15 +11,13 @@ public class ProgrammeIDMapperImpl implements IProgrammeIDMapper {
 
     public ProgrammeID toDomain(ProgrammeIDDataModel programmeIDDataModel) {
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars(programmeIDDataModel.getName());
         Acronym acronym = new Acronym(programmeIDDataModel.getAcronym());
-        return new ProgrammeID(name,acronym);
+        return new ProgrammeID(acronym);
     }
 
     public ProgrammeIDDataModel toData(ProgrammeID programmeID) {
 
-        String name = programmeID.getName().getNameWithNumbersAndSpecialChars();
         String acronym = programmeID.getAcronym().getAcronym();
-        return new ProgrammeIDDataModel(name, acronym);
+        return new ProgrammeIDDataModel(acronym);
     }
 }

@@ -106,7 +106,6 @@ class CourseInStudyPlanMapperImplTest {
     void toDataModelShouldMapDomainToDataModel() throws Exception {
         // Arrange
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("ProgrammeName"),
                 new Acronym("PN")
         );
         Date date = new Date("12-03-2005");
@@ -150,7 +149,6 @@ class CourseInStudyPlanMapperImplTest {
     void toDomainShouldMapDataModelToDomain() throws Exception {
         // Arrange: criar VOs e DataModels
         ProgrammeID programmeID = new ProgrammeID(
-                new NameWithNumbersAndSpecialChars("ProgrammeName"),
                 new Acronym("PN")
         );
         Date date = new Date("12-03-2005");

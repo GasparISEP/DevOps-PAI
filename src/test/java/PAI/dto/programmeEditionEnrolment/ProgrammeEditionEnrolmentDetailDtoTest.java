@@ -16,11 +16,10 @@ public class ProgrammeEditionEnrolmentDetailDtoTest {
         String schoolYearID = "1234567890";
 
         // act
-        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentDetailDto(studentID, programmeName, programmeAcronym, schoolYearDescription, schoolYearID);
+        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentResponseDto = new ProgrammeEditionEnrolmentDetailDto(studentID, programmeAcronym, schoolYearDescription, schoolYearID);
 
         // assert
         assertEquals(studentID, programmeEditionEnrolmentResponseDto.studentID());
-        assertEquals(programmeName, programmeEditionEnrolmentResponseDto.programmeName());
         assertEquals(programmeAcronym, programmeEditionEnrolmentResponseDto.programmeAcronym());
         assertEquals(schoolYearDescription, programmeEditionEnrolmentResponseDto.schoolYearDescription());
         assertEquals(schoolYearID, programmeEditionEnrolmentResponseDto.schoolYearID());

@@ -71,7 +71,6 @@ class CourseInStudyPlanAssemblerImplTest {
         when(serviceDTO.courseAcronym()).thenReturn("DSOFT");
         when(serviceDTO.courseName()).thenReturn("Desenvolvimento de Software");
         when(serviceDTO.programmeAcronym()).thenReturn("LEI");
-        when(serviceDTO.programmeName()).thenReturn("Engenharia Informática");
         when(serviceDTO.studyPlanDate()).thenReturn("2023-09-01");
         when(serviceDTO.duration()).thenReturn(1);
         when(serviceDTO.credits()).thenReturn(6.0);

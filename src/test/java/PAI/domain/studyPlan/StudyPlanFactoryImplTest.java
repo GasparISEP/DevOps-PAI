@@ -43,11 +43,12 @@ class StudyPlanFactoryImplTest {
         Date startDate = mock(Date.class);
         MaxEcts maxEcts = mock(MaxEcts.class);
         DurationInYears quantSemesters = mock(DurationInYears.class);
+        StudyPlanGeneratedID generatedID = mock(StudyPlanGeneratedID.class);
         IStudyPlanFactory studyPlanFactory_2 = new StudyPlanFactoryImpl();
 
         try (MockedConstruction<StudyPlan> constructorStudyPlanDouble = mockConstruction(StudyPlan.class)){
             //act
-            StudyPlan result = studyPlanFactory_2.createStudyPlanFromDataModel(programmeID, startDate, quantSemesters, maxEcts, studyPlanId);
+            StudyPlan result = studyPlanFactory_2.createStudyPlanFromDataModel(programmeID, startDate, quantSemesters, maxEcts, studyPlanId, generatedID);
 
             //assert
             assertEquals(1, constructorStudyPlanDouble.constructed().size());

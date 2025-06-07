@@ -27,9 +27,8 @@ public class US09_EnrolStudentInProgrammeController {
         try {
             StudentID studentID = new StudentID(studentNumber);
             AccessMethodID accessMethodID = new AccessMethodID(accessMethodIDStr);
-            NameWithNumbersAndSpecialChars programmeNameVO = new NameWithNumbersAndSpecialChars(programmeName);
             Acronym acronymVO = new Acronym(acronym);
-            ProgrammeID programmeID = new ProgrammeID(programmeNameVO, acronymVO);
+            ProgrammeID programmeID = new ProgrammeID(acronymVO);
             Date date = new Date(enrolmentDate);
 
             return _enrolmentService.enrolStudentInProgramme(studentID, accessMethodID, programmeID, date);

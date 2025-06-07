@@ -16,7 +16,7 @@ participant ":Database" as db <<Container>>
 
 admin -> frontend: I want to configure teacher categories!
 activate frontend #E1F5FE
-frontend --> admin: What teacher category name?Add commentMore actions
+frontend --> admin: What teacher category name?
 deactivate frontend
 
 admin -> frontend: Enter teacher category name!
@@ -27,7 +27,7 @@ deactivate frontend
 admin -> frontend: Yes!
 activate frontend #E1F5FE
 
-frontend -> backend: POST /teachercategories + body {"name": "Assistant"}
+frontend -> backend: POST /teacher-categories + body {"name": "Assistant"}
 activate backend #E1F5FE
 
 backend -> db: INSERT INTO teacherCategory (id, name) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
@@ -39,7 +39,7 @@ deactivate db
 backend --> frontend: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate backend
 
-<-- frontend : Ok!
+frontend --> admin  : Ok!
 deactivate frontend
 
 @enduml

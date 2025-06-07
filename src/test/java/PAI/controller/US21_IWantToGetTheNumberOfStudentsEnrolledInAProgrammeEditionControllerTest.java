@@ -112,7 +112,6 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         UUID schoolYearID = UUID.fromString("1c7f0b41-bf0b-41eb-9ac7-e654ee592bf4");
         SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
         ProgrammeID programmeID = new ProgrammeID(
-            new NameWithNumbersAndSpecialChars("Computer Sci"),
             new Acronym("SWE")
         );
         /*UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
@@ -134,7 +133,6 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         UUID schoolYearID = UUID.fromString("1c7f141-bf0b-41eb-9ac7-e654ee592bf4");
         SchoolYearID schoolYearID1 = new SchoolYearID(schoolYearID);
         ProgrammeID programmeID = new ProgrammeID(
-            new NameWithNumbersAndSpecialChars("Chemistry"),
             new Acronym("CHY")
         );
 
@@ -245,9 +243,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
                 programmeRepository,
                 programmeEditionEnrolmentFactory);
 
-        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym1);
 
         SchoolYearID schoolYearID1 = new SchoolYearID();
         SchoolYearID schoolYearID2 = new SchoolYearID();
@@ -277,9 +274,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactoryImpl = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactoryImpl);
 
-        NameWithNumbersAndSpecialChars programmeName1 = new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informatica");
         Acronym programmeAcronym1 = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(programmeName1, programmeAcronym1);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym1);
 
         SchoolYearID schoolYearID1 = new SchoolYearID();
 

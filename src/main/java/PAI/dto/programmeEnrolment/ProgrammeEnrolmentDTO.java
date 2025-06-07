@@ -5,14 +5,12 @@ import java.time.LocalDate;
 public class ProgrammeEnrolmentDTO {
     private int studentID;
     private String accessMethodID;
-    private String programmeName;
     private String programmeAcronym;
     private LocalDate date;
 
-    public ProgrammeEnrolmentDTO(int studentID, String accessMethodID, String programmeName, String programmeAcronym, LocalDate date) {
+    public ProgrammeEnrolmentDTO(int studentID, String accessMethodID, String programmeAcronym, LocalDate date) {
         this.studentID = studentID;
         this.accessMethodID = accessMethodID;
-        this.programmeName = programmeName;
         this.programmeAcronym = programmeAcronym;
         this.date = date;
     }
@@ -23,10 +21,6 @@ public class ProgrammeEnrolmentDTO {
 
     public String getAccessMethodID() {
         return accessMethodID;
-    }
-
-    public String getProgrammeName() {
-        return programmeName;
     }
 
     public String getProgrammeAcronym() {

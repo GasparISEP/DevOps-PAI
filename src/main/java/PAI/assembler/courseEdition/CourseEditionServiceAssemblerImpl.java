@@ -25,7 +25,6 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
         return new CourseEditionResponseDTO(
                 courseEdition.identity().toString(),
 
-                programmeID.getProgrammeName(),
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
 

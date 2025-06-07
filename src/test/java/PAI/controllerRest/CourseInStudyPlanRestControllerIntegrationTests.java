@@ -73,12 +73,11 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
         Acronym acronym = new Acronym("CS101");
         Name name = new Name("Computer Science");
         CourseID courseID = new CourseID(acronym, name);
-        NameWithNumbersAndSpecialChars programmeNameWith = new NameWithNumbersAndSpecialChars("Informatics");
         Acronym programmeAcronymWith = new Acronym("CS");
-        ProgrammeID programmeID = new ProgrammeID(programmeNameWith, programmeAcronymWith);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronymWith);
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, Date.now());
 
-        CourseInStudyPlanResponseDTO responseDTO = new CourseInStudyPlanResponseDTO(1, 1, "MATH", "Mathematics",
+        CourseInStudyPlanResponseDTO responseDTO = new CourseInStudyPlanResponseDTO(1, 1, "MATH",
                 "LEI", "Licenciatura em Engenharia Informática", "2025-01-01", 1, 6.0, courseID, studyPlanID);
 
         Mockito.when(assembler.toCommand(request)).thenReturn(Mockito.mock(PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand.class));

@@ -1,7 +1,5 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.TeacherAcronym;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
@@ -210,12 +208,12 @@ public class CourseEditionRestControllerIntegrationTests {
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123", "Software Development", "SDV",
+                "courseEditionID123","SDV",
                 requestDTO.schoolYearID(), "SA", "Software Architecture",
                 LocalDate.of(2023, 9, 1));
 
@@ -235,7 +233,6 @@ public class CourseEditionRestControllerIntegrationTests {
         CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
 
         assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
-        assertEquals(responseDTO.programmeName(), actualResponse.programmeName());
         assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
         assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
         assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());
@@ -251,9 +248,9 @@ public class CourseEditionRestControllerIntegrationTests {
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);

@@ -236,9 +236,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1000001);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -294,9 +293,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1000001);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -351,9 +349,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1000001);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -405,7 +402,7 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -426,9 +423,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
             ceeRepository.save(courseEditionEnrolment);
         }
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Civil Engineering");
         Acronym acronym2 = new Acronym("CVE");
-        ProgrammeID programme2ID = new ProgrammeID(nameWithNumbersAndSpecialChars2, acronym2);
+        ProgrammeID programme2ID = new ProgrammeID(acronym2);
         SchoolYearID schoolYear2ID = new SchoolYearID();
         ProgrammeEditionID programmeEdition2ID = new ProgrammeEditionID(programme2ID,schoolYear2ID);
         Date implementationDate2 = new Date("21-03-2022");
@@ -479,9 +475,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
 
         StudentID studentID = new StudentID(1000001);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 
@@ -540,9 +535,8 @@ class US28_RemoveTheEnrolmentOfAStudentInACourseEdition_ControllerTest {
         StudentID studentID = new StudentID(1000001);
         StudentID studentID2 = new StudentID(1000002);
 
-        NameWithNumbersAndSpecialChars name1 = new NameWithNumbersAndSpecialChars("Programme1");
         Acronym acronym1 = new Acronym("P1");
-        ProgrammeID programmeID1 = new ProgrammeID(name1, acronym1);
+        ProgrammeID programmeID1 = new ProgrammeID(acronym1);
         SchoolYearID schoolYearID1 = new SchoolYearID();
         ProgrammeEditionID programmeEditionID1 = new ProgrammeEditionID(programmeID1, schoolYearID1);
 

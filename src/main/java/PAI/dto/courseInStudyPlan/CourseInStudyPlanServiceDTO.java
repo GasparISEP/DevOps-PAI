@@ -14,8 +14,6 @@ public record CourseInStudyPlanServiceDTO(
         String courseName,
         @NotBlank(message = "Programme acronym cannot be blank!")
         String programmeAcronym,
-        @NotBlank(message = "Programme Name is required")
-        String programmeName,
         @NotNull(message = "Date is required")
         String studyPlanDate,
         int duration,

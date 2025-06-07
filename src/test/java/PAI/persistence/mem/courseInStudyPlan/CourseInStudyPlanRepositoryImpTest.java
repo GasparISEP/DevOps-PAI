@@ -138,9 +138,8 @@ class CourseInStudyPlanRepositoryImpTest {
         Name names1 = new Name("Course");
         CourseID courseID1 = new CourseID(acronym1, names1);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars1 = new NameWithNumbersAndSpecialChars("Programme");
         Acronym programmeAcronym1 = new Acronym("PR");
-        ProgrammeID programmeID = new ProgrammeID(nameWithNumbersAndSpecialChars1, programmeAcronym1);
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym1);
         LocalDate localDate1 = LocalDate.of(2020, 1, 1);
         Date implementationDate1 = new Date(localDate1);
 
@@ -158,9 +157,8 @@ class CourseInStudyPlanRepositoryImpTest {
         Name names2 = new Name("Courses");
         CourseID courseID2 = new CourseID(acronym2, names2);
 
-        NameWithNumbersAndSpecialChars nameWithNumbersAndSpecialChars2 = new NameWithNumbersAndSpecialChars("Programm");
         Acronym programmeAcronym2 = new Acronym("PGR");
-        ProgrammeID programmeID2 = new ProgrammeID(nameWithNumbersAndSpecialChars2, programmeAcronym2);
+        ProgrammeID programmeID2 = new ProgrammeID(programmeAcronym2);
         LocalDate localDate2 = LocalDate.of(2024, 1, 1);
         Date implementationDate2 = new Date(localDate2);
 

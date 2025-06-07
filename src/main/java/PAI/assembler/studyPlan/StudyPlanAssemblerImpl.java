@@ -13,9 +13,8 @@ import java.time.LocalDate;
 public class StudyPlanAssemblerImpl implements IStudyPlanAssembler {
 
     public RegisterStudyPlanCommand toCommand(String programmeName, String programmeAcronym, LocalDate startDate) {
-        NameWithNumbersAndSpecialChars programmeNameVO = new NameWithNumbersAndSpecialChars(programmeName);
         Acronym programmeAcronymVO = new Acronym(programmeAcronym);
-        ProgrammeID programmeId = new ProgrammeID(programmeNameVO, programmeAcronymVO);
+        ProgrammeID programmeId = new ProgrammeID(programmeAcronymVO);
         Date startDateVO = new Date(startDate);
 
         return new RegisterStudyPlanCommand(programmeId, startDateVO);
@@ -27,17 +26,16 @@ public class StudyPlanAssemblerImpl implements IStudyPlanAssembler {
         MaxEcts maxEcts = studyPlan.getMaxEcts();
         DurationInYears durationInYears = studyPlan.getDurationInYears();
 
-        return new StudyPlanDTO(programmeId.getProgrammeName(), programmeId.getProgrammeAcronym(),
+        return new StudyPlanDTO(programmeId.getProgrammeAcronym(),
                     startDate.getLocalDate(), maxEcts.getMaxEcts(), durationInYears.getDurationInYears());
     }
 
     public StudyPlanResponseDTO toResponseDTO(StudyPlanDTO studyPlanDTO) {
-        String programmeName = studyPlanDTO.getProgrammeName();
         String programmeAcronym = studyPlanDTO.getProgrammeAcronym();
         LocalDate startDate = studyPlanDTO.getStartDate();
         int durationInYears = studyPlanDTO.getDurationInYears();
         int maxEcts = studyPlanDTO.getMaxEcts();
 
-        return new StudyPlanResponseDTO(programmeName, programmeAcronym, startDate, durationInYears, maxEcts);
+        return new StudyPlanResponseDTO(programmeAcronym, startDate, durationInYears, maxEcts);
     }
 }

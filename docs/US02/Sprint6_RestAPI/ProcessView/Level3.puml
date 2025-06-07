@@ -42,28 +42,8 @@ deactivate Repository
 Service -> Repository: saveAccessMethod (am)
 activate Repository #LightBlue 
 
-ref over Repository
-    Convert am to DataModel
-end
-
-
-
-
-participant ":IAccessMethodRepositorySpringData" as springDataRepository <<Component>>
-Repository -> springDataRepository: save (amDataModel)
-activate springDataRepository #LightBlue
-springDataRepository --> Repository : amDataModelSaved
-deactivate springDataRepository
-
-
-
-ref over Repository
-    Convert amDataModelSaved to Domain
-end
-
 Repository --> Service: amSaved
 deactivate Repository
-
 
 ref over Service
     Convert amSaved to amServiceDTO

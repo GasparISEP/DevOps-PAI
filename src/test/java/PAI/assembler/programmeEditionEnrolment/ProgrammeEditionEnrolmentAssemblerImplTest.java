@@ -34,7 +34,6 @@ public class ProgrammeEditionEnrolmentAssemblerImplTest {
         
         // Create test data
         ProgrammeID programmeId = new ProgrammeID(
-            new NameWithNumbersAndSpecialChars("Test Programme"),
             new Acronym("TP")
         );
         SchoolYearID schoolYearId = new SchoolYearID(UUID.randomUUID());

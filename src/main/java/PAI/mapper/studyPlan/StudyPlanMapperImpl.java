@@ -7,6 +7,8 @@ import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
@@ -29,19 +31,18 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
         MaxEcts maxECTS = studyPlan.getMaxEcts();
         DurationInYears durationInYears = studyPlan.getDurationInYears();
+        UUID uuid = studyPlan.getGeneratedID().getUUID();
 
-        return new StudyPlanDataModel(studyPlanIDDataModel, maxECTS, durationInYears);
+        return new StudyPlanDataModel(studyPlanIDDataModel, uuid, maxECTS, durationInYears);
     }
 
     public StudyPlan toDomain(StudyPlanDataModel studyPlanDataModel) throws Exception {
 
         StudyPlanID studyPlanID = _studyPlanIDMapper.toDomain(studyPlanDataModel.getStudyPlanIDDataModel());
 
-        NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getName());
-
         Acronym progAcronym = new Acronym(studyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID().getAcronym());
 
-        ProgrammeID programmeID = new ProgrammeID(progName, progAcronym);
+        ProgrammeID programmeID = new ProgrammeID(progAcronym);
 
         Date implementationDate = new Date(studyPlanDataModel.getStudyPlanIDDataModel().getImplementationDate());
 
@@ -49,6 +50,9 @@ public class StudyPlanMapperImpl implements IStudyPlanMapper {
 
         MaxEcts maxEcts = new MaxEcts(studyPlanDataModel.getMaxECTS());
 
-        return _studyPlanFactory.createStudyPlanFromDataModel(programmeID, implementationDate, durationInYears, maxEcts, studyPlanID);
+        UUID uuid = studyPlanDataModel.getUUID();
+        StudyPlanGeneratedID generatedID = new StudyPlanGeneratedID(uuid);
+
+        return _studyPlanFactory.createStudyPlanFromDataModel(programmeID, implementationDate, durationInYears, maxEcts, studyPlanID, generatedID);
     }
 }

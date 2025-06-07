@@ -254,7 +254,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnTrueWhenProgrammeIDsAreEqual() {
         // arrange
-        ProgrammeIDDataModel id = new ProgrammeIDDataModel("Name1", "ACR1");
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("ACR1");
 
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
@@ -272,8 +272,8 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnFalseWhenProgrammeIDsAreDifferent() {
         // arrange
-        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("Name1", "ACR1");
-        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("Name2", "ACR2");
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("ACR2");
 
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
@@ -290,7 +290,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnFalseWhenComparedWithNull() {
         //arrange
-        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("ACR");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -303,7 +303,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnFalseWhenComparedWithDifferentClass() {
         //arrange
-        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("ACR");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -318,7 +318,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnTrueWhenObjectsAreEqual() {
         //arrange
-        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("ACR");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -332,8 +332,8 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnFalseWhenObjectsAreNotEqual() {
         //arrange
-        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("name1", "ACR1");
-        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("name2", "ACR2");
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("ACR2");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -347,7 +347,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnEqualHashCodesForEqualObjects() {
         //arrange
-        ProgrammeIDDataModel id = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeIDDataModel id = new ProgrammeIDDataModel("ACR");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -361,8 +361,8 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnDifferentHashCodesForDifferentObjects() {
         //arrnage
-        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("name1", "ACR1");
-        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("name2", "ACR2");
+        ProgrammeIDDataModel id1 = new ProgrammeIDDataModel("ACR1");
+        ProgrammeIDDataModel id2 = new ProgrammeIDDataModel("ACR2");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);
@@ -377,7 +377,7 @@ public class ProgrammeDataModelTest {
     @Test
     void shouldReturnTrueWhenComparedWithItself() {
         //arrange
-        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("name", "ACR");
+        ProgrammeIDDataModel programmeID = new ProgrammeIDDataModel("ACR");
         DegreeTypeIDDataModel degreeTypeID = mock(DegreeTypeIDDataModel.class);
         DepartmentIDDataModel departmentID = mock(DepartmentIDDataModel.class);
         TeacherIDDataModel teacherID = mock(TeacherIDDataModel.class);

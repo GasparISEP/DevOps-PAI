@@ -56,7 +56,6 @@ public class StudentProgrammeEditionEnrolmentRestController {
         try {
             StudentID studentID = new StudentID(Integer.parseInt(request.getStudentId()));
             ProgrammeID programmeID = new ProgrammeID(
-                    new NameWithNumbersAndSpecialChars(request.getProgrammeName()),
                     new Acronym(request.getProgrammeAcronym())
             );
             SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(request.getSchoolYearId()));

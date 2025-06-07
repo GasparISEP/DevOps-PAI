@@ -8,18 +8,16 @@ import java.util.Objects;
 @Embeddable
 public class ProgrammeIDDataModel implements Serializable {
 
-    private String programmeName;
     private String programmeAcronym;
 
 
     public ProgrammeIDDataModel() {
     }
 
-    public ProgrammeIDDataModel(String name, String acronym) {
-        if (name == null | acronym == null) {
+    public ProgrammeIDDataModel(String acronym) {
+        if (acronym == null) {
             throw new IllegalArgumentException("Attributes cannot be null");
         }
-        this.programmeName = name;
         this.programmeAcronym = acronym;
     }
 
@@ -28,16 +26,11 @@ public class ProgrammeIDDataModel implements Serializable {
         if (this == objectToCompare) return true;
         if (!(objectToCompare instanceof ProgrammeIDDataModel)) return false;
         ProgrammeIDDataModel programmeIDDataModel = (ProgrammeIDDataModel) objectToCompare;
-        return programmeAcronym.equals(programmeIDDataModel.programmeAcronym) &&
-                programmeName.equals(programmeIDDataModel.programmeName);
+        return programmeAcronym.equals(programmeIDDataModel.programmeAcronym);
     }
 
     @Override
-    public int hashCode() {return Objects.hash(programmeAcronym, programmeName);}
-
-    public String getName() {
-        return programmeName;
-    }
+    public int hashCode() {return Objects.hash(programmeAcronym);}
 
     public String getAcronym() {
         return programmeAcronym;
