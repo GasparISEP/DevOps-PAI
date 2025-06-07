@@ -36,8 +36,8 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
     }
 
     @Override
-    public StudentID toStudentID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
-        return createStudentID(courseEditionEnrolmentDto.studentUniqueNumber());
+    public StudentID toStudentID(int studentUniqueNumber) throws Exception {
+        return createStudentID(studentUniqueNumber);
     }
 
     private StudentID createStudentID(int studentUniqueNumber) {
