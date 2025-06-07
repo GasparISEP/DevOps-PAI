@@ -37,7 +37,7 @@ public class ProgrammeEditionInitializer {
                 line = line.replace("\uFEFF", "");
                 String[] fields = line.split(",");
 
-                if (fields.length == 3) {
+                if (fields.length >= 2) {
                     try {
                         Acronym programmeAcronym = new Acronym(fields[0].trim());
                         UUID schoolYear = UUID.fromString(fields[1].trim());

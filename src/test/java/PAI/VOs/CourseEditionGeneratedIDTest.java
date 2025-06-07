@@ -61,7 +61,7 @@ class CourseEditionGeneratedIDTest {
         CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(uuid);
         CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(uuid);
 
-        //Act+Assert
+        //Act + Assert
         assertEquals(courseEditionId1.hashCode(), courseEditionId2.hashCode());
     }
 
@@ -71,7 +71,7 @@ class CourseEditionGeneratedIDTest {
         CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(UUID.randomUUID());
         CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(UUID.randomUUID());
 
-        //Act+Assert
+        //Act + Assert
         assertNotEquals(courseEditionId1.hashCode(), courseEditionId2.hashCode());
     }
 
@@ -81,16 +81,84 @@ class CourseEditionGeneratedIDTest {
         UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID();
 
-        //Act+Assert
+        //Act + Assert
         assertNotEquals(uuid.hashCode(), courseEditionId.hashCode());
     }
 
     @Test
     void shouldReturnCorrectStringRepresentationOfCourseEditionGeneratedID() {
+        //Arrange
         UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID(uuid);
+
+        //Act + Assert
         assertEquals(uuid.toString(), courseEditionId.toString());
     }
 
+
+    @Test
+    void shouldReturnTrueWhenComparingSameCourseEditionGeneratedID() {
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID(uuid);
+
+        //Act
+        boolean result = courseEditionId.equals(courseEditionId);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenComparingEqualCourseEditionGeneratedIDs() {
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(uuid);
+        CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(uuid);
+
+        //Act
+        boolean result= courseEditionId1.equals(courseEditionId2);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingDifferentCourseEditionGeneratedIDs() {
+        //Arrange
+        CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(UUID.randomUUID());
+        CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(UUID.randomUUID());
+
+        //Act
+        boolean result= courseEditionId1.equals(courseEditionId2);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingCourseEditionGeneratedIDWithNull() {
+        //Arrange
+        CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID(UUID.randomUUID());
+
+        //Act
+        boolean result= courseEditionId.equals(null);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenComparingCourseEditionGeneratedIDWithDifferentClass() {
+        //Arrange
+        CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID(UUID.randomUUID());
+        CourseGeneratedID courseGeneratedID = new CourseGeneratedID(UUID.randomUUID());
+
+        //Act
+        boolean result= courseEditionId.equals(courseGeneratedID);
+
+        //Assert
+        assertFalse(result);
+    }
 
 }
