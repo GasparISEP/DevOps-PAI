@@ -24,7 +24,9 @@ end legend
 
 class US01_ConfigureTeacherCategoryRESTController #E0FFFF{
       + US01_ConfigureTeacherCategoryController (service : ITeacherCategoryService)
-      + configureTeacherCategory(name: String): TeacherCategoryResponseDTO
+      + configureTeacherCategory(name: String): EntityModel<TeacherCategoryResponseDTO>
+      + getTeacherCategoryById (id: String): TeacherCategoryResponseDTO
+      + getAllTeacherCategories (): Iterable<TeacherCategoryResponseDTO>
 }
 
 ' ======= SERVICE =======

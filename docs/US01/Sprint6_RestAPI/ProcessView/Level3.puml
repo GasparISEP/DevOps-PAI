@@ -13,7 +13,7 @@ participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
 
--> router: POST /teachercategories + body {"name": "Assistant"}
+-> router: POST /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
 router -> controller: configureTeacherCategory (tcRequestDTO)
