@@ -98,7 +98,7 @@ Backend --> Frontend: 201 Created + body
 note over Backend, Frontend #HoneyDew
 Response body (JSON) + hypermedia:
 {
-  courseInStudyPlanGeneratedID: "..."
+  courseInStudyPlanID: "..."
   semester: "...",
   curricularYear: "...",
   ...
