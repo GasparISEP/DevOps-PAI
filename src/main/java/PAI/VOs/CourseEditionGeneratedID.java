@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class CourseEditionGeneratedID {
@@ -22,4 +23,8 @@ public class CourseEditionGeneratedID {
         return _courseEditionID;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(_courseEditionID);
+    }
 }

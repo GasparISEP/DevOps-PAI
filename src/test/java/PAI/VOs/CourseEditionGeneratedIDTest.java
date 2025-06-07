@@ -53,4 +53,37 @@ class CourseEditionGeneratedIDTest {
         assertEquals(uuid, returnedID);
     }
 
+
+    @Test
+    void shouldReturnSameHashCodeForEqualCourseEditionGeneratedIDs() {
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(uuid);
+        CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(uuid);
+
+        //Act+Assert
+        assertEquals(courseEditionId1.hashCode(), courseEditionId2.hashCode());
+    }
+
+    @Test
+    void shouldReturnDifferentHashCodeForDifferentCourseEditionGeneratedIDs() {
+        //Arrange
+        CourseEditionGeneratedID courseEditionId1 = new CourseEditionGeneratedID(UUID.randomUUID());
+        CourseEditionGeneratedID courseEditionId2 = new CourseEditionGeneratedID(UUID.randomUUID());
+
+        //Act+Assert
+        assertNotEquals(courseEditionId1.hashCode(), courseEditionId2.hashCode());
+    }
+
+    @Test
+    void shouldReturnFalseHashCodeForCourseEditionGeneratedID() {
+        //Arrange
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID();
+
+        //Act+Assert
+        assertNotEquals(uuid.hashCode(), courseEditionId.hashCode());
+    }
+
+
 }
