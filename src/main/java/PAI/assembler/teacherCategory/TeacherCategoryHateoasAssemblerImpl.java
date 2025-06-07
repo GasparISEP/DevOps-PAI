@@ -20,7 +20,10 @@ public class TeacherCategoryHateoasAssemblerImpl implements
             return EntityModel.of(dto,
                     linkTo(methodOn(TeacherCategoryRestController.class)
                             .getTeacherCategoryById(dto.id()))
-                            .withSelfRel()
+                            .withSelfRel(),
+                    linkTo(methodOn(TeacherCategoryRestController.class)
+                            .getAllTeacherCategories())
+                            .withRel("all")
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
