@@ -8,8 +8,7 @@ class StudentResponseDTOTest {
 
     @Test
     void shouldCreateStudentResponseDTO() {
-
-        //Arrange
+        // Arrange
         int studentID = 1234567;
         String studentName = "Paulo";
         String nif = "123456789";
@@ -18,28 +17,31 @@ class StudentResponseDTOTest {
         String postalCode = "1234-000";
         String location = "Coimbra";
         String addressCountry = "Portugal";
-        String phoneCountryCode = "+351";
+        String countryCode = "+351";
         String phoneNumber = "987654321";
         String email = "paulo.andre@mail.pt";
-        String acamedicEmail = "1234567.isep.ipp.pt";
+        String academicEmail = "1234567.isep.ipp.pt";
 
-        //Act
-        StudentResponseDTO result = new StudentResponseDTO(studentID, studentName, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email, acamedicEmail);
+        // Act
+        StudentResponseDTO result = new StudentResponseDTO(
+                studentID, studentName, nif, nifCountry,
+                street, postalCode, location, addressCountry,
+                countryCode, phoneNumber, email, academicEmail
+        );
 
-        //Assert
+        // Assert
         assertNotNull(result);
         assertEquals(studentID, result.getStudentID());
         assertEquals(studentName, result.getName());
-        assertEquals(nif, result.getNIF());
-        assertEquals(nifCountry, result.getNIFCountry());
+        assertEquals(nif, result.getNif());
+        assertEquals(nifCountry, result.getNifCountry());
         assertEquals(street, result.getStreet());
         assertEquals(postalCode, result.getPostalCode());
         assertEquals(location, result.getLocation());
         assertEquals(addressCountry, result.getAddressCountry());
-        assertEquals(phoneCountryCode, result.getPhoneCountryCode());
+        assertEquals(countryCode, result.getCountryCode());
         assertEquals(phoneNumber, result.getPhoneNumber());
         assertEquals(email, result.getEmail());
-        assertEquals(acamedicEmail, result.getAcademicEmail());
-
+        assertEquals(academicEmail, result.getAcademicEmail());
     }
 }

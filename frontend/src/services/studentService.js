@@ -13,18 +13,20 @@ export async function registerStudent(studentDTO) {
 
     if (!response.ok) {
         let errBody;
-        if (contentType.includes('application/json')) {
+        if (contentType.includes('application/json') || contentType.includes('application/hal+json')) {
             errBody = await response.json();
         } else {
             const text = await response.text();
-            errBody = {message: text};
+            errBody = { message: text };
         }
         const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
         throw new Error(errMsg);
     }
-    if (contentType.includes('application/json')) {
-        return response.json();
-    } else {
-        return response.text();
-    }
+
+
+    const isJson = contentType.includes('application/json') || contentType.includes('application/hal+json');
+    const result = isJson ? await response.json() : await response.text();
+
+    console.log("[DEBUG] Resposta do backend:", result);
+    return result;
 }

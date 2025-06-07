@@ -1,35 +1,61 @@
 package PAI.dto.student;
 
-public class StudentResponseDTO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 
-    private int studentID;
-    private String _name;
-    private String _NIF;
-    private String _NIFCountry;
-    private String _street;
-    private String _postalCode;
-    private String _location;
-    private String _addressCountry;
-    private String _phoneCountryCode;
-    private String _phoneNumber;
-    private String _email;
-    private String _academicEmail;
+public class StudentResponseDTO extends RepresentationModel<StudentResponseDTO> {
 
-    public StudentResponseDTO(int studentID, String name, String NIF, String NIFCountry, String street, String postalCode,
-                              String location, String addressCountry, String phoneCountryCode, String phoneNumber, String email, String academicEmail) {
+    @JsonProperty("studentID")
+    private final int studentID;
 
+    @JsonProperty("name")
+    private final String name;
+
+    @JsonProperty("nif")
+    private final String nif;
+
+    @JsonProperty("nifCountry") // Corrigido
+    private final String nifCountry;
+
+    @JsonProperty("street")
+    private final String street;
+
+    @JsonProperty("postalCode")
+    private final String postalCode;
+
+    @JsonProperty("location")
+    private final String location;
+
+    @JsonProperty("addressCountry") // Corrigido
+    private final String addressCountry;
+
+    @JsonProperty("countryCode") // Corrigido (em vez de phoneCountryCode)
+    private final String countryCode;
+
+    @JsonProperty("phoneNumber")
+    private final String phoneNumber;
+
+    @JsonProperty("email")
+    private final String email;
+
+    @JsonProperty("academicEmail")
+    private final String academicEmail;
+
+    public StudentResponseDTO(int studentID, String name, String nif, String nifCountry, String street, String postalCode,
+                              String location, String addressCountry, String countryCode, String phoneNumber,
+                              String email, String academicEmail) {
         this.studentID = studentID;
-        this._name = name;
-        this._NIF = NIF;
-        this._NIFCountry = NIFCountry;
-        this._street = street;
-        this._postalCode = postalCode;
-        this._location = location;
-        this._addressCountry = addressCountry;
-        this._phoneCountryCode = phoneCountryCode;
-        this._phoneNumber = phoneNumber;
-        this._email = email;
-        this._academicEmail = academicEmail;
+        this.name = name;
+        this.nif = nif;
+        this.nifCountry = nifCountry;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.location = location;
+        this.addressCountry = addressCountry;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.academicEmail = academicEmail;
     }
 
     public int getStudentID() {
@@ -37,47 +63,46 @@ public class StudentResponseDTO {
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
-    public String getNIF() {
-        return _NIF;
+    public String getNif() {
+        return nif;
     }
 
-    public String getNIFCountry() {
-        return _NIFCountry;
+    public String getNifCountry() {
+        return nifCountry;
     }
 
     public String getStreet() {
-        return _street;
+        return street;
     }
 
     public String getPostalCode() {
-        return _postalCode;
+        return postalCode;
     }
 
     public String getLocation() {
-        return _location;
+        return location;
     }
 
     public String getAddressCountry() {
-        return _addressCountry;
+        return addressCountry;
     }
 
-    public String getPhoneCountryCode() {
-        return _phoneCountryCode;
+    public String getCountryCode() {
+        return countryCode;
     }
 
     public String getPhoneNumber() {
-        return _phoneNumber;
+        return phoneNumber;
     }
 
     public String getEmail() {
-        return _email;
+        return email;
     }
 
     public String getAcademicEmail() {
-        return _academicEmail;
+        return academicEmail;
     }
-
 }
