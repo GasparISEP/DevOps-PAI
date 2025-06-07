@@ -1,0 +1,96 @@
+@startuml
+
+title US14: As an HRC, I want to update the teacher's category in the system \n (Process View - Level 2 - Containers)
+
+skinparam componentStyle component
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor HRC as admin
+participant ":Frontend" as frontend <<Container>>
+participant ":Backend" as backend <<Container>>
+participant ":Database" as db <<Container>>
+
+
+admin -> frontend: I want to update teacher's category!
+activate frontend #E1F5FE
+
+frontend -> backend: GET /teachers/ids
+activate backend #E1F5FE
+
+backend -> db: SELECT id FROM teacher
+activate db #E1F5FE
+db --> backend: teacherIDs
+deactivate db
+
+backend --> frontend: 200 + body {"teacherIDs": "AAA, ABC, ..."}
+deactivate backend
+
+frontend --> admin: What teacher?
+deactivate frontend
+
+admin -> frontend: Enter teacher acronym!
+activate frontend #E1F5FE
+
+frontend -> backend: GET /teacher-categories
+activate backend #E1F5FE
+backend -> db: SELECT * FROM teacherCategory
+activate db #E1F5FE
+db --> backend: teacherCategories
+deactivate db
+backend --> frontend: 200 + \n body {"teacherCategories" : "Assistant, Professor Auxiliar, ..."}
+deactivate backend
+
+frontend --> admin: What teacher category?
+deactivate frontend
+
+admin -> frontend: Enter teacher category!
+activate frontend #E1F5FE
+
+frontend --> admin: What date?
+deactivate frontend
+
+admin -> frontend: Date!
+activate frontend #E1F5FE
+
+frontend --> admin: Sure?
+deactivate frontend
+
+admin -> frontend: Yes!
+activate frontend #E1F5FE
+
+note over backend #E0E0E0
+  Body:
+    {"teacherId": "AAA",
+     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+     "date": "2025-07-01"
+    }
+end note
+
+frontend -> backend: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
+activate backend #E1F5FE
+
+note over db #E0E0E0
+  Values:
+    {"id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
+     "teacherId": "AAA",
+     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+     "date": "2025-07-01"
+    }
+end note
+
+backend -> db: INSERT INTO teacherCareerProgression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+activate db #E1F5FE
+
+db --> backend: teacherCareerProgression
+deactivate db
+
+backend --> frontend: 201 + body {updateTeacherCategoryResponseDTO + hypermedia}
+deactivate backend
+
+<-- frontend : Ok!
+deactivate frontend
+
+@enduml
