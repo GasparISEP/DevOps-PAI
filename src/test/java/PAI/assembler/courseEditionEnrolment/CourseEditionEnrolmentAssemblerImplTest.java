@@ -21,11 +21,10 @@ class CourseEditionEnrolmentAssemblerImplTest {
     @Test
     void toStudentID_shouldReturnCorrectStudentID() throws Exception {
         // Arrange
-        CourseEditionEnrolmentDto dto = mock(CourseEditionEnrolmentDto.class);
-        when(dto.studentUniqueNumber()).thenReturn(1100000);
+        int studentUniqueNumber = 1100000;
 
         // Act
-        StudentID studentID = assembler.toStudentID(dto);
+        StudentID studentID = assembler.toStudentID(studentUniqueNumber);
 
         // Assert
         assertNotNull(studentID);

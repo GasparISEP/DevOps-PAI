@@ -22,9 +22,9 @@ class ProgrammeEnrolmentMapperTest {
         ProgrammeID pid = new ProgrammeID(acronymVo);
         LocalDate localDate = LocalDate.of(2025, 5, 20);
         Date dateVo = new Date(localDate);
+        ProgrammeEnrolmentGeneratedID enrolmentGID = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
 
-
-        ProgrammeEnrolment enrolment = new ProgrammeEnrolment(sid, aid, pid, dateVo);
+        ProgrammeEnrolment enrolment = new ProgrammeEnrolment(sid, aid, pid, dateVo, enrolmentGID);
 
         // Act
         ProgrammeEnrolmentAssembler mapper = new ProgrammeEnrolmentAssembler();
