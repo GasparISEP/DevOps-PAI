@@ -228,8 +228,8 @@ class CourseEditionRestControllerTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                dto.programmeName(), dto.programmeAcronym(), dto.schoolYearID(),
-                dto.courseAcronym(), dto.courseName(), dto.studyPlanImplementationDate()
+                new NameWithNumbersAndSpecialChars(dto.programmeName()), new Acronym(dto.programmeAcronym()), new SchoolYearID(dto.schoolYearID()),
+                new Acronym (dto.courseAcronym()), new Name(dto.courseName()), new Date(dto.studyPlanImplementationDate())
         );
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(

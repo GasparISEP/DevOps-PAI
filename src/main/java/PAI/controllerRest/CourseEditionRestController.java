@@ -108,21 +108,21 @@ public CourseEditionRestController(
     public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
-            ProgrammeID programmeID = new ProgrammeID(
-                    new Acronym(command.programmeAcronym()));
+
+            ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
 
             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
-                    new CourseID(
-                            new Acronym(command.courseAcronym()),
-                            new Name(command.courseName())),
-                    new StudyPlanID(programmeID, new Date(command.studyPlanImplementationDate())));
+                    new CourseID(command.courseAcronym(), command.courseName()),
+                    new StudyPlanID(programmeID, new Date(String.valueOf(command.studyPlanImplementationDate())))
+            );
 
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
                     programmeID,
-                    new SchoolYearID(command.schoolYearID()));
+                    command.schoolYearID()
+            );
 
-            CourseEditionResponseDTO responseDTO = createCourseEditionService
-                    .createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+            CourseEditionResponseDTO responseDTO =
+                    createCourseEditionService.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
             if (responseDTO == null) {
                 return ResponseEntity.badRequest().build();
@@ -136,6 +136,7 @@ public CourseEditionRestController(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 
     @PatchMapping("/ruc")
     public ResponseEntity<?> defineRucForCourseEdition(@RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
