@@ -22,10 +22,10 @@ activate backend #E1F5FE
 
 backend -> db: SELECT id FROM teacher
 activate db #E1F5FE
-db --> backend: teacherIDs
+db --> backend: teacherIDs: List<TeacherIDs>
 deactivate db
 
-backend --> frontend: 200 + body {"teacherIDs": "AAA, ABC, ..."}
+backend --> frontend: 200 + body {List<TeacherIDResponseDTO>}
 deactivate backend
 
 frontend --> admin: What teacher?
@@ -38,9 +38,9 @@ frontend -> backend: GET /teacher-categories
 activate backend #E1F5FE
 backend -> db: SELECT * FROM teacherCategory
 activate db #E1F5FE
-db --> backend: teacherCategories
+db --> backend: teacherCategories: Iterable<TeacherCategory>
 deactivate db
-backend --> frontend: 200 + \n body {"teacherCategories" : "Assistant, Professor Auxiliar, ..."}
+backend --> frontend: 200 + body {Iterable<TeacherCategoryResponseDTO>}
 deactivate backend
 
 frontend --> admin: What teacher category?
@@ -62,7 +62,7 @@ admin -> frontend: Yes!
 activate frontend #E1F5FE
 
 note over backend #E0E0E0
-  Body:
+  body:
     {"teacherId": "AAA",
      "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
      "date": "2025-07-01"

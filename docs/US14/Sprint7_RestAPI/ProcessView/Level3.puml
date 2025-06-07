@@ -1,0 +1,108 @@
+@startuml
+
+title US14: As an HRC, I want to update the teacher's category in the system \n (Process View - Level 3 - Backend)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router <<Component>>
+participant ":RESTController" as controller <<Component>>
+participant ":Service" as service <<Component>>
+participant ":Repository" as repository <<Component>>
+participant ":Domain" as domain <<Component>>
+
+' findAllTeacherIDs method '
+
+-> router: GET /teachers/ids
+activate router #E1F5FE
+
+router -> controller: findAllTeacherIDs ()
+activate controller #E1F5FE
+
+controller -> service: findAllTeacherIDs ()
+activate service #E1F5FE
+
+service -> repository: findAllTeacherIDs ()
+activate repository #E1F5FE
+
+repository --> service: teacherIDs: List<TeacherIDs>
+deactivate repository
+
+service --> controller: teacherIDs: List<TeacherIDs>
+deactivate service
+
+controller --> router: 200 + body {List<TeacherIDResponseDTO>}
+deactivate controller
+
+<-- router: 200 + body {List<TeacherIDResponseDTO>}
+deactivate router
+
+' getAllTeacherCategories method '
+
+-> router: GET /teacher-categories
+activate router #E1F5FE
+
+router -> controller: getAllTeacherCategories ()
+activate controller #E1F5FE
+
+controller -> service: getAllTeacherCategories ()
+activate service #E1F5FE
+
+service -> repository: findAll ()
+activate repository #E1F5FE
+
+repository --> service: teacherCategories: Iterable<TeacherCategories>
+deactivate repository
+
+service --> controller: teacherCategories: Iterable<TeacherCategories>
+deactivate service
+
+controller --> router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+deactivate controller
+
+<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+deactivate router
+
+' updateTeacherCategory method '
+
+-> router: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
+activate router #E1F5FE
+
+note over router #E0E0E0
+  body:
+    {"teacherId": "AAA",
+     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+     "date": "2025-07-01"
+    }
+end note
+
+router -> controller: updateTeacherCategory (teacherId, requestDTO)
+activate controller #E1F5FE
+
+controller -> service: updateTeacherCategory (command)
+activate service #E1F5FE
+
+service -> domain: createTeacherCareerProgression \n (date, teacherCategoryID, workingPercentage, teacherID)
+activate domain #E1F5FE
+
+domain --> service: teacherCareerProgression
+deactivate domain
+
+service -> repository: save (teacherCareerProgression)
+activate repository #E1F5FE
+
+repository --> service: teacherCareerProgressionSaved
+deactivate repository
+
+service --> controller: teacherCareerProgressionSavedDTO
+deactivate service
+
+controller --> router: 201 + \n body {teacherCareerProgressionResponseDTO + hypermedia}
+deactivate controller
+
+<-- router: 201 + \n body {teacherCareerProgressionResponseDTO + hypermedia}
+deactivate router
+
+@enduml
