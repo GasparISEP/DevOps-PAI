@@ -1,11 +1,14 @@
 @startuml
 
 title US18 \n As an ASC, I want to create a programme edition for the current school year \n Process View - Level 2 Granularity
-skinparam componentStyle component
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
 skinparam defaultTextAlignment center
 skinparam shadowing true
-
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
 autonumber
+
 
 participant ":Frontend" as frontend <<Component>>
 participant ":Backend" as backend <<Component>>
