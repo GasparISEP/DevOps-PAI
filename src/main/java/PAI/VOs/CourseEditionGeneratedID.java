@@ -18,4 +18,8 @@ public class CourseEditionGeneratedID {
         this._courseEditionID = _courseEditionID;
     }
 
+    public UUID getCourseEditionGeneratedID() {
+        return _courseEditionID;
+    }
+
 }
