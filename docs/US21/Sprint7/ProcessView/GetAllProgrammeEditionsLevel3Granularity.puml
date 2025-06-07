@@ -1,0 +1,50 @@
+@startuml
+
+title Get All Programme Editions\n (Process View - Level 3 Backend)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router <<Component>>
+participant ":ProgrammeEditionRESTController" as controller <<Component>>
+participant ":ProgrammeEditionService" as service <<Component>>
+participant ":Domain" as domain <<Component>>
+participant ":IProgrammeEditionRepository" as repository <<Component>>
+
+-> router: GET /programmeEditions + body {}
+activate router #E1F5FE
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+router -> controller :getAllProgrammeEditions()
+activate controller#E1F5FE
+
+controller -> service : getAllProgrammeEditions()
+activate service#E1F5FE
+
+service -> repository: findAllProgrammeEditions()
+activate repository #E1F5FE
+
+repository --> service:List<ProgrammeEdition> programmeEditions
+deactivate repository
+
+ref over service
+    Convert List<ProgrammeEdition> to List<PEServiceDTO>
+end
+service --> controller : List<PEServiceDTO> PEServiceDTO
+deactivate service
+ref over controller
+    Convert List<PEServiceDTO> to List<ProgrammeEditionIdDto>
+end
+controller --> router: 200 + body\n {List<ProgrammeEditionIdDto> + hypermedia}
+deactivate controller#E1F5FE
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+
+<-- router: 200 + body\n {List<ProgrammeEditionIdDto> + hypermedia}
+deactivate router #E1F5FE
+
+@enduml
