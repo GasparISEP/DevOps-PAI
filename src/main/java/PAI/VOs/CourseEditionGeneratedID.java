@@ -32,4 +32,12 @@ public class CourseEditionGeneratedID {
     public String toString() {
         return _courseEditionID.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseEditionGeneratedID that = (CourseEditionGeneratedID) o;
+        return _courseEditionID.equals(that._courseEditionID);
+    }
 }
