@@ -13,6 +13,17 @@ public class CourseInStudyPlanGeneratedID {
         this.id = id;
     }
 
+    public static CourseInStudyPlanGeneratedID randomID() {
+        return new CourseInStudyPlanGeneratedID(UUID.randomUUID());
+    }
+
+    public static CourseInStudyPlanGeneratedID fromString(String idStr) {
+        if (idStr == null || idStr.isEmpty()) {
+            throw new IllegalArgumentException("ID string cannot be null or empty");
+        }
+        return new CourseInStudyPlanGeneratedID(UUID.fromString(idStr));
+    }
+
     public UUID getId() {
         return id;
     }
