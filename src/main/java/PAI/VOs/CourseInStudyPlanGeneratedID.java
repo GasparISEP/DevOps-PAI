@@ -1,5 +1,6 @@
 package PAI.VOs;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class CourseInStudyPlanGeneratedID {
@@ -26,5 +27,23 @@ public class CourseInStudyPlanGeneratedID {
 
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CourseInStudyPlanGeneratedID)) return false;
+        CourseInStudyPlanGeneratedID that = (CourseInStudyPlanGeneratedID) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return id.toString();
     }
 }

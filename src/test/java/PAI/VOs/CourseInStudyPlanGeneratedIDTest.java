@@ -55,4 +55,45 @@ class CourseInStudyPlanGeneratedIDTest {
         );
         assertEquals("ID string cannot be null or empty", exception.getMessage());
     }
+
+    @Test
+    void equals_shouldReturnTrueForSameObject() {
+        CourseInStudyPlanGeneratedID id = CourseInStudyPlanGeneratedID.randomID();
+        assertTrue(id.equals(id));
+    }
+
+    @Test
+    void equals_shouldReturnFalseForNull() {
+        CourseInStudyPlanGeneratedID id = CourseInStudyPlanGeneratedID.randomID();
+        assertFalse(id.equals(null));
+    }
+
+    @Test
+    void equals_shouldReturnFalseForDifferentClass() {
+        CourseInStudyPlanGeneratedID id = CourseInStudyPlanGeneratedID.randomID();
+        assertFalse(id.equals("some string"));
+    }
+
+    @Test
+    void equals_shouldReturnTrueForSameUUID() {
+        UUID uuid = UUID.randomUUID();
+        CourseInStudyPlanGeneratedID id1 = new CourseInStudyPlanGeneratedID(uuid);
+        CourseInStudyPlanGeneratedID id2 = new CourseInStudyPlanGeneratedID(uuid);
+        assertTrue(id1.equals(id2));
+        assertEquals(id1.hashCode(), id2.hashCode());
+    }
+
+    @Test
+    void equals_shouldReturnFalseForDifferentUUID() {
+        CourseInStudyPlanGeneratedID id1 = new CourseInStudyPlanGeneratedID(UUID.randomUUID());
+        CourseInStudyPlanGeneratedID id2 = new CourseInStudyPlanGeneratedID(UUID.randomUUID());
+        assertFalse(id1.equals(id2));
+    }
+
+    @Test
+    void toString_shouldReturnUUIDString() {
+        UUID uuid = UUID.randomUUID();
+        CourseInStudyPlanGeneratedID id = new CourseInStudyPlanGeneratedID(uuid);
+        assertEquals(uuid.toString(), id.toString());
+    }
 }
