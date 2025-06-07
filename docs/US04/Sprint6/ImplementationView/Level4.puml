@@ -1,0 +1,320 @@
+@startuml
+skinparam linetype ortho
+skinparam ranksep 300
+skinparam nodesep 300
+skinparam packageBorderColor #F0B0B0
+skinparam arrowThickness 1
+left to right direction
+
+
+title US04: \n As an Administrator, I want to register a teacher in the system. \nImplementation View Level 4
+
+package US04 {
+'--- Controller ---
+package controller {
+  class TeacherRestController <<restController>> {
+    teacherRegistrationService: ITeacherRegistrationService
+    teacherAssembler: ITeacherAssembler
+    teacherCareerProgressionService: ITeacherCareerProgressionServiceV2
+    teacherCareerProgressionAssembler: ITeacherCareerProgressionAssembler
+    teacherWithRelevantDataService: ITeacherWithRelevantDataService
+    teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler
+    updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler
+
+    + getAllTeachers(): ResponseEntity<?>
+    + registerTeacher(RegisterTeacherRequestDTO): ResponseEntity<?>
+    + getTeacherById(String): ResponseEntity<?>
+    + updateTeacherCategory(UpdateTeacherCategoryRequestDTO): ResponseEntity<?>
+    + updateTeacherWorkingPercentage(String, UpdateTeacherWorkingPercentageRequestDTO): ResponseEntity<?>
+    + registerTeacherWithRelevantData(TeacherWithRelevantDataRequestDTO): ResponseEntity<?>
+  }
+}
+
+'--- Assembler ---
+package assembler {
+interface ITeacherAssembler << interface >> {
+  + toRegisterTeacherCommandDTO(RegisterTeacherRequestDTO): RegisterTeacherCommandDTO
+  + toDTO(Teacher): TeacherDTO
+  + toDTOs(Iterable<Teacher>): Iterable<TeacherDTO>
+  + fromStringToTeacherID(String): TeacherID
+}
+
+class TeacherAssemblerImpl {
+  + toRegisterTeacherCommandDTO(RegisterTeacherRequestDTO): RegisterTeacherCommandDTO
+  + toDTO(Teacher): TeacherDTO
+  + toDTOs(Iterable<Teacher>): Iterable<TeacherDTO>
+  + fromStringToTeacherID(String): TeacherID
+}
+
+
+
+}
+
+package dto {
+class TeacherDTO << record >> {
+  + id(): String
+  + name(): String
+  + email(): String
+  + nif(): String
+  + countryCode(): String
+  + phoneNumber(): String
+  + academicBackground(): String
+  + street(): String
+  + postalCode(): String
+  + location(): String
+  + country(): String
+  + departmentID(): String
+}
+class RegisterTeacherRequestDTO << record >> {
+  + id(): String
+  + name(): String
+  + email(): String
+  + nif(): String
+  + countryCode(): String
+  + phoneNumber(): String
+  + academicBackground(): String
+  + street(): String
+  + postalCode(): String
+  + location(): String
+  + country(): String
+  + departmentID(): String
+}
+class RegisterTeacherCommandDTO << record >> {
+  + id(): TeacherID
+  + name(): Name
+  + email(): Email
+  + nif(): NIF
+  + phoneNumber(): PhoneNumber
+  + academicBackground(): AcademicBackground
+  + street(): Street
+  + postalCode(): PostalCode
+  + location(): Location
+  + country(): Country
+  + departmentID(): TeacherID
+}
+
+}
+
+'--- Services & Interfaces ---
+package Service {
+    'skinparam PackageBorderColor White
+    interface ITeacherRegistrationService << interface >> {
+      + createAndSaveTeacher(RegisterTeacherCommandDTO): Teacher
+      + getAllTeachers(): Iterable<Teacher>
+      + getTeacherById(TeacherID): Optional<Teacher>
+    }
+    class TeacherRegistrationServiceImpl {
+      teacherFactory: ITeacherFactory
+      teacherRepository: ITeacherRepository
+      + createAndSaveTeacher(RegisterTeacherCommandDTO): Teacher
+      + getAllTeachers(): Iterable<Teacher>
+      + getTeacherById(TeacherID): Optional<Teacher>
+    }
+}
+
+'--- DOMAIN ---
+package Domain {
+
+'--- Factories & Interfaces ---
+package Factory {
+    together{
+    interface ITeacherFactory << interface >> {
+      + createTeacher(TeacherID, Name, Email, NIF, PhoneNumber, AcademicBackground, Street, PostalCode, Location, Country, TeacherID): Teacher
+    }
+
+    class TeacherFactoryImpl {
+      + createTeacher(TeacherID, Name, Email, NIF, PhoneNumber, AcademicBackground, Street, PostalCode, Location, Country, TeacherID): Teacher
+    }
+    }
+}
+'--- Teacher Aggregate ---
+package Aggregate {
+entity Teacher <<root>> {
+  + equals(Object): boolean
+  + identity(): TeacherID
+  + hashCode(): int
+  + sameAs(Object): boolean
+  _teacherID: TeacherID
+  _name: Name
+  _email: Email
+  _nif: NIF
+  _phoneNumber: PhoneNumber
+  _academicBackground: AcademicBackground
+  _address: Address
+  _departmentID: TeacherID
+  _teacherAcademicEmail: TeacherAcademicEmail
+  + isInDepartment(DepartmentID): boolean
+  + hasThisNIF(NIF): boolean
+  + getTeacherID(): TeacherID
+  + getName(): Name
+  + getEmail(): Email
+  + getNIF(): NIF
+  + getPhoneNumber(): PhoneNumber
+  + getAcademicBackground(): AcademicBackground
+  + getAddress(): Address
+  + getDepartmentID(): TeacherID
+  + getTeacherAcademicEmail(): TeacherAcademicEmail
+}
+
+class TeacherAcronym << valueObject >> {
+  + equals(Object): boolean
+  + hashCode(): int
+   acronym: String
+}
+class TeacherID << valueObject >>{
+  + hashCode(): int
+  + equals(Object): boolean
+   acronym: TeacherAcronym
+}
+class Name << valueObject >>{
+  + hashCode(): int
+  + equals(Object): boolean
+  - isNameValid(String): boolean
+   name: String
+}
+}
+'--- Repository IREPO---
+package Repository {
+  interface ITeacherRepository << interface >> {
+    + existsByTeacherIdOrNif(TeacherID, NIF): boolean
+    + containsOfIdentity(TeacherID): boolean
+    + save(Teacher): Teacher
+    + findAll(): List<Teacher>
+    + ofIdentity(TeacherID): Optional<Teacher>
+  }
+  }
+}
+package Persistence {
+  '--- Mappers ---
+  package Mapper {
+    interface ITeacherIDMapper << interface >> {
+      + toDomain(TeacherIDDataModel): TeacherID
+      + toDataModel(TeacherID): TeacherIDDataModel
+    }
+    class TeacherIDMapperImpl {
+      + toDomain(TeacherIDDataModel): TeacherID
+      + toDataModel(TeacherID): TeacherIDDataModel
+    }
+
+    interface ITeacherMapper << interface >> {
+      + toDataModel(Teacher): TeacherDataModel
+      + toDomain(TeacherDataModel): Teacher
+      + listToDomain(Iterable<TeacherDataModel>): Iterable<Teacher>
+    }
+    class TeacherMapperImpl {
+      + toDataModel(Teacher): TeacherDataModel
+      + toDomain(TeacherDataModel): Teacher
+      + listToDomain(Iterable<TeacherDataModel>): Iterable<Teacher>
+       departmentFactory: ITeacherFactory
+    }
+  }
+
+    '--- Data Models ---
+    package DataModel {
+    class TeacherDataModel <<dataModel>> {
+      - teacherId: TeacherIDDataModel
+      - name: String
+      - email: String
+      - nif: NIFDataModel
+      - phoneNumber: PhoneNumberDataModel
+      - academicBackground: String
+      - address: AddressDataModel
+      - academicEmail: TeacherAcademicEmailDataModel
+      - departmentID: TeacherIDDataModel
+      + getTeacherIDDataModel(): TeacherIDDataModel
+      + getName(): String
+      + getEmail(): String
+      + getNif(): NIFDataModel
+      + getPhoneNumber(): PhoneNumberDataModel
+      + getAcademicBackground(): String
+      + getAddress(): AddressDataModel
+      + getDepartmentID(): TeacherIDDataModel
+      + getTeacherAcademicEmail(): TeacherAcademicEmailDataModel
+    }
+
+
+    class TeacherIDDataModel <<dataModel>> {
+      - teacherAcronym: String
+      + getTeacherAcronym(): String
+      + equals(Object): boolean
+      + hashCode(): int
+    }
+    }
+    '--- Repositories ---
+package RepositorySpringData {
+  interface ITeacherRepositorySpringData << interface >> {
+    + existsByTeacherIdOrNif(TeacherIDDataModel, NIFDataModel): boolean
+    + findByTeacherId(TeacherIDDataModel): Optional<TeacherDataModel>
+    + findByDepartmentID(DepartmentIDDataModel): Iterable<TeacherDataModel>
+    + save(TeacherDataModel): TeacherDataModel
+    + findAll(): List<TeacherDataModel>
+    + existsById(TeacherIDDataModel): boolean
+    + findById(TeacherIDDataModel): Optional<TeacherDataModel>
+  }
+  class TeacherRepositorySpringDataImpl {
+    iTeacherRepositorySpringData: ITeacherRepositorySpringData
+    teacherMapper: ITeacherMapper
+    teacherIDMapper: ITeacherIDMapper
+    nifMapper: INIFMapper
+    departmentIDMapper: ITeacherIDMapper
+
+    + save(Teacher): Teacher
+    + findAll(): List<Teacher>
+    + ofIdentity(TeacherID): Optional<Teacher>
+    + containsOfIdentity(TeacherID): boolean
+    + existsByTeacherIdOrNif(TeacherID, NIF): boolean
+    + findAllByDepartmentId(DepartmentID): Iterable<Teacher>
+  }
+}
+}
+
+
+
+RegisterTeacherRequestDTO <-left- TeacherRestController : "«create»"
+TeacherRestController "1" .right.> ITeacherAssembler : "uses"
+TeacherRestController "1" .right.> ITeacherRegistrationService : "uses"
+
+TeacherAssemblerImpl -right-> TeacherAcronym : "«create»"
+TeacherAssemblerImpl -right-> TeacherDTO : "«create»"
+TeacherAssemblerImpl -right-> TeacherID : "«create»"
+TeacherAssemblerImpl .right.|>  ITeacherAssembler
+TeacherAssemblerImpl -right-> Name : "«create»"
+TeacherAssemblerImpl -right-> RegisterTeacherCommandDTO : "«create»"
+
+
+RegisterTeacherCommandDTO "1" -down-> Name : "contains"
+RegisterTeacherCommandDTO "1" -down-> TeacherAcronym : "contains"
+
+TeacherRegistrationServiceImpl "1" .right.> ITeacherFactory : "uses"
+TeacherRegistrationServiceImpl .right.|>  ITeacherRegistrationService : "implements"
+TeacherRegistrationServiceImpl "1" .right.> ITeacherRepository : "uses"
+
+TeacherFactoryImpl -right-> Teacher : "«create»"
+TeacherFactoryImpl .right.|> ITeacherFactory : "implements"
+
+Teacher -up->  TeacherID: "«create»"
+Teacher "1" -up-> TeacherID : "contains"
+Teacher "1" -up-> Name : "contains"
+TeacherID "1" -up-> TeacherAcronym : "contains"
+
+TeacherDataModel "1" -right-> TeacherIDDataModel : "contains"
+
+TeacherRepositorySpringDataImpl "1" .left.> ITeacherIDMapper : "uses"
+TeacherRepositorySpringDataImpl "1" .left.> ITeacherMapper : "uses"
+TeacherRepositorySpringDataImpl .left.|>  ITeacherRepository: "implements"
+TeacherRepositorySpringDataImpl "1" .left.> ITeacherRepositorySpringData: "uses"
+ITeacherRepositorySpringData "1" -down-|> JPARepository : "extends"
+
+TeacherIDMapperImpl -right-> TeacherAcronym : "«create»"
+TeacherIDMapperImpl -right-> TeacherID : "«create»"
+TeacherIDMapperImpl -right-> TeacherIDDataModel : "«create»"
+TeacherIDMapperImpl .right.|> ITeacherIDMapper : "implements"
+
+TeacherMapperImpl -left-> TeacherAcronym : "«create»"
+TeacherMapperImpl -left-> TeacherDataModel : "«create»"
+TeacherMapperImpl "1" .left.>  ITeacherFactory : "uses"
+TeacherMapperImpl .left.|> ITeacherMapper : "implements"
+TeacherMapperImpl -left-> Name : "«create»"
+
+@enduml
+
