@@ -85,5 +85,12 @@ class CourseEditionGeneratedIDTest {
         assertNotEquals(uuid.hashCode(), courseEditionId.hashCode());
     }
 
+    @Test
+    void shouldReturnCorrectStringRepresentationOfCourseEditionGeneratedID() {
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID courseEditionId = new CourseEditionGeneratedID(uuid);
+        assertEquals(uuid.toString(), courseEditionId.toString());
+    }
+
 
 }

@@ -27,4 +27,9 @@ public class CourseEditionGeneratedID {
     public int hashCode() {
         return Objects.hash(_courseEditionID);
     }
+
+    @Override
+    public String toString() {
+        return _courseEditionID.toString();
+    }
 }
