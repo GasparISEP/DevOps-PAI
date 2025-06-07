@@ -6,22 +6,23 @@ import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Embeddable
 public class CourseEditionEnrolmentGeneratedIDDataModel implements Serializable {
 
     @Column(name = "cee_generated_id")
-    private String _generatedID;
+    private UUID _generatedID;
 
     public CourseEditionEnrolmentGeneratedIDDataModel() {
     }
 
-    public CourseEditionEnrolmentGeneratedIDDataModel(String id) {
+    public CourseEditionEnrolmentGeneratedIDDataModel(UUID id) {
         this._generatedID = id;
     }
 
     // Getters
-    public String getId() {
+    public UUID getGeneratedID() {
         return _generatedID;
     }
 
