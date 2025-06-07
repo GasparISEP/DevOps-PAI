@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/teachercategories")
+@RequestMapping("/teacher-categories")
 public class TeacherCategoryRestController {
 
     public final ITeacherCategoryService teacherCategoryService;
@@ -69,8 +69,8 @@ public class TeacherCategoryRestController {
     public ResponseEntity<?> getAllTeacherCategories() {
         try{
             Iterable<TeacherCategory> teacherCategories = teacherCategoryService.getAllTeacherCategories();
-            Iterable<TeacherCategoryResponseDTO> teacherCategoryRequestDTOS = this.teacherCategoryAssembler.toDTOs(teacherCategories);
-            return ResponseEntity.ok(teacherCategoryRequestDTOS);}
+            Iterable<TeacherCategoryResponseDTO> teacherCategoryResponseDTOS = this.teacherCategoryAssembler.toDTOs(teacherCategories);
+            return ResponseEntity.ok(teacherCategoryResponseDTOS);}
         catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 

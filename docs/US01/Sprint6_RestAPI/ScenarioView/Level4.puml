@@ -8,7 +8,7 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router
--> router: POST /teachercategories + body {"name": "Assistant"}
+-> router: POST /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
@@ -77,7 +77,10 @@ end
 
 participant ":ITeacherCategoryHateoasAssembler" as hateoasAssembler
 Controller -> hateoasAssembler: toModel (tcSavedResponseDTO)
+activate hateoasAssembler #E1F5FE
+
 hateoasAssembler --> Controller: EntityModel<TeacherCategoryResponseDTO>
+deactivate hateoasAssembler
 
 Controller --> router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
 deactivate Controller
