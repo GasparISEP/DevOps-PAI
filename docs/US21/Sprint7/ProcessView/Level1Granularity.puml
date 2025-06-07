@@ -1,0 +1,29 @@
+@startuml
+
+title:US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 1 Granularity)
+autonumber
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC #lightblue
+participant SystemPAI as ":SystemPAI" <<System>> #lightblue
+
+ASC -> SystemPAI:  I want to get the number of students enrolled in a programme edition!
+activate SystemPAI #lightblue
+
+SystemPAI --> ASC -- : Which programme edition?
+deactivate SystemPAI
+
+ASC -> SystemPAI: This programme edition!
+activate SystemPAI #lightblue
+
+SystemPAI --> ASC -- : Sure?
+deactivate SystemPAI
+
+ASC --> SystemPAI: Yes!
+activate SystemPAI #lightblue
+SystemPAI --> ASC -- : Number of Students enrolled!
+deactivate SystemPAI
+
+@enduml
