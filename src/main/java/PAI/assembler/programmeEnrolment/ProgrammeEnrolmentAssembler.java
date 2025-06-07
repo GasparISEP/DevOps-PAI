@@ -1,7 +1,9 @@
-package PAI.dto.programmeEnrolment;
+package PAI.assembler.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

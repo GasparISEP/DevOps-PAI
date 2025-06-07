@@ -6,7 +6,7 @@ import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;

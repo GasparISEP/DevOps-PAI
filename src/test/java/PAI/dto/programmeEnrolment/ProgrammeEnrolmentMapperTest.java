@@ -1,6 +1,7 @@
 package PAI.dto.programmeEnrolment;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEnrolment.ProgrammeEnrolmentAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import org.junit.jupiter.api.Test;
 
