@@ -16,11 +16,21 @@ skinparam rectangle {
 skinparam classBorderColor Black
 left to right direction
 
+
 package "REST Controller Layer" #F5EEF8 {
   class CourseInStudyPlanRestController {
     +create(dto: CourseInStudyPlanRequestDTO):\n ResponseEntity<CourseInStudyPlanResponseDTO>
     }
 }
+
+note top
+This diagram shows only the essential components involved
+in the creation (POST) of a CourseInStudyPlan.
+It excludes the components used for auxiliary GET requests,
+as this is a focused ("zoomed-in") view on the creation action.
+Persistence layer (mappers, datamodels, springdata repositories)
+was also omitted here for clarity.
+end note
 
 package "Service Layer" {
   interface "<<interface>>\nIAddCourseToAProgrammeService" as IAddCourseToAProgrammeService
@@ -123,18 +133,10 @@ package "Repository Interfaces" {
   package "Repository Implementations"{
   class CourseInStudyPlanRepositoryImpl {
     +containsOfIdentity(id:\n CourseInStudyPlan): boolean
-    +save(courseEdition:\n CourseInStudyPlan): CourseInStudyPlan
+    +save(courseInStudyPlan:\n CourseInStudyPlan): CourseInStudyPlan
   }
 }
 
-note top of CourseInStudyPlanRestController
-This diagram shows only the essential components involved
-in the creation (POST) of a CourseInStudyPlan.
-It excludes the components used for auxiliary GET requests,
-as this is a focused ("zoomed-in") view on the creation action.
-Persistence layer (mappers, datamodels, springdata repositories)
-was also omitted here for clarity.
-end note
 
 ' Relationships
 CourseInStudyPlanRestController --> IAddCourseToAProgrammeService
