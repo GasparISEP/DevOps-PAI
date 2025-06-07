@@ -2,42 +2,25 @@ package PAI.domain.studyPlan;
 
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
+import java.util.Objects;
 
 public class StudyPlan implements AggregateRoot<StudyPlanID> {
 
+    private ProgrammeID _programmeID;
     private Date _startDate;
     private DurationInYears _durationInYears;
-    private ProgrammeID _programmeID;
-    private StudyPlanID _studyPlanID;
     private MaxEcts _maxEcts;
+    private StudyPlanID _studyPlanID;
+    private StudyPlanGeneratedID _studyPlanUUID;
 
-    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID) {
+    public StudyPlan(ProgrammeID programmeID, Date implementationDate, DurationInYears durationInYears, MaxEcts quantityOfEcts, StudyPlanID studyPlanID, StudyPlanGeneratedID uuid) {
 
-        if (programmeID == null) {
-            throw new IllegalArgumentException("Programme ID cannot be null");
-        }
-        this._programmeID = programmeID;
-
-        if (implementationDate == null) {
-            throw new IllegalArgumentException("Implementation Date cannot be null");
-        }
-        this._startDate = implementationDate;
-
-        if (durationInYears == null) {
-            throw new IllegalArgumentException("Duration In Years cannot be null");
-        }
-        this._durationInYears = durationInYears;
-
-        if (quantityOfEcts == null) {
-            throw new IllegalArgumentException("Quantity Of ECTs cannot be null");
-        }
-        this._maxEcts = quantityOfEcts;
-
-        if (studyPlanID == null) {
-            throw new IllegalArgumentException("Study Plan ID cannot be null");
-
-        }
-        this._studyPlanID = studyPlanID;
+        this._programmeID = Objects.requireNonNull(programmeID, "Programme ID cannot be null");
+        this._startDate = Objects.requireNonNull(implementationDate, "Implementation Date cannot be null");
+        this._durationInYears = Objects.requireNonNull(durationInYears, "Duration In Years cannot be null");
+        this._maxEcts = Objects.requireNonNull(quantityOfEcts, "Quantity Of ECTs cannot be null");
+        this._studyPlanID = Objects.requireNonNull(studyPlanID, "Study Plan ID cannot be null");
+        this._studyPlanUUID = Objects.requireNonNull(uuid, "Universally Unique ID cannot be null");
     }
 
     public MaxEcts getMaxEcts() {
@@ -54,6 +37,10 @@ public class StudyPlan implements AggregateRoot<StudyPlanID> {
 
     public Date getStartDate() {
         return this._startDate;
+    }
+
+    public StudyPlanGeneratedID getGeneratedID () {
+        return _studyPlanUUID;
     }
 
     @Override

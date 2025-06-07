@@ -5,6 +5,7 @@ import PAI.VOs.MaxEcts;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Study_Plan")
@@ -12,6 +13,9 @@ public class StudyPlanDataModel {
 
     @EmbeddedId
     private StudyPlanIDDataModel studyPlanIDDataModel;
+
+    @Column(name = "StudyPlanGenerated_ID")
+    private UUID uuid;
 
     @Column(name = "maxECTS", nullable = false)
     private int maxECTS;
@@ -21,22 +25,12 @@ public class StudyPlanDataModel {
 
     protected StudyPlanDataModel() {}
 
-    public StudyPlanDataModel (StudyPlanIDDataModel studyPlanIDDataModel, MaxEcts quantityofECTS, DurationInYears durationInYears) {
+    public StudyPlanDataModel (StudyPlanIDDataModel studyPlanIDDataModel, UUID uuid, MaxEcts quantityOfECTS, DurationInYears durationInYears) {
 
-        if (studyPlanIDDataModel == null) {
-            throw new IllegalArgumentException("StudyPlanIDDataModel cannot be null");
-        }
-        this.studyPlanIDDataModel = studyPlanIDDataModel;
-
-        if (quantityofECTS == null) {
-            throw new IllegalArgumentException("MaxECTS cannot be null");
-        }
-        this.maxECTS = quantityofECTS.getMaxEcts();
-
-        if (durationInYears == null) {
-            throw new IllegalArgumentException("DurationInYears cannot be null");
-        }
-        this.durationInYears = durationInYears.getDurationInYears();
+        this.studyPlanIDDataModel = Objects.requireNonNull(studyPlanIDDataModel, "StudyPlanIDDataModel cannot be null");
+        this.maxECTS = Objects.requireNonNull(quantityOfECTS, "MaxECTS cannot be null").getMaxEcts();
+        this.durationInYears = Objects.requireNonNull(durationInYears, "DurationInYears cannot be null").getDurationInYears();
+        this.uuid = Objects.requireNonNull(uuid, "Universally Unique ID cannot be null");
     }
 
     @Override
@@ -50,6 +44,10 @@ public class StudyPlanDataModel {
     @Override
     public int hashCode() {
         return Objects.hash(studyPlanIDDataModel);
+    }
+
+    public UUID getUUID () {
+        return this.uuid;
     }
 
     public StudyPlanIDDataModel getStudyPlanIDDataModel() {

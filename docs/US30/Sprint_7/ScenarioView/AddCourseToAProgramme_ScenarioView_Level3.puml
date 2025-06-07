@@ -1,0 +1,179 @@
+@startuml
+title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Scenario View - Level 3 (Backend focus))\n(addCourseToAProgramme functionality (POST) only)
+
+
+' ========== SETTINGS ==========
+skinparam classBackgroundColor #E1F5FE
+skinparam titleFontSize 18
+skinparam linetype ortho
+skinparam LegendBackgroundColor white
+skinparam LegendBorderColor white
+skinparam classFontSize 14
+skinparam shadowing true
+skinparam rectangle {
+  RoundCorner 20
+}
+skinparam classBorderColor Black
+left to right direction
+
+
+package "REST Controller Layer" #F5EEF8 {
+  class CourseInStudyPlanRestController {
+    +create(dto: CourseInStudyPlanRequestDTO):\n ResponseEntity<CourseInStudyPlanResponseDTO>
+    }
+}
+
+note top
+This diagram shows only the essential components involved
+in the creation (POST) of a CourseInStudyPlan.
+It excludes the components used for auxiliary GET requests,
+as this is a focused ("zoomed-in") view on the creation action.
+Persistence layer (mappers, datamodels, springdata repositories)
+was also omitted here for clarity.
+end note
+
+package "Service Layer" {
+  interface "<<interface>>\nIAddCourseToAProgrammeService" as IAddCourseToAProgrammeService
+  class AddCourseToAProgrammeServiceImpl {
+    +addCourseToAProgramme(command:\n CourseInStudyPlanCommand):\n CourseInStudyPlanServiceDTO
+  }
+}
+
+package "Assembler / DTO" {
+  interface "<<interface>>\nICourseInStudyPlanAssembler" as ICourseInStudyPlanAssembler
+  class CourseInStudyPlanAssemblerImpl {
++toCommand(request: CourseInStudyPlanRequestDTO):\n CourseInStudyPlanCommand
++toDTO(dto: CourseInStudyPlanServiceDTO):\n CourseInStudyPlanResponseDTO
+}
+  interface "<<interface>>\nICourseInStudyPlanBusinessAssembler" as ICourseInStudyPlanBusinessAssembler
+    class CourseInStudyPlanBusinessAssemblerImpl {
+  +toDTO(cISP: CourseInStudyPlan):\n CourseInStudyPlanServiceDTO
+  }
+  interface "<<interface>>\nICourseInStudyPlanHateoasAssembler" as ICourseInStudyPlanHateoasAssembler
+  class CourseInStudyPlanHateoasAssemblerImpl {
+  + toModel(courseInStudyPlan: CourseInStudyPlanResponseDTO):\n EntityModel<CourseInStudyPlanResponseDTO>
+  }
+
+
+  class CourseInStudyPlanRequestDTO {
+    - semester : int
+    - curricularYear : int
+    - courseAcronym : String
+    - courseName : String
+    - programmeAcronym : String
+    - programmeName : String
+    - studyPlanDate : String
+    - duration : int
+    - credits : double
+  }
+
+
+  class CourseInStudyPlanResponseDTO {
+    - courseInStudyPlanID : UUID
+    - semester : int
+    - curricularYear : int
+    - courseAcronym : String
+    - courseName : String
+    - programmeAcronym : String
+    - programmeName : String
+    - studyPlanDate : String
+    - duration : int
+    - credits : double
+  }
+
+  class CourseInStudyPlanServiceDTO {
+      - courseInStudyPlanID : UUID
+      - semester : int
+      - curricularYear : int
+      - courseAcronym : String
+      - courseName : String
+      - programmeAcronym : String
+      - programmeName : String
+      - studyPlanDate : String
+      - duration : int
+      - credits : double
+      - courseId : CourseID
+      - studyPlanId : StudyPlanID
+  }
+}
+
+package "Commands" {
+class CourseInStudyPlanCommand {
+    - semester : Semester
+    - curricularYear : CurricularYear
+    - courseAcronym : Acronym
+    - courseName : Name
+    - programmeAcronym : Acronym
+    - programmeName : NameWithNumbersAndSpecialChars
+    - studyPlanDate : Date
+    - duration : DurationCourseInCurricularYear
+    - credits : CourseQuantityCreditsEcts
+}
+}
+
+package "Domain Layer" {
+  class CourseInStudyPlan {
+    -identity: CourseInStudyPlanGeneratedID
+    -courseID: courseID
+    -studyPlanID: StudyPlanID
+  }
+}
+
+package "Factory Layer" {
+  interface "<<interface>>\nICourseInStudyPlanFactory" as ICourseInStudyPlanFactory
+  class CourseInStudyPlanFactoryImpl {
+    +newCourseInStudyPlan(command: \nCourseInStudyPlanCommand:\n CourseInStudyPlan
+  }
+}
+
+
+package "Repository Interfaces" {
+  interface "<<interface>>\nICourseInStudyPlanRepository" as ICourseInStudyPlanRepository
+
+  package "Repository Implementations"{
+  class CourseInStudyPlanRepositoryImpl {
+    +containsOfIdentity(id:\n CourseInStudyPlan): boolean
+    +save(courseInStudyPlan:\n CourseInStudyPlan): CourseInStudyPlan
+  }
+}
+
+
+' Relationships
+CourseInStudyPlanRestController --> IAddCourseToAProgrammeService
+IAddCourseToAProgrammeService <|.. AddCourseToAProgrammeServiceImpl
+
+CourseInStudyPlanRestController --> ICourseInStudyPlanAssembler
+ICourseInStudyPlanAssembler <|.. CourseInStudyPlanAssemblerImpl
+ICourseInStudyPlanBusinessAssembler <|.. CourseInStudyPlanBusinessAssemblerImpl
+
+AddCourseToAProgrammeServiceImpl --> ICourseInStudyPlanFactory
+ICourseInStudyPlanFactory <|.. CourseInStudyPlanFactoryImpl
+
+AddCourseToAProgrammeServiceImpl --> ICourseInStudyPlanBusinessAssembler
+
+AddCourseToAProgrammeServiceImpl --> ICourseInStudyPlanRepository
+ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepositoryImpl
+
+
+
+
+CourseInStudyPlanRepositoryImpl --> CourseInStudyPlan
+
+
+
+
+
+ICourseInStudyPlanHateoasAssembler <|.. CourseInStudyPlanHateoasAssemblerImpl
+
+CourseInStudyPlanAssemblerImpl --> CourseInStudyPlanRequestDTO
+CourseInStudyPlanBusinessAssemblerImpl --> CourseInStudyPlanResponseDTO
+CourseInStudyPlanBusinessAssemblerImpl --> CourseInStudyPlan
+CourseInStudyPlanBusinessAssemblerImpl --> CourseInStudyPlanServiceDTO
+CourseInStudyPlanAssemblerImpl --> CourseInStudyPlanServiceDTO
+
+CourseInStudyPlanAssemblerImpl -> CourseInStudyPlanCommand
+CourseInStudyPlanAssemblerImpl -> CourseInStudyPlanResponseDTO
+CourseInStudyPlanRestController ..> CourseInStudyPlanCommand
+CourseInStudyPlanRestController ..> ICourseInStudyPlanHateoasAssembler
+
+@enduml

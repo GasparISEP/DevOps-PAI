@@ -62,12 +62,12 @@ package "Assembler / DTO" {
 
 package "Commands" {
 class CreateCourseEditionCommand {
-    - programmeName : String
-    - programmeAcronym : String
-    - schoolYearID : UUID
-    - courseAcronym : String
-    - courseName : String
-    - studyPlanImplementationDate : LocalDate
+    - programmeName : NameWithNumbersAndSpecialChars
+    - programmeAcronym : Acronym
+    - schoolYearID : SchoolYearID
+    - courseAcronym : Acronym
+    - courseName : Name
+    - studyPlanImplementationDate : Date
 }
 }
 

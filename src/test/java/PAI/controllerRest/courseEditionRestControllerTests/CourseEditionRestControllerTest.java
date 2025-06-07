@@ -2,11 +2,11 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -29,7 +29,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,7 +45,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CourseEditionRestController.class)
@@ -87,6 +85,9 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+
+    @MockBean
+    private IStudentCountAssembler studentCountAssembler;
 
     @MockBean
     private CourseEditionEnrolmentDto validEnrolmentDto;
@@ -228,8 +229,8 @@ class CourseEditionRestControllerTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                dto.programmeName(), dto.programmeAcronym(), dto.schoolYearID(),
-                dto.courseAcronym(), dto.courseName(), dto.studyPlanImplementationDate()
+                new NameWithNumbersAndSpecialChars(dto.programmeName()), new Acronym(dto.programmeAcronym()), new SchoolYearID(dto.schoolYearID()),
+                new Acronym (dto.courseAcronym()), new Name(dto.courseName()), new Date(dto.studyPlanImplementationDate())
         );
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
@@ -564,15 +565,19 @@ class CourseEditionRestControllerTest {
         );
 
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentCountDTO studentCountDTODouble = mock(StudentCountDTO.class);
+        int studentCount = 5;
         when(courseEditionAssembler.fromDtoToCourseEditionID(dto)).thenReturn(mockCourseEditionID);
-        when(courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(mockCourseEditionID)).thenReturn(5);
+        when(courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(mockCourseEditionID)).thenReturn(studentCount);
+        when(studentCountAssembler.fromDomainToDTO(studentCount)).thenReturn(studentCountDTODouble);
+        when(studentCountDTODouble.studentCount()).thenReturn(studentCount);
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions/studentscount")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("5"));
+                .andExpect(jsonPath("$.studentCount").value(studentCount));
     }
 
     @Test

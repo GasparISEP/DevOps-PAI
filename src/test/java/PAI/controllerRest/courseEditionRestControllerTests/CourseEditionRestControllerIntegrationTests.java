@@ -1,7 +1,5 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.TeacherAcronym;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
@@ -210,9 +208,9 @@ public class CourseEditionRestControllerIntegrationTests {
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
                 "courseEditionID123","SDV",
@@ -250,9 +248,9 @@ public class CourseEditionRestControllerIntegrationTests {
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                requestDTO.programmeName(), requestDTO.programmeAcronym(),
-                requestDTO.schoolYearID(), requestDTO.courseAcronym(),
-                requestDTO.courseName(), requestDTO.studyPlanImplementationDate());
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);

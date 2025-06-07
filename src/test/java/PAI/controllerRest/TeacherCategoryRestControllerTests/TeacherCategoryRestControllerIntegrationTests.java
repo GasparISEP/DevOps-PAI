@@ -36,7 +36,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     void shouldReturn400_WhenNameIsMissing() throws Exception {
         // arrange
 
-        String uri = "/teachercategories";
+        String uri = "/teacher-categories";
         String invalidRequestBody = "{}";
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -53,7 +53,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     @Test
     void shouldReturn400_WhenNameHasLessThanThreeCharacters() throws Exception {
         // arrange
-        String uri = "/teachercategories";
+        String uri = "/teacher-categories";
         String invalidRequestBody = "{\"name\": \"12\"}";
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -70,7 +70,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     @Test
     void shouldReturn400_WhenNameHasEspecialCharacters() throws Exception {
         // arrange
-        String uri = "/teachercategories";
+        String uri = "/teacher-categories";
         String invalidRequestBody = "{\"name\": \"+++++???\"}";
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -87,7 +87,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     @Test
     void shouldReturn409_WhenTeacherCategoryAlreadyExists() throws Exception {
         // arrange
-        String uri = "/teachercategories";
+        String uri = "/teacher-categories";
         String validRequestBody = "{\"name\": \"Professor Auxiliar\"}";
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -104,7 +104,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     @Test
     void shouldReturn201_WhenTeacherCategoryWasSuccessfullyCreated() throws Exception {
         // arrange
-        String uri = "/teachercategories";
+        String uri = "/teacher-categories";
         String validRequestBody = "{\"name\": \"Assistant\"}";
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -129,7 +129,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
 
         repository.save(category);
 
-        String uri = "/teachercategories/" + category.identity().getValue().toString();
+        String uri = "/teacher-categories/" + category.identity().getValue().toString();
 
         MvcResult result = mockMvc.perform(get(uri)).andReturn();
 
@@ -144,7 +144,7 @@ public class TeacherCategoryRestControllerIntegrationTests {
     void shouldReturn404_WhenTeacherCategoryDoesNotExist() throws Exception {
         // arrange
         String nonExistingId = UUID.randomUUID().toString();
-        String uri = "/teachercategories/" + nonExistingId;
+        String uri = "/teacher-categories/" + nonExistingId;
 
         MvcResult result = mockMvc.perform(get(uri)).andReturn();
 

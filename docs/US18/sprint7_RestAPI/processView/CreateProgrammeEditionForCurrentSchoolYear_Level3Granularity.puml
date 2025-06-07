@@ -1,0 +1,84 @@
+@startuml
+title  US18 \n As an ASC, I want to create a programme edition for the current school year \n Process View - Level 3 Granularity - Backend Internal Flow
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+autonumber
+
+
+participant ":Router" as Router <<Component>>
+participant ":RESTController" as Controller <<Component>>
+participant ":Service" as Service <<Component>>
+participant ":Domain" as Domain <<Component>>
+participant ":Repository" as Repository <<Component>>
+
+'get all programmes name
+-> Router: GET /programmes
+
+
+activate Router #E1F5FE
+
+Router -> Controller: getAllProgrammes()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllProgrammes()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+
+Repository --> Service: List<Programmes>
+deactivate Repository
+Service --> Controller: List<Programmes>
+deactivate Service
+Controller --> Router: 200 OK – List<ProgrammesDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: 200 OK – List<ProgrammesDTO> as JSON
+deactivate Router
+
+
+-> Router: POST /programme-editions + body {"programmeId":d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b}
+activate Router #E1F5FE
+
+'''''''''''''''''''''''''''''''''''''''''
+Router -> Controller: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestDTO)
+
+'create programmeEdition for current School Year
+activate Controller #E1F5FE
+Controller -> Service:createProgrammeEditionAndSave(programmeEditionDTO)
+
+activate Service #E1F5FE
+
+
+Service -> Domain: createProgrammeEdition(programmeID, schoolYearID)
+activate Domain #E1F5FE
+
+participant ":Repository" as Repository <<Component>>
+
+Domain --> Service: pe1
+deactivate Domain
+
+Service -> Repository: save(pe1)
+activate Repository #E1F5FE
+
+Repository --> Service: pe1
+deactivate Repository
+
+Service --> Controller: programmeEditionDTO
+deactivate Service
+
+
+Controller --> Router :  201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate Controller
+
+<-- Router: 201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate Router
+@enduml

@@ -1,10 +1,12 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
+import PAI.VOs.Date;
+import PAI.assembler.student.IStudentDTOAssembler;
+import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.assembler.student.IStudentDTOAssembler;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
@@ -16,12 +18,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,16 +31,19 @@ import static org.mockito.Mockito.*;
 class StudentRestControllerTest {
 
     @Mock
-    private IProgrammeEnrolmentService programmeEnrolmentService;
-
-    @Mock
-    private IProgrammeEnrolmentAssembler programmeEnrolmentMapperDTO;
-
-    @Mock
     private IStudentService studentService;
 
     @Mock
     private IStudentDTOAssembler mapper;
+
+    @Mock
+    private IStudentHateoasAssembler hateoasAssembler;
+
+    @Mock
+    private IProgrammeEnrolmentService programmeEnrolmentService;
+
+    @Mock
+    private IProgrammeEnrolmentAssembler programmeEnrolmentMapperDTO;
 
     @InjectMocks
     private StudentRestController studentRestController;
@@ -48,15 +53,14 @@ class StudentRestControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
     @Test
     void whenDtoIsNull_thenReturnsBadRequest() {
-        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(null);
+        ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(null);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
-    void whenServiceReturnsStudent_thenReturnsCreated() {
+    void whenServiceReturnsStudent_thenReturnsCreatedWithHateoas() {
         StudentDTO dto = mock(StudentDTO.class);
 
         Name name = new Name("João Silva");
@@ -70,8 +74,6 @@ class StudentRestControllerTest {
         Country country = new Country("Portugal");
         Address address = new Address(street, postalCode, location, country);
 
-        StudentAcademicEmail acadEmail = new StudentAcademicEmail(1234567);
-
         when(mapper.toName(dto)).thenReturn(name);
         when(mapper.toNIF(dto)).thenReturn(nif);
         when(mapper.toPhoneNumber(dto)).thenReturn(phone);
@@ -80,34 +82,49 @@ class StudentRestControllerTest {
 
         Student student = mock(Student.class);
         when(studentService.registerStudent(
-                 name, nif, phone, email,
-                street, postalCode, location, country
+                name, nif, phone, email, street, postalCode, location, country
         )).thenReturn(student);
 
         StudentResponseDTO responseDTO = mock(StudentResponseDTO.class);
-        when(mapper.toStudentResponseDTO(student)).thenReturn(responseDTO);
+        EntityModel<StudentResponseDTO> entityModel = EntityModel.of(responseDTO);
 
-        ResponseEntity<StudentResponseDTO> response = studentRestController.registerAStudent(dto);
+        when(mapper.toStudentResponseDTO(student)).thenReturn(responseDTO);
+        when(hateoasAssembler.toModel(responseDTO)).thenReturn(entityModel);
+
+        ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertSame(responseDTO, response.getBody());
+        assertSame(entityModel, response.getBody());
     }
+
     @Test
     void whenGetLastStudentID_thenReturnsExpectedValueInMap() {
-        // Arrange
         int lastStudentID = 1234567;
         when(studentService.getLastStudentID()).thenReturn(lastStudentID);
 
-        // Act
         ResponseEntity<Map<String, Integer>> response = studentRestController.getLastStudentID();
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().containsKey("lastStudentID"));
         assertEquals(lastStudentID, response.getBody().get("lastStudentID"));
     }
 
+    @Test
+    void whenGetAllStudents_thenReturnsCollectionWithLinks() {
+        Student student = mock(Student.class);
+        StudentResponseDTO dto = mock(StudentResponseDTO.class);
+        EntityModel<StudentResponseDTO> model = EntityModel.of(dto);
+
+        when(studentService.getAllStudents()).thenReturn(List.of(student));
+        when(mapper.toStudentResponseDTO(student)).thenReturn(dto);
+        when(hateoasAssembler.toModel(dto)).thenReturn(model);
+
+        ResponseEntity<CollectionModel<EntityModel<StudentResponseDTO>>> response = studentRestController.getAllStudents();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().getContent().contains(model));
+    }
     @Test
     void whenServiceReturnsEnrolment_thenReturnsCreatedWithBody1() throws Exception {
         // Arrange
@@ -144,7 +161,6 @@ class StudentRestControllerTest {
         verify(programmeEnrolmentMapperDTO).toProgrammeID(dto);
         verify(programmeEnrolmentMapperDTO).toDateVO(dto);
     }
-
 
     @Test
     void whenServiceReturnsNull_thenReturnsBadRequest() throws Exception {
@@ -196,8 +212,5 @@ class StudentRestControllerTest {
         verifyNoInteractions(programmeEnrolmentMapperDTO);
         verifyNoInteractions(programmeEnrolmentService);
     }
-
-
-
 
 }

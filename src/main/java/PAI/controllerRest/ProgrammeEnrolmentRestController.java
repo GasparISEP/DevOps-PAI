@@ -1,18 +1,9 @@
 package PAI.controllerRest;
 
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
-import PAI.dto.programmeEnrolment.IProgrammeEnrolmentAssembler;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
-import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

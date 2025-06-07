@@ -1,9 +1,10 @@
 package PAI.dto.courseEdition;
 
+import PAI.VOs.*;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,13 +14,13 @@ class CreateCourseEditionCommandTest {
     @Test
     void shouldCreateCommandSuccessfully() {
         //arrange
-        String programmeName = "Software Development";
-        String programmeAcronym = "MEI";
-        UUID schoolYearID = UUID.randomUUID();
+        NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Software Development");
+        Acronym programmeAcronym = new Acronym("MEI");
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
 
-        String courseAcronym = "AP";
-        String courseName = "Advanced Programming";
-        LocalDate studyPlanImplementationDate = LocalDate.now();
+        Acronym courseAcronym = new Acronym("AP");
+        Name courseName = new Name("Advanced Programming");
+        Date date = new Date("31-03-2025");
 
         //act
         CreateCourseEditionCommand dto = new CreateCourseEditionCommand(
@@ -28,7 +29,7 @@ class CreateCourseEditionCommandTest {
                 schoolYearID,
                 courseAcronym,
                 courseName,
-                studyPlanImplementationDate
+                date
         );
 
         //assert
@@ -37,6 +38,6 @@ class CreateCourseEditionCommandTest {
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
         assertEquals(courseName, dto.courseName());
-        assertEquals(studyPlanImplementationDate, dto.studyPlanImplementationDate());
+        assertEquals(date, dto.studyPlanImplementationDate());
     }
 }

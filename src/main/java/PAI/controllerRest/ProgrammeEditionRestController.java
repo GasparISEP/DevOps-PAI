@@ -46,9 +46,9 @@ public class ProgrammeEditionRestController {
         return ResponseEntity.ok(programmeEditionDtos);
     }
 
-    @GetMapping("/{programmeid}/{schoolYearID}/students")
+    @GetMapping("/{id}/{schoolYearID}/students")
     public ResponseEntity<Integer> getNumberOfStudents(
-            @PathVariable("programmeid") String programmeAcronym,
+            @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
         CountStudentsDto dto =

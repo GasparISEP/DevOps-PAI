@@ -1,6 +1,6 @@
 @startuml
 title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Class Diagram)
-
+!pragma layout smetana
 skinparam ranksep 60
 skinparam nodesep 60
 skinparam linetype ortho

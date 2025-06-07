@@ -9,6 +9,7 @@ participant ":CourseInStudyPlanRESTController" as restController <<component>> <
 participant ":CourseInStudyPlanControllerAssembler" as assembler <<component>> <<Assembler>> #LightGreen
 participant ":CourseInStudyPlanService" as service <<component>> <<Service>> #teal
 participant ":CourseInStudyPlanFactory" as factory <<component>> <<Factory>> #LightBlue
+participant ":CourseInStudyPlanBusinessAssembler" as businessAssembler <<component>> <<BusinessAssembler>> #LightGreen
 participant ":CourseInStudyPlanRepository" as repository <<component>> <<Repository>> #teal
 participant ":CourseInStudyPlanSpringData" as springData <<component>> <<SpringData>> #LightGray
 
@@ -22,38 +23,46 @@ activate restController #E1F5FE
 
 restController -> assembler: toCommand(RequestDTO)
 note right: Conversion from DTO to Command
-
+activate assembler #E1F5FE
 assembler --> restController: Command
+deactivate assembler
 
 restController -> service: addCourseToProgramme(Command)
 activate service #E1F5FE
 
 service -> factory: createCourseInStudyPlan(Command)
 note right: Creation of CourseInStudyPlan Aggregate
-
+activate factory #E1F5FE
 factory --> service: CourseInStudyPlan
-
+deactivate factory
 service -> repository: save(CourseInStudyPlan)
 activate repository #E1F5FE
 
 repository -> springData: save(CourseInStudyPlan)
 note right: Persistence via Spring Data
-
+activate springData #E1F5FE
 springData --> repository: CourseInStudyPlan
+deactivate springData
+
+repository --> service: CourseInStudyPlan
 deactivate repository
 
-service -> assembler: toServiceDTO(CourseInStudyPlan)
+service -> businessAssembler: toServiceDTO(CourseInStudyPlan)
+activate businessAssembler #E1F5FE
 note right: Conversion to ServiceDTO
 
-assembler --> service: ServiceDTO
+businessAssembler --> service: ServiceDTO
+deactivate businessAssembler
 
 service --> restController: ServiceDTO
 deactivate service
 
 restController -> assembler: toResponseDTO(ServiceDTO)
+activate assembler #E1F5FE
 note right: Conversion to ResponseDTO
 
 assembler --> restController: ResponseDTO
+deactivate assembler
 
 restController --> router: (201, Created) ResponseDTO
 deactivate restController
@@ -61,5 +70,6 @@ deactivate restController
 router --> router: Automatic Conversion to JSON
 
 <-- router: (201, Created) JSON
+deactivate router #E1F5FE
 
 @enduml

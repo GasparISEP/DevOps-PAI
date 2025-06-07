@@ -5,6 +5,7 @@ import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -21,27 +22,33 @@ class CourseEditionAssemblerImplTest {
     private final CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
     @Test
-    void toCommand_ShouldMapCorrectly() {
+    void toCommand_shouldConvertRequestDTOToCommand() {
         // Arrange
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("Software Engineering");
-        when(dto.programmeAcronym()).thenReturn("SE");
-        when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto.programmeName()).thenReturn("Engineering");
+        when(dto.programmeAcronym()).thenReturn("ENG");
+        when(dto.schoolYearID()).thenReturn(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"));
         when(dto.courseAcronym()).thenReturn("CS101");
-        when(dto.courseName()).thenReturn("Intro to Programming");
-        when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.of(2023, 9, 1));
+        when(dto.courseName()).thenReturn("Computer Science");
+        when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.of(2024, 5, 1));
+
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
         // Act
         CreateCourseEditionCommand command = assembler.toCommand(dto);
 
         // Assert
-        assertEquals(dto.programmeName(), command.programmeName());
-        assertEquals(dto.programmeAcronym(), command.programmeAcronym());
-        assertEquals(dto.schoolYearID(), command.schoolYearID());
-        assertEquals(dto.courseAcronym(), command.courseAcronym());
-        assertEquals(dto.courseName(), command.courseName());
-        assertEquals(dto.studyPlanImplementationDate(), command.studyPlanImplementationDate());
+        assertNotNull(command);
+
+        assertEquals("Engineering", command.programmeName().getNameWithNumbersAndSpecialChars());
+        assertEquals("ENG", command.programmeAcronym().getAcronym());
+        assertEquals(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"), command.schoolYearID().getSchoolYearID());
+        assertEquals("CS101", command.courseAcronym().getAcronym());
+        assertEquals("Computer Science", command.courseName().getName());
+        assertEquals(LocalDate.of(2024, 5, 1), command.studyPlanImplementationDate().getLocalDate());
     }
+
+
 
     @Test
     void shouldThrowExceptionWhenCourseEditionRequestDTOIsNull() {
