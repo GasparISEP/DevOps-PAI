@@ -1,0 +1,104 @@
+@startuml
+title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend Internal Flow)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+autonumber
+
+participant ":Router" as Router <<Component>>
+participant ":RESTController" as Controller <<Component>>
+participant ":Service" as Service <<Component>>
+participant ":Domain" as Domain <<Component>>
+participant ":Repository" as Repository <<Component>>
+
+
+-> Router: GET /teachers
+
+
+activate Router #E1F5FE
+
+Router -> Controller: getAllTeachers()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllTeachers()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+
+Repository --> Service: List<Teacher>
+deactivate Repository
+Service --> Controller: List<Teacher>
+deactivate Service
+Controller --> Router: 200 OK – List<TeacherDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: 200 OK – List<TeacherDTO> as JSON
+deactivate Router
+
+
+
+
+
+--> Router: GET /courseeditions
+activate Router  #E1F5FE
+Router -> Controller: findAllCourseEditions()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllCourseEditions()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+Repository --> Service: List<CourseEdition>
+deactivate Repository
+Service --> Controller: List<CourseEdition>
+deactivate Service
+Controller --> Router: 200 OK – List<CourseEditionDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: 200 OK - List<CourseEditionDTO> as JSON
+deactivate Router
+
+-> Router: PATCH /course-editions/{id}/ruc + body {...}
+activate Router #E1F5FE
+
+note over Router #E0E0E0
+  Incoming JSON is automatically deserialized into a DTO
+  before reaching the controller.
+end note
+
+Router -> Controller: defineRucForACourseEdition(DefineRUCRequestDTO)
+activate Controller  #E1F5FE
+
+Controller -> Service: assignRucToCourseEdition(courseEditionID, teacherID)
+activate Service  #E1F5FE
+
+Service -> Domain: setRuc(teacherId)
+activate Domain  #E1F5FE
+Domain --> Service: true
+deactivate Domain
+
+Service -> Repository: save(courseEdition)
+activate Repository  #E1F5FE
+Repository --> Service: true
+deactivate Repository
+Service --> Controller: true
+deactivate Service
+Controller --> Router:  200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate Controller
+<-- Router: 200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate Router
+@enduml

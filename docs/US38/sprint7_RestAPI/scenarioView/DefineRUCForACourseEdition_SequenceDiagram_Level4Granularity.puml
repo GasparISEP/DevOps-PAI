@@ -1,0 +1,151 @@
+@startuml
+title US20 \n As a Programme Director, I want to define the RUC for a course edition \n (Scenario View - Level 4 Granularity - Full Backend Flow)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":Router" as Router
+participant ":TeacherRestController" as TeacherController
+participant ":CourseEditionRestController" as Controller
+participant ":IDefineRucService" as CourseService
+participant ":ICourseEditionRepository" as CourseRepo
+participant ":CourseEditionMapper" as CourseMapper
+participant ":ICourseEditionHateoasAssembler" as HateoasAssembler
+participant ":CourseEdition" as CourseEdition
+participant ":ICourseEditionRepositorySpringData" as SpringCourseRepo
+participant ":ITeacherRepository" as TeacherRepo
+participant ":ITeacherRepositorySpringData" as TeacherRepoSpringData
+
+
+'--- Find Teachers ---
+-> Router: GET /teachers
+activate Router  #E1F5FE
+Router -> TeacherController : getAllTeachers()
+activate TeacherController #E1F5FE
+
+note over TeacherController #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs
+end note
+
+ref over TeacherController
+       <b>Get List of Teachers</b>
+end ref
+
+TeacherController --> Router: 200 OK – List<TeacherDTO>
+deactivate TeacherController
+<-- Router: 200 OK – List<TeacherDTO> as JSON
+deactivate Router
+
+
+' --- Find Course Editions ---
+-> Router: GET /courseeditions
+activate Router  #E1F5FE
+Router -> Controller : findAllCourseEditions()
+activate Controller  #E1F5FE
+
+note over Controller #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs
+end note
+
+ref over Controller
+       <b>Get List of Course Editions</b>
+end ref
+
+Controller --> Router : 200 OK - List<CourseEditionDTO>
+deactivate Controller
+<-- Router: 200 OK - List<CourseEditionDTO> as JSON
+deactivate Router  #E1F5FE
+
+
+
+'--- Assign RUC to Course Edition ---
+-> Router: PATCH /courseeditions/ruc + body {...}
+activate Router  #E1F5FE
+Router -> Controller : defineRucForCourseEdition(defineRucRequestDTO)
+activate Controller #E1F5FE
+
+note over Controller #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs
+end note
+
+
+ref over Controller
+       <b>Convert defineRucRequestDTO to Domain</b>
+end ref
+
+Controller -> CourseService: assignRucToCourseEdition(teacherId, courseEditionId)
+
+
+activate CourseService #E1F5FE
+
+CourseService -> TeacherRepo: containsOfIdentity(teacherID)
+activate TeacherRepo #E1F5FE
+TeacherRepo -> TeacherRepoSpringData: containsOfIdentity(teacherID)
+activate TeacherRepoSpringData #E1F5FE
+TeacherRepoSpringData --> TeacherRepo: true
+deactivate TeacherRepoSpringData
+TeacherRepo --> CourseService: true
+deactivate TeacherRepo
+
+CourseService -> CourseRepo : ofIdentity(courseEditionID)
+activate CourseRepo #E1F5FE
+CourseRepo -> SpringCourseRepo : findById()
+activate SpringCourseRepo #E1F5FE
+
+SpringCourseRepo --> CourseRepo : CourseEditionDataModel
+deactivate SpringCourseRepo
+CourseRepo -> CourseMapper : toDomain()
+activate CourseMapper #E1F5FE
+CourseMapper --> CourseRepo : CourseEdition
+deactivate CourseMapper
+CourseRepo --> CourseService : CourseEdition
+deactivate CourseRepo
+
+
+CourseService -> CourseEdition : setRuc(teacherID)
+activate CourseEdition #E1F5FE
+CourseEdition --> CourseService : true
+deactivate CourseEdition
+
+
+CourseService -> CourseRepo : save(CourseEdition)
+activate CourseRepo #E1F5FE
+
+CourseRepo -> CourseMapper : toDataModel()
+activate CourseMapper #E1F5FE
+CourseMapper --> CourseRepo : CourseEditionDataModel
+deactivate CourseMapper
+CourseRepo -> SpringCourseRepo : save(CourseEditionDataModel)
+activate SpringCourseRepo #E1F5FE
+SpringCourseRepo --> CourseRepo : CourseEditionDataModel
+deactivate SpringCourseRepo
+CourseRepo -> CourseMapper : toDomain()
+activate CourseMapper #E1F5FE
+CourseMapper --> CourseRepo : CourseEdition
+deactivate CourseMapper
+CourseRepo --> CourseService : CourseEdition
+
+deactivate CourseRepo
+
+CourseService --> Controller : true
+deactivate CourseService
+Controller -> Controller: new DefineRucResponseDTO(teacherID, courseEditionDTO)
+Controller -> HateoasAssembler: toModel(defineRucResponseDTO)
+activate HateoasAssembler #E1F5FE
+HateoasAssembler --> Controller: EntityModel<defineRucResponseDTO>
+deactivate HateoasAssembler
+Controller --> Router:   200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate Controller
+<-- Router:   200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate Router
+
+@enduml
