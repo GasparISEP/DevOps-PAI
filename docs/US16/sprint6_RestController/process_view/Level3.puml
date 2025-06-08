@@ -28,7 +28,7 @@ ASC -> FE ++: Select programme edition
 FE --> ASC --: Display course editions
 ASC -> FE ++: Select course edition
 
-FE -> RT ++: (POST) /courseeditions/students/enrolments with JSON {request}
+FE -> RT ++: (POST) /students/{id}/courses-edition-enrolments with JSON {request}
 RT -> CT ++: Forward request
 
 CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolmentDto)

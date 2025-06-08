@@ -74,7 +74,7 @@ public CourseEditionRestController(
 }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
-    public ResponseEntity<String> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) throws Exception {
+    public ResponseEntity<String> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
         try {
             CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDTO);
             StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber);
