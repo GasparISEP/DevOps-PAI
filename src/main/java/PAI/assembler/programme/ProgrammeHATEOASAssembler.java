@@ -4,9 +4,11 @@ import PAI.controllerRest.ProgrammeRestController;
 import PAI.dto.Programme.ProgrammeDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class ProgrammeHATEOASAssembler implements RepresentationModelAssembler<ProgrammeDTO, EntityModel<ProgrammeDTO>>, IProgrammeHATEOASAssembler {
 
     @Override
