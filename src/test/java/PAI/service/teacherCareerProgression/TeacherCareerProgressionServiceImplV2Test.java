@@ -1,6 +1,7 @@
 package PAI.service.teacherCareerProgression;
 
 import PAI.VOs.*;
+import PAI.assembler.teacherCategory.ITeacherCategoryInternalAssembler;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
 import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
@@ -8,6 +9,7 @@ import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
+import PAI.service.teacherCategory.TeacherCategoryServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -18,6 +20,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TeacherCareerProgressionServiceImplV2Test {
+
+    // testing constructor method
 
     @Test
     void shouldReturnConstructor() {
@@ -31,6 +35,60 @@ class TeacherCareerProgressionServiceImplV2Test {
         //assert
         assertNotNull(service);
     }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionRepositoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCareerProgressionServiceImplV2
+                    (null,doubleTeacherCareerProgressionFactoryInterface,doubleTeacherRepositoryInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Repository Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionFactoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCareerProgressionServiceImplV2
+                    (doubleTeacherCareerProgressionRepositoryInterface,null,doubleTeacherRepositoryInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Factory Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherRepositoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherCareerProgressionServiceImplV2
+                    (doubleTeacherCareerProgressionRepositoryInterface,doubleTeacherCareerProgressionFactoryInterface,null);
+        });
+
+        //assert
+        assertEquals("Teacher Repository Interface cannot be null.", exception.getMessage());
+    }
+
+    // testing createTeacherCareerProgression method
 
     @Test
     void shouldReturnAnOptionalOfTeacherCareerProgression() throws Exception{

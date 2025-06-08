@@ -6,14 +6,16 @@ import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
-import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
 import org.springframework.stereotype.Service;
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 import java.util.Optional;
+
 @Service
 public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
     private ITeacherCareerProgressionRepository _TCPrepository;
@@ -23,9 +25,9 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
     public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
                                                  ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
                                                  ITeacherRepository teacherRepository){
-        _TCPrepository = teacherCareerProgressionRepository;
-        _TCPfactory = teacherCareerProgressionFactory;
-        _teacherRepo = teacherRepository;
+        _TCPrepository = validateNotNull(teacherCareerProgressionRepository, "Teacher Career Progression Repository Interface");
+        _TCPfactory = validateNotNull (teacherCareerProgressionFactory, "Teacher Career Progression Factory Interface");
+        _teacherRepo = validateNotNull(teacherRepository, "Teacher Repository Interface");
     }
 
     @Override
