@@ -16,12 +16,13 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
     }
 
     public ProgrammeEnrolmentResponseDTO toProgrammeEnrolmentDTO (ProgrammeEnrolment programmeEnrolment){
+        UUID gid = programmeEnrolment.getProgrammeEnrolmentGeneratedID().getProgrammeEnrolmentGID();
         int studentID = programmeEnrolment.getStudentID().getUniqueNumber();
         String accessMethodId = programmeEnrolment.getAccessMethodID().toString();
         String programmeAcronym = programmeEnrolment.getProgrammeID().getProgrammeAcronym();
         LocalDate date = programmeEnrolment.getDate().getLocalDate();
 
-        return new ProgrammeEnrolmentResponseDTO(studentID,accessMethodId,programmeAcronym,date);
+        return new ProgrammeEnrolmentResponseDTO(gid,studentID,accessMethodId,programmeAcronym,date);
 
     }
 
