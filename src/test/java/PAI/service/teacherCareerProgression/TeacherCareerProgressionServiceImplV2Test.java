@@ -180,7 +180,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
 
         // Assert
         assertTrue(result.isPresent());
@@ -202,7 +202,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(teacherRepository.containsOfIdentity(any())).thenReturn(false);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -221,7 +221,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(false);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -240,7 +240,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -267,7 +267,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
         // Assert
         assertTrue(result.isEmpty());
     }
@@ -301,7 +301,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Optional<TeacherCareerProgression> result = service.updateTeacherCategory(command);
         // Assert
         assertTrue(result.isEmpty());
     }

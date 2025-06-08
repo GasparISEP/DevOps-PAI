@@ -48,7 +48,7 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
     }
 
     @Override
-    public Optional<TeacherCareerProgression> updateTeacherCategoryInTeacherCareerProgression(UpdateTeacherCategoryCommand command) throws Exception {
+    public Optional<TeacherCareerProgression> updateTeacherCategory(UpdateTeacherCategoryCommand command) throws Exception {
         if (!_teacherRepo.containsOfIdentity(command.teacherID()) || !_teacherCategoryRepo.containsOfIdentity(command.teacherCategoryID()))
             return Optional.empty();
         Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(command.teacherID());
