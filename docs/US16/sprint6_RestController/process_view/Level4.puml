@@ -53,11 +53,11 @@ note right of DataModelMapper
 end note
 DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
 Repository -> SpringDataRepo ++: INSERT INTO CourseEditionEnrolment
-SpringDataRepo --> Repository --: CourseEditionEnrolment
-Repository --> Service --: CourseEditionEnrolment
+SpringDataRepo --> Repository --: Success
+Repository --> Service --: true
 
-Service --> Controller --: CourseEditionEnrolment
-Controller -> HateoasAssembler ++: toModel(CourseEditionEnrolment)
+Service --> Controller --: true
+Controller -> HateoasAssembler ++: toModel(CourseEditionEnrolmentDto)
 note right of HateoasAssembler
   Create EntityModel with:
   - Self link
