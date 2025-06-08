@@ -19,4 +19,16 @@ public class ProgrammeEnrolmentResponseDTO {
     public int getStudentID() {
         return studentID;
     }
+
+    public String getProgrammeID() {
+        return programmeID;
+    }
+
+    public String getAccessMethodID() {
+        return accessMethodID;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
