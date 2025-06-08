@@ -1,0 +1,59 @@
+@startuml
+title Get List of Teachers \n (Reference Diagram)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":TeacherRestController" as C  #lightblue/white
+participant ":ITeacherRegistrationService" as TS #lightblue/white
+participant ":ITeacherAssembler" as TM #lightblue/white
+participant ":TeacherDTO" as TDTO #lightblue/white
+participant ":ITeacherRepository" as TR #lightblue/white
+participant ":ITeacherMapper" as M #lightblue/white
+participant ":ITeacherFactory" as TF #lightblue/white
+participant "teacher[i]:Teacher" as T #lightblue/white
+
+
+C -> TS: getAllTeachers()
+activate C  #E1F5FE
+
+activate TS  #E1F5FE
+TS -> TR: findAll()
+activate TR #E1F5FE
+
+TR -> : findAll()
+TR <-- : List<TeacherDataModel>
+
+loop for TeacherDataModel[i]
+TR -> M: toDomain(teacherDataModel[i])
+activate M #E1F5FE
+M -> TF: createTeacher(teacherDataModel[i])
+deactivate M
+activate TF #E1F5FE
+TF -> T**: newTeacher(teacherID, name, email, \n nif, phoneNumber, academicBackground, street, \n postalCode, location, country, departmentID)
+deactivate TF
+end
+
+TR --> TS --: List<Teacher>
+deactivate TR
+TS --> C: List<Teacher>
+deactivate TS
+
+loop for Teacher[i]
+C -> TM: fromDomainToDTO(teacher[i])
+activate TM #E1F5FE
+TM -> TDTO: newTeacherDTO(teacher[i])
+end
+
+
+TM --> C: Iterable<TeacherDTO>
+deactivate TM
+
+deactivate C
+@enduml

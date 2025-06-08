@@ -1,0 +1,15 @@
+@startuml
+title US38 \n As a Programme Director, I want to define the RUC for a course edition \n Scenario View - Level 1 Granularity - System
+
+skinparam shadowing true
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Programme Director" as ProgrammeDirector
+
+rectangle "<<PAI System>>" {
+    usecase "I want to define the RUC for a course edition" as UC20
+}
+
+ProgrammeDirector --> UC20
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+
+title US38 \n As a Programme Director, I want to define the RUC for a course edition \n Process View - Level 1 Granularity - System
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+autonumber
+
+actor ProgrammeDirector as PD
+participant ":SystemPAI" as System <<System>>
+
+PD -> System: I want to define the RUC for a course edition.
+activate System #E1F5FE
+
+System --> PD: Which teacher?
+deactivate System
+
+PD -> System: Enter teacher.
+activate System #E1F5FE
+
+System --> PD: Which course edition?
+deactivate System
+
+PD -> System: Enter course edition.
+activate System #E1F5FE
+
+System --> PD: Sure?
+deactivate System
+
+PD -> System: Yes!
+activate System #E1F5FE
+
+System --> PD: RUC sucessfully updated.
+deactivate System
+@enduml
