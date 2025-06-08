@@ -33,13 +33,13 @@ class TeacherCategoryRestController #E0FFFF{
 '================================= Service ======================================
 
 interface ITeacherCareerProgressionService #E0FFFF{
-    + updateTeachersCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
+    + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
 }
 
 class TeacherCareerProgressionServiceImpl #E0FFFF{
     + TeacherCareerProgressionServiceImpl (teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, \n teacherCareerProgressionFactory: ITeacherCareerProgressionFactory, \n internalAssembler: ITeacherCareerProgressionInternalAssembler)
-    + updateTeachersCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
+    + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
 }
 
@@ -93,12 +93,12 @@ class UpdateTeacherCategoryCommand #E0FFFF{
 '====================================== Assemblers ========================================
 
 interface ITeacherCareerProgressionExternalAssembler #E0FFFF{
-  + toCommand(dto: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
+  + toCommand(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
   + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
 }
 
 class TeacherCareerProgressionExternalAssemblerImpl #E0FFFF{
-  + toCommand(dto: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
+  + toCommand(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
   + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
 }
 
