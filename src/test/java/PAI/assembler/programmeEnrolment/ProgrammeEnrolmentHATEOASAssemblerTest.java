@@ -1,7 +1,6 @@
 package PAI.assembler.programmeEnrolment;
 
 import PAI.controllerRest.StudentRestController;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,12 +8,11 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 class ProgrammeEnrolmentHATEOASAssemblerTest {
 
@@ -28,6 +26,7 @@ class ProgrammeEnrolmentHATEOASAssemblerTest {
     @Test
     void toModel_ShouldContainSelfLinkPointingToGetEnrolmentEndpoint() {
         // Arrange
+        UUID exampleUUID            = UUID.randomUUID();
         int exampleStudentId       = 123;
         String exampleAccessMethod = "WEB";
         String exampleProgrammeAcr = "CS101";
@@ -35,6 +34,7 @@ class ProgrammeEnrolmentHATEOASAssemblerTest {
 
         ProgrammeEnrolmentResponseDTO responseDTO =
                 new ProgrammeEnrolmentResponseDTO(
+                        exampleUUID,
                         exampleStudentId,
                         exampleAccessMethod,
                         exampleProgrammeAcr,
