@@ -29,14 +29,14 @@ participant "CourseEditionEnrolment" as Enrolment
 
 database "Database" as DB
 
-router -> Controller: POST /courseeditions/students/enrolments
+router -> Controller: POST /students/{id}/courses-edition-enrolments
 activate Controller
 
 Controller -> Assembler: toCourseEditionID(CourseEditionEnrolmentDto)
 activate Assembler
 Assembler --> Controller: CourseEditionID
 deactivate Assembler
-Controller -> Assembler: toStudentID(CourseEditionEnrolmentDto)
+Controller -> Assembler: toStudentID(id)
 activate Assembler
 Assembler --> Controller: StudentID
 deactivate Assembler
