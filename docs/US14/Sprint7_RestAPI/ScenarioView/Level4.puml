@@ -1,0 +1,198 @@
+@startuml
+skinparam sequenceMessageAlign center
+autonumber
+
+
+title As an HRC I want to Update a Teacher's Category in the System\n(Process View Level 4)
+
+
+participant ":Router" as router
+participant ":TeacherRestController" as Controller
+participant ":ITeacherRegistrationService" as TService
+participant ":ITeacherRepository" as TRepository
+participant ":ITeacherRepositorySpringData" as TRepositorySpringData
+participant ":TeacherCategoryRestController" as TCController
+participant ":ITeacherCategoryService" as TCService
+participant ":ITeacherCategoryRepository" as TCRepository
+participant ":ITeacherCategoryRepositorySpringData" as TCRepositorySpringData
+participant ":ITeacherCareerProgressionService" as service
+participant ":ITeacherCareerProgressionRepository" as TCPRepo
+participant "lastTCP:TeacherCareerProgression" as TCP
+participant ":ITeacherCareerProgressionFactory" as factory
+participant "ITeacherCareerProgressionRepositorySpringData" as TCPRepoSpringData
+
+' findAllTeacherIDs() method
+
+-> router: GET /teachers/ids
+activate router #E1F5FE
+
+router -> Controller: findAllTeacherIDs ()
+activate Controller #E1F5FE
+
+Controller -> TService: findAllTeacherIDs ()
+activate TService #E1F5FE
+
+TService -> TRepository: findAllTeacherIDs ()
+activate TRepository #E1F5FE
+
+TRepository -> TRepositorySpringData: findAllTeacherIDs ()
+activate TRepositorySpringData #E1F5FE
+
+TRepositorySpringData --> TRepository: List <TeacherIDDataModel>
+deactivate TRepositorySpringData
+
+ref over TRepository
+   SD Convert List<TeacherIDDataModel> to Domain
+end
+
+TRepository --> TService: List<TeacherID>
+deactivate TRepository
+
+TService --> Controller: List<TeacherID>
+deactivate TService
+
+ref over Controller
+   SD Convert List<TeacherID> to ResponseDTO
+end
+
+Controller --> router: 200 + body {List<TeacherIDResponseDTO>}
+deactivate Controller
+
+<-- router: 200 + body {List<TeacherIDResponseDTO>}
+deactivate router
+
+' getAllTeacherCategories() method
+
+-> router: GET /teacher-categories
+activate router #E1F5FE
+
+router -> TCController: getAllTeacherCategories ()
+activate TCController #E1F5FE
+
+TCController -> TCService: getAllTeacherCategories ()
+activate TCService #E1F5FE
+
+TCService -> TCRepository: getAllTeacherCategories ()
+activate TCRepository #E1F5FE
+
+TCRepository -> TCRepositorySpringData: findAll ()
+activate TCRepositorySpringData #E1F5FE
+
+ref over TCRepository
+   SD Convert Iterator<TeacherCategoryDataModel> to Domain
+end
+
+TCRepositorySpringData --> TCRepository: Iterator<TeacherCategory>
+deactivate TCRepositorySpringData
+
+TCRepository --> TCService: Iterator<TeacherCategory>
+deactivate TCRepository
+
+TCService --> TCController: Iterator<TeacherCategory>
+deactivate TCService
+
+ref over TCController
+   SD Convert Iterator<TeacherCategory> to ResponseDTO
+end
+
+TCController --> router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+deactivate TCController
+
+<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+deactivate router
+
+' updateTeacherCategory() method
+
+-> router: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
+activate router #E1F5FE
+
+router -> Controller: updateTeachersCategory (teacherID, updateTeachersCategoryRequestDTO)
+activate Controller #E1F5FE
+
+ref over Controller
+   SD Convert input to updateTeachersCategoryCommand
+end
+
+Controller -> service : updateTeachersCategory(updateTeachersCategoryCommand)
+activate service #E1F5FE
+
+service -> TCPRepo : findLastTCPFromTeacherID (teacherIDVO)
+activate TCPRepo #E1F5FE
+
+ref over TCPRepo
+    SD findLastTCPFromTeacherID method
+end ref
+
+TCPRepo --> service : lastTCP
+deactivate TCPRepo
+
+service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate \n (dateVO)
+activate TCP #E1F5FE
+TCP -> service : True
+deactivate TCP
+
+service -> TCP : lastTCP.getWorkingPercentage()
+activate TCP #E1F5FE
+TCP --> service : workingPercentage
+deactivate TCP
+
+service -> TCP : lastTCP.hasSameTeacherCategoryID \n (teacherCategoryIDVO1)
+activate TCP #E1F5FE
+TCP --> service : False
+deactivate TCP
+
+service -> factory : createTeacherCareerProgression (dateVO, workingPercentageVO,\n teacherCategoryIDVO, teacherIDVO)
+activate factory #E1F5FE
+
+create "tcp: TeacherCareerProgression"
+factory -> "tcp: TeacherCareerProgression": create (dateVO, workingPercentageVO,\n teacherCategoryIDVO, teacherIDVO)
+
+factory --> service : tcp
+deactivate factory
+
+service -> TCPRepo: save (tcp)
+activate TCPRepo #E1F5FE
+
+ref over TCPRepo
+    SD Convert tcp to tcpDataModel
+end
+
+TCPRepo -> TCPRepoSpringData: save(tcpDataModel)
+activate TCPRepoSpringData #E1F5FE
+
+TCPRepoSpringData --> TCPRepo: tcpDataModelSaved
+deactivate TCPRepoSpringData
+
+ref over TCPRepo
+    SD Convert tcpDataModelSaved to Domain
+end
+
+TCPRepo --> service: tcpSaved
+deactivate TCPRepo
+
+ref over service
+    SD Convert tcpSaved to DTO
+end
+
+service --> Controller: tcpSavedDTO
+deactivate service
+
+ref over Controller
+    SD Convert tcpSavedDTO to tcpSavedResponseDTO
+end
+
+participant ":ITeacherCareerProgressionHateoasAssembler" as hateoasAssembler
+Controller -> hateoasAssembler: toModel (tcpSavedResponseDTO)
+activate hateoasAssembler #E1F5FE
+
+hateoasAssembler --> Controller: EntityModel<UpdateTeacherCategoryResponseDTO>
+deactivate hateoasAssembler
+
+Controller --> router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
+deactivate Controller
+
+<-- router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
+deactivate router
+
+
+@enduml

@@ -99,10 +99,10 @@ deactivate repository
 service --> controller: teacherCareerProgressionSavedDTO
 deactivate service
 
-controller --> router: 201 + \n body {teacherCareerProgressionResponseDTO + hypermedia}
+controller --> router: 201 + \n body {updateTeacherCategoryResponseDTO + hypermedia}
 deactivate controller
 
-<-- router: 201 + \n body {teacherCareerProgressionResponseDTO + hypermedia}
+<-- router: 201 + \n body {updateTeacherCategoryResponseDTO + hypermedia}
 deactivate router
 
 @enduml
