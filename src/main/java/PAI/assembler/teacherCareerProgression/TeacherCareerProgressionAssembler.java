@@ -40,10 +40,12 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
         return new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
     }
     @Override
-    public UpdateTeacherCategoryCommand toUpdateTeacherCategoryCommand(UpdateTeacherCategoryRequestDTO request) {
+    public UpdateTeacherCategoryCommand toUpdateTeacherCategoryCommand(String teacherId, UpdateTeacherCategoryRequestDTO request) {
+
         Date date = new Date(request.date());
-        TeacherID teacherID = new TeacherID(new TeacherAcronym(request.teacherID()));
+        TeacherID teacherID = new TeacherID(new TeacherAcronym(teacherId));
         TeacherCategoryID teacherCategoryID = new TeacherCategoryID(UUID.fromString(request.teacherCategoryID()));
+
         return new UpdateTeacherCategoryCommand(date,teacherID,teacherCategoryID);
     }
 }

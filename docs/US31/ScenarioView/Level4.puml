@@ -103,11 +103,11 @@ PR --> PS --: P1
 PS --> C --: P1
 
 ref over C
-    Convert P1 to ProgrammeDTO
+    Convert P1 to EntityModel<ProgrammeDTO>
 end ref
 
-C --> UI --: ProgrammeDTO
+C --> UI --: EntityModel<ProgrammeDTO>
 
-UI --> Admin --: Programme registered successfully!
+UI --> Admin --: Programme registered successfully! \n(Display Programme details)
 
 @enduml

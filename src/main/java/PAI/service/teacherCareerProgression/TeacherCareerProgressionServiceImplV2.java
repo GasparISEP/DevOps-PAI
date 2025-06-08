@@ -6,35 +6,32 @@ import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
-import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
 import org.springframework.stereotype.Service;
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 import java.util.Optional;
+
 @Service
 public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
-    private ITeacherCategoryRepository _teacherCategoryRepo;
 
-    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository, ITeacherCareerProgressionFactory teacherCareerProgressionFactory, ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository){
-        _TCPrepository = teacherCareerProgressionRepository;
-        _TCPfactory = teacherCareerProgressionFactory;
-        _teacherRepo = teacherRepository;
-        _teacherCategoryRepo = teacherCategoryRepository;
-
-
+    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
+                                                 ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                                                 ITeacherRepository teacherRepository){
+        _TCPrepository = validateNotNull(teacherCareerProgressionRepository, "Teacher Career Progression Repository Interface");
+        _TCPfactory = validateNotNull (teacherCareerProgressionFactory, "Teacher Career Progression Factory Interface");
+        _teacherRepo = validateNotNull(teacherRepository, "Teacher Repository Interface");
     }
 
     @Override
     public Optional<TeacherCareerProgression> createTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
-        if (date == null || teacherCategoryID == null || wp == null || teacherID == null) {
-            throw new IllegalArgumentException("Argument cannot be null");
-        }
 
         TeacherCareerProgression tcp = _TCPfactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
 
@@ -48,9 +45,8 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
     }
 
     @Override
-    public Optional<TeacherCareerProgression> updateTeacherCategoryInTeacherCareerProgression(UpdateTeacherCategoryCommand command) throws Exception {
-        if (!_teacherRepo.containsOfIdentity(command.teacherID()) || !_teacherCategoryRepo.containsOfIdentity(command.teacherCategoryID()))
-            return Optional.empty();
+    public Optional<TeacherCareerProgression> updateTeacherCategory(UpdateTeacherCategoryCommand command) throws Exception {
+
         Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(command.teacherID());
         if (optionalTCP.isEmpty())
             return Optional.empty();
