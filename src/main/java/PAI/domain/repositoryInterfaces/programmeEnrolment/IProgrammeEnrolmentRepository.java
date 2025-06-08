@@ -22,4 +22,7 @@ public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnro
     boolean containsOfIdentity(ProgrammeEnrolmentID peID);
 
     List<ProgrammeID> findProgrammesByStudent(StudentID studentID);
+
+    Optional<ProgrammeEnrolment> findByStudentIDAndProgrammeID(StudentID studentID, ProgrammeID programmeID);
+
 }

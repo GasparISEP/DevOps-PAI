@@ -71,4 +71,11 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
         return programmes;
     }
 
+    @Override
+    public Optional<ProgrammeEnrolment> findByStudentIDAndProgrammeID(StudentID studentID, ProgrammeID programmeID) {
+        return _programmeEnrolmentList.stream()
+                .filter(pe -> pe.hasSameStudent(studentID) && pe.hasSameProgramme(programmeID))
+                .findFirst();
+    }
+
 }
