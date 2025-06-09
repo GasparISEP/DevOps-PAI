@@ -1,5 +1,6 @@
 package PAI.domain.repositoryInterfaces.programmeEnrolment;
 
+import PAI.VOs.ProgrammeEnrolmentGeneratedID;
 import PAI.VOs.ProgrammeEnrolmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudentID;
@@ -24,5 +25,8 @@ public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnro
     List<ProgrammeID> findProgrammesByStudent(StudentID studentID);
 
     Optional<ProgrammeEnrolment> findByStudentIDAndProgrammeID(StudentID studentID, ProgrammeID programmeID);
+
+    Optional<ProgrammeEnrolment> findByGeneratedID(ProgrammeEnrolmentGeneratedID gid);
+
 
 }
