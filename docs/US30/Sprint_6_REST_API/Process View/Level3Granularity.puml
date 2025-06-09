@@ -10,12 +10,12 @@ participant ":CourseInStudyPlanService" as service <<component>> <<Service>> #te
 participant ":Domain" as domain <<component>> <<Domain>> #teal
 participant ":Repository" as repository <<component>> <<Repository>> #teal
 
-note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
+''note over router: JSON payload includes the following attributes:\n semester, curricularYear, courseID, studyPlanID,\n durationOfCourse, quantityOfCreditsEcts
 
--> router: POST addCourseToProgramme (JSON)
+-> router: POST /course-in-study-plan + \nbody { "semester": 4,\n           "curricularYear": 2,\n           "courseAcronym": "CHM1",\n           "courseName": "Charms I", \n           "programmeAcronym": "AIR", \n           "programmeName": "AI & Robotics", \n           "studyPlanDate": "30-05-2025", \n           "duration": 1, \n           "credits": 12}
 activate router #E1F5FE
 
-note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
+note over router: The conversion from JSON to DTO is done \nautomatically through the Spring Boot Framework
 
 router -> restController: addCourseToProgramme (RequestDTO)
 activate restController #E1F5FE
@@ -53,10 +53,10 @@ ref over restController
     to courseInStudyPlanResponseDTO
 end
 
-restController --> router: (201, Created) courseInStudyPlanResponseDTO
+restController --> router: 201 + body\n {courseInStudyPlanResponseDTO}
 
 deactivate restController
-<-- router: (201, Created) courseInStudyPlanJSON
+<-- router: 201 + body\n {courseInStudyPlanResponseDTO}
 deactivate router
 note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
