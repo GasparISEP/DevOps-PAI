@@ -15,8 +15,8 @@ activate PDM
 PDM --> M --: pDataModel1
 M --> PR --: pDataModel1
 
-PR -> : save(pDataModel1)
-PR <-- : pDataModel1
+PR ->o] : save(pDataModel1)
+PR <--o] : pDataModel1
 
 PR -> M++ : toDomain(pDataModel1)
 M -> PF++ : reregisterProgramme(name, acronym, quantEcts, \nquantSemesters, degreeTypeID, departmentID, teacherID, programmeID)

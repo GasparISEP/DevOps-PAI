@@ -12,7 +12,7 @@ participant "<<Component>>\n:Domain" as D #lightpink
 participant "Programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
--> RT ++: **POST** /programmes
+[o-> RT ++: **POST** /programmes
 
 RT -> C ++: registerProgramme (ProgrammeDTO)
 C -> PS ++: registerProgramme (ProgrammeVOsDTO)
@@ -27,8 +27,8 @@ D --> PS --: Programme1
 PS -> DTS ++: getDegreeTypeByID(degreeTypeID)
 DTS -> DTR ++: ofIdentity(degreeTypeID)
 DTR -> Drivers ++: ofIdentity(degreeTypeID)
-Drivers -> : ofIdentity(degreeTypeID)
-Drivers <-- : degreeType
+Drivers ->o] : ofIdentity(degreeTypeID)
+Drivers <--o] : degreeType
 DTR <-- Drivers --: degreeType
 DTS <-- DTR --: degreeType
 PS <-- DTS --: degreeType
@@ -37,26 +37,26 @@ PS -> PS : areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType)
 
 PS -> PR ++: isNameAlreadyRegistered (name)
 PR -> Drivers ++: existsByName (name)
-Drivers -> : existsByName (name)
-Drivers <-- : False
+Drivers ->o] : existsByName (name)
+Drivers <--o] : False
 Drivers --> PR --: False
 PR --> PS --: False
 
 PS -> PR ++: isAcronymAlreadyRegistered (acronym)
 PR -> Drivers ++: existsByAcronym (name)
-Drivers -> : existsByAcronym (name)
-Drivers <-- : False
+Drivers ->o] : existsByAcronym (name)
+Drivers <--o] : False
 Drivers --> PR --: False
 PR --> PS --: False
 
 PS -> PR ++: save(Programme1)
 PR -> Drivers ++: save(Programme1)
-Drivers -> : save(Programme1)
-Drivers <-- : Programme1
+Drivers ->o] : save(Programme1)
+Drivers <--o] : Programme1
 Drivers --> PR --: Programme1
 PR --> PS --: Programme1
 
 PS --> C --: Programme1
 C --> RT --: Programme1
-<-- RT --: (201, Created) + body {programmeDTO + hypermedia}
+[o<-- RT --: (201, Created) + body {programmeDTO + hypermedia}
 @enduml

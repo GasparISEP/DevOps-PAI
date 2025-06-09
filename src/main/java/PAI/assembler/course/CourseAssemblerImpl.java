@@ -12,6 +12,9 @@ import PAI.dto.course.CourseRequestDTO;
 import PAI.dto.course.CourseResponseDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class CourseAssemblerImpl implements ICourseAssembler {
 
@@ -39,5 +42,14 @@ public class CourseAssemblerImpl implements ICourseAssembler {
         String courseName = courseID.getCourseNameValue();
         String courseAcronym = courseID.getCourseAcronymValue();
         return new CourseIDDTO(courseAcronym, courseName);
+    }
+
+    @Override
+    public List<CourseIDDTO> toDTOList(List<CourseID> courses) {
+        List<CourseIDDTO> dtos = new ArrayList<>();
+        for (CourseID existingCourse : courses){
+            dtos.add(toIDDTO(existingCourse));
+        }
+        return dtos;
     }
 }
