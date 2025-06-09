@@ -11,6 +11,8 @@ import PAI.dto.course.CourseResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -82,4 +84,19 @@ class CourseAssemblerImplTest {
         // Assert
         assertInstanceOf(CourseResponseDTO.class, result);
     }
+
+    @Test
+    void shouldReturnListOfDTOs() {
+        // Arrange
+        CourseAssemblerImpl assembler = new CourseAssemblerImpl();
+        CourseID courseID = mock(CourseID.class);
+
+        List<CourseID> domainList = List.of(courseID);
+
+        // Act
+        List<CourseIDDTO> dtoList = assembler.toDTOList(domainList);
+
+        // Assert
+        assertEquals(1, dtoList.size());
+}
 }

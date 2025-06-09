@@ -1,19 +1,20 @@
 package PAI.controllerRest;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.ProgrammeID;
+import PAI.VOs.*;
+import PAI.assembler.course.ICourseAssembler;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
-import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
+import PAI.dto.course.CourseIDDTO;
+import PAI.dto.programmeEdition.*;
 import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/programmeeditions")
@@ -21,17 +22,27 @@ public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
     private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
+    private final IAvailableCoursesService availableCoursesService;
+    private final ICourseAssembler courseAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler) {
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler) {
         if (programmeEditionService == null) {
             throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
         }
         if (programmeEditionControllerAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
         }
+        if(availableCoursesService == null){
+            throw new IllegalArgumentException("Available courses cannot be null");
+        }
+        if(courseAssembler == null){
+            throw new IllegalArgumentException("Course Assembler cannot be null");
+        }
 
         this.programmeEditionService = programmeEditionService;
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
+        this.availableCoursesService = availableCoursesService;
+        this.courseAssembler = courseAssembler;
     }
 
     @GetMapping
@@ -85,5 +96,22 @@ public class ProgrammeEditionRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping ("/available-courses")
+    public ResponseEntity<List<CourseIDDTO>> getAvailableCourses(@RequestBody ProgrammeEditionIdDto programmeEditionIdDto){
+        try {
+            Acronym acronym = new Acronym(programmeEditionIdDto.programmeAcronym());
+            ProgrammeID programmeID = new ProgrammeID(acronym);
+            SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
+            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
+            List<CourseID> courseIDS = availableCoursesService.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID);
+            List<CourseIDDTO> responseDTOS = courseAssembler.toDTOList(courseIDS);
+            return ResponseEntity.ok(responseDTOS);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }
 
