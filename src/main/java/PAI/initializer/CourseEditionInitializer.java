@@ -43,7 +43,7 @@ public class CourseEditionInitializer {
 
                 String[] fields = line.split(",", -1);
 
-                if (fields.length == 9) {
+                if (fields.length == 8) {
                     try {
                         // Debug print
                         System.out.println("Processing line: " + line);
@@ -52,8 +52,8 @@ public class CourseEditionInitializer {
                         LocalDate localDate = LocalDate.parse(fields[0].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                         Acronym courseAcronym = new Acronym(fields[1].trim());
                         Name courseName = new Name(fields[2].trim());
-                        UUID schoolYearUUID = UUID.fromString(fields[5].trim());
-                        Acronym programmeAcronym = new Acronym(fields[6].trim());
+                        UUID schoolYearUUID = UUID.fromString(fields[4].trim());
+                        Acronym programmeAcronym = new Acronym(fields[5].trim());
 
                         // Create domain IDs
                         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);

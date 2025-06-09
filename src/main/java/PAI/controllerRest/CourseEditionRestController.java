@@ -15,6 +15,7 @@ import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
@@ -42,7 +43,7 @@ public class CourseEditionRestController {
     private final ICourseEditionAssembler courseEditionAssembler;
     private final IGradeAStudentService gradeAStudentService;
     private final IStudentGradeAssembler studentGradeAssembler;
-    private final IProgrammeEditionAssembler programmeEditionAssembler;
+    private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
     private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
@@ -57,7 +58,7 @@ public CourseEditionRestController(
         ICourseEditionAssembler courseEditionAssembler,
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
-        IProgrammeEditionAssembler programmeEditionAssembler,
+        IProgrammeEditionServiceAssembler programmeEditionAssembler,
         IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
@@ -176,16 +177,16 @@ public CourseEditionRestController(
 
 
     @GetMapping("/programmeditions")
-    public ResponseEntity<List<CourseEditionResponseDTO>> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
+    public ResponseEntity<?> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
         try {
             ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
             List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
-            return ResponseEntity.ok(courseEditionResponseDTOs);
+            CollectionModel<EntityModel<CourseEditionResponseDTO>> courseEditionResponseDTOsWithHypermedia = courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseDTOs);
+            return ResponseEntity.ok(courseEditionResponseDTOsWithHypermedia);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Error processing request: " + e.getMessage());
         }
     }
 
@@ -200,7 +201,20 @@ public CourseEditionRestController(
             dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
         }
 
+        System.out.println("DEBUG: Found " + dtoList.size() + " course editions in database");
+        
         return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/debug/count")
+    public ResponseEntity<String> getCourseEditionCount() {
+        Iterable<CourseEdition> allCourseEditions = createCourseEditionService.findAll();
+        int count = 0;
+        for (CourseEdition courseEdition : allCourseEditions) {
+            count++;
+            System.out.println("CourseEdition found: " + courseEdition.identity());
+        }
+        return ResponseEntity.ok("Total CourseEditions in database: " + count);
     }
 
     @PostMapping("/studentgrades/register")

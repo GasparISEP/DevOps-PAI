@@ -3,9 +3,13 @@ package PAI.persistence.springdata.programmeEnrolment;
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.mapper.programme.IProgrammeIDMapper;
+import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentMapper;
+import PAI.mapper.programmeEnrolment.ProgrammeEnrolmentIDMapperImpl;
+import PAI.mapper.programmeEnrolment.ProgrammeEnrolmentMapperImpl;
 import PAI.mapper.student.IStudentIDMapper;
+import PAI.mapper.student.StudentIDMapperImpl;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentIDDataModel;
@@ -513,6 +517,42 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
 
         // Assert
         assertTrue(result.isEmpty(), "Deveria devolver Optional.empty() quando GID não é encontrado");
+    }
+
+    @Test
+    void shouldReturnListOfProgrammeIDs() {
+        // Create mocks manually
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IStudentIDMapper studentIDMapper = mock(StudentIDMapperImpl.class);
+        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
+        IProgrammeEnrolmentIDMapper iProgrammeEnrolmentIDMapper = mock(ProgrammeEnrolmentIDMapperImpl.class);
+        IProgrammeEnrolmentMapper iProgrammeEnrolmentMapper = mock(ProgrammeEnrolmentMapperImpl.class);
+
+
+        // Create the repository manually with dependencies
+        ProgrammeEnrolmentRepositorySpringDataImpl repository =
+                new ProgrammeEnrolmentRepositorySpringDataImpl(jpaRepo, iProgrammeEnrolmentIDMapper, iProgrammeEnrolmentMapper, studentIDMapper, programmeIDMapper);
+
+        // Arrange test data
+        StudentID studentID = mock(StudentID.class);
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        ProgrammeIDDataModel dataModel1 = mock(ProgrammeIDDataModel.class);
+        ProgrammeIDDataModel dataModel2 = mock(ProgrammeIDDataModel.class);
+        ProgrammeID domainID1 = mock(ProgrammeID.class);
+        ProgrammeID domainID2 = mock(ProgrammeID.class);
+
+        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
+        when(jpaRepo.findProgrammeIDsByStudentID(studentIDDataModel)).thenReturn(List.of(dataModel1, dataModel2));
+        when(programmeIDMapper.toDomain(dataModel1)).thenReturn(domainID1);
+        when(programmeIDMapper.toDomain(dataModel2)).thenReturn(domainID2);
+
+        // Act
+        List<ProgrammeID> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(domainID1));
+        assertTrue(result.contains(domainID2));
     }
 
 }

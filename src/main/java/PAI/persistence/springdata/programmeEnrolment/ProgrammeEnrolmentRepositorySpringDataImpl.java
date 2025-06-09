@@ -113,6 +113,15 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
         return jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID())
                 .map(programmeEnrolmentMapper::toDomain);
     }
+
+    @Override
+    public List<ProgrammeID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
+        List<ProgrammeIDDataModel> dataModels = jpaRepo.findProgrammeIDsByStudentID(studentIDDataModel);
+        return dataModels.stream()
+                .map(programmeIDMapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }
 
 

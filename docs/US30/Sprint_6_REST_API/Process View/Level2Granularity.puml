@@ -8,19 +8,28 @@ skinparam shadowing true
 
 autonumber
 
+actor ASC as asc
 participant ":Frontend" as frontend <<container>> #teal
 participant ":Backend" as backend <<container>> #teal
+participant ":Database" as database <<container>> #teal
 
--> frontend : I want to add a course to a programme
+asc -> frontend : I want to add a course to a programme
+activate frontend #E1F5FE
+frontend --> asc : What data to add?
+deactivate frontend
+asc -> frontend : Enter data
+activate frontend #E1F5FE
 
-frontend -> backend: (POST) add Course to a Programme (CourseInStudyPlanRequestDTO)
+frontend -> backend : POST /course-in-study-plan + \nbody { "semester": 4,\n                   "curricularYear": 2,\n                               "courseAcronym": "CHM1",\n                                "courseName": "Charms I", \n                                    "programmeAcronym": "AIR", \n                                              "programmeName": "AI & Robotics", \n                                        "studyPlanDate": "30-05-2025", \n           "duration": 1, \n          "credits": 12}
 activate backend #E1F5FE
-
-
-backend --> frontend: (201, Created) Course added to Programme!
+backend -> database : INSERT INTO courseInStudyPlan (id, semester, curricularYear, courseID, studyPlanID, duration, credits) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', '4', '2', 'CHM1', Charms I', 'AIR', 'AI & Robotics', '30-05-2025', '1', '12' )
+activate database #E1F5FE
+database --> backend : courseInStudyPlan
+deactivate database
+backend --> frontend: 201 + body {courseInStudyPlanResponseDTO}
 deactivate backend
 
-<-- frontend : Course added to Programme!
+frontend --> asc : Ok!
 deactivate frontend
 
 @enduml

@@ -13,7 +13,7 @@ import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.teacher.ITeacherRegistrationService;
 import PAI.service.teacher.ITeacherWithRelevantDataService;
-import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
+import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,13 +31,15 @@ public class TeacherRestController {
     private final ITeacherRegistrationService teacherRegistrationService;
     private final ITeacherAssembler teacherAssembler;
     private final ITeacherHateoasAssembler teacherHateoasAssembler;
-    private final ITeacherCareerProgressionServiceV2 careerService;
+    private final ICreateTeacherCareerProgressionService careerService;
     private final ITeacherCareerProgressionAssembler careerAssembler;
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
 
-    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherHateoasAssembler teacherHateoasAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
+    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler,
+                                 ITeacherHateoasAssembler teacherHateoasAssembler, ICreateTeacherCareerProgressionService careerService,
+                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
         this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
@@ -175,5 +178,16 @@ public class TeacherRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
+    }
+
+    @GetMapping ("/careerprogressions")
+    public ResponseEntity <Object> getAllTeacherCareerProgression () throws Exception {
+        List<UpdateTeacherCategoryDTO> listTCP = careerService.getAllTeacherCareerProgression();
+
+        List<UpdateTeacherCategoryResponseDTO> listTCPResponseDTO = careerAssembler.toResponseDTOs(listTCP);
+
+        return ResponseEntity.status(HttpStatus.OK).body(listTCPResponseDTO);
+
+
     }
 }

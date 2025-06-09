@@ -6,6 +6,7 @@ import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,10 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
     ) {
         Optional<ProgrammeEnrolment> opt = _peRepository.findByStudentIDAndProgrammeID(studentID, programmeID);
         return opt.orElse(null);
+    }
+
+    @Override
+    public List<ProgrammeID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        return _peRepository.listOfProgrammesStudentIsEnrolledIn(studentID);
     }
 }
