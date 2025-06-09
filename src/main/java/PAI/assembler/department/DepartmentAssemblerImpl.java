@@ -33,9 +33,7 @@ public class DepartmentAssemblerImpl implements IDepartmentAssembler {
             throw new IllegalArgumentException("Department cannot be null");
         }
         return new DepartmentDTO(
-                department.identity().getAcronym().getAcronym(),
-                department.getName().getName(),
-                department.getAcronym().getAcronym()
+                department.identity().getAcronym().getAcronym()
         );
     }
     @Override

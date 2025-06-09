@@ -17,7 +17,7 @@ class DepartmentHateoasAssemblerImplTest {
 
     @Test
     void shouldCreateEntityModelWithExpectedLinks() {
-        DepartmentDTO dto = new DepartmentDTO("DEI", "Department of Informatics", "DEI");
+        DepartmentDTO dto = new DepartmentDTO("DEI");
 
         EntityModel<DepartmentDTO> model = assembler.toModel(dto);
 
