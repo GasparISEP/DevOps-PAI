@@ -21,12 +21,13 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
         if (courseEditionID == null){
             throw  new IllegalArgumentException("Course Edition cannot be null");
         }
+        StudentGradeGeneratedID studentGradeGeneratedID = new StudentGradeGeneratedID();
 
-        return new StudentGrade(grade, date, student, courseEditionID,studentGradeID);
+        return new StudentGrade(grade, date, student, courseEditionID,studentGradeID, studentGradeGeneratedID);
     }
 
 
-    public StudentGrade newGradeStudentFromDataModel (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID, StudentGradeID studentGradeID) throws Exception {
-        return new StudentGrade(grade, date, student, courseEditionID, studentGradeID);
+    public StudentGrade newGradeStudentFromDataModel (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID, StudentGradeID studentGradeID, StudentGradeGeneratedID studentGradeGeneratedID) throws Exception {
+        return new StudentGrade(grade, date, student, courseEditionID, studentGradeID, studentGradeGeneratedID);
     }
 }

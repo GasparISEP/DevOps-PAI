@@ -140,7 +140,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 if (grade1.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
@@ -160,7 +160,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;

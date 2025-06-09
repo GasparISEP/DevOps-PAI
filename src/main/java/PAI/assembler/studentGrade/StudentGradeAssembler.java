@@ -33,7 +33,7 @@ public class StudentGradeAssembler implements IStudentGradeAssembler {
             String studyPlanID, String courseInStudyPlanID, String programmeEditionID, String courseEditionID) {
 
         int uniqueNumber = studentGrade.get_studentID().getUniqueNumber();
-        double grade = studentGrade.get_grade().knowGrade();
+        double grade = studentGrade.getGrade().knowGrade();
         String date = studentGrade.get_date().toString();
 
         return new GradeAStudentResponseDTO(uniqueNumber, grade, date, courseEditionID, programmeEditionID, courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
