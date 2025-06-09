@@ -11,7 +11,7 @@ import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
 
 import java.util.Optional;
 
-public interface ITeacherCareerProgressionServiceV2 {
+public interface ICreateTeacherCareerProgressionService {
     Optional<TeacherCareerProgression> createTeacherCareerProgression (Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception;
     UpdateTeacherCategoryDTO updateTeacherCategory(UpdateTeacherCategoryCommand command) throws Exception;
     Optional<TeacherCareerProgression> updateTeacherWorkingPercentageInTeacherCareerProgression(UpdateTeacherWorkingPercentageCommand command) throws Exception;

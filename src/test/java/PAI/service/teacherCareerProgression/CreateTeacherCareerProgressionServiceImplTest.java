@@ -4,7 +4,6 @@ import PAI.VOs.*;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionInternalAssembler;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
-import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
@@ -21,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherCareerProgressionServiceImplV2Test {
+class CreateTeacherCareerProgressionServiceImplTest {
 
     // testing constructor method
 
@@ -34,7 +33,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
         //act
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         //assert
@@ -51,7 +50,7 @@ class TeacherCareerProgressionServiceImplV2Test {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionServiceImplV2
+            new CreateTeacherCareerProgressionServiceImpl
                     (null,doubleTeacherCareerProgressionFactoryInterface,doubleTeacherRepositoryInterface,
                             doubleTCPInternalAssemblerInterface);
         });
@@ -70,7 +69,7 @@ class TeacherCareerProgressionServiceImplV2Test {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionServiceImplV2
+            new CreateTeacherCareerProgressionServiceImpl
                     (doubleTeacherCareerProgressionRepositoryInterface,null,doubleTeacherRepositoryInterface,
                             doubleTCPInternalAssemblerInterface);
         });
@@ -90,7 +89,7 @@ class TeacherCareerProgressionServiceImplV2Test {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionServiceImplV2
+            new CreateTeacherCareerProgressionServiceImpl
                     (doubleTeacherCareerProgressionRepositoryInterface,doubleTeacherCareerProgressionFactoryInterface,null,
                             doubleTCPInternalAssemblerInterface);
         });
@@ -110,7 +109,7 @@ class TeacherCareerProgressionServiceImplV2Test {
 
         //act
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new TeacherCareerProgressionServiceImplV2
+            new CreateTeacherCareerProgressionServiceImpl
                     (doubleTeacherCareerProgressionRepositoryInterface,doubleTeacherCareerProgressionFactoryInterface,
                             doubleTeacherRepositoryInterface, null);
         });
@@ -129,7 +128,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(iTeacherCareerProgressionRepository,
                 factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -156,7 +155,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = null;
@@ -175,7 +174,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -194,7 +193,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -213,7 +212,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -232,7 +231,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -259,7 +258,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -300,7 +299,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository,doubleTCPInternalAssemblerInterface);
 
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.empty());
@@ -323,7 +322,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
@@ -350,7 +349,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
@@ -389,7 +388,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -427,7 +426,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -448,7 +447,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -470,7 +469,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
@@ -497,7 +496,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
         ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
                 (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);

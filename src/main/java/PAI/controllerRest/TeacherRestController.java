@@ -3,6 +3,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
+import PAI.assembler.teacher.ITeacherHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
 import PAI.domain.teacher.Teacher;
@@ -12,7 +13,7 @@ import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.teacher.ITeacherRegistrationService;
 import PAI.service.teacher.ITeacherWithRelevantDataService;
-import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
+import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +29,19 @@ public class TeacherRestController {
 
     private final ITeacherRegistrationService teacherRegistrationService;
     private final ITeacherAssembler teacherAssembler;
-    private final ITeacherCareerProgressionServiceV2 careerService;
+    private final ITeacherHateoasAssembler teacherHateoasAssembler;
+    private final ICreateTeacherCareerProgressionService careerService;
     private final ITeacherCareerProgressionAssembler careerAssembler;
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
 
-    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
+    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler,
+                                 ITeacherHateoasAssembler teacherHateoasAssembler, ICreateTeacherCareerProgressionService careerService,
+                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
+        this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
         this.careerService = validateNotNull(careerService,  "Teacher Career Progression Service Interface");
         this.careerAssembler = validateNotNull(careerAssembler,  "Teacher Career Progression Assembler Interface");
         this.teacherWithRelevantDataService = validateNotNull(teacherWithRelevantDataService,  "Teacher With Relevant Data Service Interface");

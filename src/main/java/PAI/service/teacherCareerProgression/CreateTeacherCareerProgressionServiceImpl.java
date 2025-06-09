@@ -21,16 +21,16 @@ import static PAI.utils.ValidationUtils.validateNotNull;
 import java.util.Optional;
 
 @Service
-public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
+public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacherCareerProgressionService {
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
     private ITeacherCareerProgressionInternalAssembler _internalAssembler;
 
-    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
-                                                 ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
-                                                 ITeacherRepository teacherRepository,
-                                                 ITeacherCareerProgressionInternalAssembler internalAssembler) {
+    public CreateTeacherCareerProgressionServiceImpl(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
+                                                     ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                                                     ITeacherRepository teacherRepository,
+                                                     ITeacherCareerProgressionInternalAssembler internalAssembler) {
 
         _TCPrepository = validateNotNull(teacherCareerProgressionRepository, "Teacher Career Progression Repository Interface");
         _TCPfactory = validateNotNull (teacherCareerProgressionFactory, "Teacher Career Progression Factory Interface");
