@@ -7,7 +7,7 @@ skinparam defaultTextAlignment center
 title "PAI - Implementation View Level 3"
 
     interface "REST API" as RESTAPI
-    interface "FileIO" as FileIO
+    interface "File I/O" as FileIO
     interface "BD API" as BDAPI
 
 component "Backend" {
@@ -24,7 +24,7 @@ component "Backend" {
     Drivers -up- p2
     Drivers -up- p3
 
-    interface " " as IDrivers
+    interface "Repository API" as IDrivers
 
     Drivers -down- IDrivers
   }
@@ -33,21 +33,21 @@ component "Backend" {
     component Repository
     component Controller
 
-    interface " " as IController
+    interface "Controller API" as IController
 
     Controller -up- IController
   }
 
   rectangle "Service layer" {
     component Service
-    interface " " as IService
+    interface "Service API" as IService
 
     Service -up- IService
   }
 
   rectangle "Domain layer" {
     component Domain
-    interface " " as IDomain
+    interface "Domain API" as IDomain
 
     Domain -up- IDomain
   }
