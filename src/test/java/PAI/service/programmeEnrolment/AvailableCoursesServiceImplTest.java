@@ -3,11 +3,14 @@ package PAI.service.programmeEnrolment;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
+import PAI.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -157,6 +160,68 @@ class AvailableCoursesServiceImplTest {
         assertThrows(NullPointerException.class, () ->
                 service.allCoursesInStudyFromProgrammeEdition(null)
         );
+    }
+
+    @Test
+    void shouldReturnListOfCourseInStudyPlanWhenAllFound() {
+        // arrange
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+
+        when(courseInStudyPlanRepository.ofIdentity(id1)).thenReturn(Optional.of(course1));
+        when(courseInStudyPlanRepository.ofIdentity(id2)).thenReturn(Optional.of(course2));
+
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<CourseInStudyPlan> result = service.getByIdentity(List.of(id1, id2));
+
+        // assert
+        assertEquals(List.of(course1, course2), result);
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionWhenAnyCourseInStudyPlanIsMissing() {
+        // arrange
+        CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+
+        when(courseInStudyPlanRepository.ofIdentity(id1)).thenReturn(Optional.of(course1));
+        when(courseInStudyPlanRepository.ofIdentity(id2)).thenReturn(Optional.empty());
+
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act & assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () ->
+                service.getByIdentity(List.of(id1, id2))
+        );
+        assertTrue(exception.getMessage().contains("CourseInStudyPlan not found"));
+    }
+
+    @Test
+    void getByIdentityShouldReturnEmptyListWhenInputIsEmpty() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<CourseInStudyPlan> result = service.getByIdentity(List.of());
+
+        // assert
+        assertTrue(result.isEmpty());
     }
 
 
