@@ -53,7 +53,7 @@ public class CourseEditionInitializer {
                         Acronym courseAcronym = new Acronym(fields[1].trim());
                         Name courseName = new Name(fields[2].trim());
                         UUID schoolYearUUID = UUID.fromString(fields[4].trim());
-                        Acronym programmeAcronym = new Acronym(fields[5].trim());
+                        Acronym programmeAcronym = new Acronym(fields[3].trim());
 
                         // Create domain IDs
                         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
