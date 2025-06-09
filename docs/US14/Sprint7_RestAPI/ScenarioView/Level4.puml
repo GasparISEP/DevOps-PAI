@@ -13,57 +13,57 @@ participant ":ITeacherRepository" as TRepository
 participant ":ITeacherRepositorySpringData" as TRepositorySpringData
 participant ":TeacherCategoryRestController" as TCController
 participant ":ITeacherCategoryService" as TCService
+participant ":ICreateTeacherCareerProgressionService" as service
 participant ":ITeacherCategoryRepository" as TCRepository
 participant ":ITeacherCategoryRepositorySpringData" as TCRepositorySpringData
-participant ":ICreateTeacherCareerProgressionService" as service
 participant ":ITeacherCareerProgressionRepository" as TCPRepo
 participant "lastTCP:TeacherCareerProgression" as TCP
 participant ":ITeacherCareerProgressionFactory" as factory
-participant "ITeacherCareerProgressionRepositorySpringData" as TCPRepoSpringData
+participant ":ITeacherCareerProgressionRepositorySpringData" as TCPRepoSpringData
 
-' findAllTeacherIDs() method
+' getAllTeachers () method
 
--> router: GET /teachers/ids
+[o-> router: **GET** /teachers
 activate router #E1F5FE
 
-router -> Controller: findAllTeacherIDs ()
+router -> Controller: getAllTeachers ()
 activate Controller #E1F5FE
 
-Controller -> TService: findAllTeacherIDs ()
+Controller -> TService: getAllTeachers ()
 activate TService #E1F5FE
 
-TService -> TRepository: findAllTeacherIDs ()
+TService -> TRepository: getAllTeachers ()
 activate TRepository #E1F5FE
 
-TRepository -> TRepositorySpringData: findAllTeacherIDs ()
+TRepository -> TRepositorySpringData: findAll ()
 activate TRepositorySpringData #E1F5FE
 
-TRepositorySpringData --> TRepository: List <TeacherIDDataModel>
+TRepositorySpringData --> TRepository: Iterable<TeacherDataModel>
 deactivate TRepositorySpringData
 
 ref over TRepository
-   SD Convert List<TeacherIDDataModel> to Domain
+   SD Convert Iterable<TeacherDataModel> to Domain
 end
 
-TRepository --> TService: List<TeacherID>
+TRepository --> TService: Iterable<Teacher>
 deactivate TRepository
 
-TService --> Controller: List<TeacherID>
+TService --> Controller: Iterable<Teacher>
 deactivate TService
 
 ref over Controller
-   SD Convert List<TeacherID> to ResponseDTO
+   SD Convert Iterable<Teacher> to ResponseDTO
 end
 
-Controller --> router: 200 + body {List<TeacherIDResponseDTO>}
+Controller --> router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
 deactivate Controller
 
-<-- router: 200 + body {List<TeacherIDResponseDTO>}
+[o<-- router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
 deactivate router
 
 ' getAllTeacherCategories() method
 
--> router: GET /teacher-categories
+[o-> router: **GET** /teacher-categories
 activate router #E1F5FE
 
 router -> TCController: getAllTeacherCategories ()
@@ -82,28 +82,28 @@ ref over TCRepository
    SD Convert Iterator<TeacherCategoryDataModel> to Domain
 end
 
-TCRepositorySpringData --> TCRepository: Iterator<TeacherCategory>
+TCRepositorySpringData --> TCRepository: Iterable<TeacherCategory>
 deactivate TCRepositorySpringData
 
-TCRepository --> TCService: Iterator<TeacherCategory>
+TCRepository --> TCService: Iterable<TeacherCategory>
 deactivate TCRepository
 
-TCService --> TCController: Iterator<TeacherCategory>
+TCService --> TCController: Iterable<TeacherCategory>
 deactivate TCService
 
 ref over TCController
-   SD Convert Iterator<TeacherCategory> to ResponseDTO
+   SD Convert Iterable<TeacherCategory> to ResponseDTO
 end
 
 TCController --> router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
 deactivate TCController
 
-<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+[o<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
 deactivate router
 
 ' updateTeacherCategory() method
 
--> router: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
+[o-> router: **POST** /teachers/{teacherId}/careerprogressions/category + \n body {...}
 activate router #E1F5FE
 
 router -> Controller: updateTeacherCategory (teacherID, updateTeachersCategoryRequestDTO)
@@ -116,7 +116,23 @@ end
 Controller -> service : updateTeacherCategory(updateTeacherCategoryCommand)
 activate service #E1F5FE
 
-service -> TCPRepo : findLastTCPFromTeacherID (teacherIDVO)
+service -> TCRepository :  containsOfIdentity \n (updateTeacherCategoryCommand.teacherCategoryID())
+activate TCRepository #E1F5FE
+
+ref over TCRepository
+   SD Convert TeacherCategoryID to DataModel
+end
+
+TCRepository -> TCRepositorySpringData: existsById (teacherCategoryIDDataModel)
+activate TCRepositorySpringData #E1F5FE
+
+TCRepositorySpringData --> TCRepository: True
+deactivate TCRepositorySpringData
+
+TCRepository --> service: True
+deactivate
+
+service -> TCPRepo : findLastTCPFromTeacherID (updateTeacherCategoryCommand.teacherID())
 activate TCPRepo #E1F5FE
 
 ref over TCPRepo
@@ -126,9 +142,9 @@ end ref
 TCPRepo --> service : lastTCP
 deactivate TCPRepo
 
-service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate \n (dateVO)
+service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate \n (updateTeacherCategoryCommand.date())
 activate TCP #E1F5FE
-TCP -> service : True
+TCP -> service : False
 deactivate TCP
 
 service -> TCP : lastTCP.getWorkingPercentage()
@@ -136,7 +152,7 @@ activate TCP #E1F5FE
 TCP --> service : workingPercentage
 deactivate TCP
 
-service -> TCP : lastTCP.hasSameTeacherCategoryID \n (teacherCategoryIDVO1)
+service -> TCP : lastTCP.hasSameTeacherCategoryID \n (updateTeacherCategoryCommand.teacherCategoryID())
 activate TCP #E1F5FE
 TCP --> service : False
 deactivate TCP
@@ -157,7 +173,7 @@ ref over TCPRepo
     SD Convert tcp to tcpDataModel
 end
 
-TCPRepo -> TCPRepoSpringData: save(tcpDataModel)
+TCPRepo -> TCPRepoSpringData: save (tcpDataModel)
 activate TCPRepoSpringData #E1F5FE
 
 TCPRepoSpringData --> TCPRepo: tcpDataModelSaved
@@ -191,7 +207,7 @@ deactivate hateoasAssembler
 Controller --> router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
 deactivate Controller
 
-<-- router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
+[o<-- router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
 deactivate router
 
 
