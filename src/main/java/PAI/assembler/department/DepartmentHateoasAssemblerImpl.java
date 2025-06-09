@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
-public class DepartmentHateoasAssemblerImpl
-        implements RepresentationModelAssembler<DepartmentDTO, EntityModel<DepartmentDTO>>,
-        IDepartmentHateoasAssembler {
+public class DepartmentHateoasAssemblerImpl implements IDepartmentHateoasAssembler {
 
     @Override
     public EntityModel<DepartmentDTO> toModel(DepartmentDTO dto) {
