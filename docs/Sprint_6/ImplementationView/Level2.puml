@@ -3,7 +3,7 @@
 title "PAI \n (Implementation View - Level 2)"
 
 interface UI
-interface "API REST"
+interface "REST API"
 interface "File I/O" as FileIO
 
 component "<<System>>\nPAI" {
@@ -13,8 +13,8 @@ component "<<System>>\nPAI" {
   component Backend
   component Frontend
   component "Relational BD" as BD
-  interface " " as I1
-  interface " " as I2
+  interface "BD API" as I1
+  interface "REST API" as I2
 }
 
 component Frontend {
@@ -31,7 +31,7 @@ I1 -left- BD
 I2 -down- p6
 
 p1 -up- UI
-p2 -up- "API REST"
+p2 -up- "REST API"
 p3 -up-( FileIO
 p6 -up- p3
 p2 -down-p6
