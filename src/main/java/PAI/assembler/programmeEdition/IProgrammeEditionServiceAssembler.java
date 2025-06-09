@@ -10,7 +10,7 @@ import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 
 public interface IProgrammeEditionServiceAssembler {
     CountStudentsRequestDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition);
-    ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception;
+    ProgrammeEdition countStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception;
     SchoolYearID toSchoolYearID(ProgrammeEditionServiceDTO programmeEditionServiceDTO);
     ProgrammeID toProgrammeID(ProgrammeEditionServiceDTO programmeEditionServiceDTO);
     ProgrammeEditionServiceDTO toDTO(ProgrammeID programmeID, SchoolYearID schoolYearID);

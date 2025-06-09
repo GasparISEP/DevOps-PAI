@@ -30,7 +30,7 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception {
+    public ProgrammeEdition countStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception {
         if (dto == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }

@@ -382,7 +382,7 @@ class ProgrammeEditionServiceTest {
         ProgrammeEditionID identity = mock(ProgrammeEditionID.class);
         List<ProgrammeEditionEnrolment> enrolments = Arrays.asList(pee1, pee2, pee3
         );
-        when(programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
+        when(programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
         when(edition.identity()).thenReturn(identity);
         when(programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(identity)).thenReturn(enrolments);
 
@@ -408,7 +408,7 @@ class ProgrammeEditionServiceTest {
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionID identity = mock(ProgrammeEditionID.class);
 
-        when(programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
+        when(programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
         when(edition.identity()).thenReturn(identity);
         when(programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(identity)).thenReturn(Collections.emptyList());
 

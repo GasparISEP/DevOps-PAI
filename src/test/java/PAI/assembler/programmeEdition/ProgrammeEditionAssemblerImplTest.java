@@ -61,7 +61,7 @@ class ProgrammeEditionAssemblerImplTest {
         CountStudentsRequestDto dto = new CountStudentsRequestDto(programmeAcronym, schoolYearID);
 
         // Act
-        ProgrammeEdition programmeEdition = assembler.CountStudentsInProgrammeEditionDTOtoDomain(dto);
+        ProgrammeEdition programmeEdition = assembler.countStudentsInProgrammeEditionDTOtoDomain(dto);
 
         // Assert
         assertEquals("PPP", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeAcronym());
@@ -73,7 +73,7 @@ class ProgrammeEditionAssemblerImplTest {
         //arrange
         //act + assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            assembler.CountStudentsInProgrammeEditionDTOtoDomain(null);
+            assembler.countStudentsInProgrammeEditionDTOtoDomain(null);
         });
         assertEquals("ProgrammeEditionDTO cannot be null", exception.getMessage());
     }

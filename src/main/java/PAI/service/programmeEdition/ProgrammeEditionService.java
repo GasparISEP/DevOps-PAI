@@ -113,7 +113,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
     @Override
     public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception {
-        ProgrammeEdition programmeEdition = programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
+        ProgrammeEdition programmeEdition = programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
         List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
         return allProgrammeEditionEnrolment.size();
     }
