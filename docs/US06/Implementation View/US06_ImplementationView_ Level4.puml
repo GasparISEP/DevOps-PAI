@@ -1,0 +1,169 @@
+@startuml
+skinparam linetype ortho
+skinparam nodesep 20
+skinparam ranksep 180
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam packageStyle rectangle
+skinparam packageBorderColor Blue
+left to right direction
+
+'======================
+'title
+'======================
+title US06: Update Department Director Of A Department\nImplementation View - Level 4
+
+'======================
+'Presentation Layer
+'======================
+package "Presentation Layer" {
+  class DepartmentRestController <<restController>> {
+    departmentAssembler: IDepartmentAssembler
+    departmentHateoasAssembler: IDepartmentHateoasAssembler
+    updateDepartmentDirectorService: IUpdateDepartmentDirectorService
+    + updateDepartmentDirector(departmentID: String, request: DepartmentWithDirectorRequest): ResponseEntity<?>
+  }
+}
+
+'======================
+'DTOs and Requests
+'======================
+package "DTO / Request" {
+  class DepartmentWithDirectorRequest <<record>> {
+    + teacherId(): String
+  }
+  class DepartmentWithDirectorDTO <<record>> {
+    + id(): String
+    + acronym(): String
+    + name(): String
+    + director(): String
+  }
+}
+
+'======================
+'Assembler Layer
+'======================
+package "Assembler" {
+  interface IDepartmentAssembler {
+    + fromRequestToCommand(departmentID: String, request: DepartmentWithDirectorRequest): DepartmentWithDirectorCommand
+    + toDWDDTO(Department): DepartmentWithDirectorDTO
+  }
+  class DepartmentAssemblerImpl {
+    + fromRequestToCommand(String, DepartmentWithDirectorRequest): DepartmentWithDirectorCommand
+    + toDWDDTO(Department): DepartmentWithDirectorDTO
+  }
+  interface IDepartmentHateoasAssembler {
+    + toModel(DepartmentWithDirectorDTO): EntityModel<DepartmentWithDirectorDTO>
+  }
+  class DepartmentHateoasAssemblerImpl {
+    + toModel(DepartmentWithDirectorDTO): EntityModel<DepartmentWithDirectorDTO>
+  }
+}
+
+'======================
+'Application Service Layer
+'======================
+package "Application Service" {
+  interface IUpdateDepartmentDirectorService {
+    + updateDirector(DepartmentID, TeacherID): DepartmentWithDirectorDTO
+  }
+  class UpdateDepartmentDirectorServiceImpl {
+    + updateDirector(DepartmentID, TeacherID): DepartmentWithDirectorDTO
+    departmentRepository: IDepartmentRepository
+    teacherRepository: ITeacherRepository
+    departmentAssembler: IDepartmentAssembler
+  }
+}
+
+'======================
+'Domain Layer
+'======================
+package "Domain" {
+  class Department <<root>> {
+    + changeDirector(TeacherID): void
+    + identity(): DepartmentID
+  }
+  class Teacher <<root>> {
+    + isInDepartment(DepartmentID): boolean
+  }
+  class DepartmentID <<Value Object>> {}
+  class TeacherID <<Value Object>> {}
+  class DepartmentAcronym <<Value Object>> {}
+  class Name <<Value Object>> {}
+}
+
+'======================
+'Persistence Layer
+'======================
+package "Repository" {
+  interface IDepartmentRepository {
+    + findDepartmentByID(DepartmentID): Optional<Department>
+    + save(Department): Department
+  }
+  interface ITeacherRepository {
+    + ofIdentity(TeacherID): Optional<Teacher>
+  }
+  class DepartmentRepositorySpringDataImpl {
+    + save(Department): Department
+    + findDepartmentByID(DepartmentID): Optional<Department>
+  }
+  class TeacherRepositorySpringDataImpl {
+    + ofIdentity(TeacherID): Optional<Teacher>
+  }
+}
+
+package "Persistence - Data Models" {
+  class DepartmentDataModel <<dataModel>> {}
+  class TeacherDataModel <<dataModel>> {}
+}
+
+package "Mapper" {
+  class DepartmentMapper {
+    + toDomain(DepartmentDataModel): Department
+    + toDataModel(Department): DepartmentDataModel
+  }
+  class TeacherMapper {
+    + toDomain(TeacherDataModel): Teacher
+    + toDataModel(Teacher): TeacherDataModel
+  }
+}
+
+'======================
+'Dependências
+'======================
+DepartmentRestController --> IDepartmentAssembler : "uses"
+DepartmentRestController --> IDepartmentHateoasAssembler : "uses"
+DepartmentRestController --> IUpdateDepartmentDirectorService : "uses"
+DepartmentAssemblerImpl --> DepartmentWithDirectorDTO
+DepartmentAssemblerImpl --> DepartmentID
+DepartmentAssemblerImpl --> TeacherID
+DepartmentAssemblerImpl --> DepartmentWithDirectorRequest
+DepartmentAssemblerImpl --> Department
+DepartmentAssemblerImpl --> DepartmentWithDirectorCommand
+DepartmentAssemblerImpl ..|> IDepartmentAssembler
+DepartmentHateoasAssemblerImpl ..|> IDepartmentHateoasAssembler
+UpdateDepartmentDirectorServiceImpl ..|> IUpdateDepartmentDirectorService: "implements"
+UpdateDepartmentDirectorServiceImpl --> IDepartmentRepository
+UpdateDepartmentDirectorServiceImpl --> ITeacherRepository
+UpdateDepartmentDirectorServiceImpl --> IDepartmentAssembler
+DepartmentRepositorySpringDataImpl ..|> IDepartmentRepository
+DepartmentRepositorySpringDataImpl --> DepartmentMapper
+TeacherRepositorySpringDataImpl ..|> ITeacherRepository
+TeacherRepositorySpringDataImpl --> TeacherMapper
+DepartmentMapper --> DepartmentDataModel
+DepartmentMapper --> Department
+TeacherMapper --> TeacherDataModel
+TeacherMapper --> Teacher
+Department --> DepartmentID
+Department --> TeacherID
+Department --> DepartmentAcronym
+Department --> Name
+Teacher --> TeacherID
+Teacher --> DepartmentID
+Teacher --> Name
+Teacher --> Email
+Teacher --> NIF
+Teacher --> PhoneNumber
+Teacher --> AcademicBackground
+Teacher --> Address
+@enduml
