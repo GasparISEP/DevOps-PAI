@@ -176,13 +176,13 @@ public CourseEditionRestController(
 
 
     @GetMapping("/programmeditions")
-    public ResponseEntity<List<CourseEditionResponseDTO>> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
+    public ResponseEntity<?> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
         try {
             ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
             List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
-            return ResponseEntity.ok(courseEditionResponseDTOs);
+            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseDTOs));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

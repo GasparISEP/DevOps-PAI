@@ -36,17 +36,17 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
             .map(dto -> EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
                     .getCourseEditionsByProgrammeEditionID(null))
-                    .withSelfRel()
-                    .withRel("self"),
+                    .withSelfRel(),
                 linkTo(methodOn(CourseEditionRestController.class)
                     .enrolStudentInCourseEdition(0, null))
-                    .withRel("enroll-student")))
+                    .withRel("enroll-student"),
+                linkTo(methodOn(CourseEditionRestController.class)
+                    .findAllCourseEditions())
+                    .withRel("find-all-course-editions"))
+            )
             .collect(Collectors.toList());
 
-        return CollectionModel.of(listOfCourseEditionResponseDtosWithHypermedia,
-            linkTo(methodOn(CourseEditionRestController.class)
-                .getCourseEditionsByProgrammeEditionID(null))
-                .withSelfRel());
+        return CollectionModel.of(listOfCourseEditionResponseDtosWithHypermedia);
     }
 }
 
