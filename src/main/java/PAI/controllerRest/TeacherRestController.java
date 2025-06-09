@@ -3,6 +3,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
+import PAI.assembler.teacher.ITeacherHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
 import PAI.domain.teacher.Teacher;
@@ -28,15 +29,17 @@ public class TeacherRestController {
 
     private final ITeacherRegistrationService teacherRegistrationService;
     private final ITeacherAssembler teacherAssembler;
+    private final ITeacherHateoasAssembler teacherHateoasAssembler;
     private final ITeacherCareerProgressionServiceV2 careerService;
     private final ITeacherCareerProgressionAssembler careerAssembler;
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
 
-    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
+    public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler, ITeacherHateoasAssembler teacherHateoasAssembler, ITeacherCareerProgressionServiceV2 careerService, ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
+        this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
         this.careerService = validateNotNull(careerService,  "Teacher Career Progression Service Interface");
         this.careerAssembler = validateNotNull(careerAssembler,  "Teacher Career Progression Assembler Interface");
         this.teacherWithRelevantDataService = validateNotNull(teacherWithRelevantDataService,  "Teacher With Relevant Data Service Interface");
