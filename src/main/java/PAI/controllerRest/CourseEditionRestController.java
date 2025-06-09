@@ -15,7 +15,6 @@ import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -177,16 +176,16 @@ public CourseEditionRestController(
 
 
     @GetMapping("/programmeditions")
-    public ResponseEntity<?> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
+    public ResponseEntity<List<CourseEditionResponseDTO>> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {
         try {
             ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
             List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
-            CollectionModel<EntityModel<CourseEditionResponseDTO>> courseEditionResponseDTOsWithHypermedia = courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseDTOs);
-            return ResponseEntity.ok(courseEditionResponseDTOsWithHypermedia);
+            return ResponseEntity.ok(courseEditionResponseDTOs);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error processing request: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -201,20 +200,7 @@ public CourseEditionRestController(
             dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
         }
 
-        System.out.println("DEBUG: Found " + dtoList.size() + " course editions in database");
-        
         return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/debug/count")
-    public ResponseEntity<String> getCourseEditionCount() {
-        Iterable<CourseEdition> allCourseEditions = createCourseEditionService.findAll();
-        int count = 0;
-        for (CourseEdition courseEdition : allCourseEditions) {
-            count++;
-            System.out.println("CourseEdition found: " + courseEdition.identity());
-        }
-        return ResponseEntity.ok("Total CourseEditions in database: " + count);
     }
 
     @PostMapping("/studentgrades/register")
