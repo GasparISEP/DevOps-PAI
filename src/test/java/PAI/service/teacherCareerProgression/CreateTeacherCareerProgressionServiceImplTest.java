@@ -581,4 +581,91 @@ class CreateTeacherCareerProgressionServiceImplTest {
         // assert
         assertFalse(result.iterator().hasNext());
     }
+
+    // testing getTeacherCareerProgressionByID method
+
+    @Test
+    void shouldReturnADTOIfTeacherCareerProgressionIdExists () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (doubleTeacherCareerProgressionRepositoryInterface, doubleTeacherCareerProgressionFactoryInterface,
+                        doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        TeacherCareerProgressionID doubleTeacherCareerProgressionId = mock(TeacherCareerProgressionID.class);
+        TeacherCareerProgression doubleTeacherCareerProgression = mock(TeacherCareerProgression.class);
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO = mock(UpdateTeacherCategoryDTO.class);
+
+        when(doubleTeacherCareerProgressionRepositoryInterface.ofIdentity(doubleTeacherCareerProgressionId)).
+                thenReturn(Optional.of(doubleTeacherCareerProgression));
+
+        when(doubleTCPInternalAssemblerInterface.toDTO(doubleTeacherCareerProgression)).thenReturn(doubleUpdateTeacherCategoryDTO);
+
+        // act
+        UpdateTeacherCategoryDTO result = service.getTeacherCareerProgressionByID(doubleTeacherCareerProgressionId);
+
+        // assert
+        assertEquals(doubleUpdateTeacherCategoryDTO, result);
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfInputIsNull () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (doubleTeacherCareerProgressionRepositoryInterface, doubleTeacherCareerProgressionFactoryInterface,
+                        doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getTeacherCareerProgressionByID(null);
+        });
+
+        // Assert
+        assertEquals("Teacher Career Progression ID is required!", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfIdDoesNotExist () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (doubleTeacherCareerProgressionRepositoryInterface, doubleTeacherCareerProgressionFactoryInterface,
+                        doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        TeacherCareerProgressionID doubleTeacherCareerProgressionId = mock(TeacherCareerProgressionID.class);
+
+        when(doubleTeacherCareerProgressionRepositoryInterface.ofIdentity(doubleTeacherCareerProgressionId)).
+                thenReturn(Optional.empty());
+
+        // Act
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            service.getTeacherCareerProgressionByID(doubleTeacherCareerProgressionId);
+        });
+
+        // Assert
+        assertEquals("This teacher career progression id does not exist!", exception.getMessage());
+    }
+
 }

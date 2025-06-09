@@ -1,9 +1,6 @@
 package PAI.service.teacherCareerProgression;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionInternalAssembler;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
@@ -99,6 +96,20 @@ public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacher
         Iterable <TeacherCareerProgression> listTCP = _TCPrepository.findAll();
 
         return _internalAssembler.toDTOList(listTCP);
+    }
+
+    public UpdateTeacherCategoryDTO getTeacherCareerProgressionByID (TeacherCareerProgressionID id) {
+        if (id == null){
+            throw new IllegalArgumentException("Teacher Career Progression ID is required!");
+        }
+
+        Optional <TeacherCareerProgression> teacherCareerProgressionOpt = _TCPrepository.ofIdentity(id);
+
+        if (teacherCareerProgressionOpt.isEmpty()){
+            throw new NotFoundException("This teacher career progression id does not exist!");
+        }
+
+        return _internalAssembler.toDTO(teacherCareerProgressionOpt.get());
     }
 
 }
