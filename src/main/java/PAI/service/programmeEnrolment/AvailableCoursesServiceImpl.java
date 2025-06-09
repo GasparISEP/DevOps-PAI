@@ -7,10 +7,12 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
+import PAI.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AvailableCoursesServiceImpl {
@@ -34,6 +36,20 @@ public class AvailableCoursesServiceImpl {
         }
         return courseInStudyPlanIDS;
     }
+
+    public List<CourseInStudyPlan> getByIdentity(List<CourseInStudyPlanID> courseInStudyPlanIDS) {
+        List<CourseInStudyPlan> courseInStudyPlans = new ArrayList<>();
+        for (CourseInStudyPlanID existingCSPID : courseInStudyPlanIDS) {
+            Optional<CourseInStudyPlan> optional = _courseInStudyPlanRepository.ofIdentity(existingCSPID);
+            if (optional.isPresent()) {
+                courseInStudyPlans.add(optional.get());
+            } else {
+                throw new NotFoundException("CourseInStudyPlan not found: " + existingCSPID);
+            }
+        }
+        return courseInStudyPlans;
+    }
+
     public List<CourseID> getListOfCoursesID(List<CourseInStudyPlan> courseInStudyPlans){
         List<CourseID> courseIDS = new ArrayList<>();
         for (CourseInStudyPlan existingCourse : courseInStudyPlans){
@@ -41,7 +57,4 @@ public class AvailableCoursesServiceImpl {
         }
         return courseIDS;
     }
-
-
-
 }
