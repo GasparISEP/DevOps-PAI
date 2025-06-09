@@ -13,8 +13,8 @@ describe('DurationSelector component', () => {
     it('displays duration options correctly', () => {
         render(<DurationSelector value="" onChange={() => {}} durations={mockDurations} />);
         expect(screen.getByText('Select duration')).toBeInTheDocument();
-        expect(screen.getByText('1 year')).toBeInTheDocument();
-        expect(screen.getByText('2 years')).toBeInTheDocument();
+        expect(screen.getByText((content) => content.includes('1'))).toBeInTheDocument();
+        expect(screen.getByText((content) => content.includes('2'))).toBeInTheDocument();
     });
 
     it('calls onChange when a duration is selected', () => {

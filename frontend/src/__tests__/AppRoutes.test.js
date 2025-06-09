@@ -59,7 +59,7 @@ describe('Rotas da aplicação', () => {
             </MemoryRouter>
         );
         expect(
-            screen.getByText(/register course in study plan|new course/i)
+            screen.getByText(/register a course/i)
         ).toBeInTheDocument();
     });
 });
