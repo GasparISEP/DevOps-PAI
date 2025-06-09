@@ -1,17 +1,16 @@
 @startuml
-
 title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 4 – with HATEOAS)
 skinparam sequencemessagealign center
 autonumber
 
 actor RUC
 participant ":UI" as ui #application
-participant ":CourseEditionRESTController" as ctrlrREST #business
+participant ":CourseEditionRestController" as ctrlrREST #business
 participant ":GradeAStudentServiceImpl" as service #motivation
-participant ":StudentGradeAssemblerImpl" as assembler #implementation
-participant ":StudentGradeRepositorySpringData" as sgr #lightgreen
-participant ":StudentGradeMapper" as sgmp #mistyrose
-participant ":IStudentGradeRepositorySpringData" as IStudentGradeRepoSpringData #khaki
+participant ":StudentGradeRepresentationModelAssembler" as assembler #implementation
+participant ":StudentGradeRepositorySpringDataImpl" as sgr #lightgreen
+participant ":StudentGradeMapperImpl" as sgmp #mistyrose
+participant ":IStudentGradeRepositorySpringData" as repoSpringData #khaki
 
 RUC -> ui : I want to **grade a Student** in a Course Edition
 activate ui
@@ -24,57 +23,54 @@ RUC -> ui : This CourseEdition!
 ui --> RUC : Fill in the **Student grading** information
 RUC -> ui : grade, date, courseEditionID, studentID!
 
-note over ui : Spring Boot automatically converts from JSON to **__D__**ata **__T__**ransfer **__O__**bject
+note over ui : Spring Boot automatically converts JSON into `GradeAStudentRequestDTO`
 
-ui -> ctrlrREST : **(POST)** \n gradeAStudent (gradeAStudentRequestDTO)
+ui -> ctrlrREST : **(POST)** \n gradeAStudent(GradeAStudentRequestDTO)
 activate ctrlrREST
 
-ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert StudentGradeRequestDTO \n \t \t \t \t      into GradeAStudentCommand
+ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert DTO → Command
 
-ctrlrREST -> service : gradeAStudent (gradeAStudentCommand)
+ctrlrREST -> service : gradeAStudent(GradeAStudentCommand)
 activate service
 
-ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t          Validate Grading Business Rules and \n \t \t \t \t  Create **StudentGrade** Entity
+ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t Validations + Create Aggregate `StudentGrade`
 
-service -> sgr : save(studentGrade1)
+service -> sgr : save(studentGrade)
 activate sgr
 
-sgr -> sgmp : toData(studentGrade1)
+sgr -> sgmp : toData(studentGrade)
 activate sgmp
-sgmp --> sgr : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
+sgmp --> sgr : StudentGradeDM
 deactivate sgmp
 
-sgr -> IStudentGradeRepoSpringData : save (studentGradeDataModel1)
-activate IStudentGradeRepoSpringData
-IStudentGradeRepoSpringData -> : **Insert**
-IStudentGradeRepoSpringData <-- : studentGradeDataModel1 \n (studentIDDataModel, grade, date)
-IStudentGradeRepoSpringData --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
-deactivate IStudentGradeRepoSpringData
+sgr -> repoSpringData : save(StudentGradeDM)
+activate repoSpringData
+repoSpringData -> : INSERT INTO student_grades
+repoSpringData <-- : persisted StudentGradeDM
+deactivate repoSpringData
 
-sgr -> sgmp : toDomain (studentGradeDataModel1)
+sgr -> sgmp : toDomain(StudentGradeDM)
 activate sgmp
-sgmp --> sgr : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
+sgmp --> sgr : StudentGrade
 deactivate sgmp
 
-sgr --> service -- : studentGrade1 \n (grade, date, studentID, courseEditionID, studentGradeID)
+sgr --> service : StudentGrade
+deactivate sgr
 
-service -> assembler : toDTO(studentGrade1)
+service -> assembler : toModel(StudentGradeResponseDTO)
 activate assembler
-
-note over assembler : Adds HATEOAS `_links` \n (self, update, student, courseEdition)
-
-assembler --> service : **EntityModel<StudentGradeResponseDTO>** \n (DTO + _links)
+note over assembler : Adds `_links` → self, student, courseEdition, update
+assembler --> service : EntityModel<StudentGradeResponseDTO>
 deactivate assembler
 
 service --> ctrlrREST : EntityModel<StudentGradeResponseDTO>
 deactivate service
 
-ctrlrREST --> ui -- : Status Code 200 (OK) \n body: DTO + _links
+ctrlrREST --> ui : HTTP 201 Created \n body: DTO + _links
 deactivate ctrlrREST
 
-note over ui : Spring Boot automatically converts \n EntityModel to HAL-JSON
+note over ui : Spring Boot automatically serializes EntityModel to HAL-JSON
 
-ui --> RUC : Success! Student graded with hypermedia links
+ui --> RUC : Student graded successfully! (with hypermedia)
 deactivate ui
-
 @enduml

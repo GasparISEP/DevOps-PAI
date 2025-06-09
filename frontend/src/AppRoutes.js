@@ -1,11 +1,12 @@
 // AppRoutes.js
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import RegisterStudentPage from './pages/RegisterStudentPage';
+import RegisterStudentPage from './pages/studentPage/RegisterStudentPage';
 import RegisterProgrammePage from './pages/RegisterProgrammePage';
 import RegisterTeacherPage from './pages/teacherPage/RegisterTeacherPage';
 import DisplayTeacherPage from './pages/teacherPage/DisplayTeacherPage';
 import RegisterCourseInStudyPlanPage from './pages/RegisterCourseInStudyPlanPage';
+import DisplayStudentPage from "./pages/studentPage/DisplayStudentPage";
 
 
 function AppRoutes() {
@@ -14,7 +15,8 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/teachers/register" element={<RegisterTeacherPage />} />
             <Route path="/teachers/display" element={<DisplayTeacherPage />} />
-            <Route path="/students" element={<RegisterStudentPage />} />
+            <Route path="/students/register" element={<RegisterStudentPage />} />
+            <Route path="/students/display" element={<DisplayStudentPage />} />
             <Route path="/programmes" element={<RegisterProgrammePage />} />
             <Route path="/courses" element={<RegisterCourseInStudyPlanPage />}
             />

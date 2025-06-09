@@ -41,7 +41,9 @@ export default function StudentForm() {
         } else if (name === 'nif') {
             newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 18);
         } else if (['name', 'location', 'street'].includes(name)) {
-            newValue = value.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
+            newValue = value
+                .toLowerCase()
+                .replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
         }
 
         setForm(f => ({ ...f, [name]: newValue }));

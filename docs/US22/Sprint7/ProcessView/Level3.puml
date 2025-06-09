@@ -1,80 +1,50 @@
 @startuml
-
 autonumber
-title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 3 – with HATEOAS support)
-skinparam sequencemessagealign center
 
-participant ":Router" as router <<Component>> #application
-participant ":Controller" as controller <<Component>> #motivation
-participant ":Service" as service <<Component>> #business
-participant ":Repository" as repo <<Component>> #technology
-participant ":Domain" as domain <<Component>> #implementation
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+}
 
--> router : Select **Student grading** in a **CourseEdition** functionality
-activate router
+title As a RUC, I want to grade a Student in a Course Edition \n Process View – Level 3 (HATEOAS + Persistence with Spring Data JPA)
 
-router -> controller : **(GET)** \n /courseeditions
-activate controller
+actor "RUC" as RUC
+participant ":Frontend" as FE
+participant ":Router" as Router
+participant ":CourseEditionRestController" as Controller
+participant ":GradeAStudentServiceImpl" as Service
+participant ":StudentGradeRepositorySpringDataImpl" as RepositoryAdapter
+participant ":IStudentGradeRepositorySpringData" as SpringDataRepo
+database "Database" as DB
 
-controller -> service : findAllCourseEditions()
-activate service
+RUC -> FE ++ : Request to grade a student
+FE --> RUC -- : Request grading data
+RUC -> FE ++ : Enter grading data
 
-service -> repo : findAllCourseEditions()
-activate repo
+FE -> Router ++ : HTTP POST /courseeditions/studentgrades/register \n with GradeAStudentRequestDTO
+Router -> Controller ++ : gradeAStudent(GradeAStudentRequestDTO)
 
-repo ->  : findAll()
-repo <--  : List <CourseEditionResponseDTO>
+Controller -> Service ++ : gradeAStudent(GradeAStudentCommand)
 
-repo --> service : All Course Editions
-deactivate repo
+Service -> RepositoryAdapter ++ : validate constraints \n (isEnrolled, isDateWithinSchoolYear, notAlreadyGraded)
+RepositoryAdapter --> Service -- : validation ok
 
-service --> controller : All Course Editions
-deactivate service
+Service -> Service ++ : create StudentGrade \n via factory
+Service --> Service -- : new StudentGrade
 
-controller --> router : All Course Editions \n (**with HATEOAS links**: self, gradeStudent)
-deactivate controller
+Service -> RepositoryAdapter ++ : save(StudentGrade)
+RepositoryAdapter -> SpringDataRepo ++ : save(StudentGradeDM)
+SpringDataRepo -> DB ++ : INSERT INTO student_grades
+DB --> SpringDataRepo -- : persisted
+SpringDataRepo --> RepositoryAdapter -- : StudentGradeDM
+RepositoryAdapter --> Service -- : StudentGrade
 
-<-- router : Which Course Edition?
+Service --> Controller -- : GradeAStudentResponseDTO
 
--> router : This Course Edition!
-
-<-- router : Fill in the **Student grading** information
-
--> router : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
-router -> controller : **(POST)** \n /studentgrades/register
-activate controller
-
-controller -> service : <Create> StudentGrade \n (grade, date, studentID, courseEditionID)
-activate service
-
-service -> repo : Validate grading constraints
-activate repo
-
-repo --> service : validated
-deactivate repo
-
-service -> domain : <Create> StudentGrade
-activate domain
-
-domain --> service : studentGrade
-deactivate domain
-
-service -> repo : save(studentGrade)
-activate repo
-
-repo -> : **Insert**
-repo <-- : saved!
-
-repo --> service : studentGrade!
-deactivate repo
-
-service --> controller : Student Grade saved!
-deactivate service
-
-controller --> router : Student Grade saved! \n (**with _links**: self, update, courseEdition, student)
-deactivate controller
-
-<-- router : Student graded successfully!
-deactivate router
+Controller --> Router -- : Response 201 Created + \n EntityModel<GradeAStudentResponseDTO> + HATEOAS (_links: self, courseEdition, student)
+Router --> FE -- : Response 201 Created + entity model
+FE --> RUC -- : Student graded successfully!
 
 @enduml

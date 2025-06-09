@@ -13,6 +13,8 @@ import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
 import PAI.service.programme.IProgrammeService;
+import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
+import PAI.service.programmeEnrolment.ProgrammeEnrolmentServiceImpl;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,17 +35,20 @@ public class ProgrammeRestController {
 
     private final IProgrammeService _programmeService;
     private final IProgrammeAssembler _programmeAssembler;
+    private final IProgrammeEnrolmentService _programmeEnrolmentService;
     private final IStudyPlanService _studyPlanService;
     private final IStudyPlanAssembler _studyPlanAssembler;
     private final IProgrammeDirectorAssembler _programmeDirectorAssembler;
     private final IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
 
     public ProgrammeRestController (IProgrammeService programmeService, IProgrammeAssembler programmeAssembler,
+                                    IProgrammeEnrolmentService programmeEnrolmentService,
                                     IStudyPlanService studyPlanService, IStudyPlanAssembler studyPlanAssembler,
                                     IProgrammeDirectorAssembler programmeDirectorAssembler, IProgrammeHATEOASAssembler programmeHATEOASAssembler){
 
         this._programmeService = programmeService;
         this._programmeAssembler = programmeAssembler;
+        this._programmeEnrolmentService = programmeEnrolmentService;
         this._studyPlanService = studyPlanService;
         this._studyPlanAssembler = studyPlanAssembler;
         this._programmeDirectorAssembler = programmeDirectorAssembler;
@@ -151,6 +156,17 @@ public class ProgrammeRestController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/studentID/{uniqueNumber}")
+    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("uniqueNumber") int uniqueNumber) {
+        try {
+            StudentID studentID = new StudentID(uniqueNumber);
+            List<ProgrammeID> programmeID = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
+            return (ResponseEntity.ok(_programmeAssembler.toListOfDTOs(programmeID)));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

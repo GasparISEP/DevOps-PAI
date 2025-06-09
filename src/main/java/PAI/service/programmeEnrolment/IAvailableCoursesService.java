@@ -12,6 +12,6 @@ public interface IAvailableCoursesService {
     List<CourseEditionID> allCourseEditionIdsFromProgrammeEdition(ProgrammeEditionID programmeEditionID);
     List<CourseInStudyPlanID> allCoursesInStudyFromProgrammeEdition(List<CourseEditionID> courseEditionIDS);
     List<CourseInStudyPlan> getByIdentity(List<CourseInStudyPlanID> courseInStudyPlanIDS);
-    List<CourseID> getListOfCoursesFromACurrentCurricularYear(List<CourseInStudyPlan> courseInStudyPlans);
-    List<CourseID> getListOfCourseIdForAGivenProgrammeEditionAndInASpecificCurricularYear(ProgrammeEditionID programmeEditionID);
+    List<CourseID> getListOfCoursesID(List<CourseInStudyPlan> courseInStudyPlans);
+    List<CourseID> getListOfCourseIdForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID);
 }
