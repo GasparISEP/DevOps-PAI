@@ -1,0 +1,70 @@
+@startuml
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+autonumber
+skinparam Shadowing true
+
+
+participant "Router" as RO #lightgreen/green
+participant "RESTController" as RC #yellow/orange
+participant "Service" as S #orange/red
+participant "Repository" as R #pink/purple
+participant "Domain" as D #lightblue/blue
+
+
+[o-> RO++ #lightgray : GET /TeacherCategories
+RO -> RC++ #lightgray : Request Teacher Categories
+RC -> S++ #lightgray : Request Teacher Categories
+S -> R ++ #lightgray : Request Teacher Categories
+R ->o]: SELECT name FROM TeacherCategories
+R <--o]: List of Teacher Categories
+R --> S --: List of Teacher Categories
+S --> RC --: List of Teacher Categories
+RC --> RO --: List of Teacher Categories
+[o<-- RO --: 200 OK + {List of departments}
+
+[o-> RO++ #lightgray : GET /Departments
+RO -> RC++ #lightgray : Request Departments
+RC -> S++ #lightgray : Request Departments
+S -> R ++ #lightgray : Request Departments
+R ->o]: SELECT name FROM Departments
+R <--o]: List of Departments
+R --> S --: List of Departments
+S --> RC --: List of Departments
+RC --> RO --: List of Departments
+[o<-- RO --: 200 OK + {List of Department}
+
+[o-> RO++ #lightgray : POST /teachers/with-relevant-data / {acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country, department, category}
+RO -> RC++ #lightgray : Register Teacher
+RC -> S++ #lightgray : Register Teacher
+S -> D ++ #lightgray : Create Teacher
+D --> S --: Teacher
+S -> R ++ #lightgray : Validate if Created Teacher is duplicated
+R ->o]: SELECT * FROM Teachers
+R <--o]: Teacher List
+R -> R: Validate Uniqueness
+R --> S --: Teacher is not duplicated
+S -> R ++ #lightgray : Save Teacher
+R ->o]: INSERT INTO Teacher
+R <--o]: Teacher Saved
+
+R --> S --: Teacher registered
+S --> RC --: Teacher registered
+
+RC -> S++ #lightgray : Register Teacher Career Progression
+S -> D ++ #lightgray : Create Teacher Career Progression
+D --> S --: Teacher Career Progression
+S -> R ++ #lightgray : Validate if Created Teacher Career Progression is duplicated
+R ->o]: SELECT * FROM TeacherCareerProgressions
+R <--o]: Teacher Career Progression List
+R -> R: Validate Uniqueness
+R --> S --: Teacher Career Progression is not duplicated
+S -> R ++ #lightgray: Save Teacher Career Progression
+R ->o]: INSERT INTO TeacherCareerProgressions
+R <--o]: Teacher Career Progression Saved
+R --> S --: Teacher Career Progression registered
+S --> RC --: Teacher Career Progression registered
+RC --> RO --: Teacher Career Progression registered
+[o<-- RO --: 201 OK + { Name, Acronym, TeacherCategoryName, WorkingPercentage }
+
+@enduml

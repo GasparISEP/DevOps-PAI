@@ -39,4 +39,13 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
 
 
     }
+
+    @Override
+    public ProgrammeEnrolment findEnrolmentByStudentAndProgramme(
+            StudentID studentID,
+            ProgrammeID programmeID
+    ) {
+        Optional<ProgrammeEnrolment> opt = _peRepository.findByStudentIDAndProgrammeID(studentID, programmeID);
+        return opt.orElse(null);
+    }
 }

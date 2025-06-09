@@ -1,34 +1,128 @@
 package PAI.service.teacherCareerProgression;
 
 import PAI.VOs.*;
+import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionInternalAssembler;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
-import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
+import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryDTO;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TeacherCareerProgressionServiceImplV2Test {
+class CreateTeacherCareerProgressionServiceImplTest {
+
+    // testing constructor method
+
     @Test
     void shouldReturnConstructor() {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        //act
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
+
         //assert
         assertNotNull(service);
     }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionRepositoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CreateTeacherCareerProgressionServiceImpl
+                    (null,doubleTeacherCareerProgressionFactoryInterface,doubleTeacherRepositoryInterface,
+                            doubleTCPInternalAssemblerInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Repository Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionFactoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CreateTeacherCareerProgressionServiceImpl
+                    (doubleTeacherCareerProgressionRepositoryInterface,null,doubleTeacherRepositoryInterface,
+                            doubleTCPInternalAssemblerInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Factory Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherRepositoryIsNull() {
+        //arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CreateTeacherCareerProgressionServiceImpl
+                    (doubleTeacherCareerProgressionRepositoryInterface,doubleTeacherCareerProgressionFactoryInterface,null,
+                            doubleTCPInternalAssemblerInterface);
+        });
+
+        //assert
+        assertEquals("Teacher Repository Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionInternalAssemblerIsNull() {
+        //arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new CreateTeacherCareerProgressionServiceImpl
+                    (doubleTeacherCareerProgressionRepositoryInterface,doubleTeacherCareerProgressionFactoryInterface,
+                            doubleTeacherRepositoryInterface, null);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Internal Assembler Interface cannot be null.", exception.getMessage());
+    }
+
+    // testing createTeacherCareerProgression method
 
     @Test
     void shouldReturnAnOptionalOfTeacherCareerProgression() throws Exception{
@@ -36,8 +130,10 @@ class TeacherCareerProgressionServiceImplV2Test {
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(iTeacherCareerProgressionRepository,
+                factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
@@ -54,14 +150,17 @@ class TeacherCareerProgressionServiceImplV2Test {
         //assert
         assertTrue(result.isPresent());
     }
+
     @Test
-    void shouldReturnAnExceptionWhenDateIsNull() throws Exception {
+    void shouldReturnAnExceptionWhenDateIsNull()  {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = null;
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -72,13 +171,15 @@ class TeacherCareerProgressionServiceImplV2Test {
     }
 
     @Test
-    void shouldReturnAnExceptionWhenTeacherIDIsNull() throws Exception {
+    void shouldReturnAnExceptionWhenTeacherIDIsNull()  {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -89,14 +190,15 @@ class TeacherCareerProgressionServiceImplV2Test {
     }
 
     @Test
-    void shouldReturnAnExceptionWhenTeacherCategoryIDIsNull() throws Exception {
-        //arrange
+    void shouldReturnAnExceptionWhenTeacherCategoryIDIsNull() {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = null;
@@ -105,16 +207,17 @@ class TeacherCareerProgressionServiceImplV2Test {
         //assert
         assertThrows(Exception.class, ()-> service.createTeacherCareerProgression(date,teacherCategoryID,workingPercentage,teacherID));
     }
-//
+
     @Test
-    void shouldReturnAnExceptionWhenWorkingPercentageIsNull() throws Exception {
-        //arrange
+    void shouldReturnAnExceptionWhenWorkingPercentageIsNull() {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -123,16 +226,17 @@ class TeacherCareerProgressionServiceImplV2Test {
         //assert
         assertThrows(Exception.class, ()-> service.createTeacherCareerProgression(date,teacherCategoryID,workingPercentage,teacherID));
     }
-//
+
     @Test
     void shouldReturnAnOptionalEmptyWhenTeacherAlreadyHaveThatCategory() throws Exception{
-        //arrange
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID= mock(TeacherCategoryID.class);
@@ -151,13 +255,15 @@ class TeacherCareerProgressionServiceImplV2Test {
     }
 
     @Test
-    void shouldReturnOptionalOfTeacherCareerProgression() throws Exception {
+    void shouldReturnDTOWhenWasPossibleUpdateTeacherCategory() throws Exception {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -171,115 +277,84 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(command.date()).thenReturn(date);
         when(command.teacherCategoryID()).thenReturn(teacherCategoryID);
         when(command.teacherID()).thenReturn(teacherID);
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(teacherCategoryID)).thenReturn(true);
+
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(previousTCP));
         when(previousTCP.isLastDateEqualOrBeforeNewDate(date)).thenReturn(true);
         when(previousTCP.getWorkingPercentage()).thenReturn(wp);
         when(previousTCP.getTeacherCategoryID()).thenReturn(teacherCategoryID2);
         when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
 
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO = mock (UpdateTeacherCategoryDTO.class);
+
+        when(doubleTCPInternalAssemblerInterface.toDTO(newTCP)).thenReturn(doubleUpdateTeacherCategoryDTO);
+
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        UpdateTeacherCategoryDTO result = service.updateTeacherCategory(command);
 
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals(newTCP, result.get());
+        assertEquals (result, doubleUpdateTeacherCategoryDTO);
     }
 
-
-
     @Test
-    void shouldReturnEmptyWhenTeacherNotFound() throws Exception {
-
+    void shouldReturnAnExceptionWhenNoPreviousTCP() {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
-        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
-        when(teacherRepository.containsOfIdentity(any())).thenReturn(false);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
 
-        // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
-        // Assert
-        assertTrue(result.isEmpty());
-    }
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository,doubleTCPInternalAssemblerInterface);
 
-    @Test
-    void shouldReturnEmptyWhenCategoryNotFound() throws Exception {
-        //arrange
-        ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
-        ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
-        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
-
-        when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(false);
-
-        // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
-        // Assert
-        assertTrue(result.isEmpty());
-    }
-    @Test
-    void shouldReturnEmptyWhenNoPreviousTCP() throws Exception {
-        //arrange
-        ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
-        ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
-
-        when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.empty());
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            service.updateTeacherCategory(command);
+        });
+
         // Assert
-        assertTrue(result.isEmpty());
+        assertEquals("This teacher has no previous career progression record. Please create one before attempting an update.", exception.getMessage());
     }
 
     @Test
-    void shouldReturnEmptyWhenDateNotAfterLast() throws Exception {
+    void shouldReturnAnExceptionWhenDateNotAfterLast() {
         //arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         TeacherCareerProgression tcp = mock(TeacherCareerProgression.class);
-        Date date = mock(Date.class);
-        TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
-        TeacherID teacherID = mock(TeacherID.class);
+
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(any())).thenReturn(Optional.of(tcp));
         when(tcp.isLastDateEqualOrBeforeNewDate(any())).thenReturn(false);
 
-        when(teacherRepository.containsOfIdentity(any())).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(any())).thenReturn(true);
-
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Exception exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.updateTeacherCategory(command);
+        });
+
         // Assert
-        assertTrue(result.isEmpty());
+        assertEquals("The date must be equal to or later than the previous update.", exception.getMessage());
     }
 
     @Test
-    void shouldReturnEmptyWhenCategoryIsSame() throws Exception {
-        //arrange
+    void shouldReturnAnExceptionWhenCategoryIsSame()  {
+        // Arrange
         ITeacherCareerProgressionRepository iTeacherCareerProgressionRepository = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository teacherCategoryRepository = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(iTeacherCareerProgressionRepository,factory,teacherRepository,teacherCategoryRepository);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (iTeacherCareerProgressionRepository,factory,teacherRepository, doubleTCPInternalAssemblerInterface);
 
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
@@ -292,8 +367,7 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(command.date()).thenReturn(date);
         when(command.teacherCategoryID()).thenReturn(teacherCategoryID);
         when(command.teacherID()).thenReturn(teacherID);
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(teacherCategoryRepository.containsOfIdentity(teacherCategoryID)).thenReturn(true);
+
         when(iTeacherCareerProgressionRepository.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(previousTCP));
         when(previousTCP.isLastDateEqualOrBeforeNewDate(date)).thenReturn(true);
         when(previousTCP.getWorkingPercentage()).thenReturn(wp);
@@ -301,19 +375,25 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(factory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID)).thenReturn(newTCP);
 
         // Act
-        Optional<TeacherCareerProgression> result = service.updateTeacherCategoryInTeacherCareerProgression(command);
+        Exception exception = assertThrows(BusinessRuleViolationException.class, () -> {
+            service.updateTeacherCategory(command);
+        });
+
         // Assert
-        assertTrue(result.isEmpty());
+        assertEquals("The Teacher Category must be different to the previous update.", exception.getMessage());
     }
 
 
     @Test
     void shouldReturnOptionalOfTeacherCareerProgressionWhenWorkingPercentageChanges() throws Exception {
+        //Arrange
         ITeacherCareerProgressionRepository repo = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -334,52 +414,67 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(lastTCP.getWorkingPercentage()).thenReturn(oldWP);
         when(factory.createTeacherCareerProgression(date, categoryID, newWP, teacherID)).thenReturn(newTCP);
 
+        //Act
         Optional<TeacherCareerProgression> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
+        //Assert
         assertTrue(result.isPresent());
         assertEquals(newTCP, result.get());
     }
 
     @Test
     void shouldReturnEmptyWhenTeacherNotFoundForWorkingPercentage() throws Exception {
+        // Arrange
         ITeacherCareerProgressionRepository repo = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         when(teacherRepo.containsOfIdentity(any())).thenReturn(false);
 
+        // Act
         Optional<TeacherCareerProgression> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnEmptyWhenNoPreviousTCPForWorkingPercentage() throws Exception {
+        // Arrange
         ITeacherCareerProgressionRepository repo = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         when(teacherRepo.containsOfIdentity(any())).thenReturn(true);
         when(repo.findLastTCPFromTeacherID(any())).thenReturn(Optional.empty());
 
+        // Act
         Optional<TeacherCareerProgression> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnEmptyWhenDateNotAfterLastForWorkingPercentage() throws Exception {
+        // Arrange
         ITeacherCareerProgressionRepository repo = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -390,18 +485,23 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(repo.findLastTCPFromTeacherID(teacherID)).thenReturn(Optional.of(lastTCP));
         when(lastTCP.isLastDateEqualOrBeforeNewDate(any())).thenReturn(false);
 
+        // Act
         Optional<TeacherCareerProgression> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnEmptyWhenWorkingPercentageIsSame() throws Exception {
+        // Arrange
         ITeacherCareerProgressionRepository repo = mock(ITeacherCareerProgressionRepository.class);
         ITeacherCareerProgressionFactory factory = mock(ITeacherCareerProgressionFactory.class);
         ITeacherRepository teacherRepo = mock(ITeacherRepository.class);
-        ITeacherCategoryRepository categoryRepo = mock(ITeacherCategoryRepository.class);
-        TeacherCareerProgressionServiceImplV2 service = new TeacherCareerProgressionServiceImplV2(repo, factory, teacherRepo, categoryRepo);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface = mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl
+                (repo, factory, teacherRepo, doubleTCPInternalAssemblerInterface);
 
         UpdateTeacherWorkingPercentageCommand command = mock(UpdateTeacherWorkingPercentageCommand.class);
         TeacherID teacherID = mock(TeacherID.class);
@@ -419,9 +519,66 @@ class TeacherCareerProgressionServiceImplV2Test {
         when(lastTCP.getTeacherCategoryID()).thenReturn(categoryID);
         when(lastTCP.getWorkingPercentage()).thenReturn(wp);
 
+        // Act
         Optional<TeacherCareerProgression> result = service.updateTeacherWorkingPercentageInTeacherCareerProgression(command);
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
+    // testing getAllTeacherCareerProgression method
+
+    @Test
+    void shouldReturnAListOfTeacherCareerProgression () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(doubleTeacherCareerProgressionRepositoryInterface,
+                doubleTeacherCareerProgressionFactoryInterface, doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        TeacherCareerProgression doubleTeacherCareerProgression1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression doubleTeacherCareerProgression2 = mock(TeacherCareerProgression.class);
+        Iterable<TeacherCareerProgression> doubleList = Arrays.asList(doubleTeacherCareerProgression1, doubleTeacherCareerProgression2);
+        when(doubleTeacherCareerProgressionRepositoryInterface.findAll()).thenReturn(doubleList);
+
+        UpdateTeacherCategoryDTO doubleDTO1 = mock(UpdateTeacherCategoryDTO.class);
+        UpdateTeacherCategoryDTO doubleDTO2 = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleTCPInternalAssemblerInterface.toDTOList(doubleList)).thenReturn(List.of(doubleDTO1, doubleDTO2));
+
+        // act
+        List <UpdateTeacherCategoryDTO> result = service.getAllTeacherCareerProgression();
+
+        // assert
+        assertEquals(List.of(doubleDTO1, doubleDTO2), result);
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfTeacherCareerProgression () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(doubleTeacherCareerProgressionRepositoryInterface,
+                doubleTeacherCareerProgressionFactoryInterface, doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        Iterable<TeacherCareerProgression> doubleList = Arrays.asList();
+        when(doubleTeacherCareerProgressionRepositoryInterface.findAll()).thenReturn(doubleList);
+
+        // act
+        List <UpdateTeacherCategoryDTO> result = service.getAllTeacherCareerProgression();
+
+        // assert
+        assertFalse(result.iterator().hasNext());
+    }
 }

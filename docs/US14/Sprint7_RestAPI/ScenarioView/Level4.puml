@@ -15,7 +15,7 @@ participant ":TeacherCategoryRestController" as TCController
 participant ":ITeacherCategoryService" as TCService
 participant ":ITeacherCategoryRepository" as TCRepository
 participant ":ITeacherCategoryRepositorySpringData" as TCRepositorySpringData
-participant ":ITeacherCareerProgressionService" as service
+participant ":ICreateTeacherCareerProgressionService" as service
 participant ":ITeacherCareerProgressionRepository" as TCPRepo
 participant "lastTCP:TeacherCareerProgression" as TCP
 participant ":ITeacherCareerProgressionFactory" as factory
@@ -106,14 +106,14 @@ deactivate router
 -> router: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
 activate router #E1F5FE
 
-router -> Controller: updateTeachersCategory (teacherID, updateTeachersCategoryRequestDTO)
+router -> Controller: updateTeacherCategory (teacherID, updateTeachersCategoryRequestDTO)
 activate Controller #E1F5FE
 
 ref over Controller
-   SD Convert input to updateTeachersCategoryCommand
+   SD Convert input to updateTeacherCategoryCommand
 end
 
-Controller -> service : updateTeachersCategory(updateTeachersCategoryCommand)
+Controller -> service : updateTeacherCategory(updateTeacherCategoryCommand)
 activate service #E1F5FE
 
 service -> TCPRepo : findLastTCPFromTeacherID (teacherIDVO)

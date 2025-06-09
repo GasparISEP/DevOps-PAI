@@ -73,8 +73,8 @@ activate router #E1F5FE
 note over router #E0E0E0
   body:
     {"teacherId": "AAA",
-     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-     "date": "2025-07-01"
+     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
+     "date": "2025-06-01"
     }
 end note
 

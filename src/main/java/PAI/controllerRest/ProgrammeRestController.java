@@ -3,6 +3,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
+import PAI.assembler.programme.IProgrammeHATEOASAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
 import PAI.domain.teacher.Teacher;
@@ -16,6 +17,7 @@ import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,33 +36,18 @@ public class ProgrammeRestController {
     private final IStudyPlanService _studyPlanService;
     private final IStudyPlanAssembler _studyPlanAssembler;
     private final IProgrammeDirectorAssembler _programmeDirectorAssembler;
-    private final ITeacherService _teacherService;
+    private final IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
 
     public ProgrammeRestController (IProgrammeService programmeService, IProgrammeAssembler programmeAssembler,
                                     IStudyPlanService studyPlanService, IStudyPlanAssembler studyPlanAssembler,
-                                    IProgrammeDirectorAssembler programmeDirectorAssembler, ITeacherService teacherService){
-
-        if (programmeService == null) {
-            throw new IllegalArgumentException("ProgrammeService cannot be null.");
-        }
-        if (programmeAssembler == null) {
-            throw new IllegalArgumentException("ProgrammeAssembler cannot be null.");
-        }
-        if (studyPlanService == null) {
-            throw new IllegalArgumentException("StudyPlanService cannot be null.");
-        }
-        if (studyPlanAssembler == null) {
-            throw new IllegalArgumentException("StudyPlanAssembler cannot be null.");
-        }
-        if (programmeDirectorAssembler == null) throw new IllegalArgumentException("ProgrammeDirectorAssembler cannot be null.");
-        if (teacherService == null) throw new IllegalArgumentException("TeacherService cannot be null.");
+                                    IProgrammeDirectorAssembler programmeDirectorAssembler, IProgrammeHATEOASAssembler programmeHATEOASAssembler){
 
         this._programmeService = programmeService;
         this._programmeAssembler = programmeAssembler;
         this._studyPlanService = studyPlanService;
         this._studyPlanAssembler = studyPlanAssembler;
         this._programmeDirectorAssembler = programmeDirectorAssembler;
-        this._teacherService = teacherService;
+        this._programmeHATEOASAssembler = programmeHATEOASAssembler;
     }
 
     @PostMapping()
@@ -69,8 +56,9 @@ public class ProgrammeRestController {
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
         ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
+        EntityModel<ProgrammeDTO> programmeEntityModel = _programmeHATEOASAssembler.toModel(newProgrammeDTO);
 
-        return new ResponseEntity<>(newProgrammeDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(programmeEntityModel, HttpStatus.CREATED);
     }
 
     @PostMapping("/{programme-name}/{programme-acronym}/studyPlans")
@@ -122,7 +110,7 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{degreeTypeID}")
+    @GetMapping("/degreeType/{degreeTypeID}")
     public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeID) {
         try {
             DegreeTypeID id = new DegreeTypeID(degreeTypeID);
@@ -138,7 +126,7 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Object> getProgrammeByID (@PathVariable("id") String acronym){
 
         Acronym acronym1 = new Acronym(acronym);

@@ -39,14 +39,15 @@ deactivate FE
 ASC -> FE: Yes!
 activate FE #LightBlue
 
-FE -> BE: GET /programme-editions/{id}/students
+FE -> BE: GET /programme-editions/{id}/schoolYearID/students
 activate BE #LightGreen
 
-BE -> DB: SELECT * FROM ProgrammeEditionEnrolment WHERE programmeEditionID = programmeEditionID
+BE -> DB: SELECT * FROM ProgrammeEditionEnrolment \nWHERE programmeAcronym = 'SWE' \nAND schoolYearID = '1b7e4da6-f9e1-47d8-8dd8-cbe83ac8d95b';
 activate DB #LightGray
 
-DB --> BE: List<ProgrammeEditionEnrolment>programme-editionEnrolments
+DB --> BE: List<ProgrammeEditionEnrolment>
 deactivate DB
+
 
 BE --> FE: 200 + body {totalNumberOfStudents + hypermedia}
 deactivate BE

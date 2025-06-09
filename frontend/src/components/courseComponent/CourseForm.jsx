@@ -44,7 +44,7 @@ export default function CourseForm() {
         async function fetchOptions() {
             try {
                 const [programmeRes, courseRes] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_API_URL}/programmes/ids`),
+                    fetch(`${process.env.REACT_APP_API_URL}/programmes`),
                     fetch(`${process.env.REACT_APP_API_URL}/courses/ids`)
                 ]);
 
@@ -91,7 +91,7 @@ export default function CourseForm() {
             }
 
             try {
-                const res = await fetch(`${process.env.REACT_APP_API_URL}/course-in-study-plan/${encodeURIComponent(selectedProgramme.acronym)}/${encodeURIComponent(selectedProgramme.name)}`);
+                const res = await fetch(`${process.env.REACT_APP_API_URL}/course-in-study-plan/${encodeURIComponent(selectedProgramme.acronym)}`);
                 if (!res.ok) throw new Error('Failed to fetch courses in study plan');
                 const courses = await res.json();
 
@@ -101,7 +101,6 @@ export default function CourseForm() {
                     Number(course.semester) === Number(form.semester)
                 );
 
-                // Soma os ECTS usados nesse semestre
                 const totalUsedECTS = filteredCourses.reduce((acc, curr) => acc + (Number(curr.credits) || 0), 0);
 
                 setUsedECTS(totalUsedECTS);
@@ -122,7 +121,8 @@ export default function CourseForm() {
 
     async function fetchProgrammeDetails(acronym, name) {
         try {
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/programmes/${encodeURIComponent(name)}/${encodeURIComponent(acronym)}`);
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/programmes/id/${encodeURIComponent(acronym)}`);
+
             const data = await res.json();
 
             if (data && data.quantSemesters?.quantityOfSemesters) {

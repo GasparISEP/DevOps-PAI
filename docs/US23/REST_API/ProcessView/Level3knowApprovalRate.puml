@@ -27,10 +27,10 @@ activate Repository
 Repository --> Service : Students' grades
 deactivate Repository
 
-Service --> Controller : Approval rate
+Service --> Controller : ApprovalRateResponseDTO
 deactivate Service
 
-Controller --> Router : Approval rate
+Controller --> Router : ApprovalRateResponseDTO
 deactivate Controller
 
 <-- Router : (200, OK) Approval Rate

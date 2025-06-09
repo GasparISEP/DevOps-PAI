@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface IProgrammeEnrolmentRepositorySpringData extends JpaRepository <ProgrammeEnrolmentDataModel, ProgrammeEnrolmentIDDataModel> {
 
@@ -16,5 +18,8 @@ public interface IProgrammeEnrolmentRepositorySpringData extends JpaRepository <
 
     @Query("SELECT p.programmeEnrolmentID.peProgrammeID FROM ProgrammeEnrolmentDataModel p WHERE p.programmeEnrolmentID.peStudentID = :studentID")
     List<ProgrammeIDDataModel> findProgrammeIDsByStudentID(@Param("studentID") StudentIDDataModel studentID);
+    Optional<ProgrammeEnrolmentDataModel> findByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(StudentIDDataModel studentID, ProgrammeIDDataModel programmeID);
+    Optional<ProgrammeEnrolmentDataModel> findByProgrammeEnrolmentGID(UUID programmeEnrolmentGID);
+
 
 }

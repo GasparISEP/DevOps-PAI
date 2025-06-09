@@ -3,8 +3,9 @@ import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.studentGrade.GradeAStudentCommand;
@@ -78,7 +79,7 @@ class CourseEditionRestControllerTest {
     private IStudentGradeAssembler studentGradeAssembler;
 
     @MockBean
-    private IProgrammeEditionAssembler programmeEditionAssembler;
+    private IProgrammeEditionServiceAssembler programmeEditionAssembler;
 
     @MockBean
     private ICourseEditionService courseEditionService;
@@ -94,6 +95,9 @@ class CourseEditionRestControllerTest {
 
     @Autowired
     private CourseEditionRestController courseEditionRestController;
+
+    @MockBean
+    private ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
 
     @BeforeEach
     void setUp() {
@@ -113,42 +117,49 @@ class CourseEditionRestControllerTest {
         int studentId = 1100000;
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
         StudentID mockStudentID = mock(StudentID.class);
+        
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenReturn(mockCourseEditionID);
         when(courseEditionEnrolmentAssembler.toStudentID(any(int.class)))
             .thenReturn(mockStudentID);
         when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(true);
+        when(courseEditionEnrolmentHateoasAssembler.toModel(any(CourseEditionEnrolmentDto.class)))
+            .thenReturn(EntityModel.of(validEnrolmentDto));
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isCreated());
-    }
+        }
 
     @Test
     void whenEnrolStudentAlreadyEnrolled_thenReturnsBadRequest() throws Exception {
         // Arrange
-        int studentId = 1100000;  
+        int studentId = 1100000;
+        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
+        StudentID mockStudentID = mock(StudentID.class);
+        
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mock(CourseEditionID.class));
+            .thenReturn(mockCourseEditionID);
         when(courseEditionEnrolmentAssembler.toStudentID(studentId))
-            .thenReturn(mock(StudentID.class));
+            .thenReturn(mockStudentID);
         when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
             .thenReturn(false);
 
-        // Act & Assert - Updated URL to match controller's structure
+        // Act & Assert
         mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Student already enrolled in this course edition"));
     }
 
     @Test
     void whenEnrolStudentWithInvalidData_thenReturnsBadRequest() throws Exception {
         // Arrange
-        int studentId = 1100000;    
+        int studentId = 0;    
         CourseEditionEnrolmentDto invalidDto = new CourseEditionEnrolmentDto(
             0,
             "",
@@ -169,6 +180,7 @@ class CourseEditionRestControllerTest {
     void whenEnrolStudentWithException_thenReturnsBadRequest() throws Exception {
         // Arrange
         int studentId = 1100000;
+        
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenThrow(new RuntimeException("Test exception"));
 
@@ -176,7 +188,8 @@ class CourseEditionRestControllerTest {
         mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)                
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Error processing enrollment: Test exception"));
     }
 
     @Test

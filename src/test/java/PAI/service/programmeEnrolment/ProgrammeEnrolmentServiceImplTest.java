@@ -6,6 +6,8 @@ import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -164,4 +166,45 @@ class ProgrammeEnrolmentServiceImplTest {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble));
         assertEquals("Programme Enrolment already exists.", ex.getMessage());
     }
+
+    @Test
+    void shouldReturnEnrolmentWhenFound() {
+        // Arrange
+        createDoubles();
+
+        ProgrammeEnrolmentServiceImpl peService =
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+
+
+        when(_peRepositoryDouble.findByStudentIDAndProgrammeID(_studentIDDouble, _programmeIDDouble))
+                .thenReturn(Optional.of(_peDouble));
+
+        // Act
+        ProgrammeEnrolment result =
+                peService.findEnrolmentByStudentAndProgramme(_studentIDDouble, _programmeIDDouble);
+
+        // Assert
+        assertNotNull(result, "Deveria retornar o object de domínio quando existe");
+        assertSame(_peDouble, result, "Deveria ser exatamente a instância mockada");
+    }
+
+    @Test
+    void shouldReturnNullWhenNotFound() {
+        // Arrange
+        createDoubles();
+        ProgrammeEnrolmentServiceImpl peService =
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+
+
+        when(_peRepositoryDouble.findByStudentIDAndProgrammeID(_studentIDDouble, _programmeIDDouble))
+                .thenReturn(Optional.empty());
+
+        // Act
+        ProgrammeEnrolment result =
+                peService.findEnrolmentByStudentAndProgramme(_studentIDDouble, _programmeIDDouble);
+
+        // Assert
+        assertNull(result, "Deveria retornar null quando não existe enrolment");
+    }
+
 }

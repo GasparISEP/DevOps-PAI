@@ -7,9 +7,12 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UpdateTeacherCategoryRequestDTOTest {
 
@@ -23,33 +26,34 @@ class UpdateTeacherCategoryRequestDTOTest {
 
     @Test
     void shouldPassValidationWhenAllFieldsAreValid() {
-        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO("12-05-2024", "ABC", "123");
+        LocalDate date = mock (LocalDate.class);
+        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO(date, "123");
         Set<ConstraintViolation<UpdateTeacherCategoryRequestDTO>> violations = validator.validate(request);
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    void shouldFailValidationWhenDateIsBlank() {
-        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO(" ", "ABC", "123");
+    void shouldFailValidationWhenDateIsNull() {
+        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO(null, "123");
         Set<ConstraintViolation<UpdateTeacherCategoryRequestDTO>> violations = validator.validate(request);
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Date is required.")));
-    }
-
-    @Test
-    void shouldFailValidationWhenTeacherIdIsBlank() {
-        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO("12-05-2024", "", "123");
-        Set<ConstraintViolation<UpdateTeacherCategoryRequestDTO>> violations = validator.validate(request);
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Teacher ID required.")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("The date field is required!")));
     }
 
     @Test
     void shouldFailValidationWhenCategoryIdIsBlank() {
-        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO("12-05-2024", "ABC", "");
+        LocalDate date = mock (LocalDate.class);
+        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO(date, "");
         Set<ConstraintViolation<UpdateTeacherCategoryRequestDTO>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("New teacher category required")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("The Teacher Category ID field cannot be blank!")));
+    }
+
+    @Test
+    void shouldFailValidationWhenCategoryIdIsNull() {
+        LocalDate date = mock (LocalDate.class);
+        UpdateTeacherCategoryRequestDTO request = new UpdateTeacherCategoryRequestDTO(date, null);
+        Set<ConstraintViolation<UpdateTeacherCategoryRequestDTO>> violations = validator.validate(request);
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("The Teacher Category ID field is required!")));
     }
 
 }

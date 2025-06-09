@@ -4,37 +4,43 @@ import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
 import PAI.VOs.WorkingPercentage;
+import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionInternalAssembler;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
-import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
+import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryDTO;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageCommand;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.NotFoundException;
 import org.springframework.stereotype.Service;
+import static PAI.utils.ValidationUtils.validateNotNull;
 
+import java.util.List;
 import java.util.Optional;
+
 @Service
-public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProgressionServiceV2 {
+public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacherCareerProgressionService {
     private ITeacherCareerProgressionRepository _TCPrepository;
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
-    private ITeacherCategoryRepository _teacherCategoryRepo;
+    private ITeacherCareerProgressionInternalAssembler _internalAssembler;
 
-    public TeacherCareerProgressionServiceImplV2(ITeacherCareerProgressionRepository teacherCareerProgressionRepository, ITeacherCareerProgressionFactory teacherCareerProgressionFactory, ITeacherRepository teacherRepository, ITeacherCategoryRepository teacherCategoryRepository){
-        _TCPrepository = teacherCareerProgressionRepository;
-        _TCPfactory = teacherCareerProgressionFactory;
-        _teacherRepo = teacherRepository;
-        _teacherCategoryRepo = teacherCategoryRepository;
+    public CreateTeacherCareerProgressionServiceImpl(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
+                                                     ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
+                                                     ITeacherRepository teacherRepository,
+                                                     ITeacherCareerProgressionInternalAssembler internalAssembler) {
 
-
+        _TCPrepository = validateNotNull(teacherCareerProgressionRepository, "Teacher Career Progression Repository Interface");
+        _TCPfactory = validateNotNull (teacherCareerProgressionFactory, "Teacher Career Progression Factory Interface");
+        _teacherRepo = validateNotNull(teacherRepository, "Teacher Repository Interface");
+        _internalAssembler = validateNotNull(internalAssembler, "Teacher Career Progression Internal Assembler Interface");
     }
 
     @Override
     public Optional<TeacherCareerProgression> createTeacherCareerProgression(Date date, TeacherCategoryID teacherCategoryID, WorkingPercentage wp, TeacherID teacherID) throws Exception {
-        if (date == null || teacherCategoryID == null || wp == null || teacherID == null) {
-            throw new IllegalArgumentException("Argument cannot be null");
-        }
 
         TeacherCareerProgression tcp = _TCPfactory.createTeacherCareerProgression(date, teacherCategoryID, wp, teacherID);
 
@@ -48,20 +54,28 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
     }
 
     @Override
-    public Optional<TeacherCareerProgression> updateTeacherCategoryInTeacherCareerProgression(UpdateTeacherCategoryCommand command) throws Exception {
-        if (!_teacherRepo.containsOfIdentity(command.teacherID()) || !_teacherCategoryRepo.containsOfIdentity(command.teacherCategoryID()))
-            return Optional.empty();
-        Optional<TeacherCareerProgression> optionalTCP = _TCPrepository.findLastTCPFromTeacherID(command.teacherID());
+    public UpdateTeacherCategoryDTO updateTeacherCategory(UpdateTeacherCategoryCommand command) throws Exception {
+
+        Optional<TeacherCareerProgression> optionalTCP =
+                _TCPrepository.findLastTCPFromTeacherID(command.teacherID());
+
         if (optionalTCP.isEmpty())
-            return Optional.empty();
+            throw new NotFoundException("This teacher has no previous career progression record. Please create one before attempting an update.");
+
         TeacherCareerProgression lastTeacherCareerProgression = optionalTCP.get();
 
         if(!lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(command.date()))
-            return Optional.empty();
-        WorkingPercentage workingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
+            throw new BusinessRuleViolationException("The date must be equal to or later than the previous update.");
+
         if (lastTeacherCareerProgression.getTeacherCategoryID().equals(command.teacherCategoryID()))
-            return  Optional.empty();
-        return createTeacherCareerProgression(command.date(), command.teacherCategoryID(), workingPercentage, command.teacherID());
+            throw new BusinessRuleViolationException("The Teacher Category must be different to the previous update.");
+
+        WorkingPercentage workingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
+
+        Optional<TeacherCareerProgression> teacherCareerProgression =
+                createTeacherCareerProgression(command.date(), command.teacherCategoryID(), workingPercentage, command.teacherID());
+
+        return _internalAssembler.toDTO(teacherCareerProgression.get());
     }
 
     @Override
@@ -80,4 +94,11 @@ public class TeacherCareerProgressionServiceImplV2 implements ITeacherCareerProg
             return  Optional.empty();
         return createTeacherCareerProgression(command.date(), teacherCategoryID, command.workingPercentage(), command.teacherID());
     }
+
+    public List <UpdateTeacherCategoryDTO> getAllTeacherCareerProgression (){
+        Iterable <TeacherCareerProgression> listTCP = _TCPrepository.findAll();
+
+        return _internalAssembler.toDTOList(listTCP);
+    }
+
 }

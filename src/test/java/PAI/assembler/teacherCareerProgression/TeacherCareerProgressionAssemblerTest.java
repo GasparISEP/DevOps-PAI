@@ -6,69 +6,59 @@ import PAI.dto.teacherCareerProgression.*;
 import org.junit.jupiter.api.Test;
 
 
+import java.time.LocalDate;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TeacherCareerProgressionAssemblerTest {
 
-    private TeacherCareerProgressionAssembler assembler;
-    private UpdateTeacherWorkingPercentageRequestDTO dto;
-
+    // toUpdateCategory() method
 
     @Test
     void shouldReturnResponseDTO(){
         //arrange
-        Date dateVO = mock(Date.class);
-        TeacherID teacherIDVO = mock(TeacherID.class);
-        TeacherAcronym acronym = mock(TeacherAcronym.class);
-        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
-        WorkingPercentage wp = mock(WorkingPercentage.class);
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO = mock(UpdateTeacherCategoryDTO.class);
 
-        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
-        TeacherCareerProgression teacherCareerProgression = mock(TeacherCareerProgression.class);
-        String date = "02-02-2022";
-        String teacherID = "ABV";
-        String teacherCategoryId = "3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85";
-        int workingPercentage = 20;
+        when(doubleUpdateTeacherCategoryDTO.date()).thenReturn("2025-06-01");
+        when(doubleUpdateTeacherCategoryDTO.teacherID()).thenReturn("AAA");
+        when(doubleUpdateTeacherCategoryDTO.teacherCategoryID()).thenReturn
+                ("05ab8bc8-33c2-46af-8988-d933e0256b89");
+        when(doubleUpdateTeacherCategoryDTO.workingPercentage()).thenReturn(95);
 
-        when(teacherCareerProgression.getDate()).thenReturn(dateVO);
-        when(dateVO.toString()).thenReturn(date);
+        TeacherCareerProgressionAssembler tcpAssembler = new TeacherCareerProgressionAssembler();
 
-        when(teacherCareerProgression.getTeacherID()).thenReturn(teacherIDVO);
-        when(teacherIDVO.getTeacherAcronym()).thenReturn(acronym);
-        when(acronym.getAcronym()).thenReturn(teacherID);
-
-
-        when(teacherCareerProgression.getTeacherCategoryID()).thenReturn(categoryID);
-        when(categoryID.toString()).thenReturn(teacherCategoryId);
-
-        when(teacherCareerProgression.getWorkingPercentage()).thenReturn(wp);
-        when(wp.getValue()).thenReturn(workingPercentage);
-
-        UpdateTeacherCategoryResponseDTO result = assembler.toUpdateCategoryDTO(teacherCareerProgression);
+        //act
+        UpdateTeacherCategoryResponseDTO result = tcpAssembler.toUpdateTeacherCategoryResponseDTO(doubleUpdateTeacherCategoryDTO);
 
         //assert
         assertNotNull(result);
 
     }
+
+    // toUpdateTeacherCategoryCommand() method
 
     @Test
     void shouldReturnCommand(){
         //arrange
         TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
-        UpdateTeacherCategoryRequestDTO requestDTO = mock(UpdateTeacherCategoryRequestDTO.class);
+        UpdateTeacherCategoryRequestDTO doubleRequestDTO = mock(UpdateTeacherCategoryRequestDTO.class);
+        String teacherID = "ABC";
+        LocalDate date = mock (LocalDate.class);
 
-        when(requestDTO.date()).thenReturn("22-02-2022");
-        when(requestDTO.teacherID()).thenReturn("ABC");
-        when(requestDTO.teacherCategoryID()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
+        when(doubleRequestDTO.date()).thenReturn(date);
+        when(doubleRequestDTO.teacherCategoryID()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
 
         //act
-        UpdateTeacherCategoryCommand result = assembler.toUpdateTeacherCategoryCommand(requestDTO);
+        UpdateTeacherCategoryCommand result = assembler.toUpdateTeacherCategoryCommand(teacherID, doubleRequestDTO);
 
         //assert
         assertNotNull(result);
     }
+
+    // toUpdateWorkingPercentageDTO() method
 
     @Test
     void shouldReturnWorkingPercentageResponseDTO(){
@@ -107,6 +97,8 @@ class TeacherCareerProgressionAssemblerTest {
 
     }
 
+    // toUpdateTeacherWorkingPercentageCommand() method
+
     @Test
     void shouldReturnWorkingPercentageCommand(){
         //arrange
@@ -122,5 +114,48 @@ class TeacherCareerProgressionAssemblerTest {
 
         //assert
         assertNotNull(result);
+    }
+
+    // toResponseDTOs method
+
+    @Test
+    void shouldReturnAListOfUpdateTeacherCategoryResponseDTO (){
+        // arrange
+        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
+
+        UpdateTeacherCategoryDTO doubleDTO = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleDTO.date()).thenReturn("2022-02-02");
+        when (doubleDTO.teacherID()).thenReturn("AAA");
+        when (doubleDTO.teacherCategoryID()).thenReturn("11111");
+        when (doubleDTO.workingPercentage()).thenReturn(95);
+
+        UpdateTeacherCategoryDTO doubleDTO1 = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleDTO1.date()).thenReturn("2022-03-02");
+        when (doubleDTO1.teacherID()).thenReturn("AAB");
+        when (doubleDTO1.teacherCategoryID()).thenReturn("12111");
+        when (doubleDTO1.workingPercentage()).thenReturn(98);
+
+        List <UpdateTeacherCategoryDTO> doubleList = List.of(doubleDTO1, doubleDTO);
+
+        // act
+        List<UpdateTeacherCategoryResponseDTO> result = assembler.toResponseDTOs (doubleList);
+
+        // assert
+        assertTrue(result.size() == 2);
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfUpdateTeacherCategoryResponseDTO (){
+        // arrange
+        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
+
+        List <UpdateTeacherCategoryDTO> doubleList = List.of();
+        assembler.toResponseDTOs(doubleList);
+
+        // act
+        List<UpdateTeacherCategoryResponseDTO> result = assembler.toResponseDTOs (doubleList);
+
+        // assert
+        assertTrue(result.size() == 0);
     }
 }

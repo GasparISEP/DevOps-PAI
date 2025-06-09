@@ -3,21 +3,16 @@ package PAI.dto.teacherCareerProgression;
 import PAI.VOs.Date;
 import PAI.VOs.TeacherCategoryID;
 import PAI.VOs.TeacherID;
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 public record UpdateTeacherCategoryCommand(
-    Date date,
+        Date date,
         TeacherID teacherID,
         TeacherCategoryID teacherCategoryID
     ){
 public UpdateTeacherCategoryCommand{
-    if (date == null){
-        throw new IllegalArgumentException("Date cannot be null");
-    }
-    if (teacherID == null){
-        throw new IllegalArgumentException("TeacherID cannot be null");
-    }
-    if(teacherCategoryID == null){
-        throw new IllegalArgumentException("CategoryID cannot be null");
-    }
+    validateNotNull (date, "Date");
+    validateNotNull (teacherID, "Teacher ID");
+    validateNotNull (teacherCategoryID, "Teacher Category ID");
 }
 }
