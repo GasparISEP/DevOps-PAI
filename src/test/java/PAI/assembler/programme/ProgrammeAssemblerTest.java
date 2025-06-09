@@ -8,6 +8,8 @@ import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -153,5 +155,20 @@ class ProgrammeAssemblerTest {
         assertThrows(IllegalArgumentException.class, () -> {
             programmeAssembler.toResponseDTO(programmeIDDTO);
         });
+    }
+
+    @Test
+    void shouldReturnListOfDTOs() {
+        // Arrange
+        IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        List<ProgrammeID> domainList = List.of(programmeID);
+
+        // Act
+        List<ProgrammeIDDTO> dtoList = programmeAssembler.toListOfDTOs(domainList);
+
+        // Assert
+        assertEquals(1, dtoList.size());
     }
 }

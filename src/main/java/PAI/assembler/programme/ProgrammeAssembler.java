@@ -8,6 +8,10 @@ import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProgrammeAssembler implements IProgrammeAssembler {
 
@@ -55,5 +59,14 @@ public class ProgrammeAssembler implements IProgrammeAssembler {
             throw new IllegalArgumentException("ProgrammeIDDTO cannot be null");
         }
         return new ProgrammeIDResponseDTO(programmeIDDTO.acronym());
+    }
+
+    @Override
+    public List<ProgrammeIDDTO> toListOfDTOs(List<ProgrammeID> listIDs) {
+        List<ProgrammeIDDTO> listProg = new ArrayList<>();
+        for (ProgrammeID existingID : listIDs) {
+            listProg.add(toDTO((existingID)));
+        }
+        return listProg;
     }
 }

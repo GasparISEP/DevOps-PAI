@@ -7,6 +7,8 @@ import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
 
+import java.util.List;
+
 public interface IProgrammeAssembler {
 
     ProgrammeVOsDTO fromDTOToDomain(ProgrammeDTO programmeDTO);
@@ -16,4 +18,6 @@ public interface IProgrammeAssembler {
     ProgrammeIDDTO toDTO(ProgrammeID programmeID);
 
     ProgrammeIDResponseDTO toResponseDTO(ProgrammeIDDTO programmeIDDTO);
+
+    List<ProgrammeIDDTO> toListOfDTOs(List<ProgrammeID> list);
 }
