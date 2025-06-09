@@ -1,15 +1,12 @@
 package PAI.persistence.mem.programmeEnrolment;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.domain.programme.Programme;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -384,6 +381,27 @@ class ProgrammeEnrolmentRepositoryTest {
 
         // Assert
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnEnrolmentWhenMatchingGeneratedID() {
+        // Arrange
+        IProgrammeEnrolmentListFactory listFactory = () -> new ArrayList<>();
+        ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactory);
+
+        ProgrammeEnrolmentGeneratedID gid = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+
+        when(enrolment.getProgrammeEnrolmentGeneratedID()).thenReturn(gid);
+
+        repo.save(enrolment);
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(gid);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(enrolment, result.get());
     }
 
 
