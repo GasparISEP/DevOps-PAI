@@ -18,6 +18,10 @@ public class ProgrammeEditionGeneratedID {
         this.programmeEditionGID = UUID.randomUUID();
     }
 
+    public UUID getProgrammeEditionGID() {
+        return programmeEditionGID;
+    }
+
     @Override
     public String toString() {
         return programmeEditionGID.toString();
