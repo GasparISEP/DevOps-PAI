@@ -1,11 +1,16 @@
 package PAI.service.programmeEnrolment;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class AvailableCoursesServiceImplTest {
     @Test
@@ -44,6 +49,25 @@ class AvailableCoursesServiceImplTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> new AvailableCoursesServiceImpl(null, null)
         );
         assertEquals("Cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnListOfCourseEditionIDsForValidProgrammeEditionID() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        List<CourseEditionID> expectedList = List.of(mock(CourseEditionID.class), mock(CourseEditionID.class));
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(expectedList);
+
+        // act
+        List<CourseEditionID> result = service.allCourseEditionIdsFromProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertEquals(expectedList, result);
     }
 
 
