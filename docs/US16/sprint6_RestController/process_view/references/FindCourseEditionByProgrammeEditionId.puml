@@ -39,12 +39,14 @@ note over of ceFactory
     CourseEditionID object
 end note
 ceFactory --> ceMapper --: CourseEditionID
-ceMapper --> ceRepo --: List<CourseEditionID>
+ceMapper --> ceRepo --: List<CourseEditionID> 
 end
 
-ceRepo -> ceService: List<CourseEditionID>
+ceRepo -> ceService: List<CourseEditionID>  //TODO: Check if this is correct
 ceService --> ceCtrl --: List<CourseEditionID>
-ceCtrl -> ceHateoasAssembler ++: toCollectionModel(List<CourseEditionID>)
+ceCtrl -> ceAssembler ++: toResponseDTOList(List<CourseEditionID>)
+ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
+ceCtrl -> ceHateoasAssembler ++: toCollectionModel(List<CourseEditionResponseDTO>)
 note right of ceHateoasAssembler
   Create CollectionModel with:
   - Self link for collection
