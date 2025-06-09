@@ -3,29 +3,37 @@ title US23: I want to know the approval percentage of a CourseEdition
 
 class CourseEditionRESTController {
     +CourseEditionRESTController(gradeStudentRepository : IGradeStudentRepository, courseEditionEnrolmentRepository : ICourseEditionEnrolmentRepository)
-    +findApprovalPercentage (CourseEdition : CourseEdition) : ApprovalPercentage
+    +findApprovalPercentage (CourseEditionID id) : EntityModel<ApprovalRateResponseDTO>
+}
+
+class ApprovalRateResponseDTO <<DTO>> {
+    +approvalRate : double
+}
+
+class ApprovalRateAssembler {
+    +toModel(CourseEditionID id, double approvalRate) : EntityModel<ApprovalRateResponseDTO>
 }
 
 interface IStudentGradeService {
-        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
-        +knowAverageGrade(CourseEditionID)
-        +knowApprovalRate(CourseEditionID)
-        +findIdByStudent (StudentGrade studentGrade)
-        +save(StudentGrade entity)
-        +findAll()
-        +ofIdentity(StudentGradeID id)
-        +containsOfIdentity(StudentGradeID id)
+    +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+    +knowAverageGrade(CourseEditionID)
+    +knowApprovalRate(CourseEditionID)
+    +findIdByStudent(StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
 }
 
 class StudentGradeService {
-        +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
-        +knowAverageGrade(CourseEditionID)
-        +knowApprovalRate(CourseEditionID)
-        +findIdByStudent (StudentGrade studentGrade)
-        +save(StudentGrade entity)
-        +findAll()
-        +ofIdentity(StudentGradeID id)
-        +containsOfIdentity(StudentGradeID id)
+    +addGradeToStudent(Grade, Date, StudentID, CourseEditionID)
+    +knowAverageGrade(CourseEditionID)
+    +knowApprovalRate(CourseEditionID)
+    +findIdByStudent(StudentGrade studentGrade)
+    +save(StudentGrade entity)
+    +findAll()
+    +ofIdentity(StudentGradeID id)
+    +containsOfIdentity(StudentGradeID id)
 }
 
 package "StudentGrade" {
@@ -169,5 +177,8 @@ IStudentGradeRepositoryInterface ....> IStudentGradeFactory
 IStudentGradeService "1" ....> "*" "<<root>>\nGradeStudent"
 IStudentGradeService "1" ..|> IStudentGradeRepositoryInterface
 CourseEditionRESTController "*" ..> "1" IStudentGradeService
+
+CourseEditionRESTController --> ApprovalRateAssembler
+CourseEditionRESTController --> ApprovalRateResponseDTO
 
 @enduml
