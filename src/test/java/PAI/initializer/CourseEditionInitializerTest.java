@@ -31,8 +31,8 @@ class CourseEditionInitializerTest {
     @Test
     void shouldProcessValidCSVLine() throws Exception {
         // Arrange
-        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
-                "01-07-2023,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
+        String csvContent = "LOCAL_DATE,COURSEID_ACRONYM,COURSEID_NAME,EDITION_PROGRAMME_ACRONYM,EDITION_SCHOOL_YEAR,PROGRAMME_ACRONYM,PROGRAMME_NAME,TEACHER_ACRONYM\n" +
+                "01-07-2023,ARIT,Arithmancy,DSD,550e8400-e29b-41d4-a716-446655440002,DSD,Data Science,PROF1";
         
         InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
 
@@ -53,9 +53,10 @@ class CourseEditionInitializerTest {
     @Test
     void shouldSkipInvalidCSVLine() throws Exception {
         // Arrange
-        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
-                "invalid-date,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
-        
+        String csvContent = "LOCAL_DATE,COURSEID_ACRONYM,COURSEID_NAME,EDITION_PROGRAMME_ACRONYM,EDITION_SCHOOL_YEAR,PROGRAMME_ACRONYM,PROGRAMME_NAME,TEACHER_ACRONYM\n" +
+                "01-07-2023,ARIT,Arithmancy,,,DSD,Data Science,PROF1";
+
+
         InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
 
         // Mock the resource stream
@@ -72,10 +73,10 @@ class CourseEditionInitializerTest {
     @Test
     void shouldSkipEmptyLines() throws Exception {
         // Arrange
-        String csvContent = "date,courseAcronym,courseName,field4,field5,schoolYearUUID,programmeAcronym,programmeName,field9\n" +
-                "\n" +
-                "01-07-2023,ARIT,Arithmancy,,,22222222-2222-2222-2222-222222222222,DSD,Data Science,";
-        
+        String csvContent = "LOCAL_DATE,COURSEID_ACRONYM,COURSEID_NAME,EDITION_PROGRAMME_ACRONYM,EDITION_SCHOOL_YEAR,PROGRAMME_ACRONYM,PROGRAMME_NAME,TEACHER_ACRONYM\n" +
+                "" +
+                "01-07-2023,ARIT,Arithmancy,DSD,550e8400-e29b-41d4-a716-446655440002,DSD,Data Science,PROF1\n";
+
         InputStream inputStream = new ByteArrayInputStream(csvContent.getBytes());
 
         // Mock the resource stream
