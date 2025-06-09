@@ -1,7 +1,7 @@
 @startuml
 
 
-title "PAI \n (Logical View - Level 1)"
+title "PAI \n (Implementation View - Level 1)"
 
 skinparam rectangle {
   BorderColor Orange
@@ -15,8 +15,8 @@ skinparam rectangle {
   }
 
   interface "UI" as UI
-  interface "PAI API" as API
-  interface "Bootstrap Data API" as FileIO
+  interface "REST API" as API
+  interface "File I/O" as FileIO
 
 
   p1 -up- UI
