@@ -23,8 +23,8 @@ activate DTIDDM
 DTIDDM --> IDM --: dtIDDataModel1
 IDM --> DTR --: dtIDDataModel1
 
-DTR -> : ofIdentity(dtIDDataModel1)
-DTR <-- : dtDataModel1
+DTR ->o] : ofIdentity(dtIDDataModel1)
+DTR <--o] : dtDataModel1
 
 DTR -> M++ : toDomain(dtDataModel1)
 M -> DTF++ : recreateProgramme(name, acronym, maxEcts, \nquantSemesters, degreeTypeID, departmentID, teacherID, programmeID)

@@ -15,8 +15,8 @@ C -> DPS ++: getAllDepartments()
 
 DPS -> DPR ++: findAll()
 
-DPR -> : findAll()
-DPR <-- : List<DepartmentDataModel>
+DPR ->o] : findAll()
+DPR <--o] : List<DepartmentDataModel>
 
 loop for DepartmentDataModel[i]
 DPR -> M ++: toDomain(departmentDataModel[i])
