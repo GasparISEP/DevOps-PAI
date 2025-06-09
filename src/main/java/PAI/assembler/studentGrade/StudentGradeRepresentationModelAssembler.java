@@ -3,8 +3,12 @@ package PAI.assembler.studentGrade;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -15,31 +19,41 @@ public class StudentGradeRepresentationModelAssembler
 
     @Override
     public EntityModel<GradeAStudentResponseDTO> toModel(GradeAStudentResponseDTO dto) {
-        return EntityModel.of(dto,
+        return EntityModel.of(dto, buildLinks(dto));
+    }
 
-                // Link para obter os dados da média da CourseEdition (já sem throws)
-                linkTo(methodOn(CourseEditionRestController.class)
-                        .getCourseEditionAverageGrade(
-                                dto._programmeId(),
-                                dto._schoolYearId(),
-                                dto._courseId(),
-                                dto._studyPlanId()
-                        )
-                ).withRel("averageGrade"),
+    private List<Link> buildLinks(GradeAStudentResponseDTO dto) {
+        List<Link> links = new ArrayList<>();
 
-                // Link para obter a taxa de aprovação da CourseEdition (já sem throws)
-                linkTo(methodOn(CourseEditionRestController.class)
-                        .getCourseEditionApprovalRate(
-                                dto._programmeId(),
-                                dto._schoolYearId(),
-                                dto._courseId(),
-                                dto._studyPlanId()
-                        )
-                ).withRel("approvalRate"),
+        try {
+            // Link para a média da CourseEdition
+            links.add(linkTo(methodOn(CourseEditionRestController.class)
+                    .getCourseEditionAverageGrade(
+                            dto._programmeId(),
+                            dto._schoolYearId(),
+                            dto._courseId(),
+                            dto._studyPlanId()
+                    )).withRel("averageGrade"));
 
-                // Link self para o POST (isto é simbólico, já que o POST não aceita GETs)
-                linkTo(CourseEditionRestController.class).slash("studentgrades/register")
-                        .withSelfRel()
-        );
+            // Link para a taxa de aprovação da CourseEdition
+            links.add(linkTo(methodOn(CourseEditionRestController.class)
+                    .getCourseEditionApprovalRate(
+                            dto._programmeId(),
+                            dto._schoolYearId(),
+                            dto._courseId(),
+                            dto._studyPlanId()
+                    )).withRel("approvalRate"));
+
+            // Link simbólico do POST
+            links.add(linkTo(CourseEditionRestController.class)
+                    .slash("studentgrades/register")
+                    .withSelfRel());
+
+        } catch (Exception e) {
+            // Podes fazer logging aqui se quiseres:
+            // log.warn("Erro ao construir links HATEOAS para GradeAStudentResponseDTO", e);
+        }
+
+        return links;
     }
 }
