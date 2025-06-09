@@ -1,8 +1,10 @@
 package PAI.service.programmeEnrolment;
 
 import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,14 @@ public class AvailableCoursesServiceImpl {
         }
         return courseInStudyPlanIDS;
     }
+    public List<CourseID> getListOfCoursesID(List<CourseInStudyPlan> courseInStudyPlans){
+        List<CourseID> courseIDS = new ArrayList<>();
+        for (CourseInStudyPlan existingCourse : courseInStudyPlans){
+            courseIDS.add(existingCourse.getCourseID());
+        }
+        return courseIDS;
+    }
+
 
 
 }
