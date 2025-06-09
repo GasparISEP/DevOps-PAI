@@ -1,0 +1,128 @@
+.student-form-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    table-layout: auto;
+}
+.student-form-table th, .student-form-table td {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 1.5rem;
+
+}
+.student-form-table th {
+    background: #9a1a24;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.student-form-table tr {
+    background: #fff;
+}
+.student-form-table tbody tr:hover {
+    background: #f0f8ff;
+}
+
+/* Center the main grid and table */
+.student-main-grid-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.student-table-center-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.student-pagination-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    width: 100%;
+    /* Remove max-width to match table width */
+}
+.student-pagination-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: flex-start;
+}
+.student-pagination-right,
+.student-per-page-controls.student-pagination-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 3rem;
+    justify-content: flex-end;
+}
+.student-pagination-bar > .student-pagination-left {
+    flex: 1 1 auto;
+}
+.student-pagination-bar > .student-per-page-controls.student-pagination-right {
+    flex: 1 1 auto;
+}
+
+.student-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.student-per-page-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.student-per-page-label {
+    font-weight: 600;
+    color: #9a1a24;
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.student-per-page-label-end {
+    color: #333;
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #9a1a24;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.student-table-filter-input {
+    background: #fff;
+    color: #111;
+    border: 2px solid #9a1a24;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.student-table-container {
+    /*border: 1.5px solid #bbb;*/
+    /*border-radius: 12px;*/
+    /*padding: 3rem 2rem 2rem 2rem;*/
+    padding: 3rem;
+    border-radius: 5px;
+    box-shadow: 0 0 12px 4px rgba(0,0,0,0.12);
+}
