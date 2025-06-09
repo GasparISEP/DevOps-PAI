@@ -1,0 +1,28 @@
+@startuml
+title Convert programmeEditionRequestDTO to programmeEditionServiceDTO \n Reference Diagram
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":ProgrammeEditionRestController" as Controller
+participant ":IProgrammeEditionControllerAssembler" as Assembler
+participant ":ProgrammeEditionRequestDTO" as RequestDTO
+
+Controller -> Assembler: toDTO(programmeEditionRequestDTO)
+activate Controller #E1F5FE
+activate Assembler #E1F5FE
+Assembler -> RequestDTO: getAcronym()
+activate RequestDTO #E1F5FE
+RequestDTO --> Assembler: acronym
+deactivate RequestDTO
+Assembler --> ":ProgrammeIDDTO"**: new ProgrammeIDDTO(acronym)
+Assembler --> ":ProgrammeEditionServiceDTO"**: new ProgrammeEditionServiceDTO(programmeIDDTO)
+Assembler -> Controller: programmeEditionServiceDTO
+deactivate Assembler
+@enduml
