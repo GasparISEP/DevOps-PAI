@@ -7,6 +7,7 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
+import PAI.assembler.studentGrade.StudentGradeRepresentationModelAssembler;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICourseEditionService;
@@ -17,8 +18,11 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CourseEditionRestController.class)
+@AutoConfigureMockMvc
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 public class GradeAStudentRestControllerTest {
 
     @Autowired
@@ -45,7 +51,7 @@ public class GradeAStudentRestControllerTest {
     @MockBean private ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
     @MockBean private IStudentCountAssembler studentCountAssembler;
     @MockBean private ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
-
+    @MockBean private StudentGradeRepresentationModelAssembler studentGradeRepresentationModelAssembler;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -75,16 +81,19 @@ public class GradeAStudentRestControllerTest {
                 "spid-1"
         );
 
-        when(studentGradeAssembler.toDomain(requestDTO)).thenReturn(null); // substitui se necessário
-        when(gradeAStudentService.gradeAStudent(null)).thenReturn(responseDTO); // usa o objeto certo no lugar de null
+        when(studentGradeAssembler.toDomain(requestDTO)).thenReturn(null);
+        when(gradeAStudentService.gradeAStudent(null)).thenReturn(responseDTO);
+        when(studentGradeRepresentationModelAssembler.toModel(responseDTO))
+                .thenReturn(EntityModel.of(responseDTO));
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.studentUniqueNumber").value(123456))
-                .andExpect(jsonPath("$.grade").value(18.5))
-                .andExpect(jsonPath("$.date").value("2025-06-09"));
+                .andExpect(jsonPath("$._studentUniqueNumber").value(123456))
+                .andExpect(jsonPath("$._grade").value(18.5))
+                .andExpect(jsonPath("$._date").value("2025-06-09"));
     }
+
 }
