@@ -3,43 +3,44 @@ title As a RUC, I want to grade a Student \n in a Course Edition (Process View L
 
 actor RUC
 
-participant "StudentProgrammeEditionGradingRestController" as controller <<@RestController>> #lightblue
-participant "StudentProgrammeEditionGradingApplicationService" as service <<@Service>> #lightyellow
+participant "CourseEditionRestController" as controller <<@RestController>> #lightblue
+participant "GradeAStudentServiceImpl" as service <<@Service>> #lightyellow
 participant "StudentGradeFactoryImpl" as factory <<@Component>> #lightgreen
 participant "StudentGradeRepositorySpringDataImpl" as repoAdapter <<@Repository>> #thistle
 participant "StudentGrade" as domain <<Aggregate>> #wheat
-participant "StudentGradeDataModel" as dataModel <<@Entity>> #lightgray
+participant "StudentGradeDM" as dataModel <<@Entity>> #lightgray
 participant "StudentGradeRepresentationModelAssembler" as assembler <<@Component>> #pink
 database "student_grades" as db
 
-RUC -> controller : POST /studentgrades/register \n (grade, date, studentID, courseEditionID)
+RUC -> controller : POST /courseeditions/studentgrades/register \n (GradeAStudentRequestDTO)
 activate controller
 
-controller -> service : gradeStudent(studentID, courseEditionID, grade, date)
+controller -> service : gradeAStudent(GradeAStudentCommand)
 activate service
 
-service -> repoAdapter : checkIfStudentAlreadyGraded(...)
-repoAdapter -> db : SELECT * ...
-db --> repoAdapter : Optional<StudentGradeDataModel>
+service -> repoAdapter : containsOfIdentity(StudentGradeID)
+repoAdapter -> db : SELECT * FROM student_grades WHERE id=...
+db --> repoAdapter : Optional<StudentGradeDM>
 
-service -> factory : create(studentID, courseEditionID, grade, date)
+service -> factory : newGradeStudent(...)
 activate factory
-factory --> service : new StudentGrade
+factory --> service : StudentGrade
 deactivate factory
 
-service -> repoAdapter : save(studentGrade)
+service -> repoAdapter : save(StudentGrade)
 repoAdapter -> db : INSERT INTO student_grades (...)
-db --> repoAdapter : saved StudentGradeDataModel
-repoAdapter --> service : studentGrade saved
+db --> repoAdapter : saved StudentGradeDM
+repoAdapter --> service : StudentGrade
+deactivate repoAdapter
 
-service --> controller : StudentGrade
+service --> controller : GradeAStudentResponseDTO
 deactivate service
 
-controller -> assembler : toModel(StudentGrade)
+controller -> assembler : toModel(GradeAStudentResponseDTO)
 activate assembler
-assembler --> controller : EntityModel<StudentGradeDTO> \n (**with _links**)
+assembler --> controller : EntityModel<GradeAStudentResponseDTO> \n (_links: self, student, courseEdition)
 deactivate assembler
 
-controller --> RUC : HTTP 201 Created \n body: StudentGradeDTO with _links
+controller --> RUC : HTTP 201 Created \n body: EntityModel<GradeAStudentResponseDTO>
 deactivate controller
 @enduml
