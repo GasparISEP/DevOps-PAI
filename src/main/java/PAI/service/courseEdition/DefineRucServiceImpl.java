@@ -48,8 +48,12 @@ public class DefineRucServiceImpl implements IDefineRucService {
         }
 
         CourseEdition courseEdition = optionalEdition.get();
-        boolean success = courseEdition.setRuc(teacherId);
 
+        if (teacherId.equals(courseEdition.getRuc())) {
+            throw new IllegalArgumentException("This teacher is already assigned as the RUC for this course edition.");
+        }
+
+        boolean success = courseEdition.setRuc(teacherId);
         if (success) {
             try {
                 courseEditionRepository.save(courseEdition);
@@ -67,4 +71,4 @@ public class DefineRucServiceImpl implements IDefineRucService {
 
         return courseEditionRepository.containsOfIdentity(courseEditionID);
     }
-}
+ }
