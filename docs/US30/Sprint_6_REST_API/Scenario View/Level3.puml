@@ -14,11 +14,11 @@ class US30_AddCourseToProgrammeRESTController {
 
 ' ======= SERVICE =======
 
-interface ICourseInStudyPlanService {
+interface IAddCourseToAProgrammeServiceImpl {
     + addCourseToProgramme(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): \n CourseInStudyPlan
 }
 
-class CourseInStudyPlanServiceImpl {
+class AddCourseToAProgrammeServiceImpl {
     + CourseInStudyPlanServiceImpl (factory: ICourseInStudyPlanFactory,\n repository: ICourseInStudyPlanRepository,\n assembler: ICourseInStudyPlanAssembler)
     + createCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear,\n courseID: CourseID,\n studyPlanID: StudyPlanID,\n durationOfCourse: DurationOfCourse,\n quantityOfCreditsEcts: QuantityOfCreditsEcts): boolean
     + createCourseInStudyPlan(command: CourseInStudyPlanCommand): boolean
@@ -27,17 +27,21 @@ class CourseInStudyPlanServiceImpl {
 ' ======= ASSEMBLER =======
 
 class CourseInStudyPlanAssemblerImpl {
-    + toDomain(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): CourseInStudyPlanCommand
-    + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
-    + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
-    + toDTO(courseInStudyPlan: CourseInStudyPlan): AddCourseToProgrammeResponseDTO
+    + toCommand(request: CourseInStudyPlanRequestDTO): CourseInStudyPlanCommand
+    + toDTO(courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO): CourseInStudyPlanResponseDTO
 }
 
 interface ICourseInStudyPlanAssembler {
-    + toDomain(addCourseToProgrammeRequestDTO: AddCourseToProgrammeRequestDTO): CourseInStudyPlan
-    + toDataModel(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanDataModel
-    + toDomain(courseInStudyPlanDataModel: CourseInStudyPlanDataModel): CourseInStudyPlan
-    + toDTO(courseInStudyPlan: CourseInStudyPlan): AddCourseToProgrammeResponseDTO
+    + toCommand(request: CourseInStudyPlanRequestDTO): CourseInStudyPlanCommand
+        + toDTO(courseInStudyPlanServiceDTO: CourseInStudyPlanServiceDTO): CourseInStudyPlanResponseDTO
+}
+
+class CourseInStudyPlanBusinessAssemblerImpl {
+    + toDTO(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanServiceDTO
+}
+
+interface ICourseInStudyPlanBusinessAssembler {
+    + toDTO(courseInStudyPlan: CourseInStudyPlan): CourseInStudyPlanServiceDTO
 }
 
 class CourseInStudyPlanRequestDTO {
@@ -60,6 +64,15 @@ class CourseInStudyPlanResponseDTO {
 }
 
 class CourseInStudyPlanCommand {
+    - semester: Semester
+    - curricularYear: CurricularYear
+    - courseAcronym: Acronym
+    - courseName: Name
+    - programmeAcronym: Acronym
+    - programmeName: NameWithNumbersAndSpecialChars
+    - studyPlanDate: Date
+    - duration: DurationCourseInCurricularYear
+    - credits: CourseQuantityCreditsEcts
 }
 
 ' ======= MAPPER =======
@@ -212,25 +225,26 @@ CourseInStudyPlan -down-> QuantityOfCreditsEcts
 
 ' ======= US30_AddCourseToProgrammeRESTController =======
 
-US30_AddCourseToProgrammeRESTController -down-> ICourseInStudyPlanService
+US30_AddCourseToProgrammeRESTController -down-> IAddCourseToAProgrammeServiceImpl
+US30_AddCourseToProgrammeRESTController -down-> ICourseInStudyPlanAssembler
+
 
 ' ======= Assembler =======
-CourseInStudyPlanAssemblerImpl ..> ICourseInStudyPlanAssembler
+CourseInStudyPlanAssemblerImpl ...|> ICourseInStudyPlanAssembler
 ICourseInStudyPlanAssembler ..> CourseInStudyPlanRequestDTO
 ICourseInStudyPlanAssembler .left.> CourseInStudyPlanResponseDTO
-ICourseInStudyPlanAssembler ..> CourseInStudyPlan
 CourseInStudyPlanAssemblerImpl --> CourseInStudyPlanCommand
+CourseInStudyPlanBusinessAssemblerImpl ..|> ICourseInStudyPlanBusinessAssembler
 
 ' ======= Factory =======
 CourseInStudyPlanFactoryImpl .down.> ICourseInStudyPlanFactory
-CourseInStudyPlanServiceImpl .up.> ICourseInStudyPlanFactory
+AddCourseToAProgrammeServiceImpl .up.> ICourseInStudyPlanFactory
 ICourseInStudyPlanFactory ..> CourseInStudyPlan
 
 ' ======= Service =======
-CourseInStudyPlanServiceImpl ...|> ICourseInStudyPlanService
-ICourseInStudyPlanService -down-> ICourseInStudyPlanRepository
-ICourseInStudyPlanService --> CourseInStudyPlanAssemblerImpl
-
+AddCourseToAProgrammeServiceImpl ...|> IAddCourseToAProgrammeServiceImpl
+IAddCourseToAProgrammeServiceImpl -down-> ICourseInStudyPlanRepository
+AddCourseToAProgrammeServiceImpl -down-> ICourseInStudyPlanBusinessAssembler
 ' ======= Mapper =======
 CourseInStudyPlanMapperImpl ..> ICourseInStudyPlanMapper
 ICourseInStudyPlanMapper ..> CourseInStudyPlan
