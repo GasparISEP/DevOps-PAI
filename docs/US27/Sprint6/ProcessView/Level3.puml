@@ -4,15 +4,17 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 autonumber
 
+participant ":Router" as Router <<component>> #ADD8E6
 participant ":ProgrammeRestController" as RestController <<controller>> #82CFFD
 participant ":StudyPlanService" as Service <<service>> #F6CBA5
 participant ":Domain" as Domain <<domain>> #C4E29A
-participant ":ProgrammeSpringDataRepository" as ProgrammeRepository <<repository>> #F6F1E7
-participant ":DegreeTypeSpringDataRepository" as DegreeTypeRepository <<repository>> #F6F1E7
-participant ":StudyPlanSpringDataRepository" as Repository <<repository>> #F6F1E7
+participant ":ProgrammeSpringDataRepository" as ProgrammeRepository <<repository>> #DDD5F2
+participant ":DegreeTypeSpringDataRepository" as DegreeTypeRepository <<repository>> #E6D3A3
+participant ":StudyPlanSpringDataRepository" as Repository <<repository>> #CFE2F3
 
-
--> RestController: **(POST) registerStudyPlan**\n(programmeName, programmeAcronym, startDate)
+-> Router: **(POST)** \n {programme-acronym}/studyPlans
+activate Router
+Router -> RestController: registerStudyPlan (acronym, startDate)
 activate RestController
 RestController -> Service: **registerStudyPlan**(studyPlanCommand)
 activate Service
@@ -30,10 +32,10 @@ Domain --> Service --: quantityOfSemesters
 Service -> Domain ++: **degreeType.getMaxEcts()**
 Domain --> Service --: maxEcts
 
-Service -> domain: createStudyPlan(programmeID, startDate, quantityOfSemesters, maxEcts)
-activate domain
-domain --> Service: studyPlan1
-deactivate domain
+Service -> Domain: createStudyPlan(programmeID, startDate, quantityOfSemesters, maxEcts)
+activate Domain
+Domain --> Service: studyPlan1
+deactivate Domain
 |||
 Service -> Repository: save(studyPlan)
 activate Repository
@@ -83,25 +85,31 @@ ref over StudyPlanRepository
 end ref
 
 StudyPlanRepository --> StudyPlanService: studyPlan
+activate StudyPlanService
 deactivate StudyPlanRepository
 |||
 ref over StudyPlanService
-  \t\t    **Convert Study Plan to DTO**
+  \t\t    **     Convert Study Plan to DTO**
 
 end ref
 StudyPlanService --> RestController: studyPlanDTO1
+activate RestController
 deactivate StudyPlanService
 |||
 ref over RestController
   \t\t\t    **Convert DTO to ResponseDTO**\t
 
 end ref
-<-- RestController: 201 Created \n+ \nstudyPlanResponseDTO1\t
+Router <-- RestController: 201 Created \n+ \n studyPlanResponseDTO1\t
 deactivate RestController
 note left RestController
   Send as
   ProgrammeStudyPlanResponseDTO,
   Converted to JSON
 end note
+
+ <-- Router : Programme w/ StudyPlan created
+deactivate Router
+
 
 @enduml
