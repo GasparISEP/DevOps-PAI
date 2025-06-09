@@ -8,6 +8,7 @@ import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.*;
+import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
@@ -159,12 +160,12 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/studentID/{uniqueNumber}")
-    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("uniqueNumber") int uniqueNumber) {
+    @PostMapping("/studentID")
+    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@RequestBody StudentIDDTO dto) {
         try {
-            StudentID studentID = new StudentID(uniqueNumber);
+            StudentID studentID = dto.studentID();
             List<ProgrammeID> programmeID = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
-            return (ResponseEntity.ok(_programmeAssembler.toListOfDTOs(programmeID)));
+            return ResponseEntity.ok(_programmeAssembler.toListOfDTOs(programmeID));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
