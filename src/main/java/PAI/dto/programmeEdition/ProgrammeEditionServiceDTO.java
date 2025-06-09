@@ -4,7 +4,7 @@ import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
 import jakarta.validation.constraints.NotNull;
 
-public record ProgrammeEditionDTO(
+public record ProgrammeEditionServiceDTO(
         @NotNull(message = "Programme is required")
         ProgrammeIDDTO programme,
 

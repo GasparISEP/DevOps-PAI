@@ -4,8 +4,8 @@ package PAI.controller;
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
-import PAI.assembler.programmeEdition.ProgrammeEditionAssemblerImpl;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
+import PAI.assembler.programmeEdition.ProgrammeEditionServiceAssemblerImpl;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.degreeType.DegreeTypeFactoryImpl;
@@ -39,7 +39,6 @@ import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.persistence.mem.courseEdition.ICourseEditionListFactory;
 import PAI.domain.programme.IProgrammeFactory;
 import PAI.domain.programme.ProgrammeFactoryImpl;
-import PAI.mapper.schoolYear.SchoolYearMapperImpl;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentRepositoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
@@ -737,7 +736,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionRepository programmeEditionRepository = new ProgrammeEditionRepositoryImpl(programmeEditionListFactory);
-        IProgrammeEditionAssembler programmeEditionAssembler = new ProgrammeEditionAssemblerImpl();
+        IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
 
         // Programme
         IProgrammeFactory IProgrammeFactory = new ProgrammeFactoryImpl();

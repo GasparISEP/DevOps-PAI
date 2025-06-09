@@ -4,14 +4,12 @@ import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ProgrammeEditionAssemblerImplTest {
-    private final ProgrammeEditionAssemblerImpl assembler = new ProgrammeEditionAssemblerImpl();
+    private final ProgrammeEditionServiceAssemblerImpl assembler = new ProgrammeEditionServiceAssemblerImpl();
 
     @Test
     void shouldReturnAProgrammeEditionDTO() throws Exception {
@@ -81,7 +79,7 @@ class ProgrammeEditionAssemblerImplTest {
     void shouldCreateSchoolYearIdFromProgrammeEditionDTO() {
         // Arrange
         SchoolYearIDDTO schoolYearIDRequestDTO = mock(SchoolYearIDDTO.class);
-        ProgrammeEditionDTO dto = mock(ProgrammeEditionDTO.class);
+        ProgrammeEditionServiceDTO dto = mock(ProgrammeEditionServiceDTO.class);
         when(schoolYearIDRequestDTO.id()).thenReturn(UUID.randomUUID().toString());
         when(dto.schoolYear()).thenReturn(schoolYearIDRequestDTO);
 
@@ -96,7 +94,7 @@ class ProgrammeEditionAssemblerImplTest {
     void shouldThrowExceptionWhenProgrammeEditionDTOIsNull() {
         // Arrange
         SchoolYearIDRequestDTO schoolYearIDRequestDTO = mock(SchoolYearIDRequestDTO.class);
-        ProgrammeEditionDTO dto = null;
+        ProgrammeEditionServiceDTO dto = null;
         when(schoolYearIDRequestDTO.id()).thenReturn(UUID.randomUUID().toString());
 
         // Act + Assert
@@ -109,7 +107,7 @@ class ProgrammeEditionAssemblerImplTest {
     void shouldCreateProgrammeIdFromProgrammeEditionDTO() {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionDTO dto = mock(ProgrammeEditionDTO.class);
+        ProgrammeEditionServiceDTO dto = mock(ProgrammeEditionServiceDTO.class);
         when(programmeIDDTO.acronym()).thenReturn("CSE");
         when(dto.programme()).thenReturn(programmeIDDTO);
 
@@ -124,7 +122,7 @@ class ProgrammeEditionAssemblerImplTest {
     void shouldThrowExceptionWhenProgrammeEditionDTOIsNullForToProgramme() {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionDTO dto = null;
+        ProgrammeEditionServiceDTO dto = null;
         when(programmeIDDTO.acronym()).thenReturn("CSE");
 
         // Act + Assert
@@ -142,7 +140,7 @@ class ProgrammeEditionAssemblerImplTest {
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
         // Act
-        ProgrammeEditionDTO result = assembler.toDTO(programmeID, schoolYearID);
+        ProgrammeEditionServiceDTO result = assembler.toDTO(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(result);

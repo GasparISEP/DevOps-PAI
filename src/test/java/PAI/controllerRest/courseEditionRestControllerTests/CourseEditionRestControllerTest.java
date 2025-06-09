@@ -3,7 +3,7 @@ import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
@@ -79,7 +79,7 @@ class CourseEditionRestControllerTest {
     private IStudentGradeAssembler studentGradeAssembler;
 
     @MockBean
-    private IProgrammeEditionAssembler programmeEditionAssembler;
+    private IProgrammeEditionServiceAssembler programmeEditionAssembler;
 
     @MockBean
     private ICourseEditionService courseEditionService;
