@@ -81,8 +81,6 @@ class DepartmentAssemblerImplTest {
 
         // Assert
         assertEquals("DEI", dto.id());
-        assertEquals("Software Engineering Department", dto.name());
-        assertEquals("DEI", dto.acronym());
     }
 
     @Test

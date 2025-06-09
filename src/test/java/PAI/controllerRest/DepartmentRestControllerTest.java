@@ -93,9 +93,7 @@ class DepartmentRestControllerTest {
         EntityModel<DepartmentDTO> hateoasModel = mock(EntityModel.class);
         when(hateoasModel.getContent()).thenReturn(dto);
 
-
-        when(dto.name()).thenReturn("Software Engineering Department");
-        when(dto.acronym()).thenReturn("DEI");
+        when(dto.id()).thenReturn("DEI");
 
         when(departmentAssembler.toRegisterDepartmentRequestVOs(request)).thenReturn(requestVOs);
         when(registrationService.createAndSaveDepartment(requestVOs)).thenReturn(department);
@@ -369,13 +367,16 @@ class DepartmentRestControllerTest {
     void shouldReturnDepartmentById() {
         // Arrange
         String departmentId = "DEI";
+        String departmentName = "Department of Informatics Engineering";
+        String departmentAcronym = "DEI";
+        String directorAcronym = "No Director Assigned";
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(departmentId));
         Department department = mock(Department.class);
-        DepartmentDTO departmentDTO = mock(DepartmentDTO.class);
+        DepartmentWithDirectorDTO departmentDTO = new DepartmentWithDirectorDTO(departmentId, departmentName, departmentAcronym, directorAcronym);
 
         when(departmentAssembler.fromStringToDepartmentID(departmentId)).thenReturn(departmentID);
         when(registrationService.getDepartmentById(departmentID)).thenReturn(java.util.Optional.of(department));
-        when(departmentAssembler.toDTO(department)).thenReturn(departmentDTO);
+        when(departmentAssembler.toDWDDTO(department)).thenReturn(departmentDTO);
 
         // Act
         ResponseEntity<?> response = controller.getDepartmentById(departmentId);
@@ -559,23 +560,21 @@ class DepartmentRestControllerTest {
         DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(id));
         Department department = mock(Department.class);
 
-        DepartmentDTO expectedDTO = new DepartmentDTO("DEI", "Department of Informatics", "DEI");
+        DepartmentWithDirectorDTO expectedDTO = new DepartmentWithDirectorDTO("DEI", "Department of Informatics Engineering", "DEI", "No Director Assigned");
 
         when(departmentAssembler.fromStringToDepartmentID(id)).thenReturn(departmentID);
         when(registrationService.getDepartmentById(departmentID)).thenReturn(Optional.of(department));
-        when(departmentAssembler.toDTO(department)).thenReturn(expectedDTO);
+        when(departmentAssembler.toDWDDTO(department)).thenReturn(expectedDTO);
 
         // Act
         ResponseEntity<?> response = controller.getDepartmentById(id);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody() instanceof DepartmentDTO);
+        assertTrue(response.getBody() instanceof DepartmentWithDirectorDTO);
 
-        DepartmentDTO result = (DepartmentDTO) response.getBody();
+        DepartmentWithDirectorDTO result = (DepartmentWithDirectorDTO) response.getBody();
         assertEquals("DEI", result.id());
-        assertEquals("Department of Informatics", result.name());
-        assertEquals("DEI", result.acronym());
     }
 
     @Test

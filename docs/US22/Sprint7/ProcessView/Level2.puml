@@ -1,49 +1,31 @@
 @startuml
-
 autonumber
-title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 2 – with HATEOAS support)
-skinparam sequencemessagealign center
 
-actor RUC as RUC
-participant "Frontend" as FE <<Container>> #application
-participant "Backend" as BE <<Container>> #strategy
-database Database
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
 
+title As a RUC, I want to grade a Student in a Course Edition\nProcess View – Level 2 (with HATEOAS)
 
-RUC -> FE : Request to grade a Student in the Course Edition
-activate FE
+actor "RUC" as RUC
+participant ":Frontend" as FE
+participant ":Backend" as BE
+database DB
 
-FE -> BE : **(GET)** \n /courseeditions
-activate BE
+RUC -> FE ++: Request to assign a grade
+FE --> RUC --: Request grade, date, student and course info
+RUC -> FE ++: Insert grade, date,\nStudentID, CourseEditionID
 
-BE --> Database : **(GET)** \n findAllCourseEditions()
-activate Database
+FE -> BE ++: HTTP POST /courseeditions/studentgrades/register
+note right of BE: Controller parses JSON\nand builds Command
+BE -> DB ++: Verify enrolment and date validity
+DB --> BE --: OK (preconditions met)
 
-BE <-- Database : List <CourseEditionResponseDTO>
-deactivate Database
+BE -> DB ++: INSERT INTO studentgrades
+DB --> BE --: Grade registered
 
-BE --> FE : All Course Editions \n (**with HATEOAS links**: self, gradeStudent)
-deactivate BE
-
-FE --> RUC : Course Edition?
-RUC -> FE : Course Edition!
-
-FE --> RUC: Student Grading form
-RUC -> FE: grade, date, studentID
-
-FE -> BE : **(POST)** \n /studentgrades/register
-activate BE
-
-BE -> Database : **(INSERT)** \n save(studentGradeDataModel)
-activate Database
-
-BE <-- Database : studentGrade \n (grade, date, studentID)
-deactivate Database
-
-BE --> FE: studentGrade \n (grade, date, studentID) \n (**with _links**: self, update, courseEdition, student)
-deactivate BE
-
-FE --> RUC: Student graded successfully!
-deactivate FE
+BE --> FE --: HTTP 201 Created +\nEntityModel<GradeAStudentResponseDTO>\n(includes _links: self, averageGrade, approvalRate)
+FE --> RUC --: Grade registered with success
 
 @enduml
