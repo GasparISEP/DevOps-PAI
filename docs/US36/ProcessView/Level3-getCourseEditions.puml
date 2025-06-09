@@ -10,17 +10,17 @@ participant "<<Component>>\nCES:CourseEditionService" as S #lightyellow
 participant "<<Component>>\nCER:CourseEditionRepository" as R #lightgreen
 participant "<<Component>>\n:Drivers" as D #strategy
 
- -> Router ++: **GET** /course-editions
+[o-> Router ++: **GET** /course-editions
 Router -> C ++: findAllCourseEditions()
 C -> S ++: findAll()
 S -> R ++: findAll()
 R -> D ++: findAll()
-D -> : **SELECT** findAll()
-D <-- : List<CourseEditions>
+D ->o] : **SELECT** findAll()
+D <--o] : List<CourseEditions>
 D --> R --: List<CourseEditions>
 R --> S --: List<CourseEditions>
 S --> C --: List<CourseEditions>
 C --> Router --: List<CourseEditions
-<-- Router --: (OK, 200) List<CourseEditions>
+[o<-- Router --: (OK, 200) List<CourseEditions>
 
 @enduml

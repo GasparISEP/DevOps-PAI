@@ -14,8 +14,8 @@ participant "courseEdition:CourseEdition" as ce
 activate ceC
 ceC -> ceS ++: findAll()
 ceS -> ceR ++: findAll()
-ceR -> :findAll()
-ceR <-- : List<CourseEditionDataModel>
+ceR ->o] :findAll()
+ceR <--o] : List<CourseEditionDataModel>
 
 loop for CourseEditionDataModel[i]
 ceR -> M ++: toDomain(courseEditionDataModel[i])

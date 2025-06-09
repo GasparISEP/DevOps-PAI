@@ -9,6 +9,7 @@ participant "studentCountDTO:StudentCountDTO" as DTO
 activate ceC
 ceC -> A ++: fromDomainToDTO(studentCount)
 A -> DTO**: newStudentCountDTO(studentCount)
+activate DTO
 DTO --> A--: studentCountDTO
 A --> ceC--: studentCountDTO
 
