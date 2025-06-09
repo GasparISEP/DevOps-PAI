@@ -25,6 +25,7 @@ class TeacherRestController #E0FFFF{
     + updateTeacherCategory(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
     + getAllTeachers () : List<TeacherResponseDTO>
     + getAllTeacherCareerProgression (): ResponseEntity<Object>
+    + getTeacherCareerProgressionByID (): ResponseEntity<Object>
 }
 
 class TeacherCategoryRestController #E0FFFF{
@@ -37,6 +38,7 @@ interface ICreateTeacherCareerProgressionService #E0FFFF{
     + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
     + getAllTeacherCareerProgression (): List<UpdateTeacherCategoryDTO>
+    + getTeacherCareerProgressionByID (id: TeacherCareerProgressionID): UpdateTeacherCategoryDTO
 }
 
 class CreateTeacherCareerProgressionServiceImpl #E0FFFF{
@@ -44,6 +46,7 @@ class CreateTeacherCareerProgressionServiceImpl #E0FFFF{
     + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
     + getAllTeacherCareerProgression (): List<UpdateTeacherCategoryDTO>
+    + getTeacherCareerProgressionByID (id: TeacherCareerProgressionID): UpdateTeacherCategoryDTO
 }
 
 interface ITeacherCategoryService #E0FFFF{
@@ -177,6 +180,7 @@ class TeacherCareerProgressionRepositorySpringDataImpl #E0FFFF{
     + findLastTCPFromTeacherID(teacherID: TeacherID): Optional<TeacherCareerProgression>
     + save(tcp: TeacherCareerProgression): TeacherCareerProgression
     + findAll (): Iterable<TeacherCareerProgression>
+    + ofIdentity (id: TeacherCareerProgressionID):  Optional <TeacherCareerProgression>
 }
 
 interface ITeacherCareerProgressionRepositorySpringData #FFDAB9{
