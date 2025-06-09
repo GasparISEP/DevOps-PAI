@@ -2,20 +2,23 @@ package PAI.persistence.springdata.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentMapper;
 import PAI.mapper.student.IStudentIDMapper;
-import PAI.mapper.programme.IProgrammeIDMapper;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentRepositorySpringDataImplTest {
 
@@ -453,5 +456,63 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         assertFalse(result.isPresent(), "Não deveria encontrar enrolment para combinação inexistente");
     }
 
+    @Test
+    void shouldFindByGeneratedIDUsingSpringDataRepository() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID gid = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+
+        // mocks
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        ProgrammeEnrolmentDataModel dm = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolment domain = mock(ProgrammeEnrolment.class);
+
+        when(jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID()))
+                .thenReturn(Optional.of(dm));
+        when(programmeEnrolmentMapper.toDomain(dm)).thenReturn(domain);
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repo =
+                new ProgrammeEnrolmentRepositorySpringDataImpl(
+                        jpaRepo, idMapper, programmeEnrolmentMapper, studentIDMapper, programmeIDMapper
+                );
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(gid);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(domain, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenGeneratedIDNotFound() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID gid = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+
+        // mocks
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        when(jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID()))
+                .thenReturn(Optional.empty());
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repo =
+                new ProgrammeEnrolmentRepositorySpringDataImpl(
+                        jpaRepo, idMapper, programmeEnrolmentMapper, studentIDMapper, programmeIDMapper
+                );
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(gid);
+
+        // Assert
+        assertTrue(result.isEmpty(), "Deveria devolver Optional.empty() quando GID não é encontrado");
+    }
 
 }
