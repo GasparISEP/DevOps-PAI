@@ -1,9 +1,6 @@
 package PAI.domain.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -120,6 +117,7 @@ class CourseEditionEnrolmentFactoryImplTest {
     void testCreateWithEnrolmentDate_createsCorrectObject() {
 
         // arrange
+        CourseEditionEnrolmentGeneratedID uuidDouble = mock(CourseEditionEnrolmentGeneratedID.class);
         StudentID mockStudentID = mock(StudentID.class);
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
         Date enrolmentDate = mock(Date.class);
@@ -130,7 +128,7 @@ class CourseEditionEnrolmentFactoryImplTest {
         CourseEditionEnrolmentFactoryImpl factory = new CourseEditionEnrolmentFactoryImpl();
 
         // act
-        CourseEditionEnrolment enrolment = factory.createWithEnrolmentDate(mockStudentID, mockCourseEditionID, enrolmentDate, status);
+        CourseEditionEnrolment enrolment = factory.createWithEnrolmentDateAndUUID(uuidDouble, mockStudentID, mockCourseEditionID, enrolmentDate, status);
 
         // assert
         assertNotNull(enrolment);

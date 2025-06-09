@@ -5,7 +5,7 @@ import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentGe
 import org.springframework.stereotype.Component;
 
 @Component
-public class CourseEditionEnrolmentGeneratedIDMapperImpl {
+public class CourseEditionEnrolmentGeneratedIDMapperImpl implements ICourseEditionEnrolmentGeneratedIDMapper{
 
     public CourseEditionEnrolmentGeneratedID toDomain(CourseEditionEnrolmentGeneratedIDDataModel courseEditionEnrolmentgeneratedIDDataModel) throws Exception{
         return new CourseEditionEnrolmentGeneratedID(courseEditionEnrolmentgeneratedIDDataModel.getGeneratedID());

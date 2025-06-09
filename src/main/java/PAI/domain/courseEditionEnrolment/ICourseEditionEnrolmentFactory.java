@@ -1,14 +1,11 @@
 package PAI.domain.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 
 
 public interface ICourseEditionEnrolmentFactory {
 
     CourseEditionEnrolment createCourseEditionEnrolment(StudentID studentId, CourseEditionID courseEditionId);
 
-    CourseEditionEnrolment createWithEnrolmentDate(StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active);
+    CourseEditionEnrolment createWithEnrolmentDateAndUUID(CourseEditionEnrolmentGeneratedID uuid, StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active);
 }
