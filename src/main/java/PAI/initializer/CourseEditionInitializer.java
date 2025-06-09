@@ -43,7 +43,7 @@ public class CourseEditionInitializer {
 
                 String[] fields = line.split(",", -1);
 
-                if (fields.length == 9) {
+                if (fields.length == 8) {
                     try {
                         // Debug print
                         System.out.println("Processing line: " + line);
