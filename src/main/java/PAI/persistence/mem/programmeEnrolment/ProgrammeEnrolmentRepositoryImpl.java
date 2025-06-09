@@ -1,5 +1,6 @@
 package PAI.persistence.mem.programmeEnrolment;
 
+import PAI.VOs.ProgrammeEnrolmentGeneratedID;
 import PAI.VOs.ProgrammeEnrolmentID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.StudentID;
@@ -77,5 +78,13 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
                 .filter(pe -> pe.hasSameStudent(studentID) && pe.hasSameProgramme(programmeID))
                 .findFirst();
     }
+
+    @Override
+    public Optional<ProgrammeEnrolment> findByGeneratedID(ProgrammeEnrolmentGeneratedID gid) {
+        return _programmeEnrolmentList.stream()
+                .filter(pe -> pe.getProgrammeEnrolmentGeneratedID().equals(gid))
+                .findFirst();
+    }
+
 
 }
