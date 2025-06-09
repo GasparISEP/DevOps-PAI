@@ -11,7 +11,7 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import org.springframework.stereotype.Service;
 
@@ -112,7 +112,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         return list;
     }
     @Override
-    public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO) throws Exception {
+    public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception {
         ProgrammeEdition programmeEdition = programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
         List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
         return allProgrammeEditionEnrolment.size();
@@ -128,13 +128,21 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         boolean schoolYearExists = schoolYearRepository.containsOfIdentity(schoolYearID);
 
         if (programmeExists && schoolYearExists) {
+
+            Optional<ProgrammeEditionID> existingProgrammeEditionID =
+                    programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
+
+            if (existingProgrammeEditionID.isPresent()) {
+                throw new IllegalArgumentException("Programme Edition for this School Year is already Registered");
+            }
+
             ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
             Optional<ProgrammeEdition> savedProgramme = this.saveProgrammeEdition(programmeEdition);
             if (savedProgramme.isPresent()) {
                 ProgrammeEditionID programmeEditionID = savedProgramme.get().identity();
                 return programmeEditionAssembler.toDTO(programmeEditionID.getProgrammeID(), programmeEditionID.getSchoolYearID());
             } else {
-                throw new IllegalArgumentException("Programme is already Registered");
+                throw new IllegalArgumentException("Could not save Programme Edition");
             }
         } else {
             throw new IllegalArgumentException("Invalid Programme and or School Year");

@@ -4,7 +4,7 @@ import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface IProgrammeEditionService {
     Optional<ProgrammeEdition> saveProgrammeEdition(ProgrammeEdition programmeEdition) throws Exception;
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
     List<ProgrammeEdition> findAllProgrammeEditions() throws Exception;
-    int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO) throws Exception;
+    int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception;
     ProgrammeEditionServiceDTO createProgrammeEditionAndSave(ProgrammeEditionServiceDTO programmeEditionServiceDTO) throws Exception;
     List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID);
 }

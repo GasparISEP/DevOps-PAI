@@ -1,5 +1,6 @@
 package PAI.domain.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionGeneratedID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -114,10 +115,11 @@ class ProgrammeEditionFactoryImplTest {
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEditionGeneratedID pEDID = mock(ProgrammeEditionGeneratedID.class);
 
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         // Act
-        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, schoolYearID, pEDID);
         // Assert
         assertNotNull(programmeEdition);
         assertEquals(programmeEditionID, programmeEdition.identity());
@@ -131,10 +133,11 @@ class ProgrammeEditionFactoryImplTest {
         // Arrange
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = mock(ProgrammeEditionGeneratedID.class);
 
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(null, programmeID, schoolYearID));
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(null, programmeID, schoolYearID, programmeEditionGeneratedID));
     }
 
     @Test
@@ -142,10 +145,11 @@ class ProgrammeEditionFactoryImplTest {
         // Arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = mock(ProgrammeEditionGeneratedID.class);
 
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, null, schoolYearID));
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, null, schoolYearID, programmeEditionGeneratedID));
     }
 
     @Test
@@ -153,9 +157,22 @@ class ProgrammeEditionFactoryImplTest {
         // Arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = mock(ProgrammeEditionGeneratedID.class);
 
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, null));
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID, null, programmeEditionGeneratedID));
+    }
+
+    @Test
+    void shouldNotCreateProgrammeEditionWithGeneratedIDNull() throws Exception {
+        // Arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> programmeEditionFactory.createProgrammeEdition(programmeEditionID, programmeID,schoolYearID, null));
     }
 }

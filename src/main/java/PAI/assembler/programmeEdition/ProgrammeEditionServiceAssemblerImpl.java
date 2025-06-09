@@ -3,7 +3,7 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
@@ -18,7 +18,7 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public CountStudentsDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
+    public CountStudentsRequestDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
@@ -26,11 +26,11 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsDto(programmeAcronym, schoolYearID);
+        return new CountStudentsRequestDto(programmeAcronym, schoolYearID);
     }
 
     @Override
-    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsDto dto) throws Exception {
+    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception {
         if (dto == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
@@ -38,8 +38,9 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
         ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(dto.schoolYearID()));
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID();
 
-        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID, programmeEditionGeneratedID);
     }
 
     @Override

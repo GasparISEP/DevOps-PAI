@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDRequestDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
@@ -123,13 +123,15 @@ class ProgrammeEditionControllerAssemblerTest {
         Acronym programmeAcronym = new Acronym("ENG25");
         ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
                 programmeID,
-                schoolYearID
+                schoolYearID,
+                programmeEditionGeneratedID
         );
 
-        CountStudentsDto dto = assembler.toCountDTO(programmeEdition);
+        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
 
         assertEquals("ENG25", dto.programmeAcronym());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
@@ -145,7 +147,7 @@ class ProgrammeEditionControllerAssemblerTest {
 
         when(programmeEdition.identity()).thenReturn(editionID);
 
-        CountStudentsDto dto = assembler.toCountDTO(programmeEdition);
+        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
 
         assertEquals("MOCK", dto.programmeAcronym());
         assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
@@ -157,14 +159,17 @@ class ProgrammeEditionControllerAssemblerTest {
         Acronym programmeAcronym = new Acronym("PPP");
         ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
+
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
                 programmeID,
-                schoolYearID
+                schoolYearID,
+                programmeEditionGeneratedID
         );
 
         // Act
-        CountStudentsDto dto = assembler.toCountDTO(programmeEdition);
+        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
 
         // Assert
         assertEquals("PPP", dto.programmeAcronym());

@@ -1,5 +1,6 @@
 package PAI.domain.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionGeneratedID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -17,11 +18,14 @@ public class ProgrammeEditionFactoryImpl implements IProgrammeEditionFactory {
             throw new IllegalArgumentException("School Year ID cannot be null");
         }
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
-        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID();
+        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID, programmeEditionGeneratedID);
     }
 
     @Override
-    public ProgrammeEdition createProgrammeEdition(ProgrammeEditionID programmeEditionID, ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+    public ProgrammeEdition createProgrammeEdition(ProgrammeEditionID programmeEditionID, ProgrammeID programmeID,
+                                                   SchoolYearID schoolYearID,
+                                                   ProgrammeEditionGeneratedID programmeEditionGeneratedID) throws Exception {
         if (programmeEditionID == null) {
             throw new IllegalArgumentException("Programme Edition ID cannot be null");
         }
@@ -32,6 +36,10 @@ public class ProgrammeEditionFactoryImpl implements IProgrammeEditionFactory {
             throw new IllegalArgumentException("School Year ID cannot be null");
         }
 
-        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        if (programmeEditionGeneratedID == null) {
+            throw new IllegalArgumentException("Programme Edition Generated ID cannot be null");
+        }
+
+        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID, programmeEditionGeneratedID);
     }
 }
