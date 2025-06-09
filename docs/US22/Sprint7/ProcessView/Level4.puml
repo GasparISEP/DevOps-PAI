@@ -1,11 +1,45 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+title As a RUC, I want to grade a Student \n in a Course Edition (Process View L4 – Code View with HATEOAS)
 
-autonumber
+actor RUC
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+participant "StudentProgrammeEditionGradingRestController" as controller <<@RestController>> #lightblue
+participant "StudentProgrammeEditionGradingApplicationService" as service <<@Service>> #lightyellow
+participant "StudentGradeFactoryImpl" as factory <<@Component>> #lightgreen
+participant "StudentGradeRepositorySpringDataImpl" as repoAdapter <<@Repository>> #thistle
+participant "StudentGrade" as domain <<Aggregate>> #wheat
+participant "StudentGradeDataModel" as dataModel <<@Entity>> #lightgray
+participant "StudentGradeRepresentationModelAssembler" as assembler <<@Component>> #pink
+database "student_grades" as db
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+RUC -> controller : POST /studentgrades/register \n (grade, date, studentID, courseEditionID)
+activate controller
+
+controller -> service : gradeStudent(studentID, courseEditionID, grade, date)
+activate service
+
+service -> repoAdapter : checkIfStudentAlreadyGraded(...)
+repoAdapter -> db : SELECT * ...
+db --> repoAdapter : Optional<StudentGradeDataModel>
+
+service -> factory : create(studentID, courseEditionID, grade, date)
+activate factory
+factory --> service : new StudentGrade
+deactivate factory
+
+service -> repoAdapter : save(studentGrade)
+repoAdapter -> db : INSERT INTO student_grades (...)
+db --> repoAdapter : saved StudentGradeDataModel
+repoAdapter --> service : studentGrade saved
+
+service --> controller : StudentGrade
+deactivate service
+
+controller -> assembler : toModel(StudentGrade)
+activate assembler
+assembler --> controller : EntityModel<StudentGradeDTO> \n (**with _links**)
+deactivate assembler
+
+controller --> RUC : HTTP 201 Created \n body: StudentGradeDTO with _links
+deactivate controller
 @enduml
