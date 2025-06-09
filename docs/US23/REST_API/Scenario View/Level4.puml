@@ -13,6 +13,7 @@ participant ":CourseEditionMapperImpl" as ceMapper #burlywood
 participant ":StudentGradeRepositorySpringDataImpl" as SGRepoSpringData #lightsteelblue
 participant ":StudentGradeMapperImpl" as sgMapper #burlywood
 participant ":ICourseEditionRepositorySpringData" as iCourseEditionRepo #bisque
+participant ":ApprovalRateAssembler" as approvalRateAssembler #thistle
 
 ProgrammeDirector -> UI : I want to know approval percentage of a Course Edition
 activate ProgrammeDirector
@@ -102,13 +103,18 @@ loop for each StudentGrade in CourseEdition
     SGService -> SGService : Calculate Approval (increment if >= 10)
 end
 
-SGService --> RestCtrl : Approval Percentage
+SGService --> RestCtrl : approvalPercentage
 deactivate SGService
 
-RestCtrl --> UI : Approval Percentage
+RestCtrl -> approvalRateAssembler : toModel(approvalPercentage)
+activate approvalRateAssembler
+approvalRateAssembler --> RestCtrl : ApprovalRateResponseDTO
+deactivate approvalRateAssembler
+
+RestCtrl --> UI : ApprovalRateResponseDTO with HATEOAS link
 deactivate RestCtrl
 
-UI --> ProgrammeDirector : Know Approval Percentage of courseEdition1
+UI --> ProgrammeDirector : Approval Percentage of selected CourseEdition
 deactivate UI
 deactivate ProgrammeDirector
 @enduml
