@@ -6,6 +6,7 @@ import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -205,6 +206,24 @@ class ProgrammeEnrolmentServiceImplTest {
 
         // Assert
         assertNull(result, "Deveria retornar null quando não existe enrolment");
+    }
+
+    @Test
+    void shouldReturnListOfProgrammes() {
+        //arrange
+        createDoubles();
+        ProgrammeEnrolmentServiceImpl peService =
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+
+        List<ProgrammeID> expectedProgrammeIDs = List.of(mock(ProgrammeID.class), mock(ProgrammeID.class));
+        when(_peRepositoryDouble.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble))
+                .thenReturn(expectedProgrammeIDs);
+
+        // act
+        List<ProgrammeID> result = peService.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble);
+
+        // assert
+        assertEquals(expectedProgrammeIDs, result);
     }
 
 }

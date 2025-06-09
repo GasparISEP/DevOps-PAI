@@ -1,0 +1,56 @@
+@startuml
+autonumber
+
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
+title Register a "X" in the System\nProcess View – Level 3
+
+actor "actor" as ADM
+participant ":Frontend" as FE
+participant ":Router" as RT
+participant ":Controller" as CT
+participant ":Service" as SE
+participant ":Domain" as DM
+participant ":Repository" as RE
+participant ":Driver" as DV
+
+
+ADM -> FE ++: Request to post X
+FE --> ADM --: Request input details
+ADM -> FE ++: Enter input details
+FE -> RT ++: (POST) /xs \n{body: inputDetails}
+RT -> CT ++: (POST) /xs {request}
+
+
+CT -> SE ++: createAndSaveX (requestVOs)
+
+
+SE -> DM ++: createX (requestVOs.attribute[i]s)
+DM --> SE --: x
+
+
+
+SE -> RE ++: save (x)
+RE -> DV++: save (x)
+DV ->: INSERT INTO xs
+DV <--: persisted x
+DV --> RE -- : x
+RE --> SE --: x
+
+
+SE --> CT --: x
+
+
+CT --> RT --: HTTP 201 Created + \nEntityModel<XDTO>
+RT --> FE --: HTTP 201 Created + \nEntityModel<XDTO>
+FE --> ADM --: X registered successfully
+
+
+@enduml
