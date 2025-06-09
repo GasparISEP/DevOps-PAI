@@ -6,30 +6,65 @@ import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
-import PAI.assembler.teacherCategory.ITeacherCategoryExternalAssembler;
-import PAI.assembler.teacherCategory.ITeacherCategoryHateoasAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;
 import PAI.dto.teacherCareerProgression.*;
 import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.NotFoundException;
 import PAI.service.teacher.ITeacherRegistrationService;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import PAI.service.teacher.ITeacherWithRelevantDataService;
 import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@WebMvcTest(TeacherRestController.class)
 class TeacherRestControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ITeacherRegistrationService teacherService;
+
+    @MockBean
+    private ITeacherAssembler teacherAssembler;
+
+    @MockBean
+    private ITeacherCareerProgressionServiceV2 careerService;
+
+    @MockBean
+    private ITeacherCareerProgressionAssembler categoryAssembler;
+
+    @MockBean
+    private ITeacherWithRelevantDataService teacherWithRelevantDataService;
+
+    @MockBean
+    private TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
+
+    @MockBean
+    private IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
+
 
     // testing constructor method
 
@@ -539,7 +574,7 @@ class TeacherRestControllerTest {
     // updateTeacherCategory() method
 
     @Test
-    void ShouldReturnCreatForUpdateTeacherCategory() throws Exception{
+    void shouldReturnCreatForUpdateTeacherCategory() throws Exception{
         // Arrange
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
@@ -553,14 +588,14 @@ class TeacherRestControllerTest {
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
-        TeacherCareerProgression teacherCareerProgression = mock(TeacherCareerProgression.class);
         UpdateTeacherCategoryResponseDTO responseDTO = mock(UpdateTeacherCategoryResponseDTO.class);
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO = mock(UpdateTeacherCategoryDTO.class);
 
         String teacherId = "ABC";
 
         when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
-        when(careerService.updateTeacherCategory(command)).thenReturn(Optional.of(teacherCareerProgression));
-        when(categoryAssembler.toUpdateCategoryDTO(teacherCareerProgression)).thenReturn(responseDTO);
+        when(careerService.updateTeacherCategory(command)).thenReturn(doubleUpdateTeacherCategoryDTO);
+        when(categoryAssembler.toUpdateTeacherCategoryResponseDTO(doubleUpdateTeacherCategoryDTO)).thenReturn(responseDTO);
 
         //act
         ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
@@ -570,88 +605,78 @@ class TeacherRestControllerTest {
     }
 
     @Test
-    void ShouldReturnBadRequestWhenOptionalOfTeacherCareerProgressionIsEmpty() throws Exception{
+    void shouldReturnBadRequestWhenDoesNotExistPreviousTCPForThisTeacher() throws Exception{
         // Arrange
-        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
-        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
-        ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
-        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
-        IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+        String teacherId = "XXX";
+        String validRequestBody = """
+            {
+                "date": "2025-06-01",
+                "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89"
+            }
+        """;
 
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
-
-        UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(eq(teacherId), any()))
+                .thenReturn(command);
 
-        String teacherId = "ABC";
-
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
-        when(careerService.updateTeacherCategory(command)).thenReturn(Optional.empty());
-
-        // Act
-        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-        assertEquals("Unable to update teacher category", result.getBody());
-    }
-
-    @Test
-    void ShouldReturnBadRequestWhenAssemblerThrowsIllegalArgumentException() {
-        // Arrange
-        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
-        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
-        ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
-        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
-        IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
-
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
-
-        UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
-        String teacherId = "ABC";
-
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenThrow(new IllegalArgumentException("Invalid input"));
-
-        // Act
-        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-        assertEquals("Invalid input", result.getBody());
-    }
-
-    @Test
-    void ShouldThrowInternalServerErrorWhenServiceThrowsUnexpectedException() throws Exception{
-        // Arrange
-        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
-        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
-        ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
-        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
-        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
-        IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
-
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
-
-        UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
-        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
-
-        String teacherId = "ABC";
-
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
-        when(careerService.updateTeacherCategory(command)).thenThrow(new RuntimeException("Unexpected"));
+        when(careerService.updateTeacherCategory(command))
+                .thenThrow(new NotFoundException("This teacher has no previous career progression record."));
 
         // Act & Assert
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                teacherRestController.updateTeacherCategory(teacherId,request)
-        );
+        mockMvc.perform(post("/teachers/" + teacherId + "/careerprogressions/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validRequestBody))
+                .andExpect(status().isNotFound());
+    }
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
-        assertEquals("Unexpected error", exception.getReason());
+    @Test
+    void shouldReturnBadRequestWhenDateIsBeforeTheLastUpdate() throws Exception {
+        // Arrange
+        String teacherId = "AAA";
+        String validRequestBody = """
+            {
+                "date": "2021-06-01",
+                "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89"
+            }
+        """;
+
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(eq(teacherId), any()))
+                .thenReturn(command);
+
+        when(careerService.updateTeacherCategory(command))
+                .thenThrow(new BusinessRuleViolationException("The date must be equal to or later than the previous update."));
+
+        // Act & Assert
+        mockMvc.perform(post("/teachers/" + teacherId + "/careerprogressions/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validRequestBody))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnBadRequestIfCategoryIsTheSameAsLastUpdate() throws Exception{
+        // Arrange
+        String teacherId = "AAA";
+        String validRequestBody = """
+            {
+                "date": "2021-06-01",
+                "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89"
+            }
+        """;
+
+        UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(eq(teacherId), any()))
+                .thenReturn(command);
+
+        when(careerService.updateTeacherCategory(command))
+                .thenThrow(new BusinessRuleViolationException("The Teacher Category must be different to the previous update."));
+
+        // Act & Assert
+        mockMvc.perform(post("/teachers/" + teacherId + "/careerprogressions/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validRequestBody))
+                .andExpect(status().isBadRequest());
     }
 
     // updateWorkingPercentage() method

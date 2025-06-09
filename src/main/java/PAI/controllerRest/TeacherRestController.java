@@ -104,24 +104,16 @@ public class TeacherRestController {
     }
 
     @PostMapping("/{teacherId}/careerprogressions/category")
-    public ResponseEntity<?> updateTeacherCategory(@PathVariable ("teacherId") String teacherId,
-                                                   @Valid @RequestBody UpdateTeacherCategoryRequestDTO request) {
-        try {
-            UpdateTeacherCategoryCommand command = careerAssembler.toUpdateTeacherCategoryCommand(teacherId,request);
-            Optional<TeacherCareerProgression> result = careerService.updateTeacherCategory(command);
+    public ResponseEntity<Object> updateTeacherCategory(@PathVariable ("teacherId") String teacherId,
+                                                   @Valid @RequestBody UpdateTeacherCategoryRequestDTO request) throws Exception {
 
-            if (result.isEmpty()) {
-                return ResponseEntity.badRequest().body("Unable to update teacher category");
-            }
+        UpdateTeacherCategoryCommand command = careerAssembler.toUpdateTeacherCategoryCommand(teacherId,request);
 
-            UpdateTeacherCategoryResponseDTO responseDTO = careerAssembler.toUpdateCategoryDTO(result.get());
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        UpdateTeacherCategoryDTO result = careerService.updateTeacherCategory(command);
 
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", e);
-        }
+        UpdateTeacherCategoryResponseDTO responseDTO = careerAssembler.toUpdateTeacherCategoryResponseDTO(result);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @PostMapping("/careerprogressions/{teacherID}/working-percentage")

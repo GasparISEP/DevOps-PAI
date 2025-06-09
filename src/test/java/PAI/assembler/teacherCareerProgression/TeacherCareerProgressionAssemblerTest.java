@@ -14,42 +14,23 @@ import static org.mockito.Mockito.when;
 
 class TeacherCareerProgressionAssemblerTest {
 
-    private TeacherCareerProgressionAssembler assembler;
-    private UpdateTeacherWorkingPercentageRequestDTO dto;
-
     // toUpdateCategory() method
 
     @Test
     void shouldReturnResponseDTO(){
         //arrange
-        Date dateVO = mock(Date.class);
-        TeacherID teacherIDVO = mock(TeacherID.class);
-        TeacherAcronym acronym = mock(TeacherAcronym.class);
-        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
-        WorkingPercentage wp = mock(WorkingPercentage.class);
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO = mock(UpdateTeacherCategoryDTO.class);
 
-        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
-        TeacherCareerProgression teacherCareerProgression = mock(TeacherCareerProgression.class);
-        String date = "02-02-2022";
-        String teacherID = "ABV";
-        String teacherCategoryId = "3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85";
-        int workingPercentage = 20;
+        when(doubleUpdateTeacherCategoryDTO.date()).thenReturn("2025-06-01");
+        when(doubleUpdateTeacherCategoryDTO.teacherID()).thenReturn("AAA");
+        when(doubleUpdateTeacherCategoryDTO.teacherCategoryID()).thenReturn
+                ("05ab8bc8-33c2-46af-8988-d933e0256b89");
+        when(doubleUpdateTeacherCategoryDTO.workingPercentage()).thenReturn(95);
 
-        when(teacherCareerProgression.getDate()).thenReturn(dateVO);
-        when(dateVO.toString()).thenReturn(date);
+        TeacherCareerProgressionAssembler tcpAssembler = new TeacherCareerProgressionAssembler();
 
-        when(teacherCareerProgression.getTeacherID()).thenReturn(teacherIDVO);
-        when(teacherIDVO.getTeacherAcronym()).thenReturn(acronym);
-        when(acronym.getAcronym()).thenReturn(teacherID);
-
-
-        when(teacherCareerProgression.getTeacherCategoryID()).thenReturn(categoryID);
-        when(categoryID.toString()).thenReturn(teacherCategoryId);
-
-        when(teacherCareerProgression.getWorkingPercentage()).thenReturn(wp);
-        when(wp.getValue()).thenReturn(workingPercentage);
-
-        UpdateTeacherCategoryResponseDTO result = assembler.toUpdateCategoryDTO(teacherCareerProgression);
+        //act
+        UpdateTeacherCategoryResponseDTO result = tcpAssembler.toUpdateTeacherCategoryResponseDTO(doubleUpdateTeacherCategoryDTO);
 
         //assert
         assertNotNull(result);

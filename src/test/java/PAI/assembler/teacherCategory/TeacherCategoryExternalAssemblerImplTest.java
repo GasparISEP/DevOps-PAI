@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 
 class TeacherCategoryExternalAssemblerImplTest {
 
-    //testing method toResponseDTO
+    //testing method toUpdateTeacherCategoryResponseDTO
 
     @Test
     void shouldReturnATeacherCategoryResponseDTO() {
