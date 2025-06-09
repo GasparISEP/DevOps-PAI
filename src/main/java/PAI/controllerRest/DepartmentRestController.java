@@ -88,7 +88,7 @@ public class DepartmentRestController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Department not found");
             }
 
-            DepartmentDTO responseDTO = departmentAssembler.toDTO(department.get());
+            DepartmentWithDirectorDTO responseDTO = departmentAssembler.toDWDDTO(department.get());
             return ResponseEntity.ok(responseDTO);
 
         } catch (IllegalArgumentException e) {
