@@ -1,6 +1,7 @@
 package PAI.service.programmeEnrolment;
 
 import PAI.VOs.CourseEditionID;
+import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -68,6 +69,94 @@ class AvailableCoursesServiceImplTest {
 
         // assert
         assertEquals(expectedList, result);
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoCourseEditionsFound() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of());
+
+        // act
+        List<CourseEditionID> result = service.allCourseEditionIdsFromProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+    @Test
+    void shouldPropagateExceptionIfRepositoryFails() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID))
+                .thenThrow(new RuntimeException("Database error"));
+
+        // act & assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                service.allCourseEditionIdsFromProgrammeEdition(programmeEditionID)
+        );
+        assertEquals("Database error", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnListOfCourseInStudyPlanIDFromCourseEditionIDList() {
+        // arrange
+        CourseInStudyPlanID course1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID course2 = mock(CourseInStudyPlanID.class);
+
+        CourseEditionID edition1 = mock(CourseEditionID.class);
+        CourseEditionID edition2 = mock(CourseEditionID.class);
+
+        when(edition1.getCourseInStudyPlanID()).thenReturn(course1);
+        when(edition2.getCourseInStudyPlanID()).thenReturn(course2);
+
+        List<CourseEditionID> inputList = List.of(edition1, edition2);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<CourseInStudyPlanID> result = service.allCoursesInStudyFromProgrammeEdition(inputList);
+
+        // assert
+        assertEquals(List.of(course1, course2), result);
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenInputListIsEmpty() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<CourseInStudyPlanID> result = service.allCoursesInStudyFromProgrammeEdition(List.of());
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenInputListIsNull() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act & assert
+        assertThrows(NullPointerException.class, () ->
+                service.allCoursesInStudyFromProgrammeEdition(null)
+        );
     }
 
 
