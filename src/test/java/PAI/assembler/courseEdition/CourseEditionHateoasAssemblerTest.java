@@ -1,7 +1,14 @@
 package PAI.assembler.courseEdition;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -50,4 +57,45 @@ class CourseEditionHateoasAssemblerTest {
         // Assert
         assertTrue(href.contains("/courseeditions/ruc"));
     }
+
+
+    @Test
+    void toCollectionModel_ShouldContainSelfLink() {
+        // Arrange
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class));
+
+        // Act
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+
+        // Assert
+        assertTrue(result.hasLink("self"));
+    }
+
+    @Test
+    void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
+        // Arrange
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class));
+
+        // Act
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
+
+        // Assert
+        assertTrue(entityModel.hasLink("self"));
+        assertTrue(entityModel.hasLink("enroll-student"));
+    }
+
+    @Test
+    void toCollectionModel_ShouldReturnCollectionModelWithCorrectNumberOfEntities() {
+        // Arrange
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class), mock(CourseEditionResponseDTO.class));
+        // Act
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        // Assert
+        assertEquals(2, result.getContent().size());
+    }
+
 }
