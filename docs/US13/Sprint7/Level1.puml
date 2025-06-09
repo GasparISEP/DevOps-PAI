@@ -1,0 +1,20 @@
+@startuml
+autonumber
+skinparam Shadowing true
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+
+actor HRC
+participant "System" as System #lightgrey
+
+HRC -> System++ #lightgray : I want to register a new teacher including all relevant data.\t
+System --> HRC--: What are the Teacher's attributes?
+HRC -> System++ #lightgray : Fills form with teacher data:\nacronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode,\nlocation, country, department, category
+System --> HRC--: Teacher with Career Progression registered successfully!
+
+
+Note Right HRC #lightgray/gray
+    **teacherCategory** = A Teacher Category already in system
+    **department** = A Department already in system
+End Note
+@enduml
