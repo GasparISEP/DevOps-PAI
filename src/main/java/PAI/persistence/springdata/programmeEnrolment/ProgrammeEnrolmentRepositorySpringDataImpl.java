@@ -108,7 +108,11 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
         return dmOpt.map(programmeEnrolmentMapper::toDomain);
     }
 
-
+    @Override
+    public Optional<ProgrammeEnrolment> findByGeneratedID(ProgrammeEnrolmentGeneratedID gid) {
+        return jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID())
+                .map(programmeEnrolmentMapper::toDomain);
+    }
 }
 
 
