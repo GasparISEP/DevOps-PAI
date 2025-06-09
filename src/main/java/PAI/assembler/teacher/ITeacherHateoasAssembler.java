@@ -5,5 +5,5 @@ import org.springframework.hateoas.EntityModel;
 
 public interface ITeacherHateoasAssembler {
 
-    EntityModel<TeacherDTO> toModel (TeacherDTO dto);
+    EntityModel<TeacherDTO> toModel (TeacherDTO teacherDTO);
 }

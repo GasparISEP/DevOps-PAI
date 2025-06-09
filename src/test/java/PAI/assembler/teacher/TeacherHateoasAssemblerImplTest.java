@@ -32,4 +32,13 @@ class TeacherHateoasAssemblerImplTest {
         assertNotNull(result.getContent());
     }
 
+    @Test
+    void nullTeacherDTOThrowsException(){
+        //arrange
+        TeacherDTO teacherDTO = null;
+        TeacherHateoasAssemblerImpl hateoasAssembler = new TeacherHateoasAssemblerImpl();
+        //act + assert
+        assertThrows(IllegalArgumentException.class,() -> hateoasAssembler.toModel(teacherDTO));
+    }
+
 }
