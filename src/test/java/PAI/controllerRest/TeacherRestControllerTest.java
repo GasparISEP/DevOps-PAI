@@ -1170,4 +1170,57 @@ class TeacherRestControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Unexpected error occurred", response.getBody());
     }
+
+    // testing getAllTeacherCareerProgressions method
+
+    @Test
+    void shouldReturnAListOfUpdateTeacherCategoryResponseDTO () throws Exception {
+        // arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler);
+
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO1 = mock (UpdateTeacherCategoryDTO.class);
+        UpdateTeacherCategoryDTO doubleUpdateTeacherCategoryDTO2 = mock (UpdateTeacherCategoryDTO.class);
+
+        when(careerService.getAllTeacherCareerProgression()).
+                thenReturn(List.of (doubleUpdateTeacherCategoryDTO1, doubleUpdateTeacherCategoryDTO2));
+
+        // act
+        ResponseEntity<Object> result =  controller.getAllTeacherCareerProgression();
+
+        // assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfUpdateTeacherCategoryResponseDTO () throws Exception {
+        // arrange
+        ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
+        ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler);
+
+        when(careerService.getAllTeacherCareerProgression()).
+                thenReturn(List.of ());
+
+        // act
+        ResponseEntity<Object> result =  controller.getAllTeacherCareerProgression();
+
+        // assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
 }

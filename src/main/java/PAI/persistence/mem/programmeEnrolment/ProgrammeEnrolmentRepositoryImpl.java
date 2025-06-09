@@ -86,5 +86,14 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
                 .findFirst();
     }
 
-
+    @Override
+    public List<ProgrammeID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        List<ProgrammeID> programmes = new ArrayList<>();
+        for (ProgrammeEnrolment existingEnrolment : _programmeEnrolmentList) {
+            if (existingEnrolment.hasSameStudent(studentID)) {
+                programmes.add(existingEnrolment.getProgrammeID());
+            }
+        }
+        return programmes;
+    }
 }

@@ -1,9 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionServiceAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;

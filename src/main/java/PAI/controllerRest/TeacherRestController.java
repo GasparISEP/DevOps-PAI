@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -177,5 +178,16 @@ public class TeacherRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
+    }
+
+    @GetMapping ("/careerprogressions")
+    public ResponseEntity <Object> getAllTeacherCareerProgression () throws Exception {
+        List<UpdateTeacherCategoryDTO> listTCP = careerService.getAllTeacherCareerProgression();
+
+        List<UpdateTeacherCategoryResponseDTO> listTCPResponseDTO = careerAssembler.toResponseDTOs(listTCP);
+
+        return ResponseEntity.status(HttpStatus.OK).body(listTCPResponseDTO);
+
+
     }
 }

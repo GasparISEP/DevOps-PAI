@@ -29,9 +29,9 @@ FE -> BE : GET /approvalpercentage/
 activate BE
 BE --> Database : getCourseEditionApprovalRate()
 activate Database
-Database --> BE :Approval rate
+Database --> BE : ApprovalRateResponseDTO
 deactivate Database
-BE --> FE : Approval rate
+BE --> FE : ApprovalRateResponseDTO
 deactivate BE
 FE --> ProgrammeDirector : Approval rate
 deactivate FE

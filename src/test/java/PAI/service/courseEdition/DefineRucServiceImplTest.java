@@ -219,7 +219,7 @@ class DefineRucServiceImplTest {
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
-        CourseEditionID courseEditionID= mock(CourseEditionID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
         when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(true);
         // Act
         boolean result = service.containsOfIdentity(courseEditionID);
@@ -233,12 +233,36 @@ class DefineRucServiceImplTest {
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
         DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
-        CourseEditionID courseEditionID= mock(CourseEditionID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
         // Act
         boolean result = service.containsOfIdentity(courseEditionID);
         // Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTeacherIsTheSameAsThePreviousRUC(){
+        // Arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(courseEdition.getRuc()).thenReturn(teacherID);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> service.assignRucToCourseEdition(teacherID, courseEditionID)
+        );
+
+        assertEquals("This teacher is already assigned as the RUC for this course edition.", exception.getMessage());
     }
 }

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
@@ -43,7 +43,7 @@ public class CourseEditionRestController {
     private final ICourseEditionAssembler courseEditionAssembler;
     private final IGradeAStudentService gradeAStudentService;
     private final IStudentGradeAssembler studentGradeAssembler;
-    private final IProgrammeEditionAssembler programmeEditionAssembler;
+    private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
     private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
@@ -58,7 +58,7 @@ public CourseEditionRestController(
         ICourseEditionAssembler courseEditionAssembler,
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
-        IProgrammeEditionAssembler programmeEditionAssembler,
+        IProgrammeEditionServiceAssembler programmeEditionAssembler,
         IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
