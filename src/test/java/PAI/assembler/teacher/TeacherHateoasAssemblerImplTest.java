@@ -21,4 +21,15 @@ class TeacherHateoasAssemblerImplTest {
         assertTrue(result.hasLink("teachers"));
     }
 
+    @Test
+    void createdEntityModelShouldNotBeNull(){
+        //arrange
+        TeacherDTO teacherDTO = mock(TeacherDTO.class);
+        TeacherHateoasAssemblerImpl hateoasAssembler = new TeacherHateoasAssemblerImpl();
+        //act
+        EntityModel<TeacherDTO> result = hateoasAssembler.toModel(teacherDTO);
+        //assert
+        assertNotNull(result.getContent());
+    }
+
 }
