@@ -1,0 +1,22 @@
+@startuml
+title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(References in Scenario View - Level 4 Full Backend Flow)
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+
+participant ":RESTController" as restController <<component>> <<RESTController>> #teal
+participant ":IProgrammeEditionService" as programmeEditionService <<component>> <<Service>> #teal
+
+activate restController #LightBlue
+restController -> programmeEditionService: getAllProgrammeEditions()
+activate programmeEditionService #LightBlue
+create "programmeEditionServiceDTO: ProgrammeEditionServiceDTO"
+programmeEditionService -> "programmeEditionServiceDTO: ProgrammeEditionServiceDTO": createProgrammeEditionServiceDTO (\n programmeEdition.programmeId,\n programmeEdition.schoolYearId)
+deactivate programmeEditionService
+deactivate restController
+
+@enduml
