@@ -1,10 +1,15 @@
 package PAI.dto.courseEditionEnrolment;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CourseEditionEnrolmentDto(
 
-    @NotBlank(message = "Student unique number is required")
+    @NotNull(message = "Student unique number is required")
+    @Min(value = 1000000, message = "Student unique number must be at least 7 digits and more than 1000000")
+    @Max(value = 2000000, message = "Student unique number must be at most 7 digits and less than 2000000")
     int studentUniqueNumber,
     @NotBlank(message = "Programme acronym is required")
     String programmeAcronym,        

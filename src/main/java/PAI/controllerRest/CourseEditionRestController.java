@@ -5,7 +5,6 @@ import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.dto.RemoveCourseEditionEnrolmentDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
@@ -15,20 +14,21 @@ import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
+
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
-import jakarta.validation.Valid;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -47,6 +47,7 @@ public class CourseEditionRestController {
     private final ICourseEditionService courseEditionService;
     private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
     private final IStudentCountAssembler studentCountAssembler;
+    private final ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
 
 public CourseEditionRestController(
         ICourseEditionEnrolmentService courseEditionEnrolmentService,
@@ -58,7 +59,7 @@ public CourseEditionRestController(
         IStudentGradeAssembler studentGradeAssembler,
         IProgrammeEditionAssembler programmeEditionAssembler,
         IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
-        IStudentCountAssembler studentCountAssembler
+        IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
     this.courseEditionEnrolmentService = courseEditionEnrolmentService;
     this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
@@ -71,21 +72,23 @@ public CourseEditionRestController(
     this.defineRucService = defineRucService;
     this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
     this.studentCountAssembler = studentCountAssembler;
+    this.courseEditionEnrolmentHateoasAssembler = Objects.requireNonNull(courseEditionEnrolmentHateoasAssembler);
 }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
-    public ResponseEntity<String> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
+    public ResponseEntity<?> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @Valid @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
         try {
             CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDTO);
             StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber);
             boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(studentID, courseEditionID);
             if (enrolment) {
-                    return ResponseEntity.status(HttpStatus.CREATED).body("Student enrolled in course edition");
+                EntityModel<CourseEditionEnrolmentDto> courseEditionEnrolmentHateoas = courseEditionEnrolmentHateoasAssembler.toModel(courseEditionEnrolmentDTO);
+                return ResponseEntity.status(HttpStatus.CREATED).body(courseEditionEnrolmentHateoas);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student already enrolled in this course edition");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing enrollment: " + e.getMessage());
         }
     }
 
