@@ -1,10 +1,8 @@
 @startuml
 
 autonumber
-title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 3)
+title As a RUC, I want to grade a Student in a Course Edition \n (Process View Level 3 – with HATEOAS support)
 skinparam sequencemessagealign center
-autonumber
-
 
 participant ":Router" as router <<Component>> #application
 participant ":Controller" as controller <<Component>> #motivation
@@ -12,59 +10,71 @@ participant ":Service" as service <<Component>> #business
 participant ":Repository" as repo <<Component>> #technology
 participant ":Domain" as domain <<Component>> #implementation
 
- -> router : Select **Student grading** in a **CourseEdition** functionality
+-> router : Select **Student grading** in a **CourseEdition** functionality
 activate router
+
 router -> controller : **(GET)** \n /courseeditions
 activate controller
+
 controller -> service : findAllCourseEditions()
 activate service
+
 service -> repo : findAllCourseEditions()
 activate repo
+
 repo ->  : findAll()
 repo <--  : List <CourseEditionResponseDTO>
 
 repo --> service : All Course Editions
 deactivate repo
+
 service --> controller : All Course Editions
 deactivate service
-controller --> router : All Course Editions
+
+controller --> router : All Course Editions \n (**with HATEOAS links**: self, gradeStudent)
 deactivate controller
 
+<-- router : Which Course Edition?
 
- <-- router : Which Course Edition?
- -> router : This Course Edition!
- <-- router : Fill in the **Student grading** information
- -> router : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
-router -> controller : **(POST)** \n studentgrades/register
+-> router : This Course Edition!
 
+<-- router : Fill in the **Student grading** information
+
+-> router : **(POST)** \n Submit Student grading information \n (grade, date, studentID, courseEditionID)
+router -> controller : **(POST)** \n /studentgrades/register
 activate controller
-controller -> service : <Create> StudentGrade \n (grade, date, studentID, courseEditionID)
 
+controller -> service : <Create> StudentGrade \n (grade, date, studentID, courseEditionID)
 activate service
+
 service -> repo : Validate grading constraints
 activate repo
+
 repo --> service : validated
 deactivate repo
 
 service -> domain : <Create> StudentGrade
 activate domain
+
 domain --> service : studentGrade
 deactivate domain
 
 service -> repo : save(studentGrade)
 activate repo
+
 repo -> : **Insert**
-repo <--  : saved!
+repo <-- : saved!
+
 repo --> service : studentGrade!
 deactivate repo
 
 service --> controller : Student Grade saved!
 deactivate service
 
-controller --> router : Student Grade saved!
+controller --> router : Student Grade saved! \n (**with _links**: self, update, courseEdition, student)
 deactivate controller
 
- <-- router : Student graded successfully!
+<-- router : Student graded successfully!
 deactivate router
 
 @enduml
