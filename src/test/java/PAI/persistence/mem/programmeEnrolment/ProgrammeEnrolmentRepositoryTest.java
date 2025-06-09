@@ -344,6 +344,49 @@ class ProgrammeEnrolmentRepositoryTest {
         assertFalse(notFound2.isPresent());
     }
 
+    @Test
+    void shouldReturnProgrammeEnrolmentByGeneratedID() {
+        // Arrange
+        IProgrammeEnrolmentListFactory listFactory = () -> new ArrayList<>();
+        ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactory);
+
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentGeneratedID generatedID = new ProgrammeEnrolmentGeneratedID();
+
+        when(enrolment.getProgrammeEnrolmentGeneratedID()).thenReturn(generatedID);
+
+        repo.save(enrolment);
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(generatedID);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(enrolment, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenNoMatchingGeneratedID() {
+        // Arrange
+        IProgrammeEnrolmentListFactory listFactory = () -> new ArrayList<>();
+        ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactory);
+
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolmentGeneratedID savedID = new ProgrammeEnrolmentGeneratedID();
+        ProgrammeEnrolmentGeneratedID notSavedID = new ProgrammeEnrolmentGeneratedID();
+
+        when(enrolment.getProgrammeEnrolmentGeneratedID()).thenReturn(savedID);
+
+        repo.save(enrolment);
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(notSavedID);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+
 }
 
 
