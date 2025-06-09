@@ -5,7 +5,7 @@ import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDRequestDTO;
 import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
@@ -33,7 +33,7 @@ class ProgrammeEditionControllerAssemblerTest {
         when(programmeEditionRequestDTO.schoolYear()).thenReturn(schoolYear);
 
         // Act
-        ProgrammeEditionDTO result = assembler.toDTO(programmeEditionRequestDTO);
+        ProgrammeEditionServiceDTO result = assembler.toDTO(programmeEditionRequestDTO);
 
         // arrange
         assertNotNull(result);
@@ -53,7 +53,7 @@ class ProgrammeEditionControllerAssemblerTest {
     @Test
     void shouldReturnProgrammeEditionResponseDTOWhenToResponseDTO() {
         // Arrange
-        ProgrammeEditionDTO editionDTO = mock(ProgrammeEditionDTO.class);
+        ProgrammeEditionServiceDTO editionDTO = mock(ProgrammeEditionServiceDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
         SchoolYearIDDTO schoolYear = mock(SchoolYearIDDTO.class);
 
@@ -70,7 +70,7 @@ class ProgrammeEditionControllerAssemblerTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionDTOIsNull() {
         // Arrange
-        ProgrammeEditionDTO editionDTO = null;
+        ProgrammeEditionServiceDTO editionDTO = null;
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -87,7 +87,7 @@ class ProgrammeEditionControllerAssemblerTest {
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
         // Act
-        ProgrammeEditionDTO result = assembler.toDTOFromIDs(programmeID, schoolYearID);
+        ProgrammeEditionServiceDTO result = assembler.toDTOFromIDs(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(result);
