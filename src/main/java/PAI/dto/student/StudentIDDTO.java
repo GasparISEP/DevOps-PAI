@@ -1,4 +1,6 @@
 package PAI.dto.student;
 
-public class StudentIDDTO {
+import PAI.VOs.StudentID;
+
+public record StudentIDDTO (StudentID studentID) {
 }

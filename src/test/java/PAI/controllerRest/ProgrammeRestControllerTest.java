@@ -8,6 +8,7 @@ import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
 import PAI.dto.Programme.*;
+import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
@@ -508,7 +509,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnListOfProgrammeDTOsOnSuccess() {
         //arrange
-        int uniqueNumber = 1234567;
+        StudentIDDTO uniqueNumber = mock(StudentIDDTO.class);
         StudentID studentID = mock(StudentID.class);
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
@@ -520,39 +521,44 @@ class ProgrammeRestControllerTest {
         List<ProgrammeID> domainList = List.of(programmeID);
         List<ProgrammeIDDTO> dtoList = List.of(programmeIDDTO);
 
+        when(uniqueNumber.studentID()).thenReturn(studentID);
+        when(studentID.getUniqueNumber()).thenReturn(1234567);
         when(_programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID)).thenReturn(domainList);
         when(_programmeAssemblerDouble.toListOfDTOs(domainList)).thenReturn(dtoList);
 
         //act
-        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(uniqueNumber);
+        ResponseEntity<List<ProgrammeIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn
+                (uniqueNumber);
 
         //assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
-    void shouldNotReturnListOfProgrammeDTOs() {
-        //arrange
-        int uniqueNumber = 123;
+    void shouldReturnBadRequestWhenServiceThrowsException() {
+        // arrange
+        StudentIDDTO uniqueNumber = mock(StudentIDDTO.class);
         StudentID studentID = mock(StudentID.class);
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler);
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble,
+                _programmeAssemblerDouble,
+                _programmeEnrolmentService,
+                _studyPlanServiceDouble,
+                _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler
+        );
 
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
+        when(uniqueNumber.studentID()).thenReturn(studentID);
+        when(_programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID))
+                .thenThrow(new RuntimeException("Simulated failure"));
 
-        List<ProgrammeID> domainList = List.of(programmeID);
-        List<ProgrammeIDDTO> dtoList = List.of(programmeIDDTO);
-
-        when(_programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID)).thenReturn(domainList);
-        when(_programmeAssemblerDouble.toListOfDTOs(domainList)).thenReturn(dtoList);
-
-        //act
+        // act
         ResponseEntity<List<ProgrammeIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(uniqueNumber);
 
-        //assert
+        // assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
 
 }
