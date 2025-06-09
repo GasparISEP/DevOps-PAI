@@ -6,6 +6,6 @@ import PAI.dto.teacherCareerProgression.*;
 public interface ITeacherCareerProgressionAssembler {
     UpdateTeacherWorkingPercentageResponseDTO toUpdateWorkingPercentageDTO(TeacherCareerProgression teacherCareerProgression);
     UpdateTeacherWorkingPercentageCommand toUpdateTeacherWorkingPercentageCommand(String teacherIDStr,UpdateTeacherWorkingPercentageRequestDTO request);
-    UpdateTeacherCategoryResponseDTO toUpdateCategoryDTO(TeacherCareerProgression teacherCareerProgression);
+    UpdateTeacherCategoryResponseDTO toUpdateTeacherCategoryResponseDTO(UpdateTeacherCategoryDTO updateTeacherCategoryDTO);
     UpdateTeacherCategoryCommand toUpdateTeacherCategoryCommand(String teacherId, UpdateTeacherCategoryRequestDTO request) ;
 }

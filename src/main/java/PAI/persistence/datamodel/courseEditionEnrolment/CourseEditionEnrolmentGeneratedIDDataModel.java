@@ -12,18 +12,18 @@ import java.util.UUID;
 public class CourseEditionEnrolmentGeneratedIDDataModel implements Serializable {
 
     @Column(name = "cee_generated_id")
-    private UUID _generatedID;
+    private UUID generatedID;
 
     public CourseEditionEnrolmentGeneratedIDDataModel() {
     }
 
     public CourseEditionEnrolmentGeneratedIDDataModel(UUID id) {
-        this._generatedID = id;
+        this.generatedID = id;
     }
 
     // Getters
     public UUID getGeneratedID() {
-        return _generatedID;
+        return generatedID;
     }
 
     // Equals
@@ -33,12 +33,12 @@ public class CourseEditionEnrolmentGeneratedIDDataModel implements Serializable 
         if (o == null || getClass() != o.getClass())
             return false;
         CourseEditionEnrolmentGeneratedIDDataModel another = (CourseEditionEnrolmentGeneratedIDDataModel) o;
-        return _generatedID.equals(another._generatedID);
+        return generatedID.equals(another.generatedID);
     }
 
     //HashCode
     @Override
     public int hashCode() {
-        return Objects.hash(_generatedID);
+        return Objects.hash(generatedID);
     }
 }

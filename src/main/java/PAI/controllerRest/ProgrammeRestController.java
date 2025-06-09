@@ -110,7 +110,7 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{degreeTypeID}")
+    @GetMapping("/degreeType/{degreeTypeID}")
     public ResponseEntity<List<ProgrammeIDDTO>> getProgrammesByDegreeTypeID(@PathVariable String degreeTypeID) {
         try {
             DegreeTypeID id = new DegreeTypeID(degreeTypeID);
@@ -126,7 +126,7 @@ public class ProgrammeRestController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Object> getProgrammeByID (@PathVariable("id") String acronym){
 
         Acronym acronym1 = new Acronym(acronym);

@@ -1,0 +1,51 @@
+@startuml
+
+title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 3 - Backend)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router <<Component>>
+participant ":RESTController" as controller <<Component>>
+participant ":Service" as service <<Component>>
+participant ":Domain" as domain <<Component>>
+participant ":Repository" as repository <<Component>>
+
+-> router: GET /programmeeditions/(String id, String schoolYearID)/students
+activate router #E1F5FE
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+router -> controller: getNumberOfStudents\n(String id, String schoolYearID)
+activate controller #E1F5FE
+note over controller
+Create CountStudentsDto from id and schoolYearID
+end note
+controller -> service: countTotalNumberOfStudentsInAProgrammeEdition\n(CountStudentsDto programmeEditionDTO)
+activate service #E1F5FE
+
+
+service -> repository: countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO)
+activate repository #E1F5FE
+
+repository --> service:List<ProgrammeEditionEnrolment> programmeEditionEnrolments
+deactivate repository
+
+ref over service
+    Convert List<ProgrammeEditionEnrolment> to int totalNumberOfStudents
+end
+
+service --> controller: int totalNumberOfStudents
+deactivate service
+
+controller --> router: 200 + body {totalNumberOfStudents}
+deactivate controller
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+<-- router: 200 + body {totalNumberOfStudents}
+deactivate router
+
+@enduml

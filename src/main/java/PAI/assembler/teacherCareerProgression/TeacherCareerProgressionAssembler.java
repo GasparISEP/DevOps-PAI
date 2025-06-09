@@ -30,15 +30,17 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
     }
 
 
-
     @Override
-    public UpdateTeacherCategoryResponseDTO toUpdateCategoryDTO(TeacherCareerProgression teacherCareerProgression){
-        String date = teacherCareerProgression.getDate().toString();
-        String teacherID = teacherCareerProgression.getTeacherID().getTeacherAcronym().getAcronym();
-        String teacherCategoryID = teacherCareerProgression.getTeacherCategoryID().toString();
-        int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
+    public UpdateTeacherCategoryResponseDTO toUpdateTeacherCategoryResponseDTO(UpdateTeacherCategoryDTO updateTeacherCategoryDTO){
+
+        String date = updateTeacherCategoryDTO.date();
+        String teacherID = updateTeacherCategoryDTO.teacherID();
+        String teacherCategoryID = updateTeacherCategoryDTO.teacherCategoryID();
+        int workingPercentage = updateTeacherCategoryDTO.workingPercentage();
+
         return new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
     }
+
     @Override
     public UpdateTeacherCategoryCommand toUpdateTeacherCategoryCommand(String teacherId, UpdateTeacherCategoryRequestDTO request) {
 

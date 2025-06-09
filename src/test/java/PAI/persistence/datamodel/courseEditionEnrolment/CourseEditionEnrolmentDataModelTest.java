@@ -10,212 +10,233 @@ import static org.mockito.Mockito.mock;
 
 class CourseEditionEnrolmentDataModelTest {
 
-    //testing empty constructor
+    private CourseEditionEnrolmentGeneratedIDDataModel _ceeGeneratedIDDataModelDouble;
+    private CourseEditionEnrolmentIDDataModel _ceeIDDataModelDouble;
+    private CourseEditionEnrolmentIDDataModel _ceeIDDataModelDouble2;
+    private LocalDate _enrolmentDateDouble;
+    private LocalDate _enrolmentDateDouble2;
+
+    void createDoubles(){
+        _ceeGeneratedIDDataModelDouble =mock(CourseEditionEnrolmentGeneratedIDDataModel.class);
+        _ceeIDDataModelDouble = mock(CourseEditionEnrolmentIDDataModel.class);
+        _ceeIDDataModelDouble2 = mock(CourseEditionEnrolmentIDDataModel.class);
+        _enrolmentDateDouble = mock(LocalDate.class);
+        _enrolmentDateDouble2 = mock(LocalDate.class);
+    }
 
     @Test
-    void shouldReturnAnEmptyCourseEditionEnrolmentDataModel() {
-        //arrange
+    void shouldCreateCourseEditionEnrolmentDataModelFromEmptyConstructor() {
+        //Arrange
 
-        //act & assert
+        //Act
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel();
-    }
 
-    //testing the constructor with parameters
+        //Assert
+        assertNotNull(courseEditionEnrolmentDataModel);
+    }
 
     @Test
-    void shouldReturnACourseEditionEnrolmentDataModelWithAttributes() {
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = true;
+    void shouldCreateCourseEditionEnrolmentDataModelFromConstructorWithAttributes() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
 
-        //act & assert
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
+        //Act
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
+
+        //Assert
+        assertNotNull(courseEditionEnrolmentDataModel);
     }
 
-    //testing find id method
+    @Test
+    void shouldThrowExceptionAndNotConstructDataModelIfGeneratedIDIsNull() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class,() -> new CourseEditionEnrolmentDataModel(null, _ceeIDDataModelDouble, _enrolmentDateDouble, Status));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotConstructDataModelIfDomainIDIsNull() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class,() -> new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, null, _enrolmentDateDouble, Status));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotConstructDataModelIfDateIsNull() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class,() -> new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, null, Status));
+    }
+
+    @Test
+    void shouldReturnTheGeneratedIdOfCourseEditionEnrolmentDataModel() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
+
+        //Act
+        CourseEditionEnrolmentGeneratedIDDataModel result = courseEditionEnrolmentDataModel.findGeneratedID();
+
+        //Assert
+        assertEquals(_ceeGeneratedIDDataModelDouble, result);
+    }
 
     @Test
     void shouldReturnTheIdOfCourseEditionEnrolmentDataModel() {
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = true;
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
-
-        //act
+        //Act
         CourseEditionEnrolmentIDDataModel result = courseEditionEnrolmentDataModel.findId();
 
-        //assert
-        assertEquals(doubleCourseEditionEnrolmentIDDataModel, result);
+        //Assert
+        assertEquals(_ceeIDDataModelDouble, result);
     }
-
-    //testing find enrolmentDate method
 
     @Test
     void shouldReturnTheEnrolmentDateOfCourseEditionEnrolmentDataModel() {
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = true;
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
-
-        //act
+        //Act
         LocalDate result = courseEditionEnrolmentDataModel.findEnrolmentDate();
 
-        //assert
-        assertEquals(enrolmentDate, result);
+        //Assert
+        assertEquals(_enrolmentDateDouble, result);
     }
 
-    //testing find isActive method
-
     @Test
-    void shouldReturnTheTrueWhenCourseEditionEnrolmentIsActive() {
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = true;
+    void shouldReturnTrueWhenCourseEditionEnrolmentIsActive() {
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
-
-        //act
+        //Act
         boolean result = courseEditionEnrolmentDataModel.isActive();
 
-        //assert
+        //Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnTheFalseWhenCourseEditionEnrolmentIsNotActive() {
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = false;
+    void shouldReturnFalseWhenCourseEditionEnrolmentIsNotActive() {
+        //Arrange
+        createDoubles();
+        boolean Status = false;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
-
-        //act
+        //Act
         boolean result = courseEditionEnrolmentDataModel.isActive();
 
-        //assert
+        //Assert
         assertFalse(result);
     }
 
-    //testing equals method
-
     @Test
     void shouldReturnTrueWhenTwoObjectsHaveTheSameReferenceMemory (){
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
-        LocalDate enrolmentDate = LocalDate.of(2025, 4, 18);
-        boolean isActive = false;
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel;
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel, enrolmentDate, isActive);
+        //Act
+        boolean result = courseEditionEnrolmentDataModel.equals(courseEditionEnrolmentDataModel2);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel1;
-
-        //act
-        boolean result = courseEditionEnrolmentDataModel1.equals(courseEditionEnrolmentDataModel2);
-
-        //assert
+        //Assert
         assertTrue(result);
     }
 
     @Test
     void shouldReturnTrueWhenTwoObjectsAreEquals (){
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
+        //Arrange
+        createDoubles();
+        boolean Status = false;
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 =
-                new CourseEditionEnrolmentDataModel (doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2024, 12, 18), true);
+        //Act
+        boolean result = courseEditionEnrolmentDataModel.equals(courseEditionEnrolmentDataModel2);
 
-        //act
-        boolean result = courseEditionEnrolmentDataModel1.equals(courseEditionEnrolmentDataModel2);
-
-        //assert
+        //Assert
         assertTrue(result);
     }
 
     @Test
-    void shouldReturnFalseWhenTheObjectIsNull (){
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
+    void shouldReturnFalseWhenComparingWithNull (){
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
+        //Act
+        boolean result = courseEditionEnrolmentDataModel.equals(null);
 
-        //act
-        boolean result = courseEditionEnrolmentDataModel1.equals(null);
-
-        //assert
+        //Assert
         assertFalse(result);
     }
 
     @Test
     void shouldReturnFalseWhenTwoObjectsAreNotInstanceOfTheSameClass (){
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
+        ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel = mock(ProgrammeEditionEnrolmentDataModel.class);
 
-        ProgrammeEditionEnrolmentDataModel programmeEditionEnrolmentDataModel = mock (ProgrammeEditionEnrolmentDataModel.class);
+        //Act
+        boolean result = courseEditionEnrolmentDataModel.equals(programmeEditionEnrolmentDataModel);
 
-        //act
-        boolean result = courseEditionEnrolmentDataModel1.equals(programmeEditionEnrolmentDataModel);
-
-        //assert
+        //Assert
         assertFalse(result);
     }
 
     @Test
     void shouldReturnFalseWhenTwoObjectsAreNotEquals (){
-        //arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel2 = mock(CourseEditionEnrolmentIDDataModel.class);
-
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
+        //Arrange
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
         CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 =
-                new CourseEditionEnrolmentDataModel (doubleCourseEditionEnrolmentIDDataModel2,
+                new CourseEditionEnrolmentDataModel (_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble2,
                         LocalDate.of(2025, 4, 17), true);
 
-        //act
-        boolean result = courseEditionEnrolmentDataModel1.equals(courseEditionEnrolmentDataModel2);
+        //Act
+        boolean result = courseEditionEnrolmentDataModel.equals(courseEditionEnrolmentDataModel2);
 
-        //assert
+        //Assert
         assertFalse(result);
     }
-
-    //testing hashcode method
 
     @Test
     void shouldReturnAHashCodeForOneId() {
         //Arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
+        createDoubles();
+        boolean Status = true;
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
         //Act
-        int result = courseEditionEnrolmentDataModel1.hashCode();
+        int result = courseEditionEnrolmentDataModel.hashCode();
 
         //Assert
         assertNotNull (result);
@@ -224,16 +245,13 @@ class CourseEditionEnrolmentDataModelTest {
     @Test
     void shouldReturnTheSameHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
-
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
-
-        int courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel1.hashCode();
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
+        int courseEditionEnrolmentDataModel2 = courseEditionEnrolmentDataModel.hashCode();
 
         //Act
-        int result = courseEditionEnrolmentDataModel1.hashCode();
+        int result = courseEditionEnrolmentDataModel.hashCode();
 
         //Assert
         assertEquals(courseEditionEnrolmentDataModel2, result);
@@ -242,22 +260,16 @@ class CourseEditionEnrolmentDataModelTest {
     @Test
     void shouldReturnADifferentHashCodeForTwoIDs() {
         //Arrange
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel1 = mock(CourseEditionEnrolmentIDDataModel.class);
-        CourseEditionEnrolmentIDDataModel doubleCourseEditionEnrolmentIDDataModel2 = mock(CourseEditionEnrolmentIDDataModel.class);
+        createDoubles();
+        boolean Status = true;
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel = new CourseEditionEnrolmentDataModel(_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble, _enrolmentDateDouble, Status);
 
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel1 =
-                new CourseEditionEnrolmentDataModel(doubleCourseEditionEnrolmentIDDataModel1,
-                        LocalDate.of(2025, 4, 18), true);
-
-        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 =
-                new CourseEditionEnrolmentDataModel (doubleCourseEditionEnrolmentIDDataModel2,
-                        LocalDate.of(2025, 4, 17), true);
+        CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel2 = new CourseEditionEnrolmentDataModel (_ceeGeneratedIDDataModelDouble, _ceeIDDataModelDouble2, _enrolmentDateDouble2, Status);
 
         //Act
-        int result = courseEditionEnrolmentDataModel1.hashCode();
+        int result = courseEditionEnrolmentDataModel.hashCode();
 
         //Assert
         assertNotEquals(courseEditionEnrolmentDataModel2.hashCode(), result);
     }
-
 }

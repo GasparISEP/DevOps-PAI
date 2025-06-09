@@ -95,7 +95,24 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<ProgrammeEnrolment> findByStudentIDAndProgrammeID(StudentID studentID, ProgrammeID programmeID) {
 
+        StudentIDDataModel sidDM = studentIDMapper.domainToDataModel(studentID);
+        ProgrammeIDDataModel pidDM = programmeIDMapper.toData(programmeID);
+
+
+        Optional<ProgrammeEnrolmentDataModel> dmOpt =
+                jpaRepo.findByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(sidDM, pidDM);
+
+        return dmOpt.map(programmeEnrolmentMapper::toDomain);
+    }
+
+    @Override
+    public Optional<ProgrammeEnrolment> findByGeneratedID(ProgrammeEnrolmentGeneratedID gid) {
+        return jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID())
+                .map(programmeEnrolmentMapper::toDomain);
+    }
 }
 
 

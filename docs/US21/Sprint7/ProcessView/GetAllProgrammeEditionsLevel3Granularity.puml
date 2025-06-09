@@ -13,7 +13,7 @@ participant ":ProgrammeEditionService" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":IProgrammeEditionRepository" as repository <<Component>>
 
--> router: GET /programmeEditions + body {}
+-> router: GET /programme-Editions + body {}
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
@@ -24,7 +24,7 @@ activate controller#E1F5FE
 controller -> service : getAllProgrammeEditions()
 activate service#E1F5FE
 
-service -> repository: findAllProgrammeEditions()
+service -> repository: findAll()
 activate repository #E1F5FE
 
 repository --> service:List<ProgrammeEdition> programmeEditions
@@ -36,15 +36,15 @@ end
 service --> controller : List<PEServiceDTO> PEServiceDTO
 deactivate service
 ref over controller
-    Convert List<PEServiceDTO> to List<ProgrammeEditionIdDto>
+    Convert List<PEServiceDTO> to List<CountStudentsDto>
 end
-controller --> router: 200 + body\n {List<ProgrammeEditionIdDto> + hypermedia}
+controller --> router: 200 + body\n {List<CountStudentsDto> + hypermedia}
 deactivate controller#E1F5FE
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
 
-<-- router: 200 + body\n {List<ProgrammeEditionIdDto> + hypermedia}
+<-- router: 200 + body\n {List<CountStudentsDto> + hypermedia}
 deactivate router #E1F5FE
 
 @enduml

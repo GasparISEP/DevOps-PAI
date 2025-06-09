@@ -2,20 +2,23 @@ package PAI.persistence.springdata.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentIDMapper;
 import PAI.mapper.programmeEnrolment.IProgrammeEnrolmentMapper;
 import PAI.mapper.student.IStudentIDMapper;
-import PAI.mapper.programme.IProgrammeIDMapper;
+import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeEnrolmentRepositorySpringDataImplTest {
 
@@ -375,4 +378,141 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         assertTrue(resultList.contains(domainEnrolment1));
         assertTrue(resultList.contains(domainEnrolment2));
     }
+    @Test
+    public void testFindByStudentIDAndProgrammeID_Found() {
+        // Arrange
+
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        // SUT
+        var repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
+                jpaRepo, idMapper, mapper, studentIDMapper, programmeIDMapper
+        );
+
+        // Test data
+        StudentID domainSid = new StudentID(1234567);
+        ProgrammeID domainPid = new ProgrammeID(new Acronym("CS101"));
+
+        // 2) mocks dos data-models
+        StudentIDDataModel sidDM = mock(StudentIDDataModel.class);
+        ProgrammeIDDataModel pidDM = mock(ProgrammeIDDataModel.class);
+
+        // 3) stub para que o mapper converta o VO no mock
+        when(studentIDMapper.domainToDataModel(domainSid)).thenReturn(sidDM);
+        when(programmeIDMapper.toData(domainPid)).thenReturn(pidDM);
+
+        // 4) stub do JPA repo a devolver um Optional com dataModel
+        ProgrammeEnrolmentDataModel dataModel = mock(ProgrammeEnrolmentDataModel.class);
+        when(jpaRepo.findByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(sidDM, pidDM))
+                .thenReturn(Optional.of(dataModel));
+
+        // 5) stub do mapper para converter dataModel no domínio
+        ProgrammeEnrolment expectedDomain = mock(ProgrammeEnrolment.class);
+        when(mapper.toDomain(dataModel)).thenReturn(expectedDomain);
+
+        // Act
+        Optional<ProgrammeEnrolment> result =
+                repository.findByStudentIDAndProgrammeID(domainSid, domainPid);
+
+        // Assert
+        assertTrue(result.isPresent(), "Deveria encontrar um enrolment");
+        assertEquals(expectedDomain, result.get());
+    }
+
+    @Test
+    public void testFindByStudentIDAndProgrammeID_NotFound() {
+        // Arrange
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper mapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        var repository = new ProgrammeEnrolmentRepositorySpringDataImpl(
+                jpaRepo, idMapper, mapper, studentIDMapper, programmeIDMapper
+        );
+
+        StudentID domainSid = new StudentID(1234567);
+        ProgrammeID domainPid = new ProgrammeID(new Acronym("XX999"));
+
+        StudentIDDataModel sidDM = mock(StudentIDDataModel.class);
+        ProgrammeIDDataModel pidDM = mock(ProgrammeIDDataModel.class);
+
+        when(studentIDMapper.domainToDataModel(domainSid)).thenReturn(sidDM);
+        when(programmeIDMapper.toData(domainPid)).thenReturn(pidDM);
+
+        when(jpaRepo.findByProgrammeEnrolmentIDPeStudentIDAndProgrammeEnrolmentIDPeProgrammeID(sidDM, pidDM))
+                .thenReturn(Optional.empty());
+
+        // Act
+        Optional<ProgrammeEnrolment> result =
+                repository.findByStudentIDAndProgrammeID(domainSid, domainPid);
+
+        // Assert
+        assertFalse(result.isPresent(), "Não deveria encontrar enrolment para combinação inexistente");
+    }
+
+    @Test
+    void shouldFindByGeneratedIDUsingSpringDataRepository() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID gid = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+
+        // mocks
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        ProgrammeEnrolmentDataModel dm = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolment domain = mock(ProgrammeEnrolment.class);
+
+        when(jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID()))
+                .thenReturn(Optional.of(dm));
+        when(programmeEnrolmentMapper.toDomain(dm)).thenReturn(domain);
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repo =
+                new ProgrammeEnrolmentRepositorySpringDataImpl(
+                        jpaRepo, idMapper, programmeEnrolmentMapper, studentIDMapper, programmeIDMapper
+                );
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(gid);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(domain, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenGeneratedIDNotFound() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID gid = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+
+        // mocks
+        IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
+        IProgrammeEnrolmentIDMapper idMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapper = mock(IProgrammeEnrolmentMapper.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+
+        when(jpaRepo.findByProgrammeEnrolmentGID(gid.getProgrammeEnrolmentGID()))
+                .thenReturn(Optional.empty());
+
+        ProgrammeEnrolmentRepositorySpringDataImpl repo =
+                new ProgrammeEnrolmentRepositorySpringDataImpl(
+                        jpaRepo, idMapper, programmeEnrolmentMapper, studentIDMapper, programmeIDMapper
+                );
+
+        // Act
+        Optional<ProgrammeEnrolment> result = repo.findByGeneratedID(gid);
+
+        // Assert
+        assertTrue(result.isEmpty(), "Deveria devolver Optional.empty() quando GID não é encontrado");
+    }
+
 }

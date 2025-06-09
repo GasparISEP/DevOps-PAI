@@ -10,8 +10,6 @@ import static org.mockito.Mockito.*;
 
 class CourseEditionEnrolmentTest {
 
-
-
     @Test
     void should_create_valid_course_edition_enrollment_instance() {
         // arrange
@@ -23,6 +21,35 @@ class CourseEditionEnrolmentTest {
 
         // assert
         assertNotNull(enrollment);
+    }
+
+    @Test
+    void should_create_valid_course_edition_enrollment_instance_with_second_constructor() {
+        // arrange
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleSt1 = mock (StudentID.class);
+        CourseEditionID doubleCe1 = mock(CourseEditionID.class);
+        Date dateDouble = mock(Date.class);
+        EnrolmentStatus statusDouble = mock(EnrolmentStatus.class);
+
+        // act
+        CourseEditionEnrolment enrollment = new CourseEditionEnrolment(ceeGeneratedIDDouble, doubleSt1, doubleCe1, dateDouble, statusDouble);
+
+        // assert
+        assertNotNull(enrollment);
+    }
+
+    @Test
+    void should_throw_exception_not_create_valid_course_edition_enrollment_instance_with_second_constructor_if_generatedID_null() {
+        // arrange
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = null;
+        StudentID doubleSt1 = mock (StudentID.class);
+        CourseEditionID doubleCe1 = mock(CourseEditionID.class);
+        Date dateDouble = mock(Date.class);
+        EnrolmentStatus statusDouble = mock(EnrolmentStatus.class);
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class,() -> new CourseEditionEnrolment(ceeGeneratedIDDouble, doubleSt1, doubleCe1, dateDouble, statusDouble));
     }
 
     @Test
@@ -126,6 +153,25 @@ class CourseEditionEnrolmentTest {
 
         // Assert
         assertTrue(result);
+    }
+
+    @Test
+    void should_return_a_valid_GeneratedID() throws Exception {
+        //arrange
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleSt1 = mock (StudentID.class);
+        CourseEditionID doubleCe1 = mock(CourseEditionID.class);
+        Date dateDouble = mock(Date.class);
+        EnrolmentStatus statusDouble = mock(EnrolmentStatus.class);
+
+        CourseEditionEnrolment cee = new CourseEditionEnrolment(ceeGeneratedIDDouble, doubleSt1, doubleCe1, dateDouble, statusDouble);
+
+        //act
+        CourseEditionEnrolmentGeneratedID result = cee.getGeneratedID();
+
+        //assert
+        assertEquals(ceeGeneratedIDDouble, result);
+
     }
 
     @Test
@@ -485,18 +531,34 @@ class CourseEditionEnrolmentTest {
 
     @Test
     void should_return_correct_enrolment_date() {
-
         // arrange
+        CourseEditionEnrolmentGeneratedID uuidDouble = mock(CourseEditionEnrolmentGeneratedID.class);
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         Date enrolmentDate = Date.now();
         EnrolmentStatus isActive = mock(EnrolmentStatus.class);
 
         // act
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID, enrolmentDate, isActive);
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(uuidDouble, studentID, courseEditionID, enrolmentDate, isActive);
 
         // assert
         assertEquals(enrolmentDate, enrolment.getEnrolmentDate());
+    }
+
+    @Test
+    void should_assign_given_enrolment_date_when_not_null() {
+        // arrange
+        CourseEditionEnrolmentGeneratedID uuidDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID studentID = mock(StudentID.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        EnrolmentStatus isActive = mock(EnrolmentStatus.class);
+        Date expectedDate = Date.now();
+
+        // act
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(uuidDouble, studentID, courseEditionID, expectedDate, isActive);
+
+        // assert
+        assertEquals(expectedDate, enrolment.getEnrolmentDate());
     }
 
 }

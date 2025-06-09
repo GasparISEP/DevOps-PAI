@@ -1,9 +1,6 @@
 package PAI.domain.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +11,7 @@ public class CourseEditionEnrolmentFactoryImpl implements ICourseEditionEnrolmen
     }
 
     @Override
-    public CourseEditionEnrolment createWithEnrolmentDate(StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
-        return new CourseEditionEnrolment(studentID,courseEditionID, enrolmentDate, active);
+    public CourseEditionEnrolment createWithEnrolmentDateAndUUID(CourseEditionEnrolmentGeneratedID uuid, StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
+        return new CourseEditionEnrolment(uuid, studentID,courseEditionID, enrolmentDate, active);
     }
 }

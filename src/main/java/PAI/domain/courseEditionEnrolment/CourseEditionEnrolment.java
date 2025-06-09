@@ -9,6 +9,7 @@ import java.util.Objects;
 public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolmentID> {
 
     private CourseEditionEnrolmentID _courseEditionEnrolmentId;
+    private CourseEditionEnrolmentGeneratedID _courseEditionEnrolmentGeneratedID;
     private StudentID _studentID;
     private CourseEditionID _courseEditionID;
     private Date _enrolmentDate;
@@ -22,14 +23,21 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._isActive= new EnrolmentStatus(true);
     }
 
-    public CourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
+    public CourseEditionEnrolment(CourseEditionEnrolmentGeneratedID uuid, StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
         validateStudent(studentID);
         validateCourseEdition(courseEditionID);
+        validateGeneratedID(uuid);
         this._enrolmentDate = ((enrolmentDate != null) ? enrolmentDate : Date.now());
         this._courseEditionEnrolmentId = new CourseEditionEnrolmentID(studentID, courseEditionID);
         this._isActive = new EnrolmentStatus(active.isEnrolmentActive());
     }
 
+    private void validateGeneratedID(CourseEditionEnrolmentGeneratedID generatedID) throws IllegalArgumentException {
+        if (generatedID == null) {
+            throw new IllegalArgumentException("Course Edition Enrolment UUID cannot be null!");
+        }
+        this._courseEditionEnrolmentGeneratedID = generatedID;
+    }
 
     private void validateStudent(StudentID studentID) throws IllegalArgumentException {
         if (studentID == null) {
@@ -65,6 +73,8 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
     public boolean hasCourseEdition(CourseEditionID courseEditionID) {
         return _courseEditionID.equals(courseEditionID);
     }
+
+    public CourseEditionEnrolmentGeneratedID getGeneratedID(){return _courseEditionEnrolmentGeneratedID;}
 
     public StudentID knowStudent() {
         return _studentID;

@@ -1,20 +1,17 @@
 @startuml US21
 
-
-participant Router as ":Router"<<Component>> #fff2cc
-participant ProgrammeEditionRestController as ":ProgrammeEditionRestController"<<Component>> #d0e0e3
-participant ProgrammeEditionService as "ProgrammeEditionService"<<Component>> #d9ead3
-participant ProgrammeEditionSpringData as ":ProgrammeEditionSpringData"<<Component>> #fce5cd
-participant ProgrammeEditionEnrolmentSpringData as ":ProgrammeEditionEnrolmentSpringData"<<Component>> #fce5cd
-participant ":ProgrammeEditionEnrolmentMapper"<<Component>> #ead1dc
-participant ":ProgrammeEditionEnrolmentFactory"<<Component>> #d9d2e9
-participant ProgrammeEditionIDMapper as "ProgrammeEditionIDMapper"<<Component>>
-autonumber
 title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Scenario View - Level 4 Full Backend Flow)
 
-
-
+participant Router as ":Router"<<Component>> #fff2cc
+participant ProgrammeEditionRestController as ":ProgrammeEditionRESTController"<<Component>> #d0e0e3
+participant ProgrammeEditionService as ":IProgrammeEditionService"<<Component>> #d9ead3
+participant ProgrammeEditionRepository as ":IProgrammeEditionRepository"<<Component>> #fce5cd
+participant ProgrammeEditionEnrolmentSpringData as ":IProgrammeEditionEnrolmentRepositorySpringData"<<Component>> #fce5cd
+participant ":IProgrammeEditionEnrolmentMapper"<<Component>> #ead1dc
+participant ":IProgrammeEditionEnrolmentFactory"<<Component>> #d9d2e9
+participant ProgrammeEditionIDMapper as ":IProgrammeEditionIDMapper"<<Component>>
 autonumber
+
 skinparam defaultTextAlignment center
 skinparam shadowing true
 skinparam sequence {
@@ -24,61 +21,64 @@ skinparam sequence {
     LifeLineBackgroundColor #ffffff
 }
 
--> Router  : I want to get the number of students enrolled in a programme edition!
+-> Router  : I want to get the number of students\n enrolled in a programme edition!
 activate Router
+
+note over Router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
 Router -> ProgrammeEditionRestController ++: GET/programme-editions {}
 
-ProgrammeEditionRestController -> ProgrammeEditionService ++: findAll()
+ProgrammeEditionRestController -> ProgrammeEditionService ++: getAllProgrammeEditions()
 
-ProgrammeEditionService -> ProgrammeEditionSpringData: findAll()
+ProgrammeEditionService -> ProgrammeEditionRepository: findAll()
 
-activate ProgrammeEditionSpringData
-ProgrammeEditionSpringData --> ProgrammeEditionService --: List<programmeEdition>programmeEditions
+activate ProgrammeEditionRepository
+ProgrammeEditionRepository --> ProgrammeEditionService --: List<programmeEdition>\n programmeEditions
 
-ProgrammeEditionService --> ProgrammeEditionRestController --: List<programmeEdition>programmeEditions
+ProgrammeEditionService --> ProgrammeEditionRestController --: List<programmeEdition>\n programmeEditions
 
-ProgrammeEditionRestController --> Router --: List<programmeEdition>programmeEditions
+ProgrammeEditionRestController --> Router --: List<programmeEdition>\n programmeEditions
+
+note over Router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
 <--Router : Which Programme Edition?
 deactivate Router
 
- -> Router  : programmeEdition
+ -> Router  : This Programme Edition!
  activate Router
 
+note over Router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
-Router -> ProgrammeEditionRestController  : GET/programme-editions/{programmeName}/{programmeAcronym}/{schoolYearID}/students
+Router -> ProgrammeEditionRestController  : GET/programme-editions/\n{id}/{schoolYearID}/students
 activate ProgrammeEditionRestController
 
-ProgrammeEditionRestController -> ProgrammeEditionService ++: totalStudentsInProgrammeEdition(programmeEdition1ID)
+ProgrammeEditionRestController -> ProgrammeEditionService ++: countTotalNumberOfStudentsInAProgrammeEdition\n(programmeEditionDTO)
 
-ProgrammeEditionService -> ProgrammeEditionEnrolmentSpringData ++: getAllProgrammeEditionsEnrolmentByProgrammeEditionID(programmeEdition1ID)
+ProgrammeEditionService -> ProgrammeEditionEnrolmentSpringData ++: getAllProgrammeEditionsEnrolmentByProgrammeEditionID\n(programmeEdition)
 
-ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionIDMapper ++: toDataModel(programmeEdition1ID)
+ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionIDMapper ++: toDataModel(programmeEditionId)
 
-ProgrammeEditionIDMapper --> ProgrammeEditionEnrolmentSpringData --: programmeEdition1IdDataModel
+ProgrammeEditionIDMapper --> ProgrammeEditionEnrolmentSpringData --: programmeEditionIdDataModel
 
-ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData : findAllBy_id_ProgrammeEditionIdDataModel(programmeEdition1IdDataModel)
+ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData : findAllBy_id_ProgrammeEditionIdDataModel\n(programmeEditionDataModel)
 
 loop for each ProgrammeEditionEnrolmentDataModel
-    ProgrammeEditionEnrolmentSpringData -> ":ProgrammeEditionEnrolmentMapper" ++: toDomain(programmeEditionEnrolmentDataModel)
-    ":ProgrammeEditionEnrolmentMapper" -> ":ProgrammeEditionEnrolmentFactory"++: newProgrammeEditionEnrolment(StudentID studentId, ProgrammeEditionID programmeEditionId)
+    ProgrammeEditionEnrolmentSpringData -> ":IProgrammeEditionEnrolmentMapper" ++: toDomain(dataModel)
+    ":IProgrammeEditionEnrolmentMapper" -> ":IProgrammeEditionEnrolmentFactory"++: newProgrammeEditionEnrolment\n(studentId, programmeEditionId)
     create "pEE1:ProgrammeEditionEnrolment" as ProgrammeEditionEnrolment1
-    ":ProgrammeEditionEnrolmentFactory" -> ProgrammeEditionEnrolment1: <create>
-    ":ProgrammeEditionEnrolmentFactory" --> ":ProgrammeEditionEnrolmentMapper": Optional<pEE1>
-    ":ProgrammeEditionEnrolmentMapper" --> ProgrammeEditionEnrolmentSpringData --: Optional<pEE1>
+    ":IProgrammeEditionEnrolmentFactory" -> ProgrammeEditionEnrolment1: <create>
+    ":IProgrammeEditionEnrolmentFactory" --> ":IProgrammeEditionEnrolmentMapper": programmeEditionEnrolment\n(studentId, programmeEditionId,\n programmeEditionEnrolmentGeneratedID)
+    deactivate ":IProgrammeEditionEnrolmentFactory"
+    ":IProgrammeEditionEnrolmentMapper" --> ProgrammeEditionEnrolmentSpringData --: Optional<programmeEditionEnrolment>
     ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData: add to List<ProgrammeEditionEnrolment>
 end
 
-ProgrammeEditionEnrolmentSpringData --> ProgrammeEditionService --: List<ProgrammeEditionEnrolment>
-ref over ProgrammeEditionService
-    Count total programmeEditionEnrolments
-    1. Get list size
-    2. Return total
-end ref
+ProgrammeEditionEnrolmentSpringData --> ProgrammeEditionService --: List<ProgrammeEditionEnrolment>\n programmeEditionEnrolments
 
 ProgrammeEditionService --> ProgrammeEditionRestController --: int
 ProgrammeEditionRestController --> Router --: int
-<--Router: Total of Students Enrolled in the specified ProgrammeEdition
+
+<--Router: Total of Students Enrolled\n in the specified ProgrammeEdition
 deactivate Router
 
 @enduml  make the participants/actors have diferent colours
