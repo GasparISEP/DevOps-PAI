@@ -18,6 +18,7 @@ import PAI.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -93,4 +94,11 @@ public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacher
             return  Optional.empty();
         return createTeacherCareerProgression(command.date(), teacherCategoryID, command.workingPercentage(), command.teacherID());
     }
+
+    public List <UpdateTeacherCategoryDTO> getAllTeacherCareerProgression (){
+        Iterable <TeacherCareerProgression> listTCP = _TCPrepository.findAll();
+
+        return _internalAssembler.toDTOList(listTCP);
+    }
+
 }

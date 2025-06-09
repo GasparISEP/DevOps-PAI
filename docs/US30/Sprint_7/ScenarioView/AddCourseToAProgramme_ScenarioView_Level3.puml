@@ -83,6 +83,7 @@ package "Assembler / DTO" {
 
   class CourseInStudyPlanServiceDTO {
       - courseInStudyPlanID : UUID
+      - generatedID : UUID
       - semester : int
       - curricularYear : int
       - courseAcronym : String
@@ -113,7 +114,8 @@ class CourseInStudyPlanCommand {
 
 package "Domain Layer" {
   class CourseInStudyPlan {
-    -identity: CourseInStudyPlanGeneratedID
+    -generatedID: CourseInStudyPlanGeneratedID
+    -id: CourseInStudyPlanID
     -courseID: courseID
     -studyPlanID: StudyPlanID
   }
