@@ -1,0 +1,153 @@
+@startuml
+title  US18 \n As an ASC, I want to create a programme edition for the current school year \n Scenario View - Level 4 Granularity - Full Backend Flow
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":Router" as Router
+participant ":ProgrammeRestController" as ProgrammeController
+participant ":ProgrammeEditionRESTController" as ProgrammeEditionController
+participant ":IProgrammeEditionRegistrationService" as ProgrammeEditionService
+participant ":IProgrammeEditionFactory" as ProgrammeEditionFactory
+
+'''''''''''''''''''''''''''''''''''''''''
+
+'get all programmes name
+-> Router: GET /programmes
+activate Router  #E1F5FE
+Router -> ProgrammeController : getAllProgrammes()
+activate ProgrammeController #E1F5FE
+
+note over Router #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs  and vice versa
+end note
+
+ref over ProgrammeController
+       <b>Get List of Programmes</b>
+end ref
+
+ProgrammeController --> Router: 200 OK – List<ProgrammeDTO>
+deactivate ProgrammeController
+<-- Router: 200 OK – List<ProgrammeDTO> as JSON
+deactivate Router
+
+'''''''''''''''''''''''''''''''''''''''''
+
+-> Router:  POST /programme-editions + body {"programmeId":d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b}
+activate Router #E1F5FE
+
+
+
+Router -> ProgrammeEditionController: createAProgrammeEditionForTheCurrentSchoolYear(programmeEditionRequestDTO)
+
+note over Router #EEEEEE
+Spring Boot automatically converts
+incoming JSON into DTOs and vice versa
+end note
+
+ref over ProgrammeEditionController
+    Convert programmeEditionRequestDTO to programmeEditionServiceDTO
+end
+
+
+
+'create programmeEdition for current School Year
+activate ProgrammeEditionController #E1F5FE
+ProgrammeEditionController -> ProgrammeEditionService:createProgrammeEditionAndSave(programmeEditionDTO)
+ref over ProgrammeEditionService
+    Convert programmeEditionServiceDTO to programmeID
+end
+
+ref over ProgrammeEditionService
+    Get currentSchoolYearID
+end
+
+activate ProgrammeEditionService #E1F5FE
+ref over ProgrammeEditionService
+    Validate if programmeID exists in repository
+end
+
+ProgrammeEditionService -> ProgrammeEditionFactory: createProgrammeEdition(programmeID, schoolYearID)
+activate ProgrammeEditionFactory #E1F5FE
+
+
+ProgrammeEditionFactory -> ":ProgrammeEdition"** : newProgrammeEdition (programmeID, schoolYearID)
+participant ":ProgrammeEditionRepositorySpringDataImpl" as PER
+
+deactivate ProgrammeEditionFactory
+ProgrammeEditionService -> PER: containsOfIdentity(pe1ID)
+activate PER #E1F5FE
+PER --> ProgrammeEditionService: false
+
+
+ProgrammeEditionService -> PER: save(pe1)
+participant ":IProgrammeEditionMapper" as PEMapper
+PER -> PEMapper: toDataModel(pe1)
+activate PEMapper #E1F5FE
+participant ":IProgrammeEditionIDMapper" as PEIDMapper
+PEMapper -> PEIDMapper: toDataModel(pe1ID)
+activate PEIDMapper #E1F5FE
+create "pe1IDDataModel:ProgrammeEditionIDDataModel" as pe1IDDataModel
+PEIDMapper -> pe1IDDataModel : newProgrammeEditionIDDataModel ()
+activate pe1IDDataModel #E1F5FE
+pe1IDDataModel --> PEIDMapper: pe1IDDataModel
+deactivate pe1IDDataModel
+PEIDMapper -->PEMapper: pe1IDDataModel
+deactivate PEIDMapper
+create "pe1DataModel:ProgrammeEditionDataModel" as pe1DataModel
+
+PEMapper -> pe1DataModel : new ProgrammeEditionDataModel ()
+activate pe1DataModel #E1F5FE
+pe1DataModel --> PEMapper: pe1DataModel
+deactivate pe1DataModel
+PEMapper --> PER: Optional <ProgrammeEditionDataModel>
+deactivate PEMapper
+
+
+
+participant ":IProgrammeEditionRepoSpringData" as IPER
+PER -> IPER: save(pe1DataModel)
+activate IPER #E1F5FE
+
+IPER--> PER: pe1
+deactivate IPER
+
+ref over PER
+Convert pe1DataModel to Domain
+end
+
+PER --> ProgrammeEditionService: pe1
+deactivate PER
+participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler
+ProgrammeEditionService --> ProgrammeEditionAssembler: toDTO(pe1ID, syID)
+activate ProgrammeEditionAssembler #E1F5FE
+create "programmeEditionDTO:ProgrammeEditionServiceDTO" as programmeEditionServiceDTO
+
+ProgrammeEditionAssembler -> programmeEditionServiceDTO : newProgrammeEditionServiceDTO ()
+activate programmeEditionServiceDTO #E1F5FE
+
+programmeEditionServiceDTO --> ProgrammeEditionAssembler: programmeEditionServiceDTO
+deactivate programmeEditionServiceDTO
+ProgrammeEditionAssembler --> ProgrammeEditionService: programmeEditionServiceDTO
+deactivate ProgrammeEditionAssembler
+
+ProgrammeEditionService --> ProgrammeEditionController: programmeEditionServiceDTO
+deactivate ProgrammeEditionService
+ref over ProgrammeEditionController
+    Convert programmeEditionServiceDTO to programmeEditionResponseDTO
+end
+
+
+ProgrammeEditionController --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate ProgrammeEditionController
+
+<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+deactivate Router
+@enduml
