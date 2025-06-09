@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -113,5 +114,48 @@ class TeacherCareerProgressionAssemblerTest {
 
         //assert
         assertNotNull(result);
+    }
+
+    // toResponseDTOs method
+
+    @Test
+    void shouldReturnAListOfUpdateTeacherCategoryResponseDTO (){
+        // arrange
+        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
+
+        UpdateTeacherCategoryDTO doubleDTO = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleDTO.date()).thenReturn("2022-02-02");
+        when (doubleDTO.teacherID()).thenReturn("AAA");
+        when (doubleDTO.teacherCategoryID()).thenReturn("11111");
+        when (doubleDTO.workingPercentage()).thenReturn(95);
+
+        UpdateTeacherCategoryDTO doubleDTO1 = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleDTO1.date()).thenReturn("2022-03-02");
+        when (doubleDTO1.teacherID()).thenReturn("AAB");
+        when (doubleDTO1.teacherCategoryID()).thenReturn("12111");
+        when (doubleDTO1.workingPercentage()).thenReturn(98);
+
+        List <UpdateTeacherCategoryDTO> doubleList = List.of(doubleDTO1, doubleDTO);
+
+        // act
+        List<UpdateTeacherCategoryResponseDTO> result = assembler.toResponseDTOs (doubleList);
+
+        // assert
+        assertTrue(result.size() == 2);
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfUpdateTeacherCategoryResponseDTO (){
+        // arrange
+        TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
+
+        List <UpdateTeacherCategoryDTO> doubleList = List.of();
+        assembler.toResponseDTOs(doubleList);
+
+        // act
+        List<UpdateTeacherCategoryResponseDTO> result = assembler.toResponseDTOs (doubleList);
+
+        // assert
+        assertTrue(result.size() == 0);
     }
 }

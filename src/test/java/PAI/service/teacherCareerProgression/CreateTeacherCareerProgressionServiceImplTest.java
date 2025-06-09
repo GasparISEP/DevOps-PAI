@@ -13,7 +13,11 @@ import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -522,4 +526,59 @@ class CreateTeacherCareerProgressionServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
+    // testing getAllTeacherCareerProgression method
+
+    @Test
+    void shouldReturnAListOfTeacherCareerProgression () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(doubleTeacherCareerProgressionRepositoryInterface,
+                doubleTeacherCareerProgressionFactoryInterface, doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        TeacherCareerProgression doubleTeacherCareerProgression1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression doubleTeacherCareerProgression2 = mock(TeacherCareerProgression.class);
+        Iterable<TeacherCareerProgression> doubleList = Arrays.asList(doubleTeacherCareerProgression1, doubleTeacherCareerProgression2);
+        when(doubleTeacherCareerProgressionRepositoryInterface.findAll()).thenReturn(doubleList);
+
+        UpdateTeacherCategoryDTO doubleDTO1 = mock(UpdateTeacherCategoryDTO.class);
+        UpdateTeacherCategoryDTO doubleDTO2 = mock(UpdateTeacherCategoryDTO.class);
+        when (doubleTCPInternalAssemblerInterface.toDTOList(doubleList)).thenReturn(List.of(doubleDTO1, doubleDTO2));
+
+        // act
+        List <UpdateTeacherCategoryDTO> result = service.getAllTeacherCareerProgression();
+
+        // assert
+        assertEquals(List.of(doubleDTO1, doubleDTO2), result);
+    }
+
+    @Test
+    void shouldReturnAnEmptyListOfTeacherCareerProgression () {
+        // arrange
+        ITeacherCareerProgressionRepository doubleTeacherCareerProgressionRepositoryInterface
+                = mock(ITeacherCareerProgressionRepository.class);
+        ITeacherCareerProgressionFactory doubleTeacherCareerProgressionFactoryInterface
+                = mock(ITeacherCareerProgressionFactory.class);
+        ITeacherRepository doubleTeacherRepositoryInterface = mock(ITeacherRepository.class);
+        ITeacherCareerProgressionInternalAssembler doubleTCPInternalAssemblerInterface =
+                mock(ITeacherCareerProgressionInternalAssembler.class);
+
+        CreateTeacherCareerProgressionServiceImpl service = new CreateTeacherCareerProgressionServiceImpl(doubleTeacherCareerProgressionRepositoryInterface,
+                doubleTeacherCareerProgressionFactoryInterface, doubleTeacherRepositoryInterface, doubleTCPInternalAssemblerInterface);
+
+        Iterable<TeacherCareerProgression> doubleList = Arrays.asList();
+        when(doubleTeacherCareerProgressionRepositoryInterface.findAll()).thenReturn(doubleList);
+
+        // act
+        List <UpdateTeacherCategoryDTO> result = service.getAllTeacherCareerProgression();
+
+        // assert
+        assertFalse(result.iterator().hasNext());
+    }
 }
