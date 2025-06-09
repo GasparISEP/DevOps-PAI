@@ -1,0 +1,40 @@
+@startuml
+autonumber
+skinparam Shadowing true
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+
+actor HRC
+participant "Frontend" as FE #lightgreen/green
+participant "Backend" as BE #yellow/orange
+database DB #lightgray/gray
+
+HRC -> FE ++ #lightgray : I want to register a new teacher\nincluding all relevant data.
+
+FE -> BE ++ #lightgray : GET / TeacherCategories
+BE -> DB ++ #lightgray : SELECT * FROM teacherCategories
+DB --> BE --: List of categories
+BE --> FE --: 200 OK + {List of teacher categories}
+FE -> BE ++ #lightgray : GET / Departments
+BE -> DB ++ #lightgray : SELECT * FROM Departments
+DB --> BE --: List of department
+BE --> FE --: 200 OK + {List of departments}
+
+FE --> HRC --: What are the Teacher's attributes?
+|||
+HRC -> FE ++ #lightgray : Fills form with teacher data:\nacronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode,\nlocation, country, department, category
+
+
+
+FE -> BE ++ #lightgray : POST /teachers/with-relevant-data / {acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country, department, category}
+
+BE -> DB ++ #lightgray : INSERT INTO Teacher
+DB --> BE --: Insert confirmed
+
+BE -> DB ++ #lightgray : INSERT INTO TeacherCareerProgression
+DB --> BE --: Insert confirmed
+
+BE --> FE --: 201 Created + { Name, Acronym, TeacherCategoryName, WorkingPercentage }
+FE --> HRC --: Teacher and Career Progression\nregistered successfully!
+
+@enduml

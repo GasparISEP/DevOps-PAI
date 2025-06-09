@@ -39,12 +39,14 @@ note over of ceFactory
     CourseEditionID object
 end note
 ceFactory --> ceMapper --: CourseEditionID
-ceMapper --> ceRepo --: List<CourseEditionID>
+ceMapper --> ceRepo --: List<CourseEditionID> 
 end
 
-ceRepo -> ceService: List<CourseEditionID>
+ceRepo -> ceService: List<CourseEditionID> 
 ceService --> ceCtrl --: List<CourseEditionID>
-ceCtrl -> ceHateoasAssembler ++: toCollectionModel(List<CourseEditionID>)
+ceCtrl -> ceAssembler ++: toResponseDTOList(List<CourseEditionID>)
+ceAssembler --> ceCtrl --: List<CourseEditionResponseDTO>
+ceCtrl -> ceHateoasAssembler ++: toCollectionModel(List<CourseEditionResponseDTO>)
 note right of ceHateoasAssembler
   Create CollectionModel with:
   - Self link for collection
@@ -54,8 +56,8 @@ note right of ceHateoasAssembler
     - Enroll student
     - View details
 end note
-ceHateoasAssembler --> ceCtrl --: CollectionModel<CourseEditionResponseDTO>
-ceCtrl --> router: CollectionModel<CourseEditionResponseDTO>
+ceHateoasAssembler --> ceCtrl --: CollectionModel<EntityModel<CourseEditionResponseDTO>>
+ceCtrl --> router: CollectionModel<EntityModel<CourseEditionResponseDTO>>
 
 legend right
   DTO = Data Transfer Object

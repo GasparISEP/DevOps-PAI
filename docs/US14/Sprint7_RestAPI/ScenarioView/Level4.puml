@@ -15,7 +15,7 @@ participant ":TeacherCategoryRestController" as TCController
 participant ":ITeacherCategoryService" as TCService
 participant ":ITeacherCategoryRepository" as TCRepository
 participant ":ITeacherCategoryRepositorySpringData" as TCRepositorySpringData
-participant ":ITeacherCareerProgressionService" as service
+participant ":ICreateTeacherCareerProgressionService" as service
 participant ":ITeacherCareerProgressionRepository" as TCPRepo
 participant "lastTCP:TeacherCareerProgression" as TCP
 participant ":ITeacherCareerProgressionFactory" as factory
