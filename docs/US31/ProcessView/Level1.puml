@@ -10,21 +10,9 @@ activate Admin
 activate System
 Admin -> System  : I Want to register a Programme in the System.
 
-System --> Admin --: Choose a Degree Type
+System --> Admin --: Display form with: \n Degree types, Departments, Teachers (dropdown) \n and Name, Acronym (inputs)
 
-Admin -> System  ++: Degree Type
-
-System --> Admin --: Choose a Department
-
-Admin -> System  ++: Department
-
-System --> Admin --: Choose a ProgrammeDirector
-
-Admin -> System  ++: Teacher
-
-System --> Admin  --: Name? Acronym?
-
-Admin -> System  ++: name, acronym
+Admin -> System  ++: Submit filled form \n(Degree Type, Department, Teacher, Name, Acronym)
 
 System --> Admin  : Programme registered successfully! \n(Display Programme details)
 deactivate System

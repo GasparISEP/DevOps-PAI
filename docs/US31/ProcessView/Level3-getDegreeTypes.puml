@@ -11,16 +11,16 @@ participant "<<Component>>\n:DegreeTypeRepository" as R #strategy
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
 
- -> RT ++: **GET** /degreeTypes
- RT -> C ++: getAllDegreeTypes()
+[o-> RT ++: **GET** /degreeTypes
+RT -> C ++: getAllDegreeTypes()
 C -> S ++: getAllDegreeTypes()
 S -> R ++: findAll()
 R -> Drivers ++: findAll()
-Drivers -> : **SELECT** findAll()
-Drivers <-- : List<DegreeTypes>
+Drivers ->o] : **SELECT** findAll()
+Drivers <--o] : List<DegreeTypes>
 Drivers --> R --: List<DegreeTypes>
 R --> S --: List<DegreeTypes>
 S --> C --: List<DegreeTypes>
 RT <-- C --: List<DegreeTypes>
- <-- RT --: (OK, 200) List<DegreeTypes>
+[o<-- RT --: (OK, 200) List<DegreeTypes>
 @enduml
