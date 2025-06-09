@@ -12,24 +12,18 @@ skinparam nodesep 5
 skinparam sequenceLifeLineBackgroundColor #application
 
 A -> FE ++ : I want to update the Department Director of a Department
-FE -> BE ++: GET /departments
-BE -> DB ++: SELECT * FROM departments
-DB --> BE --: List of departments
-BE --> FE --: List of departments
+
 FE --> A --: Which Department?
 
 A -> FE ++ : This Department!
-FE -> BE ++ : GET /teachers?departmentId={id}
-BE -> DB ++ : SELECT * FROM teachers WHERE department_id = {id}
-DB --> BE -- : List of teachers
-BE --> FE -- : List of teachers
-FE --> A -- : Which Teacher?
 
-A -> FE ++ : This Teacher!
-FE -> BE ++ : PATCH /departments/{id}/director { teacherId }
+FE --> A -- : Which Teacher from this Department?
+
+A -> FE ++ : This Teacher from this Department!
+FE -> BE ++ : HTTP PUT /departments/{departmentID}/director\nbody { teacherId }
 BE -> DB ++: UPDATE departments SET director_id = {teacherId} WHERE id = {id}
 DB --> BE -- : Success
-BE --> FE -- : Director updated
+BE --> FE -- : 200 OK
 FE --> A -- : Department director updated successfully!
 
 @enduml
