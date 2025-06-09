@@ -1,0 +1,107 @@
+@startuml
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 2)
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC  #LightBlue/White
+participant "<<Container>>\nFrontend" as Frontend #E1F5FE
+participant "<<Container>>\nBackend" as Backend #E1F5FE
+database "<<Container>>\nDatabase" as Database #E1F5FE
+
+ASC -> Frontend: I want to create a course edition
+activate Frontend
+
+Frontend -> Backend: GET /degreetypes
+activate Backend
+Backend -> Database: SELECT * FROM degree_types
+activate Database
+Database --> Backend: List<DegreeType>
+deactivate Database
+Backend --> Frontend: 200 OK + degree types
+deactivate Backend
+Frontend --> ASC: Which degree type?
+deactivate Frontend
+
+ASC -> Frontend: Select degree type
+activate Frontend
+Frontend -> Backend: GET /programmes/{degreeTypeID}
+activate Backend
+Backend -> Database: SELECT * FROM programmes
+activate Database
+Database --> Backend: List<Programme>
+deactivate Database
+Backend --> Frontend: 200 OK + programmes
+deactivate Backend
+Frontend --> ASC: Which programme?
+deactivate Frontend
+
+ASC -> Frontend: Select programme
+activate Frontend
+Frontend -> Backend: GET /course-in-study-plan/{acronym}
+activate Backend
+Backend -> Database: SELECT * FROM courses_in_study_plan
+activate Database
+Database --> Backend: List<CourseInStudyPlan>
+deactivate Database
+Backend --> Frontend: 200 OK + courses in study plan
+deactivate Backend
+Frontend --> ASC: Which course in study plan?
+deactivate Frontend
+
+ASC -> Frontend: Select course
+activate Frontend
+Frontend -> Backend: GET /programmeeditions/\nprogramme/{programmeacronym}
+activate Backend
+Backend -> Database: SELECT * FROM programme_editions
+activate Database
+Database --> Backend: List<ProgrammeEdition>
+deactivate Database
+Backend --> Frontend: 200 OK + programme editions
+deactivate Backend
+Frontend --> ASC: Which programme edition?
+deactivate Frontend
+
+ASC -> Frontend: Create course edition
+activate Frontend
+Frontend -> Backend: POST /courseeditions (...)
+note over Frontend, Backend #HoneyDew
+Request body (JSON):
+{
+  programmeName: "...",
+  programmeAcronym: "...",
+  schoolYearID: "...",
+  courseAcronym: "...",
+  courseName: "...",
+  studyPlanImplementationDate: "..."
+}
+end note
+activate Backend
+Backend -> Database: INSERT INTO course_editions (data)
+activate Database
+Database --> Backend: Confirmation + new courseEditionID
+deactivate Database
+Backend --> Frontend: 201 Created + course edition data + ID
+note over Backend, Frontend #HoneyDew
+Response body (JSON):
+{
+  courseEditionID: NEW COURSE EDITION ID,
+  programmeName: "...",
+  programmeAcronym: "...",
+  ...
+}
+end note
+deactivate Backend
+Frontend --> ASC: Course edition created successfully!
+deactivate Frontend
+@enduml

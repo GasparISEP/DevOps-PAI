@@ -4,65 +4,100 @@ import '../styles/NavBar.css';
 import logoImage from "../assets/images/ISEP_logo.png";
 
 const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownItemHovered, setIsDropdownItemHovered] = useState(false);
-
-  const handleMouseEnter = () => setIsOpen(true);
-  const handleMouseLeave = () => {
-    setIsOpen(false);
-    setIsDropdownItemHovered(false);
-  };
+  const [isTeacherOpen, setIsTeacherOpen] = useState(false);
+  const [isStudentOpen, setIsStudentOpen] = useState(false);
+  const [isOpenCourseEdition, setIsOpenCourseEdition] = useState(false);
 
   return (
-    <div className="main-navbar-div">
-      <nav className="navbar">
-        <div className="logo-div">
-          <Link to="/"><img className="logo-img" src={logoImage} alt="ISEP logo"/></Link>
-        </div>
-        <ul className="navbar-links-list-div">
-          <li className="navbar-dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <span className={`navbar-link${isDropdownItemHovered ? ' teacher-dropdown-hovered' : ''}`} tabIndex={0}>
-              <i className={`fas fa-chalkboard-teacher${isDropdownItemHovered ? ' teacher-icon-hovered' : ''}`}></i> Teacher
+      <div className="main-navbar-div">
+        <nav className="navbar">
+          <div className="logo-div">
+            <Link to="/"><img className="logo-img" src={logoImage} alt="ISEP logo" /></Link>
+          </div>
+          <ul className="navbar-links-list-div">
+
+            {/* Teacher Dropdown */}
+            <li
+                className="navbar-dropdown"
+                onMouseEnter={() => setIsTeacherOpen(true)}
+                onMouseLeave={() => setIsTeacherOpen(false)}
+            >
+            <span className="navbar-link" tabIndex={0}>
+              <i className="fas fa-chalkboard-teacher"></i> Teacher
             </span>
-            <ul className={`navbar-dropdown-menu${isOpen ? ' show' : ''}`}>
-              <li
-                onMouseEnter={() => setIsDropdownItemHovered(true)}
-                onMouseLeave={() => setIsDropdownItemHovered(false)}
-              >
-                <Link to="/teachers/register" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  Register Teacher
-                </Link>
-              </li>
-              <li
-                onMouseEnter={() => setIsDropdownItemHovered(true)}
-                onMouseLeave={() => setIsDropdownItemHovered(false)}
-              >
-                <Link to="/teachers/display" className="navbar-link" onClick={() => setIsOpen(false)}>
-                  Display Teachers
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link to="/students" className="navbar-link">
+              <ul className={`navbar-dropdown-menu${isTeacherOpen ? ' show' : ''}`}>
+                <li>
+                  <Link to="/teachers/register" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
+                    Register Teacher
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/teachers/display" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
+                    Display Teachers
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {/* Student Dropdown */}
+            <li
+                className="navbar-dropdown"
+                onMouseEnter={() => setIsStudentOpen(true)}
+                onMouseLeave={() => setIsStudentOpen(false)}
+            >
+            <span className="navbar-link" tabIndex={0}>
               <i className="fas fa-user-graduate"></i> Student
-            </Link>
-          </li>
-          <li>
-            <Link to="/courses" className="navbar-link">
-              <i className="fas fa-book-open"></i> Course
-            </Link>
-          </li>
-          <li>
-            <Link to="/programmes" className="navbar-link">
-              <i className="fas fa-graduation-cap"></i> Programme
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+            </span>
+              <ul className={`navbar-dropdown-menu${isStudentOpen ? ' show' : ''}`}>
+                <li>
+                  <Link to="/students/register" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Register Student
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/students/display" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Display Students
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {/* Course */}
+            <li>
+              <Link to="/courses" className="navbar-link">
+                <i className="fas fa-book-open"></i> Course
+              </Link>
+            </li>
+
+            {/* Programme */}
+            <li>
+              <Link to="/programmes" className="navbar-link">
+                <i className="fas fa-graduation-cap"></i> Programme
+              </Link>
+            </li>
+
+            {/* Course Edition Dropdown */}
+            <li
+                className="navbar-dropdown"
+                onMouseEnter={() => setIsOpenCourseEdition(true)}
+                onMouseLeave={() => setIsOpenCourseEdition(false)}
+            >
+            <span className="navbar-link" tabIndex={0}>
+              <i className="fas fa-calendar-alt"></i> Course Edition
+            </span>
+              <ul className={`navbar-dropdown-menu${isOpenCourseEdition ? ' show' : ''}`}>
+                <li>
+                  <Link to="/courseeditions/gradeastudent" className="navbar-link">
+                    Grade A Student
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
   );
 };
 
 export default NavBar;
-

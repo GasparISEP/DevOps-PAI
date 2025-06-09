@@ -30,3 +30,20 @@ export async function registerStudent(studentDTO) {
     console.log("[DEBUG] Resposta do backend:", result);
     return result;
 }
+
+export async function getAllStudents() {
+    const response = await fetch(`${API_URL}/students`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch students');
+    }
+
+    const data = await response.json();
+    console.log("[DEBUG] JSON bruto:", data);
+
+    if (data._embedded?.studentResponseDTOList && Array.isArray(data._embedded.studentResponseDTOList)) {
+        return data._embedded.studentResponseDTOList;
+    }
+
+    console.warn("Formato inesperado:", data);
+    return [];
+}

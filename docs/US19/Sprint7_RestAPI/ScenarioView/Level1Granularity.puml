@@ -1,0 +1,27 @@
+@startuml
+!pragma layout smetana
+
+title US19: As an ASC, I want to create a course edition\n(Scenario View - Level 1)
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+left to right direction
+actor ASC #LightBlue/White
+
+rectangle "<<PAI System>>" {
+usecase "I want to create a course edition" as UC19 #E1F5FE
+}
+
+
+ASC --> UC19
+
+@enduml

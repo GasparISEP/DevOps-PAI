@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from "react-router-dom";
-import RegisterStudentPage from '../../pages/RegisterStudentPage';
+import RegisterStudentPage from '../../pages/studentPage/RegisterStudentPage';
 
 test('renders RegisterStudentPage with NavBar, StudentForm and Footer', async () => {
     render(
