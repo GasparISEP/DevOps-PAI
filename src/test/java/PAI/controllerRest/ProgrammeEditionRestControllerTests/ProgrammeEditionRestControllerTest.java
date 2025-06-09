@@ -6,7 +6,7 @@ import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.controllerRest.ProgrammeEditionRestController;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -145,11 +145,11 @@ class ProgrammeEditionRestControllerTest {
 
         List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
 
-        ProgrammeEditionDTO dto1 = new ProgrammeEditionDTO(
+        ProgrammeEditionServiceDTO dto1 = new ProgrammeEditionServiceDTO(
                 new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
                 new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID1.getSchoolYearID().toString())
         );
-        ProgrammeEditionDTO dto2 = new ProgrammeEditionDTO(
+        ProgrammeEditionServiceDTO dto2 = new ProgrammeEditionServiceDTO(
                 new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
                 new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID2.getSchoolYearID().toString())
         );
@@ -159,11 +159,11 @@ class ProgrammeEditionRestControllerTest {
         when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        List<ProgrammeEditionDTO> responseBody = response.getBody();
+        List<ProgrammeEditionServiceDTO> responseBody = response.getBody();
         assertNotNull(responseBody);
         assertEquals(2, responseBody.size());
         assertTrue(responseBody.contains(dto1));
@@ -187,7 +187,7 @@ class ProgrammeEditionRestControllerTest {
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
 
         // Act
-        ResponseEntity<List<ProgrammeEditionDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
@@ -224,8 +224,8 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        ProgrammeEditionDTO peDTO = mock(ProgrammeEditionDTO.class);
-        ProgrammeEditionDTO peServiceResult = mock(ProgrammeEditionDTO.class);
+        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
@@ -248,8 +248,8 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler);
 
-        ProgrammeEditionDTO peDTO = mock(ProgrammeEditionDTO.class);
-        ProgrammeEditionDTO peServiceResult = mock(ProgrammeEditionDTO.class);
+        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 

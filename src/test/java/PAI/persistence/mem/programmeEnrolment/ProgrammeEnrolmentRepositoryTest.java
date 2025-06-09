@@ -404,6 +404,58 @@ class ProgrammeEnrolmentRepositoryTest {
         assertEquals(enrolment, result.get());
     }
 
+    @Test
+    void shouldReturnListOfProgrammes() {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        when(enrolment.hasSameStudent(studentID)).thenReturn(true);
+        when(enrolment.getProgrammeID()).thenReturn(programmeID);
+
+        ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
+        listDouble.add(enrolment);
+
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
+        when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
+
+        ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
+
+        // Act
+        List<ProgrammeID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+
+        // Assert
+        assertNotNull(res);
+        assertEquals(1, res.size());
+        assertEquals(programmeID, res.get(0));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoEnrolmentsMatchStudent() {
+        // Arrange
+        StudentID studentID = mock(StudentID.class);
+
+        // Create a ProgrammeEnrolment that does NOT match the given StudentID
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        when(enrolment.hasSameStudent(studentID)).thenReturn(false); // Important: no match
+
+        ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
+        listDouble.add(enrolment); // list is NOT empty
+
+        IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
+        when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
+
+        ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
+
+        // Act
+        List<ProgrammeID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+
+        // Assert
+        assertNotNull(res);
+        assertTrue(res.isEmpty(), "Expected an empty list when no enrolments match the student ID");
+    }
+
 
 }
 

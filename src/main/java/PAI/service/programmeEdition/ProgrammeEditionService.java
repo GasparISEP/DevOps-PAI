@@ -3,7 +3,7 @@ package PAI.service.programmeEdition;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
-import PAI.assembler.programmeEdition.IProgrammeEditionAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
@@ -12,7 +12,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,14 +27,14 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeRepository programmeRepository;
     private final ISchoolYearRepository schoolYearRepository;
     private final IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
-    private final IProgrammeEditionAssembler programmeEditionAssembler;
+    private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
 
     public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
                                     IProgrammeEditionRepository programmeEditionRepository,
                                     IProgrammeRepository programmeRepository,
                                     ISchoolYearRepository schoolYearRepository,
                                     IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-                                    IProgrammeEditionAssembler programmeEditionAssembler) {
+                                    IProgrammeEditionServiceAssembler programmeEditionAssembler) {
         if(programmeEditionFactory == null){
             throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
         }
@@ -119,9 +119,9 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public ProgrammeEditionDTO createProgrammeEditionAndSave(ProgrammeEditionDTO programmeEditionDTO) throws Exception {
-        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(programmeEditionDTO);
-        SchoolYearID schoolYearID = programmeEditionAssembler.toSchoolYearID(programmeEditionDTO);
+    public ProgrammeEditionServiceDTO createProgrammeEditionAndSave(ProgrammeEditionServiceDTO programmeEditionServiceDTO) throws Exception {
+        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(programmeEditionServiceDTO);
+        SchoolYearID schoolYearID = programmeEditionAssembler.toSchoolYearID(programmeEditionServiceDTO);
 
         // Validate if Programme and SchoolYear exist
         boolean programmeExists = programmeRepository.containsOfIdentity(programmeID);

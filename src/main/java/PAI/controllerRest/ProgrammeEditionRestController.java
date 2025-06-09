@@ -1,11 +1,10 @@
 package PAI.controllerRest;
 
 import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.ProgrammeID;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/programmeeditions")
@@ -60,14 +58,14 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping("/programme/{programmeid}")
-    public ResponseEntity<List<ProgrammeEditionDTO>> getProgrammeEditionsByProgrammeID(
+    public ResponseEntity<List<ProgrammeEditionServiceDTO>> getProgrammeEditionsByProgrammeID(
             @PathVariable("programmeid") String programmeAcronym) throws Exception {
 
         ProgrammeID programmeID = new ProgrammeID(
                 new Acronym(programmeAcronym)
         );
 
-        List<ProgrammeEditionDTO> dtos = programmeEditionService
+        List<ProgrammeEditionServiceDTO> dtos = programmeEditionService
                 .getProgrammeEditionIDsByProgrammeID(programmeID)
                 .stream()
                 .map(id -> programmeEditionControllerAssembler.toDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID()))
@@ -79,8 +77,8 @@ public class ProgrammeEditionRestController {
     @PostMapping()
     public ResponseEntity<?> createAProgrammeEditionForTheCurrentSchoolYear(@Valid @RequestBody ProgrammeEditionRequestDTO requestDto) {
         try {
-            ProgrammeEditionDTO programmeEditionDTO = programmeEditionControllerAssembler.toDTO(requestDto);
-            ProgrammeEditionDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionDTO);
+            ProgrammeEditionServiceDTO programmeEditionServiceDTO = programmeEditionControllerAssembler.toDTO(requestDto);
+            ProgrammeEditionServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionServiceDTO);
             ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {

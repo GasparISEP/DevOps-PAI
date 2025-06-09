@@ -1,0 +1,25 @@
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title As an actor, I want to POST X In The System\n Process View Level 2
+actor "actor" as ADM
+participant ":Frontend" as FE
+participant ":Backend" as BE
+database DB
+
+ADM -> FE ++: Request to post X
+FE --> ADM --: Request input details
+ADM -> FE ++: Enter input details
+
+FE -> BE ++: HTTP Request \n(POST) /xs
+BE -> DB ++: INSERT INTO xs
+DB --> BE --: Registration confirmed
+BE --> FE --: HTTP Response (201 Created) + \n EntityModel<XDTO>
+FE --> ADM --: Registered "X" successfully
+
+@enduml
