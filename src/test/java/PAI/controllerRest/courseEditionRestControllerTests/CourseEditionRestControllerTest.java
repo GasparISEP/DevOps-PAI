@@ -110,17 +110,18 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudent_thenReturnsCreated() throws Exception {
         // Arrange
+        int studentId = 1100000;
         CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
         StudentID mockStudentID = mock(StudentID.class);
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenReturn(mockCourseEditionID);
-        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
+        when(courseEditionEnrolmentAssembler.toStudentID(any(int.class)))
             .thenReturn(mockStudentID);
         when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
             .thenReturn(true);
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions/students/enrolments")
+        mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isCreated());
@@ -129,17 +130,16 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentAlreadyEnrolled_thenReturnsBadRequest() throws Exception {
         // Arrange
-        CourseEditionID mockCourseEditionID = mock(CourseEditionID.class);
-        StudentID mockStudentID = mock(StudentID.class);
+        int studentId = 1100000;  
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockCourseEditionID);
-        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class)))
-            .thenReturn(mockStudentID);
-        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(mockStudentID, mockCourseEditionID))
+            .thenReturn(mock(CourseEditionID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(studentId))
+            .thenReturn(mock(StudentID.class));
+        when(courseEditionEnrolmentService.enrolStudentInACourseEdition(any(), any()))
             .thenReturn(false);
 
-        // Act & Assert
-        mockMvc.perform(post("/courseeditions/students/enrolments")
+        // Act & Assert - Updated URL to match controller's structure
+        mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isBadRequest());
@@ -148,6 +148,7 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentWithInvalidData_thenReturnsBadRequest() throws Exception {
         // Arrange
+        int studentId = 1100000;    
         CourseEditionEnrolmentDto invalidDto = new CourseEditionEnrolmentDto(
             0,
             "",
@@ -158,7 +159,7 @@ class CourseEditionRestControllerTest {
         );
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions/students/enrolments")
+        mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidDto)))
                 .andExpect(status().isBadRequest());
@@ -167,11 +168,12 @@ class CourseEditionRestControllerTest {
     @Test
     void whenEnrolStudentWithException_thenReturnsBadRequest() throws Exception {
         // Arrange
+        int studentId = 1100000;
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class)))
             .thenThrow(new RuntimeException("Test exception"));
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions/students/enrolments")
+        mockMvc.perform(post("/courseeditions/students/{id}/courses-edition-enrolments", studentId)                
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validEnrolmentDto)))
                 .andExpect(status().isBadRequest());
@@ -181,7 +183,7 @@ class CourseEditionRestControllerTest {
     void whenRemoveStudentEnrolmentFromACourseEdition_thenReturnsSuccess() throws Exception {
         //arrange
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
-        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(int.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(true);
         //act + assert
         mockMvc.perform(patch("/courseeditions/enrolments/students/remove")
@@ -195,7 +197,7 @@ class CourseEditionRestControllerTest {
     void shouldReturnBadRequestWhenRemoveCourseEditionEnrolment_throwsException() throws Exception {
         //arrange
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
-        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(int.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenThrow(new RuntimeException("Test exception"));
 
         //act + assert
@@ -209,7 +211,7 @@ class CourseEditionRestControllerTest {
     void shouldReturnNotAcceptableWhenRemoveCourseEditionEnrolmentCannotBeRemoved() throws Exception {
         //arrange
         when(courseEditionEnrolmentAssembler.toCourseEditionID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(CourseEditionID.class));
-        when(courseEditionEnrolmentAssembler.toStudentID(any(CourseEditionEnrolmentDto.class))).thenReturn(mock(StudentID.class));
+        when(courseEditionEnrolmentAssembler.toStudentID(any(int.class))).thenReturn(mock(StudentID.class));
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(any(), any())).thenReturn(false);
         //act + assert
         mockMvc.perform(patch("/courseeditions/enrolments/students/remove")

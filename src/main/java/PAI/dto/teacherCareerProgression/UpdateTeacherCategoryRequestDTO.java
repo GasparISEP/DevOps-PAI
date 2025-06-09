@@ -1,14 +1,17 @@
 package PAI.dto.teacherCareerProgression;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 
 public record UpdateTeacherCategoryRequestDTO(
 
-        @NotBlank(message = "Date is required.")
-        String date,
-        @NotBlank(message = "Teacher ID required.")
-        String teacherID,
-        @NotBlank(message = "New teacher category required")
+        @NotNull(message = "The date field is required!")
+        LocalDate date,
+
+        @NotNull (message = "The Teacher Category ID field is required!")
+        @NotBlank (message = "The Teacher Category ID field cannot be blank!")
         String teacherCategoryID
 ) {
 }

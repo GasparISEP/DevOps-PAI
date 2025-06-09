@@ -73,11 +73,11 @@ public CourseEditionRestController(
     this.studentCountAssembler = studentCountAssembler;
 }
 
-    @PostMapping("/students/enrolments")
-    public ResponseEntity<String> enrolStudentInCourseEdition(@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) throws Exception {
+    @PostMapping("/students/{id}/courses-edition-enrolments")
+    public ResponseEntity<String> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
         try {
             CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDTO);
-            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDTO);
+            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber);
             boolean enrolment = courseEditionEnrolmentService.enrolStudentInACourseEdition(studentID, courseEditionID);
             if (enrolment) {
                     return ResponseEntity.status(HttpStatus.CREATED).body("Student enrolled in course edition");
@@ -93,7 +93,7 @@ public CourseEditionRestController(
     public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
         try {
             CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDto);
-            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDto);
+            StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDto.studentUniqueNumber());
 
             boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
 

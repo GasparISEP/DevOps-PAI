@@ -6,6 +6,8 @@ import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
+import PAI.assembler.teacherCategory.ITeacherCategoryExternalAssembler;
+import PAI.assembler.teacherCategory.ITeacherCategoryHateoasAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;
@@ -29,6 +31,8 @@ import java.util.Optional;
 
 class TeacherRestControllerTest {
 
+    // testing constructor method
+
     @Test
     void shouldCreateTeacherRestController() {
         // Arrange
@@ -43,6 +47,148 @@ class TeacherRestControllerTest {
         // Act + Assert
         assertNotNull(controller);
     }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherServiceIsNull() {
+        //arrange
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(null, doubleTeacherAssembler ,doubleTCPService, doubleTCPAssembler,
+                    doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher Registration Service Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherAssemblerIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, null ,doubleTCPService, doubleTCPAssembler,
+                    doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher Assembler Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionServiceIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,null, doubleTCPAssembler,
+                    doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Service Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherCareerProgressionAssemblerIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,doubleTCPService, null,
+                    doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher Career Progression Assembler Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherWithRelevantDataServiceIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,doubleTCPService, doubleTCPAssembler,
+                    null,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher With Relevant Data Service Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfTeacherWithRelevantDataAssemblerIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,doubleTCPService, doubleTCPAssembler,
+                    doubleTeacherWithRelevantDataService,null, doubleUpdateTeacherWorkingPercentageHateoasAssembler);
+        });
+
+        //assert
+        assertEquals("Teacher With Relevant Data Assembler Interface cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAnExceptionIfUpdateTeacherWorkingPercentageHateoasAssemblerIsNull() {
+        //arrange
+        ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
+        ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
+        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
+        ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
+        TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
+
+        //act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,doubleTCPService, doubleTCPAssembler,
+                    doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, null);
+        });
+
+        //assert
+        assertEquals("Update Teacher Working Percentage Hateoas Assembler Interface cannot be null.", exception.getMessage());
+    }
+
+    // testing getAllTeachers() method
 
     @Test
     void shouldReturnListOfTeacherDTO() {
@@ -390,6 +536,8 @@ class TeacherRestControllerTest {
         assertEquals("Unexpected error occurred", response.getBody());
     }
 
+    // updateTeacherCategory() method
+
     @Test
     void ShouldReturnCreatForUpdateTeacherCategory() throws Exception{
         // Arrange
@@ -400,6 +548,7 @@ class TeacherRestControllerTest {
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
         TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
@@ -407,12 +556,15 @@ class TeacherRestControllerTest {
         TeacherCareerProgression teacherCareerProgression = mock(TeacherCareerProgression.class);
         UpdateTeacherCategoryResponseDTO responseDTO = mock(UpdateTeacherCategoryResponseDTO.class);
 
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(request)).thenReturn(command);
-        when(careerService.updateTeacherCategoryInTeacherCareerProgression(command)).thenReturn(Optional.of(teacherCareerProgression));
+        String teacherId = "ABC";
+
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
+        when(careerService.updateTeacherCategory(command)).thenReturn(Optional.of(teacherCareerProgression));
         when(categoryAssembler.toUpdateCategoryDTO(teacherCareerProgression)).thenReturn(responseDTO);
 
         //act
-        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(request);
+        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
+
         //assert
         assertEquals(responseDTO,result.getBody());
     }
@@ -427,21 +579,27 @@ class TeacherRestControllerTest {
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
         TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
+
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(request)).thenReturn(command);
-        when(careerService.updateTeacherCategoryInTeacherCareerProgression(command)).thenReturn(Optional.empty());
+        String teacherId = "ABC";
+
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
+        when(careerService.updateTeacherCategory(command)).thenReturn(Optional.empty());
+
         // Act
-        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(request);
+        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("Unable to update teacher category", result.getBody());
     }
+
     @Test
-    void ShouldReturnBadRequestWhenAssemblerThrowsIllegalArgumentException() throws Exception {
+    void ShouldReturnBadRequestWhenAssemblerThrowsIllegalArgumentException() {
         // Arrange
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
@@ -450,19 +608,22 @@ class TeacherRestControllerTest {
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
         TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
+        String teacherId = "ABC";
 
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(request)).thenThrow(new IllegalArgumentException("Invalid input"));
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenThrow(new IllegalArgumentException("Invalid input"));
 
         // Act
-        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(request);
+        ResponseEntity<?> result = teacherRestController.updateTeacherCategory(teacherId,request);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("Invalid input", result.getBody());
     }
+
     @Test
     void ShouldThrowInternalServerErrorWhenServiceThrowsUnexpectedException() throws Exception{
         // Arrange
@@ -473,22 +634,27 @@ class TeacherRestControllerTest {
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
+
         TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler,careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
 
-        when(categoryAssembler.toUpdateTeacherCategoryCommand(request)).thenReturn(command);
-        when(careerService.updateTeacherCategoryInTeacherCareerProgression(command)).thenThrow(new RuntimeException("Unexpected"));
+        String teacherId = "ABC";
+
+        when(categoryAssembler.toUpdateTeacherCategoryCommand(teacherId, request)).thenReturn(command);
+        when(careerService.updateTeacherCategory(command)).thenThrow(new RuntimeException("Unexpected"));
 
         // Act & Assert
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                teacherRestController.updateTeacherCategory(request)
+                teacherRestController.updateTeacherCategory(teacherId,request)
         );
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
         assertEquals("Unexpected error", exception.getReason());
     }
+
+    // updateWorkingPercentage() method
 
     @Test
     void shouldReturnCreatedWhenUpdateTeacherWorkingPercentageSuccessful() throws Exception {

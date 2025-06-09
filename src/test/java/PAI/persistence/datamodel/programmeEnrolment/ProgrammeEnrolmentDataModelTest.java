@@ -1,11 +1,13 @@
 package PAI.persistence.datamodel.programmeEnrolment;
 
 
-import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.accessMethod.AccessMethodIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
+import PAI.persistence.datamodel.student.StudentIDDataModel;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,105 +20,114 @@ class ProgrammeEnrolmentDataModelTest {
         StudentIDDataModel studentIDDouble = mock(StudentIDDataModel.class);
         AccessMethodIDDataModel accessMethodIDDouble = mock(AccessMethodIDDataModel.class);
         LocalDate dateDouble = mock(LocalDate.class);
-        return new Object[]{peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble};
+        UUID uuid = mock(UUID.class);
+        return new Object[]{peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid};
     }
 
     @Test
     public void testEmptyConstructor() {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
         ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel();
 
-        //Assert
+        // Assert
         assertNotNull(programmeEnrolment);
     }
 
     @Test
     public void testConstructorWithParameters() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
+        // Act
+        ProgrammeEnrolmentDataModel
+                programmeEnrolment =
+                new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid);
 
-        //Assert
+        // Assert
         assertNotNull(programmeEnrolment);
     }
 
     @Test
     public void shouldReturnExceptionAndNotConstructIfProgrammeEnrolmentIDNull() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel (null, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(null, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid));
     }
 
     @Test
     public void shouldReturnExceptionAndNotConstructIfProgrammeIDNull() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel (peIDDouble, null, studentIDDouble, accessMethodIDDouble, dateDouble));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(peIDDouble, null, studentIDDouble, accessMethodIDDouble, dateDouble, uuid));
     }
 
     @Test
     public void shouldReturnExceptionAndNotConstructIfStudentIDNull() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel (peIDDouble, programmeIDDouble, null, accessMethodIDDouble, dateDouble));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, null, accessMethodIDDouble, dateDouble, uuid));
     }
 
     @Test
     public void shouldReturnExceptionAndNotConstructIfAccessMethodIDNull() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel (peIDDouble, programmeIDDouble, studentIDDouble, null, dateDouble));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, null, dateDouble, uuid));
     }
 
     @Test
     public void shouldReturnExceptionAndNotConstructIfDateNull() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
+        UUID uuid = (UUID) doubles[5];
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel (peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, null));
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, null, uuid));
     }
 
     @Test
-    void shouldReturnProgrammeEnrolmentID() {
-        //Arrange
+    public void shouldReturnExceptionAndNotConstructIfUUIDNull() {
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
@@ -124,50 +135,95 @@ class ProgrammeEnrolmentDataModelTest {
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
 
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, null));
+    }
 
-        //Act
+    @Test
+    void shouldReturnProgrammeEnrolmentID() {
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
+        ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
+        StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
+        AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
+        LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
+
+        ProgrammeEnrolmentDataModel
+                programmeEnrolment =
+                new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid);
+
+        // Act
         ProgrammeEnrolmentIDDataModel result = programmeEnrolment.getProgrammeEnrolmentID();
 
-        //Assert
+        // Assert
         assertEquals(peIDDouble, result);
     }
 
     @Test
     void shouldReturnAccessMethodID() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
+        ProgrammeEnrolmentDataModel
+                programmeEnrolment =
+                new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid);
 
-        //Act
+        // Act
         AccessMethodIDDataModel result = programmeEnrolment.getAccessMethodID();
 
-        //Assert
-        assertEquals(accessMethodIDDouble,result);
+        // Assert
+        assertEquals(accessMethodIDDouble, result);
     }
 
     @Test
     void shouldReturnDate() {
-        //Arrange
+        // Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
         ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
         ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
         StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
         AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
         LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
 
-        ProgrammeEnrolmentDataModel programmeEnrolment = new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble);
+        ProgrammeEnrolmentDataModel
+                programmeEnrolment =
+                new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid);
 
-        //Act
+        // Act
         LocalDate result = programmeEnrolment.getDate();
 
-        //Assert
-        assertEquals(dateDouble,result);
+        // Assert
+        assertEquals(dateDouble, result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEnrolmentGID() {
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ProgrammeEnrolmentIDDataModel peIDDouble = (ProgrammeEnrolmentIDDataModel) doubles[0];
+        ProgrammeIDDataModel programmeIDDouble = (ProgrammeIDDataModel) doubles[1];
+        StudentIDDataModel studentIDDouble = (StudentIDDataModel) doubles[2];
+        AccessMethodIDDataModel accessMethodIDDouble = (AccessMethodIDDataModel) doubles[3];
+        LocalDate dateDouble = (LocalDate) doubles[4];
+        UUID uuid = (UUID) doubles[5];
+
+        ProgrammeEnrolmentDataModel
+                programmeEnrolment =
+                new ProgrammeEnrolmentDataModel(peIDDouble, programmeIDDouble, studentIDDouble, accessMethodIDDouble, dateDouble, uuid);
+
+        // Act
+        UUID result = programmeEnrolment.getProgrammeEnrolmentGID();
+
+        // Assert
+        assertEquals(uuid, result);
     }
 }

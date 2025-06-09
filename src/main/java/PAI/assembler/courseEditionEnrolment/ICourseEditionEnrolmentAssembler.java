@@ -7,7 +7,7 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 
 public interface ICourseEditionEnrolmentAssembler {
     CourseEditionID toCourseEditionID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception;
-    StudentID toStudentID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception;
+    StudentID toStudentID(int studentUniqueNumber) throws Exception;
 }   
 
 

@@ -11,14 +11,12 @@ participant ":Router" as router
 -> router: POST /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
-note over router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
-
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
 router -> Controller: configureTeacherCategory (tcRequestDTO)
 activate Controller #E1F5FE
 
 ref over Controller
-    Convert tcRequestDTO to NameVO
+   SD Convert tcRequestDTO to NameVO
 end
 
 participant ":ITeacherCategoryService" as service
@@ -48,7 +46,7 @@ service -> Repository: save (tc)
 activate Repository #E1F5FE
 
 ref over Repository
-    Convert teacherCategory to DataModel
+    SD Convert teacherCategory to DataModel
 end
 
 participant ":ITeacherCategoryRepositorySpringData" as springDataRepository
@@ -58,21 +56,21 @@ springDataRepository --> Repository : tcDataModelSaved
 deactivate springDataRepository
 
 ref over Repository
-    Convert tcDataModelSaved to Domain
+    SD Convert tcDataModelSaved to Domain
 end
 
 Repository --> service: tcSaved
 deactivate Repository
 
 ref over service
-    Convert tcSaved to DTO
+    SD Convert tcSaved to DTO
 end
 
 service --> Controller: tcSavedDTO
 deactivate service
 
 ref over Controller
-    Convert tcSavedDTO to tcSavedResponseDTO
+    SD Convert tcSavedDTO to tcSavedResponseDTO
 end
 
 participant ":ITeacherCategoryHateoasAssembler" as hateoasAssembler
@@ -84,8 +82,6 @@ deactivate hateoasAssembler
 
 Controller --> router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
 deactivate Controller
-
-note over router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
 <-- router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
 deactivate router

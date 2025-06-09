@@ -12,8 +12,9 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
     private AccessMethodID _accessMethodID;
     private ProgrammeID _programmeID;
     private Date _date;
+    private ProgrammeEnrolmentGeneratedID _programmeEnrolmentGID;
 
-    public ProgrammeEnrolment(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws IllegalArgumentException {
+    public ProgrammeEnrolment(StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date,  ProgrammeEnrolmentGeneratedID programmeEnrolmentGID) throws IllegalArgumentException {
 
         if (studentID == null || accessMethodID == null || programmeID == null){
             throw new IllegalArgumentException ("Argument cannot be null.");
@@ -22,10 +23,14 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
         if(date == null)
             throw new IllegalArgumentException("Date cannot be null!");
 
+        if (programmeEnrolmentGID == null)
+            throw new IllegalArgumentException("ProgrammeEnrolmentGeneratedID cannot be null.");
+
         _studentID = studentID;
         _accessMethodID = accessMethodID;
         _programmeID = programmeID;
         _date = date;
+        _programmeEnrolmentGID = programmeEnrolmentGID;
         _peID = new ProgrammeEnrolmentID(studentID, programmeID);
 
     }
@@ -45,6 +50,9 @@ public class ProgrammeEnrolment implements AggregateRoot<ProgrammeEnrolmentID> {
 
     public ProgrammeEnrolmentID getProgrammeEnrolmentID() {return _peID;}
 
+    public ProgrammeEnrolmentGeneratedID getProgrammeEnrolmentGeneratedID() {
+        return _programmeEnrolmentGID;
+    }
     public StudentID getStudentID() {return _studentID;}
 
     public AccessMethodID getAccessMethodID() {return _accessMethodID;}

@@ -58,5 +58,5 @@ PR --> PS --: Programme1
 
 PS --> C --: Programme1
 C --> RT --: Programme1
-<-- RT --: (201, Created) Programme1
+<-- RT --: (201, Created) + body {programmeDTO + hypermedia}
 @enduml

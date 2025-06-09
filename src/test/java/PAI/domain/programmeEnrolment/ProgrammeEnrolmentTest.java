@@ -20,6 +20,7 @@ class ProgrammeEnrolmentTest {
     private AccessMethodID _accessMethodIDDouble;
     private ProgrammeID _programmeIDDouble;
     private Date _dateDouble;
+    private ProgrammeEnrolmentGeneratedID _generatedIDDouble;
 
     private void createDoubles() {
         _peIDDouble = mock(ProgrammeEnrolmentID.class);
@@ -28,6 +29,7 @@ class ProgrammeEnrolmentTest {
         _accessMethodIDDouble = mock(AccessMethodID.class);
         _programmeIDDouble = mock(ProgrammeID.class);
         _dateDouble = mock(Date.class);
+        _generatedIDDouble = mock(ProgrammeEnrolmentGeneratedID.class);
     }
 
     @Test
@@ -36,7 +38,7 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         //act
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //assert
         assertNotNull(programmeEnrolment);
@@ -48,7 +50,7 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, _accessMethodIDDouble, _programmeIDDouble, _dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(null, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble));
     }
 
     @Test
@@ -57,7 +59,7 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, null, _programmeIDDouble, _dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, null, _programmeIDDouble, _dateDouble, _generatedIDDouble));
     }
 
     @Test
@@ -66,7 +68,7 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, null, _dateDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, null, _dateDouble, _generatedIDDouble));
     }
 
     @Test
@@ -75,7 +77,27 @@ class ProgrammeEnrolmentTest {
         createDoubles();
 
         //act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, null, _generatedIDDouble));
+    }
+
+    @Test
+    void shouldReturnExceptionIfGeneratedIDIsNullTest() {
+        //arrange
+        createDoubles();
+
+        //act & assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, null));
+    }
+
+    @Test
+    void shouldReturnProgrammeEnrolmentGeneratedIDFromGetterTest() {
+        // Arrange
+        createDoubles();
+
+        ProgrammeEnrolment pe = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+
+        // Act+Assert
+        assertEquals(_generatedIDDouble, pe.getProgrammeEnrolmentGeneratedID());
     }
 
     @Test
@@ -87,7 +109,7 @@ class ProgrammeEnrolmentTest {
         when(_dateDouble.getLocalDate()).thenReturn(LocalDate.of(2025, 4, 1));
         when(date2.getLocalDate()).thenReturn(LocalDate.of(2025, 3, 31));
         
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         // Act
         boolean result = programmeEnrolment.isDateAfter(date2);
@@ -105,7 +127,7 @@ class ProgrammeEnrolmentTest {
         when(_dateDouble.getLocalDate()).thenReturn(LocalDate.of(2024, 4, 1));
         when(date2.getLocalDate()).thenReturn(LocalDate.of(2025, 3, 31));
         
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         // Act
         boolean result = programmeEnrolment.isDateAfter(date2);
@@ -122,7 +144,7 @@ class ProgrammeEnrolmentTest {
         
         when(studentDouble.identity()).thenReturn(_studentIDDouble);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         // act
         boolean result = programmeEnrolment.hasSameStudent(_studentIDDouble);
@@ -137,7 +159,9 @@ class ProgrammeEnrolmentTest {
         createDoubles();
         StudentID studentIDDouble2 = mock(StudentID.class);
         
-        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+
+        when(_studentIDDouble.isEquals(studentIDDouble2)).thenReturn(false);
 
         //act
         boolean result = programmeEnrolmentDouble.hasSameStudent(studentIDDouble2);
@@ -152,7 +176,9 @@ class ProgrammeEnrolmentTest {
         createDoubles();
         StudentID studentIDDouble2 = mock(StudentID.class);
 
-        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolmentDouble = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+
+        when(_studentIDDouble.isEquals(studentIDDouble2)).thenReturn(false);
 
         //act
         boolean result = programmeEnrolmentDouble.hasSameStudent(studentIDDouble2);
@@ -166,8 +192,8 @@ class ProgrammeEnrolmentTest {
         //arrange
         createDoubles();
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -183,8 +209,8 @@ class ProgrammeEnrolmentTest {
         StudentID studentDouble2 = mock(StudentID.class);
         
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         when(_studentIDDouble.isEquals(studentDouble2)).thenReturn(false);
 
@@ -201,8 +227,8 @@ class ProgrammeEnrolmentTest {
         createDoubles();
         ProgrammeID programmeDouble2 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeDouble2, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeDouble2, _dateDouble, _generatedIDDouble);
 
         when(_studentIDDouble.isEquals(_studentIDDouble)).thenReturn(true);
 
@@ -220,8 +246,8 @@ class ProgrammeEnrolmentTest {
         StudentID studentDouble2 = mock(StudentID.class);
         ProgrammeID programmeDouble2 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, programmeDouble2, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+        ProgrammeEnrolment programmeEnrolment2 = new ProgrammeEnrolment(studentDouble2, _accessMethodIDDouble, programmeDouble2, _dateDouble, _generatedIDDouble);
 
         // act
         boolean result = programmeEnrolment1.hasSameEnrolment(programmeEnrolment2);
@@ -238,7 +264,7 @@ class ProgrammeEnrolmentTest {
 
         when(programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //act
         boolean result = programmeEnrolment.hasSameProgramme(programmeDouble.getProgrammeID());
@@ -253,8 +279,8 @@ class ProgrammeEnrolmentTest {
         createDoubles();
         ProgrammeID programmeIDDouble2 = mock(ProgrammeID.class);
 
-        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeIDDouble2, _dateDouble);
-        
+        ProgrammeEnrolment programmeEnrolment = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, programmeIDDouble2, _dateDouble, _generatedIDDouble);
+
         //act
         boolean result = programmeEnrolment.hasSameProgramme(_programmeIDDouble);
 
@@ -267,7 +293,7 @@ class ProgrammeEnrolmentTest {
         //Arrange
         createDoubles();
         ProgrammeEnrolmentID peID = new ProgrammeEnrolmentID(_studentIDDouble, _programmeIDDouble);
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         ProgrammeEnrolmentID result = pe1.getProgrammeEnrolmentID();
@@ -280,7 +306,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnStudentIDFromGetterTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.getStudentID().equals(_studentIDDouble);
@@ -293,7 +319,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnAccessMethodIDFromGetterTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.getAccessMethodID().equals(_accessMethodIDDouble);
@@ -306,7 +332,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnProgrammeIDFromGetterTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.getProgrammeID().equals(_programmeIDDouble);
@@ -319,7 +345,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnDateFromGetterTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.getDate().equals(_dateDouble);
@@ -332,7 +358,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnProgrammeEnrolmentIDTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
         ProgrammeEnrolmentID expectedPeID = pe1.identity();
 
         //Act
@@ -347,7 +373,7 @@ class ProgrammeEnrolmentTest {
     void shouldReturnTrueForSameProgrammeEnrolmentTest() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.sameAs(pe1);
@@ -382,8 +408,8 @@ class ProgrammeEnrolmentTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
-        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(_studentIDDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(_studentIDDouble2, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
 
         //Act
         boolean result = pe1.sameAs(pe2);
@@ -397,7 +423,7 @@ class ProgrammeEnrolmentTest {
         //Arrange
         createDoubles();
 
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble);
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(_studentIDDouble, _accessMethodIDDouble, _programmeIDDouble, _dateDouble, _generatedIDDouble);
         Object toCompare = new Object();
 
         //Act
@@ -456,8 +482,11 @@ class ProgrammeEnrolmentTest {
         ProgrammeID programmeID = new ProgrammeID(acronym);
         Date dateDouble = new Date(LocalDate.now());
 
-        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble);
-        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID2, accessMethodID, programmeID, dateDouble);
+        ProgrammeEnrolmentGeneratedID generatedID1 = new ProgrammeEnrolmentGeneratedID();
+        ProgrammeEnrolmentGeneratedID generatedID2 = new ProgrammeEnrolmentGeneratedID();
+
+        ProgrammeEnrolment pe1 = new ProgrammeEnrolment(studentID, accessMethodID, programmeID, dateDouble, generatedID1);
+        ProgrammeEnrolment pe2 = new ProgrammeEnrolment(studentID2, accessMethodID, programmeID, dateDouble, generatedID2);
 
         //Act + Assert
         assertNotEquals(pe1.hashCode(), pe2.hashCode());

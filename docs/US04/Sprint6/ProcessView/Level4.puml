@@ -1,8 +1,8 @@
 @startuml
 
 title US04: \n As an Administrator, I want to register a teacher in the system. \n Process View Level 4
-autonumber
 
+autonumber
 skinparam sequence {
     LifelineBorderColor black
     LifelineBackgroundColor LightBlue
@@ -12,69 +12,60 @@ skinparam sequence {
     GroupBackgroundColor #f2f2f2
 }
 
-actor Administrator
-participant ":FrontEnd" as FE
-participant ":Controller" as CT
-participant ":DepartmentRestController" as DCT
-participant ":IDepartmentRegistrationService" as DSE
-participant ":IDepartmentAssembler" as DA
-participant ":Service" as SE
-participant ":Domain" as DM
-participant ":Repository" as RE
+actor "Administrator" as ADM
+participant ":Frontend" as FE
+participant ":Router" as RT
+participant ":TeacherRestController" as CT
+participant ":ITeacherAssembler" as AS
+participant ":ITeacherRegistrationService" as SE
+participant ":ITeacherRepository" as RP
+participant ":ITeacherFactory" as FT
+participant ":ITeacherMapper" as MP
+
+
+ADM -> FE ++: Request to register Teacher.
+FE --> ADM --: Prompt: "Enter Teacher's Information"
+ADM -> FE ++: Enter: "teacher information"
+
+FE -> RT ++: POST /teachers \n {body: "teacher information"}
+RT -> CT ++: (POST) /teachers {request}
+CT -> AS ++: RegisterTeacherRequestDTO
+AS --> CT --: RegisterTeacherCommandDTO
 
 
 
-group Human Interaction
-Administrator -> FE ++: Request to register Teacher.
-FE --> Administrator --: Prompt: "Enter Teacher's Information"
-Administrator -> FE ++: Input: "teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country"
-end group
 
-group HTTP Request
-FE -> DCT ++: (GET) /departments
-end group
+CT -> SE ++: createAndSaveTeacher (teacherCommandDTO)
+SE -> FT ++: createTeacher (teacher information)
+FT --> SE --: teacher
 
-group Application Service Invocation
-DCT -> DSE ++: getAllDepartments()
 
-group Persistence
-DSE -> RE ++: findAll()
-RE --> DSE --: List<Department>
-end group
 
-DSE --> DCT --: List<Department>
-end group
+SE -> RP ++: containsOfIdentity (teacherId)
+RP -> : containsOfIdentity (teacherId)
+RP <-- : false
+RP --> SE --: false
 
-group HTTP Response
-DCT --> FE--:  HTTP 200 OK + (List<DepartmentDto>)
-end group
 
-group Human Interaction
-FE --> Administrator --: Display Department List. \n Prompt: "Select one Department.
-Administrator -> FE ++: Select Department
-end group
 
-group HTTP Request
-FE -> CT ++: (POST) /teachers with JSON {request}
-end group
+SE -> RP ++: save (teacher)
+RP -> MP ++: toDataModel (teacher)
+MP --> RP --: teacherDataModel
+RP -> : INSERT INTO teachers
+RP <-- : teacherDataModel
+RP --> SE --: teacher
 
-group Application Service Invocation
-CT -> SE ++: createAndSaveTeacher(command)
-group Domain Logic
-SE -> DM ++: Teacher teacher = new Teacher(command)
-DM --> SE --: teacher
-end group
-group Persistence
-SE -> RE ++: save(teacher)
-RE --> SE --: Persisted teacher
-end group
+
 SE --> CT --: teacher
-end group
-group HTTP Response
-CT --> FE --: HTTP 201 CREATED + teacherDTO
-end group
-FE --> Administrator --: Teacher registered successfully
-'TA --> RC --: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
-'
-@enduml
+CT -> AS ++: toDTO (teacher)
+AS --> CT --: teacherDTO
 
+
+
+CT --> RT --: HTTP 201 Created + teacherDTO
+RT --> FE --: HTTP 201 Created + \nteacherDTO
+FE --> ADM --: OK. Created.
+
+footer <size:18>teacher information = teacherID, name, email, NIF, countryCode, phoneNumber, academicBackground, street, postalCode, location, country, departmentID</size>
+
+@enduml

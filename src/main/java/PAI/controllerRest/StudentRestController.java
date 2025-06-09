@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
@@ -39,8 +40,9 @@ public class StudentRestController {
     private final IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
     private final ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler;
     private final ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService;
+    private final IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
 
-    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler, IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper, ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService) {
+    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler, IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper, ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService, IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler) {
         this.service = service;
         this.mapper = mapper;
         this.hateoasAssembler = hateoasAssembler;
@@ -48,6 +50,7 @@ public class StudentRestController {
         this.programmeEnrolmentMapper = programmeEnrolmentMapper;
         this.totalEnrolledStudentsAssembler = totalEnrolledStudentsAssembler;
         this.totalEnrolledStudentsService = totalEnrolledStudentsService;
+        this.enrolmentHateoasAssembler = enrolmentHateoasAssembler;
     }
 
     @PostMapping
@@ -97,29 +100,63 @@ public class StudentRestController {
     }
 
     @PostMapping("/enrollStudent")
-    public ResponseEntity<ProgrammeEnrolmentResponseDTO> enrolStudentInProgramme (@RequestBody ProgrammeEnrolmentDTO programmeEnrolmentDTO){
-        if (programmeEnrolmentDTO == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> enrolStudentInProgramme (
+            @RequestBody ProgrammeEnrolmentDTO programmeEnrolmentDTO) {
+
+        if (programmeEnrolmentDTO == null) {
+            return ResponseEntity.badRequest().build();
         }
 
         try {
-            StudentID studentID = programmeEnrolmentMapper.toStudentID(programmeEnrolmentDTO);
-            AccessMethodID accessMethodID = programmeEnrolmentMapper.toAccessMethodID(programmeEnrolmentDTO);
-            ProgrammeID programmeID = programmeEnrolmentMapper.toProgrammeID(programmeEnrolmentDTO);
-            Date date = programmeEnrolmentMapper.toDateVO(programmeEnrolmentDTO);
+            ProgrammeEnrolment pe = programmeEnrolmentService.enrolStudentInProgramme(
+                    programmeEnrolmentMapper.toStudentID(programmeEnrolmentDTO),
+                    programmeEnrolmentMapper.toAccessMethodID(programmeEnrolmentDTO),
+                    programmeEnrolmentMapper.toProgrammeID(programmeEnrolmentDTO),
+                    programmeEnrolmentMapper.toDateVO(programmeEnrolmentDTO)
+            );
 
-            ProgrammeEnrolment programmeEnrolment = programmeEnrolmentService.enrolStudentInProgramme(studentID,accessMethodID,programmeID,date);
+            if (pe != null) {
+                ProgrammeEnrolmentResponseDTO dto = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
 
-            if(programmeEnrolment!=null){
-                ProgrammeEnrolmentResponseDTO programmeEnrolmentResponseDTO = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(programmeEnrolment);
-                return new ResponseEntity<>(programmeEnrolmentResponseDTO, HttpStatus.CREATED);
+                EntityModel<ProgrammeEnrolmentResponseDTO> model = enrolmentHateoasAssembler.toModel(dto);
+
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(model);
+            } else {
+                return ResponseEntity.badRequest().build();
             }
-            else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
+
+
+    @GetMapping("/enrollStudent/{studentId}/{programmeID}")
+    public ResponseEntity<ProgrammeEnrolmentResponseDTO> getEnrolmentByStudentAndProgramme(
+            @PathVariable("studentId")   int    studentId,
+            @PathVariable("programmeID") String programmeID
+    ) {
+        StudentID sid = new StudentID(studentId);
+
+        ProgrammeID pid = new ProgrammeID(new Acronym(programmeID));
+
+
+        ProgrammeEnrolment pe = programmeEnrolmentService
+                .findEnrolmentByStudentAndProgramme(sid, pid);
+
+        if (pe == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        ProgrammeEnrolmentResponseDTO dto =
+                programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
+        return ResponseEntity.ok(dto);
+    }
+
+
+
+
+
 }

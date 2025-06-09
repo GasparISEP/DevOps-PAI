@@ -14,63 +14,39 @@ skinparam sequence {
 
 actor Administrator
 participant ":FrontEnd" as FE
+participant ":Router" as RT
 participant ":Controller" as CT
 participant ":Service" as SE
 participant ":Domain" as DM
 participant ":Repository" as RE
+participant ":Driver" as DR
 
-
-
-group Human Interaction
 Administrator -> FE ++: Request to register Teacher.
 FE --> Administrator --: Prompt: "Enter Teacher's Information"
-Administrator -> FE ++: Input: "teacherID, name, email, NIF, countryCode, \n phoneNumber, academicBackground, \n street, postalCode, location, country"
-end group
+Administrator -> FE ++: Enter: "teacher information"
 
-group HTTP Request
-FE -> CT ++: (GET) /departments
-end group
+FE -> RT ++: POST /teachers \n {body: "teacher information"}
+RT -> CT ++: (POST) /teachers {request}
 
-group Application Service Invocation
-CT -> SE ++: getAllDepartments()
-
-group Persistence
-SE -> RE ++: findAll()
-RE --> SE --: List<Department>
-end group
-
-SE --> CT --: List<Department>
-end group
-
-group HTTP Response
-CT --> FE--:  HTTP 200 OK + (List<DepartmentDto>)
-end group
-
-group Human Interaction
-FE --> Administrator --: Display Department List. \n Prompt: "Select one Department.
-Administrator -> FE ++: Select Department
-end group
-
-group HTTP Request
-FE -> CT ++: (POST) /teachers with JSON {request}
-end group
-
-group Application Service Invocation
-CT -> SE ++: createAndSaveTeacher(command)
-group Domain Logic
-SE -> DM ++: Teacher teacher = new Teacher(command)
+CT -> SE ++: createAndSaveTeacher (requestDto)
+SE -> DM ++: createTeacher (teacher information)
 DM --> SE --: teacher
-end group
-group Persistence
-SE -> RE ++: save(teacher)
-RE --> SE --: Persisted teacher
-end group
+
+SE -> RE ++: save (teacher)
+RE -> DR ++: save (teacher)
+
+DR -> : INSERT INTO teachers
+DR <--: persisted teacher
+
+DR --> RE --: teacher
+RE --> SE --: teacher
 SE --> CT --: teacher
-end group
-group HTTP Response
-CT --> FE --: HTTP 201 CREATED + teacherDTO
-end group
+
+CT --> RT --: HTTP 201 CREATED + \n teacherDTO
+RT --> FE --: HTTP 201 CREATED + \n teacherDTO
+
 FE --> Administrator --: Teacher registered successfully
-'TA --> RC --: teacherAcronym, name, email, nif, phoneNumber,\n academicBackground,street,postalcode,location,country, departmentID
-'
+
+footer <size:18>teacher information = teacherID, name, email, NIF, countryCode, phoneNumber, academicBackground, street, postalCode, location, country, departmentID</size>
+
 @enduml

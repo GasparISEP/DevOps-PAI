@@ -29,14 +29,14 @@ participant "CourseEditionEnrolment" as Enrolment
 
 database "Database" as DB
 
-router -> Controller: POST /courseeditions/students/enrolments
+router -> Controller: POST /students/{id}/courses-edition-enrolments
 activate Controller
 
 Controller -> Assembler: toCourseEditionID(CourseEditionEnrolmentDto)
 activate Assembler
 Assembler --> Controller: CourseEditionID
 deactivate Assembler
-Controller -> Assembler: toStudentID(CourseEditionEnrolmentDto)
+Controller -> Assembler: toStudentID(id)
 activate Assembler
 Assembler --> Controller: StudentID
 deactivate Assembler
@@ -78,13 +78,13 @@ Repository -> DB: INSERT INTO course_edition_enrolments
 activate DB
 DB --> Repository: Success
 deactivate DB
-Repository --> Service: CourseEditionEnrolment
+Repository --> Service: true
 deactivate Repository
 
-Service --> Controller: CourseEditionEnrolment
+Service --> Controller: true
 deactivate Service
 
-Controller -> HateoasAssembler: toModel(CourseEditionEnrolment)
+Controller -> HateoasAssembler: toModel(CourseEditionEnrolmentDto)
 activate HateoasAssembler
 note right of HateoasAssembler
   Create EntityModel with:

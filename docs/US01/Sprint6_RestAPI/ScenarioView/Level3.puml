@@ -22,7 +22,7 @@ end legend
 
 ' ======= CONTROLLER =======
 
-class US01_ConfigureTeacherCategoryRESTController #E0FFFF{
+class TeacherCategoryRESTController #E0FFFF{
       + US01_ConfigureTeacherCategoryController (service : ITeacherCategoryService)
       + configureTeacherCategory(name: String): EntityModel<TeacherCategoryResponseDTO>
       + getTeacherCategoryById (id: String): TeacherCategoryResponseDTO
@@ -68,7 +68,7 @@ class TeacherCategoryFactoryImpl #FAFAD2{
 ' ======= AGGREGATE =======
 
 package "TeacherCategory Aggregate"  {
-    Entity TeacherCategory <<Root>> <<Entity>> #FAFAD2{
+    entity TeacherCategory <<Root>> <<Entity>> #FAFAD2{
       + TeacherCategory(id: TeacherCategoryID, name: Name)
       + getName(): Name
       + identity(): TeacherCategoryID
@@ -131,12 +131,12 @@ class TeacherCategoryIDMapperImpl #E0FFFF{
 
 interface ITeacherCategoryMapper #E0FFFF{
    + toDataModel (teacherCategory: TeacherCategory): TeacherCategoryDataModel
-   + toDomain (dataModel: TeacherCategoryDataModel): TeacherCategory
+   + toDomainModel (dataModel: TeacherCategoryDataModel): TeacherCategory
 }
 
 class TeacherCategoryMapperImpl #E0FFFF{
    + toDataModel (teacherCategory: TeacherCategory): TeacherCategoryDataModel
-   + toDomain (dataModel: TeacherCategoryDataModel): TeacherCategory
+   + toDomainModel (dataModel: TeacherCategoryDataModel): TeacherCategory
 }
 
 
@@ -186,12 +186,12 @@ class TeacherCategoryHateoasAssemblerImpl #E0FFFF {
 
 ' ======= NAVIGABILITY =======
 
-US01_ConfigureTeacherCategoryRESTController "1" .u.> "_service  1             " ITeacherCategoryService
-US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryResponseDTO
-US01_ConfigureTeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
-US01_ConfigureTeacherCategoryRESTController "1"..> "_assembler 1" ITeacherCategoryExternalAssembler
-US01_ConfigureTeacherCategoryRESTController "1".u.> "_hateoasAssembler 1" ITeacherCategoryHateoasAssembler
+TeacherCategoryRESTController "1" .u.> "_service  1             " ITeacherCategoryService
+TeacherCategoryRESTController "1" ..> "1" TeacherCategoryRequestDTO
+TeacherCategoryRESTController "1"..> "_assembler 1" ITeacherCategoryExternalAssembler
+TeacherCategoryRESTController "1".u.> "_hateoasAssembler 1" ITeacherCategoryHateoasAssembler
 TeacherCategoryHateoasAssemblerImpl ..|> ITeacherCategoryHateoasAssembler
+ITeacherCategoryHateoasAssembler "1" ..> "1" TeacherCategoryResponseDTO
 
 TeacherCategoryExternalAssemblerImpl ..|> ITeacherCategoryExternalAssembler
 ITeacherCategoryExternalAssembler "1"..> "1" TeacherCategoryDTO
@@ -214,16 +214,18 @@ TeacherCategoryRepositorySpringDataImpl "1".u.> "1" TeacherCategory
 TeacherCategoryRepositorySpringDataImpl "1"..> "1" Name
 TeacherCategoryRepositorySpringDataImpl "1"-u-> "_mapper 1        " ITeacherCategoryMapper
 TeacherCategoryRepositorySpringDataImpl "1" -->"   _idMapper   1            " ITeacherCategoryIDMapper
-ITeacherCategoryRepositorySpringData "1" .u.> "1" TeacherCategoryDataModel
-ITeacherCategoryRepositorySpringData "1" .u.> "1" Name
+ITeacherCategoryRepositorySpringData "1" ..> "1" TeacherCategoryDataModel
+ITeacherCategoryRepositorySpringData "1" .l.> "1" Name
 ITeacherCategoryRepository "1" .u.> "1" Name
 
 TeacherCategoryMapperImpl ..|> ITeacherCategoryMapper
 TeacherCategoryIDMapperImpl ..|> ITeacherCategoryIDMapper
-ITeacherCategoryIDMapper "1" ..> "1 " TeacherCategoryIDDataModel
-ITeacherCategoryIDMapper "1" ..> "1"  TeacherCategoryID
-ITeacherCategoryMapper "1   "..> "1   " TeacherCategoryDataModel
-ITeacherCategoryMapper "1"..> "1" TeacherCategory
+TeacherCategoryIDMapperImpl "1" ..> "1 " TeacherCategoryIDDataModel
+TeacherCategoryIDMapperImpl "1" .u.> "1"  TeacherCategoryID
+TeacherCategoryMapperImpl "1   ".l.> "1   " TeacherCategoryDataModel
+TeacherCategoryMapperImpl "1".l.> "1" TeacherCategory
+TeacherCategoryMapperImpl "1" -u-> "1 _factory" ITeacherCategoryFactory
+TeacherCategoryMapperImpl "1" -u-> "1 _idMapper" ITeacherCategoryIDMapper
 
 TeacherCategoryDataModel "1" --> "_idDataModel 1 "TeacherCategoryIDDataModel
 

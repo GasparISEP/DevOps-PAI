@@ -1,0 +1,58 @@
+@startuml
+
+title US21: As an ASC, I want to get the number of students enrolled in a programme edition\n(Process View - Level 2 Granularity)
+
+autonumber
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC #lightblue
+participant ":Frontend" as FE <<Container>> #lightblue
+participant ":Backend" as BE <<Container>> #LightGreen
+database ":Database" as DB <<Container>> #LightGray
+
+ASC -> FE: I want to get the number of students in a programme edition!
+activate FE #LightBlue
+
+FE -> BE: GET /programme-editions {}
+activate BE #LightGreen
+
+BE -> DB: SELECT * FROM ProgrammeEdition
+activate DB #LightGray
+
+DB --> BE: List<ProgrammeEdition>
+deactivate DB
+
+BE --> FE: 200 + body {List<ProgrammeEdition>}
+deactivate BE
+
+FE --> ASC: Which a programme edition?
+deactivate FE
+
+ASC -> FE: Enter programme edition!
+activate FE #LightBlue
+
+FE --> ASC: Sure?
+deactivate FE
+
+ASC -> FE: Yes!
+activate FE #LightBlue
+
+FE -> BE: GET /programme-editions/{id}/schoolYearID/students
+activate BE #LightGreen
+
+BE -> DB: SELECT * FROM ProgrammeEditionEnrolment \nWHERE programmeAcronym = 'SWE' \nAND schoolYearID = '1b7e4da6-f9e1-47d8-8dd8-cbe83ac8d95b';
+activate DB #LightGray
+
+DB --> BE: List<ProgrammeEditionEnrolment>
+deactivate DB
+
+
+BE --> FE: 200 + body {totalNumberOfStudents + hypermedia}
+deactivate BE
+
+FE --> ASC: Number of Students enrolled!
+deactivate FE
+
+@enduml

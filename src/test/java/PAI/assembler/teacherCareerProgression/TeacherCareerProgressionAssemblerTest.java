@@ -6,6 +6,8 @@ import PAI.dto.teacherCareerProgression.*;
 import org.junit.jupiter.api.Test;
 
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -15,6 +17,7 @@ class TeacherCareerProgressionAssemblerTest {
     private TeacherCareerProgressionAssembler assembler;
     private UpdateTeacherWorkingPercentageRequestDTO dto;
 
+    // toUpdateCategory() method
 
     @Test
     void shouldReturnResponseDTO(){
@@ -53,22 +56,27 @@ class TeacherCareerProgressionAssemblerTest {
 
     }
 
+    // toUpdateTeacherCategoryCommand() method
+
     @Test
     void shouldReturnCommand(){
         //arrange
         TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
-        UpdateTeacherCategoryRequestDTO requestDTO = mock(UpdateTeacherCategoryRequestDTO.class);
+        UpdateTeacherCategoryRequestDTO doubleRequestDTO = mock(UpdateTeacherCategoryRequestDTO.class);
+        String teacherID = "ABC";
+        LocalDate date = mock (LocalDate.class);
 
-        when(requestDTO.date()).thenReturn("22-02-2022");
-        when(requestDTO.teacherID()).thenReturn("ABC");
-        when(requestDTO.teacherCategoryID()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
+        when(doubleRequestDTO.date()).thenReturn(date);
+        when(doubleRequestDTO.teacherCategoryID()).thenReturn("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85");
 
         //act
-        UpdateTeacherCategoryCommand result = assembler.toUpdateTeacherCategoryCommand(requestDTO);
+        UpdateTeacherCategoryCommand result = assembler.toUpdateTeacherCategoryCommand(teacherID, doubleRequestDTO);
 
         //assert
         assertNotNull(result);
     }
+
+    // toUpdateWorkingPercentageDTO() method
 
     @Test
     void shouldReturnWorkingPercentageResponseDTO(){
@@ -106,6 +114,8 @@ class TeacherCareerProgressionAssemblerTest {
         assertNotNull(result);
 
     }
+
+    // toUpdateTeacherWorkingPercentageCommand() method
 
     @Test
     void shouldReturnWorkingPercentageCommand(){

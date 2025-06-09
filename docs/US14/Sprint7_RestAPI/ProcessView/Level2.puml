@@ -64,8 +64,8 @@ activate frontend #E1F5FE
 note over backend #E0E0E0
   body:
     {"teacherId": "AAA",
-     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-     "date": "2025-07-01"
+     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
+     "date": "2025-06-01"
     }
 end note
 
@@ -76,12 +76,12 @@ note over db #E0E0E0
   Values:
     {"id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
      "teacherId": "AAA",
-     "teacherCategoryId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-     "date": "2025-07-01"
+     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
+     "date": "2025-06-01"
     }
 end note
 
-backend -> db: INSERT INTO teacherCareerProgression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+backend -> db: INSERT INTO Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
 activate db #E1F5FE
 
 db --> backend: teacherCareerProgression
