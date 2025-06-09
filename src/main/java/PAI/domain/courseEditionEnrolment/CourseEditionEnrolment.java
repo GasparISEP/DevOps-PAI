@@ -21,6 +21,7 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
         this._enrolmentDate= new Date(LocalDate.now());
         this._courseEditionEnrolmentId = new CourseEditionEnrolmentID(studentID,courseEditionID);
         this._isActive= new EnrolmentStatus(true);
+        this._courseEditionEnrolmentGeneratedID = new CourseEditionEnrolmentGeneratedID();
     }
 
     public CourseEditionEnrolment(CourseEditionEnrolmentGeneratedID uuid, StudentID studentID, CourseEditionID courseEditionID, Date enrolmentDate, EnrolmentStatus active) {
