@@ -5,6 +5,8 @@ import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -49,5 +51,16 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
         TeacherCategoryID teacherCategoryID = new TeacherCategoryID(UUID.fromString(request.teacherCategoryID()));
 
         return new UpdateTeacherCategoryCommand(date,teacherID,teacherCategoryID);
+    }
+
+    public List<UpdateTeacherCategoryResponseDTO> toResponseDTOs (List <UpdateTeacherCategoryDTO> teacherCareerProgressionDTOs){
+
+        List<UpdateTeacherCategoryResponseDTO> listDTOs = new ArrayList<>();
+
+        for (UpdateTeacherCategoryDTO dto : teacherCareerProgressionDTOs) {
+            UpdateTeacherCategoryResponseDTO tcpReponseDTO = toUpdateTeacherCategoryResponseDTO (dto);
+            listDTOs.add(tcpReponseDTO);
+        }
+        return listDTOs;
     }
 }
