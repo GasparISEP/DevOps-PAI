@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import PAI.service.teacher.ITeacherWithRelevantDataService;
-import PAI.service.teacherCareerProgression.ITeacherCareerProgressionServiceV2;
+import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -55,7 +55,7 @@ class TeacherRestControllerTest {
     private ITeacherHateoasAssembler teacherHateoasAssembler;
 
     @MockBean
-    private ITeacherCareerProgressionServiceV2 careerService;
+    private ICreateTeacherCareerProgressionService careerService;
 
     @MockBean
     private ITeacherCareerProgressionAssembler categoryAssembler;
@@ -78,7 +78,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -93,7 +93,7 @@ class TeacherRestControllerTest {
         //arrange
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -114,7 +114,7 @@ class TeacherRestControllerTest {
         //arrange
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -135,7 +135,7 @@ class TeacherRestControllerTest {
         //arrange
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -176,7 +176,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
@@ -197,7 +197,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
@@ -218,7 +218,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler doubleUpdateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
@@ -239,7 +239,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService doubleTeacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler doubleTeacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler doubleTeacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 doubleTCPService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService doubleTCPService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler doubleTCPAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService doubleTeacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler doubleTeacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -262,7 +262,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -301,7 +301,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -329,7 +329,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -355,7 +355,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -379,7 +379,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -486,7 +486,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -540,7 +540,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -578,7 +578,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -618,7 +618,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler categoryAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -727,7 +727,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -760,7 +760,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -791,7 +791,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -820,7 +820,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -851,7 +851,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -906,7 +906,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -960,7 +960,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -1014,7 +1014,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -1068,7 +1068,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -1099,7 +1099,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -1127,7 +1127,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
@@ -1152,7 +1152,7 @@ class TeacherRestControllerTest {
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
         ITeacherHateoasAssembler teacherHateoasAssembler = mock(ITeacherHateoasAssembler.class);
-        ITeacherCareerProgressionServiceV2 careerService = mock(ITeacherCareerProgressionServiceV2.class);
+        ICreateTeacherCareerProgressionService careerService = mock(ICreateTeacherCareerProgressionService.class);
         ITeacherCareerProgressionAssembler careerAssembler = mock(ITeacherCareerProgressionAssembler.class);
         ITeacherWithRelevantDataService teacherWithRelevantDataService = mock(ITeacherWithRelevantDataService.class);
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
