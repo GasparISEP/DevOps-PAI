@@ -32,12 +32,12 @@ class TeacherCategoryRestController #E0FFFF{
 
 '================================= Service ======================================
 
-interface ITeacherCareerProgressionService #E0FFFF{
+interface ICreateTeacherCareerProgressionService #E0FFFF{
     + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
 }
 
-class TeacherCareerProgressionServiceImpl #E0FFFF{
+class CreateTeacherCareerProgressionServiceImpl #E0FFFF{
     + TeacherCareerProgressionServiceImpl (teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, \n teacherCareerProgressionFactory: ITeacherCareerProgressionFactory, \n internalAssembler: ITeacherCareerProgressionInternalAssembler)
     + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
@@ -92,12 +92,12 @@ class UpdateTeacherCategoryCommand #E0FFFF{
 
 '====================================== Assemblers ========================================
 
-interface ITeacherCareerProgressionExternalAssembler #E0FFFF{
+interface ITeacherCareerProgressionAssembler #E0FFFF{
   + toCommand(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
   + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
 }
 
-class TeacherCareerProgressionExternalAssemblerImpl #E0FFFF{
+class TeacherCareerProgressionAssemblerImpl #E0FFFF{
   + toCommand(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
   + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
 }
@@ -349,25 +349,25 @@ class TeacherCategoryIDDataModel #E0FFFF {
 
 
 TeacherRestController "1" ..> "1" ITeacherCareerProgressionHateoasAssembler
-TeacherRestController "1" ..> "1" ITeacherCareerProgressionExternalAssembler
-TeacherRestController "1" ..> "1" ITeacherCareerProgressionService
+TeacherRestController "1" ..> "1" ITeacherCareerProgressionAssembler
+TeacherRestController "1" ..> "1" ICreateTeacherCareerProgressionService
 TeacherRestController "1" ..> "1" UpdateTeacherCategoryRequestDTO
 
 TeacherCareerProgressionHateoasAssemblerImpl ..|> ITeacherCareerProgressionHateoasAssembler
 ITeacherCareerProgressionHateoasAssembler ..> UpdateTeacherCategoryResponseDTO
 
-TeacherCareerProgressionExternalAssemblerImpl ..|> ITeacherCareerProgressionExternalAssembler
-ITeacherCareerProgressionExternalAssembler "1"..> "1" UpdateTeacherCategoryDTO
-ITeacherCareerProgressionExternalAssembler ..> UpdateTeacherCategoryRequestDTO
+TeacherCareerProgressionAssemblerImpl ..|> ITeacherCareerProgressionAssembler
+ITeacherCareerProgressionAssembler "1"..> "1" UpdateTeacherCategoryDTO
+ITeacherCareerProgressionAssembler ..> UpdateTeacherCategoryRequestDTO
 
 TeacherCareerProgressionInternalAssemblerImpl ..|> ITeacherCareerProgressionInternalAssembler
 ITeacherCareerProgressionInternalAssembler "1"..> "1" TeacherCareerProgression
 
-TeacherCareerProgressionServiceImpl ..|> ITeacherCareerProgressionService
-TeacherCareerProgressionServiceImpl "1" --> "1 _factory"  ITeacherCareerProgressionFactory
-TeacherCareerProgressionServiceImpl "1" --> "1 _repository" ITeacherCareerProgressionRepository
-TeacherCareerProgressionServiceImpl "1" --> "1 _internalAssembler" ITeacherCareerProgressionInternalAssembler
-TeacherCareerProgressionServiceImpl "1" ..> "1" UpdateTeacherCategoryCommand
+CreateTeacherCareerProgressionServiceImpl ..|> ICreateTeacherCareerProgressionService
+CreateTeacherCareerProgressionServiceImpl "1" --> "1 _factory"  ITeacherCareerProgressionFactory
+CreateTeacherCareerProgressionServiceImpl "1" --> "1 _repository" ITeacherCareerProgressionRepository
+CreateTeacherCareerProgressionServiceImpl "1" --> "1 _internalAssembler" ITeacherCareerProgressionInternalAssembler
+CreateTeacherCareerProgressionServiceImpl "1" ..> "1" UpdateTeacherCategoryCommand
 
 TeacherCareerProgressionFactoryImpl ..|> ITeacherCareerProgressionFactory
 ITeacherCareerProgressionFactory "1"..> "1" Date

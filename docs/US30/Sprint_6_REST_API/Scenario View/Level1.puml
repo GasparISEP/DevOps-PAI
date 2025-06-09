@@ -3,6 +3,8 @@
 left to right direction
 skinparam packageStyle rectangle
 
+title US30 As an ASC, I want to add a course to a programme using a Web UI. \n (Scenario View - Level 1)
+
 actor "Administrator" as admin
 
 rectangle "PAI System" {
