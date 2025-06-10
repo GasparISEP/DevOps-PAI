@@ -1,0 +1,301 @@
+@startuml
+!pragma layout smetana
+title As an ASC, I want to remove the enrolment of a student in a Course Edition \n (Logic View Granularity 4)
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam titleFontSize 18
+skinparam linetype ortho
+skinparam LegendBackgroundColor white
+skinparam LegendBorderColor white
+skinparam classFontSize 14
+skinparam shadowing true
+skinparam rectangle {
+  RoundCorner 20
+}
+skinparam classBorderColor Black
+left to right direction
+
+' ========== CONTROLLER LAYER ==========
+package Controller #F5EEF8{
+class CourseEditionRestController <<Controller>> {
+    +removeStudentEnrolmentFromACourseEdition(enrolmentDTO: CourseEditionEnrolmentDto): ResponseEntity<String>
+}
+}
+
+
+' ========== SERVICE LAYER ==========
+package Service {
+interface ICourseEditionEnrolmentService <<Interface>> {
+    +removeCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+}
+
+class CourseEditionEnrolmentServiceImpl {
+    -courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory
+    +removeCourseEditionEnrolment(studentID: StudentID, courseEditionID: CourseEditionID): boolean
+}
+}
+
+
+
+' ========== REPOSITORY LAYER ==========
+package Repository {
+
+interface ICourseEditionEnrolmentRepository <<Interface>> {
+    +findByStudentAndCourseEdition (studentID: StudentID, \ncourseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
+
+}
+
+class CourseEditionEnrolmentRepositoryImpl <<Memory>>{
+    +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
+}
+
+class CourseEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
+    +findByStudentAndCourseEdition (studentID: StudentID,\n courseEditionID: CourseEditionID) : Optional <CourseEditionEnrolment>
+    +save(entity: CourseEditionEnrolment): CourseEditionEnrolment
+    +findAll(): Iterable<CourseEditionEnrolment>
+    +getInternalSet(): Set<CourseEditionEnrolment>
+}
+
+interface ICourseEditionEnrolment\nRepositorySpringData <<Interface>> {
+}
+
+interface IProgrammeEditionEnrolmentRepository <<Interface>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
+}
+
+class ProgrammeEditionEnrolmentRepositoryImpl <<Memory>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID): \nOptional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
+}
+
+class ProgrammeEditionEnrolmentRepositorySpringDataImpl <<SpringData>> {
+    +findByStudentAndProgrammeEdition(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID):\n Optional<ProgrammeEditionEnrolment>
+    +save(entity: ProgrammeEditionEnrolment): ProgrammeEditionEnrolment
+    +getInternalSet(): Set<ProgrammeEditionEnrolment>
+}
+
+interface IProgrammeEditionEnrolment\nRepositorySpringData <<Interface>> {
+}
+
+}
+
+
+
+' ========== MAPPING LAYER ==========
+package Mapper {
+interface ICourseEditionEnrolmentMapper <<Interface>> {
+    +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
+    +toDomain(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
+}
+
+class CourseEditionEnrolmentMapperImpl {
+    -courseEditionEnrolmentFactory: ICourseEditionEnrolmentFactory
+    +toDataModel(courseEditionEnrolment: CourseEditionEnrolment): \nCourseEditionEnrolmentDataModel
+    +toDomain(courseEditionEnrolmentDataModel: \nCourseEditionEnrolmentDataModel): CourseEditionEnrolment
+}
+
+interface ICourseEditionEnrolmentIDMapper <<Interface>> {
+    + toDataModel(id: CourseEditionEnrolmentID): \nCourseEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: CourseEditionEnrolmentIDDataModel): \nCourseEditionEnrolmentID
+}
+
+class CourseEditionEnrolmentIDMapperImpl {
+    -studentIDMapper: IStudentIDMapper
+    -courseEditionIDMapper: ICourseEditionIDMapper
+    + toDataModel(id: CourseEditionEnrolmentID): \nCourseEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: CourseEditionEnrolmentIDDataModel): \nCourseEditionEnrolmentID
+}
+
+interface IProgrammeEditionEnrolmentMapper {
+    + toDataModel(programmeEditionEnrolment:\n ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    + toDomain(programmeEditionEnrolmentDataModel:\n ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+}
+
+class ProgrammeEditionEnrolmentMapperImpl  {
+    -programmeEditionEnrolmentFactory: IProgrammeEditionEnrolmentFactory
+    + toDataModel(programmeEditionEnrolment:\n ProgrammeEditionEnrolment): ProgrammeEditionEnrolmentDataModel
+    + toDomain(programmeEditionEnrolmentDataModel:\n ProgrammeEditionEnrolmentDataModel): ProgrammeEditionEnrolment
+}
+
+interface IProgrammeEditionEnrolmentIDMapper <<Interface>> {
+    + toDataModel(id: ProgrammeEditionEnrolmentID): \nProgrammeEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: ProgrammeEditionEnrolmentIDDataModel): \nProgrammeEditionEnrolmentID
+}
+
+class ProgrammeEditionEnrolmentIDMapperImpl {
+    -studentIDMapper: IStudentIDMapper
+    -programmeEditionIDMapper: IProgrammeEditionIDMapper
+    + toDataModel(id: ProgrammeEditionEnrolmentID): \nProgrammeEditionEnrolmentIDDataModel
+    + toDomain(idDataModel: ProgrammeEditionEnrolmentIDDataModel): \nProgrammeEditionEnrolmentID
+}
+}
+
+
+' ========== DATA MODEL ==========
+package "Data Model" {
+class CourseEditionEnrolmentDataModel {
+    -enrolmentDate: localDate
+    -isActive: boolean
+}
+
+class CourseEditionEnrolmentIDDataModel  {
+    - studentID: int
+    - courseEditionID: int
+}
+
+class ProgrammeEditionEnrolmentDataModel {
+    -enrolmentDate: LocalDate
+    -isActive: boolean
+}
+
+class ProgrammeEditionEnrolmentIDDataModel {
+    -studentID: int
+    -programmeEditionID: int
+}
+
+}
+
+
+' ========== DOMAIN: ENROLMENT STATUS ==========
+class EnrolmentStatus <<Value Object>>{
+    -_isActive: boolean
+    + EnrolmentStatus(isActive: boolean)
+    + isEnrolmentActive(): boolean
+    }
+
+' ========== DOMAIN: COURSE ENROLMENT AGGREGATE ==========
+package "CourseEditionEnrolment Aggregate" #LightYellow{
+class CourseEditionEnrolment <<Root>> <<Entity>>{
+    -enrolmentDate: Date <<VO>>
+    +CourseEditionEnrolment(studentID: StudentID, \ncourseEditionID: CourseEditionID)
+    +knowStudent(): StudentID
+    +knowCourseEdition(): CourseEditionID
+    +hasStudent(): boolean
+    +isEnrolmentActive(): boolean
+    +deactivateEnrolment(): void
+}
+}
+
+class CourseEditionEnrolmentID <<Value Object>> {
+    -studentID: StudentID
+    -courseEditionID: CourseEditionID
+    + CourseEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
+}
+
+
+
+
+' ========== DOMAIN: PROGRAMME ENROLMENT AGGREGATE ==========
+package "ProgrammeEditionEnrolment Aggregate" #LightYellow{
+class ProgrammeEditionEnrolment <<Root>> <<Entity>>{
+    -enrolmentDate: Date <<VO>>
+    +ProgrammeEditionEnrolment(studentID: StudentID, \nprogrammeEditionID: ProgrammeEditionID)
+    +deactivateEnrolment(): void
+    +hasSameStudent(): boolean
+    +hasSameProgrammeEdition(): boolean
+
+}
+}
+
+class ProgrammeEditionEnrolmentID <<Value Object>> {
+    -studentID: StudentID
+    -programmeEditionID: ProgrammeEditionID
+    + ProgrammeEditionEnrolmentID\n(id : int)
+    + equals(object: Object) : boolean
+}
+
+class CourseEditionEnrolmentAssemblerImpl {
+  +toCourseEditionID(enrolmentDTO: CourseEditionEnrolmentDto): CourseEditionID
+  +toStudentID(studentUniqueNumber: int): StudentID
+}
+
+class CourseEditionEnrolmentHateoasAssemblerImpl {
+ +toModel(enrolmentDTO: CourseEditionEnrolmentDto): EntityModel<CourseEditionEnrolmentDto>
+}
+
+interface ICourseEditionEnrolmentAssembler <<Interface>> {
+   +toCourseEditionID(enrolmentDTO: CourseEditionEnrolmentDto): CourseEditionID
+   +toStudentID(studentUniqueNumber: int): StudentID
+}
+
+
+interface ICourseEditionEnrolmentHateoasAssembler <<Interface>> {
+  +toModel(enrolmentDTO: CourseEditionEnrolmentDto): EntityModel<CourseEditionEnrolmentDto>
+}
+
+class CourseEditionEnrolmentDto <<Record>> {
+    -studentUniqueNumber : int
+    -programmeAcronym : String
+    -schoolYearId : String
+    -courseAcronym : String
+    -courseName : String
+    -studyPlanDate : String
+}
+
+
+
+' ========== RELATIONSHIPS ==========
+CourseEditionRestController..> ICourseEditionEnrolmentService
+ICourseEditionEnrolmentService <|.. CourseEditionEnrolmentServiceImpl
+
+CourseEditionEnrolmentServiceImpl ..> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentServiceImpl ..> IProgrammeEditionEnrolmentRepository
+
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositoryImpl
+ICourseEditionEnrolmentRepository <|.. CourseEditionEnrolmentRepositorySpringDataImpl
+CourseEditionEnrolmentRepositorySpringDataImpl ..> CourseEditionEnrolmentDataModel
+CourseEditionEnrolmentRepositorySpringDataImpl "1" ..> "*" CourseEditionEnrolment
+CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentMapper
+CourseEditionEnrolmentRepositorySpringDataImpl ..> ICourseEditionEnrolmentIDMapper
+CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolment : maps to
+CourseEditionEnrolmentMapperImpl ..> CourseEditionEnrolmentDataModel : maps to
+CourseEditionEnrolmentMapperImpl ..|> ICourseEditionEnrolmentMapper
+CourseEditionEnrolmentIDMapperImpl ..|> ICourseEditionEnrolmentIDMapper
+CourseEditionEnrolmentMapperImpl ..> ICourseEditionEnrolmentIDMapper
+CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentID : maps to
+CourseEditionEnrolmentIDMapperImpl ..> CourseEditionEnrolmentIDDataModel : maps to
+
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> IProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolment : maps to
+ProgrammeEditionEnrolmentMapperImpl ..> ProgrammeEditionEnrolmentDataModel : maps to
+ProgrammeEditionEnrolmentMapperImpl ..|> IProgrammeEditionEnrolmentMapper
+ProgrammeEditionEnrolmentIDMapperImpl ..|> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentMapperImpl ..> IProgrammeEditionEnrolmentIDMapper
+ProgrammeEditionEnrolmentIDMapperImpl ..> ProgrammeEditionEnrolmentID : maps to
+ProgrammeEditionEnrolmentIDMapperImpl ..> ProgrammeEditionEnrolmentIDDataModel : maps to
+
+CourseEditionEnrolmentDataModel "1" --> "1" CourseEditionEnrolmentIDDataModel
+ProgrammeEditionEnrolmentDataModel "1" --> "1" ProgrammeEditionEnrolmentIDDataModel
+CourseEditionEnrolmentRepositorySpringDataImpl ..|> ICourseEditionEnrolment\nRepositorySpringData
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositoryImpl
+IProgrammeEditionEnrolmentRepository <|.. ProgrammeEditionEnrolmentRepositorySpringDataImpl
+
+IProgrammeEditionEnrolment\nRepositorySpringData <|.. ProgrammeEditionEnrolmentRepositorySpringDataImpl
+ProgrammeEditionEnrolmentRepositorySpringDataImpl ..> ProgrammeEditionEnrolment
+
+CourseEditionEnrolmentID "_courseEditionEnrolmentID 1" <-- "1" CourseEditionEnrolment
+ProgrammeEditionEnrolmentID "_programmeEditionEnrolmentID 1" <-- "1" ProgrammeEditionEnrolment
+CourseEditionEnrolmentRepositoryImpl "1"..> "_courseEditionEnrolments *" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" CourseEditionEnrolment
+EnrolmentStatus "_isActive 1" <-- "1" ProgrammeEditionEnrolment
+
+ICourseEditionEnrolmentAssembler <|.. CourseEditionEnrolmentAssemblerImpl
+ICourseEditionEnrolmentHateoasAssembler <|.. CourseEditionEnrolmentHateoasAssemblerImpl
+CourseEditionRestController "*" ---> "_courseEditionEnrolemntDTOMapper\n1" ICourseEditionEnrolmentAssembler
+CourseEditionRestController "*" ---> "_courseEditionEnrolemntDTOMapper\n1" ICourseEditionEnrolmentHateoasAssembler
+CourseEditionRestController "1" ..> "*" CourseEditionEnrolmentDto
+
+ICourseEditionEnrolmentAssembler "1" .u.> "*" CourseEditionEnrolmentDto
+ICourseEditionEnrolmentHateoasAssembler "1" .u.> "*" CourseEditionEnrolmentDto
+@enduml
