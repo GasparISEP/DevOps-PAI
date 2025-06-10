@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -580,5 +581,63 @@ class ProgrammeEditionServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             service.createProgrammeEditionAndSave(programmeEditionServiceDTO);
         });
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeEditionAlreadyRegistered() throws Exception {
+
+        // arrange
+        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionEnrolmentRepository enrolmentRepo = mock(IProgrammeEditionEnrolmentRepository.class);
+        ISchoolYearRepository schoolYearRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
+
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeRepo, schoolYearRepo, enrolmentRepo, assembler);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEditionServiceDTO dto = mock(ProgrammeEditionServiceDTO.class);
+
+        when(assembler.toProgrammeID(dto)).thenReturn(programmeID);
+        when(assembler.toSchoolYearID(dto)).thenReturn(schoolYearID);
+        when(programmeRepo.containsOfIdentity(programmeID)).thenReturn(true);
+        when(schoolYearRepo.containsOfIdentity(schoolYearID)).thenReturn(true);
+        when(editionRepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID))
+                .thenReturn(Optional.of(mock(ProgrammeEditionID.class)));
+
+        // act + assert
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            service.createProgrammeEditionAndSave(dto);
+        });
+        assertEquals("Programme Edition for this School Year is already Registered", ex.getMessage());
+    }
+
+    @Test
+    void shouldReturnAllProgrammeEditions() {
+        // Arrange
+        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionEnrolmentRepository enrolmentRepo = mock(IProgrammeEditionEnrolmentRepository.class);
+        ISchoolYearRepository schoolYearRepo = mock(ISchoolYearRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
+
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeRepo, schoolYearRepo, enrolmentRepo, assembler);
+
+        ProgrammeEdition edition1 = mock(ProgrammeEdition.class);
+        ProgrammeEdition edition2 = mock(ProgrammeEdition.class);
+        Iterable<ProgrammeEdition> iterable = List.of(edition1, edition2);
+
+        when(editionRepo.findAll()).thenReturn(iterable);
+
+        // Act
+        List<ProgrammeEdition> result = service.findAllProgrammeEditions();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(edition1));
+        assertTrue(result.contains(edition2));
     }
 }
