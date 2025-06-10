@@ -54,7 +54,7 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public ProgrammeEditionResponseServiceDTO toResponseDTO(ProgrammeID programmeID, SchoolYearID schoolYearID) {
+    public ProgrammeEditionResponseServiceDTO toServiceResponseDTO(ProgrammeID programmeID, SchoolYearID schoolYearID) {
         if (programmeID == null || schoolYearID == null) {
             throw new IllegalArgumentException("programmeID, schoolYearID, and programmeEditionID cannot be null");
         }

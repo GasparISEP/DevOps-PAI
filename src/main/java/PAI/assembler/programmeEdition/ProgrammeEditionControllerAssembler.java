@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ProgrammeEditionControllerAssembler implements IProgrammeEditionControllerAssembler {
 
     @Override
-    public ProgrammeEditionRequestServiceDTO toDTO(ProgrammeEditionRequestDTO programmeEditionRequest) {
+    public ProgrammeEditionRequestServiceDTO toServiceDTOFromRequestDTO(ProgrammeEditionRequestDTO programmeEditionRequest) {
         if (programmeEditionRequest == null) {
             throw new IllegalArgumentException("ProgrammeEditionRequestDTO cannot be null");
         }
@@ -31,14 +31,14 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
     }
 
     @Override
-    public ProgrammeEditionResponseServiceDTO toDTOFromIDs(ProgrammeID programmeID, SchoolYearID schoolYearID) {
-        if (programmeID == null || schoolYearID == null) {
-            throw new IllegalArgumentException("programmeID and or schoolYearID cannot be null");
+    public ProgrammeEditionResponseDTO toResponseDTOFromServiceDTO(ProgrammeEditionResponseServiceDTO responseDTO) {
+        if (responseDTO == null) {
+            throw new IllegalArgumentException("ProgrammeEditionResponseServiceDTO cannot be null");
         }
-        String programmeAcronym = programmeID.getProgrammeAcronym();
-        String schoolYearId = schoolYearID.getSchoolYearID().toString();
-        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeAcronym);
-        return new ProgrammeEditionResponseServiceDTO(programmeIDDTO, schoolYearId);
+        String acronym = responseDTO.programme().acronym();
+        String schoolYearId = responseDTO.schoolYearId();
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(acronym);
+        return new ProgrammeEditionResponseDTO(programmeIDDTO, schoolYearId);
     }
 
     @Override

@@ -18,5 +18,5 @@ public interface IProgrammeEditionService {
     List<ProgrammeEdition> findAllProgrammeEditions();
     int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception;
     ProgrammeEditionResponseServiceDTO createProgrammeEditionAndSave(ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO) throws Exception;
-    List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID);
+    List<ProgrammeEditionResponseServiceDTO> getProgrammeEditionIDsByProgrammeID(ProgrammeEditionRequestServiceDTO requestDTO);
 }

@@ -114,7 +114,7 @@ class ProgrammeEditionServiceAssemblerImplTest {
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
         // Act
-        ProgrammeEditionResponseServiceDTO result = assembler.toResponseDTO(programmeID, schoolYearID);
+        ProgrammeEditionResponseServiceDTO result = assembler.toServiceResponseDTO(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(result);
@@ -129,7 +129,7 @@ class ProgrammeEditionServiceAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseDTO(programmeID,schoolYearID);
+            assembler.toServiceResponseDTO(programmeID,schoolYearID);
         });
     }
 
@@ -142,7 +142,7 @@ class ProgrammeEditionServiceAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseDTO(programmeID,schoolYearID);
+            assembler.toServiceResponseDTO(programmeID,schoolYearID);
         });
     }
 

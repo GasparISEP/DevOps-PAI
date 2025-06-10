@@ -3,6 +3,7 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.programmeEdition.*;
 import org.junit.jupiter.api.Test;
 import java.util.UUID;
@@ -15,7 +16,7 @@ class ProgrammeEditionControllerAssemblerTest {
     private final IProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
 
     @Test
-    void shouldReturnProgrammeEditionRequestServiceDTOWhenToDTO() {
+    void shouldReturnProgrammeEditionRequestServiceDTOWhenToServiceDTOFromRequestDTO() {
         // Arrange
         ProgrammeEditionRequestDTO programmeEditionRequestDTO = mock(ProgrammeEditionRequestDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
@@ -23,7 +24,7 @@ class ProgrammeEditionControllerAssemblerTest {
         when(programmeEditionRequestDTO.programme()).thenReturn(programme);
 
         // Act
-        ProgrammeEditionRequestServiceDTO result = assembler.toDTO(programmeEditionRequestDTO);
+        ProgrammeEditionRequestServiceDTO result = assembler.toServiceDTOFromRequestDTO(programmeEditionRequestDTO);
 
         // arrange
         assertNotNull(result);
@@ -36,7 +37,7 @@ class ProgrammeEditionControllerAssemblerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toDTO(programmeEditionRequestDTO);
+            assembler.toServiceDTOFromRequestDTO(programmeEditionRequestDTO);
         });
     }
 
@@ -63,47 +64,6 @@ class ProgrammeEditionControllerAssemblerTest {
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
             assembler.toResponseDTO(editionDTO);
-        });
-    }
-
-    @Test
-    void shouldReturnProgrammeEditionDTOWithValidParameters() {
-        // Arrange
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
-        when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
-
-        // Act
-        ProgrammeEditionResponseServiceDTO result = assembler.toDTOFromIDs(programmeID, schoolYearID);
-
-        // Assert
-        assertNotNull(result);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeIdIsNull() {
-        // Arrange
-        ProgrammeID programmeID = null;
-        SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toDTOFromIDs(programmeID,schoolYearID);
-        });
-    }
-
-    @Test
-    void shouldThrowExceptionWhenSchoolYearIdIsNull() {
-        // Arrange
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        SchoolYearID schoolYearID = null;
-        when(programmeID.getProgrammeAcronym()).thenReturn("CSE");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toDTOFromIDs(programmeID,schoolYearID);
         });
     }
 

@@ -9,12 +9,10 @@ import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 
-import java.util.UUID;
-
 public interface IProgrammeEditionServiceAssembler {
     CountStudentsRequestDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition);
     ProgrammeEdition countStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception;
     ProgrammeID toProgrammeID(ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO);
-    ProgrammeEditionResponseServiceDTO toResponseDTO(ProgrammeID programmeID, SchoolYearID schoolYearID);
+    ProgrammeEditionResponseServiceDTO toServiceResponseDTO(ProgrammeID programmeID, SchoolYearID schoolYearID);
     ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception;
 }

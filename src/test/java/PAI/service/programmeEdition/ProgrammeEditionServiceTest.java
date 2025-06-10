@@ -19,10 +19,7 @@ import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -454,7 +451,7 @@ class ProgrammeEditionServiceTest {
         when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
         when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
         when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
+        when(programmeEditionAssembler.toServiceResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
         // Act
         ProgrammeEditionResponseServiceDTO result = service.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
 
@@ -493,7 +490,7 @@ class ProgrammeEditionServiceTest {
         when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
         when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
         when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
+        when(programmeEditionAssembler.toServiceResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -535,7 +532,7 @@ class ProgrammeEditionServiceTest {
         when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
         when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
         when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
+        when(programmeEditionAssembler.toServiceResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -577,7 +574,7 @@ class ProgrammeEditionServiceTest {
         when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
         when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
         when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
+        when(programmeEditionAssembler.toServiceResponseDTO(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
 
         //act + assert
         // Act + Assert
@@ -611,5 +608,71 @@ class ProgrammeEditionServiceTest {
         assertEquals(2, result.size());
         assertTrue(result.contains(edition1));
         assertTrue(result.contains(edition2));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeIdConversionFails() {
+        // Arrange
+        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentRepository enrolmentRepo = mock(IProgrammeEditionEnrolmentRepository.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeRepo, enrolmentRepo, assembler, schoolYearService);
+
+        ProgrammeEditionRequestServiceDTO dto = mock(ProgrammeEditionRequestServiceDTO.class);
+        when(assembler.toProgrammeID(dto)).thenThrow(new IllegalArgumentException("Invalid programme ID"));
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> service.createProgrammeEditionAndSave(dto));
+    }
+
+    @Test
+    void countTotalNumberOfStudentsInAProgrammeEdition_shouldHandleLargeNumberOfEnrolments() throws Exception {
+        // Arrange
+        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionEnrolmentRepository enrolmentRepo = mock(IProgrammeEditionEnrolmentRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeRepo, enrolmentRepo, assembler, schoolYearService);
+
+        CountStudentsRequestDto dto = mock(CountStudentsRequestDto.class);
+        ProgrammeEdition edition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+
+        List<ProgrammeEditionEnrolment> enrolments = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            enrolments.add(mock(ProgrammeEditionEnrolment.class));
+        }
+
+        when(assembler.countStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
+        when(edition.identity()).thenReturn(editionID);
+        when(enrolmentRepo.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(editionID)).thenReturn(enrolments);
+
+        // Act
+        int count = service.countTotalNumberOfStudentsInAProgrammeEdition(dto);
+
+        // Assert
+        assertEquals(1000, count);
+    }
+
+    @Test
+    void shouldHandleExceptionWhenFindAllProgrammeEditionsFails() {
+        // Arrange
+        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
+        IProgrammeRepository programmeRepo = mock(IProgrammeRepository.class);
+        IProgrammeEditionEnrolmentRepository enrolmentRepo = mock(IProgrammeEditionEnrolmentRepository.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeRepo, enrolmentRepo, assembler, schoolYearService);
+
+        when(editionRepo.findAll()).thenThrow(new RuntimeException("Database failure"));
+
+        // Act + Assert
+        assertThrows(RuntimeException.class, () -> service.findAllProgrammeEditions());
     }
 }

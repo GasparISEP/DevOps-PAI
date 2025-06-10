@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+import static org.springframework.cglib.core.CollectionUtils.filter;
+
 @Service
 public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
@@ -135,7 +137,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             ProgrammeEdition savedEdition = savedProgramme.get();
             ProgrammeEditionID programmeEditionID = savedEdition.identity();
 
-            return programmeEditionAssembler.toResponseDTO(
+            return programmeEditionAssembler.toServiceResponseDTO(
                     programmeEditionID.getProgrammeID(),
                     programmeEditionID.getSchoolYearID()
             );
@@ -145,12 +147,18 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID) {
+    public List<ProgrammeEditionResponseServiceDTO> getProgrammeEditionIDsByProgrammeID(ProgrammeEditionRequestServiceDTO requestDTO) {
+
+        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(requestDTO);
+
         Iterable<ProgrammeEdition> allEditions = programmeEditionRepository.findAll();
 
         return StreamSupport.stream(allEditions.spliterator(), false)
                 .filter(p -> p.identity().getProgrammeID().equals(programmeID))
-                .map(ProgrammeEdition::identity)
+                .map(p -> {
+                    ProgrammeEditionID id = p.identity();
+                    return programmeEditionAssembler.toServiceResponseDTO(id.getProgrammeID(), id.getSchoolYearID());
+                })
                 .toList();
     }
 }
