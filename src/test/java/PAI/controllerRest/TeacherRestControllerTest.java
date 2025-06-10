@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacher.ITeacherHateoasAssembler;
+import PAI.assembler.teacher.ITeacherWithRelevantDataHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherCategoryHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
@@ -73,6 +74,9 @@ class TeacherRestControllerTest {
     @MockBean
     private IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssembler;
 
+    @MockBean
+    private ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler;
+
 
     // testing constructor method
 
@@ -88,7 +92,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService,teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, updateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService,teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, updateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         // Act + Assert
         assertNotNull(controller);
     }
@@ -111,7 +115,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(null, doubleTeacherAssembler, doubleTeacherHateoasAssembler ,doubleTCPService,
                     doubleTCPAssembler, doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler,
-                    doubleUpdateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -135,7 +139,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, null , doubleTeacherHateoasAssembler, doubleTCPService,
                     doubleTCPAssembler, doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler,
-                    doubleUpdateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -159,7 +163,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , null, doubleTCPService, doubleTCPAssembler,
                     doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         });
         //assert
         assertEquals("Teacher Hateoas Assembler Interface cannot be null.", exception.getMessage());
@@ -182,7 +186,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler ,doubleTeacherHateoasAssembler, null, doubleTCPAssembler,
                     doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -206,7 +210,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , doubleTeacherHateoasAssembler, doubleTCPService, null,
                     doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -230,7 +234,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , doubleTeacherHateoasAssembler, doubleTCPService, doubleTCPAssembler,
                     null,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -254,7 +258,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , doubleTeacherHateoasAssembler, doubleTCPService, doubleTCPAssembler,
                     doubleTeacherWithRelevantDataService,null, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -277,7 +281,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , doubleTeacherHateoasAssembler,doubleTCPService, doubleTCPAssembler,
                     doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, null,
-                    doubleUpdateTeacherCategoryHateoasAssembler);
+                    doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -301,7 +305,7 @@ class TeacherRestControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new TeacherRestController(doubleTeacherService, doubleTeacherAssembler , doubleTeacherHateoasAssembler,doubleTCPService, doubleTCPAssembler,
                     doubleTeacherWithRelevantDataService,doubleTeacherWithRelevantDataAssembler, doubleUpdateTeacherWorkingPercentageHateoasAssembler,
-                    null);
+                    null, iTeacherWithRelevantDataHateoasAssembler);
         });
 
         //assert
@@ -322,7 +326,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         Teacher teacher1 = mock(Teacher.class);
         Teacher teacher2 = mock(Teacher.class);
@@ -362,7 +366,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         List<Teacher> teachers = List.of();
         List<TeacherDTO> teacherDTOs = List.of();
@@ -391,7 +395,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         String errorMessage = "Invalid input data";
 
@@ -418,7 +422,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         when(teacherService.getAllTeachers()).thenThrow(new RuntimeException());
 
@@ -443,7 +447,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -551,7 +555,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -606,7 +610,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler, iTeacherWithRelevantDataHateoasAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -645,7 +649,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler,careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         RegisterTeacherRequestDTO requestDTO = mock(RegisterTeacherRequestDTO.class);
         when(requestDTO.id()).thenReturn("JAB");
@@ -687,7 +691,7 @@ class TeacherRestControllerTest {
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
 
-        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController teacherRestController = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,categoryAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         UpdateTeacherCategoryRequestDTO request = mock(UpdateTeacherCategoryRequestDTO.class);
         UpdateTeacherCategoryCommand command = mock(UpdateTeacherCategoryCommand.class);
@@ -797,7 +801,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         String teacherID = "AAA";
@@ -831,7 +835,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         String teacherID = "AAA";
@@ -863,7 +867,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         String teacherID = "AAA";
@@ -893,7 +897,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         UpdateTeacherWorkingPercentageRequestDTO request = mock(UpdateTeacherWorkingPercentageRequestDTO.class);
         String teacherID = "AAA";
@@ -925,7 +929,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
         TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
 
@@ -943,6 +947,15 @@ class TeacherRestControllerTest {
         Date date = mock(Date.class);
         TeacherCategoryID teacherCategoryID = mock(TeacherCategoryID.class);
         WorkingPercentage workingPercentage = mock(WorkingPercentage.class);
+        EntityModel<TeacherWithRelevantDataDTO> expectedEntityModel = mock(EntityModel.class);
+
+        when(teacherWithRelevantDataService.registerTeacherWithRelevantData(
+                any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any()
+        )).thenReturn(teacherWithRelevantDataDTO);
+
+        when(iTeacherWithRelevantDataHateoasAssembler.toModel(teacherWithRelevantDataDTO))
+                .thenReturn(expectedEntityModel);
+
 
         when(teacherWithRelevantDataAssembler.toTeacherID(teacherWithRelevantDataRequestDTO.id())).thenReturn(teacherID);
         when(teacherWithRelevantDataAssembler.toName(teacherWithRelevantDataRequestDTO.name())).thenReturn(name);
@@ -965,8 +978,9 @@ class TeacherRestControllerTest {
 
         //Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(expectedEntityModel, response.getBody());
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(teacherWithRelevantDataDTO, response.getBody());
+
     }
 
     @Test
@@ -981,7 +995,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
         TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
 
@@ -1036,7 +1050,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
         TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
 
@@ -1091,7 +1105,7 @@ class TeacherRestControllerTest {
         TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler = mock(TeacherWithRelevantDataAssembler.class);
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService,careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler,updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
         TeacherWithRelevantDataRequestDTO teacherWithRelevantDataRequestDTO = mock(TeacherWithRelevantDataRequestDTO.class);
         TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = mock(TeacherWithRelevantDataDTO.class);
 
@@ -1147,7 +1161,7 @@ class TeacherRestControllerTest {
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
 
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler,teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         String id = "JAB";
         TeacherID teacherID = mock(TeacherID.class);
@@ -1179,7 +1193,7 @@ class TeacherRestControllerTest {
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
 
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         String id = "JAB";
         TeacherID teacherID = mock(TeacherID.class);
@@ -1208,7 +1222,7 @@ class TeacherRestControllerTest {
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
 
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         String id = "JAB";
         when(teacherAssembler.fromStringToTeacherID(id)).thenThrow(new IllegalArgumentException("Invalid id"));
@@ -1234,7 +1248,7 @@ class TeacherRestControllerTest {
         IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler = mock(IUpdateTeacherWorkingPercentageHateoasAssembler.class);
         IUpdateTeacherCategoryHateoasAssembler doubleUpdateTeacherCategoryHateoasAssembler = mock(IUpdateTeacherCategoryHateoasAssembler.class);
 
-        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler);
+        TeacherRestController controller = new TeacherRestController(teacherService, teacherAssembler, teacherHateoasAssembler, careerService, careerAssembler, teacherWithRelevantDataService, teacherWithRelevantDataAssembler, updateTeacherWorkingPercentageHateoasAssembler, doubleUpdateTeacherCategoryHateoasAssembler,iTeacherWithRelevantDataHateoasAssembler);
 
         String id = "JAB";
         when(teacherAssembler.fromStringToTeacherID(id)).thenThrow(new RuntimeException("Unexpected error occurred"));
