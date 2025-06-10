@@ -5,6 +5,7 @@ import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacher.ITeacherHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
+import PAI.assembler.teacherCareerProgression.IUpdateTeacherCategoryHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,10 +36,14 @@ public class TeacherRestController {
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
+    private final IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface;
 
     public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler,
                                  ITeacherHateoasAssembler teacherHateoasAssembler, ICreateTeacherCareerProgressionService careerService,
-                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
+                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService,
+                                 TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler,
+                                 IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler,
+                                 IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
         this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
@@ -50,6 +54,7 @@ public class TeacherRestController {
                 validateNotNull(teacherWithRelevantDataAssembler,  "Teacher With Relevant Data Assembler Interface");
         this.updateTeacherWorkingPercentageHateoasAssembler =
                 validateNotNull(updateTeacherWorkingPercentageHateoasAssembler,  "Update Teacher Working Percentage Hateoas Assembler Interface");
+        this.updateTeacherCategoryHateoasAssemblerInterface = validateNotNull(updateTeacherCategoryHateoasAssemblerInterface, "Update Teacher Category Hateoas Assembler Interface");
     }
 
     @GetMapping
@@ -119,7 +124,7 @@ public class TeacherRestController {
 
         UpdateTeacherCategoryResponseDTO responseDTO = careerAssembler.toUpdateTeacherCategoryResponseDTO(result);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updateTeacherCategoryHateoasAssemblerInterface.toModel(responseDTO));
     }
 
     @PostMapping("/careerprogressions/{teacherID}/working-percentage")
@@ -180,14 +185,4 @@ public class TeacherRestController {
         }
     }
 
-    @GetMapping ("/careerprogressions")
-    public ResponseEntity <Object> getAllTeacherCareerProgression () throws Exception {
-        List<UpdateTeacherCategoryDTO> listTCP = careerService.getAllTeacherCareerProgression();
-
-        List<UpdateTeacherCategoryResponseDTO> listTCPResponseDTO = careerAssembler.toResponseDTOs(listTCP);
-
-        return ResponseEntity.status(HttpStatus.OK).body(listTCPResponseDTO);
-
-
-    }
 }
