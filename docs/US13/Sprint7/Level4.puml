@@ -1,0 +1,77 @@
+@startuml
+
+title US13: As a HRC, I want to register a new teacher in the system, including all relevant data.
+autonumber
+skinparam Shadowing true
+
+participant "Router" as RO #lightgreen/green
+participant ":TeacherRestController" as RC #yellow/orange
+participant ":TeacherWithRelevantDataAssembler" as TA #white/yellow
+participant ":TeacherWithRelevantDataService" as S #orange/red
+participant ":TeacherFactory" as TF #white/lightblue
+participant "AD1:Address" as AD1
+participant "T1:Teacher" as T1
+participant ":TeacherRepositorySD" as TR #pink/purple
+participant ":TeacherCareerProgressionFactory" as TCPF #white/lightblue
+participant "TCPID1:TeacherCareerProgressionID" as TCPID
+participant "TCP1:TeacherCareerProgression" as TCP
+participant ":TeacherCareerProgressionRepositorySD" as TCPR #pink/purple
+participant ":TeacherCategoryRepository" as TCR #pink/purple
+
+[o-> RO++ #lightgray: POST /teachers/with-relevant-data / {acronym, name, email, NIF, phoneNumber, \n academicBackground, street, postalCode, location, country, department, category}
+RO -> RC++ #lightgray: registerTeacherWithRelevantData(\nteacherWithRelevantDataRequestDTO)
+
+loop
+RC -> TA ++ #lightgray: Convert DTO to VOs for\nTeacher and Career Progression
+|||
+TA --> RC --: Return VOs
+|||
+end loop
+|||
+
+RC -> S++ #lightgray: registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground,\nstreet, postalCode, location, country, departmentID, date, teacherCategoryID, workingPercentage)
+S -> TF ++ #lightgray: createTeacher(teacherID, name, email, nif, phoneNumber,\nacademicBackground, street, postalCode, location, country, departmentID);
+
+TF -> AD1 **: createAddress(street, postalCode, location, country);
+activate AD1  #lightgray
+AD1 --> TF --: AD1:Address
+
+TF -> T1 **: Teacher(teacherID, name, email, nif, phoneNumber,\nacademicBackground, address, departmentID)
+activate T1 #lightgray
+T1 --> TF --: T1:Teacher
+TF --> S --: T1:Teacher
+S -> TR ++ #lightgray: existsByTeacherIdOrNif(teacher.identity(), teacher.getNIF())
+TR -> TR: converts to DataModel
+TR ->o]: SELECT * FROM Teachers
+TR <--o] : List<Teacher>
+TR -> TR: Verifies if exists
+TR ->o]: INSERT T1 INTO Teachers
+TR <--o]: Teacher Saved
+TR --> S --: T1:Teacher
+
+S -> TCPF ++ #lightgray: createTeacherCareerProgression(date, teacherCategoryID, workingPercentage, teacherID)
+TCPF -> TCPID **: TeacherCareerProgressionID()
+activate TCPID #lightgray
+TCPID --> TCPF --: TCPID1:TeacherCareerProgressionID
+TCPF -> TCP **: TeacherCareerProgression(teacherCareerProgressionId,\ndate, teacherCategoryID, workingPercentage, teacherID)
+activate TCP #lightgray
+TCP --> TCPF --: "TCP1:TeacherCareerProgression"
+TCPF --> S --: TCP1:TeacherCareerProgression
+S -> TCPR ++ #lightgray: containsOfIdentity(tcp.getID())
+TCPR -> TCPR: convets to DataModel
+TCPR ->o]: SELECT * FROM TeacherCareerProgressions
+TCPR <--o]: List<TeacherCareerProgression>
+TCPR -> TCPR: Verify if exists
+TCPR ->o]: INSERT TCP1 INTO TeacherCareerProgressions
+TCPR <--o] : Teacher Career Progression Saved
+TCPR --> S --: TCP1:TeacherCareerProgression
+S -> TCR ++ #lightgray: ofIdentity(teacherCareerProgression.getTeacherCategoryID())
+TCR ->o]: SELECT * FROM TeacherCategories WHERE TeacherCategoryID = 'TCPID1'
+TCR <--o] : TC1:TeacherCategory
+TCR --> S --: TC1:TeacherCategory
+S --> RC --: TeacherWithRelevantDataDTO
+RC --> RO --: TeacherWithRelevantDataDTO
+
+[o<-- RO --: (201 OK) Created Teacher and\nCareer Progression Successfully\t
+
+@enduml
