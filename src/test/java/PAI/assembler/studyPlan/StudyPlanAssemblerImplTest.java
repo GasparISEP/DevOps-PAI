@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,7 +31,7 @@ class StudyPlanAssemblerImplTest {
              MockedConstruction<RegisterStudyPlanCommand> studyPlanCommandConstructorDouble = mockConstruction(RegisterStudyPlanCommand.class)){
 
             // Act
-            RegisterStudyPlanCommand result = assembler.toCommand(programmeName, programmeAcronym, startDate);
+            RegisterStudyPlanCommand result = assembler.toCommand(programmeAcronym, startDate);
 
             // Assert
             assertEquals(1, studyPlanCommandConstructorDouble.constructed().size());
@@ -43,6 +44,10 @@ class StudyPlanAssemblerImplTest {
         // Arrange
         IStudyPlanAssembler assembler = new StudyPlanAssemblerImpl();
         StudyPlan studyPlanDouble = createDoublesDTO();
+        StudyPlanGeneratedID generatedID = mock(StudyPlanGeneratedID.class);
+
+        when(studyPlanDouble.getGeneratedID()).thenReturn(generatedID);
+        when(generatedID.getUUID()).thenReturn(UUID.randomUUID());
 
         try (MockedConstruction<StudyPlanDTO> constructorDouble = mockConstruction(StudyPlanDTO.class)) {
             // Act

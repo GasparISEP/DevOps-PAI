@@ -107,7 +107,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         // Arrange
         createDoubles();
         when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeDouble);
-        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(_programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
 
         // Act
@@ -123,7 +123,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         // Arrange
         createDoubles();
         when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenThrow(new Exception("Exception"));
-        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(_programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
 
 
         // Act
@@ -139,7 +139,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
         // Arrange
         createDoubles();
         when(_programmeServiceDouble.registerProgramme(any(ProgrammeVOsDTO.class))).thenReturn(_programmeDouble);
-        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(_programmeAcronym, LocalDate.parse(_studyPlanStartDate))).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new Exception("Exception"));
 
         // Act
@@ -154,7 +154,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void shouldRegisterStudyPlanSuccessfully() throws Exception {
         // Arrange
         createDoubles();
-        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
+        when(_studyPlanAssemblerDouble.toCommand(_programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
                 .thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
 
@@ -169,7 +169,7 @@ class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanControllerTest {
     void shouldFailToRegisterStudyPlanWhenServiceThrowsException() throws Exception {
         // Arrange
         createDoubles();
-        when(_studyPlanAssemblerDouble.toCommand(_programmeName, _programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
+        when(_studyPlanAssemblerDouble.toCommand(_programmeAcronym, LocalDate.parse(_studyPlanStartDate)))
                 .thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new Exception("Failed to create"));
 
