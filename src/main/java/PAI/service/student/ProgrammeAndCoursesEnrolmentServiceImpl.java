@@ -11,6 +11,8 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 public class ProgrammeAndCoursesEnrolmentServiceImpl {
     private final IProgrammeEditionEnrolmentFactory _enrolmentFactory;
     private final IProgrammeEditionEnrolmentRepository _enrolmentRepository;
@@ -37,6 +39,15 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
 
     private boolean isCourseIdInCourseInStudyPlan(CourseID courseID, CourseInStudyPlan studyPlan){
         return studyPlan.getCourseID().equals(courseID);
+    }
+
+    private boolean isCourseIdInListOfCourseInStudyPlan(List<CourseID> list, CourseInStudyPlan csp) {
+        for (CourseID existingCourseID : list) {
+            if (isCourseIdInCourseInStudyPlan(existingCourseID, csp)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
