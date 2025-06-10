@@ -62,4 +62,12 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         return result;
     }
 
+    private List<CourseInStudyPlanID> getListOfCourseInStudyPlanID (List<CourseInStudyPlan> list){
+        List<CourseInStudyPlanID> result = new ArrayList<>();
+        for (CourseInStudyPlan existingCSP : list){
+            result.add(existingCSP.identity());
+        }
+        return result;
+    }
+
 }
