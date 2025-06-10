@@ -9,6 +9,9 @@ import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.datamodel.studentGrade.StudentGradeIDDataModel;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
 @Component
 public class StudentGradeMapperImpl implements IStudentGradeMapper {
 
@@ -28,8 +31,13 @@ public class StudentGradeMapperImpl implements IStudentGradeMapper {
     public StudentGradeDM toData(StudentGrade studentGrade) throws Exception {
 
         StudentGradeIDDataModel studentGradeIDDataModel = iStudentGradeIDMapper.toDataModel(studentGrade.identity());
+        StudentGradeGeneratedID studentGradeGeneratedID = studentGrade.getStudentGradeGeneratedID();
+        UUID studentGradeUUID = studentGradeGeneratedID.getStudentGradeGeneratedID();
+        Double grade = studentGrade.getGrade().knowGrade();
+        LocalDate localDate = studentGrade.get_date().getLocalDate();
 
-        return new StudentGradeDM( studentGradeIDDataModel, studentGrade.get_grade().knowGrade(),studentGrade.get_date().getLocalDate());
+
+        return new StudentGradeDM( studentGradeIDDataModel, studentGradeUUID, grade, localDate);
     }
 
     public StudentGrade toDomain( StudentGradeDM studentGradeDM ) throws Exception {
@@ -43,6 +51,9 @@ public class StudentGradeMapperImpl implements IStudentGradeMapper {
 
         StudentGradeID studentGradeID = iStudentGradeIDMapper.toDomain(studentGradeDM.getId());
 
-        return iStudentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID);
+        UUID studentGradeUUID = studentGradeDM.getStudentGradeGeneratedID();
+        StudentGradeGeneratedID studentGradeGeneratedID = new StudentGradeGeneratedID(studentGradeUUID);
+
+        return iStudentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
     }
 }

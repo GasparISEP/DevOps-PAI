@@ -30,7 +30,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
     private ISchoolYearRepository _schoolYearRepo;
 
     public GradeAStudentServiceImpl (IStudentGradeFactory factory, IStudentGradeRepository repo, ICourseEditionRepository ceRepo,
-    ICourseEditionEnrolmentRepository ceeRepo, IProgrammeEditionRepository peRepo, ISchoolYearRepository syRepo) {
+                                     ICourseEditionEnrolmentRepository ceeRepo, IProgrammeEditionRepository peRepo, ISchoolYearRepository syRepo) {
 
         if (factory == null)
             throw new IllegalArgumentException("StudentGradeFactory cannot be null.");
@@ -52,8 +52,8 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         _programmeEditionRepo = peRepo;
         _schoolYearRepo = syRepo;
     }
-    
-    
+
+
     public GradeAStudentResponseDTO gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception {
 
         validateGradeAStudentCommand(gradeAStudentCommand);
@@ -68,8 +68,8 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
             throw new BusinessRuleViolationException("Not possible to add grade as student has already been graded in this course edition");
 
         StudentGrade studentGrade = _studentGradeFactory.newGradeStudent(
-            gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
-            gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
+                gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
+                gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
         );
 
         _studentGradeRepo.save(studentGrade);
@@ -140,7 +140,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 if (grade1.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
@@ -160,7 +160,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;

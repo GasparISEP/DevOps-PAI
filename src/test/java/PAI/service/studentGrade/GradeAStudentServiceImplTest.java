@@ -788,9 +788,9 @@ class GradeAStudentServiceImplTest {
         when(grade10.knowGrade()).thenReturn(10.0);
         when(grade20.knowGrade()).thenReturn(20.0);
 
-        when(studentGrade1.get_grade()).thenReturn(grade10);
-        when(studentGrade2.get_grade()).thenReturn(grade20);
-        when(studentGrade3.get_grade()).thenReturn(grade20);
+        when(studentGrade1.getGrade()).thenReturn(grade10);
+        when(studentGrade2.getGrade()).thenReturn(grade20);
+        when(studentGrade3.getGrade()).thenReturn(grade20);
 
         when(studentGrade1.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
         when(studentGrade2.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
@@ -823,9 +823,9 @@ class GradeAStudentServiceImplTest {
         when(grade8.knowGrade()).thenReturn(8.0);
         when(grade20.knowGrade()).thenReturn(20.0);
 
-        when(studentGrade1.get_grade()).thenReturn(grade8);
-        when(studentGrade2.get_grade()).thenReturn(grade20);
-        when(studentGrade3.get_grade()).thenReturn(grade20);
+        when(studentGrade1.getGrade()).thenReturn(grade8);
+        when(studentGrade2.getGrade()).thenReturn(grade20);
+        when(studentGrade3.getGrade()).thenReturn(grade20);
 
         when(studentGrade1.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
         when(studentGrade2.hasThisCourseEditionID(courseEditionID)).thenReturn(true);
@@ -880,10 +880,10 @@ class GradeAStudentServiceImplTest {
         when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
         when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
 
-        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
-        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
-        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
-        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+        when(studentGrade1.getGrade()).thenReturn(new Grade(10));
+        when(studentGrade2.getGrade()).thenReturn(new Grade(12));
+        when(studentGrade3.getGrade()).thenReturn(new Grade(14));
+        when(studentGrade4.getGrade()).thenReturn(new Grade(20));
 
         when(studentGrade1.knowGrade()).thenReturn(10.0);
         when(studentGrade2.knowGrade()).thenReturn(12.0);
@@ -917,10 +917,10 @@ class GradeAStudentServiceImplTest {
         when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(true);
         when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
 
-        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
-        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
-        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
-        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+        when(studentGrade1.getGrade()).thenReturn(new Grade(10));
+        when(studentGrade2.getGrade()).thenReturn(new Grade(12));
+        when(studentGrade3.getGrade()).thenReturn(new Grade(14));
+        when(studentGrade4.getGrade()).thenReturn(new Grade(20));
 
         when(studentGrade1.knowGrade()).thenReturn(10.0);
         when(studentGrade2.knowGrade()).thenReturn(12.0);
@@ -954,10 +954,10 @@ class GradeAStudentServiceImplTest {
         when(studentGrade3.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
         when(studentGrade4.hasThisCourseEditionID(courseEditionIDDouble)).thenReturn(false);
 
-        when(studentGrade1.get_grade()).thenReturn(new Grade(10));
-        when(studentGrade2.get_grade()).thenReturn(new Grade(12));
-        when(studentGrade3.get_grade()).thenReturn(new Grade(14));
-        when(studentGrade4.get_grade()).thenReturn(new Grade(20));
+        when(studentGrade1.getGrade()).thenReturn(new Grade(10));
+        when(studentGrade2.getGrade()).thenReturn(new Grade(12));
+        when(studentGrade3.getGrade()).thenReturn(new Grade(14));
+        when(studentGrade4.getGrade()).thenReturn(new Grade(20));
 
         when(studentGrade1.knowGrade()).thenReturn(10.0);
         when(studentGrade2.knowGrade()).thenReturn(12.0);

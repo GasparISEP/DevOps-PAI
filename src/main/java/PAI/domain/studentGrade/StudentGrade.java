@@ -5,15 +5,16 @@ import PAI.ddd.AggregateRoot;
 
 public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
-    private Grade _grade;
+    private Grade grade;
     private Date _date;
     private StudentID _studentID;
     private CourseEditionID _courseEditionID;
     private final StudentGradeID _studentGrade_id;
+    private final StudentGradeGeneratedID studentGradeGeneratedID;
 
-    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID,StudentGradeID studentGradeID) throws Exception {
+    public StudentGrade(Grade grade, Date date, StudentID studentID, CourseEditionID courseEditionID,StudentGradeID studentGradeID, StudentGradeGeneratedID studentGradeGeneratedID) throws Exception {
         if (grade == null) throw new IllegalArgumentException("Grade cannot be null");
-        _grade = grade;
+        this.grade = grade;
 
         if (date == null) throw new IllegalArgumentException("Date cannot be null");
         _date = date;
@@ -26,10 +27,13 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
 
         if (studentGradeID == null) throw new IllegalArgumentException("StudentGradeID cannot be null");
         this._studentGrade_id = studentGradeID;
+
+        if (studentGradeGeneratedID == null) throw new IllegalArgumentException("Student Grade Generated Id cannot be null");
+        this.studentGradeGeneratedID = studentGradeGeneratedID;
     }
 
-    public Grade get_grade() {
-        return _grade;
+    public Grade getGrade() {
+        return grade;
     }
 
     public boolean hasThisCourseEditionID(CourseEditionID courseEditionID) {
@@ -61,6 +65,8 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
         return _courseEditionID;
     }
 
+    public StudentGradeGeneratedID getStudentGradeGeneratedID() {return studentGradeGeneratedID; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,7 +92,7 @@ public class StudentGrade implements AggregateRoot<StudentGradeID> {
     }
 
     public double knowGrade () {
-        return _grade.knowGrade();
+        return grade.knowGrade();
     }
 }
 
