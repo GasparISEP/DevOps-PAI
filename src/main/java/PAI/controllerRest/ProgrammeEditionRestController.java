@@ -91,7 +91,7 @@ public class ProgrammeEditionRestController {
                 programmeEditionService.getProgrammeEditionIDsByProgrammeID(requestDTO);
 
         List<ProgrammeEditionResponseDTO> dtos = serviceDTOs.stream()
-                .map(programmeEditionControllerAssembler::toResponseDTO)
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
 
         return ResponseEntity.ok(dtos);
@@ -102,7 +102,7 @@ public class ProgrammeEditionRestController {
         try {
             ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toServiceDTOFromRequestDTO(requestDto);
             ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
-            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
+            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTOFromServiceDTO(serviceResult);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -20,17 +20,6 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
     }
 
     @Override
-    public ProgrammeEditionResponseDTO toResponseDTO(ProgrammeEditionResponseServiceDTO responseDTO) {
-        if (responseDTO == null) {
-            throw new IllegalArgumentException("ProgrammeEditionResponseServiceDTO cannot be null");
-        }
-        return new ProgrammeEditionResponseDTO(
-                responseDTO.programme(),
-                responseDTO.schoolYearId()
-        );
-    }
-
-    @Override
     public ProgrammeEditionResponseDTO toResponseDTOFromServiceDTO(ProgrammeEditionResponseServiceDTO responseDTO) {
         if (responseDTO == null) {
             throw new IllegalArgumentException("ProgrammeEditionResponseServiceDTO cannot be null");
