@@ -11,6 +11,7 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgrammeAndCoursesEnrolmentServiceImpl {
@@ -48,6 +49,38 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
             }
         }
         return false;
+    }
+
+    private List<CourseInStudyPlan> filterMatchingCourseInStudyPlans(List<CourseID> courseIDS, ProgrammeEditionID programmeEditionID) {
+        List<CourseInStudyPlan> allCSP = _availableCoursesService.getByIdentity(_availableCoursesService.allCoursesInStudyFromProgrammeEdition(_availableCoursesService.allCourseEditionIdsFromProgrammeEdition(programmeEditionID)));
+        List<CourseInStudyPlan> result = new ArrayList<>();
+        for (CourseInStudyPlan existingCSP : allCSP) {
+            if (isCourseIdInListOfCourseInStudyPlan(courseIDS, existingCSP)) {
+                result.add(existingCSP);
+            }
+        }
+        return result;
+    }
+
+    private List<CourseInStudyPlanID> getListOfCourseInStudyPlanID (List<CourseInStudyPlan> list){
+        List<CourseInStudyPlanID> result = new ArrayList<>();
+        for (CourseInStudyPlan existingCSP : list){
+            result.add(existingCSP.identity());
+        }
+        return result;
+    }
+
+    private List<CourseEditionID> getCourseEditionIDsFromProgrammeAndCISP(ProgrammeEditionID programmeEditionID, List<CourseInStudyPlanID> courseInStudyPlanIDs) throws Exception {
+
+        List<CourseEditionID> courseEditionIDs = new ArrayList<>();
+
+        for (CourseInStudyPlanID cspID : courseInStudyPlanIDs) {
+            List<CourseEditionID> found = _courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, cspID);
+
+            courseEditionIDs.addAll(found);
+        }
+
+        return courseEditionIDs;
     }
 
 }
