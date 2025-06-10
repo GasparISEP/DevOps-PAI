@@ -50,7 +50,7 @@ class ProgrammeEditionControllerAssemblerTest {
         when(editionDTO.programme()).thenReturn(programme);
 
         // Act
-        ProgrammeEditionResponseDTO result = assembler.toResponseDTO(editionDTO);
+        ProgrammeEditionResponseDTO result = assembler.toResponseDTOFromServiceDTO(editionDTO);
 
         // arrange
         assertNotNull(result);
@@ -63,7 +63,7 @@ class ProgrammeEditionControllerAssemblerTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseDTO(editionDTO);
+            assembler.toResponseDTOFromServiceDTO(editionDTO);
         });
     }
 

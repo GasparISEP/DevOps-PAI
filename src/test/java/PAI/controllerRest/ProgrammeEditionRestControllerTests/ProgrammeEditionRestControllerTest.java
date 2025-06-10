@@ -175,8 +175,8 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionResponseDTO responseDto2 = new ProgrammeEditionResponseDTO(new ProgrammeIDDTO(programmeAcronym), serviceDto2.schoolYearId());
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(any())).thenReturn(serviceDtos);
-        when(controllerAssembler.toResponseDTO(serviceDto1)).thenReturn(responseDto1);
-        when(controllerAssembler.toResponseDTO(serviceDto2)).thenReturn(responseDto2);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto1)).thenReturn(responseDto1);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto2)).thenReturn(responseDto2);
 
         // Act
         ResponseEntity<List<ProgrammeEditionResponseDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
@@ -259,7 +259,7 @@ class ProgrammeEditionRestControllerTest {
 
         when(controllerAssembler.toServiceDTOFromRequestDTO(request)).thenReturn(peRequestDTO);
         when(programmeEditionService.createProgrammeEditionAndSave(peRequestDTO)).thenReturn(peServiceResult);
-        when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
 
@@ -287,7 +287,7 @@ class ProgrammeEditionRestControllerTest {
 
         when(controllerAssembler.toServiceDTOFromRequestDTO(request)).thenReturn(peDTO);
         when(programmeEditionService.createProgrammeEditionAndSave(peDTO)).thenThrow(new IllegalArgumentException("Programme is already Registered"));
-        when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
 
