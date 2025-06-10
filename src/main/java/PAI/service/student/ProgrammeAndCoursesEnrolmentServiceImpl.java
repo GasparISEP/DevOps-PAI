@@ -1,11 +1,17 @@
 package PAI.service.student;
 
+import PAI.VOs.Date;
+import PAI.VOs.EnrolmentStatus;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.StudentID;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
+import org.springframework.stereotype.Service;
 
 public class ProgrammeAndCoursesEnrolmentServiceImpl {
     private final IProgrammeEditionEnrolmentFactory _enrolmentFactory;
@@ -25,6 +31,10 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         _courseEditionEnrolmentRepository = courseEditionEnrolmentRepository;
         _availableCoursesService = availableCoursesService;
         _courseEditionRepository = courseEditionRepository;
+    }
+
+    public ProgrammeEditionEnrolment createProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID, Date date, EnrolmentStatus status) {
+        return _enrolmentFactory.createWithEnrolmentDate(studentID, programmeEditionID, date, status);
     }
 
 }
