@@ -27,6 +27,10 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
@@ -112,15 +116,17 @@ public CourseEditionRestController(
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
+    public ResponseEntity<?> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO dto) {
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
 
             ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
 
+            Date studyPlanDate = command.studyPlanImplementationDate();
+
             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
                     new CourseID(command.courseAcronym(), command.courseName()),
-                    new StudyPlanID(programmeID, new Date(String.valueOf(command.studyPlanImplementationDate())))
+                    new StudyPlanID(programmeID, studyPlanDate)
             );
 
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
@@ -135,14 +141,19 @@ public CourseEditionRestController(
                 return ResponseEntity.badRequest().build();
             }
 
+            String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
+
             return ResponseEntity
-                    .created(URI.create("/courseeditions/" + responseDTO.courseEditionID()))
+                    .created(URI.create("/courseeditions/" + safeID))
                     .body(responseDTO);
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
         }
     }
+
 
 
     @PatchMapping("/ruc")
