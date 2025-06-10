@@ -11,6 +11,7 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgrammeAndCoursesEnrolmentServiceImpl {
@@ -48,6 +49,17 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
             }
         }
         return false;
+    }
+
+    private List<CourseInStudyPlan> filterMatchingCourseInStudyPlans(List<CourseID> courseIDS, ProgrammeEditionID programmeEditionID) {
+        List<CourseInStudyPlan> allCSP = _availableCoursesService.getByIdentity(_availableCoursesService.allCoursesInStudyFromProgrammeEdition(_availableCoursesService.allCourseEditionIdsFromProgrammeEdition(programmeEditionID)));
+        List<CourseInStudyPlan> result = new ArrayList<>();
+        for (CourseInStudyPlan existingCSP : allCSP) {
+            if (isCourseIdInListOfCourseInStudyPlan(courseIDS, existingCSP)) {
+                result.add(existingCSP);
+            }
+        }
+        return result;
     }
 
 }
