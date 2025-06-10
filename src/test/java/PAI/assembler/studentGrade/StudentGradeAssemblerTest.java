@@ -57,7 +57,7 @@ class StudentGradeAssemblerTest {
         StudentGradeAssembler assembler = new StudentGradeAssembler();
 
         when(studentGrade.get_studentID()).thenReturn(studentID);
-        when(studentGrade.get_grade()).thenReturn(grade);
+        when(studentGrade.getGrade()).thenReturn(grade);
         when(studentGrade.get_date()).thenReturn(date);
 
         // Act

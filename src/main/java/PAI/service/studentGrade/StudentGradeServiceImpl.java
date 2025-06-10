@@ -81,7 +81,7 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
 
         for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;
@@ -101,7 +101,7 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
         for (StudentGrade studentGrade : studentGradeRepository.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 if (grade1.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
