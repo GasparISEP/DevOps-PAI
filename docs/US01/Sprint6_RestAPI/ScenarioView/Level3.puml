@@ -23,7 +23,7 @@ end legend
 ' ======= CONTROLLER =======
 
 class TeacherCategoryRESTController #E0FFFF{
-      + US01_ConfigureTeacherCategoryController (service : ITeacherCategoryService)
+      + TeacherCategoryRestController (service : ITeacherCategoryService, externalAssembler: ITeacherCategoryExternalAssembler, \n hateoasAssembler: ITeacherCategoryHateoasAssembler)
       + configureTeacherCategory(name: String): EntityModel<TeacherCategoryResponseDTO>
       + getTeacherCategoryById (id: String): TeacherCategoryResponseDTO
       + getAllTeacherCategories (): Iterable<TeacherCategoryResponseDTO>
@@ -32,27 +32,33 @@ class TeacherCategoryRESTController #E0FFFF{
 ' ======= SERVICE =======
 
 interface ITeacherCategoryService #E0FFFF{
-    + configureTeacherCategory(name: String): \n TeacherCategoryResponseDTO
+    + configureTeacherCategory(name: Name): \n TeacherCategoryDTO
+    + getTeacherCategoryById (id: TeacherCategoryID): TeacherCategoryDTO
+    + getAllTeacherCategories (): Iterable<TeacherCategory>
 }
 
 class TeacherCategoryServiceImpl #C1FFC1{
-    + TeacherCategoryServiceImpl (factory: ITeacherCategoryFactory, repository: ITeacherCategoryRepository)
-    + configureTeacherCategory(name: String): TeacherCategoryResponseDTO
+    + TeacherCategoryServiceImpl (factory: ITeacherCategoryFactory, repository: ITeacherCategoryRepository \n internalAssembler: ITeacherCategoryInternalAssembler)
+    + configureTeacherCategory(name: Name): TeacherCategoryDTO
+    + getTeacherCategoryById (id: TeacherCategoryID): TeacherCategoryDTO
+    + getAllTeacherCategories (): Iterable<TeacherCategory>
 }
 
 ' ======= REPOSITORY =======
 
 interface ITeacherCategoryRepository #FAFAD2{
-      + existsByName(name: Name): boolean
+   + existsByName(name: Name): boolean
 }
 
 class TeacherCategoryRepositorySpringDataImpl #E0FFFF {
    + save(teacherCategory: TeacherCategory): TeacherCategory
    + existsByName(name: Name): boolean
+   + findAll (): Iterable<TeacherCategory>
+   + ofIdentity (id: TeacherCategoryID): TeacherCategory
 }
 
 interface ITeacherCategoryRepositorySpringData #FFDAB9{
-      + existsByName(name: Name): boolean
+   + existsByName(name: Name): boolean
 }
 
 ' ======= FACTORY =======
@@ -201,6 +207,8 @@ TeacherCategoryServiceImpl ..|> ITeacherCategoryService
 TeacherCategoryServiceImpl "1"--> "_factory 1             " ITeacherCategoryFactory
 TeacherCategoryServiceImpl "1" --> "_repository 1        " ITeacherCategoryRepository
 TeacherCategoryServiceImpl "1" --> "_assembler 1        " ITeacherCategoryInternalAssembler
+TeacherCategoryServiceImpl "1" ..> "1" TeacherCategoryID
+TeacherCategoryServiceImpl "1" ..> "1" Name
 TeacherCategoryInternalAssemblerImpl ..|> ITeacherCategoryInternalAssembler
 
 ITeacherCategoryInternalAssembler "1"..> "1" TeacherCategory
@@ -211,6 +219,7 @@ ITeacherCategoryFactory "1"..> "1" TeacherCategory
 TeacherCategoryRepositorySpringDataImpl ..|> ITeacherCategoryRepository
 TeacherCategoryRepositorySpringDataImpl "1"-u-> "1 _springData" ITeacherCategoryRepositorySpringData
 TeacherCategoryRepositorySpringDataImpl "1".u.> "1" TeacherCategory
+TeacherCategoryRepositorySpringDataImpl "1".u.> "1" TeacherCategoryID
 TeacherCategoryRepositorySpringDataImpl "1"..> "1" Name
 TeacherCategoryRepositorySpringDataImpl "1"-u-> "_mapper 1        " ITeacherCategoryMapper
 TeacherCategoryRepositorySpringDataImpl "1" -->"   _idMapper   1            " ITeacherCategoryIDMapper
