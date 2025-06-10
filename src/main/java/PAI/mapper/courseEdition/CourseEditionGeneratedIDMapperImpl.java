@@ -19,6 +19,6 @@ import org.springframework.stereotype.Service;
         public CourseEditionGeneratedIDDataModel toDataModel (CourseEditionGeneratedID courseEditionGeneratedID) {
             if (courseEditionGeneratedID == null)
                 throw new IllegalArgumentException("CourseEditionGeneratedID cannot be null");
-            return new CourseEditionGeneratedIDDataModel();
+            return new CourseEditionGeneratedIDDataModel(courseEditionGeneratedID.toString());
         }
 }

@@ -42,9 +42,7 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
         if (courseEditionGeneratedID == null) {
             throw new IllegalArgumentException("CourseEditionGeneratedID must be valid");
         }
-        if (teacherID == null) {
-            throw new IllegalArgumentException("TeacherID must be valid");
-        }
+
         this._courseEditionID = courseEditionID;
         this._courseInStudyPlanID = courseInStudyPlanID;
         this._programmeEditionID = programmeEditionID;

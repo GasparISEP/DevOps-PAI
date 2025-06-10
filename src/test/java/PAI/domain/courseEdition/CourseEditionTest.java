@@ -184,24 +184,6 @@ class CourseEditionTest {
 
     }
 
-    @Test
-    void shouldThrowExceptionIfTeacherIDisNullWithSecondConstructor() {
-        //SUT = CourseEdition
-        //Arrange
-        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
-        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
-        TeacherID teacherIDDouble = null;
-
-        //Act + Assert
-        Exception exception = assertThrows(Exception.class, () -> {
-            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
-        });
-        assertEquals("TeacherID must be valid", exception.getMessage());
-
-    }
-
 
     @Test
     void shouldCreateCourseEditionWithRuc() {
