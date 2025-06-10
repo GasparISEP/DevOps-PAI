@@ -1,15 +1,21 @@
 package PAI.controllerRest.ProgrammeEditionRestControllerTests;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.domain.programme.Programme;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDRequestDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.schoolYear.SchoolYearIDDTO;
 import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.schoolYear.SchoolYearIDResponseDTO;
 import PAI.persistence.springdata.programme.ProgrammeRepositorySpringDataImpl;
 import PAI.persistence.springdata.schoolYear.SchoolYearRepositorySpringDataImpl;
+import PAI.service.programmeEdition.IProgrammeEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -272,24 +277,25 @@ public class ProgrammeEditionRestControllerIntegrationTests {
 
     @Test
     void shouldReturn201WhenParametersAreValid() throws Exception {
-        // arrange
         String uri = "/programmeeditions";
+
         ProgrammeIDRequestDTO programme = new ProgrammeIDRequestDTO(validAcronym);
         SchoolYearIDRequestDTO schoolYear = new SchoolYearIDRequestDTO(validSchoolYearId);
         ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(programme, schoolYear);
+
         String body = new ObjectMapper().writeValueAsString(requestBody);
 
         MvcResult result = mockMvc.perform(post(uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andReturn();
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andReturn();
 
-        // act
         int statusCode = result.getResponse().getStatus();
-
-        // assert
         assertEquals(HttpStatus.CREATED.value(), statusCode);
-        assertTrue(result.getResponse().getContentAsString().contains(validSchoolYearId));
-        assertTrue(result.getResponse().getContentAsString().contains(validAcronym));
+
+        String content = result.getResponse().getContentAsString();
+        assertTrue(content.contains(validAcronym));
+        assertTrue(content.contains(validSchoolYearId));
     }
 
     @Test

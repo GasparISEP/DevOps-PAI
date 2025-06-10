@@ -13,7 +13,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import org.junit.jupiter.api.Test;
 
@@ -374,7 +374,7 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
-        CountStudentsDto dto = mock(CountStudentsDto.class);
+        CountStudentsRequestDto dto = mock(CountStudentsRequestDto.class);
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionEnrolment pee1 = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment pee2 = mock(ProgrammeEditionEnrolment.class);
@@ -382,7 +382,7 @@ class ProgrammeEditionServiceTest {
         ProgrammeEditionID identity = mock(ProgrammeEditionID.class);
         List<ProgrammeEditionEnrolment> enrolments = Arrays.asList(pee1, pee2, pee3
         );
-        when(programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
+        when(programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
         when(edition.identity()).thenReturn(identity);
         when(programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(identity)).thenReturn(enrolments);
 
@@ -404,11 +404,11 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeRepository, schoolYearRepository, programmeEditionEnrolmentRepository, programmeEditionAssembler);
-        CountStudentsDto dto = mock(CountStudentsDto.class);
+        CountStudentsRequestDto dto = mock(CountStudentsRequestDto.class);
         ProgrammeEdition edition = mock(ProgrammeEdition.class);
         ProgrammeEditionID identity = mock(ProgrammeEditionID.class);
 
-        when(programmeEditionAssembler.CountStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
+        when(programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(dto)).thenReturn(edition);
         when(edition.identity()).thenReturn(identity);
         when(programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(identity)).thenReturn(Collections.emptyList());
 

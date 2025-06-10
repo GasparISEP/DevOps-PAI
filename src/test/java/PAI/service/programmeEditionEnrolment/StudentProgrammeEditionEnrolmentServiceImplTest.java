@@ -57,10 +57,12 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             List<ProgrammeID> programmeIDs = List.of(programmeID);
 
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
             ProgrammeEdition programmeEdition = new ProgrammeEdition(
                     new ProgrammeEditionID(programmeID, schoolYearID),
                     programmeID,
-                    schoolYearID
+                    schoolYearID,
+                    programmeEditionGeneratedID
             );
 
             List<ProgrammeEdition> editions = List.of(programmeEdition);
@@ -90,8 +92,10 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
 
-            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID, programmeEditionGeneratedID);
+
             ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
             ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
 
@@ -134,7 +138,8 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
-            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID,programmeEditionGeneratedID);
             ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
 
             when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
@@ -171,7 +176,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
 
             assertEquals("ProgrammeEdition not found.", exception.getMessage());
         } catch (Exception e) {
-            fail("Exceção inesperada: " + e.getMessage());
+            fail("Unexpected Exception: " + e.getMessage());
         }
     }
 }

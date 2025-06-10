@@ -35,16 +35,20 @@ ProgrammeEditionService -> ProgrammeEditionRepository: findAll()
 activate ProgrammeEditionRepository
 ProgrammeEditionRepository --> ProgrammeEditionService --: List<programmeEdition>\n programmeEditions
 
-ProgrammeEditionService --> ProgrammeEditionRestController --: List<programmeEdition>\n programmeEditions
+ref over ProgrammeEditionService: Conversion from Domain to ServiceDTO
 
-ProgrammeEditionRestController --> Router --: List<programmeEdition>\n programmeEditions
+ProgrammeEditionService --> ProgrammeEditionRestController --: List<programmeEditionServiceDTO>\n programmeEditionsServiceDTO
+
+ref over ProgrammeEditionRestController: Conversion from ServiceDTO to ResponseDTO
+
+ProgrammeEditionRestController --> Router --: List<programmeEditionResponseDTO>\n programmeEditionsResponseDTO
 
 note over Router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
 <--Router : Which Programme Edition?
 deactivate Router
 
- -> Router  : This Programme Edition!
+ -> Router : This Programme Edition!
  activate Router
 
 note over Router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
@@ -52,7 +56,9 @@ note over Router: The conversion from JSON to DTO is done\n automatically throug
 Router -> ProgrammeEditionRestController  : GET/programme-editions/\n{id}/{schoolYearID}/students
 activate ProgrammeEditionRestController
 
-ProgrammeEditionRestController -> ProgrammeEditionService ++: countTotalNumberOfStudentsInAProgrammeEdition\n(programmeEditionDTO)
+ProgrammeEditionRestController -> ProgrammeEditionService ++: countTotalNumberOfStudentsInAProgrammeEdition\n(programmeEditionRequestDTO)
+
+ref over ProgrammeEditionService: Conversion from RequestDTO to ServiceDTO
 
 ProgrammeEditionService -> ProgrammeEditionEnrolmentSpringData ++: getAllProgrammeEditionsEnrolmentByProgrammeEditionID\n(programmeEdition)
 
@@ -60,7 +66,7 @@ ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionIDMapper ++: toDataModel(
 
 ProgrammeEditionIDMapper --> ProgrammeEditionEnrolmentSpringData --: programmeEditionIdDataModel
 
-ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData : findAllBy_id_ProgrammeEditionIdDataModel\n(programmeEditionDataModel)
+ProgrammeEditionEnrolmentSpringData -> ProgrammeEditionEnrolmentSpringData : findProgrammeEditionIDByProgrammeIDAndSchoolYearID\n(programmeEditionDataModel)
 
 loop for each ProgrammeEditionEnrolmentDataModel
     ProgrammeEditionEnrolmentSpringData -> ":IProgrammeEditionEnrolmentMapper" ++: toDomain(dataModel)
@@ -74,6 +80,8 @@ loop for each ProgrammeEditionEnrolmentDataModel
 end
 
 ProgrammeEditionEnrolmentSpringData --> ProgrammeEditionService --: List<ProgrammeEditionEnrolment>\n programmeEditionEnrolments
+
+ProgrammeEditionService --> ProgrammeEditionService: Convert from List to Size of List
 
 ProgrammeEditionService --> ProgrammeEditionRestController --: int
 ProgrammeEditionRestController --> Router --: int

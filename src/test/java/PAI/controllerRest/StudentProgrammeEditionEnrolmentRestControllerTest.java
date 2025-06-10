@@ -185,36 +185,31 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
         String expectedJson = "[{\"studentID\":1000001,\"programmeAcronym\":\"LEI\",\"schoolYearDescription\":\"2024-2025\",\"schoolYearID\":\"some-uuid-string\"}]";
 
         // Act && Assert
-        mockMvc.perform(get("/students/programme-edition-enrolments/students")
-            .param("studentId", "1000001"))
+        mockMvc.perform(get("/students/1000001/programme-edition-enrolments"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().string(expectedJson));
     }
 
     @Test
     void shouldReturn400BadRequest_whenGetProgrammeEditionEnrollmentsByStudentID_invalidStudentId() throws Exception {
-        // Arrange
         // Act && Assert
-        mockMvc.perform(get("/students/programme-edition-enrolments/students")
-            .param("studentId", "15000011"))
+        mockMvc.perform(get("/students/15000011/programme-edition-enrolments"))
             .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
     void shouldReturn200OKAndEmptyList_whenGetProgrammeEditionEnrollmentsByStudentID_studentNotEnrolledInAnyProgrammeEdition() throws Exception {
-    // Arrange
-    when(programmeEditionEnrolmentService.getProgrammeEditionEnrolmentsByStudentID(any(StudentID.class)))
-        .thenReturn(List.of());
-    when(programmeEditionEnrolmentAssembler.toDtoList(anyList(), any(StudentID.class)))
-        .thenReturn(List.of());
+        // Arrange
+        when(programmeEditionEnrolmentService.getProgrammeEditionEnrolmentsByStudentID(any(StudentID.class)))
+            .thenReturn(List.of());
+        when(programmeEditionEnrolmentAssembler.toDtoList(anyList(), any(StudentID.class)))
+            .thenReturn(List.of());
 
-    String expectedJson = "[]";
+        String expectedJson = "[]";
 
-
-    // Act && Assert
-    mockMvc.perform(get("/students/programme-edition-enrolments/students")
-        .param("studentId", "1000001"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().string(expectedJson));
+        // Act && Assert
+        mockMvc.perform(get("/students/1000001/programme-edition-enrolments"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().string(expectedJson));
     }
 }

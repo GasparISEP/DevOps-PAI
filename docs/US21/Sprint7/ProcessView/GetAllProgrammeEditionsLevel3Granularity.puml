@@ -31,12 +31,12 @@ repository --> service:List<ProgrammeEdition> programmeEditions
 deactivate repository
 
 ref over service
-    Convert List<ProgrammeEdition> to List<PEServiceDTO>
+    Conversion from Domain to ServiceDTO
 end
 service --> controller : List<PEServiceDTO> PEServiceDTO
 deactivate service
 ref over controller
-    Convert List<PEServiceDTO> to List<CountStudentsDto>
+    Conversion from ServiceDTO to ResponseDTO
 end
 controller --> router: 200 + body\n {List<CountStudentsDto> + hypermedia}
 deactivate controller#E1F5FE

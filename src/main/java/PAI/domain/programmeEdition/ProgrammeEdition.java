@@ -1,5 +1,6 @@
 package PAI.domain.programmeEdition;
 
+import PAI.VOs.ProgrammeEditionGeneratedID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -10,9 +11,11 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
     private final ProgrammeEditionID programmeEditionID;
     private final ProgrammeID programmeID;
     private final SchoolYearID schoolYearID;
+    private final ProgrammeEditionGeneratedID programmeEditionGeneratedID;
 
-    public ProgrammeEdition(ProgrammeEditionID pEID, ProgrammeID pID, SchoolYearID sYID) throws Exception{
-
+    public ProgrammeEdition(ProgrammeEditionID pEID, ProgrammeID pID, SchoolYearID sYID, ProgrammeEditionGeneratedID pEGeneratedID) throws Exception{
+        if (pEGeneratedID == null)
+            throw new Exception("ProgrammeEditionGeneratedID cannot be null");
         if (pEID == null)
             throw new Exception("ProgrammeEditionID cannot be null");
         if (pID == null)
@@ -23,6 +26,7 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
         programmeEditionID = pEID;
         programmeID = pID;
         schoolYearID = sYID;
+        programmeEditionGeneratedID = pEGeneratedID;
     }
 
     @Override
@@ -49,6 +53,10 @@ public class ProgrammeEdition implements AggregateRoot<ProgrammeEditionID> {
 
     public SchoolYearID findSchoolYearIDInProgrammeEdition() {
         return schoolYearID;
+    }
+
+    public ProgrammeEditionGeneratedID getProgrammeEditionGeneratedGID() {
+        return programmeEditionGeneratedID;
     }
 
     @Override

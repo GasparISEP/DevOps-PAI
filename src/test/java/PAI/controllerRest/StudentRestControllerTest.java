@@ -23,15 +23,35 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import org.springframework.http.MediaType;
+
+
+
 
 class StudentRestControllerTest {
+
+    private MockMvc mockMvc;
+
 
     @Mock
     private IStudentService studentService;
@@ -48,8 +68,7 @@ class StudentRestControllerTest {
     @Mock private IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
     @Mock private IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
 
-    @Mock
-    private IProgrammeEnrolmentAssembler programmeEnrolmentMapperDTO;
+
 
     @InjectMocks
     private StudentRestController studentRestController;
@@ -57,6 +76,9 @@ class StudentRestControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders
+                .standaloneSetup(studentRestController)
+                .build();
     }
 
     @Test
@@ -132,80 +154,95 @@ class StudentRestControllerTest {
         assertTrue(response.getBody().getContent().contains(model));
     }
 
-//    @Test
-//    void whenServiceReturnsEnrolment_thenPostReturnsCreatedEntityModel() throws Exception {
-//        // Arrange
-//        ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
-//                1234567, UUID.randomUUID().toString(), "EI", LocalDate.of(2025,5,20)
-//        );
-//        StudentID sid = new StudentID(inDto.getStudentID());
-//        AccessMethodID am = new AccessMethodID(UUID.randomUUID());
-//        ProgrammeID pid = new ProgrammeID(new Acronym(inDto.getProgrammeAcronym()));
-//        Date dt = new Date(inDto.getDate());
-//
-//        when(programmeEnrolmentMapper.toStudentID(any())).thenReturn(sid);
-//        when(programmeEnrolmentMapper.toAccessMethodID(any())).thenReturn(am);
-//        when(programmeEnrolmentMapper.toProgrammeID(any())).thenReturn(pid);
-//        when(programmeEnrolmentMapper.toDateVO(any())).thenReturn(dt);
-//
-//        // <-- aqui está a mudança -->
-//        ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
-//        when(programmeEnrolmentService.enrolStudentInProgramme(
-//                any(StudentID.class),
-//                any(AccessMethodID.class),
-//                any(ProgrammeID.class),
-//                any(Date.class)
-//        )).thenReturn(pe);
-//
-//        ProgrammeEnrolmentResponseDTO outDto =
-//                new ProgrammeEnrolmentResponseDTO(
-//                        inDto.getStudentID(),
-//                        am.toString(),
-//                        inDto.getProgrammeAcronym(),
-//                        inDto.getDate()
-//                );
-//        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(any()))
-//                .thenReturn(outDto);
-//
-//        EntityModel<ProgrammeEnrolmentResponseDTO> em = EntityModel.of(outDto);
-//        when(enrolmentHateoasAssembler.toModel(any())).thenReturn(em);
-//
-//        // Act
-//        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
-//                studentRestController.enrolStudentInProgramme(inDto);
-//
-//        // Assert
-//        assertEquals(HttpStatus.CREATED, resp.getStatusCode());
-//        assertSame(em, resp.getBody());
-//    }
+    @Test
+    void whenServiceReturnsEnrolment_thenPostReturnsCreatedEntityModel() throws Exception {
+        // Arrange
+        ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
+                1234567, UUID.randomUUID().toString(), "EI", LocalDate.of(2025, 6, 8)
+        );
+
+        StudentID sid = new StudentID(inDto.getStudentID());
+        AccessMethodID am = new AccessMethodID(UUID.randomUUID());
+        ProgrammeID pid = new ProgrammeID(new Acronym(inDto.getProgrammeAcronym()));
+        Date dt = new Date(inDto.getDate());
+        when(programmeEnrolmentMapper.toStudentID(inDto)).thenReturn(sid);
+        when(programmeEnrolmentMapper.toAccessMethodID(inDto)).thenReturn(am);
+        when(programmeEnrolmentMapper.toProgrammeID(inDto)).thenReturn(pid);
+        when(programmeEnrolmentMapper.toDateVO(inDto)).thenReturn(dt);
+
+        ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
+        when(programmeEnrolmentService.enrolStudentInProgramme(sid, am, pid, dt))
+                .thenReturn(pe);
+
+        ProgrammeEnrolmentResponseDTO outDto =
+                mock(ProgrammeEnrolmentResponseDTO.class);
+
+        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe)).thenReturn(outDto);
+
+        EntityModel<ProgrammeEnrolmentResponseDTO> model = EntityModel.of(outDto,
+                linkTo(methodOn(StudentRestController.class)
+                        .getEnrolmentByStudentAndProgramme(inDto.getStudentID(), inDto.getProgrammeAcronym()))
+                        .withSelfRel()
+        );
+        when(enrolmentHateoasAssembler.toModel(outDto)).thenReturn(model);
+
+        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
+                studentRestController.enrolStudentInProgramme(inDto);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, resp.getStatusCode());
+        assertSame(model, resp.getBody());
+    }
+
+
+    @Test
+    void whenGetEnrolmentByStudentAndProgramme_ServiceSucceeds_thenReturnsOk() {
+        int studentId = 1234567;
+        String acr  = "CS101";
+        StudentID sid = new StudentID(studentId);
+        ProgrammeID pid = new ProgrammeID(new Acronym(acr));
+
+        ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
+        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
+                .thenReturn(pe);
+
+        ProgrammeEnrolmentResponseDTO dto = mock(ProgrammeEnrolmentResponseDTO.class);
+
+        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe)).thenReturn(dto);
+
+        ResponseEntity<ProgrammeEnrolmentResponseDTO> resp =
+                studentRestController.getEnrolmentByStudentAndProgramme(studentId, acr);
+
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+        assertSame(dto, resp.getBody());
+    }
 
 
 
 
+    @Test
+    void whenPostEnrolmentServiceReturnsNull_thenReturnsBadRequest() throws Exception {
+        ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
+                1234567, UUID.randomUUID().toString(), "EI", LocalDate.now()
+        );
+        when(programmeEnrolmentMapper.toStudentID(inDto)).thenReturn(new StudentID(1234567));
+        when(programmeEnrolmentMapper.toAccessMethodID(inDto))
+                .thenReturn(new AccessMethodID(UUID.randomUUID()));
+        when(programmeEnrolmentMapper.toProgrammeID(inDto))
+                .thenReturn(new ProgrammeID(new Acronym("EI")));
+        when(programmeEnrolmentMapper.toDateVO(inDto))
+                .thenReturn(new Date(LocalDate.now()));
 
-//    @Test
-//    void whenPostEnrolmentServiceReturnsNull_thenReturnsBadRequest() throws Exception {
-//        ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
-//                1234, UUID.randomUUID().toString(), "EI", LocalDate.now()
-//        );
-//        when(programmeEnrolmentMapper.toStudentID(inDto)).thenReturn(new StudentID(1234));
-//        when(programmeEnrolmentMapper.toAccessMethodID(inDto))
-//                .thenReturn(new AccessMethodID(UUID.randomUUID()));
-//        when(programmeEnrolmentMapper.toProgrammeID(inDto))
-//                .thenReturn(new ProgrammeID(new Acronym("EI")));
-//        when(programmeEnrolmentMapper.toDateVO(inDto))
-//                .thenReturn(new Date(LocalDate.now()));
-//
-//        when(programmeEnrolmentService
-//                .enrolStudentInProgramme(any(),any(),any(),any()))
-//                .thenReturn(null);
-//
-//        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
-//                studentRestController.enrolStudentInProgramme(inDto);
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-//        assertNull(resp.getBody());
-//    }
+        when(programmeEnrolmentService
+                .enrolStudentInProgramme(any(),any(),any(),any()))
+                .thenReturn(null);
+
+        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
+                studentRestController.enrolStudentInProgramme(inDto);
+
+        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        assertNull(resp.getBody());
+    }
 
     @Test
     void whenPostEnrolmentThrows_thenReturnsBadRequest() {
@@ -234,44 +271,42 @@ class StudentRestControllerTest {
 
 
 
-//    @Test
-//    void whenGetEnrolmentByStudentAndProgramme_ServiceReturnsEnrolment_thenReturnsOk() {
-//        int studentId = 1234;
-//        String progId = "EI";
-//        StudentID sid = new StudentID(studentId);
-//        ProgrammeID pid = new ProgrammeID(new Acronym(progId));
-//
-//        ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
-//        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
-//                .thenReturn(pe);
-//
-//        ProgrammeEnrolmentResponseDTO outDto = new ProgrammeEnrolmentResponseDTO(
-//                studentId, "accessMethod", progId, LocalDate.now()
-//        );
-//        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe)).thenReturn(outDto);
-//
-//        ResponseEntity<ProgrammeEnrolmentResponseDTO> resp =
-//                studentRestController.getEnrolmentByStudentAndProgramme(studentId, progId);
-//
-//        assertEquals(HttpStatus.OK, resp.getStatusCode());
-//        assertSame(outDto, resp.getBody());
-//    }
-//
-//    @Test
-//    void whenGetEnrolmentByStudentAndProgramme_ServiceReturnsNull_thenReturnsNotFound() {
-//        int studentId = 1234;
-//        String progId = "XX999";
-//        StudentID sid = new StudentID(studentId);
-//        ProgrammeID pid = new ProgrammeID(new Acronym(progId));
-//
-//        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
-//                .thenReturn(null);
-//
-//        ResponseEntity<ProgrammeEnrolmentResponseDTO> resp =
-//                studentRestController.getEnrolmentByStudentAndProgramme(studentId, progId);
-//
-//        assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
-//        assertNull(resp.getBody());
-//    }
+    @Test
+    void whenGetEnrolmentByStudentAndProgramme_ServiceReturnsEnrolment_thenReturnsOk() {
+        int studentId = 1234567;
+        String progId = "EI";
+        StudentID sid = new StudentID(studentId);
+        ProgrammeID pid = new ProgrammeID(new Acronym(progId));
+
+        ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
+        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
+                .thenReturn(pe);
+
+        ProgrammeEnrolmentResponseDTO outDto = mock(ProgrammeEnrolmentResponseDTO.class);
+
+        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe)).thenReturn(outDto);
+
+        ResponseEntity<ProgrammeEnrolmentResponseDTO> resp =
+                studentRestController.getEnrolmentByStudentAndProgramme(studentId, progId);
+
+        assertEquals(HttpStatus.OK, resp.getStatusCode());
+    }
+
+    @Test
+    void whenGetEnrolmentByStudentAndProgramme_ServiceReturnsNull_thenReturnsNotFound() {
+        int studentId = 1234567;
+        String progId = "XX999";
+        StudentID sid = new StudentID(studentId);
+        ProgrammeID pid = new ProgrammeID(new Acronym(progId));
+
+        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
+                .thenReturn(null);
+
+        ResponseEntity<ProgrammeEnrolmentResponseDTO> resp =
+                studentRestController.getEnrolmentByStudentAndProgramme(studentId, progId);
+
+        assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
+        assertNull(resp.getBody());
+    }
 
 }

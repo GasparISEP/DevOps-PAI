@@ -118,12 +118,12 @@ class ProgrammeRestControllerTest {
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
 
-        when(_studyPlanAssemblerDouble.toCommand(programmeName, programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenReturn(_studyPlanDTODouble);
         when(_studyPlanAssemblerDouble.toResponseDTO(_studyPlanDTODouble)).thenReturn(_studyPlanResponseDTODouble);
 
         // Act
-        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeName, programmeAcronym, startDate);
+        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeAcronym, startDate);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -139,12 +139,12 @@ class ProgrammeRestControllerTest {
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
 
-        when(_studyPlanAssemblerDouble.toCommand(programmeName, programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new EntityNotFoundException(
                                         "Programme with name " + programmeName + " and acronym " + programmeAcronym));
 
         // Act
-        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeName, programmeAcronym, startDate);
+        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeAcronym, startDate);
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -159,11 +159,11 @@ class ProgrammeRestControllerTest {
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
 
-        when(_studyPlanAssemblerDouble.toCommand(programmeName, programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new EntityNotFoundException("Degree type does not exist"));
 
         // Act
-        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeName, programmeAcronym, startDate);
+        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeAcronym, startDate);
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -178,11 +178,11 @@ class ProgrammeRestControllerTest {
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
 
-        when(_studyPlanAssemblerDouble.toCommand(programmeName, programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new BusinessRuleViolationException("Study plan already exists"));
 
         // Act
-        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeName, programmeAcronym, startDate);
+        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeAcronym, startDate);
 
         // Assert
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -204,11 +204,11 @@ class ProgrammeRestControllerTest {
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
 
-        when(_studyPlanAssemblerDouble.toCommand(programmeName, programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
+        when(_studyPlanAssemblerDouble.toCommand(programmeAcronym, startDate)).thenReturn(_studyPlanCommandDouble);
         when(_studyPlanServiceDouble.createStudyPlan(_studyPlanCommandDouble)).thenThrow(new IllegalArgumentException("Name cannot be null or empty"));
 
         // Act
-        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeName, programmeAcronym, startDate);
+        ResponseEntity<?> response = programmeRestCtrl.registerStudyPlan(programmeAcronym, startDate);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

@@ -4,7 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeIDResponseDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
@@ -47,7 +47,7 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         return new ProgrammeEditionServiceDTO(programmeIDDTO, schoolYearIDRequestDTO);
     }
     @Override
-    public CountStudentsDto toCountDTO(ProgrammeEdition programmeEdition) {
+    public CountStudentsRequestDto toCountDTO(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
@@ -55,6 +55,6 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String  schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsDto(programmeAcronym, schoolYearID);
+        return new CountStudentsRequestDto(programmeAcronym, schoolYearID);
     }
 }

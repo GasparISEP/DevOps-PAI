@@ -9,6 +9,9 @@ public class ProgrammeEditionDataModel {
     @EmbeddedId
     private ProgrammeEditionIdDataModel programmeEditionIdDataModel;
 
+    @Embedded
+    private ProgrammeEditionGeneratedIDDataModel programmeEditionGeneratedIDDataModel;
+
     protected ProgrammeEditionDataModel() {}
 
     public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel) {
@@ -18,8 +21,24 @@ public class ProgrammeEditionDataModel {
         this.programmeEditionIdDataModel = programmeEditionIdDataModel;
     }
 
+    public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel,
+                                     ProgrammeEditionGeneratedIDDataModel programmeEditionGeneratedIDDataModel) {
+        if (programmeEditionIdDataModel == null) {
+            throw new IllegalArgumentException("programmeEditionID cannot be null");
+        }
+        if (programmeEditionGeneratedIDDataModel == null) {
+            throw new IllegalArgumentException("programmeEditionGeneratedID cannot be null");
+        }
+        this.programmeEditionIdDataModel = programmeEditionIdDataModel;
+        this.programmeEditionGeneratedIDDataModel = programmeEditionGeneratedIDDataModel;
+    }
+
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
         return programmeEditionIdDataModel;
+    }
+
+    public ProgrammeEditionGeneratedIDDataModel getProgrammeEditionGeneratedIDDataModel() {
+        return programmeEditionGeneratedIDDataModel;
     }
 
     @Override

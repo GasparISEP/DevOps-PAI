@@ -35,12 +35,13 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
     @Override
     public UpdateTeacherCategoryResponseDTO toUpdateTeacherCategoryResponseDTO(UpdateTeacherCategoryDTO updateTeacherCategoryDTO){
 
+        String teacherCareerProgressionID = updateTeacherCategoryDTO.teacherCareerProgressionId();
         String date = updateTeacherCategoryDTO.date();
         String teacherID = updateTeacherCategoryDTO.teacherID();
         String teacherCategoryID = updateTeacherCategoryDTO.teacherCategoryID();
         int workingPercentage = updateTeacherCategoryDTO.workingPercentage();
 
-        return new UpdateTeacherCategoryResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
+        return new UpdateTeacherCategoryResponseDTO(teacherCareerProgressionID, date,teacherID,teacherCategoryID,workingPercentage);
     }
 
     @Override

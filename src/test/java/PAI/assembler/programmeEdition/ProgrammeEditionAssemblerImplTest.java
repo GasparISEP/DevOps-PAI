@@ -3,7 +3,7 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
 import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.schoolYear.SchoolYearIDDTO;
@@ -25,14 +25,17 @@ class ProgrammeEditionAssemblerImplTest {
         Acronym programmeAcronym = new Acronym("PPP");
         ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID();
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
+
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
                 programmeID,
-                schoolYearID
+                schoolYearID,
+                programmeEditionGeneratedID
         );
 
         // Act
-        CountStudentsDto dto = assembler.toCountStudentsInProgrammeEditionDTO(programmeEdition);
+        CountStudentsRequestDto dto = assembler.toCountStudentsInProgrammeEditionDTO(programmeEdition);
 
         // Assert
         assertEquals("PPP", dto.programmeAcronym());
@@ -55,10 +58,10 @@ class ProgrammeEditionAssemblerImplTest {
         String programmeAcronym = "PPP";
         String schoolYearID = UUID.randomUUID().toString();
 
-        CountStudentsDto dto = new CountStudentsDto(programmeAcronym, schoolYearID);
+        CountStudentsRequestDto dto = new CountStudentsRequestDto(programmeAcronym, schoolYearID);
 
         // Act
-        ProgrammeEdition programmeEdition = assembler.CountStudentsInProgrammeEditionDTOtoDomain(dto);
+        ProgrammeEdition programmeEdition = assembler.countStudentsInProgrammeEditionDTOtoDomain(dto);
 
         // Assert
         assertEquals("PPP", programmeEdition.findProgrammeIDInProgrammeEdition().getProgrammeAcronym());
@@ -70,7 +73,7 @@ class ProgrammeEditionAssemblerImplTest {
         //arrange
         //act + assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            assembler.CountStudentsInProgrammeEditionDTOtoDomain(null);
+            assembler.countStudentsInProgrammeEditionDTOtoDomain(null);
         });
         assertEquals("ProgrammeEditionDTO cannot be null", exception.getMessage());
     }

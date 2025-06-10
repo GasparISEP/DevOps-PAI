@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -15,6 +16,7 @@ class StudyPlanDTOTest {
     private StudyPlanDTO _studyPlanDTO;
     private int _durationInYearsDouble;
     private int _MaxEtcsDouble;
+    private UUID _uuid;
 
     @BeforeEach
     void setup() {
@@ -23,8 +25,10 @@ class StudyPlanDTOTest {
         _dateDouble = mock(LocalDate.class);
         _durationInYearsDouble = 3;
         _MaxEtcsDouble = 30;
+        _uuid = UUID.randomUUID();
+
         _studyPlanDTO = new StudyPlanDTO(_programmeAcronym,
-                                        _dateDouble, _durationInYearsDouble, _MaxEtcsDouble);
+                                        _dateDouble, _durationInYearsDouble, _MaxEtcsDouble, _uuid);
     }
 
     @Test
@@ -69,5 +73,16 @@ class StudyPlanDTOTest {
 
         // Assert
         assertSame(result, _MaxEtcsDouble);
+    }
+
+    @Test
+    void shouldReturnUUIDWhenGetUUIDIsCalled() {
+        //Arrange
+
+        // Act
+        UUID result = _studyPlanDTO.getUUID();
+
+        // Assert
+        assertEquals(result, _uuid);
     }
 }

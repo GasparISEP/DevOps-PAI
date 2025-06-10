@@ -53,7 +53,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
             return false;
         }
 
-        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(name, acronym, LocalDate.parse(studyPlanStartDate));
+        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(acronym, LocalDate.parse(studyPlanStartDate));
 
         try {
             _studyPlanService.createStudyPlan(studyPlanCommand);
@@ -67,7 +67,7 @@ public class US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController {
 
     public boolean registerStudyPlan(String programmeName, String programmeAcronym, String startDate) {
 
-        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeName, programmeAcronym, LocalDate.parse(startDate));
+        RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeAcronym, LocalDate.parse(startDate));
 
         try {
             _studyPlanService.createStudyPlan(studyPlanCommand);

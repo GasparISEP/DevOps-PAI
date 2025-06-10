@@ -72,13 +72,13 @@ class ProgrammeEditionRestControllerTest {
         when(programmeEditionService.findAllProgrammeEditions()).thenReturn(programmeEditionsList);
 
         // Act
-        ResponseEntity<List<CountStudentsDto>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<List<CountStudentsRequestDto>> response = programmeEditionRestController.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
 
-        List<CountStudentsDto> resultList = new ArrayList<>();
+        List<CountStudentsRequestDto> resultList = new ArrayList<>();
         response.getBody().forEach(resultList::add);
 
         assertEquals(2, resultList.size());
@@ -98,8 +98,8 @@ class ProgrammeEditionRestControllerTest {
         String programmeAcronym = "ENG";
         String  schoolYearID = UUID.randomUUID().toString();
 
-        CountStudentsDto expectedDto =
-                new CountStudentsDto(programmeAcronym, schoolYearID);
+        CountStudentsRequestDto expectedDto =
+                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
 
         // Mock service behavior
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);

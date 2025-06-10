@@ -201,6 +201,19 @@ participant ":ITeacherCareerProgressionHateoasAssembler" as hateoasAssembler
 Controller -> hateoasAssembler: toModel (tcpSavedResponseDTO)
 activate hateoasAssembler #E1F5FE
 
+participant ":ITeacherCareerProgressionRestController" as tcpRestController
+hateoasAssembler -> tcpRestController: getTeacherCareerProgressionByID (id: UpdateTeacherCategoryResponseDTO)
+activate tcpRestController #E1F5FE
+
+tcpRestController --> hateoasAssembler: href:"/teacher-career-progressions/{id}"
+deactivate tcpRestController
+
+hateoasAssembler -> tcpRestController: getAllTeacherCareerProgressions ()
+activate tcpRestController #E1F5FE
+
+tcpRestController --> hateoasAssembler: href:"/teacher-career-progressions"
+deactivate tcpRestController
+
 hateoasAssembler --> Controller: EntityModel<UpdateTeacherCategoryResponseDTO>
 deactivate hateoasAssembler
 

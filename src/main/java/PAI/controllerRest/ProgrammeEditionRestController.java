@@ -6,6 +6,10 @@ import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
+import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
@@ -46,8 +50,8 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CountStudentsDto>> getAllProgrammeEditions() throws Exception {
-        List<CountStudentsDto> programmeEditionDtos = programmeEditionService
+    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() throws Exception {
+        List<CountStudentsRequestDto> programmeEditionDtos = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
                 .map(programmeEditionControllerAssembler::toCountDTO)
@@ -60,8 +64,8 @@ public class ProgrammeEditionRestController {
             @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
-        CountStudentsDto dto =
-                new CountStudentsDto(programmeAcronym, schoolYearID);
+        CountStudentsRequestDto dto =
+                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 

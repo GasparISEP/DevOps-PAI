@@ -1,9 +1,6 @@
 package PAI.service.teacherCareerProgression;
 
-import PAI.VOs.Date;
-import PAI.VOs.TeacherCategoryID;
-import PAI.VOs.TeacherID;
-import PAI.VOs.WorkingPercentage;
+import PAI.VOs.*;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryDTO;
@@ -21,5 +18,7 @@ public interface ICreateTeacherCareerProgressionService {
     Optional<TeacherCareerProgression> updateTeacherWorkingPercentageInTeacherCareerProgression(UpdateTeacherWorkingPercentageCommand command) throws Exception;
 
     List<UpdateTeacherCategoryDTO> getAllTeacherCareerProgression () throws Exception;
+
+    UpdateTeacherCategoryDTO getTeacherCareerProgressionByID (TeacherCareerProgressionID id);
 }
 
