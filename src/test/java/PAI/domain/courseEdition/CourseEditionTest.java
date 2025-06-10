@@ -1,9 +1,6 @@
 package PAI.domain.courseEdition;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.domain.teacherCategory.TeacherCategory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class CourseEditionTest {
 
@@ -21,12 +18,13 @@ class CourseEditionTest {
     void shouldCreateCourseEdition() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
         //Act
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Assert
         assertNotNull(courseEdition);
@@ -34,14 +32,18 @@ class CourseEditionTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCourseEditionIDIsNull(){
+    void shouldThrowExceptionIfCourseEditionIDIsNull() {
         //SUT = CourseEdition -> ProgrammeEditionID as Double and CourseInStudyPlanID forced to be null
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(null, courseInStudyPlanIDDouble, programmeEditionIDDouble);});
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(null, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        });
+        assertEquals("CourseEditionID must be valid", exception.getMessage());
 
     }
 
@@ -49,12 +51,15 @@ class CourseEditionTest {
     void shouldThrowExceptionIfCourseInStudyPlanIDIsNull() {
         //SUT = CourseEdition -> ProgrammeEditionID + CourseEditionID as Doubles and CourseInStudyPlanID forced to be null
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(courseEditionIDDouble, null, programmeEditionIDDouble);});
-
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, null, programmeEditionIDDouble, courseEditionGeneratedID);
+        });
+        assertEquals("CourseInStudyPlanID must be valid", exception.getMessage());
     }
 
 
@@ -62,25 +67,154 @@ class CourseEditionTest {
     void shouldThrowExceptionIfProgrammeEditionIDIsNull() {
         //SUT = CourseEdition -> ProgrammeEditionID forced to be null and CourseInStudyPlanID + CourseEditionID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, null);});
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, null, courseEditionGeneratedID);
+        });
+        assertEquals("ProgrammeEdition must be valid", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseEditionGeneratedIDisNull() {
+        //SUT = CourseEdition
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = null;
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        });
+        assertEquals("CourseEditionGeneratedID must be valid", exception.getMessage());
 
     }
+
+    //Repeated tests with second constructor which includes a teacher(ruc)ID
+
+    @Test
+    void shouldCreateCourseEditionWithSecondConstructor() {
+        //SUT = CourseEdition
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+        //Act
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
+
+        //Assert
+        assertNotNull(courseEdition);
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseEditionIDIsNullWithSecondConstructor() {
+        //SUT = CourseEdition -> ProgrammeEditionID as Double and CourseInStudyPlanID forced to be null
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(null, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
+        });
+        assertEquals("CourseEditionID must be valid", exception.getMessage());
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseInStudyPlanIDIsNullWithSecondConstructor() {
+        //SUT = CourseEdition -> ProgrammeEditionID + CourseEditionID as Doubles and CourseInStudyPlanID forced to be null
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, null, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
+        });
+        assertEquals("CourseInStudyPlanID must be valid", exception.getMessage());
+    }
+
+
+    @Test
+    void shouldThrowExceptionIfProgrammeEditionIDIsNullWithSecondConstructor() {
+        //SUT = CourseEdition -> ProgrammeEditionID forced to be null and CourseInStudyPlanID + CourseEditionID as Doubles
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, null, courseEditionGeneratedID, teacherIDDouble);
+        });
+        assertEquals("ProgrammeEdition must be valid", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseEditionGeneratedIDisNullWithSecondConstructor() {
+        //SUT = CourseEdition
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = null;
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherIDDouble = mock(TeacherID.class);
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
+        });
+        assertEquals("CourseEditionGeneratedID must be valid", exception.getMessage());
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfTeacherIDisNullWithSecondConstructor() {
+        //SUT = CourseEdition
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherIDDouble = null;
+
+        //Act + Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherIDDouble);
+        });
+        assertEquals("TeacherID must be valid", exception.getMessage());
+
+    }
+
 
     @Test
     void shouldCreateCourseEditionWithRuc() {
         // SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         // Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        TeacherID teacherID = mock (TeacherID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherID = mock(TeacherID.class);
 
         // Act
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, teacherID);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID, teacherID);
 
         // Assert
         assertNotNull(courseEdition);
@@ -91,9 +225,12 @@ class CourseEditionTest {
     void shouldThrowExceptionIfProgrammeEditionIDAndCourseInStudyPlanIDAreNull() {
         //SUT = CourseEdition -> CourseEditionID as Double, ProgrammeEditionID and CourseInStudyPlanID forced to be null
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         //Act + Assert
-        assertThrows(Exception.class, () -> {new CourseEdition(courseEditionIDDouble,null, null);});
+        assertThrows(Exception.class, () -> {
+            new CourseEdition(courseEditionIDDouble, null, null, courseEditionGeneratedID);
+        });
 
     }
 
@@ -102,10 +239,11 @@ class CourseEditionTest {
     void shouldReturnIdentityNotNull() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         CourseEditionID courseEditionID = courseEdition.identity();
@@ -118,10 +256,11 @@ class CourseEditionTest {
     void shouldReturnCourseEditionID() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         CourseEditionID courseEditionID = courseEdition.identity();
@@ -134,10 +273,11 @@ class CourseEditionTest {
     void shouldReturnNullWhenGetRucMethodIsCalled() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         TeacherID teacherID = courseEdition.getRuc();
@@ -150,11 +290,12 @@ class CourseEditionTest {
     void shouldReturnATeacherIDWhenGetRucMethodIsCalledFromACourseEditionThatHasAValidRuc() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
-        TeacherID teacherID = mock (TeacherID.class);
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
         courseEdition.setRuc(teacherID);
 
         //Act
@@ -169,11 +310,12 @@ class CourseEditionTest {
     void shouldReturnTrueIfCourseEditionSameAsObject() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
         Object courseEdition2 = courseEdition;
 
         //Act
@@ -187,12 +329,13 @@ class CourseEditionTest {
     void shouldReturnFalseIfObjectIsNotSameAsCourseEdition() {
         //SUT = CourseEdition -> ProgrammeEditionID, CourseinStudyPlanID and TeacherCategory as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
 
         //Act
         boolean result = courseEdition.sameAs(teacherCategoryDouble);
@@ -205,12 +348,13 @@ class CourseEditionTest {
     void shouldReturnTrueIfCourseInStudyPlanIDAndProgrammeEditionIDOfBothObjectsAreTheSame() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -222,14 +366,16 @@ class CourseEditionTest {
     void shouldReturnFalseIfCourseInStudyPlanIDAreNotSameButProgrammeEditionIDAreTheSame() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionGeneratedID courseEditionGeneratedID2 = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseEditionID courseEditionIDDouble2 = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock (CourseInStudyPlanID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble2 = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble1, programmeEditionIDDouble);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble2, programmeEditionIDDouble);
+        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble1, programmeEditionIDDouble, courseEditionGeneratedID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble2, programmeEditionIDDouble, courseEditionGeneratedID2);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -242,14 +388,16 @@ class CourseEditionTest {
     void shouldReturnFalseIfCourseInStudyPlanIDAreTheSameButProgrammeEditionIDAreNotSame() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionGeneratedID courseEditionGeneratedID2 = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseEditionID courseEditionIDDouble2 = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble1 = mock(ProgrammeEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble2 = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble1 = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble1, programmeEditionIDDouble1);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble1, programmeEditionIDDouble2);
+        CourseEdition courseEdition1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble1, programmeEditionIDDouble1, courseEditionGeneratedID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble1, programmeEditionIDDouble2, courseEditionGeneratedID2);
 
         //Act
         boolean result = courseEdition1.sameAs(courseEdition2);
@@ -262,27 +410,45 @@ class CourseEditionTest {
     void shouldReturnProgrammeEditionIDFromCourseEdition() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble,courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Assert
         assertEquals(programmeEditionIDDouble, courseEdition.getProgrammeEditionID());
     }
 
     @Test
-    void shouldReturnCourseInbStudyPlanIDFromCourseEdition() {
-        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+    void shouldReturnCourseEditionGeneratedIDFromCourseEdition() {
+        //SUT = CourseEdition
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
         //Act
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+
+        //Assert
+        assertEquals(courseEditionGeneratedID, courseEdition.getCourseEditionGeneratedID());
+    }
+
+    @Test
+    void shouldReturnCourseInbStudyPlanIDFromCourseEdition() {
+        //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
+        //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
+        ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
+
+        //Act
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Assert
         assertEquals(courseInStudyPlanIDDouble, courseEdition.getCourseInStudyPlanID());
@@ -292,11 +458,12 @@ class CourseEditionTest {
     void shouldReturnFalseForEqualsWithNullObjectToCompare() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         boolean result = courseEdition.equals(null);
@@ -308,11 +475,12 @@ class CourseEditionTest {
     void shouldReturnTrueEqualsWhenComparedWithSameInstanceOfObject() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         boolean result = courseEdition.equals(courseEdition);
@@ -324,12 +492,13 @@ class CourseEditionTest {
     void shouldReturnTrueForEqualsOfCourseEditionsWithSameParameters() {
         //SUT = CourseEdition -> ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         boolean result = courseEdition.equals(courseEdition2);
 
@@ -341,12 +510,13 @@ class CourseEditionTest {
     void shouldReturnFalseIfClassesAreDifferent() {
         //SUT = CourseEdition -> ProgrammeEditionID, CourseinStudyPlanID and TeacherCategory as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-        CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
 
-        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        TeacherCategory teacherCategoryDouble = mock (TeacherCategory.class);
+        CourseEdition courseEdition = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        TeacherCategory teacherCategoryDouble = mock(TeacherCategory.class);
 
         //Act
         boolean result = courseEdition.equals(teacherCategoryDouble);
@@ -359,12 +529,13 @@ class CourseEditionTest {
     void shouldReturnTrueIfCourseEditionIDAreTheSame() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition courseEditionDouble1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition courseEditionDouble2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEditionDouble1 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
+        CourseEdition courseEditionDouble2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         boolean result = courseEditionDouble1.equals(courseEditionDouble2);
@@ -377,13 +548,15 @@ class CourseEditionTest {
     void shouldReturnFalseIfCourseEditionIDsAreNotTheSame() {
         //SUT = CourseEdition -> CourseEditionID, ProgrammeEditionID and CourseInStudyPlanID as Doubles
         //Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        CourseEditionGeneratedID courseEditionGeneratedID1 = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble1 = mock(CourseEditionID.class);
         CourseEditionID courseEditionIDDouble2 = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
 
-        CourseEdition courseEditionDouble1 = new CourseEdition(courseEditionIDDouble1, courseInStudyPlanIDDouble, programmeEditionIDDouble);
-        CourseEdition courseEditionDouble2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble, programmeEditionIDDouble);
+        CourseEdition courseEditionDouble1 = new CourseEdition(courseEditionIDDouble1, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID1);
+        CourseEdition courseEditionDouble2 = new CourseEdition(courseEditionIDDouble2, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID);
 
         //Act
         boolean result = courseEditionDouble1.equals(courseEditionDouble2);
@@ -397,10 +570,11 @@ class CourseEditionTest {
     void shouldReturnTrueIfRucIsSet() throws Exception {
 
         // Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanID, programmeEditionID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanID, programmeEditionID, courseEditionGeneratedID);
         TeacherID teacherID = mock(TeacherID.class);
 
         // Act
@@ -415,10 +589,11 @@ class CourseEditionTest {
     void shouldReturnFalseIfTeacherIsNull() throws Exception {
 
         // Arrange
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanID, programmeEditionID);
+        CourseEdition courseEdition2 = new CourseEdition(courseEditionIDDouble, courseInStudyPlanID, programmeEditionID, courseEditionGeneratedID);
 
         // Act
         boolean result = courseEdition2.setRuc(null);

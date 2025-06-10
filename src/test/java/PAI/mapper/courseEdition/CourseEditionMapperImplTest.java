@@ -1,19 +1,17 @@
 package PAI.mapper.courseEdition;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
-import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
-import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
+import PAI.mapper.teacher.ITeacherIDMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,9 +31,10 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
 
         // Act
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);
 
         // Assert
         assertNotNull(iCourseEditionMapper);
@@ -50,9 +49,11 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
 
         // Assert
         assertEquals("courseEditionIDMapper cannot be null", exception.getMessage());
@@ -67,9 +68,11 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
 
         // Assert
         assertEquals("programmeEditionIdMapper cannot be null", exception.getMessage());
@@ -84,9 +87,11 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = null;
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
 
         // Assert
         assertEquals("courseInStudyPlanIDMapper cannot be null", exception.getMessage());
@@ -101,12 +106,32 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = null;
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
 
         // Assert
         assertEquals("teacherIDMapper cannot be null", exception.getMessage());
+    }
+
+    // Tests if exception is thrown when ICourseEditionGeneratedIDMapper is null
+    @Test
+    void shouldThrowExceptionIfICourseEditionGeneratedIDMapperIsNull () {
+        // Arrange
+        ICourseEditionIDMapper iCourseEditionIDMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
+        ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
+
+        // Assert
+        assertEquals("courseEditionGeneratedIDMapper cannot be null", exception.getMessage());
     }
 
     @Test
@@ -117,9 +142,11 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = null;
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);});
 
         // Assert
         assertEquals("courseEditionFactory cannot be null", exception.getMessage());
@@ -136,8 +163,10 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionGeneratedIDMapper iCourseEditionGeneratedIDMapper= mock(ICourseEditionGeneratedIDMapper.class);
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, iCourseEditionGeneratedIDMapper, teacherIDMapper);
 
+        CourseEditionGeneratedID courseEditionGeneratedID=mock(CourseEditionGeneratedID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -159,9 +188,10 @@ class CourseEditionMapperImplTest {
         when(iProgrammeEditionIdMapper.toDomain(courseEditionDataModel.getProgrammeEditionIDDataModel())).thenReturn(programmeEditionID);
         when(iCourseInStudyPlanIDMapper.toDomain(courseEditionDataModel.getCourseInStudyPlanIDDataModel())).thenReturn(courseInStudyPlanID);
         when(teacherIDMapper.toDomain(courseEditionDataModel.getTeacherIDDataModel())).thenReturn(teacherID);
+        when(iCourseEditionGeneratedIDMapper.toDomain(courseEditionDataModel.getCourseEditionGeneratedIDDataModel())).thenReturn(courseEditionGeneratedID);
 
         CourseEdition expectedResult = mock(CourseEdition.class);
-        when(courseEditionFactory.createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID, teacherID)).thenReturn(expectedResult);
+        when(courseEditionFactory.createCourseEditionFromDataModel(courseEditionID, courseInStudyPlanID, programmeEditionID, courseEditionGeneratedID, teacherID)).thenReturn(expectedResult);
 
         // Act
         CourseEdition courseEdition = iCourseEditionMapper.toDomain(courseEditionDataModel);
@@ -180,7 +210,9 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);
 
         CourseEditionDataModel courseEditionDataModel = null;
         // Act
@@ -200,7 +232,9 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);
+
 
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         ProgrammeEditionIdDataModel programmeEditionIdDataModel = mock(ProgrammeEditionIdDataModel.class);
@@ -208,6 +242,7 @@ class CourseEditionMapperImplTest {
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
 
         CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
         TeacherID teacherID = mock(TeacherID.class);
 
         when(courseEdition.getRuc()).thenReturn(teacherID);
@@ -219,6 +254,7 @@ class CourseEditionMapperImplTest {
         when(iProgrammeEditionIdMapper.toDataModel(courseEdition.getProgrammeEditionID())).thenReturn(programmeEditionIdDataModel);
         when(iCourseInStudyPlanIDMapper.toDataModel(courseEdition.getCourseInStudyPlanID())).thenReturn(courseInStudyPlanIDDataModel);
         when(teacherIDMapper.toDataModel(courseEdition.getRuc())).thenReturn(teacherIDDataModel);
+        when(courseEditionGeneratedIDMapper.toDataModel(courseEdition.getCourseEditionGeneratedID())).thenReturn(courseEditionGeneratedIDDataModel);
 
         // Act
         CourseEditionDataModel result = iCourseEditionMapper.toDataModel(courseEdition);
@@ -240,8 +276,10 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
-        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory, teacherIDMapper);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(iCourseEditionIDMapper, iProgrammeEditionIdMapper, iCourseInStudyPlanIDMapper, courseEditionFactory,courseEditionGeneratedIDMapper, teacherIDMapper);
 
+CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel= mock(CourseEditionGeneratedIDDataModel.class);
         CourseEdition courseEdition = null;
 
         // Act
@@ -259,21 +297,25 @@ class CourseEditionMapperImplTest {
         ICourseInStudyPlanIDMapper iCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionFactory courseEditionFactory = mock(ICourseEditionFactory.class);
         ITeacherIDMapper teacherIDMapper = mock(ITeacherIDMapper.class);
+        ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper=mock(ICourseEditionGeneratedIDMapper.class);
 
         ICourseEditionMapper iCourseEditionMapper = new CourseEditionMapperImpl(
                 iCourseEditionIDMapper,
                 iProgrammeEditionIdMapper,
                 iCourseInStudyPlanIDMapper,
                 courseEditionFactory,
+                courseEditionGeneratedIDMapper,
                 teacherIDMapper
         );
-
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
 
         CourseEdition courseEdition = mock(CourseEdition.class);
 
         when(courseEdition.getRuc()).thenReturn(null);
         when(iCourseEditionIDMapper.toDataModel(courseEdition.identity())).thenReturn(courseEditionIDDataModel);
+        when(courseEditionGeneratedIDMapper.toDataModel(courseEdition.getCourseEditionGeneratedID())).thenReturn(courseEditionGeneratedIDDataModel);
+
         // Act
         CourseEditionDataModel result = iCourseEditionMapper.toDataModel(courseEdition);
         // Assert
