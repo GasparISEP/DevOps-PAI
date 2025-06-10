@@ -70,4 +70,17 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         return result;
     }
 
+    private List<CourseEditionID> getCourseEditionIDsFromProgrammeAndCISP(ProgrammeEditionID programmeEditionID, List<CourseInStudyPlanID> courseInStudyPlanIDs) throws Exception {
+
+        List<CourseEditionID> courseEditionIDs = new ArrayList<>();
+
+        for (CourseInStudyPlanID cspID : courseInStudyPlanIDs) {
+            List<CourseEditionID> found = _courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, cspID);
+
+            courseEditionIDs.addAll(found);
+        }
+
+        return courseEditionIDs;
+    }
+
 }
