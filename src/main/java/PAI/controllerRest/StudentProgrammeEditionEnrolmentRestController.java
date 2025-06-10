@@ -69,8 +69,8 @@ public class StudentProgrammeEditionEnrolmentRestController {
         }
     }
 
-    @GetMapping("/programme-edition-enrolments/students") 
-    public ResponseEntity<List<ProgrammeEditionEnrolmentDetailDto>> getProgrammeEditionEnrollmentsByStudentID(@RequestParam("studentId") int studentId) {
+    @GetMapping("{id}/programme-edition-enrolments") 
+    public ResponseEntity<List<ProgrammeEditionEnrolmentDetailDto>> getProgrammeEditionEnrollmentsByStudentID(@PathVariable("id") int studentId) {
         try{
             StudentID studentID = new StudentID(studentId);
             List<ProgrammeEditionID> programmeEditionIDs = programmeEditionEnrolmentService.getProgrammeEditionEnrolmentsByStudentID(studentID);
