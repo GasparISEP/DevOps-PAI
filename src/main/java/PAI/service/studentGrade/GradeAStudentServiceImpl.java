@@ -79,16 +79,16 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
     private GradeAStudentResponseDTO getStudentGradeAttributesToBuildResponseDTO(StudentGrade studentGrade) {
 
-        int studentUniqueNumber = studentGrade.get_studentID().getUniqueNumber();
+        int studentUniqueNumber = studentGrade.getStudentID().getUniqueNumber();
         double grade = studentGrade.knowGrade();
-        String date = studentGrade.get_date().toString();
-        String courseEditionID = studentGrade.get_courseEditionID().toString();
-        String programmeEditionID = studentGrade.get_courseEditionID().getProgrammeEditionID().toString();
-        String courseInStudyPlanID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().toString();
-        String schoolYearID = studentGrade.get_courseEditionID().getProgrammeEditionID().getSchoolYearID().toString();
-        String programmeID = studentGrade.get_courseEditionID().getProgrammeEditionID().getProgrammeID().toString();
-        String courseID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getCourseID().toString();
-        String studyPlanID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getStudyPlanID().toString();
+        String date = studentGrade.getDate().toString();
+        String courseEditionID = studentGrade.getCourseEditionID().toString();
+        String programmeEditionID = studentGrade.getCourseEditionID().getProgrammeEditionID().toString();
+        String courseInStudyPlanID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().toString();
+        String schoolYearID = studentGrade.getCourseEditionID().getProgrammeEditionID().getSchoolYearID().toString();
+        String programmeID = studentGrade.getCourseEditionID().getProgrammeEditionID().getProgrammeID().toString();
+        String courseID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().getCourseID().toString();
+        String studyPlanID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().getStudyPlanID().toString();
 
         return new GradeAStudentResponseDTO(studentUniqueNumber, grade, date, courseEditionID, programmeEditionID,
                 courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);

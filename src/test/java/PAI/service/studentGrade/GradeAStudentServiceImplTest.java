@@ -159,11 +159,11 @@ class GradeAStudentServiceImplTest {
         when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
         when(studentGradeRepo.save(studentGradeDouble)).thenReturn(studentGradeDouble);
 
-        when(studentGradeDouble.get_studentID()).thenReturn(studentIDDouble);
+        when(studentGradeDouble.getStudentID()).thenReturn(studentIDDouble);
         when(studentIDDouble.getUniqueNumber()).thenReturn(1234567);
         when(studentGradeDouble.knowGrade()).thenReturn(18.0);
-        when(studentGradeDouble.get_date()).thenReturn(dateDouble);
-        when(studentGradeDouble.get_courseEditionID()).thenReturn(courseEditionIDDouble);
+        when(studentGradeDouble.getDate()).thenReturn(dateDouble);
+        when(studentGradeDouble.getCourseEditionID()).thenReturn(courseEditionIDDouble);
         when(courseEditionIDDouble.toString()).thenReturn("courseEdition123");
         when(courseEditionIDDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
         when(programmeEditionIDDouble.toString()).thenReturn("programmeEdition123");
@@ -266,11 +266,11 @@ class GradeAStudentServiceImplTest {
         when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
         when(studentGradeRepo.save(studentGradeDouble)).thenReturn(studentGradeDouble);
 
-        when(studentGradeDouble.get_studentID()).thenReturn(studentIDDouble);
+        when(studentGradeDouble.getStudentID()).thenReturn(studentIDDouble);
         when(studentIDDouble.getUniqueNumber()).thenReturn(1234567);
         when(studentGradeDouble.knowGrade()).thenReturn(18.0);
-        when(studentGradeDouble.get_date()).thenReturn(dateDouble);
-        when(studentGradeDouble.get_courseEditionID()).thenReturn(courseEditionIDDouble);
+        when(studentGradeDouble.getDate()).thenReturn(dateDouble);
+        when(studentGradeDouble.getCourseEditionID()).thenReturn(courseEditionIDDouble);
         when(courseEditionIDDouble.toString()).thenReturn("courseEdition123");
         when(courseEditionIDDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
         when(programmeEditionIDDouble.toString()).thenReturn("programmeEdition123");
@@ -373,11 +373,11 @@ class GradeAStudentServiceImplTest {
         when(studentGradeRepo.findAll()).thenReturn(new ArrayList<>());
         when(studentGradeRepo.save(studentGradeDouble)).thenReturn(studentGradeDouble);
 
-        when(studentGradeDouble.get_studentID()).thenReturn(studentIDDouble);
+        when(studentGradeDouble.getStudentID()).thenReturn(studentIDDouble);
         when(studentIDDouble.getUniqueNumber()).thenReturn(1234567);
         when(studentGradeDouble.knowGrade()).thenReturn(18.0);
-        when(studentGradeDouble.get_date()).thenReturn(dateDouble);
-        when(studentGradeDouble.get_courseEditionID()).thenReturn(courseEditionIDDouble);
+        when(studentGradeDouble.getDate()).thenReturn(dateDouble);
+        when(studentGradeDouble.getCourseEditionID()).thenReturn(courseEditionIDDouble);
         when(courseEditionIDDouble.toString()).thenReturn("courseEdition123");
         when(courseEditionIDDouble.getProgrammeEditionID()).thenReturn(programmeEditionIDDouble);
         when(programmeEditionIDDouble.toString()).thenReturn("programmeEdition123");

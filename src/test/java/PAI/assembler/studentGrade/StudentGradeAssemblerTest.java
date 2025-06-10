@@ -56,9 +56,9 @@ class StudentGradeAssemblerTest {
 
         StudentGradeAssembler assembler = new StudentGradeAssembler();
 
-        when(studentGrade.get_studentID()).thenReturn(studentID);
+        when(studentGrade.getStudentID()).thenReturn(studentID);
         when(studentGrade.getGrade()).thenReturn(grade);
-        when(studentGrade.get_date()).thenReturn(date);
+        when(studentGrade.getDate()).thenReturn(date);
 
         // Act
         GradeAStudentResponseDTO result = assembler.toDTO(studentGrade, programmeID, schoolYearID, courseID, studyPlanID, courseInStudyPlanID, programmeEditionID, courseEditionID);

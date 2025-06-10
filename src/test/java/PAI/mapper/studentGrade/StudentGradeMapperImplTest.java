@@ -60,10 +60,10 @@ public class StudentGradeMapperImplTest {
         when(studentGrade.identity()).thenReturn(studentGradeID);
         when(studentGrade.getStudentGradeGeneratedID()).thenReturn(studentGradeGeneratedID);
         when(studentGradeGeneratedID.getStudentGradeGeneratedID()).thenReturn(studentGradeIdUUID);
-        when(studentGrade.get_studentID()).thenReturn(studentID);
-        when(studentGrade.get_courseEditionID()).thenReturn(mock(CourseEditionID.class));
+        when(studentGrade.getStudentID()).thenReturn(studentID);
+        when(studentGrade.getCourseEditionID()).thenReturn(mock(CourseEditionID.class));
         when(studentGrade.getGrade()).thenReturn(grade);
-        when(studentGrade.get_date()).thenReturn(date);
+        when(studentGrade.getDate()).thenReturn(date);
 
 
 

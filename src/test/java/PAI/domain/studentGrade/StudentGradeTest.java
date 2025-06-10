@@ -150,7 +150,7 @@ class StudentGradeTest {
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1,studentGradeID, studentGradeGeneratedID);
 
         // Assert
-        assertEquals(courseEditionID1, studentGrade.KnowCourseEditionID());
+        assertEquals(courseEditionID1, studentGrade.getCourseEditionID());
     }
 
     @Test
@@ -322,7 +322,7 @@ class StudentGradeTest {
 
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student, courseEditionID1, studentGradeID,studentGradeGeneratedID);
 
-        Date result = studentGrade.get_date();
+        Date result = studentGrade.getDate();
 
         assertNotNull(result);
     }
@@ -338,7 +338,7 @@ class StudentGradeTest {
 
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1,studentGradeID,studentGradeGeneratedID);
 
-        assertEquals(student1, studentGrade.get_studentID());
+        assertEquals(student1, studentGrade.getStudentID());
     }
 
     @Test
@@ -352,7 +352,7 @@ class StudentGradeTest {
 
         StudentGrade studentGrade = new StudentGrade(grade, dateDouble, student1, courseEditionID1,studentGradeID, studentGradeGeneratedID);
 
-        assertEquals(courseEditionID1, studentGrade.get_courseEditionID());
+        assertEquals(courseEditionID1, studentGrade.getCourseEditionID());
     }
 
     @Test
@@ -473,7 +473,7 @@ class StudentGradeTest {
         StudentID studentIDDouble = mock(StudentID.class);
 
 
-        Field idField = StudentGrade.class.getDeclaredField("_studentGrade_id");
+        Field idField = StudentGrade.class.getDeclaredField("studentGradeID");
         idField.setAccessible(true);
         StudentGradeID sharedId = new StudentGradeID(studentIDDouble,courseEditionID1);
 

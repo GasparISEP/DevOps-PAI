@@ -34,7 +34,7 @@ public class StudentGradeMapperImpl implements IStudentGradeMapper {
         StudentGradeGeneratedID studentGradeGeneratedID = studentGrade.getStudentGradeGeneratedID();
         UUID studentGradeUUID = studentGradeGeneratedID.getStudentGradeGeneratedID();
         Double grade = studentGrade.getGrade().knowGrade();
-        LocalDate localDate = studentGrade.get_date().getLocalDate();
+        LocalDate localDate = studentGrade.getDate().getLocalDate();
 
 
         return new StudentGradeDM( studentGradeIDDataModel, studentGradeUUID, grade, localDate);

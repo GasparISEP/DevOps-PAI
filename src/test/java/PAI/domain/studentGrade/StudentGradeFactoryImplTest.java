@@ -36,9 +36,9 @@ class StudentGradeFactoryImplTest {
         // Assert
         assertNotNull(result, "Factory should return a StudentGrade when inputs are valid");
         assertEquals(grade, result.getGrade());
-        assertEquals(date, result.get_date());
-        assertEquals(studentID, result.get_studentID());
-        assertEquals(courseEditionID, result.get_courseEditionID());
+        assertEquals(date, result.getDate());
+        assertEquals(studentID, result.getStudentID());
+        assertEquals(courseEditionID, result.getCourseEditionID());
 
     }
 
@@ -125,9 +125,9 @@ class StudentGradeFactoryImplTest {
         // Assert
         assertNotNull(studentGrade);
         assertEquals(grade, studentGrade.getGrade());
-        assertEquals(date, studentGrade.get_date());
-        assertEquals(student, studentGrade.get_studentID());
-        assertEquals(courseEditionID, studentGrade.get_courseEditionID());
+        assertEquals(date, studentGrade.getDate());
+        assertEquals(student, studentGrade.getStudentID());
+        assertEquals(courseEditionID, studentGrade.getCourseEditionID());
     }
 
     @Test
