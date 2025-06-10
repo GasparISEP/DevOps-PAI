@@ -5,6 +5,7 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,9 +19,10 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
         // Assert
         assertNotNull(studentGrade1);
     }
@@ -42,11 +44,11 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
-
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
         double result = studentGrade1.getGrade();
         // Assert
         assertEquals(studentGrade1.getGrade(), result);
@@ -59,9 +61,10 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
 
         // Assert
         assertEquals(studentGrade1.getId(), studentGradeIDDataModel);
@@ -74,10 +77,10 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
-
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
         LocalDate result = studentGrade1.getDate();
         // Assert
         assertEquals(studentGrade1.getDate(), result);
@@ -92,10 +95,10 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
-
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
         StudentIDDataModel result = studentGrade1.getStudentId();
         // Assert
         assertEquals(studentGrade1.getStudentId(), result);
@@ -108,13 +111,30 @@ class StudentGradeDMTest {
         CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
         StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
         StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
-
+        UUID studentGradeGeneratedID = mock(UUID.class);
 
         // Act
-        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, 10, localDate);
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
         CourseEditionIDDataModel result = studentGrade1.getCourseEditionID();
         // Assert
         assertEquals(studentGrade1.getCourseEditionID(), result);
+    }
+
+    @Test
+    void shouldCreateValidStudentGradeGeneratedID() throws Exception {
+        // Arrange
+        LocalDate localDate = mock(LocalDate.class);
+        CourseEditionIDDataModel courseEditionID = mock(CourseEditionIDDataModel.class);
+        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
+        StudentGradeIDDataModel studentGradeIDDataModel = mock(StudentGradeIDDataModel.class);
+        UUID studentGradeGeneratedID = mock(UUID.class);
+
+
+        // Act
+        StudentGradeDM studentGrade1 = new StudentGradeDM(studentGradeIDDataModel, studentGradeGeneratedID, 10, localDate);
+        UUID result = studentGrade1.getStudentGradeGeneratedID();
+        // Assert
+        assertEquals(studentGrade1.getStudentGradeGeneratedID(), result);
     }
 
 }

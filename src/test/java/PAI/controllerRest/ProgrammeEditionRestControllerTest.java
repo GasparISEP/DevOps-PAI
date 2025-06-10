@@ -311,9 +311,33 @@ class ProgrammeEditionRestControllerTest {
         assertEquals(list1, response.getBody());
     }
 
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfAvailableCoursesNull() {
 
+        // arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
+        IAvailableCoursesService availableCoursesService = null;
 
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler)
+        );
+    }
 
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfCourseAssemblerNull() {
 
+        // arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = null;
+        IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
 
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler)
+        );
+    }
 }

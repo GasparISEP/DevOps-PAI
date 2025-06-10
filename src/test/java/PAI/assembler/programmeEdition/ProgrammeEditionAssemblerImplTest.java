@@ -187,4 +187,17 @@ class ProgrammeEditionAssemblerImplTest {
         // Assert
         assertNotNull(result);
     }
+
+    @Test
+    void toProgrammeEditionID_ShouldThrowException_WhenDtoIsNull() {
+
+        // arrange
+        ProgrammeEditionServiceAssemblerImpl assembler = new ProgrammeEditionServiceAssemblerImpl();
+
+        // act + assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toProgrammeEditionID(null);
+        });
+        assertEquals("ProgrammeEditionIdDto cannot be null", exception.getMessage());
+    }
 }

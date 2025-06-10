@@ -7,9 +7,11 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.schoolYear.ISchoolYearIDMapper;
+import PAI.mapper.schoolYear.SchoolYearIDMapperImpl;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionGeneratedIDDataModel;
@@ -376,6 +378,40 @@ void shouldMapProgrammeEditionDataModelToProgrammeEdition() throws Exception {
         Optional<ProgrammeEdition> result = programmeEditionMapper.toDomain(programmeEditionDataModel);
 
         // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyOptional_WhenProgrammeEditionIDMapperThrowsException() throws Exception {
+        // Arrange
+        IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper = mock(IProgrammeEditionGeneratedIDMapper.class);
+
+        ProgrammeEditionMapperImpl mapper = new ProgrammeEditionMapperImpl(
+                programmeEditionFactory,
+                programmeEditionIDMapper,
+                programmeIDMapper,
+                schoolYearIDMapper,
+                programmeEditionGeneratedIDMapper
+        );
+
+        ProgrammeEditionDataModel dataModel = mock(ProgrammeEditionDataModel.class);
+        ProgrammeEditionIdDataModel idDataModel = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionGeneratedIDDataModel generatedIDDataModel = mock(ProgrammeEditionGeneratedIDDataModel.class);
+
+        when(dataModel.getProgrammeEditionIDDataModel()).thenReturn(idDataModel);
+        when(dataModel.getProgrammeEditionGeneratedIDDataModel()).thenReturn(generatedIDDataModel);
+
+        // Força o lançamento de exceção
+        when(programmeEditionIDMapper.toDomain(idDataModel)).thenThrow(new RuntimeException("Erro forçado"));
+
+        // Act
+        Optional<ProgrammeEdition> result = mapper.toDomain(dataModel);
+
+        // Assert
         assertTrue(result.isEmpty());
     }
 }

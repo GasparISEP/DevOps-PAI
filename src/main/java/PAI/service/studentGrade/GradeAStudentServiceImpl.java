@@ -30,7 +30,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
     private ISchoolYearRepository _schoolYearRepo;
 
     public GradeAStudentServiceImpl (IStudentGradeFactory factory, IStudentGradeRepository repo, ICourseEditionRepository ceRepo,
-    ICourseEditionEnrolmentRepository ceeRepo, IProgrammeEditionRepository peRepo, ISchoolYearRepository syRepo) {
+                                     ICourseEditionEnrolmentRepository ceeRepo, IProgrammeEditionRepository peRepo, ISchoolYearRepository syRepo) {
 
         if (factory == null)
             throw new IllegalArgumentException("StudentGradeFactory cannot be null.");
@@ -52,8 +52,8 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         _programmeEditionRepo = peRepo;
         _schoolYearRepo = syRepo;
     }
-    
-    
+
+
     public GradeAStudentResponseDTO gradeAStudent (GradeAStudentCommand gradeAStudentCommand) throws Exception {
 
         validateGradeAStudentCommand(gradeAStudentCommand);
@@ -67,9 +67,9 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         if (hasStudentAlreadyBeenGradedAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
             throw new BusinessRuleViolationException("Not possible to add grade as student has already been graded in this course edition");
 
-        StudentGrade studentGrade = _studentGradeFactory.newGradeStudent(
-            gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
-            gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
+        StudentGrade studentGrade = _studentGradeFactory.createGradeStudent(
+                gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
+                gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
         );
 
         _studentGradeRepo.save(studentGrade);
@@ -79,16 +79,16 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
     private GradeAStudentResponseDTO getStudentGradeAttributesToBuildResponseDTO(StudentGrade studentGrade) {
 
-        int studentUniqueNumber = studentGrade.get_studentID().getUniqueNumber();
+        int studentUniqueNumber = studentGrade.getStudentID().getUniqueNumber();
         double grade = studentGrade.knowGrade();
-        String date = studentGrade.get_date().toString();
-        String courseEditionID = studentGrade.get_courseEditionID().toString();
-        String programmeEditionID = studentGrade.get_courseEditionID().getProgrammeEditionID().toString();
-        String courseInStudyPlanID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().toString();
-        String schoolYearID = studentGrade.get_courseEditionID().getProgrammeEditionID().getSchoolYearID().toString();
-        String programmeID = studentGrade.get_courseEditionID().getProgrammeEditionID().getProgrammeID().toString();
-        String courseID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getCourseID().toString();
-        String studyPlanID = studentGrade.get_courseEditionID().getCourseInStudyPlanID().getStudyPlanID().toString();
+        String date = studentGrade.getDate().toString();
+        String courseEditionID = studentGrade.getCourseEditionID().toString();
+        String programmeEditionID = studentGrade.getCourseEditionID().getProgrammeEditionID().toString();
+        String courseInStudyPlanID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().toString();
+        String schoolYearID = studentGrade.getCourseEditionID().getProgrammeEditionID().getSchoolYearID().toString();
+        String programmeID = studentGrade.getCourseEditionID().getProgrammeEditionID().getProgrammeID().toString();
+        String courseID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().getCourseID().toString();
+        String studyPlanID = studentGrade.getCourseEditionID().getCourseInStudyPlanID().getStudyPlanID().toString();
 
         return new GradeAStudentResponseDTO(studentUniqueNumber, grade, date, courseEditionID, programmeEditionID,
                 courseInStudyPlanID, programmeID, schoolYearID, courseID, studyPlanID);
@@ -140,7 +140,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
                 totalOfStudents++;
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 if (grade1.knowGrade() >= 10) {
                     totalApprovalStudents++;
                 }
@@ -160,7 +160,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
 
         for (StudentGrade studentGrade : _studentGradeRepo.findAll()) {
             if (studentGrade.hasThisCourseEditionID(courseEditionID)) {
-                Grade grade1 = studentGrade.get_grade();
+                Grade grade1 = studentGrade.getGrade();
                 double grade = grade1.knowGrade();
                 sumGrade += grade;
                 numOfStudent++;

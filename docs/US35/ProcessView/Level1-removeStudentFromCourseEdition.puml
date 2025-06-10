@@ -6,20 +6,25 @@ title As an ASC I want to remove the enrolment of a student \n in a course editi
 actor ASC as Admin
 participant "<<System>>\n:SystemPAI" as System
 
-Admin -> System : I want to remove a student's enrolment from a Course Edition
 
+Admin -> System : I want to remove a student's enrolment from a Course Edition
+activate System
 System --> Admin : Select a Course Edition
+deactivate System
 
 Admin -> System : Course Edition selected
-
+activate System
 System --> Admin : Here is the list of students enrolled
+deactivate System
 
 Admin -> System : Select a Student to remove
-
+activate System
 System --> Admin : Confirm removal?
+deactivate System
 
 Admin -> System : Confirm
-
+activate System
 System --> Admin : Enrolment removed successfully!
+deactivate System
 
 @enduml

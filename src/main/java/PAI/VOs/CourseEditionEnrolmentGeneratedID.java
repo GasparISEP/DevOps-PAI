@@ -1,9 +1,11 @@
 package PAI.VOs;
 
+import PAI.ddd.ValueObject;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class CourseEditionEnrolmentGeneratedID {
+public class CourseEditionEnrolmentGeneratedID implements ValueObject {
 
     private final UUID _courseEditionEnrolmentID;
 
@@ -21,6 +23,20 @@ public class CourseEditionEnrolmentGeneratedID {
 
     public UUID getCourseEditionEnrolmentGeneratedID() {
         return _courseEditionEnrolmentID;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CourseEditionEnrolmentGeneratedID other = (CourseEditionEnrolmentGeneratedID) obj;
+        return Objects.equals(this._courseEditionEnrolmentID, other._courseEditionEnrolmentID);
+    }
+
+    public boolean isEquals (UUID ceeGeneratedID) {
+        if (ceeGeneratedID == null)
+            return false;
+        return this._courseEditionEnrolmentID.equals(ceeGeneratedID);
     }
 
     @Override
