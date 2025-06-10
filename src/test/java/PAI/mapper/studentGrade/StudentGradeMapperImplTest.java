@@ -121,7 +121,7 @@ public class StudentGradeMapperImplTest {
         Grade expectedGrade = new Grade(18.0);
         Date expectedDate = new Date(dateLM);
         StudentGrade expectedStudentGrade = mock(StudentGrade.class);
-        when(studentGradeFactory.newGradeStudentFromDataModel(
+        when(studentGradeFactory.createGradeStudent(
                 eq(expectedGrade),
                 eq(expectedDate),
                 eq(studentID),

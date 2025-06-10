@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentGradeFactoryImpl implements IStudentGradeFactory {
 
-    public StudentGrade newGradeStudent (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
+    public StudentGrade createGradeStudent(Grade grade, Date date, StudentID student, CourseEditionID courseEditionID) throws Exception {
         StudentGradeID studentGradeID = new StudentGradeID(student,courseEditionID);
         if (grade == null){
             throw new IllegalArgumentException("Grade cannot be null.");
@@ -27,7 +27,7 @@ public class StudentGradeFactoryImpl implements IStudentGradeFactory {
     }
 
 
-    public StudentGrade newGradeStudentFromDataModel (Grade grade, Date date, StudentID student, CourseEditionID courseEditionID, StudentGradeID studentGradeID, StudentGradeGeneratedID studentGradeGeneratedID) throws Exception {
+    public StudentGrade createGradeStudent(Grade grade, Date date, StudentID student, CourseEditionID courseEditionID, StudentGradeID studentGradeID, StudentGradeGeneratedID studentGradeGeneratedID) throws Exception {
         return new StudentGrade(grade, date, student, courseEditionID, studentGradeID, studentGradeGeneratedID);
     }
 }

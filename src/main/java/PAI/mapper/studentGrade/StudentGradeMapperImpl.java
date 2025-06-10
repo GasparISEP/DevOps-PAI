@@ -54,6 +54,6 @@ public class StudentGradeMapperImpl implements IStudentGradeMapper {
         UUID studentGradeUUID = studentGradeDM.getStudentGradeGeneratedID();
         StudentGradeGeneratedID studentGradeGeneratedID = new StudentGradeGeneratedID(studentGradeUUID);
 
-        return iStudentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
+        return iStudentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
     }
 }

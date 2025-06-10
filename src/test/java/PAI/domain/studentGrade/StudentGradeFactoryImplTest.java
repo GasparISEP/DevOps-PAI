@@ -31,7 +31,7 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
 
         // Act
-        StudentGrade result = factory.newGradeStudent(grade, date, studentID, courseEditionID);
+        StudentGrade result = factory.createGradeStudent(grade, date, studentID, courseEditionID);
 
         // Assert
         assertNotNull(result, "Factory should return a StudentGrade when inputs are valid");
@@ -52,7 +52,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(null, date, student, courseEditionID)
+                factory.createGradeStudent(null, date, student, courseEditionID)
         );
 
         // Verify
@@ -69,7 +69,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, null, student, courseEditionID)
+                factory.createGradeStudent(grade, null, student, courseEditionID)
         );
 
         // Verify
@@ -86,7 +86,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, date, null, courseEditionID)
+                factory.createGradeStudent(grade, date, null, courseEditionID)
         );
 
         // Verify
@@ -103,7 +103,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, date, student, null)
+                factory.createGradeStudent(grade, date, student, null)
         );
 
         // Verify
@@ -120,7 +120,7 @@ class StudentGradeFactoryImplTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act
-        StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEditionID);
+        StudentGrade studentGrade = factory.createGradeStudent(grade, date, student, courseEditionID);
 
         // Assert
         assertNotNull(studentGrade);
@@ -144,7 +144,7 @@ class StudentGradeFactoryImplTest {
         StudentGradeGeneratedID studentGradeGeneratedID = mock(StudentGradeGeneratedID.class);
 
         //act
-        StudentGrade result = studentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
+        StudentGrade result = studentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
 
         //assert
         assertNotNull(result);

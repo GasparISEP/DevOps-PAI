@@ -67,7 +67,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         if (hasStudentAlreadyBeenGradedAtThisCourseEdition(gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()))
             throw new BusinessRuleViolationException("Not possible to add grade as student has already been graded in this course edition");
 
-        StudentGrade studentGrade = _studentGradeFactory.newGradeStudent(
+        StudentGrade studentGrade = _studentGradeFactory.createGradeStudent(
                 gradeAStudentCommand.grade(), gradeAStudentCommand.date(),
                 gradeAStudentCommand.studentID(), gradeAStudentCommand.courseEditionID()
         );

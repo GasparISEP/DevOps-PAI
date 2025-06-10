@@ -71,7 +71,7 @@ public class StudentGradeServiceImpl implements IStudentGradeService {
         if(!hasStudentAlreadyGradeAtThisCourseEdition(studentID,courseEditionID)){
             throw new Exception("Not possible to addGrade, Student already has a grade in this course edition");
         }
-        StudentGrade studentGrade =  studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID);
+        StudentGrade studentGrade =  studentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID);
         return studentGradeRepository.save(studentGrade);
     }
 

@@ -150,7 +150,7 @@ class GradeAStudentServiceImplTest {
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
 
         when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(commandDouble.studentID(), commandDouble.courseEditionID())).thenReturn(true);
-        when(studentGradeFactory.newGradeStudent(
+        when(studentGradeFactory.createGradeStudent(
                 commandDouble.grade(), commandDouble.date(), commandDouble.studentID(), commandDouble.courseEditionID()
         )).thenReturn(studentGradeDouble);
 
@@ -257,7 +257,7 @@ class GradeAStudentServiceImplTest {
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
 
         when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(commandDouble.studentID(), commandDouble.courseEditionID())).thenReturn(true);
-        when(studentGradeFactory.newGradeStudent(
+        when(studentGradeFactory.createGradeStudent(
                 commandDouble.grade(), commandDouble.date(), commandDouble.studentID(), commandDouble.courseEditionID()
         )).thenReturn(studentGradeDouble);
 
@@ -364,7 +364,7 @@ class GradeAStudentServiceImplTest {
         StudentGrade studentGradeDouble = mock(StudentGrade.class);
 
         when(courseEditionEnrolmentRepo.isStudentEnrolledInCourseEdition(commandDouble.studentID(), commandDouble.courseEditionID())).thenReturn(true);
-        when(studentGradeFactory.newGradeStudent(
+        when(studentGradeFactory.createGradeStudent(
                 commandDouble.grade(), commandDouble.date(), commandDouble.studentID(), commandDouble.courseEditionID()
         )).thenReturn(studentGradeDouble);
 

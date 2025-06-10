@@ -733,7 +733,7 @@ public class StudentGradeServiceImplTest {
                 .thenReturn(List.of(existing));
 
         StudentGrade toSave = mock(StudentGrade.class);
-        when(studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID))
+        when(studentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID))
                 .thenReturn(toSave);
         when(studentGradeRepository.save(toSave))
                 .thenReturn(toSave);
