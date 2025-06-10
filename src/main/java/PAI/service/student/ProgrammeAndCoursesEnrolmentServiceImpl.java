@@ -1,10 +1,8 @@
 package PAI.service.student;
 
-import PAI.VOs.Date;
-import PAI.VOs.EnrolmentStatus;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
@@ -35,6 +33,10 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
 
     public ProgrammeEditionEnrolment createProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID, Date date, EnrolmentStatus status) {
         return _enrolmentFactory.createWithEnrolmentDate(studentID, programmeEditionID, date, status);
+    }
+
+    private boolean isCourseIdInCourseInStudyPlan(CourseID courseID, CourseInStudyPlan studyPlan){
+        return studyPlan.getCourseID().equals(courseID);
     }
 
 }
