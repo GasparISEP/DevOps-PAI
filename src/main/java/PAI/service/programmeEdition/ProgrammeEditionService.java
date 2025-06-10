@@ -10,9 +10,10 @@ import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
-import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
+import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,16 +26,15 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
     private final IProgrammeEditionRepository programmeEditionRepository;
     private final IProgrammeRepository programmeRepository;
-    private final ISchoolYearRepository schoolYearRepository;
     private final IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
+    private final ISchoolYearService schoolYearService;
 
     public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
                                     IProgrammeEditionRepository programmeEditionRepository,
                                     IProgrammeRepository programmeRepository,
-                                    ISchoolYearRepository schoolYearRepository,
                                     IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-                                    IProgrammeEditionServiceAssembler programmeEditionAssembler) {
+                                    IProgrammeEditionServiceAssembler programmeEditionAssembler, ISchoolYearService schoolYearService) {
         if(programmeEditionFactory == null){
             throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
         }
@@ -50,11 +50,6 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         }
         this.programmeRepository = programmeRepository;
 
-        if (schoolYearRepository == null) {
-            throw new IllegalArgumentException("SchoolYearRepository cannot be null!");
-        }
-        this.schoolYearRepository = schoolYearRepository;
-
         if (programmeEditionEnrolmentRepository == null) {
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepository cannot be null!");
         }
@@ -64,6 +59,11 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
         }
         this.programmeEditionAssembler = programmeEditionAssembler;
+
+        if(schoolYearService == null) {
+            throw new IllegalArgumentException("SchoolYearService cannot be null!");
+        }
+        this.schoolYearService = schoolYearService;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public Optional<ProgrammeEdition> saveProgrammeEdition(ProgrammeEdition programmeEdition) throws Exception {
+    public Optional<ProgrammeEdition> saveProgrammeEdition(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             return Optional.empty();
         }
@@ -95,8 +95,9 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         return Optional.empty();
     }
 
+
     @Override
-    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception {
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) {
         if (programmeID == null) {
             return List.of();
         }
@@ -119,33 +120,27 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public ProgrammeEditionServiceDTO createProgrammeEditionAndSave(ProgrammeEditionServiceDTO programmeEditionServiceDTO) throws Exception {
-        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(programmeEditionServiceDTO);
-        SchoolYearID schoolYearID = programmeEditionAssembler.toSchoolYearID(programmeEditionServiceDTO);
+    public ProgrammeEditionResponseServiceDTO createProgrammeEditionAndSave(ProgrammeEditionRequestServiceDTO programmeEditionDTO) throws Exception {
+        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(programmeEditionDTO);
+        SchoolYearID schoolYearID = schoolYearService.getCurrentSchoolYearID().orElseThrow(() -> new IllegalArgumentException("No current School Year found."));
 
-        // Validate if Programme and SchoolYear exist
-        boolean programmeExists = programmeRepository.containsOfIdentity(programmeID);
-        boolean schoolYearExists = schoolYearRepository.containsOfIdentity(schoolYearID);
+        if (!programmeRepository.containsOfIdentity(programmeID)) {
+            throw new IllegalArgumentException("Programme does not exist.");
+        }
 
-        if (programmeExists && schoolYearExists) {
+        ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
+        Optional<ProgrammeEdition> savedProgramme = this.saveProgrammeEdition(programmeEdition);
 
-            Optional<ProgrammeEditionID> existingProgrammeEditionID =
-                    programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
+        if (savedProgramme.isPresent()) {
+            ProgrammeEdition savedEdition = savedProgramme.get();
+            ProgrammeEditionID programmeEditionID = savedEdition.identity();
 
-            if (existingProgrammeEditionID.isPresent()) {
-                throw new IllegalArgumentException("Programme Edition for this School Year is already Registered");
-            }
-
-            ProgrammeEdition programmeEdition = programmeEditionFactory.createProgrammeEdition(programmeID, schoolYearID);
-            Optional<ProgrammeEdition> savedProgramme = this.saveProgrammeEdition(programmeEdition);
-            if (savedProgramme.isPresent()) {
-                ProgrammeEditionID programmeEditionID = savedProgramme.get().identity();
-                return programmeEditionAssembler.toDTO(programmeEditionID.getProgrammeID(), programmeEditionID.getSchoolYearID());
-            } else {
-                throw new IllegalArgumentException("Could not save Programme Edition");
-            }
+            return programmeEditionAssembler.toResponseDTO(
+                    programmeEditionID.getProgrammeID(),
+                    programmeEditionID.getSchoolYearID()
+            );
         } else {
-            throw new IllegalArgumentException("Invalid Programme and or School Year");
+            throw new IllegalArgumentException("ProgrammeEdition already registered.");
         }
     }
 
@@ -158,7 +153,4 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
                 .map(ProgrammeEdition::identity)
                 .toList();
     }
-
-
 }
-

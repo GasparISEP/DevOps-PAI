@@ -41,6 +41,7 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
+import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Autowired private ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
     @Autowired private ICourseEditionRepository courseEditionRepository;
     @Autowired private ISchoolYearRepository schoolYearRepository;
+    @Autowired private ISchoolYearService schoolYearService;
     @Autowired private IProgrammeEnrolmentRepository programmeEnrolmentRepository;
     @Autowired private IProgrammeRepository programmeRepository;
     @Autowired private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
@@ -93,9 +95,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
                 programmeEditionFactory,
                 programmeEditionRepository,
                 programmeRepository,
-                schoolYearRepository,
                 programmeEditionEnrolmentRepository,
-                programmeEditionAssembler
+                programmeEditionAssembler,
+                schoolYearService
         );
 
         controller = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(
@@ -230,7 +232,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,schoolYearRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -294,7 +296,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,schoolYearRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,

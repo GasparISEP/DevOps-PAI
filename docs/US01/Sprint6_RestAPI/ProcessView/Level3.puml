@@ -12,8 +12,9 @@ participant ":RESTController" as controller <<Component>>
 participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
+participant ":Drivers" as drivers <<Component>>
 
--> router: POST /teacher-categories + body {"name": "Assistant"}
+[o-> router: **POST** /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
 router -> controller: configureTeacherCategory (tcRequestDTO)
@@ -31,6 +32,16 @@ deactivate domain
 service -> repository: save (teacherCategory)
 activate repository #E1F5FE
 
+repository -> drivers: save (teacherCategoryDataModel)
+activate drivers #E1F5FE
+
+drivers ->o]: INSERT INTO teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
+
+drivers <--o]: teacherCategorySavedDataModel
+
+drivers --> repository: teacherCategorySavedDataModel
+deactivate drivers
+
 repository --> service: teacherCategorySaved
 deactivate repository
 
@@ -40,7 +51,7 @@ deactivate service
 controller --> router: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate controller
 
-<-- router: 201 + body {teacherCategoryResponseDTO + hypermedia}
+[o<-- router: 201 + body {teacherCategoryResponseDTO + hypermedia}
 deactivate router
 
 @enduml

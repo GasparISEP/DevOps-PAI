@@ -4,6 +4,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacher.ITeacherHateoasAssembler;
+import PAI.assembler.teacher.ITeacherWithRelevantDataHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherCategoryHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
+
 import java.util.Optional;
 
 @RestController
@@ -37,13 +39,15 @@ public class TeacherRestController {
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
     private final IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface;
+    private final ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler;
 
     public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler,
                                  ITeacherHateoasAssembler teacherHateoasAssembler, ICreateTeacherCareerProgressionService careerService,
                                  ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService,
                                  TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler,
                                  IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler,
-                                 IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface) {
+                                 IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface,
+                                 ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
         this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
@@ -55,6 +59,7 @@ public class TeacherRestController {
         this.updateTeacherWorkingPercentageHateoasAssembler =
                 validateNotNull(updateTeacherWorkingPercentageHateoasAssembler,  "Update Teacher Working Percentage Hateoas Assembler Interface");
         this.updateTeacherCategoryHateoasAssemblerInterface = validateNotNull(updateTeacherCategoryHateoasAssemblerInterface, "Update Teacher Category Hateoas Assembler Interface");
+        this.iTeacherWithRelevantDataHateoasAssembler = validateNotNull(iTeacherWithRelevantDataHateoasAssembler, "Teacher With Relevant Data Hateoas Assembler Interface");
     }
 
     @GetMapping
@@ -172,7 +177,7 @@ public class TeacherRestController {
 
 
             TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, departmentID, date, teacherCategoryID, workingPercentage);
-            return ResponseEntity.status(HttpStatus.CREATED).body(teacherWithRelevantDataDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(iTeacherWithRelevantDataHateoasAssembler.toModel(teacherWithRelevantDataDTO));
 
         } catch (BusinessRuleViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());

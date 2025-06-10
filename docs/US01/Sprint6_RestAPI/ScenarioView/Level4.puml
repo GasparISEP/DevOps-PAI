@@ -8,7 +8,7 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router
--> router: POST /teacher-categories + body {"name": "Assistant"}
+[o-> router: **POST** /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
 participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
@@ -83,7 +83,7 @@ deactivate hateoasAssembler
 Controller --> router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
 deactivate Controller
 
-<-- router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
+[o<-- router: 201 + body {EntityModel<TeacherCategoryResponseDTO>}
 deactivate router
 
 @enduml

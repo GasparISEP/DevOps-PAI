@@ -179,9 +179,9 @@ public class StudentGradeServiceImplTest {
         when(grade1.knowGrade()).thenReturn(20.0);
 
 
-        when(studentGrade1.get_grade()).thenReturn(grade);
-        when(studentGrade2.get_grade()).thenReturn(grade1);
-        when(studentGrade3.get_grade()).thenReturn(grade);
+        when(studentGrade1.getGrade()).thenReturn(grade);
+        when(studentGrade2.getGrade()).thenReturn(grade1);
+        when(studentGrade3.getGrade()).thenReturn(grade);
 
         when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
         when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
@@ -244,9 +244,9 @@ public class StudentGradeServiceImplTest {
         when(grade.knowGrade()).thenReturn(10.0);
         when(grade1.knowGrade()).thenReturn(20.0);
 
-        when(studentGrade1.get_grade()).thenReturn(grade);
-        when(studentGrade2.get_grade()).thenReturn(grade1);
-        when(studentGrade3.get_grade()).thenReturn(grade1);
+        when(studentGrade1.getGrade()).thenReturn(grade);
+        when(studentGrade2.getGrade()).thenReturn(grade1);
+        when(studentGrade3.getGrade()).thenReturn(grade1);
 
         when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
         when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
@@ -285,9 +285,9 @@ public class StudentGradeServiceImplTest {
         when(grade.knowGrade()).thenReturn(8.0);
         when(grade1.knowGrade()).thenReturn(20.0);
 
-        when(studentGrade1.get_grade()).thenReturn(grade);
-        when(studentGrade2.get_grade()).thenReturn(grade1);
-        when(studentGrade3.get_grade()).thenReturn(grade1);
+        when(studentGrade1.getGrade()).thenReturn(grade);
+        when(studentGrade2.getGrade()).thenReturn(grade1);
+        when(studentGrade3.getGrade()).thenReturn(grade1);
 
         when(studentGrade1.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
         when(studentGrade2.hasThisCourseEditionID(courseEditionID1Double)).thenReturn(true);
@@ -733,7 +733,7 @@ public class StudentGradeServiceImplTest {
                 .thenReturn(List.of(existing));
 
         StudentGrade toSave = mock(StudentGrade.class);
-        when(studentGradeFactory.newGradeStudent(grade,date,studentID,courseEditionID))
+        when(studentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID))
                 .thenReturn(toSave);
         when(studentGradeRepository.save(toSave))
                 .thenReturn(toSave);

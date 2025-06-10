@@ -1,8 +1,5 @@
 package PAI.domain.courseEdition;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
 
 public class CourseEdition implements AggregateRoot<CourseEditionID> {
@@ -10,12 +7,12 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
     private final CourseEditionID _courseEditionID;
     private final CourseInStudyPlanID _courseInStudyPlanID;
     private final ProgrammeEditionID _programmeEditionID;
+    private final CourseEditionGeneratedID _courseEditionGeneratedID;
     private TeacherID _ruc;
 
-
-    public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+    public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID, CourseEditionGeneratedID courseEditionGeneratedID) {
         if (courseEditionID == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+            throw new IllegalArgumentException("CourseEditionID must be valid");
         }
         if (courseInStudyPlanID == null) {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
@@ -23,14 +20,18 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
         if (programmeEditionID == null) {
             throw new IllegalArgumentException("ProgrammeEdition must be valid");
         }
+        if (courseEditionGeneratedID == null) {
+            throw new IllegalArgumentException("CourseEditionGeneratedID must be valid");
+        }
         this._courseEditionID = courseEditionID;
         this._courseInStudyPlanID = courseInStudyPlanID;
         this._programmeEditionID = programmeEditionID;
+        this._courseEditionGeneratedID = courseEditionGeneratedID;
     }
 
-    public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID, TeacherID teacherID) {
+    public CourseEdition(CourseEditionID courseEditionID, CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID, CourseEditionGeneratedID courseEditionGeneratedID, TeacherID teacherID) {
         if (courseEditionID == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
+            throw new IllegalArgumentException("CourseEditionID must be valid");
         }
         if (courseInStudyPlanID == null) {
             throw new IllegalArgumentException("CourseInStudyPlanID must be valid");
@@ -38,9 +39,14 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
         if (programmeEditionID == null) {
             throw new IllegalArgumentException("ProgrammeEdition must be valid");
         }
+        if (courseEditionGeneratedID == null) {
+            throw new IllegalArgumentException("CourseEditionGeneratedID must be valid");
+        }
+
         this._courseEditionID = courseEditionID;
         this._courseInStudyPlanID = courseInStudyPlanID;
         this._programmeEditionID = programmeEditionID;
+        this._courseEditionGeneratedID = courseEditionGeneratedID;
         this._ruc = teacherID;
     }
 
@@ -62,6 +68,10 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
 
     public ProgrammeEditionID getProgrammeEditionID() {
         return _programmeEditionID;
+    }
+
+    public CourseEditionGeneratedID getCourseEditionGeneratedID() {
+        return _courseEditionGeneratedID;
     }
 
     public CourseInStudyPlanID getCourseInStudyPlanID() {

@@ -1,10 +1,13 @@
-package PAI.controllerRest;
+package PAI.controllerRest.ProgrammeEditionRestControllerTests;
 
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
+import PAI.controllerRest.ProgrammeEditionRestController;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -34,9 +37,11 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
         //Act
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
         //Assert
         assertNotNull(programmeEditionRestController);
     }
@@ -48,10 +53,12 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,courseAssembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler));
     }
 
     @Test
@@ -61,8 +68,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,
+                availableCoursesService,courseAssembler, hateoasAssembler);
 
         ProgrammeEdition p1 = mock(ProgrammeEdition.class);
         ProgrammeEdition p2 = mock(ProgrammeEdition.class);
@@ -92,8 +101,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
         String programmeAcronym = "ENG";
         String  schoolYearID = UUID.randomUUID().toString();
@@ -119,9 +130,25 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = null;
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,courseAssembler));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfHateoasAssemblerNull() {
+        //Arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = null;
+        ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
+        IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = null;
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler));
     }
 
     @Test
@@ -131,8 +158,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
         String programmeAcronym = "ENG";
 
@@ -147,13 +176,13 @@ class ProgrammeEditionRestControllerTest {
 
         List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
 
-        ProgrammeEditionServiceDTO dto1 = new ProgrammeEditionServiceDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
-                new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID1.getSchoolYearID().toString())
+        ProgrammeEditionResponseServiceDTO dto1 = new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID1.toString()
         );
-        ProgrammeEditionServiceDTO dto2 = new ProgrammeEditionServiceDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
-                new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID2.getSchoolYearID().toString())
+        ProgrammeEditionResponseServiceDTO dto2 = new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID2.toString()
         );
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(editionIDs);
@@ -161,17 +190,16 @@ class ProgrammeEditionRestControllerTest {
         when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        List<ProgrammeEditionServiceDTO> responseBody = response.getBody();
+        List<ProgrammeEditionResponseServiceDTO> responseBody = response.getBody();
         assertNotNull(responseBody);
         assertEquals(2, responseBody.size());
         assertTrue(responseBody.contains(dto1));
         assertTrue(responseBody.contains(dto2));
     }
-
 
     @Test
     void getProgrammeEditionsByProgrammeID_shouldReturnEmptyListIfNoneFound() throws Exception {
@@ -180,8 +208,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
         String programmeAcronym = "ENG";
 
@@ -191,14 +221,13 @@ class ProgrammeEditionRestControllerTest {
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
 
         // Act
-        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().isEmpty());
     }
-
 
     @Test
     void getProgrammeEditionsByProgrammeID_shouldThrowExceptionIfServiceFails() throws Exception {
@@ -207,8 +236,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
         String programmeAcronym = "ENG";
 
@@ -221,7 +252,6 @@ class ProgrammeEditionRestControllerTest {
         assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeAcronym));
     }
 
-
     @Test
     void shouldCreateAProgrammeEditionForTheCurrentSchoolYear() throws Exception {
         // Arrange
@@ -229,16 +259,18 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
-        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
-        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionRequestServiceDTO peRequestDTO = mock(ProgrammeEditionRequestServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO peServiceResult = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
-        when(controllerAssembler.toDTO(request)).thenReturn(peDTO);
-        when(programmeEditionService.createProgrammeEditionAndSave(peDTO)).thenReturn(peServiceResult);
+        when(controllerAssembler.toDTO(request)).thenReturn(peRequestDTO);
+        when(programmeEditionService.createProgrammeEditionAndSave(peRequestDTO)).thenReturn(peServiceResult);
         when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
@@ -255,11 +287,13 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
+                courseAssembler, hateoasAssembler);
 
-        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
-        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionRequestServiceDTO peDTO = mock(ProgrammeEditionRequestServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO peServiceResult = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
@@ -282,9 +316,10 @@ class ProgrammeEditionRestControllerTest {
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
-                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
         );
 
         ProgrammeEditionIdDto programmeEditionIdDto = mock(ProgrammeEditionIdDto.class);
@@ -311,9 +346,35 @@ class ProgrammeEditionRestControllerTest {
         assertEquals(list1, response.getBody());
     }
 
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfAvailableCoursesNull() {
 
+        // arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
+        IAvailableCoursesService availableCoursesService = null;
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler)
+        );
+    }
 
+    @Test
+    void shouldThrowExceptionAndNotCreateControllerIfCourseAssemblerNull() {
 
+        // arrange
+        IProgrammeEditionService service = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = null;
+        IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
+        // act + assert
+        assertThrows(IllegalArgumentException.class, () ->
+                new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler)
+        );
+    }
 }

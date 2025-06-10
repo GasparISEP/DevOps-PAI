@@ -27,7 +27,7 @@ deactivate frontend
 admin -> frontend: Yes!
 activate frontend #E1F5FE
 
-frontend -> backend: POST /teacher-categories + body {"name": "Assistant"}
+frontend -> backend: **POST** /teacher-categories + body {"name": "Assistant"}
 activate backend #E1F5FE
 
 backend -> db: INSERT INTO teacherCategory (id, name) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')

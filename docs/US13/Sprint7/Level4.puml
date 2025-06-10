@@ -28,8 +28,13 @@ TA --> RC --: Return VOs
 |||
 end loop
 |||
+Note Right RC #white/lightgray
+@Transactional
+BEGIN TRANSACTION
+End Note
 
 RC -> S++ #lightgray: registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground,\nstreet, postalCode, location, country, departmentID, date, teacherCategoryID, workingPercentage)
+|||
 S -> TF ++ #lightgray: createTeacher(teacherID, name, email, nif, phoneNumber,\nacademicBackground, street, postalCode, location, country, departmentID);
 
 TF -> AD1 **: createAddress(street, postalCode, location, country);
@@ -69,6 +74,13 @@ S -> TCR ++ #lightgray: ofIdentity(teacherCareerProgression.getTeacherCategoryID
 TCR ->o]: SELECT * FROM TeacherCategories WHERE TeacherCategoryID = 'TCPID1'
 TCR <--o] : TC1:TeacherCategory
 TCR --> S --: TC1:TeacherCategory
+
+|||
+Note Right RC #white/lightgray
+@Transactional
+END TRANSACTION
+End Note
+
 S --> RC --: TeacherWithRelevantDataDTO
 RC --> RO --: TeacherWithRelevantDataDTO
 

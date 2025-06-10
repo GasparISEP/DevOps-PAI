@@ -1,9 +1,6 @@
 package PAI.domain.courseEdition;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -11,7 +8,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 class CourseEditionFactoryImplTest {
 
@@ -24,24 +20,27 @@ class CourseEditionFactoryImplTest {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
+        CourseEditionGeneratedID courseEditionGeneratedIDDouble = mock(CourseEditionGeneratedID.class);
 
         //instructions
         try (MockedConstruction<CourseEdition> courseEditionDouble = mockConstruction(CourseEdition.class, (courseEditionMock, context) -> {
             CourseEditionID actualCourseEditionID = (CourseEditionID) context.arguments().get(0);
             CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(1);
             ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(2);
-            TeacherID actualTeacherID = (TeacherID) context.arguments().get(3);
-            when(courseEditionMock.identity()).thenReturn(actualCourseEditionID);
+            CourseEditionGeneratedID actualCourseEditionGeneratedID = (CourseEditionGeneratedID) context.arguments().get(3);
+            TeacherID actualTeacherID = (TeacherID) context.arguments().get(4);when(courseEditionMock.identity()).thenReturn(actualCourseEditionID);
             when(courseEditionMock.getCourseInStudyPlanID()).thenReturn(actualCourseInStudyPlanID);
             when(courseEditionMock.getProgrammeEditionID()).thenReturn(actualProgrammeEditionID);
             when(courseEditionMock.getRuc()).thenReturn(actualTeacherID);
+            when(courseEditionMock.getCourseEditionGeneratedID()).thenReturn(actualCourseEditionGeneratedID);
+
         })) {
 
             //SUT
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
             // Act
-            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, teacherIDDouble);
+            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedIDDouble, teacherIDDouble);
 
             // Asserts
             assertNotNull(courseEdition);
@@ -66,24 +65,27 @@ class CourseEditionFactoryImplTest {
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock (CourseInStudyPlanID.class);
         TeacherID teacherIDDouble = mock(TeacherID.class);
+        CourseEditionGeneratedID courseEditionGeneratedIDDouble = mock(CourseEditionGeneratedID.class);
 
             //instructions
         try (MockedConstruction<CourseEdition> courseEditionDouble = mockConstruction(CourseEdition.class, (courseEditionMock, context) -> {
             CourseEditionID actualCourseEditionID = (CourseEditionID) context.arguments().get(0);
             CourseInStudyPlanID actualCourseInStudyPlanID = (CourseInStudyPlanID) context.arguments().get(1);
             ProgrammeEditionID actualProgrammeEditionID = (ProgrammeEditionID) context.arguments().get(2);
-            TeacherID actualTeacherID = (TeacherID) context.arguments().get(3);
+            CourseEditionGeneratedID actualCourseEditionGeneratedID = (CourseEditionGeneratedID) context.arguments().get(3);
+            TeacherID actualTeacherID = (TeacherID) context.arguments().get(4);
             when(courseEditionMock.identity()).thenReturn(actualCourseEditionID);
             when(courseEditionMock.getCourseInStudyPlanID()).thenReturn(actualCourseInStudyPlanID);
             when(courseEditionMock.getProgrammeEditionID()).thenReturn(actualProgrammeEditionID);
             when(courseEditionMock.getRuc()).thenReturn(actualTeacherID);
+            when(courseEditionMock.getCourseEditionGeneratedID()).thenReturn(actualCourseEditionGeneratedID);
         })) {
 
             //SUT
             ICourseEditionFactory ICourseEditionFactory = new CourseEditionFactoryImpl();
 
         // Act
-            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, teacherIDDouble);
+            CourseEdition courseEdition = ICourseEditionFactory.createCourseEditionFromDataModel(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedIDDouble, teacherIDDouble);
 
         // Asserts
             assertNotNull(courseEdition);

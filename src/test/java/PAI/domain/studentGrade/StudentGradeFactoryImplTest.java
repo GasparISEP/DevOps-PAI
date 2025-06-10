@@ -31,14 +31,14 @@ class StudentGradeFactoryImplTest {
         StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
 
         // Act
-        StudentGrade result = factory.newGradeStudent(grade, date, studentID, courseEditionID);
+        StudentGrade result = factory.createGradeStudent(grade, date, studentID, courseEditionID);
 
         // Assert
         assertNotNull(result, "Factory should return a StudentGrade when inputs are valid");
-        assertEquals(grade, result.get_grade());
-        assertEquals(date, result.get_date());
-        assertEquals(studentID, result.get_studentID());
-        assertEquals(courseEditionID, result.get_courseEditionID());
+        assertEquals(grade, result.getGrade());
+        assertEquals(date, result.getDate());
+        assertEquals(studentID, result.getStudentID());
+        assertEquals(courseEditionID, result.getCourseEditionID());
 
     }
 
@@ -52,7 +52,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(null, date, student, courseEditionID)
+                factory.createGradeStudent(null, date, student, courseEditionID)
         );
 
         // Verify
@@ -69,7 +69,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, null, student, courseEditionID)
+                factory.createGradeStudent(grade, null, student, courseEditionID)
         );
 
         // Verify
@@ -86,7 +86,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, date, null, courseEditionID)
+                factory.createGradeStudent(grade, date, null, courseEditionID)
         );
 
         // Verify
@@ -103,7 +103,7 @@ class StudentGradeFactoryImplTest {
 
         // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                factory.newGradeStudent(grade, date, student, null)
+                factory.createGradeStudent(grade, date, student, null)
         );
 
         // Verify
@@ -120,14 +120,14 @@ class StudentGradeFactoryImplTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         // Act
-        StudentGrade studentGrade = factory.newGradeStudent(grade, date, student, courseEditionID);
+        StudentGrade studentGrade = factory.createGradeStudent(grade, date, student, courseEditionID);
 
         // Assert
         assertNotNull(studentGrade);
-        assertEquals(grade, studentGrade.get_grade());
-        assertEquals(date, studentGrade.get_date());
-        assertEquals(student, studentGrade.get_studentID());
-        assertEquals(courseEditionID, studentGrade.get_courseEditionID());
+        assertEquals(grade, studentGrade.getGrade());
+        assertEquals(date, studentGrade.getDate());
+        assertEquals(student, studentGrade.getStudentID());
+        assertEquals(courseEditionID, studentGrade.getCourseEditionID());
     }
 
     @Test
@@ -141,9 +141,10 @@ class StudentGradeFactoryImplTest {
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
+        StudentGradeGeneratedID studentGradeGeneratedID = mock(StudentGradeGeneratedID.class);
 
         //act
-        StudentGrade result = studentGradeFactory.newGradeStudentFromDataModel(grade,date,studentID,courseEditionID,studentGradeID);
+        StudentGrade result = studentGradeFactory.createGradeStudent(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID);
 
         //assert
         assertNotNull(result);
