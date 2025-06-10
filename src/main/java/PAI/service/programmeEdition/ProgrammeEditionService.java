@@ -97,7 +97,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
 
     @Override
-    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception {
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) {
         if (programmeID == null) {
             return List.of();
         }

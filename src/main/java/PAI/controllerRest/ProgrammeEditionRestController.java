@@ -3,6 +3,8 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
+import PAI.assembler.programmeEdition.ProgrammeEditionHateoasAssemblerImpl;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.dto.programmeEdition.CountStudentsRequestDto;
@@ -12,6 +14,8 @@ import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +31,10 @@ public class ProgrammeEditionRestController {
     private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
     private final IAvailableCoursesService availableCoursesService;
     private final ICourseAssembler courseAssembler;
+    private final IProgrammeEditionHateoasAssembler hateoasAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler) {
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
+                                          IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
         if (programmeEditionService == null) {
             throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
         }
@@ -41,15 +47,19 @@ public class ProgrammeEditionRestController {
         if(courseAssembler == null){
             throw new IllegalArgumentException("Course Assembler cannot be null");
         }
+        if(hateoasAssembler == null){
+            throw new IllegalArgumentException("Hateoas Assembler cannot be null");
+        }
 
         this.programmeEditionService = programmeEditionService;
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
         this.availableCoursesService = availableCoursesService;
         this.courseAssembler = courseAssembler;
+        this.hateoasAssembler = hateoasAssembler;
     }
 
     @GetMapping
-    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() throws Exception {
+    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() {
         List<CountStudentsRequestDto> programmeEditionDtos = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
@@ -73,7 +83,7 @@ public class ProgrammeEditionRestController {
 
     @GetMapping("/programme/{programmeid}")
     public ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> getProgrammeEditionsByProgrammeID(
-            @PathVariable("programmeid") String programmeAcronym) throws Exception {
+            @PathVariable("programmeid") String programmeAcronym) {
 
         ProgrammeID programmeID = new ProgrammeID(
                 new Acronym(programmeAcronym)
