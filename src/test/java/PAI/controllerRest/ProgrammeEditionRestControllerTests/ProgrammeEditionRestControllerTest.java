@@ -6,7 +6,6 @@ import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
 import PAI.controllerRest.ProgrammeEditionRestController;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
@@ -73,22 +72,21 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,
                 availableCoursesService,courseAssembler, hateoasAssembler);
 
-        ProgrammeEdition p1 = mock(ProgrammeEdition.class);
-        ProgrammeEdition p2 = mock(ProgrammeEdition.class);
+        ProgrammeEditionResponseServiceDTO p1 = mock(ProgrammeEditionResponseServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO p2 = mock(ProgrammeEditionResponseServiceDTO.class);
 
-        List<ProgrammeEdition> programmeEditionsList = List.of(p1,p2);
+        List<ProgrammeEditionResponseServiceDTO> programmeEditionsList = List.of(p1,p2);
 
         when(programmeEditionService.findAllProgrammeEditions()).thenReturn(programmeEditionsList);
 
         // Act
-        ResponseEntity<List<CountStudentsRequestDto>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = programmeEditionRestController.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
 
-        List<CountStudentsRequestDto> resultList = new ArrayList<>();
-        response.getBody().forEach(resultList::add);
+        List<ProgrammeEditionResponseDTO> resultList = new ArrayList<>(response.getBody());
 
         assertEquals(2, resultList.size());
     }
@@ -109,8 +107,8 @@ class ProgrammeEditionRestControllerTest {
         String programmeAcronym = "ENG";
         String  schoolYearID = UUID.randomUUID().toString();
 
-        CountStudentsRequestDto expectedDto =
-                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        RequestServiceDto expectedDto =
+                new RequestServiceDto(programmeAcronym, schoolYearID);
 
         // Mock service behavior
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);

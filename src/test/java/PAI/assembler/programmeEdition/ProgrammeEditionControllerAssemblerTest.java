@@ -3,7 +3,6 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeIDResponseDTO;
 import PAI.dto.programmeEdition.*;
 import org.junit.jupiter.api.Test;
 import java.util.UUID;
@@ -13,6 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ProgrammeEditionControllerAssemblerTest {
+
     private final IProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
 
     @Test
@@ -68,70 +68,58 @@ class ProgrammeEditionControllerAssemblerTest {
     }
 
     @Test
-    void shouldHandleDifferentProgrammeNamesAndAcronyms() throws Exception {
-        Acronym programmeAcronym = new Acronym("ENG25");
-        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
-        SchoolYearID schoolYearID = new SchoolYearID();
-        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new ProgrammeEditionID(programmeID, schoolYearID),
-                programmeID,
-                schoolYearID,
-                programmeEditionGeneratedID
-        );
-
-        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
-
-        assertEquals("ENG25", dto.programmeAcronym());
-        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
-    }
-    @Test
-    void shouldReturnCorrectDtoUsingMockedProgrammeEdition() throws Exception {
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        ProgrammeID programmeID = new ProgrammeID(
-                new Acronym("MOCK")
-        );
-        SchoolYearID schoolYearID = new SchoolYearID();
-        ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
-
-        when(programmeEdition.identity()).thenReturn(editionID);
-
-        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
-
-        assertEquals("MOCK", dto.programmeAcronym());
-        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
-    }
-
-    @Test
-    void shouldReturnAProgrammeEditionDTO() throws Exception {
+    void shouldConvertRequestDTOToServiceDTO() {
         // Arrange
-        Acronym programmeAcronym = new Acronym("PPP");
-        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
-        SchoolYearID schoolYearID = new SchoolYearID();
-        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
-
-        ProgrammeEdition programmeEdition = new ProgrammeEdition(
-                new ProgrammeEditionID(programmeID, schoolYearID),
-                programmeID,
-                schoolYearID,
-                programmeEditionGeneratedID
-        );
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO("PPP");
+        ProgrammeEditionRequestDTO requestDTO = mock(ProgrammeEditionRequestDTO.class);
+        when(requestDTO.programme()).thenReturn(programmeIDDTO);
 
         // Act
-        CountStudentsRequestDto dto = assembler.toCountDTO(programmeEdition);
+        ProgrammeEditionRequestServiceDTO result = assembler.toServiceDTOFromRequestDTO(requestDTO);
 
         // Assert
-        assertEquals("PPP", dto.programmeAcronym());
-        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearID());
+        assertNotNull(result);
+        assertEquals("PPP", result.programme().acronym());
     }
+
     @Test
-    void shouldThrowExceptionIfProgrammeEditionIsNull() {
-        //arrange
-        //act + assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toCountDTO(null);
-        });
-        assertEquals("ProgrammeEdition cannot be null", exception.getMessage());
+    void shouldThrowExceptionWhenRequestDTOIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> assembler.toServiceDTOFromRequestDTO(null));
+    }
+
+    @Test
+    void shouldConvertServiceResponseDTOToResponseDTO() {
+        // Arrange
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO("PPP");
+        ProgrammeEditionResponseServiceDTO serviceDTO = mock(ProgrammeEditionResponseServiceDTO.class);
+        when(serviceDTO.programme()).thenReturn(programmeIDDTO);
+        when(serviceDTO.schoolYearId()).thenReturn("2024-2025");
+
+        // Act
+        ProgrammeEditionResponseDTO result = assembler.toResponseDTOFromServiceDTO(serviceDTO);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("PPP", result.programme().acronym());
+        assertEquals("2024-2025", result.schoolYearId());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenResponseServiceDTOIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> assembler.toResponseDTOFromServiceDTO(null));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenCallingToResponseDTOList() {
+        // Arrange
+        ProgrammeEditionResponseServiceDTO serviceDTO = mock(ProgrammeEditionResponseServiceDTO.class);
+
+        // Act
+        var result = assembler.toResponseDTOList(serviceDTO);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
 }

@@ -7,7 +7,7 @@ import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
@@ -57,13 +57,13 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() {
-        List<CountStudentsRequestDto> programmeEditionDtos = programmeEditionService
+    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getAllProgrammeEditions() {
+        List<ProgrammeEditionResponseDTO> responseDTOs = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
-                .map(programmeEditionControllerAssembler::toCountDTO)
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
-        return ResponseEntity.ok(programmeEditionDtos);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}/{schoolYearID}/students")
@@ -71,8 +71,8 @@ public class ProgrammeEditionRestController {
             @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
-        CountStudentsRequestDto dto =
-                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        RequestServiceDto dto =
+                new RequestServiceDto(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 

@@ -3,14 +3,16 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
-import PAI.dto.schoolYear.SchoolYearIDDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Component
 public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionServiceAssembler {
@@ -19,19 +21,23 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public CountStudentsRequestDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
+    public ProgrammeEditionResponseServiceDTO toResponseServiceDTOFromProgrammeEdition(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
+
         ProgrammeEditionID id = programmeEdition.identity();
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        return new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID
+        );
     }
 
     @Override
-    public ProgrammeEdition countStudentsInProgrammeEditionDTOtoDomain(CountStudentsRequestDto dto) throws Exception {
+    public ProgrammeEdition toProgrammeEditionFromRequestServiceDTO(RequestServiceDto dto) throws Exception {
         if (dto == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
@@ -54,7 +60,7 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public ProgrammeEditionResponseServiceDTO toServiceResponseDTO(ProgrammeID programmeID, SchoolYearID schoolYearID) {
+    public ProgrammeEditionResponseServiceDTO toServiceResponseDTOFromIDs(ProgrammeID programmeID, SchoolYearID schoolYearID) {
         if (programmeID == null || schoolYearID == null) {
             throw new IllegalArgumentException("programmeID, schoolYearID, and programmeEditionID cannot be null");
         }
@@ -64,13 +70,24 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
         return new ProgrammeEditionResponseServiceDTO(programmeIDDTO, schoolYearId);
     }
 
+//    @Override
+//    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
+//        if (programmeEditionIdDto == null) {
+//            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
+//        }
+//        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeEditionIdDto.programmeAcronym()));
+//        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
+//        return new ProgrammeEditionID(programmeID, schoolYearID);
+//    }
+
     @Override
-    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
-        if (programmeEditionIdDto == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
-        }
-        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeEditionIdDto.programmeAcronym()));
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
-        return new ProgrammeEditionID(programmeID, schoolYearID);
+    public List<ProgrammeEditionResponseServiceDTO> toServiceResponseDTOList(List<ProgrammeEdition> programmeEditions) {
+        validateNotNull(programmeEditions, "ProgrammeEditions List");
+
+        return programmeEditions.stream()
+                .map(pe -> toServiceResponseDTOFromIDs(
+                        pe.findProgrammeIDInProgrammeEdition(),
+                        pe.findSchoolYearIDInProgrammeEdition()))
+                .toList();
     }
 }
