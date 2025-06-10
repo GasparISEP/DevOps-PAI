@@ -22,13 +22,26 @@ end legend
 '================================ REST Controller ==============================
 
 class TeacherRestController #E0FFFF{
+    + teacherHateoasAssembler: ITeacherHateoasAssembler
+    + teacherWithRelevantDataService: ITeacherWithRelevantDataService
+    + teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler
+    + updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler
+    + TeacherRestController (teacherService: ITeacherRegistrationService,teacherAssembler: ITeacherAssembler, \n teacherHateoasAssembler: ITeacherHateoasAssembler, careerService: ICreateTeacherCareerProgressionService, \n careerAssembler: ITeacherCareerProgressionAssembler,teacherWithRelevantDataService: ITeacherWithRelevantDataService, \n teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler, \n updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler, \n updateTeacherCategoryHateoasAssemblerInterface :IUpdateTeacherCategoryHateoasAssembler)
     + updateTeacherCategory(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
     + getAllTeachers () : List<TeacherResponseDTO>
     + getAllTeacherCareerProgression (): ResponseEntity<Object>
     + getTeacherCareerProgressionByID (): ResponseEntity<Object>
 }
 
+class TeacherCareerProgressionRestController #E0FFFF{
+    + TeacherCareerProgressionRestController (careerService: ICreateTeacherCareerProgressionService, \n externalAssembler: ITeacherCareerProgressionAssembler)
+    + getAllTeacherCareerProgression (): ResponseEntity<Object>
+    + getTeacherCareerProgressionByID (): ResponseEntity<Object>
+}
+
 class TeacherCategoryRestController #E0FFFF{
+    + hateoasAssembler: ITeacherCategoryHateoasAssembler
+    + TeacherCategoryRestController (service : ITeacherCategoryService, externalAssembler: ITeacherCategoryExternalAssembler, \n hateoasAssembler: ITeacherCategoryHateoasAssembler)
     + getAllTeacherCategories (): Iterable<TeacherCategoryResponseDTO>
 }
 
@@ -76,6 +89,7 @@ class UpdateTeacherCategoryRequestDTO <<Record>> #E0FFFF {
 }
 
 class UpdateTeacherCategoryResponseDTO <<Record>> #E0FFFF{
+  - teacherCareerProgressionID: String
   - teacherID: String
   - date: String
   - teacherCategoryID: String
@@ -83,6 +97,7 @@ class UpdateTeacherCategoryResponseDTO <<Record>> #E0FFFF{
 }
 
 class UpdateTeacherCategoryDTO <<Record>> #E0FFFF{
+  - teacherCareerProgressionID: String
   - teacherID: String
   - date: String
   - teacherCategoryID: String
@@ -373,8 +388,12 @@ TeacherRestController "1" ..> "1" ITeacherCareerProgressionAssembler
 TeacherRestController "1" ..> "1" ICreateTeacherCareerProgressionService
 TeacherRestController "1" ..> "1" UpdateTeacherCategoryRequestDTO
 
+TeacherCareerProgressionRestController "1" ..> "1" ICreateTeacherCareerProgressionService
+TeacherCareerProgressionRestController "1" ..> "1" ITeacherCareerProgressionAssembler
+
 TeacherCareerProgressionHateoasAssemblerImpl ..|> ITeacherCareerProgressionHateoasAssembler
-ITeacherCareerProgressionHateoasAssembler ..> UpdateTeacherCategoryResponseDTO
+ITeacherCareerProgressionHateoasAssembler "1" ..> "1" UpdateTeacherCategoryResponseDTO
+ITeacherCareerProgressionHateoasAssembler "1" ..> "1" TeacherCareerProgressionRestController
 
 TeacherCareerProgressionAssemblerImpl ..|> ITeacherCareerProgressionAssembler
 ITeacherCareerProgressionAssembler "1"..> "1" UpdateTeacherCategoryDTO

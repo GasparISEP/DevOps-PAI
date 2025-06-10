@@ -35,7 +35,7 @@ drivers ->o]: SELECT * FROM teacher
 
 drivers <--o]: Iterable<TeacherDataModel>
 
-drivers --> repository: Iterable<Teacher>
+drivers --> repository: Iterable<TeacherDataModel>
 deactivate drivers
 
 repository --> service: Iterable<Teacher>
@@ -71,7 +71,7 @@ drivers ->o]: SELECT * FROM teacherCategory
 
 drivers <--o]: Iterable<TeacherCategoryDataModel>
 
-drivers --> repository: Iterable<TeacherCategory>
+drivers --> repository: Iterable<TeacherCategoryDataModel>
 deactivate drivers
 
 repository --> service: Iterable<TeacherCategory>
@@ -169,9 +169,9 @@ activate drivers #E1F5FE
 
 drivers -->o]: INSERT INTO Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
 
-drivers <--o] : teacherCareerProgressionDataModelSaved
+drivers <--o] : teacherCareerProgressionSavedDataModel
 
-drivers --> repository: teacherCareerProgressionSaved
+drivers --> repository: teacherCareerProgressionSavedDataModel
 deactivate drivers
 
 repository --> service: teacherCareerProgressionSaved
