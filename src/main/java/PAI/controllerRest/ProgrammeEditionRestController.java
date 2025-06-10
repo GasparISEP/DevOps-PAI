@@ -2,12 +2,11 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/programmeeditions")
+@RequestMapping("/programme-editions")
 public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
@@ -73,14 +72,14 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping("/programme/{programmeid}")
-    public ResponseEntity<List<ProgrammeEditionServiceDTO>> getProgrammeEditionsByProgrammeID(
+    public ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> getProgrammeEditionsByProgrammeID(
             @PathVariable("programmeid") String programmeAcronym) throws Exception {
 
         ProgrammeID programmeID = new ProgrammeID(
                 new Acronym(programmeAcronym)
         );
 
-        List<ProgrammeEditionServiceDTO> dtos = programmeEditionService
+        List<ProgrammeEditionResponseServiceDTO> dtos = programmeEditionService
                 .getProgrammeEditionIDsByProgrammeID(programmeID)
                 .stream()
                 .map(id -> programmeEditionControllerAssembler.toDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID()))
@@ -92,14 +91,15 @@ public class ProgrammeEditionRestController {
     @PostMapping()
     public ResponseEntity<?> createAProgrammeEditionForTheCurrentSchoolYear(@Valid @RequestBody ProgrammeEditionRequestDTO requestDto) {
         try {
-            ProgrammeEditionServiceDTO programmeEditionServiceDTO = programmeEditionControllerAssembler.toDTO(requestDto);
-            ProgrammeEditionServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionServiceDTO);
+            ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toDTO(requestDto);
+            ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
             ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping ("/available-courses")
     public ResponseEntity<List<CourseIDDTO>> getAvailableCourses(@RequestBody ProgrammeEditionIdDto programmeEditionIdDto){
         try {
@@ -115,7 +115,5 @@ public class ProgrammeEditionRestController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
 }
 

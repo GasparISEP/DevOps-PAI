@@ -3,17 +3,9 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.Programme.ProgrammeIDRequestDTO;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
-import PAI.dto.schoolYear.SchoolYearIDDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
+import PAI.dto.programmeEdition.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -23,17 +15,15 @@ class ProgrammeEditionControllerAssemblerTest {
     private final IProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
 
     @Test
-    void shouldReturnProgrammeEditionDTOWhenToDTO() {
+    void shouldReturnProgrammeEditionRequestServiceDTOWhenToDTO() {
         // Arrange
         ProgrammeEditionRequestDTO programmeEditionRequestDTO = mock(ProgrammeEditionRequestDTO.class);
-        ProgrammeIDRequestDTO programme = mock(ProgrammeIDRequestDTO.class);
-        SchoolYearIDRequestDTO schoolYear = mock(SchoolYearIDRequestDTO.class);
+        ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
 
         when(programmeEditionRequestDTO.programme()).thenReturn(programme);
-        when(programmeEditionRequestDTO.schoolYear()).thenReturn(schoolYear);
 
         // Act
-        ProgrammeEditionServiceDTO result = assembler.toDTO(programmeEditionRequestDTO);
+        ProgrammeEditionRequestServiceDTO result = assembler.toDTO(programmeEditionRequestDTO);
 
         // arrange
         assertNotNull(result);
@@ -53,12 +43,10 @@ class ProgrammeEditionControllerAssemblerTest {
     @Test
     void shouldReturnProgrammeEditionResponseDTOWhenToResponseDTO() {
         // Arrange
-        ProgrammeEditionServiceDTO editionDTO = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO editionDTO = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        SchoolYearIDDTO schoolYear = mock(SchoolYearIDDTO.class);
 
         when(editionDTO.programme()).thenReturn(programme);
-        when(editionDTO.schoolYear()).thenReturn(schoolYear);
 
         // Act
         ProgrammeEditionResponseDTO result = assembler.toResponseDTO(editionDTO);
@@ -70,7 +58,7 @@ class ProgrammeEditionControllerAssemblerTest {
     @Test
     void shouldThrowExceptionWhenProgrammeEditionDTOIsNull() {
         // Arrange
-        ProgrammeEditionServiceDTO editionDTO = null;
+        ProgrammeEditionResponseServiceDTO editionDTO = null;
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
@@ -87,7 +75,7 @@ class ProgrammeEditionControllerAssemblerTest {
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
         // Act
-        ProgrammeEditionServiceDTO result = assembler.toDTOFromIDs(programmeID, schoolYearID);
+        ProgrammeEditionResponseServiceDTO result = assembler.toDTOFromIDs(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(result);
@@ -118,6 +106,7 @@ class ProgrammeEditionControllerAssemblerTest {
             assembler.toDTOFromIDs(programmeID,schoolYearID);
         });
     }
+
     @Test
     void shouldHandleDifferentProgrammeNamesAndAcronyms() throws Exception {
         Acronym programmeAcronym = new Acronym("ENG25");

@@ -4,19 +4,17 @@ import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
-import PAI.dto.schoolYear.SchoolYearIDDTO;
-import PAI.dto.schoolYear.SchoolYearIDRequestDTO;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ProgrammeEditionAssemblerImplTest {
+class ProgrammeEditionServiceAssemblerImplTest {
+
     private final ProgrammeEditionServiceAssemblerImpl assembler = new ProgrammeEditionServiceAssemblerImpl();
 
     @Test
@@ -78,39 +76,12 @@ class ProgrammeEditionAssemblerImplTest {
         assertEquals("ProgrammeEditionDTO cannot be null", exception.getMessage());
     }
 
-    @Test
-    void shouldCreateSchoolYearIdFromProgrammeEditionDTO() {
-        // Arrange
-        SchoolYearIDDTO schoolYearIDRequestDTO = mock(SchoolYearIDDTO.class);
-        ProgrammeEditionServiceDTO dto = mock(ProgrammeEditionServiceDTO.class);
-        when(schoolYearIDRequestDTO.id()).thenReturn(UUID.randomUUID().toString());
-        when(dto.schoolYear()).thenReturn(schoolYearIDRequestDTO);
-
-        // Act
-        SchoolYearID result = assembler.toSchoolYearID(dto);
-
-        // Assert
-        assertNotNull(result);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenProgrammeEditionDTOIsNull() {
-        // Arrange
-        SchoolYearIDRequestDTO schoolYearIDRequestDTO = mock(SchoolYearIDRequestDTO.class);
-        ProgrammeEditionServiceDTO dto = null;
-        when(schoolYearIDRequestDTO.id()).thenReturn(UUID.randomUUID().toString());
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toSchoolYearID(dto);
-        });
-    }
 
     @Test
     void shouldCreateProgrammeIdFromProgrammeEditionDTO() {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionServiceDTO dto = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionRequestServiceDTO dto = mock(ProgrammeEditionRequestServiceDTO.class);
         when(programmeIDDTO.acronym()).thenReturn("CSE");
         when(dto.programme()).thenReturn(programmeIDDTO);
 
@@ -125,7 +96,7 @@ class ProgrammeEditionAssemblerImplTest {
     void shouldThrowExceptionWhenProgrammeEditionDTOIsNullForToProgramme() {
         // Arrange
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionServiceDTO dto = null;
+        ProgrammeEditionRequestServiceDTO dto = null;
         when(programmeIDDTO.acronym()).thenReturn("CSE");
 
         // Act + Assert
@@ -143,7 +114,7 @@ class ProgrammeEditionAssemblerImplTest {
         when(schoolYearID.getSchoolYearID()).thenReturn(UUID.randomUUID());
 
         // Act
-        ProgrammeEditionServiceDTO result = assembler.toDTO(programmeID, schoolYearID);
+        ProgrammeEditionResponseServiceDTO result = assembler.toResponseDTO(programmeID, schoolYearID);
 
         // Assert
         assertNotNull(result);
@@ -158,7 +129,7 @@ class ProgrammeEditionAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toDTO(programmeID,schoolYearID);
+            assembler.toResponseDTO(programmeID,schoolYearID);
         });
     }
 
@@ -171,7 +142,7 @@ class ProgrammeEditionAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toDTO(programmeID,schoolYearID);
+            assembler.toResponseDTO(programmeID,schoolYearID);
         });
     }
 
@@ -186,18 +157,5 @@ class ProgrammeEditionAssemblerImplTest {
         ProgrammeEditionID result = assembler.toProgrammeEditionID(programmeEditionIdDto);
         // Assert
         assertNotNull(result);
-    }
-
-    @Test
-    void toProgrammeEditionID_ShouldThrowException_WhenDtoIsNull() {
-
-        // arrange
-        ProgrammeEditionServiceAssemblerImpl assembler = new ProgrammeEditionServiceAssemblerImpl();
-
-        // act + assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toProgrammeEditionID(null);
-        });
-        assertEquals("ProgrammeEditionIdDto cannot be null", exception.getMessage());
     }
 }

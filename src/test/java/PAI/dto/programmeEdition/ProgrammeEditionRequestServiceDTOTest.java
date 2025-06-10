@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ProgrammeEditionRequestDTOTest {
+class ProgrammeEditionRequestServiceDTOTest {
     private static Validator validator;
 
     @BeforeEach
@@ -20,23 +20,22 @@ class ProgrammeEditionRequestDTOTest {
     }
 
     @Test
-    void testValidProgrammeEditionRequestDTO() {
+    void testValidProgrammeEditionDTO() {
         //arrange
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionRequestDTO ProgrammeEditionRequestDTO = new ProgrammeEditionRequestDTO(programme);
+        ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = new ProgrammeEditionRequestServiceDTO(programme);
         //act
-        Set<ConstraintViolation<ProgrammeEditionRequestDTO>> violations = validator.validate(ProgrammeEditionRequestDTO);
+        Set<ConstraintViolation<ProgrammeEditionRequestServiceDTO>> violations = validator.validate(programmeEditionRequestServiceDTO);
         //assert
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    void testNullProgrammeIDRequestDTO() {
+    void testNullProgrammeIDDTO() {
         //arrange
-        ProgrammeIDDTO programme = null;
-        ProgrammeEditionRequestDTO ProgrammeEditionRequestDTO = new ProgrammeEditionRequestDTO(programme);
+        ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = new ProgrammeEditionRequestServiceDTO(null);
         //act
-        Set<ConstraintViolation<ProgrammeEditionRequestDTO>> violations = validator.validate(ProgrammeEditionRequestDTO);
+        Set<ConstraintViolation<ProgrammeEditionRequestServiceDTO>> violations = validator.validate(programmeEditionRequestServiceDTO);
         //assert
         assertFalse(violations.isEmpty());
         assertEquals("Programme is required", violations.iterator().next().getMessage());

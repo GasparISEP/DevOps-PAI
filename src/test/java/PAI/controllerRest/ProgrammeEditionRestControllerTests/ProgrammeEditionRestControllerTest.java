@@ -4,7 +4,9 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.controllerRest.ProgrammeEditionRestController;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -147,13 +149,13 @@ class ProgrammeEditionRestControllerTest {
 
         List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
 
-        ProgrammeEditionServiceDTO dto1 = new ProgrammeEditionServiceDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
-                new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID1.getSchoolYearID().toString())
+        ProgrammeEditionResponseServiceDTO dto1 = new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID1.toString()
         );
-        ProgrammeEditionServiceDTO dto2 = new ProgrammeEditionServiceDTO(
-                new PAI.dto.Programme.ProgrammeIDDTO(programmeAcronym),
-                new PAI.dto.schoolYear.SchoolYearIDDTO(schoolYearID2.getSchoolYearID().toString())
+        ProgrammeEditionResponseServiceDTO dto2 = new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID2.toString()
         );
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(editionIDs);
@@ -161,17 +163,16 @@ class ProgrammeEditionRestControllerTest {
         when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        List<ProgrammeEditionServiceDTO> responseBody = response.getBody();
+        List<ProgrammeEditionResponseServiceDTO> responseBody = response.getBody();
         assertNotNull(responseBody);
         assertEquals(2, responseBody.size());
         assertTrue(responseBody.contains(dto1));
         assertTrue(responseBody.contains(dto2));
     }
-
 
     @Test
     void getProgrammeEditionsByProgrammeID_shouldReturnEmptyListIfNoneFound() throws Exception {
@@ -191,14 +192,13 @@ class ProgrammeEditionRestControllerTest {
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
 
         // Act
-        ResponseEntity<List<ProgrammeEditionServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().isEmpty());
     }
-
 
     @Test
     void getProgrammeEditionsByProgrammeID_shouldThrowExceptionIfServiceFails() throws Exception {
@@ -221,7 +221,6 @@ class ProgrammeEditionRestControllerTest {
         assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeAcronym));
     }
 
-
     @Test
     void shouldCreateAProgrammeEditionForTheCurrentSchoolYear() throws Exception {
         // Arrange
@@ -232,13 +231,13 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
 
-        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
-        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionRequestServiceDTO peRequestDTO = mock(ProgrammeEditionRequestServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO peServiceResult = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
-        when(controllerAssembler.toDTO(request)).thenReturn(peDTO);
-        when(programmeEditionService.createProgrammeEditionAndSave(peDTO)).thenReturn(peServiceResult);
+        when(controllerAssembler.toDTO(request)).thenReturn(peRequestDTO);
+        when(programmeEditionService.createProgrammeEditionAndSave(peRequestDTO)).thenReturn(peServiceResult);
         when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
@@ -258,8 +257,8 @@ class ProgrammeEditionRestControllerTest {
 
         ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,courseAssembler);
 
-        ProgrammeEditionServiceDTO peDTO = mock(ProgrammeEditionServiceDTO.class);
-        ProgrammeEditionServiceDTO peServiceResult = mock(ProgrammeEditionServiceDTO.class);
+        ProgrammeEditionRequestServiceDTO peDTO = mock(ProgrammeEditionRequestServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO peServiceResult = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
