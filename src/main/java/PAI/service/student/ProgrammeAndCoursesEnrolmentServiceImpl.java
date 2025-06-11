@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class ProgrammeAndCoursesEnrolmentServiceImpl {
+@Service
+public class ProgrammeAndCoursesEnrolmentServiceImpl implements IProgrammeAndCoursesEnrolmentService {
     private final IProgrammeEditionEnrolmentFactory _enrolmentFactory;
     private final IProgrammeEditionEnrolmentRepository _enrolmentRepository;
     private final ICourseEditionEnrolmentFactory _courseEditionEnrolmentFactory;
@@ -35,7 +35,7 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         _availableCoursesService = availableCoursesService;
         _courseEditionRepository = courseEditionRepository;
     }
-
+    @Override
     public ProgrammeEditionEnrolment createProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID) {
         return _enrolmentFactory.newProgrammeEditionEnrolment(studentID,programmeEditionID);
     }
@@ -106,7 +106,7 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         }
         return saved;
     }
-
+    @Override
     @Transactional
     public US34Response enrollStudentInProgrammeAndCourses(StudentID studentID, ProgrammeEditionID programmeEditionID, List<CourseID> courseIDS) throws Exception{
         ProgrammeEditionEnrolment PEE = createProgrammeEditionEnrolment(studentID,programmeEditionID);

@@ -42,8 +42,11 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
                     .withRel("enroll-student"),
                 linkTo(methodOn(CourseEditionRestController.class)
                     .findAllCourseEditions())
-                    .withRel("find-all-course-editions"))
-            )
+                    .withRel("find-all-course-editions"),
+                linkTo(methodOn(CourseEditionRestController.class)
+                            .getCourseEditionApprovalRate(null,null,null, null))
+                            .withRel("approval-rate")
+            ))
             .collect(Collectors.toList());
 
         return CollectionModel.of(listOfCourseEditionResponseDtosWithHypermedia);

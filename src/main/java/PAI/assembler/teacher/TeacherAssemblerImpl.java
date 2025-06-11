@@ -5,6 +5,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -56,6 +57,14 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
     }
 
     @Override
+    public TeacherIdDTO toIdDTO (Teacher teacher) {
+        if (teacher == null) {
+            throw new IllegalArgumentException("Teacher cannot be null");
+        }
+        return new TeacherIdDTO(teacher.getTeacherID().getTeacherAcronym().getAcronym());
+    }
+
+    @Override
     public Iterable<TeacherDTO> toDTOs(Iterable<Teacher> teachers) {
         if (teachers == null) {
             return Collections.emptyList();
@@ -64,6 +73,19 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
         List<TeacherDTO> listDTO = new ArrayList<>();
         for (Teacher teacher : teachers) {
             TeacherDTO teacherDTO = toDTO(teacher);
+            listDTO.add(teacherDTO);
+        }
+        return listDTO;
+    }
+
+    @Override
+    public Iterable<TeacherIdDTO> toIdDTOs (Iterable<Teacher> teachers) {
+        if (teachers == null) {
+            return Collections.emptyList();
+        }
+        List<TeacherIdDTO> listDTO = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+            TeacherIdDTO teacherDTO = toIdDTO(teacher);
             listDTO.add(teacherDTO);
         }
         return listDTO;

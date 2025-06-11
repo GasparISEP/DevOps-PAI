@@ -87,7 +87,8 @@ public class TeacherRestController {
             RegisterTeacherCommandDTO teacherCommandDTO = teacherAssembler.toRegisterTeacherCommandDTO(requestDTO);
             Teacher teacher = teacherRegistrationService.createAndSaveTeacher(teacherCommandDTO);
             TeacherDTO teacherDTO = teacherAssembler.toDTO(teacher);
-            return ResponseEntity.status(HttpStatus.CREATED).body(teacherDTO);
+            EntityModel<TeacherDTO> modelResponseDTO = teacherHateoasAssembler.toModel(teacherDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(modelResponseDTO);
 
         } catch (BusinessRuleViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -110,8 +111,9 @@ public class TeacherRestController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
             }
 
-            TeacherDTO responseDTO = teacherAssembler.toDTO(teacher.get());
-            return ResponseEntity.ok(responseDTO);
+            TeacherDTO teacherDTO = teacherAssembler.toDTO(teacher.get());
+            EntityModel<TeacherDTO> modelResponseDTO = teacherHateoasAssembler.toModel(teacherDTO);
+            return ResponseEntity.ok(modelResponseDTO);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

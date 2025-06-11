@@ -54,13 +54,13 @@ class StudentGradeRepresentationModelAssemblerTest {
             if (rel.equals("averageGrade") && href.contains("/courseeditions/averagegrade")) {
                 hasAverageGradeLink = true;
             }
-            if (rel.equals("approvalRate") && href.contains("/courseeditions/approvalpercentage")) {
+            if (rel.equals("/approval-rate") && href.contains("/courseeditions/approval-rate")) {
                 hasApprovalRateLink = true;
             }
         }
 
         assertTrue(hasSelfLink, "Should contain self link to /studentgrades/register");
         assertTrue(hasAverageGradeLink, "Should contain link to /averagegrade");
-        assertTrue(hasApprovalRateLink, "Should contain link to /approvalpercentage");
+        assertTrue(hasApprovalRateLink, "Should contain link to /approval-rate");
     }
 }

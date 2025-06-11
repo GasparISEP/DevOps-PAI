@@ -83,12 +83,17 @@ const NavBar = () => {
                 onMouseLeave={() => setIsOpenCourseEdition(false)}
             >
             <span className="navbar-link" tabIndex={0}>
-              <i className="fas fa-calendar-alt"></i> Course Edition
+              <i className="fa-solid fa-book"></i> Course Edition
             </span>
               <ul className={`navbar-dropdown-menu${isOpenCourseEdition ? ' show' : ''}`}>
                 <li>
-                  <Link to="/courseeditions/gradeastudent" className="navbar-link">
+                  <Link to="/courseeditions/register-grade-student" className="navbar-link">
                     Grade A Student
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courseeditions/display" className="navbar-link">
+                    Display Course Editions
                   </Link>
                 </li>
               </ul>

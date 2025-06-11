@@ -17,11 +17,12 @@ public class TeacherCareerProgressionAssembler implements ITeacherCareerProgress
 
     @Override
     public UpdateTeacherWorkingPercentageResponseDTO toUpdateWorkingPercentageDTO(TeacherCareerProgression teacherCareerProgression){
+        String teacherCareerProgressionID = teacherCareerProgression.identity().toString();
         String date = teacherCareerProgression.getDate().toString();
         String teacherID = teacherCareerProgression.getTeacherID().getTeacherAcronym().getAcronym();
         String teacherCategoryID = teacherCareerProgression.getTeacherCategoryID().toString();
         int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
-        return new UpdateTeacherWorkingPercentageResponseDTO(date,teacherID,teacherCategoryID,workingPercentage);
+        return new UpdateTeacherWorkingPercentageResponseDTO(teacherCareerProgressionID,date,teacherID,teacherCategoryID,workingPercentage);
     }
     @Override
     public UpdateTeacherWorkingPercentageCommand toUpdateTeacherWorkingPercentageCommand(String teacherIDStr, UpdateTeacherWorkingPercentageRequestDTO request) {
