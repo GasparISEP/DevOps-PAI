@@ -1194,13 +1194,15 @@ class TeacherRestControllerTest {
         when(teacherAssembler.fromStringToTeacherID(id)).thenReturn(teacherID);
         when(teacherService.getTeacherById(teacherID)).thenReturn(Optional.of(teacher));
         when(teacherAssembler.toDTO(teacher)).thenReturn(teacherDTO);
+        when(teacherHateoasAssembler.toModel(teacherDTO)).thenReturn(EntityModel.of(teacherDTO));
 
         // Act
         ResponseEntity<?> response = controller.getTeacherById(id);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(teacherDTO, response.getBody());
+        EntityModel<TeacherDTO> resultModel = (EntityModel<TeacherDTO>) response.getBody();
+        assertEquals(teacherDTO, resultModel.getContent());
     }
 
     @Test
