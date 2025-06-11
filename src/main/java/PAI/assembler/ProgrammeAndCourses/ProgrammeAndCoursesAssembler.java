@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class ProgrammeAndCoursesAssembler {
+public class ProgrammeAndCoursesAssembler implements IProgrammeAndCoursesAssembler {
 
     public StudentEnrolmentResultDto toDto(US34Response domain) {
         ProgrammeEditionEnrolment programmeEditionEnrolment = domain.progEditionEnrolment();
