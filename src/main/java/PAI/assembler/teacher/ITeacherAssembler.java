@@ -18,5 +18,7 @@ public interface ITeacherAssembler {
 
     Iterable<TeacherDTO> toDTOs(Iterable<Teacher> teachers);
 
+    Iterable<TeacherIdDTO> toIdDTOs (Iterable<Teacher> teachers);
+
     TeacherID fromStringToTeacherID(String id);
 }

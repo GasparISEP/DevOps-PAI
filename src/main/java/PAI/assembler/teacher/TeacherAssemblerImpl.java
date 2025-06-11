@@ -79,6 +79,19 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
     }
 
     @Override
+    public Iterable<TeacherIdDTO> toIdDTOs (Iterable<Teacher> teachers) {
+        if (teachers == null) {
+            return Collections.emptyList();
+        }
+        List<TeacherIdDTO> listDTO = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+            TeacherIdDTO teacherDTO = toIdDTO(teacher);
+            listDTO.add(teacherDTO);
+        }
+        return listDTO;
+    }
+
+    @Override
     public TeacherID fromStringToTeacherID(String id) {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("Teacher ID cannot be null or blank");

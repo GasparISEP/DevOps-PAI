@@ -266,5 +266,34 @@ class TeacherAssemblerImplTest {
 
     }
 
+    @Test
+    void shouldReturnListWithTeachersIdDTO(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+
+        Teacher teacher = mock(Teacher.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacher.getTeacherID()).thenReturn(teacherID);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("JAB");
+
+        Teacher teacher2 = mock(Teacher.class);
+        TeacherID teacherID2 = mock(TeacherID.class);
+        when(teacher2.getTeacherID()).thenReturn(teacherID2);
+        TeacherAcronym teacherAcronym2 = mock(TeacherAcronym.class);
+        when(teacherID2.getTeacherAcronym()).thenReturn(teacherAcronym2);
+        when(teacherAcronym.getAcronym()).thenReturn("ROR");
+
+        Iterable<Teacher> teachers = List.of(teacher, teacher2);
+        //act
+        Iterable<TeacherIdDTO> result = teacherAssembler.toIdDTOs(teachers);
+        //assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        assertEquals("ROR", result.iterator().next().id());
+
+    }
+
 }
 
