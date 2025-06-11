@@ -1,7 +1,6 @@
 package PAI.assembler.programmeEdition;
 
 import PAI.VOs.*;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.*;
 import org.springframework.stereotype.Component;
@@ -37,15 +36,14 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         return List.of();
     }
 
-//    @Override
-//    public CountStudentsRequestDto toCountDTO(ProgrammeEdition programmeEdition) {
-//        if (programmeEdition == null) {
-//            throw new IllegalArgumentException("ProgrammeEdition cannot be null");
-//        }
-//        ProgrammeEditionID id = programmeEdition.identity();
-//        String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
-//        String  schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
-//
-//        return new CountStudentsRequestDto(programmeAcronym, schoolYearID);
-//    }
+    @Override
+    public ProgrammeEditionIdDto toIdDto(ProgrammeEditionID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ProgrammeEditionID cannot be null");
+        }
+        String acronym = id.getProgrammeID().getAcronym().getAcronym();
+        String name = id.getProgrammeID().getProgrammeAcronym();
+        String schoolYearId = id.getSchoolYearID().getSchoolYearID().toString();
+        return new ProgrammeEditionIdDto(acronym, name, schoolYearId);
+    }
 }
