@@ -20,10 +20,12 @@ class StudentProgrammeEditionEnrolmentAssemblerImplTest {
         Acronym acronym = new Acronym("LEI");
         ProgrammeID programmeID = new ProgrammeID(acronym);
         SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
         ProgrammeEdition programmeEdition = new ProgrammeEdition(
                 new ProgrammeEditionID(programmeID, schoolYearID),
                 programmeID,
-                schoolYearID
+                schoolYearID,
+                programmeEditionGeneratedID
         );
 
         // Act

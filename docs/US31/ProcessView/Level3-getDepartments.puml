@@ -10,17 +10,17 @@ participant "<<Component>>\n:DepartmentRegistrationService" as S #lightblue
 participant "<<Component>>\n:DepartmentRepository" as R #lightyellow
 participant "<<Component>>\n:Drivers" as Drivers #strategy
 
- -> RT ++: **GET** /departments
+[o-> RT ++: **GET** /departments
 RT -> C ++: getAllDepartments()
 C -> S ++: getAllDepartments()
 S -> R ++: findAll()
 R -> Drivers ++: findAll()
-Drivers -> : **SELECT** findAll()
-Drivers <-- : List<Departments>
+Drivers ->o] : **SELECT** findAll()
+Drivers <--o] : List<Departments>
 Drivers --> R --: List<Departments>
 R --> S --: List<Departments>
 S --> C --: List<Departments>
 C --> RT --: List<Departments>
-<-- RT --: (OK, 200) List<Departments>
+[o<-- RT --: (OK, 200) List<Departments>
 
 @enduml

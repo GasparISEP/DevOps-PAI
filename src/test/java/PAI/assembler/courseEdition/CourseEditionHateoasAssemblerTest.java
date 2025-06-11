@@ -58,20 +58,6 @@ class CourseEditionHateoasAssemblerTest {
         assertTrue(href.contains("/courseeditions/ruc"));
     }
 
-
-    @Test
-    void toCollectionModel_ShouldContainSelfLink() {
-        // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class));
-
-        // Act
-        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
-
-        // Assert
-        assertTrue(result.hasLink("self"));
-    }
-
     @Test
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
         // Arrange
@@ -85,6 +71,7 @@ class CourseEditionHateoasAssemblerTest {
         // Assert
         assertTrue(entityModel.hasLink("self"));
         assertTrue(entityModel.hasLink("enroll-student"));
+        assertTrue(entityModel.hasLink("find-all-course-editions"));
     }
 
     @Test
@@ -96,6 +83,20 @@ class CourseEditionHateoasAssemblerTest {
         CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
         // Assert
         assertEquals(2, result.getContent().size());
+    }
+
+    @Test
+    void toCollectionModel_ShouldReturnCollectionModelWithCorrectHref() {
+        // Arrange
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class), mock(CourseEditionResponseDTO.class));
+        // Act
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
+        // Assert
+        assertTrue(entityModel.getLink("self").orElseThrow().getHref().contains("/courseeditions"));
+        assertTrue(entityModel.getLink("enroll-student").orElseThrow().getHref().contains("/courseeditions/students/0/courses-edition-enrolments"));
+        assertTrue(entityModel.getLink("find-all-course-editions").orElseThrow().getHref().contains("/courseeditions"));
     }
 
 }

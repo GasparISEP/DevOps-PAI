@@ -15,25 +15,20 @@ FE -> BE ++: **GET** /degreetypes
 BE -> BD ++: **SELECT** retrieveAllDegreeTypes()
 BD --> BE --: List<DegreeTypes>
 BE --> FE --: (OK, 200) List<DegreeTypes>
-FE --> Admin --: Choose a Degree Type
-Admin -> FE ++: Degree Type
 
 FE -> BE ++: **GET** /departments
 BE -> BD ++: **SELECT** retrieveAllDepartments()
 BD --> BE --: List<Departments>
 BE --> FE --: (OK, 200) List<Departments>
-FE --> Admin --: Choose a Department
-Admin -> FE ++: Department
+
 
 FE -> BE ++: **GET** /teachers
 BE -> BD ++: **SELECT** retrieveAllTeachers()
 BD --> BE --: List<Teachers>
 BE --> FE --: (OK, 200) List<Teachers>
-FE --> Admin --: Choose a Programme Director
-Admin -> FE ++: Programme Director
+FE --> Admin --: Display form with: \n Degree types, Departments, Teachers (dropdown) \n and Name, Acronym (inputs)
 
-FE --> Admin --: Name, Acronym?
-Admin -> FE ++: name, acronym
+Admin -> FE ++: Submit filled form \n(Degree Type, Department, Teacher, Name, Acronym)
 FE -> BE ++: **POST** /programmes (programmeDTO)
 BE -> BD ++: **SELECT EXISTS** isNameRegistered (name)
 BD --> BE --: False

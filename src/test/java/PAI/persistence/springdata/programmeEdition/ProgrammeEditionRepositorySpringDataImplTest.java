@@ -14,6 +14,7 @@ import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -754,5 +755,119 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         List<ProgrammeEdition> result = programmeEditionRepositorySpringDataImpl.getProgrammeEditionsByProgrammeID(programmeID);
         //assert
         assertNull(result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionIDsWithStartDateAfterGivenDate() throws Exception {
+        // arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper
+        );
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        java.time.LocalDate date = java.time.LocalDate.now();
+
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        ProgrammeEditionIdDataModel dataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeIDDataModel, date))
+                .thenReturn(List.of(dataModel));
+
+        ProgrammeEditionID domainID = mock(ProgrammeEditionID.class);
+        when(iProgrammeEditionIdMapper.toDomain(dataModel)).thenReturn(domainID);
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeID, date);
+
+        // assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(domainID, result.get(0));
+    }
+
+    @Test
+    void shouldThrowRuntimeExceptionWhenMappingFails() throws Exception {
+        // arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper
+        );
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        LocalDate date = LocalDate.now();
+
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+
+        ProgrammeEditionIdDataModel dataModel = mock(ProgrammeEditionIdDataModel.class);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeIDDataModel, date))
+                .thenReturn(List.of(dataModel));
+
+        when(iProgrammeEditionIdMapper.toDomain(dataModel)).thenThrow(new RuntimeException("mapping failed"));
+
+        // act & assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            repository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeID, date);
+        });
+
+        assertTrue(exception.getMessage().contains("Erro ao mapear ProgrammeEditionIdDataModel"));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProgrammeIDIsNull() {
+        // arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper
+        );
+
+        LocalDate date = LocalDate.now();
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(null, date);
+
+        // assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenDateIsNull() {
+        // arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper
+        );
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        // act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeID, null);
+
+        // assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }

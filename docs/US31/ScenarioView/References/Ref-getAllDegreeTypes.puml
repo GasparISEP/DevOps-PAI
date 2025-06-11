@@ -15,8 +15,8 @@ C -> DTS ++: getAllDegreeTypes()
 
 DTS -> DTR ++: findAll()
 
-DTR -> : findAll()
-DTR <-- : List<DegreeTypeDataModel>
+DTR ->o] : findAll()
+DTR <--o] : List<DegreeTypeDataModel>
 
 loop for DegreeTypeDataModel[i]
 DTR -> M ++: toDomainModel(degreeTypeDataModel[i])

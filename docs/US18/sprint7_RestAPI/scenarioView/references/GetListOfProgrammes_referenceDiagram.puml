@@ -1,0 +1,59 @@
+@startuml
+title Get List of Programmes \n (Reference Diagram)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":ProgrammeRestController" as Controller  #lightblue/white
+participant ":IProgrammeEditionService" as ProgrammeEditionService #lightblue/white
+participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler #lightblue/white
+participant ":ProgrammeDTO" as ProgrammeDTO #lightblue/white
+participant ":IProgrammeRepository" as ProgrammeRepo #lightblue/white
+participant ":IProgrammeMapper" as Mapper #lightblue/white
+participant ":IProgrammeFactory" as Factory #lightblue/white
+participant ":programme" as Programme #lightblue/white
+
+
+Controller -> ProgrammeEditionService: getAllProgrammes()
+activate Controller  #E1F5FE
+
+activate ProgrammeEditionService  #E1F5FE
+ProgrammeEditionService -> ProgrammeRepo: findAll()
+activate ProgrammeRepo #E1F5FE
+
+ProgrammeRepo -> : findAll()
+ProgrammeRepo <-- : List<ProgrammeDataModel>
+
+loop for ProgrammeDataModel[i]
+ProgrammeRepo -> Mapper: toDomain(programmeDataModel[i])
+activate Mapper #E1F5FE
+Mapper -> Factory: createProgramme(programmeDataModel[i])
+deactivate Mapper
+activate Factory #E1F5FE
+Factory -> Programme**: newProgramme(name, acronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID)
+deactivate Factory
+end
+
+ProgrammeRepo --> ProgrammeEditionService --: List<Programme>
+deactivate ProgrammeRepo
+ProgrammeEditionService --> Controller: List<Programme>
+deactivate ProgrammeEditionService
+
+loop for Programme[i]
+Controller -> ProgrammeEditionAssembler: fromDomainToDTO(programme[i])
+activate ProgrammeEditionAssembler #E1F5FE
+ProgrammeEditionAssembler -> ProgrammeDTO**: newProgrammeDTO(programme[i])
+end
+
+
+ProgrammeEditionAssembler --> Controller: Iterable<ProgrammeDTO>
+deactivate ProgrammeEditionAssembler
+
+deactivate Controller
+@enduml

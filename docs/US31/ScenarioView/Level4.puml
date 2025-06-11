@@ -27,9 +27,7 @@ end ref
 
 dtC --> UI --: List<DegreeTypeDTO>
 
-UI --> Admin --: Choose a Degree Type from the list
 
-Admin -> UI ++: degreeType
 
 UI -> dC ++: getAllDepartments()
 
@@ -39,9 +37,7 @@ end ref
 
 dC --> UI --: List<DepartmentDTO>
 
-UI --> Admin --: Choose a Department from the list
 
-Admin -> UI ++: department
 
 UI -> tC ++: getAllTeachers()
 
@@ -51,13 +47,9 @@ end ref
 
 tC --> UI --: List<TeacherDTO>
 
-UI --> Admin --: Choose a Programme Director from the list
+UI --> Admin --: Display form with: \n Degree types, Departments, Teachers \n and Name, Acronym
 
-Admin -> UI ++: teacher
-
-UI --> Admin --: Name? Acronym?
-
-Admin -> UI ++: name, acronym
+Admin -> UI ++: Submit filled form \n(Degree Type, Department, Teacher, Name, Acronym)
 
 UI -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
 
@@ -84,12 +76,12 @@ ref over PS
 end ref
 
 PS -> PR++ :isNameAlreadyRegistered (nameVO)
-PR -> : existsByName (nameVO)
-PR <-- : False
+PR ->o] : existsByName (nameVO)
+PR <--o] : False
 PR --> PS-- : False
 PS -> PR++ :isAcronymAlreadyRegistered (acronymVO)
-PR -> : existsByAcronym (acronymVO)
-PR <-- : False
+PR ->o] : existsByAcronym (acronymVO)
+PR <--o] : False
 PR --> PS-- : False
 PS -> PR ++: saveProgramme(P1)
 

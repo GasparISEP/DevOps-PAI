@@ -5,6 +5,7 @@ import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentA
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
@@ -12,7 +13,9 @@ import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,10 +60,12 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             List<ProgrammeID> programmeIDs = List.of(programmeID);
 
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
             ProgrammeEdition programmeEdition = new ProgrammeEdition(
                     new ProgrammeEditionID(programmeID, schoolYearID),
                     programmeID,
-                    schoolYearID
+                    schoolYearID,
+                    programmeEditionGeneratedID
             );
 
             List<ProgrammeEdition> editions = List.of(programmeEdition);
@@ -90,8 +95,10 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
 
-            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID, programmeEditionGeneratedID);
+
             ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
             ProgrammeEditionEnrolment enrolment = mock(ProgrammeEditionEnrolment.class);
 
@@ -134,7 +141,8 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
             ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
             SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
             ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
-            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID);
+            ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
+            ProgrammeEdition edition = new ProgrammeEdition(editionID, programmeID, schoolYearID,programmeEditionGeneratedID);
             ProgrammeEditionEnrolmentID enrolmentID = new ProgrammeEditionEnrolmentID(editionID, studentID);
 
             when(programmeEnrolmentRepository.findProgrammesByStudent(studentID))
@@ -171,7 +179,64 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
 
             assertEquals("ProgrammeEdition not found.", exception.getMessage());
         } catch (Exception e) {
-            fail("Exceção inesperada: " + e.getMessage());
+            fail("Unexpected Exception: " + e.getMessage());
         }
+    }
+
+    @Test
+    void shouldReturnLocalDate_whenProgrammeEnrolmentExists() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID generatedID = mock(ProgrammeEnrolmentGeneratedID.class);
+        LocalDate expectedDate = LocalDate.of(2024, 9, 15);
+
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        Date dateVO = mock(Date.class);
+
+        when(programmeEnrolmentRepository.findByGeneratedID(generatedID)).thenReturn(Optional.of(enrolment));
+        when(enrolment.getDate()).thenReturn(dateVO);
+        when(dateVO.getLocalDate()).thenReturn(expectedDate);
+
+        // Act
+        LocalDate result = service.findDateByProgrammeEnrolmentGeneratedID(generatedID);
+
+        // Assert
+        assertEquals(expectedDate, result);
+    }
+
+    @Test
+    void shouldReturnProgrammeID_whenProgrammeEnrolmentExists() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID generatedID = mock(ProgrammeEnrolmentGeneratedID.class);
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeID expectedProgrammeID = mock(ProgrammeID.class);
+
+        when(programmeEnrolmentRepository.findByGeneratedID(generatedID))
+                .thenReturn(Optional.of(enrolment));
+        when(enrolment.getProgrammeID()).thenReturn(expectedProgrammeID);
+
+        // Act
+        ProgrammeID result = service.findProgrammeIDByProgrammeEnrolmentGeneratedID(generatedID);
+
+        // Assert
+        assertEquals(expectedProgrammeID, result);
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionIDs_whenValidProgrammeIDAndDateProvided() {
+        // Arrange
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        LocalDate date = LocalDate.of(2025, 6, 11);
+
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionRepository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeID, date))
+                .thenReturn(List.of(editionID));
+
+        // Act
+        List<ProgrammeEditionID> result = service.getAvailableProgrammeEditions(programmeID, date);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(editionID, result.get(0));
     }
 }

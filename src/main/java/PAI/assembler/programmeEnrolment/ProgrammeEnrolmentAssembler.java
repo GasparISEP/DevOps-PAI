@@ -2,11 +2,16 @@ package PAI.assembler.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.student.Student;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -44,4 +49,28 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
         return new Date(programmeDTO.getDate());
     }
 
+    public ProgrammeEnrolmentGeneratedID toProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentIdDTO programmeEnrolmentIdDTO) {
+
+        UUID programmeUUID = programmeEnrolmentIdDTO.getProgrammeEnrolmentGID();
+       return new ProgrammeEnrolmentGeneratedID(programmeUUID);
+
+    }
+
+    @Override
+    public ProgrammeEnrolmentIdDTO toDTO(ProgrammeEnrolmentID programmeEnrolmentID) {
+        if (programmeEnrolmentID == null) {
+            throw new IllegalArgumentException("Programme ID cannot be null");
+        }
+        String programmeAcronym = programmeEnrolmentID.getProgrammeEnrolmentId();
+        return new ProgrammeEnrolmentIdDTO(UUID.fromString(programmeAcronym));
+    }
+
+    @Override
+    public List<ProgrammeEnrolmentIdDTO> toListOfDTOs(List<ProgrammeEnrolmentID> listIDs) {
+        List<ProgrammeEnrolmentIdDTO> listProg = new ArrayList<>();
+        for (ProgrammeEnrolmentID existingID : listIDs) {
+            listProg.add(toDTO((existingID)));
+        }
+        return listProg;
+    }
 }

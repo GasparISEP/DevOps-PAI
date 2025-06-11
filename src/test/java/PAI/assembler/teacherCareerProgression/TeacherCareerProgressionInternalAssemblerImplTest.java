@@ -1,12 +1,8 @@
 package PAI.assembler.teacherCareerProgression;
 
 import PAI.VOs.*;
-import PAI.assembler.teacherCategory.TeacherCategoryInternalAssemblerImpl;
-import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
-import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryDTO;
-import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -36,11 +32,15 @@ class TeacherCareerProgressionInternalAssemblerImplTest {
         WorkingPercentage doubleWorkingPercentage = mock(WorkingPercentage.class);
         when (doubleWorkingPercentage.getValue()).thenReturn(95);
 
+        TeacherCareerProgressionID doubleTeacherCareerProgressionID = mock(TeacherCareerProgressionID.class);
+        when (doubleTeacherCareerProgressionID.getIDValue()).thenReturn(UUID.randomUUID());
+
         TeacherCareerProgression doubleTeacherCareerProgression = mock (TeacherCareerProgression.class);
         when (doubleTeacherCareerProgression.getDate()).thenReturn(doubleDate);
         when (doubleTeacherCareerProgression.getTeacherID()).thenReturn(doubleTeacherID);
         when (doubleTeacherCareerProgression.getTeacherCategoryID()).thenReturn(doubleTeacherCategoryID);
         when (doubleTeacherCareerProgression.getWorkingPercentage()).thenReturn(doubleWorkingPercentage);
+        when (doubleTeacherCareerProgression.getID()).thenReturn(doubleTeacherCareerProgressionID);
 
         TeacherCareerProgressionInternalAssemblerImpl teacherCareerProgressionInternalAssembler =
                 new TeacherCareerProgressionInternalAssemblerImpl();
@@ -90,6 +90,9 @@ class TeacherCareerProgressionInternalAssemblerImplTest {
         WorkingPercentage doubleWorkingPercentage = mock(WorkingPercentage.class);
         when (doubleWorkingPercentage.getValue()).thenReturn(95);
         when (doubleTeacherCareerProgression1.getWorkingPercentage()).thenReturn(doubleWorkingPercentage);
+        TeacherCareerProgressionID doubleTeacherCareerProgressionID1 = mock(TeacherCareerProgressionID.class);
+        when (doubleTeacherCareerProgressionID1.getIDValue()).thenReturn(UUID.randomUUID());
+        when(doubleTeacherCareerProgression1.getID()).thenReturn(doubleTeacherCareerProgressionID1);
 
         TeacherCareerProgression doubleTeacherCareerProgression2 = mock(TeacherCareerProgression.class);
         Date doubleDate1 = mock(Date.class);
@@ -106,6 +109,9 @@ class TeacherCareerProgressionInternalAssemblerImplTest {
         WorkingPercentage doubleWorkingPercentage1 = mock(WorkingPercentage.class);
         when (doubleWorkingPercentage1.getValue()).thenReturn(98);
         when (doubleTeacherCareerProgression2.getWorkingPercentage()).thenReturn(doubleWorkingPercentage1);
+        TeacherCareerProgressionID doubleTeacherCareerProgressionID = mock(TeacherCareerProgressionID.class);
+        when (doubleTeacherCareerProgressionID.getIDValue()).thenReturn(UUID.randomUUID());
+        when(doubleTeacherCareerProgression2.getID()).thenReturn(doubleTeacherCareerProgressionID);
 
         List<TeacherCareerProgression> listTCP = List.of(doubleTeacherCareerProgression1, doubleTeacherCareerProgression2);
 

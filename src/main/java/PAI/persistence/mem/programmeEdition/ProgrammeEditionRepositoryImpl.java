@@ -1,11 +1,13 @@
 package PAI.persistence.mem.programmeEdition;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,5 +89,27 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
     }
     public SchoolYearID getSchoolYearIDByProgrammeEdition (ProgrammeEdition programmeEdition) {
         return programmeEdition.findSchoolYearIDInProgrammeEdition();
+    }
+
+    @Override
+    public List<ProgrammeEditionID> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(ProgrammeID programmeID, LocalDate date) {
+        /*if (programmeID == null || date == null) {
+            return List.of();
+        }
+
+        List<ProgrammeEditionID> result = new ArrayList<>();
+
+        for (ProgrammeEdition edition : programmeEditions) {
+            if (edition.findProgrammeIDInProgrammeEdition().equals(programmeID)) {
+                Date startDate = edition.findSchoolYearIDInProgrammeEdition().getStartDate;
+                if (startDate.after(date)) {
+                    result.add(edition.identity());
+                }
+            }
+        }
+
+        return result;
+    }*/
+        return null;
     }
 }

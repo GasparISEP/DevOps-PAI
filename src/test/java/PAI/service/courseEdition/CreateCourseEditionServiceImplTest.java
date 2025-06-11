@@ -15,7 +15,6 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
-
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CreateCourseEditionServiceImplTest {
 
@@ -347,10 +347,10 @@ public class CreateCourseEditionServiceImplTest {
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
-
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
         ICourseEditionRepository repository = mock(CourseEditionRepositorySpringDataImpl.class);
 
-        List<CourseEdition> fakeCourseEditions = List.of(new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble));
+        List<CourseEdition> fakeCourseEditions = List.of(new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID));
 
         when(repository.findAll()).thenReturn(fakeCourseEditions);
 

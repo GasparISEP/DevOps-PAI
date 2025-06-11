@@ -15,8 +15,8 @@ C -> TS ++: getAllTeachers()
 
 TS -> TR ++: findAll()
 
-TR -> : findAll()
-TR <-- : List<TeacherDataModel>
+TR ->o] : findAll()
+TR <--o] : List<TeacherDataModel>
 
 loop for TeacherDataModel[i]
 TR -> M ++: toDomain(teacherDataModel[i])

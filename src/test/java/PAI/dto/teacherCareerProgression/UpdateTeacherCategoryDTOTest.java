@@ -11,13 +11,15 @@ class UpdateTeacherCategoryDTOTest {
     @Test
     void shouldCreateUpdateTeacherCategoryDTOCorrectly() {
         // Arrange
+        String teacherCareerProgressionID = UUID.randomUUID().toString();
         String date = "2025-06-01";
         String teacherID = "AAA";
         String teacherCategoryID = UUID.randomUUID().toString();
         int workingPercentage = 95;
 
         // Act
-        UpdateTeacherCategoryDTO updateTeacherCategoryDTO = new UpdateTeacherCategoryDTO (date, teacherID, teacherCategoryID, workingPercentage);
+        UpdateTeacherCategoryDTO updateTeacherCategoryDTO = new
+                UpdateTeacherCategoryDTO (teacherCareerProgressionID,date, teacherID, teacherCategoryID, workingPercentage);
 
         // Assert
         assertEquals(date, updateTeacherCategoryDTO.date());
@@ -31,7 +33,8 @@ class UpdateTeacherCategoryDTOTest {
         // Arrange
 
         // Act
-        UpdateTeacherCategoryDTO updateTeacherCategoryDTO = new UpdateTeacherCategoryDTO (null, null, null, 0);
+        UpdateTeacherCategoryDTO updateTeacherCategoryDTO =
+                new UpdateTeacherCategoryDTO (null ,null, null, null, 0);
 
         // Assert
         assertNull (updateTeacherCategoryDTO.teacherID());

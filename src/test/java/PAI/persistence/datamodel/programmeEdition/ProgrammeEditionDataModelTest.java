@@ -163,4 +163,20 @@ class ProgrammeEditionDataModelTest {
         // Assert
         assertEquals(result, programmeEditionIdDataModel.hashCode());
     }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionIdIsNullInTwoArgsConstructor() {
+        ProgrammeEditionGeneratedIDDataModel generatedIDDataModel = mock(ProgrammeEditionGeneratedIDDataModel.class);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionDataModel(null, generatedIDDataModel);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProgrammeEditionGeneratedIdIsNull() {
+        ProgrammeEditionIdDataModel idDataModel = mock(ProgrammeEditionIdDataModel.class);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionDataModel(idDataModel, null);
+        });
+    }
 }

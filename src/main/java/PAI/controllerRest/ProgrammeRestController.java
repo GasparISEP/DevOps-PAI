@@ -4,27 +4,27 @@ import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.IProgrammeHATEOASAssembler;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
-import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.*;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
+import PAI.mapper.student.IStudentMapper;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
-import PAI.service.programmeEnrolment.ProgrammeEnrolmentServiceImpl;
 import PAI.service.studyPlan.IStudyPlanService;
-import PAI.service.teacher.ITeacherService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +37,18 @@ public class ProgrammeRestController {
     private final IProgrammeService _programmeService;
     private final IProgrammeAssembler _programmeAssembler;
     private final IProgrammeEnrolmentService _programmeEnrolmentService;
+    private final IProgrammeEnrolmentAssembler _programmeEnrolmentAssembler;
     private final IStudyPlanService _studyPlanService;
     private final IStudyPlanAssembler _studyPlanAssembler;
     private final IProgrammeDirectorAssembler _programmeDirectorAssembler;
     private final IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
+    private final IStudentDTOAssembler _studentAssembler;
 
     public ProgrammeRestController (IProgrammeService programmeService, IProgrammeAssembler programmeAssembler,
-                                    IProgrammeEnrolmentService programmeEnrolmentService,
-                                    IStudyPlanService studyPlanService, IStudyPlanAssembler studyPlanAssembler,
-                                    IProgrammeDirectorAssembler programmeDirectorAssembler, IProgrammeHATEOASAssembler programmeHATEOASAssembler){
+                                    IProgrammeEnrolmentService programmeEnrolmentService, IStudyPlanService studyPlanService,
+                                    IStudyPlanAssembler studyPlanAssembler, IProgrammeDirectorAssembler programmeDirectorAssembler,
+                                    IProgrammeHATEOASAssembler programmeHATEOASAssembler, IProgrammeEnrolmentAssembler programmeEnrolmentAssembler,
+                                    IStudentDTOAssembler studentAssembler){
 
         this._programmeService = programmeService;
         this._programmeAssembler = programmeAssembler;
@@ -54,6 +57,8 @@ public class ProgrammeRestController {
         this._studyPlanAssembler = studyPlanAssembler;
         this._programmeDirectorAssembler = programmeDirectorAssembler;
         this._programmeHATEOASAssembler = programmeHATEOASAssembler;
+        this._programmeEnrolmentAssembler = programmeEnrolmentAssembler;
+        this._studentAssembler = studentAssembler;
     }
 
     @PostMapping()
@@ -67,10 +72,10 @@ public class ProgrammeRestController {
         return new ResponseEntity<>(programmeEntityModel, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{programme-name}/{programme-acronym}/studyPlans")
-    public ResponseEntity<?> registerStudyPlan(@PathVariable("programme-name") String programmeName, @PathVariable("programme-acronym") String programmeAcronym, @RequestParam LocalDate studyPlanStartDate) {
+    @PostMapping("/{id}/studyPlans")
+    public ResponseEntity<?> registerStudyPlan(@PathVariable("id") String programmeAcronym, @RequestParam LocalDate studyPlanStartDate) {
         try {
-            RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeName, programmeAcronym, studyPlanStartDate);
+            RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeAcronym, studyPlanStartDate);
 
             StudyPlanResponseDTO responseDTO = _studyPlanAssembler.toResponseDTO(_studyPlanService.createStudyPlan(studyPlanCommand));
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
@@ -160,12 +165,13 @@ public class ProgrammeRestController {
         }
     }
 
-    @PostMapping("/studentID")
-    public ResponseEntity<List<ProgrammeIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@RequestBody StudentIDDTO dto) {
+    @GetMapping("/{id}/programmes-enrolled-in")
+    public ResponseEntity<List<ProgrammeEnrolmentIdDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("id") String id) {
         try {
-            StudentID studentID = dto.studentID();
-            List<ProgrammeID> programmeID = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
-            return ResponseEntity.ok(_programmeAssembler.toListOfDTOs(programmeID));
+            StudentIDDTO dto = new StudentIDDTO(id);
+            StudentID studentID = _studentAssembler.toIdDTO(dto);
+            List<ProgrammeEnrolmentID> programmeEnrolmentID = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
+            return ResponseEntity.ok(_programmeEnrolmentAssembler.toListOfDTOs(programmeEnrolmentID));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

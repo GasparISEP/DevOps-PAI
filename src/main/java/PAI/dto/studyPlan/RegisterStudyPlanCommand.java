@@ -2,6 +2,7 @@ package PAI.dto.studyPlan;
 
 import PAI.VOs.Date;
 import PAI.VOs.ProgrammeID;
+import java.util.UUID;
 
 public class RegisterStudyPlanCommand {
 

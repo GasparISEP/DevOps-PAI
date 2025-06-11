@@ -9,6 +9,8 @@ import PAI.dto.course.CourseIDDTO;
 import PAI.dto.course.CourseRequestDTO;
 import PAI.dto.course.CourseResponseDTO;
 
+import java.util.List;
+
 public interface ICourseAssembler {
 
     CourseDTOCommand toDomain (CourseRequestDTO requestDTO);
@@ -16,4 +18,6 @@ public interface ICourseAssembler {
     CourseResponseDTO toDTO (Course course);
 
     CourseIDDTO toIDDTO(CourseID courseID);
+
+    List<CourseIDDTO> toDTOList(List<CourseID> courses);
 }

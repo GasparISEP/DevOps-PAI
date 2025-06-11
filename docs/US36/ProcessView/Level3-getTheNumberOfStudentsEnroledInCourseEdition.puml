@@ -10,17 +10,17 @@ participant "<<Component>>\nCEES:courseEditionEnrolmentService" as S #lightyello
 participant "<<Component>>\nCEER:CourseEditionEnrolmentRepository" as R #lightgreen
 participant "<<Component>>\n:Drivers" as D #strategy
 
--> Router ++: **GET** /course-editions/{id}/student-count
+[o-> Router ++: **GET** /course-editions/{id}/student-count
 Router -> C ++: getNumberOfStudentsInCourseEdition\n(selectedCourseEditionIDDTO)
 C -> S ++: numberOfStudentsEnrolledInCourseEdition\n(courseEditionID)
 S -> R ++: numberOfStudentsEnrolledInCourseEdition\n(courseEditionID)
 R -> D ++: countById_CourseEditionIDAndActiveTrue\n
-D -> : **SELECT** countById_CourseEditionIDAndActiveTrue\n(courseEditionIDDataModel)
-D <--: studentCount
+D ->o] : **SELECT** countById_CourseEditionIDAndActiveTrue\n(courseEditionIDDataModel)
+D <--o]: studentCount
 D --> R --: studentCount
 R --> S --: studentCount
 S --> C --: studentCount
 C --> Router --: studentCount
- <-- Router --:(OK, 200) studentCount
+[o<-- Router --:(OK, 200) studentCount
 
 @enduml

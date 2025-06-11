@@ -1,5 +1,6 @@
 package PAI.domain.repositoryInterfaces.courseEditionEnrolment;
 
+import PAI.VOs.CourseEditionEnrolmentGeneratedID;
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
@@ -14,7 +15,11 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     boolean isStudentEnrolledInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) throws Exception;
 
+    boolean existsByGeneratedID(CourseEditionEnrolmentGeneratedID generatedID);
+
     Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId);
+
+    Optional<CourseEditionEnrolment> findByGeneratedID(CourseEditionEnrolmentGeneratedID id);
 
     int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
 

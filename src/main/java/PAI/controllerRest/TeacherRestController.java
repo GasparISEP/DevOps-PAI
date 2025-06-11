@@ -4,7 +4,9 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.teacher.ITeacherAssembler;
 import PAI.assembler.teacher.ITeacherHateoasAssembler;
+import PAI.assembler.teacher.ITeacherWithRelevantDataHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
+import PAI.assembler.teacherCareerProgression.IUpdateTeacherCategoryHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
@@ -15,13 +17,15 @@ import PAI.service.teacher.ITeacherRegistrationService;
 import PAI.service.teacher.ITeacherWithRelevantDataService;
 import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -36,10 +40,16 @@ public class TeacherRestController {
     private final ITeacherWithRelevantDataService teacherWithRelevantDataService;
     private final TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
     private final IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
+    private final IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface;
+    private final ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler;
 
     public TeacherRestController(ITeacherRegistrationService teacherService, ITeacherAssembler teacherAssembler,
                                  ITeacherHateoasAssembler teacherHateoasAssembler, ICreateTeacherCareerProgressionService careerService,
-                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService, TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler, IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler) {
+                                 ITeacherCareerProgressionAssembler careerAssembler, ITeacherWithRelevantDataService teacherWithRelevantDataService,
+                                 TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler,
+                                 IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler,
+                                 IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssemblerInterface,
+                                 ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler) {
         this.teacherRegistrationService = validateNotNull (teacherService, "Teacher Registration Service Interface");
         this.teacherAssembler = validateNotNull (teacherAssembler, "Teacher Assembler Interface");
         this.teacherHateoasAssembler = validateNotNull(teacherHateoasAssembler, "Teacher Hateoas Assembler Interface");
@@ -50,6 +60,8 @@ public class TeacherRestController {
                 validateNotNull(teacherWithRelevantDataAssembler,  "Teacher With Relevant Data Assembler Interface");
         this.updateTeacherWorkingPercentageHateoasAssembler =
                 validateNotNull(updateTeacherWorkingPercentageHateoasAssembler,  "Update Teacher Working Percentage Hateoas Assembler Interface");
+        this.updateTeacherCategoryHateoasAssemblerInterface = validateNotNull(updateTeacherCategoryHateoasAssemblerInterface, "Update Teacher Category Hateoas Assembler Interface");
+        this.iTeacherWithRelevantDataHateoasAssembler = validateNotNull(iTeacherWithRelevantDataHateoasAssembler, "Teacher With Relevant Data Hateoas Assembler Interface");
     }
 
     @GetMapping
@@ -57,7 +69,8 @@ public class TeacherRestController {
         try {
             Iterable<Teacher> teachers = teacherRegistrationService.getAllTeachers();
             Iterable<TeacherDTO> teacherDTOs = teacherAssembler.toDTOs(teachers);
-            return ResponseEntity.ok(teacherDTOs);
+            CollectionModel<EntityModel<TeacherDTO>> collectionModel = teacherHateoasAssembler.toCollectionModel(teacherDTOs);
+            return ResponseEntity.ok(collectionModel);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -119,7 +132,7 @@ public class TeacherRestController {
 
         UpdateTeacherCategoryResponseDTO responseDTO = careerAssembler.toUpdateTeacherCategoryResponseDTO(result);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updateTeacherCategoryHateoasAssemblerInterface.toModel(responseDTO));
     }
 
     @PostMapping("/careerprogressions/{teacherID}/working-percentage")
@@ -167,7 +180,7 @@ public class TeacherRestController {
 
 
             TeacherWithRelevantDataDTO teacherWithRelevantDataDTO = teacherWithRelevantDataService.registerTeacherWithRelevantData(teacherID, name, email, nif, phoneNumber, academicBackground, street, postalCode, location, country, departmentID, date, teacherCategoryID, workingPercentage);
-            return ResponseEntity.status(HttpStatus.CREATED).body(teacherWithRelevantDataDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(iTeacherWithRelevantDataHateoasAssembler.toModel(teacherWithRelevantDataDTO));
 
         } catch (BusinessRuleViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -180,14 +193,4 @@ public class TeacherRestController {
         }
     }
 
-    @GetMapping ("/careerprogressions")
-    public ResponseEntity <Object> getAllTeacherCareerProgression () throws Exception {
-        List<UpdateTeacherCategoryDTO> listTCP = careerService.getAllTeacherCareerProgression();
-
-        List<UpdateTeacherCategoryResponseDTO> listTCPResponseDTO = careerAssembler.toResponseDTOs(listTCP);
-
-        return ResponseEntity.status(HttpStatus.OK).body(listTCPResponseDTO);
-
-
-    }
 }

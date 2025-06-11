@@ -14,7 +14,7 @@ M -> DM**: newCourseEditionIDDataModel(courseEditionID)
 activate DM
 DM --> M --: courseEditionIDDataModel
 M --> R --: courseEditionIDDataModel
-R -> : countById_CourseEditionIDAndActiveTrue(courseEditionIDDataModel)
-R <-- :studentCount
+R ->o] : countById_CourseEditionIDAndActiveTrue(courseEditionIDDataModel)
+R <--o] :studentCount
 
 @enduml

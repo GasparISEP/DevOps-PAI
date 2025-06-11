@@ -5,13 +5,16 @@ import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentA
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,5 +89,21 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
             throw new IllegalStateException("Failed to save ProgrammeEditionEnrolment: " + e.getMessage(), e);
         }
 
+    }
+
+    public LocalDate findDateByProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
+        Optional<ProgrammeEnrolment> programmeEnrolmentOptional = programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID);
+
+        return programmeEnrolmentOptional.get().getDate().getLocalDate();
+    }
+
+    public ProgrammeID findProgrammeIDByProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
+        Optional<ProgrammeEnrolment> programmeEnrolmentOptional = programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID);
+
+        return programmeEnrolmentOptional.get().getProgrammeID();
+    }
+
+    public List<ProgrammeEditionID> getAvailableProgrammeEditions(ProgrammeID programmeID, LocalDate date) {
+        return programmeEditionRepository.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeID, date);
     }
 }

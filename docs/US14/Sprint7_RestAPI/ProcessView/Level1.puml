@@ -13,22 +13,10 @@ participant ":SystemPAI" as System <<System>>
 admin -> System: I want to update teacher's category!
 activate System #E1F5FE
 
-System --> admin: What teacher?
+System --> admin: Make the form available!
 deactivate System
 
-admin -> System: Enter teacher acronym!
-activate System #E1F5FE
-
-System --> admin: What teacher category?
-deactivate System
-
-admin -> System: Enter teacher category!
-activate System #E1F5FE
-
-System --> admin: What date?
-deactivate System
-
-admin -> System: Date!
+admin -> System: Form submitted!
 activate System #E1F5FE
 
 System --> admin: Sure?

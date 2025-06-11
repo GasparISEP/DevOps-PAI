@@ -13,7 +13,7 @@ participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
 participant ":ProgrammeEditionEnrolmentHateoasAssembler" as peeHateoasAssembler
 database DB
 
-router -> peeCtrl: GET /programme-edition-enrolments/students?studentId={id}
+router -> peeCtrl: GET students/{id}/programme-edition-enrolments
 peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentID(StudentID)
 peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(StudentID)
 peeRepo -> DB ++: SELECT programme_edition_id FROM programme_edition_enrollments\nWHERE student_id = StudentID
@@ -22,14 +22,12 @@ DB --> peeRepo --: List<ProgrammeEditionID>
 peeRepo --> peeService --: List<ProgrammeEditionID>
 peeService --> peeCtrl --: List<ProgrammeEditionID>
 
-peeCtrl -> peeHateoasAssembler ++: toCollectionModel(List<ProgrammeEditionID>, StudentID)
+peeCtrl -> peeAssembler ++: toDtoList(List<ProgrammeEditionID>, StudentID)
+peeAssembler --> peeCtrl --: List<ProgrammeEditionEnrolmentDetailDTO>
 
-loop for ProgrammeEditionID[i]  
-    peeHateoasAssembler -> syRepo ++: findBySchoolYearID(SchoolYearID)
-    syRepo -> DB ++: SELECT * FROM school_years\nWHERE id = SchoolYearID
-    DB --> syRepo --: SchoolYearDataModel
-    syRepo --> peeHateoasAssembler --: SchoolYear
-end
+peeCtrl -> peeHateoasAssembler ++: toCollectionModel(List<ProgrammeEditionEnrolmentDetailDTO>)
+
+
 peeHateoasAssembler --> peeCtrl --: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
 peeCtrl --> router: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
 

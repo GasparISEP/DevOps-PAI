@@ -1,11 +1,13 @@
 package PAI.domain.repositoryInterfaces.programmeEdition;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.ddd.IRepository;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,4 +30,6 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
     default Optional<ProgrammeEdition> findByID(ProgrammeEditionID id) {
         return ofIdentity(id);
     }
+
+    List<ProgrammeEditionID> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(ProgrammeID programmeID, LocalDate date);
 }

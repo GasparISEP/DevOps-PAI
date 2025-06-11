@@ -17,12 +17,13 @@ public class TeacherCareerProgressionInternalAssemblerImpl implements ITeacherCa
             throw new IllegalArgumentException("Teacher Career Progression cannot be null");
         }
 
+        String teacherCareerProgressionID = teacherCareerProgression.getID().toString();
         String date = teacherCareerProgression.getDate().toString();
         String teacherID = teacherCareerProgression.getTeacherID().toString();
         String teacherCategoryID = teacherCareerProgression.getTeacherCategoryID().toString();
         int workingPercentage = teacherCareerProgression.getWorkingPercentage().getValue();
 
-        return new UpdateTeacherCategoryDTO(date, teacherID, teacherCategoryID, workingPercentage);
+        return new UpdateTeacherCategoryDTO(teacherCareerProgressionID, date, teacherID, teacherCategoryID, workingPercentage);
     }
 
     public List<UpdateTeacherCategoryDTO> toDTOList (Iterable<TeacherCareerProgression> teacherCareerProgressions) {

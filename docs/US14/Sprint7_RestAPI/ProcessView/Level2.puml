@@ -17,22 +17,16 @@ participant ":Database" as db <<Container>>
 admin -> frontend: I want to update teacher's category!
 activate frontend #E1F5FE
 
-frontend -> backend: GET /teachers/ids
+frontend -> backend: GET /teachers
 activate backend #E1F5FE
 
-backend -> db: SELECT id FROM teacher
+backend -> db: SELECT * FROM teacher
 activate db #E1F5FE
-db --> backend: teacherIDs: List<TeacherIDs>
+db --> backend: teacherIDs: List<Teacher>
 deactivate db
 
-backend --> frontend: 200 + body {List<TeacherIDResponseDTO>}
+backend --> frontend: 200 \n + body {List<TeacherResponseDTO> + hypermedia}
 deactivate backend
-
-frontend --> admin: What teacher?
-deactivate frontend
-
-admin -> frontend: Enter teacher acronym!
-activate frontend #E1F5FE
 
 frontend -> backend: GET /teacher-categories
 activate backend #E1F5FE
@@ -40,19 +34,13 @@ backend -> db: SELECT * FROM teacherCategory
 activate db #E1F5FE
 db --> backend: teacherCategories: Iterable<TeacherCategory>
 deactivate db
-backend --> frontend: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+backend --> frontend: 200 \n + body {Iterable<TeacherCategoryResponseDTO> + hypermedia}
 deactivate backend
 
-frontend --> admin: What teacher category?
+frontend --> admin: Make the form available!
 deactivate frontend
 
-admin -> frontend: Enter teacher category!
-activate frontend #E1F5FE
-
-frontend --> admin: What date?
-deactivate frontend
-
-admin -> frontend: Date!
+admin -> frontend: Form submitted!
 activate frontend #E1F5FE
 
 frontend --> admin: Sure?
@@ -87,7 +75,7 @@ activate db #E1F5FE
 db --> backend: teacherCareerProgression
 deactivate db
 
-backend --> frontend: 201 + body {updateTeacherCategoryResponseDTO + hypermedia}
+backend --> frontend: 201 \n + body {updateTeacherCategoryResponseDTO + hypermedia}
 deactivate backend
 
 <-- frontend : Ok!

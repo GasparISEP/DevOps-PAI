@@ -1,5 +1,6 @@
 package PAI.persistence.springdata.courseEditionEnrolment;
 
+import PAI.VOs.CourseEditionEnrolmentGeneratedID;
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
@@ -9,6 +10,7 @@ import PAI.mapper.courseEditionEnrolment.ICourseEditionEnrolmentMapper;
 import PAI.mapper.student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
@@ -58,6 +60,12 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
         return iCEERepoSpringData.existsById_StudentIDAndId_CourseEditionIDAndActiveTrue(studentIDDataModel, courseEditionIDDataModel);
     }
 
+    public boolean existsByGeneratedID(CourseEditionEnrolmentGeneratedID generatedID) {
+        if (generatedID == null) return false;
+        CourseEditionEnrolmentGeneratedIDDataModel dataModel = new CourseEditionEnrolmentGeneratedIDDataModel(generatedID.getCourseEditionEnrolmentGeneratedID());
+        return iCEERepoSpringData.existsByGeneratedID(dataModel);
+    }
+
     @Override
     public Optional<CourseEditionEnrolment> findByStudentAndEdition(StudentID studentId, CourseEditionID courseEditionId) {
         try {
@@ -76,13 +84,26 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
         }
     }
 
+    @Override
+    public Optional<CourseEditionEnrolment> findByGeneratedID(CourseEditionEnrolmentGeneratedID id) {
+        try {
+            CourseEditionEnrolmentGeneratedIDDataModel ceeGeneratedIDDM = new CourseEditionEnrolmentGeneratedIDDataModel(id.getCourseEditionEnrolmentGeneratedID());
+            Optional<CourseEditionEnrolmentDataModel> dataModel = iCEERepoSpringData.findByGeneratedID(ceeGeneratedIDDM);
+            if (dataModel.isPresent()) {
+                return iCEEMapper.toDomain(dataModel.get());
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
     @Override
     public int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception {
         CourseEditionIDDataModel courseEditionIDDataModel = icourseEditionIDMapper.toDataModel(courseEditionId);
         return (int) iCEERepoSpringData.countById_CourseEditionIDAndActiveTrue(courseEditionIDDataModel);
     }
-
 
     @Override
     public void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception {
@@ -114,7 +135,6 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
             throw new RuntimeException("Error retrieving the set", e);
         }
     }
-
 
     @Override
     public CourseEditionEnrolment save(CourseEditionEnrolment entity) throws Exception {

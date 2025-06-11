@@ -415,9 +415,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -557,9 +557,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -698,9 +698,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -839,9 +839,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -960,9 +960,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -1095,9 +1095,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -1239,9 +1239,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -1382,9 +1382,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -1527,9 +1527,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));
@@ -1672,9 +1672,9 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
                 new Acronym("APP2"), new MaxEcts(30), new QuantSemesters(30), new DegreeTypeID(),
                 departmentID, teacherID);
 
-        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity());
-        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity());
-        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity());
+        ProgrammeEdition edition1 = new ProgrammeEdition(new ProgrammeEditionID(programme1.identity(), schoolYear1.identity()), programme1.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition2 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear1.identity()), programme2.identity(), schoolYear1.identity(), new ProgrammeEditionGeneratedID());
+        ProgrammeEdition edition3 = new ProgrammeEdition(new ProgrammeEditionID(programme2.identity(), schoolYear2.identity()), programme2.identity(), schoolYear2.identity(), new ProgrammeEditionGeneratedID());
 
         Address address1 = new Address(new Street("Street1"), new PostalCode("4444-441"), new Location("Porto"), new Country("PT"));
         Address address2 = new Address(new Street("Street2"), new PostalCode("4444-442"), new Location("Braga"), new Country("PT"));

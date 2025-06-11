@@ -17,7 +17,7 @@ BE --> FE --: (OK, 200) List<CourseEditions>
 FE --> Admin --: Which course edition?
 
 Admin -> FE ++ : courseEdition
-FE -> BE ++ : **GET** /course-editions/{id}/student-count
+FE -> BE ++ : **GET** /course-editions/{id}/enrolments/count
 
 BE -> BD ++ : **SELECT** countEnrolledStudents(courseEditionID)
 BD --> BE --: studentCount

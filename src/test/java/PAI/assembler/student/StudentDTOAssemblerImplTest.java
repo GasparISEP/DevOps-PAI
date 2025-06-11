@@ -3,11 +3,13 @@ package PAI.assembler.student;
 import PAI.VOs.*;
 import PAI.domain.student.Student;
 import PAI.dto.student.StudentDTO;
+import PAI.dto.student.StudentIDDTO;
 import PAI.dto.student.StudentResponseDTO;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class StudentDTOAssemblerImplTest {
 
@@ -171,5 +173,30 @@ class StudentDTOAssemblerImplTest {
         //Assert
         assertNotNull(result);
         assertEquals(studentID, result.getStudentID());
+    }
+
+    @Test
+    void shouldTransformStudentIDtoIDDTO() {
+        //arrange
+        StudentIDDTO studentIDDTO = mock(StudentIDDTO.class);
+        StudentDTOAssemblerImpl assembler = new StudentDTOAssemblerImpl();
+
+        when(studentIDDTO.studentID()).thenReturn("1234567");
+
+        //act
+        StudentID id = assembler.toIdDTO(studentIDDTO);
+
+        //assert
+        assertEquals(1234567, id.getUniqueNumber());
+    }
+
+    @Test
+    void shouldNotTransformToIdDTOBecauseItsNull(){
+        //arrange
+        StudentIDDTO studentIDDTO = null;
+        StudentDTOAssemblerImpl assembler = new StudentDTOAssemblerImpl();
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> assembler.toIdDTO(studentIDDTO));
     }
 }

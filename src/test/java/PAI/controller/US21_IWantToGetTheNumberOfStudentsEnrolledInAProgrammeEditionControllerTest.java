@@ -5,6 +5,8 @@ import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.programmeEdition.ProgrammeEditionServiceAssemblerImpl;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
+import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
@@ -41,6 +43,7 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
+import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +70,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
     @Autowired private ICourseEditionEnrolmentRepository courseEditionEnrolmentRepository;
     @Autowired private ICourseEditionRepository courseEditionRepository;
     @Autowired private ISchoolYearRepository schoolYearRepository;
+    @Autowired private ISchoolYearService schoolYearService;
     @Autowired private IProgrammeEnrolmentRepository programmeEnrolmentRepository;
     @Autowired private IProgrammeRepository programmeRepository;
     @Autowired private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
@@ -93,9 +97,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
                 programmeEditionFactory,
                 programmeEditionRepository,
                 programmeRepository,
-                schoolYearRepository,
                 programmeEditionEnrolmentRepository,
-                programmeEditionAssembler
+                programmeEditionAssembler,
+                schoolYearService
         );
 
         controller = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(
@@ -230,7 +234,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,schoolYearRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -294,7 +298,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,schoolYearRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -318,17 +322,27 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
 
     @Test
     void shouldGetAllProgrammeEdition() throws Exception {
-        // arrange
+        // Arrange
         IProgrammeEditionEnrolmentService iProgrammeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
         IProgrammeEditionService iProgrammeEditionService = mock(IProgrammeEditionService.class);
+
         US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController controller =
                 new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(iProgrammeEditionEnrolmentService, iProgrammeEditionService);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-        when(iProgrammeEditionService.findAllProgrammeEditions()).thenReturn(List.of(programmeEdition));
-        // act
-        Iterable<ProgrammeEdition> result = controller.getAllProgrammeEdition();
-        // assert
-        assertEquals(List.of(programmeEdition), result);
+
+        ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO("CSE");
+        String schoolYearId = UUID.randomUUID().toString();
+
+        ProgrammeEditionResponseServiceDTO dto = new ProgrammeEditionResponseServiceDTO(programmeIDDTO, schoolYearId);
+        List<ProgrammeEditionResponseServiceDTO> dtoList = List.of(dto);
+
+        when(iProgrammeEditionService.findAllProgrammeEditions()).thenReturn(dtoList);
+
+        // Act
+        Iterable<ProgrammeEditionResponseServiceDTO> result = controller.getAllProgrammeEdition();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(dtoList, result);
     }
 }
 

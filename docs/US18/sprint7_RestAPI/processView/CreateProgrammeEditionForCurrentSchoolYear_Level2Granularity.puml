@@ -34,9 +34,9 @@ deactivate backend
 
 -> frontend: Yes!
 
-frontend -> backend: POST /programme-editions + body {"programmeId":d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b}
+frontend -> backend: POST /programme-editions + body {"programme": {"acronym": "CSD" }}
 activate backend #E1F5FE
-backend -> DB: INSERT INTO programme_edition (programme_id, school_year_id) VALUES (d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b, <currentSchoolYearID>)
+backend -> DB: INSERT INTO programme_edition (programme_id, school_year_id) VALUES ('CSD','3aef0884-d779-42fd-9079-22dcf1ca8166')
 activate DB #E1F5FE
 DB --> backend: programmeEdition
 deactivate DB

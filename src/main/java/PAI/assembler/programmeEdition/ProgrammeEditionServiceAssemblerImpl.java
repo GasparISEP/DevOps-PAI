@@ -3,13 +3,16 @@ package PAI.assembler.programmeEdition;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEdition.CountStudentsDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.RequestServiceDto;
+import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
-import PAI.dto.schoolYear.SchoolYearIDDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Component
 public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionServiceAssembler {
@@ -18,19 +21,23 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
     }
 
     @Override
-    public CountStudentsDto toCountStudentsInProgrammeEditionDTO(ProgrammeEdition programmeEdition) {
+    public ProgrammeEditionResponseServiceDTO toResponseServiceDTOFromProgrammeEdition(ProgrammeEdition programmeEdition) {
         if (programmeEdition == null) {
             throw new IllegalArgumentException("ProgrammeEdition cannot be null");
         }
+
         ProgrammeEditionID id = programmeEdition.identity();
         String programmeAcronym = id.getProgrammeID().getAcronym().getAcronym();
         String schoolYearID = id.getSchoolYearID().getSchoolYearID().toString();
 
-        return new CountStudentsDto(programmeAcronym, schoolYearID);
+        return new ProgrammeEditionResponseServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym),
+                schoolYearID
+        );
     }
 
     @Override
-    public ProgrammeEdition CountStudentsInProgrammeEditionDTOtoDomain(CountStudentsDto dto) throws Exception {
+    public ProgrammeEdition toProgrammeEditionFromRequestServiceDTO(RequestServiceDto dto) throws Exception {
         if (dto == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
@@ -38,47 +45,29 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
         ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
         SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(dto.schoolYearID()));
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        ProgrammeEditionGeneratedID programmeEditionGeneratedID = new ProgrammeEditionGeneratedID();
 
-        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID);
+        return new ProgrammeEdition(programmeEditionID, programmeID, schoolYearID, programmeEditionGeneratedID);
     }
 
     @Override
-    public SchoolYearID toSchoolYearID(ProgrammeEditionServiceDTO programmeEditionServiceDTO) {
-        if (programmeEditionServiceDTO == null) {
+    public ProgrammeID toProgrammeID(ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO) {
+        if (programmeEditionRequestServiceDTO == null) {
             throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
         }
-        String schoolYearId = programmeEditionServiceDTO.schoolYear().id();
-        return new SchoolYearID(UUID.fromString(schoolYearId));
-    }
-
-    @Override
-    public ProgrammeID toProgrammeID(ProgrammeEditionServiceDTO programmeEditionServiceDTO) {
-        if (programmeEditionServiceDTO == null) {
-            throw new IllegalArgumentException("ProgrammeEditionDTO cannot be null");
-        }
-        String programmeAcronym = programmeEditionServiceDTO.programme().acronym();
+        String programmeAcronym = programmeEditionRequestServiceDTO.programme().acronym();
         return new ProgrammeID(new Acronym(programmeAcronym));
     }
 
     @Override
-    public ProgrammeEditionServiceDTO toDTO(ProgrammeID programmeID, SchoolYearID schoolYearID) {
+    public ProgrammeEditionResponseServiceDTO toServiceResponseDTOFromIDs(ProgrammeID programmeID, SchoolYearID schoolYearID) {
         if (programmeID == null || schoolYearID == null) {
-            throw new IllegalArgumentException("programmeID and or schoolYearID cannot be null");
+            throw new IllegalArgumentException("programmeID, schoolYearID, and programmeEditionID cannot be null");
         }
         String programmeAcronym = programmeID.getProgrammeAcronym();
         String schoolYearId = schoolYearID.getSchoolYearID().toString();
         ProgrammeIDDTO programmeIDDTO = new ProgrammeIDDTO(programmeAcronym);
-        SchoolYearIDDTO schoolYearIDRequestDTO = new SchoolYearIDDTO(schoolYearId);
-        return new ProgrammeEditionServiceDTO(programmeIDDTO, schoolYearIDRequestDTO);
+        return new ProgrammeEditionResponseServiceDTO(programmeIDDTO, schoolYearId);
     }
 
-    @Override
-    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
-        if (programmeEditionIdDto == null) {
-            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
-        }
-        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeEditionIdDto.programmeAcronym()));
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
-        return new ProgrammeEditionID(programmeID, schoolYearID);
-    }
 }
