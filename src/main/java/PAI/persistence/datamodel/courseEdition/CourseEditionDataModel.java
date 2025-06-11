@@ -1,8 +1,8 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -18,26 +18,35 @@ public class CourseEditionDataModel implements Serializable {
     private CourseEditionIDDataModel _courseEditionIDDataModel;
 
     @Embedded
+    private CourseEditionGeneratedIDDataModel _courseEditionGeneratedIDDataModel;
+
+    @Embedded
     private TeacherIDDataModel _teacherIDDataModel;
 
     protected CourseEditionDataModel() {}
 
-    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel) {
+    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel) {
 
         if (courseEditionIDDataModel == null)
             throw new IllegalArgumentException("courseEditionIDDataModel cannot be null");
+        if (courseEditionGeneratedIDDataModel == null)
+            throw new IllegalArgumentException("courseEditionGeneratedIDDataModel cannot be null");
 
         this._courseEditionIDDataModel = courseEditionIDDataModel;
+        this._courseEditionGeneratedIDDataModel = courseEditionGeneratedIDDataModel;
     }
 
-    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, TeacherIDDataModel teacherIDDataModel) {
+    public CourseEditionDataModel(CourseEditionIDDataModel courseEditionIDDataModel, CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel, TeacherIDDataModel teacherIDDataModel) {
 
         if (courseEditionIDDataModel == null)
             throw new IllegalArgumentException("courseEditionIDDataModel cannot be null");
+        if (courseEditionGeneratedIDDataModel == null)
+            throw new IllegalArgumentException("courseEditionGeneratedIDDataModel cannot be null");
         if (teacherIDDataModel == null)
             throw new IllegalArgumentException("teacherIDDataModel cannot be null");
 
         this._courseEditionIDDataModel = courseEditionIDDataModel;
+        this._courseEditionGeneratedIDDataModel = courseEditionGeneratedIDDataModel;
         this._teacherIDDataModel = teacherIDDataModel;
     }
 
@@ -51,6 +60,10 @@ public class CourseEditionDataModel implements Serializable {
 
     public CourseInStudyPlanIDDataModel getCourseInStudyPlanIDDataModel() {
         return _courseEditionIDDataModel.getCourseInStudyPlanIDDataModel();
+    }
+
+    public CourseEditionGeneratedIDDataModel getCourseEditionGeneratedIDDataModel() {
+        return this._courseEditionGeneratedIDDataModel;
     }
 
     public TeacherIDDataModel getTeacherIDDataModel() {

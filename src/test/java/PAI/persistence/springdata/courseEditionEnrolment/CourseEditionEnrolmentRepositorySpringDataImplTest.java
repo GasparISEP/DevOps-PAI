@@ -1,5 +1,6 @@
 package PAI.persistence.springdata.courseEditionEnrolment;
 
+import PAI.VOs.CourseEditionEnrolmentGeneratedID;
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
@@ -9,6 +10,7 @@ import PAI.mapper.courseEditionEnrolment.ICourseEditionEnrolmentMapper;
 import PAI.mapper.student.IStudentIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
@@ -17,11 +19,32 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CourseEditionEnrolmentRepositorySpringDataImplTest {
+
+    private ICourseEditionEnrolmentRepositorySpringData _ceeRepoSpringDataDouble;
+    private ICourseEditionEnrolmentMapper _ceeMapperDouble;
+    private ICourseEditionEnrolmentIDMapper _ceeIDMapperDouble;
+    private IStudentIDMapper _studentIDMapperDouble;
+    private ICourseEditionIDMapper _courseEditionIDMapperDouble;
+    private CourseEditionEnrolmentGeneratedID _ceeGeneratedIDDouble;
+    private CourseEditionEnrolmentDataModel _ceeDataModelDouble;
+    private CourseEditionEnrolment _ceeDouble;
+
+    void createDoubles(){
+        _ceeRepoSpringDataDouble = mock(ICourseEditionEnrolmentRepositorySpringData.class);
+        _ceeMapperDouble = mock(ICourseEditionEnrolmentMapper.class);
+        _ceeIDMapperDouble = mock(ICourseEditionEnrolmentIDMapper.class);
+        _studentIDMapperDouble = mock(IStudentIDMapper.class);
+        _courseEditionIDMapperDouble = mock(ICourseEditionIDMapper.class);
+        _ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        _ceeDataModelDouble = mock(CourseEditionEnrolmentDataModel.class);
+        _ceeDouble = mock(CourseEditionEnrolment.class);
+    }
 
     @Test
     void should_return_true_if_student_is_enrolled_in_course_edition() throws Exception {
@@ -56,8 +79,121 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
         // assert
         assertTrue(result);
-}
+    }
 
+    @Test
+    void shouldReturnTrueWhenObjectWithSpecificGeneratedIDExists() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        UUID uuid = UUID.randomUUID();
+        when(_ceeGeneratedIDDouble.getCourseEditionEnrolmentGeneratedID()).thenReturn(uuid);
+
+        when(_ceeRepoSpringDataDouble.existsByGeneratedID(new CourseEditionEnrolmentGeneratedIDDataModel(uuid))).thenReturn(true);
+
+        //Act
+        boolean result = repo.existsByGeneratedID(_ceeGeneratedIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGeneratedIDIsNull() {
+        // Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        // Act
+        boolean result = repo.existsByGeneratedID(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenObjectWithSpecificGeneratedIDDoesNotExist() {
+        // Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        UUID uuid = UUID.randomUUID();
+        when(_ceeGeneratedIDDouble.getCourseEditionEnrolmentGeneratedID()).thenReturn(uuid);
+
+        when(_ceeRepoSpringDataDouble.existsByGeneratedID(new CourseEditionEnrolmentGeneratedIDDataModel(uuid))).thenReturn(false);
+
+        // Act
+        boolean result = repo.existsByGeneratedID(_ceeGeneratedIDDouble);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnDomainCourseEditionEnrolmentWhenFound() throws Exception{
+        // Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        UUID uuid = UUID.randomUUID();
+        when(_ceeGeneratedIDDouble.getCourseEditionEnrolmentGeneratedID()).thenReturn(uuid);
+
+        Optional<CourseEditionEnrolmentDataModel> dataModelOpt = Optional.of(_ceeDataModelDouble);
+
+        Optional<CourseEditionEnrolment> expectedOpt = Optional.of(_ceeDouble);
+
+        when(_ceeRepoSpringDataDouble.findByGeneratedID(new CourseEditionEnrolmentGeneratedIDDataModel(uuid))).thenReturn(dataModelOpt);
+
+        when(_ceeMapperDouble.toDomain(_ceeDataModelDouble)).thenReturn(expectedOpt);
+
+        // Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(_ceeGeneratedIDDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(_ceeDouble, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyCourseEditionEnrolmentWhenMapperFails() throws Exception {
+        // Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        UUID uuid = UUID.randomUUID();
+        when(_ceeGeneratedIDDouble.getCourseEditionEnrolmentGeneratedID()).thenReturn(uuid);
+
+        Optional<CourseEditionEnrolmentDataModel> dataModelOpt = Optional.of(_ceeDataModelDouble);
+
+        when(_ceeRepoSpringDataDouble.findByGeneratedID(new CourseEditionEnrolmentGeneratedIDDataModel(uuid))).thenReturn(dataModelOpt);
+
+        when(_ceeMapperDouble.toDomain(_ceeDataModelDouble)).thenThrow(new RuntimeException("Mapper failed"));
+
+        // Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(_ceeGeneratedIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyCourseEditionEnrolmentWhenNotFound() {
+        // Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositorySpringDataImpl repo = new CourseEditionEnrolmentRepositorySpringDataImpl(_ceeRepoSpringDataDouble, _ceeMapperDouble, _ceeIDMapperDouble, _studentIDMapperDouble, _courseEditionIDMapperDouble);
+
+        UUID uuid = UUID.randomUUID();
+        when(_ceeGeneratedIDDouble.getCourseEditionEnrolmentGeneratedID()).thenReturn(uuid);
+
+        when(_ceeRepoSpringDataDouble.findByGeneratedID(new CourseEditionEnrolmentGeneratedIDDataModel(uuid))).thenReturn(Optional.empty());
+
+        // Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(_ceeGeneratedIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
 
     @Test
     void should_return_number_of_students_enrolled_in_course_edition() throws Exception {

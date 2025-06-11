@@ -1,8 +1,8 @@
 package PAI.persistence.datamodel.courseEdition;
 
-import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
+import PAI.persistence.datamodel.teacher.TeacherIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,25 +11,42 @@ import static org.mockito.Mockito.when;
 
 class CourseEditionDataModelTest {
 
-    // -----Constructos Tests-----
+    // -----Constructor Tests-----
     @Test
     void shouldThrowExceptionIfGivenArgumentIsNull() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = null;
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel);});
 
         // Assert
         assertEquals("courseEditionIDDataModel cannot be null", exception.getMessage());
     }
 
     @Test
+    void shouldThrowExceptionIfCourseEditionGeneratedIDDataModelIsNull() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel);});
+
+        // Assert
+        assertEquals("courseEditionGeneratedIDDataModel cannot be null", exception.getMessage());
+    }
+
+    @Test
     void shouldCreateCourseEditionDataModelWithOnlyCourseEditionArgument() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+
         // Act
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, courseEditionGeneratedIDDataModel);
+
         // Assert
         assertNotNull(courseEditionDataModel);
     }
@@ -51,9 +68,10 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
 
         // Act
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Assert
         assertNotNull(courseEditionDataModel);
@@ -64,12 +82,27 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = null;
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);});
 
         // Assert
         assertEquals("courseEditionIDDataModel cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfCourseEditionGeneratedIDDataModelGivenIsNull() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = null;
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);});
+
+        // Assert
+        assertEquals("courseEditionGeneratedIDDataModel cannot be null", exception.getMessage());
     }
 
     @Test
@@ -77,9 +110,10 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = null;
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
 
         // Act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);});
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);});
 
         // Assert
         assertEquals("teacherIDDataModel cannot be null", exception.getMessage());
@@ -103,8 +137,9 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
 
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, courseEditionGeneratedIDDataModel,teacherIDDataModel);
 
         // Act
         CourseEditionIDDataModel cEIDDM = courseEditionDataModel.getCourseEditionIDDataModel();
@@ -120,7 +155,8 @@ class CourseEditionDataModelTest {
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         ProgrammeEditionIdDataModel programmeEditionIDDataModel = mock(ProgrammeEditionIdDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         when(courseEditionDataModel.getProgrammeEditionIDDataModel()).thenReturn(programmeEditionIDDataModel);
 
@@ -138,7 +174,8 @@ class CourseEditionDataModelTest {
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = mock(CourseInStudyPlanIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         when(courseEditionIDDataModel.getCourseInStudyPlanIDDataModel()).thenReturn(courseInStudyPlanIDDataModel);
 
@@ -147,6 +184,21 @@ class CourseEditionDataModelTest {
 
         // Assert
         assertEquals(courseInStudyPlanIDDataModel, cISPIDDM);
+    }
+
+    @Test
+    void shouldReturnCourseEditionGeneratedIDDataModel() {
+        // Arrange
+        CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
+
+        // Act
+        CourseEditionGeneratedIDDataModel datamodel = courseEditionDataModel.getCourseEditionGeneratedIDDataModel();
+
+        // Assert
+        assertNotNull(datamodel);
     }
 
     // -----getCourseInStudyPlanIDDataModel Tests-----
@@ -162,12 +214,14 @@ class CourseEditionDataModelTest {
         assertNull(teacherIDDataModel);
     }
 
+
     @Test
     void shouldReturnTeacherIDDataModelWhenCourseEditionDataModelIsCreatedWithArguments() {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         TeacherIDDataModel teacherIDDataModelResult = courseEditionDataModel.getTeacherIDDataModel();
@@ -182,7 +236,8 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel.equals(courseEditionDataModel);
@@ -196,7 +251,8 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel.equals(null);
@@ -210,7 +266,8 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel.equals(courseEditionIDDataModel);
@@ -224,8 +281,9 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
-        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
+        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel,courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel1.equals(courseEditionDataModel2);
@@ -240,8 +298,10 @@ class CourseEditionDataModelTest {
         CourseEditionIDDataModel courseEditionIDDataModel1 = mock(CourseEditionIDDataModel.class);
         CourseEditionIDDataModel courseEditionIDDataModel2 = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel1, teacherIDDataModel);
-        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel2, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel1 = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel2 = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel1 = new CourseEditionDataModel(courseEditionIDDataModel1, courseEditionGeneratedIDDataModel1, teacherIDDataModel);
+        CourseEditionDataModel courseEditionDataModel2 = new CourseEditionDataModel(courseEditionIDDataModel2, courseEditionGeneratedIDDataModel2, teacherIDDataModel);
 
         // Act
         boolean result = courseEditionDataModel1.equals(courseEditionDataModel2);
@@ -256,7 +316,8 @@ class CourseEditionDataModelTest {
         // Arrange
         CourseEditionIDDataModel courseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
         TeacherIDDataModel teacherIDDataModel = mock(TeacherIDDataModel.class);
-        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, teacherIDDataModel);
+        CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel = mock(CourseEditionGeneratedIDDataModel.class);
+        CourseEditionDataModel courseEditionDataModel = new CourseEditionDataModel(courseEditionIDDataModel, courseEditionGeneratedIDDataModel, teacherIDDataModel);
 
         // Act
         int result = courseEditionDataModel.hashCode();

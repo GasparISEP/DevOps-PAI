@@ -10,7 +10,7 @@ import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.service.schoolYear.ISchoolYearService;
@@ -97,7 +97,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
 
     @Override
-    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception {
+    public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) {
         if (programmeID == null) {
             return List.of();
         }
@@ -106,15 +106,23 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public List<ProgrammeEdition> findAllProgrammeEditions() {
+    public List<ProgrammeEditionResponseServiceDTO> findAllProgrammeEditions() {
         Iterable<ProgrammeEdition> iterable = programmeEditionRepository.findAll();
-        List<ProgrammeEdition> list = new ArrayList<>();
-        iterable.forEach(list::add);
+
+        List<ProgrammeEditionResponseServiceDTO> list = new ArrayList<>();
+
+        for (ProgrammeEdition programmeEdition : iterable) {
+            ProgrammeEditionResponseServiceDTO dto = programmeEditionAssembler.toServiceResponseDTOFromIDs(
+                    programmeEdition.findProgrammeIDInProgrammeEdition(),
+                    programmeEdition.findSchoolYearIDInProgrammeEdition());
+            list.add(dto);
+        }
         return list;
     }
+
     @Override
-    public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception {
-        ProgrammeEdition programmeEdition = programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
+    public int countTotalNumberOfStudentsInAProgrammeEdition(RequestServiceDto programmeEditionDTO) throws Exception {
+        ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
         List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
         return allProgrammeEditionEnrolment.size();
     }
@@ -135,7 +143,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             ProgrammeEdition savedEdition = savedProgramme.get();
             ProgrammeEditionID programmeEditionID = savedEdition.identity();
 
-            return programmeEditionAssembler.toResponseDTO(
+            return programmeEditionAssembler.toServiceResponseDTOFromIDs(
                     programmeEditionID.getProgrammeID(),
                     programmeEditionID.getSchoolYearID()
             );
@@ -145,12 +153,18 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID) {
+    public List<ProgrammeEditionResponseServiceDTO> getProgrammeEditionIDsByProgrammeID(ProgrammeEditionRequestServiceDTO requestDTO) {
+
+        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(requestDTO);
+
         Iterable<ProgrammeEdition> allEditions = programmeEditionRepository.findAll();
 
         return StreamSupport.stream(allEditions.spliterator(), false)
                 .filter(p -> p.identity().getProgrammeID().equals(programmeID))
-                .map(ProgrammeEdition::identity)
+                .map(p -> {
+                    ProgrammeEditionID id = p.identity();
+                    return programmeEditionAssembler.toServiceResponseDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID());
+                })
                 .toList();
     }
 }
