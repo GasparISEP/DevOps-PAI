@@ -70,24 +70,4 @@ public class ProgrammeEditionServiceAssemblerImpl implements IProgrammeEditionSe
         return new ProgrammeEditionResponseServiceDTO(programmeIDDTO, schoolYearId);
     }
 
-//    @Override
-//    public ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception {
-//        if (programmeEditionIdDto == null) {
-//            throw new IllegalArgumentException("ProgrammeEditionIdDto cannot be null");
-//        }
-//        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeEditionIdDto.programmeAcronym()));
-//        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
-//        return new ProgrammeEditionID(programmeID, schoolYearID);
-//    }
-
-    @Override
-    public List<ProgrammeEditionResponseServiceDTO> toServiceResponseDTOList(List<ProgrammeEdition> programmeEditions) {
-        validateNotNull(programmeEditions, "ProgrammeEditions List");
-
-        return programmeEditions.stream()
-                .map(pe -> toServiceResponseDTOFromIDs(
-                        pe.findProgrammeIDInProgrammeEdition(),
-                        pe.findSchoolYearIDInProgrammeEdition()))
-                .toList();
-    }
 }
