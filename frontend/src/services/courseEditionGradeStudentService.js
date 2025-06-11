@@ -1,12 +1,12 @@
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
-export async function registerTeacher(teacherDTO) {
-    const response = await fetch(`${API_URL}/teachers`, {
+export async function gradeAStudent(gradeAStudentRequestDTO) {
+    const response = await fetch(`${API_URL}/courseeditions/studentgrades/register`, { // Corrigido o endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(teacherDTO)
+        body: JSON.stringify(gradeAStudentRequestDTO) // Corrigido o nome da variável
     });
 
     let responseData = null;
@@ -27,14 +27,15 @@ export async function registerTeacher(teacherDTO) {
         console.warn("Resposta sem corpo JSON");
     }
 
-    return responseData;
+    return responseData; // Retorna um GradeAStudentResponseDTO
 }
 
-export async function getAllTeachers() {
-    const response = await fetch(`${API_URL}/teachers`);
-    const data = await response.json();
+export async function findAllCourseEditions() {
+    const response = await fetch(`${API_URL}/courseeditions`);
+
     if (!response.ok) {
-        throw new Error('Failed to fetch teachers');
+        throw new Error('Failed to fetch Course Editions');
     }
-    return data._embedded ? data._embedded.teacherDTOList : [];
+
+    return response.json();
 }

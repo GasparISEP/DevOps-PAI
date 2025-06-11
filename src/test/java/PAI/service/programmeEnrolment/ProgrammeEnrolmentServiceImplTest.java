@@ -215,12 +215,12 @@ class ProgrammeEnrolmentServiceImplTest {
         ProgrammeEnrolmentServiceImpl peService =
                 new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
-        List<ProgrammeID> expectedProgrammeIDs = List.of(mock(ProgrammeID.class), mock(ProgrammeID.class));
+        List<ProgrammeEnrolmentID> expectedProgrammeIDs = List.of(mock(ProgrammeEnrolmentID.class), mock(ProgrammeEnrolmentID.class));
         when(_peRepositoryDouble.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble))
                 .thenReturn(expectedProgrammeIDs);
 
         // act
-        List<ProgrammeID> result = peService.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble);
+        List<ProgrammeEnrolmentID> result = peService.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble);
 
         // assert
         assertEquals(expectedProgrammeIDs, result);

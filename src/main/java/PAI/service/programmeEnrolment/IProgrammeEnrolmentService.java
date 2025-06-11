@@ -9,5 +9,5 @@ public interface IProgrammeEnrolmentService {
 
     ProgrammeEnrolment enrolStudentInProgramme (StudentID studentID, AccessMethodID accessMethodID, ProgrammeID programmeID, Date date) throws Exception;
     ProgrammeEnrolment findEnrolmentByStudentAndProgramme(StudentID sid, ProgrammeID pid);
-    List<ProgrammeID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID);
+    List<ProgrammeEnrolmentID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID);
 }

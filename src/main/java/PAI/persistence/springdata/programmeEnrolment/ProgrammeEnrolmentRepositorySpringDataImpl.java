@@ -13,6 +13,7 @@ import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -115,12 +116,15 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
     }
 
     @Override
-    public List<ProgrammeID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
-        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
-        List<ProgrammeIDDataModel> dataModels = jpaRepo.findProgrammeIDsByStudentID(studentIDDataModel);
-        return dataModels.stream()
-                .map(programmeIDMapper::toDomain)
-                .collect(Collectors.toList());
+    public List<ProgrammeEnrolmentID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        List<ProgrammeEnrolmentID> listOfEnrolments = new ArrayList<>();
+        Iterable<ProgrammeEnrolment> allEnrolments = findAll();
+        for (ProgrammeEnrolment existingEnrolment : allEnrolments) {
+            if (existingEnrolment.hasSameStudent(studentID)) {
+                listOfEnrolments.add(existingEnrolment.identity());
+            }
+        }
+        return listOfEnrolments;
     }
 }
 
