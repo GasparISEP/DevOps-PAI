@@ -79,4 +79,14 @@ class TeacherHateoasAssemblerImplTest {
         assertThrows(IllegalArgumentException.class,() -> hateoasAssembler.toCollectionModel(teacherDTOS));
     }
 
+    @Test
+    void nullTeacherDTOFromListThrowsException(){
+        //arrange
+        TeacherDTO teacherDTO = null;
+        Iterable<TeacherDTO> teacherDTOS = Collections.singleton(teacherDTO);
+        TeacherHateoasAssemblerImpl hateoasAssembler = new TeacherHateoasAssemblerImpl();
+        //act + assert
+        assertThrows(IllegalArgumentException.class,() -> hateoasAssembler.toCollectionModel(teacherDTOS));
+    }
+
 }
