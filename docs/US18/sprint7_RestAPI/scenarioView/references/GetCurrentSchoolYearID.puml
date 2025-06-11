@@ -1,0 +1,80 @@
+@startuml
+title GetCurrentSchoolYear \n Reference Diagram
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":IProgrammeEditionService" as ProgrammeEditionService
+participant ":ISchoolYearService" as SchoolYearService
+participant ":ISchoolYearRepository" as SchoolYearRepo
+participant ":SchoolYearRepositorySpringDataImpl" as RepoSpringDataImpl
+participant ":ISchoolYearRepositorySpringData" as RepoSpringData
+participant ":ISchoolYearMapper" as Mapper
+participant ":ISchoolYearFactory" as Factory
+participant "currentSchoolYearDataModel:SchoolYearDataModel" as DataModel
+
+ProgrammeEditionService -> SchoolYearService: getCurrentSchoolYearID()
+activate ProgrammeEditionService #E1F5FE
+activate SchoolYearService #E1F5FE
+SchoolYearService -> SchoolYearRepo: getCurrentSchoolYear()
+activate SchoolYearRepo #E1F5FE
+SchoolYearRepo -> RepoSpringDataImpl:findCurrentSchoolYear()
+activate RepoSpringDataImpl #E1F5FE
+RepoSpringDataImpl -> RepoSpringData: findCurrentSchoolYear()
+activate RepoSpringData  #E1F5FE
+RepoSpringData --> RepoSpringDataImpl: currentSchoolYearDataModel
+deactivate RepoSpringData
+RepoSpringDataImpl -> Mapper: toDomain(currentSchoolYearDataModel)
+activate Mapper  #E1F5FE
+
+Mapper -> DataModel: getID()
+activate DataModel  #E1F5FE
+DataModel --> Mapper: uuid
+deactivate DataModel
+
+Mapper -> DataModel: getDescription()
+activate DataModel  #E1F5FE
+DataModel --> Mapper: description
+deactivate DataModel
+
+Mapper -> DataModel: getStartDate()
+activate DataModel  #E1F5FE
+DataModel --> Mapper: startDate
+deactivate DataModel
+
+Mapper -> DataModel: getEndDate()
+activate DataModel  #E1F5FE
+DataModel --> Mapper: endDate
+deactivate DataModel
+
+Mapper -> Factory: createSchoolYear(uuid, description, startDate, endDate)
+activate Factory #E1F5FE
+Factory --> Mapper: schoolYear
+deactivate Factory
+
+Mapper --> RepoSpringData: schoolYear
+deactivate Mapper
+activate RepoSpringData #E1F5FE
+RepoSpringData --> RepoSpringDataImpl: schoolYear
+deactivate RepoSpringData
+RepoSpringDataImpl --> SchoolYearRepo: schoolYear
+deactivate RepoSpringDataImpl
+SchoolYearRepo --> SchoolYearService: schoolYear
+deactivate SchoolYearRepo
+
+SchoolYearService -> "schoolYear:SchoolYear": identity()
+activate "schoolYear:SchoolYear" #E1F5FE
+"schoolYear:SchoolYear" --> SchoolYearService: schoolYearID
+deactivate "schoolYear:SchoolYear"
+
+
+SchoolYearService --> ProgrammeEditionService: schoolYearID
+deactivate SchoolYearService
+
+@enduml
