@@ -97,9 +97,9 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
                 programmeEditionFactory,
                 programmeEditionRepository,
                 programmeRepository,
-                programmeEditionEnrolmentRepository,
                 programmeEditionAssembler,
-                schoolYearService
+                schoolYearService,
+                programmeEditionEnrolmentService
         );
 
         controller = new US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController(
@@ -234,7 +234,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
@@ -298,7 +298,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
         IProgrammeEditionFactory programmeEditionFactory = new ProgrammeEditionFactoryImpl();
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionEnrolmentRepository,programmeEditionAssembler, schoolYearService);
+        IProgrammeEditionService iProgrammeEditionService = new ProgrammeEditionService(programmeEditionFactory,programmeEditionRepository,programmeRepository,programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
                 programmeEditionEnrolmentRepository,
                 programmeEditionRepository,
