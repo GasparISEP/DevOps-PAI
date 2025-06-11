@@ -70,4 +70,13 @@ class TeacherHateoasAssemblerImplTest {
         assertTrue(result.getContent().iterator().next().hasLink("self"));
     }
 
+    @Test
+    void nullTeacherDTOsThrowsException(){
+        //arrange
+        Iterable<TeacherDTO> teacherDTOS = null;
+        TeacherHateoasAssemblerImpl hateoasAssembler = new TeacherHateoasAssemblerImpl();
+        //act + assert
+        assertThrows(IllegalArgumentException.class,() -> hateoasAssembler.toCollectionModel(teacherDTOS));
+    }
+
 }

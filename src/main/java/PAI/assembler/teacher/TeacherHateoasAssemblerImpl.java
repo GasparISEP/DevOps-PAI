@@ -27,7 +27,13 @@ public class TeacherHateoasAssemblerImpl implements ITeacherHateoasAssembler {
 
     @Override
     public CollectionModel<EntityModel<TeacherDTO>> toCollectionModel (Iterable<? extends TeacherDTO> teacherDTOs) {
+
+        if (teacherDTOs == null) {
+            throw new IllegalArgumentException("TeacherDTOs must not be null");
+        }
+
         List<EntityModel<TeacherDTO>> models = new ArrayList<>();
+
         for (TeacherDTO teacherDTO : teacherDTOs) {
             models.add(toModel(teacherDTO));
         }
