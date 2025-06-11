@@ -21,8 +21,8 @@ Assembler -> RequestDTO: getAcronym()
 activate RequestDTO #E1F5FE
 RequestDTO --> Assembler: acronym
 deactivate RequestDTO
-Assembler --> ":ProgrammeIDDTO"**: new ProgrammeIDDTO(acronym)
-Assembler --> ":ProgrammeEditionServiceDTO"**: new ProgrammeEditionServiceDTO(programmeIDDTO)
-Assembler -> Controller: programmeEditionServiceDTO
+Assembler -> ":ProgrammeIDDTO"**: new ProgrammeIDDTO(acronym)
+Assembler -> ":ProgrammeEditionServiceRequestDTO"**: new ProgrammeEditionServiceRequestDTO(programmeIDDTO)
+Assembler --> Controller: programmeEditionServiceRequestDTO
 deactivate Assembler
 @enduml
