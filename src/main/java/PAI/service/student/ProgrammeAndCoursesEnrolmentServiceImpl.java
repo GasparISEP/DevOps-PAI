@@ -10,6 +10,7 @@ import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         return courseEditionIDs;
     }
 
-    private List<CourseEditionEnrolment> createCourseEditions(StudentID studentID,CourseEditionEnrolmentGeneratedID id, List<CourseEditionID> courseEditionIDS, Date date){
+    private List<CourseEditionEnrolment> createCourseEditions(StudentID studentID, List<CourseEditionID> courseEditionIDS){
         List<CourseEditionEnrolment> result = new ArrayList<>();
 
         if (courseEditionIDS == null || courseEditionIDS.isEmpty()) {
@@ -105,5 +106,15 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         }
         return saved;
     }
+
+    @Transactional
+    public US34Response enrollStudentInProgrammeAndCourses(StudentID studentID, ProgrammeEditionID programmeEditionID, List<CourseID> courseIDS) throws Exception{
+        ProgrammeEditionEnrolment PEE = createProgrammeEditionEnrolment(studentID,programmeEditionID);
+        List<CourseEditionEnrolment> CEEs = createCourseEditions(studentID,getCourseEditionIDsFromProgrammeAndCISP(programmeEditionID,getListOfCourseInStudyPlanID(filterMatchingCourseInStudyPlans(courseIDS,programmeEditionID))));
+        ProgrammeEditionEnrolment savedPEE = _enrolmentRepository.save(PEE);
+        List<CourseEditionEnrolment> savedCEEs = saveAllCourseEditionEnrolments(CEEs);
+        return new US34Response(savedPEE,savedCEEs);
+    }
+
 
 }
