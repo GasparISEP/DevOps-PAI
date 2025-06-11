@@ -1,5 +1,6 @@
 package PAI.persistence.springdata.programmeEdition;
 
+import PAI.VOs.Date;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +23,17 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
     @Query("SELECT pe FROM ProgrammeEditionDataModel pe WHERE pe.programmeEditionIdDataModel.programmeIDDataModel = :programmeIDDataModel")
     List<ProgrammeEditionDataModel> findProgrammeEditionByProgrammeIDDataModel(
             @Param("programmeIDDataModel") ProgrammeIDDataModel programmeIDDataModel);
+
+
+    @Query("""
+SELECT p.programmeEditionIdDataModel
+FROM ProgrammeEditionDataModel p
+JOIN SchoolYearDataModel s ON s.id = p.programmeEditionIdDataModel.schoolYearIDDataModel
+WHERE p.programmeEditionIdDataModel.programmeIDDataModel.programmeAcronym = :programmeID
+AND s.startDate > :startDate
+""")
+    List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(
+            @Param("programmeID") ProgrammeIDDataModel programmeID,
+            @Param("startDate") LocalDate startDate
+    );
 }
