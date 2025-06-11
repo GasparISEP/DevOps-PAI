@@ -1,0 +1,28 @@
+@startuml
+title Convert ProgrammeEditionServiceDTO To ProgrammeID \n Reference Diagram
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":ProgrammeEditionRestController" as Controller
+participant ":IProgrammeEditionServiceAssembler" as Assembler
+participant ":ProgrammeEditionServiceDTO" as ServiceDTO
+
+Controller -> Assembler: toProgrammeID(programmeEditionServiceDTO)
+activate Controller #E1F5FE
+activate Assembler  #E1F5FE
+Assembler -> ServiceDTO: getAcronym()
+activate ServiceDTO #E1F5FE
+ServiceDTO --> Assembler: acronym
+deactivate ServiceDTO
+Assembler -> "acronym1:Acronym"**: new Acronym(acronym)
+Assembler -> "programmeID1:ProgrammeID"**: new ProgrammeID(acronym1)
+Assembler --> Controller: programmeID1
+deactivate Assembler
+@enduml
