@@ -812,7 +812,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         StudyPlanID studyPlanID2 = new StudyPlanID(programmeId, date2);
 
 
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
+                programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         ProgrammeEdition createdEdition = programmeEditionService.createProgrammeEdition(programmeId, schoolYearId);
         programmeEditionService.saveProgrammeEdition(createdEdition);
         Optional<ProgrammeEditionID> pe1Opt = programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeId, schoolYearId);
