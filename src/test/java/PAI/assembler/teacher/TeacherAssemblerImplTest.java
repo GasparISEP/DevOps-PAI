@@ -256,5 +256,15 @@ class TeacherAssemblerImplTest {
         assertEquals("JAB", teacherIdDTO.id());
     }
 
+    @Test
+    void shouldReturnExceptionWhenAssemblingTeacherIdDTOFromNullTeacher(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Teacher teacher = null;
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> teacherAssembler.toIdDTO(teacher));
+
+    }
+
 }
 
