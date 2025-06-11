@@ -1,6 +1,7 @@
 package PAI.service.student;
 
 import PAI.VOs.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
@@ -34,8 +35,8 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         _courseEditionRepository = courseEditionRepository;
     }
 
-    public ProgrammeEditionEnrolment createProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID, Date date, EnrolmentStatus status) {
-        return _enrolmentFactory.createWithEnrolmentDate(studentID, programmeEditionID, date, status);
+    public ProgrammeEditionEnrolment createProgrammeEditionEnrolment(StudentID studentID, ProgrammeEditionID programmeEditionID) {
+        return _enrolmentFactory.newProgrammeEditionEnrolment(studentID,programmeEditionID);
     }
 
     private boolean isCourseIdInCourseInStudyPlan(CourseID courseID, CourseInStudyPlan studyPlan){
@@ -81,6 +82,20 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         }
 
         return courseEditionIDs;
+    }
+
+    private List<CourseEditionEnrolment> createCourseEditions(StudentID studentID,CourseEditionEnrolmentGeneratedID id, List<CourseEditionID> courseEditionIDS, Date date){
+        List<CourseEditionEnrolment> result = new ArrayList<>();
+
+        if (courseEditionIDS == null || courseEditionIDS.isEmpty()) {
+            return result;
+        }
+
+        for (CourseEditionID existingCEID : courseEditionIDS) {
+            result.add(_courseEditionEnrolmentFactory.createCourseEditionEnrolment(studentID,existingCEID));
+        }
+
+        return result;
     }
 
 }

@@ -149,16 +149,14 @@ class ProgrammeAndCoursesEnrolmentServiceImplTest {
 
         StudentID studentID = mock(StudentID.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        Date date = mock(Date.class);
-        EnrolmentStatus enrolmentStatus = mock(EnrolmentStatus.class);
 
         ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
 
-        when(enrolmentFactory.createWithEnrolmentDate(studentID,programmeEditionID,date,enrolmentStatus)).thenReturn(programmeEditionEnrolment);
+        when(enrolmentFactory.newProgrammeEditionEnrolment(studentID,programmeEditionID)).thenReturn(programmeEditionEnrolment);
 
         //act
 
-        ProgrammeEditionEnrolment result = service.createProgrammeEditionEnrolment(studentID,programmeEditionID,date,enrolmentStatus);
+        ProgrammeEditionEnrolment result = service.createProgrammeEditionEnrolment(studentID,programmeEditionID);
 
         //assert
         assertNotNull(result);
