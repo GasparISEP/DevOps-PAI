@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
@@ -54,7 +55,7 @@ public class US20_DefineRucForCourseEditionController {
      * @throws IllegalArgumentException IllegalArgumentException if the IDs are null or not found
      */
 
-    public boolean defineRucForCourseEdition(CourseEditionID courseEditionID,TeacherID teacherID) {
+    public boolean defineRucForCourseEdition(CourseEditionGeneratedID courseEditionID, TeacherID teacherID) throws Exception {
 
         Objects.requireNonNull(courseEditionID,"courseEditionID cannot be null");
         Objects.requireNonNull(teacherID,"teacherID cannot be null");

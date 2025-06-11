@@ -1,4 +1,5 @@
 package PAI.service.courseEdition;
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
@@ -37,13 +38,12 @@ public class DefineRucServiceImpl implements IDefineRucService {
 
     @Override
     @Transactional
-    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
+    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionGeneratedID courseEditionId) throws Exception {
         if (!teacherService.existsById(teacherId)) {
             throw new IllegalArgumentException("Teacher with given ID does not exist.");
         }
 
-        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
-
+        Optional<CourseEdition> optionalEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionId);
         if (optionalEdition.isEmpty()) {
             return false;
         }

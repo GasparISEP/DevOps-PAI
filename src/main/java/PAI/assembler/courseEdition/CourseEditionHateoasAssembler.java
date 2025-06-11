@@ -1,6 +1,7 @@
 package PAI.assembler.courseEdition;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.DefineRucRequestDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -20,10 +21,17 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
     @Override
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {
         try {
+            DefineRucRequestDTO requestDto = new DefineRucRequestDTO(
+                    dto.teacherID(),
+                    dto.courseEditionID()
+            );
             return EntityModel.of(dto,
                     linkTo(methodOn(CourseEditionRestController.class)
-                            .defineRucForCourseEdition(null))
-                            .withRel("define-ruc")
+                            .defineRucForCourseEdition(dto.courseEditionID(), requestDto))
+                            .withRel("define-ruc"),
+                    linkTo(methodOn(CourseEditionRestController.class)
+                            .findAllCourseEditions())
+                            .withRel("find-all-course-editions")
             );
         } catch (Exception e) {
             throw new RuntimeException(e);

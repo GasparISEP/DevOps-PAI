@@ -8,6 +8,7 @@ import org.springframework.hateoas.Link;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -50,13 +51,21 @@ class CourseEditionHateoasAssemblerTest {
     void defineRucLinkShouldContainCorrectHref() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
+        UUID courseEditionId = UUID.randomUUID();
+        String teacherID = "ABC";
+        DefineRucResponseDTO dto = new DefineRucResponseDTO(teacherID, courseEditionId);
+
         // Act
         EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
-        String href = result.getLink("define-ruc").orElseThrow().getHref();
+
         // Assert
-        assertTrue(href.contains("/courseeditions/ruc"));
+        assertTrue(result.hasLink("define-ruc"), "Link with rel 'define-ruc' should be present");
+
+        String defineRucHref = result.getLink("define-ruc").orElseThrow().getHref();
+        assertTrue(defineRucHref.endsWith("/courseeditions/" + courseEditionId + "/ruc"),
+                "HREF should end with '/courseeditions/{id}/ruc'");
     }
+
 
     @Test
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {

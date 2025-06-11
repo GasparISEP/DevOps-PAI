@@ -1,4 +1,5 @@
 package PAI.controller;
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
@@ -50,9 +51,9 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldDefineRucForCourseEditionWhenServiceReturnsTrue() {
+    void shouldDefineRucForCourseEditionWhenServiceReturnsTrue() throws Exception {
         // Arrange
-        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseEditionGeneratedID ceId = mock(CourseEditionGeneratedID.class);
         TeacherID       tId  = mock(TeacherID.class);
         when(defineRucService.assignRucToCourseEdition(tId, ceId)).thenReturn(true);
 
@@ -64,9 +65,9 @@ class US20_DefineRucForCourseEditionControllerTest {
     }
 
     @Test
-    void shouldReturnFalseWhenServiceFailsToDefineRuc() {
+    void shouldReturnFalseWhenServiceFailsToDefineRuc() throws Exception {
         // Arrange
-        CourseEditionID ceId = mock(CourseEditionID.class);
+        CourseEditionGeneratedID ceId = mock(CourseEditionGeneratedID.class);
         TeacherID       tId  = mock(TeacherID.class);
         when(defineRucService.assignRucToCourseEdition(tId, ceId)).thenReturn(false);
 
@@ -84,7 +85,7 @@ class US20_DefineRucForCourseEditionControllerTest {
                 () -> controller.defineRucForCourseEdition(null, mock(TeacherID.class))
         );
         assertThrows(NullPointerException.class,
-                () -> controller.defineRucForCourseEdition(mock(CourseEditionID.class), null)
+                () -> controller.defineRucForCourseEdition(mock(CourseEditionGeneratedID.class), null)
         );
     }
 }
