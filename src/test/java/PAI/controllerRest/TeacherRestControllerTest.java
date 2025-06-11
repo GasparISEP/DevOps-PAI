@@ -29,12 +29,12 @@ import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionServi
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -49,34 +49,34 @@ class TeacherRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private ITeacherRegistrationService teacherService;
 
-    @MockBean
+    @MockitoBean
     private ITeacherAssembler teacherAssembler;
 
-    @MockBean
+    @MockitoBean
     private ITeacherHateoasAssembler teacherHateoasAssembler;
 
-    @MockBean
+    @MockitoBean
     private ICreateTeacherCareerProgressionService careerService;
 
-    @MockBean
+    @MockitoBean
     private ITeacherCareerProgressionAssembler categoryAssembler;
 
-    @MockBean
+    @MockitoBean
     private ITeacherWithRelevantDataService teacherWithRelevantDataService;
 
-    @MockBean
+    @MockitoBean
     private TeacherWithRelevantDataAssembler teacherWithRelevantDataAssembler;
 
-    @MockBean
+    @MockitoBean
     private IUpdateTeacherWorkingPercentageHateoasAssembler updateTeacherWorkingPercentageHateoasAssembler;
 
-    @MockBean
+    @MockitoBean
     private IUpdateTeacherCategoryHateoasAssembler updateTeacherCategoryHateoasAssembler;
 
-    @MockBean
+    @MockitoBean
     private ITeacherWithRelevantDataHateoasAssembler iTeacherWithRelevantDataHateoasAssembler;
 
 
