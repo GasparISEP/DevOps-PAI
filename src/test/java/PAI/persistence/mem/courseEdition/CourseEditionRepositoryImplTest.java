@@ -1,5 +1,6 @@
 package PAI.persistence.mem.courseEdition;
 
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
@@ -8,10 +9,8 @@ import PAI.domain.courseEdition.CourseEditionFactoryImpl;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -620,6 +619,55 @@ class CourseEditionRepositoryImplTest {
         // Act
         List<CourseEditionID> result = repository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(
                 programmeEditionIDDouble, courseInStudyPlanIDDouble);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+    @Test
+    void findCourseEditionByGeneratedIdShouldReturnAValidOptional() {
+        // Arrange
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEditionGeneratedID mockGeneratedID = mock(CourseEditionGeneratedID.class);
+        when(mockCourseEdition.getCourseEditionGeneratedID()).thenReturn(mockGeneratedID);
+
+        Stream<CourseEdition> mockStream = Stream.of(mockCourseEdition);
+        List<CourseEdition> mockedList = mock(List.class);
+        when(mockedList.stream()).thenReturn(mockStream);
+
+        ICourseEditionListFactory mockListFactory = mock(ICourseEditionListFactory.class);
+        when(mockListFactory.newList()).thenReturn(mockedList);
+
+        ICourseEditionFactory mockFactory = mock(ICourseEditionFactory.class);
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(mockFactory, mockListFactory);
+
+        // Act
+        Optional<CourseEdition> result = repository.findCourseEditionByGeneratedId(mockGeneratedID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isPresent());
+        assertEquals(mockCourseEdition, result.get());
+    }
+    @Test
+    void findCourseEditionByGeneratedIdShouldReturnAEmptyOptionalIfGeneratedIDIsNull() {
+        // Arrange
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        CourseEditionGeneratedID mockGeneratedID = null;
+        when(mockCourseEdition.getCourseEditionGeneratedID()).thenReturn(mockGeneratedID);
+
+        Stream<CourseEdition> mockStream = Stream.of(mockCourseEdition);
+        List<CourseEdition> mockedList = mock(List.class);
+        when(mockedList.stream()).thenReturn(mockStream);
+
+        ICourseEditionListFactory mockListFactory = mock(ICourseEditionListFactory.class);
+        when(mockListFactory.newList()).thenReturn(mockedList);
+
+        ICourseEditionFactory mockFactory = mock(ICourseEditionFactory.class);
+        CourseEditionRepositoryImpl repository = new CourseEditionRepositoryImpl(mockFactory, mockListFactory);
+
+        // Act
+        Optional<CourseEdition> result = repository.findCourseEditionByGeneratedId(mockGeneratedID);
 
         // Assert
         assertNotNull(result);
