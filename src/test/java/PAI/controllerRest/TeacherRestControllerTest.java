@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +41,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @WebMvcTest(TeacherRestController.class)
 class TeacherRestControllerTest {
@@ -315,7 +317,7 @@ class TeacherRestControllerTest {
     // testing getAllTeachers() method
 
     @Test
-    void shouldReturnListOfTeacherDTO() {
+    void shouldReturnCollectionModelWithTeachersDto() {
         // Arrange
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
@@ -342,20 +344,34 @@ class TeacherRestControllerTest {
         when(teacherService.getAllTeachers()).thenReturn(teachers);
         when(teacherAssembler.toDTOs(teachers)).thenReturn(teacherDTOs);
 
+        //HATEOAS assembler
+        List<EntityModel<TeacherDTO>> models = teacherDTOs.stream()
+                .map(EntityModel::of)
+                .collect(Collectors.toList());
+        CollectionModel<EntityModel<TeacherDTO>> hateoasModel =
+                CollectionModel.of(models);
+        when(teacherHateoasAssembler.toCollectionModel(teacherDTOs))
+                .thenReturn(hateoasModel);
+
         // Act
         ResponseEntity<?> response = teacherRestController.getAllTeachers();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(200, response.getStatusCodeValue());
-        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
-        assertTrue(((Collection<?>) response.getBody()).contains(teacherDTO1));
-        assertTrue(((Collection<?>) response.getBody()).contains(teacherDTO2));
-        assertTrue(((Collection<?>) response.getBody()).contains(teacherDTO3));
+        assertTrue(response.getBody() instanceof CollectionModel<?>);
+
+
+        CollectionModel<EntityModel<TeacherDTO>> body = (CollectionModel<EntityModel<TeacherDTO>>) response.getBody();
+
+        Collection<EntityModel<TeacherDTO>> content = body.getContent();
+        assertEquals(3, content.size());
+        assertTrue(content.stream().anyMatch(m -> m.getContent() == teacherDTO1));
+        assertTrue(content.stream().anyMatch(m -> m.getContent() == teacherDTO2));
+        assertTrue(content.stream().anyMatch(m -> m.getContent() == teacherDTO3));
     }
 
     @Test
-    void shouldReturnEmptyListOfTeacherDTOIfNoTeachersExist() {
+    void shouldReturnEmptyCollectionOfTeacherDTOIfNoTeachersExist() {
         // Arrange
         ITeacherRegistrationService teacherService = mock(ITeacherRegistrationService.class);
         ITeacherAssembler teacherAssembler = mock(ITeacherAssembler.class);
@@ -374,13 +390,20 @@ class TeacherRestControllerTest {
         when(teacherService.getAllTeachers()).thenReturn(teachers);
         when(teacherAssembler.toDTOs(teachers)).thenReturn(teacherDTOs);
 
+        CollectionModel<EntityModel<TeacherDTO>> emptyModel = CollectionModel.empty();
+        when(teacherHateoasAssembler.toCollectionModel(teacherDTOs))
+                .thenReturn(emptyModel);
+
         // Act
         ResponseEntity<?> response = teacherRestController.getAllTeachers();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(200, response.getStatusCodeValue());
-        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
+        assertTrue(response.getBody() instanceof CollectionModel<?>);
+
+
+        CollectionModel<EntityModel<TeacherDTO>> body = (CollectionModel<EntityModel<TeacherDTO>>) response.getBody();
+        assertTrue(body.getContent().isEmpty());
     }
 
     @Test
