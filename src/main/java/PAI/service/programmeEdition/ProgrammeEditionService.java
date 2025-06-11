@@ -10,9 +10,10 @@ import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +27,18 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
     private final IProgrammeEditionRepository programmeEditionRepository;
     private final IProgrammeRepository programmeRepository;
-    private final IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final ISchoolYearService schoolYearService;
+    private final IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
 
     public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
                                     IProgrammeEditionRepository programmeEditionRepository,
                                     IProgrammeRepository programmeRepository,
-                                    IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-                                    IProgrammeEditionServiceAssembler programmeEditionAssembler, ISchoolYearService schoolYearService) {
+                                    IProgrammeEditionServiceAssembler programmeEditionAssembler,
+                                    ISchoolYearService schoolYearService,
+                                    IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
+
+
         if(programmeEditionFactory == null){
             throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
         }
@@ -50,10 +54,6 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         }
         this.programmeRepository = programmeRepository;
 
-        if (programmeEditionEnrolmentRepository == null) {
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepository cannot be null!");
-        }
-        this.programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
 
         if (programmeEditionAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
@@ -64,6 +64,11 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             throw new IllegalArgumentException("SchoolYearService cannot be null!");
         }
         this.schoolYearService = schoolYearService;
+
+        if (programmeEditionEnrolmentService == null) {
+            throw new IllegalArgumentException("ProgrammeEditionEnrolmentService cannot be null!");
+        }
+        this.programmeEditionEnrolmentService = programmeEditionEnrolmentService;
     }
 
     @Override
@@ -106,17 +111,24 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public List<ProgrammeEdition> findAllProgrammeEditions() {
+    public List<ProgrammeEditionResponseServiceDTO> findAllProgrammeEditions() {
         Iterable<ProgrammeEdition> iterable = programmeEditionRepository.findAll();
-        List<ProgrammeEdition> list = new ArrayList<>();
-        iterable.forEach(list::add);
+
+        List<ProgrammeEditionResponseServiceDTO> list = new ArrayList<>();
+
+        for (ProgrammeEdition programmeEdition : iterable) {
+            ProgrammeEditionResponseServiceDTO dto = programmeEditionAssembler.toServiceResponseDTOFromIDs(
+                    programmeEdition.findProgrammeIDInProgrammeEdition(),
+                    programmeEdition.findSchoolYearIDInProgrammeEdition());
+            list.add(dto);
+        }
         return list;
     }
+
     @Override
-    public int countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsRequestDto programmeEditionDTO) throws Exception {
-        ProgrammeEdition programmeEdition = programmeEditionAssembler.countStudentsInProgrammeEditionDTOtoDomain(programmeEditionDTO);
-        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
-        return allProgrammeEditionEnrolment.size();
+    public int countTotalNumberOfStudentsInAProgrammeEdition(RequestServiceDto programmeEditionDTO) throws Exception {
+        ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
+        return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
     }
 
     @Override
@@ -135,7 +147,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             ProgrammeEdition savedEdition = savedProgramme.get();
             ProgrammeEditionID programmeEditionID = savedEdition.identity();
 
-            return programmeEditionAssembler.toResponseDTO(
+            return programmeEditionAssembler.toServiceResponseDTOFromIDs(
                     programmeEditionID.getProgrammeID(),
                     programmeEditionID.getSchoolYearID()
             );
@@ -145,12 +157,18 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public List<ProgrammeEditionID> getProgrammeEditionIDsByProgrammeID(ProgrammeID programmeID) {
+    public List<ProgrammeEditionResponseServiceDTO> getProgrammeEditionIDsByProgrammeID(ProgrammeEditionRequestServiceDTO requestDTO) {
+
+        ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(requestDTO);
+
         Iterable<ProgrammeEdition> allEditions = programmeEditionRepository.findAll();
 
         return StreamSupport.stream(allEditions.spliterator(), false)
                 .filter(p -> p.identity().getProgrammeID().equals(programmeID))
-                .map(ProgrammeEdition::identity)
+                .map(p -> {
+                    ProgrammeEditionID id = p.identity();
+                    return programmeEditionAssembler.toServiceResponseDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID());
+                })
                 .toList();
     }
 }

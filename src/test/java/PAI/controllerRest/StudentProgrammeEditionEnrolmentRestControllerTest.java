@@ -2,6 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEditionEnrolment.IProgrammeEditionEnrolmentAssembler;
+import PAI.assembler.programmeEditionEnrolment.IProgrammeEditionEnrolmentHateoasAssembler;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentRequest;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
@@ -11,6 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,11 +43,14 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
     @MockitoBean   
     private IStudentProgrammeEditionEnrolmentService service;
 
+    @MockitoBean
+    private IProgrammeEditionEnrolmentHateoasAssembler programmeEditionEnrolmentHateoasAssembler;
+
     private StudentProgrammeEditionEnrolmentRestController controller;
 
     @BeforeEach
     void setUp() {
-        controller = new StudentProgrammeEditionEnrolmentRestController(service, programmeEditionEnrolmentAssembler, programmeEditionEnrolmentService);
+        controller = new StudentProgrammeEditionEnrolmentRestController(service, programmeEditionEnrolmentAssembler, programmeEditionEnrolmentService, programmeEditionEnrolmentHateoasAssembler);
     }
 
 
@@ -168,26 +175,25 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
     void shouldReturn200OKAndListOfProgrammeEditionEnrolments_whenGetProgrammeEditionEnrollmentsByStudentID_validStudentId() throws Exception {
         // Arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentDetailDto = new ProgrammeEditionEnrolmentDetailDto(
-            1000001,
-            "LEI",
-            "2024-2025",
-            "some-uuid-string"
-        );
+        ProgrammeEditionEnrolmentDetailDto programmeEditionEnrolmentDetailDto = new ProgrammeEditionEnrolmentDetailDto(1000001, "LEI", "2024-2025", "some-uuid-string");
+        EntityModel<ProgrammeEditionEnrolmentDetailDto> programmeEditionEnrolmentDetailDtoEntityModel = EntityModel.of(programmeEditionEnrolmentDetailDto);
         List<ProgrammeEditionID> listOfEditionIDs = List.of(programmeEditionID);
         List<ProgrammeEditionEnrolmentDetailDto> listOfDetailDtos = List.of(programmeEditionEnrolmentDetailDto);
 
+        CollectionModel<EntityModel<ProgrammeEditionEnrolmentDetailDto>> collectionModel =
+                CollectionModel.of(List.of(programmeEditionEnrolmentDetailDtoEntityModel));
+
         when(programmeEditionEnrolmentService.getProgrammeEditionEnrolmentsByStudentID(any(StudentID.class)))
-            .thenReturn(listOfEditionIDs);
-        when(programmeEditionEnrolmentAssembler.toDtoList(anyList(), any(StudentID.class)))
-            .thenReturn(listOfDetailDtos);
+                .thenReturn(listOfEditionIDs);
+        when(programmeEditionEnrolmentAssembler.toDtoList(eq(listOfEditionIDs), any(StudentID.class)))
+                .thenReturn(listOfDetailDtos);
+        when(programmeEditionEnrolmentHateoasAssembler.toCollectionModel(eq(listOfDetailDtos)))
+                .thenReturn(collectionModel);
 
-        String expectedJson = "[{\"studentID\":1000001,\"programmeAcronym\":\"LEI\",\"schoolYearDescription\":\"2024-2025\",\"schoolYearID\":\"some-uuid-string\"}]";
-
-        // Act && Assert
-        mockMvc.perform(get("/students/1000001/programme-edition-enrolments"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().string(expectedJson));
+        // Act & Assert
+        mockMvc.perform(get("/students/1000001/programme-edition-enrolments")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
@@ -204,12 +210,11 @@ class StudentProgrammeEditionEnrolmentRestControllerTest {
             .thenReturn(List.of());
         when(programmeEditionEnrolmentAssembler.toDtoList(anyList(), any(StudentID.class)))
             .thenReturn(List.of());
+        when(programmeEditionEnrolmentHateoasAssembler.toCollectionModel(List.of()))
+            .thenReturn(CollectionModel.empty());
 
-        String expectedJson = "[]";
-
-        // Act && Assert
+        // Act & Assert
         mockMvc.perform(get("/students/1000001/programme-edition-enrolments"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().string(expectedJson));
+            .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

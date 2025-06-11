@@ -1,5 +1,6 @@
 package PAI.persistence.mem.courseEditionEnrolment;
 
+import PAI.VOs.CourseEditionEnrolmentGeneratedID;
 import PAI.VOs.CourseEditionEnrolmentID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.StudentID;
@@ -16,7 +17,6 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
 
         _courseEditionEnrolments = courseEditionEnrolmentListFactory.getCourseEditionEnrolmentList();
     }
-
 
     public boolean isStudentEnrolledInCourseEdition(StudentID student, CourseEditionID courseEdition) {
         for (CourseEditionEnrolment enrollment : _courseEditionEnrolments) {
@@ -38,6 +38,38 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
                 return Optional.of(courseEEnrollment);
             }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<CourseEditionEnrolment> findByGeneratedID(CourseEditionEnrolmentGeneratedID id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+
+        UUID targetUUID = id.getCourseEditionEnrolmentGeneratedID();
+
+        for (CourseEditionEnrolment ceEnrolment : _courseEditionEnrolments) {
+            CourseEditionEnrolmentGeneratedID currentID = ceEnrolment.getGeneratedID();
+            if (currentID != null && currentID.isEquals(targetUUID)) {
+                return Optional.of(ceEnrolment);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByGeneratedID(CourseEditionEnrolmentGeneratedID id) {
+        if (id == null) return false;
+
+        UUID targetUUID = id.getCourseEditionEnrolmentGeneratedID();
+
+        for (CourseEditionEnrolment ceEnrolment : _courseEditionEnrolments) {
+            CourseEditionEnrolmentGeneratedID currentID = ceEnrolment.getGeneratedID();
+            if (currentID != null && currentID.isEquals(targetUUID)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //US24

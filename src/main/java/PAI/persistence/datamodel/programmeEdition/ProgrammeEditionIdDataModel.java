@@ -9,8 +9,6 @@ import java.io.Serializable;
 public class ProgrammeEditionIdDataModel implements Serializable {
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "programmeName",
-                    column = @Column(name = "edition_programme_name")),
             @AttributeOverride(name = "programmeAcronym",
                     column = @Column(name = "edition_programme_acronym"))
     })

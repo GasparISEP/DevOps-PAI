@@ -3,6 +3,7 @@ package PAI.assembler.student;
 import PAI.VOs.*;
 import PAI.domain.student.Student;
 import PAI.dto.student.StudentDTO;
+import PAI.dto.student.StudentIDDTO;
 import PAI.dto.student.StudentResponseDTO;
 import org.springframework.stereotype.Component;
 
@@ -46,5 +47,12 @@ public class StudentDTOAssemblerImpl implements IStudentDTOAssembler{
 
         return new StudentResponseDTO(studentID, name, nif, nifCountry, street, postalCode, location, addressCountry, phoneCountryCode, phoneNumber, email, academicEmail);
 
+    }
+
+    public StudentID toIdDTO(StudentIDDTO dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("StudentIDDTO cannot be null");
+        }
+        return new StudentID(Integer.parseInt(dto.studentID()));
     }
 }

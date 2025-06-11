@@ -3,11 +3,15 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEditionEnrolment.IProgrammeEditionEnrolmentAssembler;
+import PAI.assembler.programmeEditionEnrolment.IProgrammeEditionEnrolmentHateoasAssembler;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentRequest;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.IStudentProgrammeEditionEnrolmentService;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +25,9 @@ public class StudentProgrammeEditionEnrolmentRestController {
     private final IStudentProgrammeEditionEnrolmentService applicationService;
     private final IProgrammeEditionEnrolmentAssembler programmeEditionEnrolmentAssembler;
     private final IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
+    private final IProgrammeEditionEnrolmentHateoasAssembler programmeEditionEnrolmentHateoasAssembler;
 
-    public StudentProgrammeEditionEnrolmentRestController(IStudentProgrammeEditionEnrolmentService applicationService, IProgrammeEditionEnrolmentAssembler programmeEditionEnrolmentAssembler, IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
+    public StudentProgrammeEditionEnrolmentRestController(IStudentProgrammeEditionEnrolmentService applicationService, IProgrammeEditionEnrolmentAssembler programmeEditionEnrolmentAssembler, IProgrammeEditionEnrolmentService programmeEditionEnrolmentService, IProgrammeEditionEnrolmentHateoasAssembler programmeEditionEnrolmentHateoasAssembler) {
         if (applicationService == null) {
             throw new IllegalArgumentException("Application service cannot be null");
         }
@@ -32,9 +37,13 @@ public class StudentProgrammeEditionEnrolmentRestController {
         if (programmeEditionEnrolmentService == null) {
             throw new IllegalArgumentException("Programme edition enrolment service cannot be null");
         }
+        if (programmeEditionEnrolmentHateoasAssembler == null) {
+            throw new IllegalArgumentException("Programme edition enrolment hateoas assembler cannot be null");
+        }
         this.applicationService = applicationService;
         this.programmeEditionEnrolmentAssembler = programmeEditionEnrolmentAssembler;
         this.programmeEditionEnrolmentService = programmeEditionEnrolmentService;
+        this.programmeEditionEnrolmentHateoasAssembler = programmeEditionEnrolmentHateoasAssembler;
     }
 
     @GetMapping("/{studentId}/programme-editions")
@@ -70,12 +79,13 @@ public class StudentProgrammeEditionEnrolmentRestController {
     }
 
     @GetMapping("{id}/programme-edition-enrolments") 
-    public ResponseEntity<List<ProgrammeEditionEnrolmentDetailDto>> getProgrammeEditionEnrollmentsByStudentID(@PathVariable("id") int studentId) {
+    public ResponseEntity<?> getProgrammeEditionEnrollmentsByStudentID(@PathVariable("id") int studentId) {
         try{
             StudentID studentID = new StudentID(studentId);
             List<ProgrammeEditionID> programmeEditionIDs = programmeEditionEnrolmentService.getProgrammeEditionEnrolmentsByStudentID(studentID);
             List<ProgrammeEditionEnrolmentDetailDto> programmeEditionEnrolments = programmeEditionEnrolmentAssembler.toDtoList(programmeEditionIDs, studentID);
-            return ResponseEntity.ok(programmeEditionEnrolments);
+            CollectionModel<EntityModel<ProgrammeEditionEnrolmentDetailDto>> programmeEditionEnrolmentsWithHypermedia = programmeEditionEnrolmentHateoasAssembler.toCollectionModel(programmeEditionEnrolments);
+            return ResponseEntity.ok(programmeEditionEnrolmentsWithHypermedia);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

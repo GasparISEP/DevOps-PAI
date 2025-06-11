@@ -5,6 +5,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -235,6 +236,73 @@ class TeacherAssemblerImplTest {
         // Assert
         assertNotNull(teacherDTOs);
         assertFalse(teacherDTOs.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnTeacherIdDTO(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Teacher teacher = mock(Teacher.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacher.getTeacherID()).thenReturn(teacherID);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("JAB");
+        //act
+        TeacherIdDTO teacherIdDTO = teacherAssembler.toIdDTO(teacher);
+        //assert
+        assertNotNull(teacherIdDTO);
+        assertEquals("JAB", teacherIdDTO.id());
+    }
+
+    @Test
+    void shouldReturnExceptionWhenAssemblingTeacherIdDTOFromNullTeacher(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Teacher teacher = null;
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> teacherAssembler.toIdDTO(teacher));
+
+    }
+
+    @Test
+    void shouldReturnListWithTeachersIdDTO(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+
+        Teacher teacher = mock(Teacher.class);
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacher.getTeacherID()).thenReturn(teacherID);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("JAB");
+
+        Teacher teacher2 = mock(Teacher.class);
+        TeacherID teacherID2 = mock(TeacherID.class);
+        when(teacher2.getTeacherID()).thenReturn(teacherID2);
+        TeacherAcronym teacherAcronym2 = mock(TeacherAcronym.class);
+        when(teacherID2.getTeacherAcronym()).thenReturn(teacherAcronym2);
+        when(teacherAcronym.getAcronym()).thenReturn("ROR");
+
+        Iterable<Teacher> teachers = List.of(teacher, teacher2);
+        //act
+        Iterable<TeacherIdDTO> result = teacherAssembler.toIdDTOs(teachers);
+        //assert
+        assertNotNull(result);
+        assertTrue(result.iterator().hasNext());
+        assertEquals("ROR", result.iterator().next().id());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenAssemblingTeacherIdDTOsFromNullTeachersList(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Iterable<Teacher> teachers = null;
+        //act
+        Iterable<TeacherIdDTO> result = teacherAssembler.toIdDTOs(teachers);
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
     }
 
 }

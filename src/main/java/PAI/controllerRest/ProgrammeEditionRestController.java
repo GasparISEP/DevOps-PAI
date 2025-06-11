@@ -4,18 +4,16 @@ import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
-import PAI.assembler.programmeEdition.ProgrammeEditionHateoasAssemblerImpl;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
+import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,13 +57,13 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() {
-        List<CountStudentsRequestDto> programmeEditionDtos = programmeEditionService
+    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getAllProgrammeEditions() {
+        List<ProgrammeEditionResponseDTO> responseDTOs = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
-                .map(programmeEditionControllerAssembler::toCountDTO)
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
-        return ResponseEntity.ok(programmeEditionDtos);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}/{schoolYearID}/students")
@@ -73,8 +71,8 @@ public class ProgrammeEditionRestController {
             @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
-        CountStudentsRequestDto dto =
-                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        RequestServiceDto dto =
+                new RequestServiceDto(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 
@@ -82,17 +80,18 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping("/programme/{programmeid}")
-    public ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> getProgrammeEditionsByProgrammeID(
+    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getProgrammeEditionsByProgrammeID(
             @PathVariable("programmeid") String programmeAcronym) {
 
-        ProgrammeID programmeID = new ProgrammeID(
-                new Acronym(programmeAcronym)
+        ProgrammeEditionRequestServiceDTO requestDTO = new ProgrammeEditionRequestServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym)
         );
 
-        List<ProgrammeEditionResponseServiceDTO> dtos = programmeEditionService
-                .getProgrammeEditionIDsByProgrammeID(programmeID)
-                .stream()
-                .map(id -> programmeEditionControllerAssembler.toDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID()))
+        List<ProgrammeEditionResponseServiceDTO> serviceDTOs =
+                programmeEditionService.getProgrammeEditionIDsByProgrammeID(requestDTO);
+
+        List<ProgrammeEditionResponseDTO> dtos = serviceDTOs.stream()
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
 
         return ResponseEntity.ok(dtos);
@@ -101,9 +100,9 @@ public class ProgrammeEditionRestController {
     @PostMapping()
     public ResponseEntity<?> createAProgrammeEditionForTheCurrentSchoolYear(@Valid @RequestBody ProgrammeEditionRequestDTO requestDto) {
         try {
-            ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toDTO(requestDto);
+            ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toServiceDTOFromRequestDTO(requestDto);
             ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
-            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
+            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTOFromServiceDTO(serviceResult);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

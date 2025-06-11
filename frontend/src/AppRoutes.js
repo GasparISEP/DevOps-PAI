@@ -7,6 +7,7 @@ import RegisterTeacherPage from './pages/teacherPage/RegisterTeacherPage';
 import DisplayTeacherPage from './pages/teacherPage/DisplayTeacherPage';
 import RegisterCourseInStudyPlanPage from './pages/RegisterCourseInStudyPlanPage';
 import DisplayStudentPage from "./pages/studentPage/DisplayStudentPage";
+import DisplayCourseEditionPage from "./pages/CourseEditionPage/DisplayCourseEditionPage";
 
 
 function AppRoutes() {
@@ -18,8 +19,8 @@ function AppRoutes() {
             <Route path="/students/register" element={<RegisterStudentPage />} />
             <Route path="/students/display" element={<DisplayStudentPage />} />
             <Route path="/programmes" element={<RegisterProgrammePage />} />
-            <Route path="/courses" element={<RegisterCourseInStudyPlanPage />}
-            />
+            <Route path="/courses" element={<RegisterCourseInStudyPlanPage />} />
+            <Route path="/courseeditions/display" element={<DisplayCourseEditionPage />} />
         </Routes>
     );
 }

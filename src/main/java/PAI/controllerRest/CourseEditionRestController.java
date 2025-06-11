@@ -5,6 +5,7 @@ import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
@@ -35,6 +36,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/courseeditions")
@@ -97,7 +101,7 @@ public CourseEditionRestController(
     }
 
     @PatchMapping("/enrolments/students/remove")
-    public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception {
+    public ResponseEntity<String> removeStudentEnrolmentFromACourseEdition (@RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDto) {
         try {
             CourseEditionID courseEditionID = courseEditionEnrolmentAssembler.toCourseEditionID(courseEditionEnrolmentDto);
             StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(courseEditionEnrolmentDto.studentUniqueNumber());
@@ -253,29 +257,34 @@ public CourseEditionRestController(
         return ResponseEntity.ok(averageGrade);
     }
 
-    @GetMapping("/approvalpercentage")
-    public ResponseEntity<Double> getCourseEditionApprovalRate(
+    @GetMapping("/approval-rate")
+    public ResponseEntity<?> getCourseEditionApprovalRate(
             @RequestParam("programmeAcronym") @Valid String programmeAcronym,
             @RequestParam("schoolYearId") @Valid String schoolYearId,
             @RequestParam("courseAcronym") @Valid String courseAcronym,
-            @RequestParam("studyPlanDate") @Valid String studyPlanDate) throws Exception {
+            @RequestParam("studyPlanDate") @Valid String studyPlanDate)  {
+     try {
+         UUID schoolYearUUID = UUID.fromString(schoolYearId);
+         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
 
-        UUID schoolYearUUID = UUID.fromString(schoolYearId);
-        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+         ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeAcronym));
 
-        ProgrammeID programmeID = new ProgrammeID(
-                new Acronym(programmeAcronym));
+         CourseEditionID courseEditionID = new CourseEditionID(
+                 new ProgrammeEditionID(programmeID, schoolYearID),
+                 new CourseInStudyPlanID(
+                         new CourseID(new Acronym(courseAcronym), new Name("Placeholder Name")),
+                         new StudyPlanID(programmeID, new Date(studyPlanDate))));
 
-        CourseEditionID courseEditionID = new CourseEditionID(
-                new ProgrammeEditionID(programmeID, schoolYearID),
-                new CourseInStudyPlanID(
-                        new CourseID(new Acronym(courseAcronym), new Name("Placeholder Name")),
-                        new StudyPlanID(programmeID, new Date(studyPlanDate))));
+         double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
+         ApprovalRateResponseDTO dto = new ApprovalRateResponseDTO(approvalRate);
 
-        double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
-
-        return ResponseEntity.ok(approvalRate);
+         return ResponseEntity.ok(dto);
+     }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().build();
+        }
     }
+
 
     @PostMapping("/studentscount")
     public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {

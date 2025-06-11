@@ -521,35 +521,46 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
 
     @Test
     void shouldReturnListOfProgrammeIDs() {
-        // Create mocks manually
+        // arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
         IStudentIDMapper studentIDMapper = mock(StudentIDMapperImpl.class);
         IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
         IProgrammeEnrolmentIDMapper iProgrammeEnrolmentIDMapper = mock(ProgrammeEnrolmentIDMapperImpl.class);
         IProgrammeEnrolmentMapper iProgrammeEnrolmentMapper = mock(ProgrammeEnrolmentMapperImpl.class);
 
-
-        // Create the repository manually with dependencies
         ProgrammeEnrolmentRepositorySpringDataImpl repository =
                 new ProgrammeEnrolmentRepositorySpringDataImpl(jpaRepo, iProgrammeEnrolmentIDMapper, iProgrammeEnrolmentMapper, studentIDMapper, programmeIDMapper);
 
-        // Arrange test data
         StudentID studentID = mock(StudentID.class);
-        StudentIDDataModel studentIDDataModel = mock(StudentIDDataModel.class);
-        ProgrammeIDDataModel dataModel1 = mock(ProgrammeIDDataModel.class);
-        ProgrammeIDDataModel dataModel2 = mock(ProgrammeIDDataModel.class);
-        ProgrammeID domainID1 = mock(ProgrammeID.class);
-        ProgrammeID domainID2 = mock(ProgrammeID.class);
 
-        when(studentIDMapper.domainToDataModel(studentID)).thenReturn(studentIDDataModel);
-        when(jpaRepo.findProgrammeIDsByStudentID(studentIDDataModel)).thenReturn(List.of(dataModel1, dataModel2));
-        when(programmeIDMapper.toDomain(dataModel1)).thenReturn(domainID1);
-        when(programmeIDMapper.toDomain(dataModel2)).thenReturn(domainID2);
+        ProgrammeEnrolmentID domainID1 = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentID domainID2 = mock(ProgrammeEnrolmentID.class);
 
-        // Act
-        List<ProgrammeID> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
+        ProgrammeEnrolment enrolments1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment enrolments2 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment enrolments3 = mock(ProgrammeEnrolment.class);
 
-        // Assert
+        ProgrammeEnrolmentDataModel enrolment1 = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolmentDataModel enrolment2 = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolmentDataModel enrolment3 = mock(ProgrammeEnrolmentDataModel.class);
+
+        when(jpaRepo.findAll()).thenReturn(List.of(enrolment1, enrolment2, enrolment3));
+
+        when(iProgrammeEnrolmentMapper.toDomain(enrolment1)).thenReturn(enrolments1);
+        when(iProgrammeEnrolmentMapper.toDomain(enrolment2)).thenReturn(enrolments2);
+        when(iProgrammeEnrolmentMapper.toDomain(enrolment3)).thenReturn(enrolments3);
+
+        when(enrolments1.hasSameStudent(studentID)).thenReturn(true);
+        when(enrolments2.hasSameStudent(studentID)).thenReturn(true);
+        when(enrolments3.hasSameStudent(studentID)).thenReturn(false);
+
+        when(enrolments1.identity()).thenReturn(domainID1);
+        when(enrolments2.identity()).thenReturn(domainID2);
+
+        // act
+        List<ProgrammeEnrolmentID> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
+
+        // assert
         assertEquals(2, result.size());
         assertTrue(result.contains(domainID1));
         assertTrue(result.contains(domainID2));

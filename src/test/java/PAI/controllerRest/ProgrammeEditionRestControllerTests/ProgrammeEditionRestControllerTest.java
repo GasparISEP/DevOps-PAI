@@ -6,7 +6,6 @@ import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
 import PAI.controllerRest.ProgrammeEditionRestController;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
@@ -73,22 +72,21 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,
                 availableCoursesService,courseAssembler, hateoasAssembler);
 
-        ProgrammeEdition p1 = mock(ProgrammeEdition.class);
-        ProgrammeEdition p2 = mock(ProgrammeEdition.class);
+        ProgrammeEditionResponseServiceDTO p1 = mock(ProgrammeEditionResponseServiceDTO.class);
+        ProgrammeEditionResponseServiceDTO p2 = mock(ProgrammeEditionResponseServiceDTO.class);
 
-        List<ProgrammeEdition> programmeEditionsList = List.of(p1,p2);
+        List<ProgrammeEditionResponseServiceDTO> programmeEditionsList = List.of(p1,p2);
 
         when(programmeEditionService.findAllProgrammeEditions()).thenReturn(programmeEditionsList);
 
         // Act
-        ResponseEntity<List<CountStudentsRequestDto>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = programmeEditionRestController.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
 
-        List<CountStudentsRequestDto> resultList = new ArrayList<>();
-        response.getBody().forEach(resultList::add);
+        List<ProgrammeEditionResponseDTO> resultList = new ArrayList<>(response.getBody());
 
         assertEquals(2, resultList.size());
     }
@@ -109,8 +107,8 @@ class ProgrammeEditionRestControllerTest {
         String programmeAcronym = "ENG";
         String  schoolYearID = UUID.randomUUID().toString();
 
-        CountStudentsRequestDto expectedDto =
-                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        RequestServiceDto expectedDto =
+                new RequestServiceDto(programmeAcronym, schoolYearID);
 
         // Mock service behavior
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);
@@ -160,45 +158,34 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
-                courseAssembler, hateoasAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
+        );
 
         String programmeAcronym = "ENG";
+        ProgrammeEditionRequestServiceDTO requestDTO = new ProgrammeEditionRequestServiceDTO(new ProgrammeIDDTO(programmeAcronym));
 
-        Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(acronym);
+        ProgrammeEditionResponseServiceDTO serviceDto1 = new ProgrammeEditionResponseServiceDTO(new ProgrammeIDDTO(programmeAcronym), UUID.randomUUID().toString());
+        ProgrammeEditionResponseServiceDTO serviceDto2 = new ProgrammeEditionResponseServiceDTO(new ProgrammeIDDTO(programmeAcronym), UUID.randomUUID().toString());
+        List<ProgrammeEditionResponseServiceDTO> serviceDtos = List.of(serviceDto1, serviceDto2);
 
-        SchoolYearID schoolYearID1 = new SchoolYearID(UUID.randomUUID());
-        SchoolYearID schoolYearID2 = new SchoolYearID(UUID.randomUUID());
+        ProgrammeEditionResponseDTO responseDto1 = new ProgrammeEditionResponseDTO(new ProgrammeIDDTO(programmeAcronym), serviceDto1.schoolYearId());
+        ProgrammeEditionResponseDTO responseDto2 = new ProgrammeEditionResponseDTO(new ProgrammeIDDTO(programmeAcronym), serviceDto2.schoolYearId());
 
-        ProgrammeEditionID editionID1 = new ProgrammeEditionID(programmeID, schoolYearID1);
-        ProgrammeEditionID editionID2 = new ProgrammeEditionID(programmeID, schoolYearID2);
-
-        List<ProgrammeEditionID> editionIDs = List.of(editionID1, editionID2);
-
-        ProgrammeEditionResponseServiceDTO dto1 = new ProgrammeEditionResponseServiceDTO(
-                new ProgrammeIDDTO(programmeAcronym),
-                schoolYearID1.toString()
-        );
-        ProgrammeEditionResponseServiceDTO dto2 = new ProgrammeEditionResponseServiceDTO(
-                new ProgrammeIDDTO(programmeAcronym),
-                schoolYearID2.toString()
-        );
-
-        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(editionIDs);
-        when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID1)).thenReturn(dto1);
-        when(controllerAssembler.toDTOFromIDs(programmeID, schoolYearID2)).thenReturn(dto2);
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(any())).thenReturn(serviceDtos);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto1)).thenReturn(responseDto1);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto2)).thenReturn(responseDto2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        List<ProgrammeEditionResponseServiceDTO> responseBody = response.getBody();
+        List<ProgrammeEditionResponseDTO> responseBody = response.getBody();
         assertNotNull(responseBody);
         assertEquals(2, responseBody.size());
-        assertTrue(responseBody.contains(dto1));
-        assertTrue(responseBody.contains(dto2));
+        assertTrue(responseBody.contains(responseDto1));
+        assertTrue(responseBody.contains(responseDto2));
     }
 
     @Test
@@ -210,23 +197,22 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
-                courseAssembler, hateoasAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
+        );
 
         String programmeAcronym = "ENG";
 
-        Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(acronym);
-
-        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenReturn(Collections.emptyList());
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(any())).thenReturn(Collections.emptyList());
 
         // Act
-        ResponseEntity<List<ProgrammeEditionResponseServiceDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().isEmpty());
+
     }
 
     @Test
@@ -238,18 +224,18 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
-                courseAssembler, hateoasAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
+        );
 
         String programmeAcronym = "ENG";
 
-        Acronym acronym = new Acronym(programmeAcronym);
-        ProgrammeID programmeID = new ProgrammeID(acronym);
-
-        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(programmeID)).thenThrow(new RuntimeException("Internal error"));
+        when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(any()))
+                .thenThrow(new RuntimeException("Internal error"));
 
         // Act & Assert
         assertThrows(RuntimeException.class, () -> controller.getProgrammeEditionsByProgrammeID(programmeAcronym));
+
     }
 
     @Test
@@ -269,9 +255,9 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
-        when(controllerAssembler.toDTO(request)).thenReturn(peRequestDTO);
+        when(controllerAssembler.toServiceDTOFromRequestDTO(request)).thenReturn(peRequestDTO);
         when(programmeEditionService.createProgrammeEditionAndSave(peRequestDTO)).thenReturn(peServiceResult);
-        when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
 
@@ -297,9 +283,9 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionResponseDTO responseDTO = mock(ProgrammeEditionResponseDTO.class);
         ProgrammeEditionRequestDTO request = mock(ProgrammeEditionRequestDTO.class);
 
-        when(controllerAssembler.toDTO(request)).thenReturn(peDTO);
+        when(controllerAssembler.toServiceDTOFromRequestDTO(request)).thenReturn(peDTO);
         when(programmeEditionService.createProgrammeEditionAndSave(peDTO)).thenThrow(new IllegalArgumentException("Programme is already Registered"));
-        when(controllerAssembler.toResponseDTO(peServiceResult)).thenReturn(responseDTO);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(peServiceResult)).thenReturn(responseDTO);
         // Act
         ResponseEntity<?> response = controller.createAProgrammeEditionForTheCurrentSchoolYear(request);
 

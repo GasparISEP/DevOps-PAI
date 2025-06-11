@@ -26,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -507,14 +508,14 @@ class CourseEditionRestControllerTest {
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
 
-        mockMvc.perform(get("/courseeditions/approvalpercentage")
+        mockMvc.perform(get("/courseeditions/approval-rate")
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
                         .param("studyPlanDate", studyPlanDate))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(expectedApprovalRate));
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
     }
     @Test
     void shouldReturnZeroIfCourseEditionApprovalRateIsZero() throws Exception {
@@ -527,15 +528,16 @@ class CourseEditionRestControllerTest {
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
 
-        mockMvc.perform(get("/courseeditions/approvalpercentage")
+        mockMvc.perform(get("/courseeditions/approval-rate")
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
                         .param("studyPlanDate", studyPlanDate))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(expectedApprovalRate));
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
     }
+
 
     @Test
     public void testGetNumberOfStudentsInCourseEdition() throws Exception {

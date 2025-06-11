@@ -4,7 +4,6 @@ import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.DepartmentID;
 import PAI.VOs.SchoolYearID;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
-import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -13,19 +12,18 @@ import java.util.UUID;
 public class TotalEnrolledStudentsAssemblerImpl implements ITotalEnrolledStudentsAssembler{
 
     @Override
-    public TotalEnrolledStudentsCommand fromRequestToCommand(TotalEnrolledStudentsRequest request) {
-        if (request == null)
-            throw new IllegalArgumentException("TotalEnrolledStudentsRequest cannot be null");
+    public TotalEnrolledStudentsCommand fromRequestToCommand(String departmentID, String schoolYearID) {
+        if (departmentID == null)
+            throw new IllegalArgumentException("departmentID cannot be null");
+        if (schoolYearID == null)
+            throw new IllegalArgumentException("schoolYearID cannot be null");
 
-        String depID = request.departmentID();
-        String syID = request.schoolYearID();
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym(departmentID);
+        DepartmentID departmentIdDomain = new DepartmentID(departmentAcronym);
 
-        DepartmentAcronym departmentAcronym = new DepartmentAcronym(depID);
-        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        UUID uuidSchoolYearID = UUID.fromString(schoolYearID);
+        SchoolYearID schoolYearIDDomain = new SchoolYearID(uuidSchoolYearID);
 
-        UUID uuidSchoolYearID = UUID.fromString(syID);
-        SchoolYearID schoolYearID = new SchoolYearID(uuidSchoolYearID);
-
-        return new TotalEnrolledStudentsCommand(departmentID, schoolYearID);
+        return new TotalEnrolledStudentsCommand(departmentIdDomain, schoolYearIDDomain);
     }
 }

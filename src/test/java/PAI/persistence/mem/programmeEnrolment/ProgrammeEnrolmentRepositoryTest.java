@@ -408,11 +408,11 @@ class ProgrammeEnrolmentRepositoryTest {
     void shouldReturnListOfProgrammes() {
         // Arrange
         StudentID studentID = mock(StudentID.class);
-        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEnrolmentID programmeEnrolmentIDID = mock(ProgrammeEnrolmentID.class);
 
         ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
         when(enrolment.hasSameStudent(studentID)).thenReturn(true);
-        when(enrolment.getProgrammeID()).thenReturn(programmeID);
+        when(enrolment.getProgrammeEnrolmentID()).thenReturn(programmeEnrolmentIDID);
 
         ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
         listDouble.add(enrolment);
@@ -423,12 +423,12 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolmentID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);
         assertEquals(1, res.size());
-        assertEquals(programmeID, res.get(0));
+        assertEquals(programmeEnrolmentIDID, res.get(0));
     }
 
     @Test
@@ -436,12 +436,11 @@ class ProgrammeEnrolmentRepositoryTest {
         // Arrange
         StudentID studentID = mock(StudentID.class);
 
-        // Create a ProgrammeEnrolment that does NOT match the given StudentID
         ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
-        when(enrolment.hasSameStudent(studentID)).thenReturn(false); // Important: no match
+        when(enrolment.hasSameStudent(studentID)).thenReturn(false);
 
         ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
-        listDouble.add(enrolment); // list is NOT empty
+        listDouble.add(enrolment);
 
         IProgrammeEnrolmentListFactory listFactoryDouble = mock(IProgrammeEnrolmentListFactory.class);
         when(listFactoryDouble.newArrayList()).thenReturn(listDouble);
@@ -449,7 +448,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolmentID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);
