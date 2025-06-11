@@ -1,6 +1,6 @@
 package PAI.assembler.teacherCareerProgression;
 
-import PAI.controllerRest.TeacherRestController;
+import PAI.controllerRest.TeacherCareerProgressionRestController;
 import PAI.dto.teacherCareerProgression.UpdateTeacherWorkingPercentageResponseDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -16,15 +16,17 @@ public class UpdateTeacherWorkingPercentageHateoasAssembler implements
 
     @Override
     public EntityModel<UpdateTeacherWorkingPercentageResponseDTO> toModel(UpdateTeacherWorkingPercentageResponseDTO dto) {
-        return EntityModel.of(dto,
-                linkTo(methodOn(TeacherRestController.class)
-                        .getTeacherById(dto.teacherID())).withRel("get-teacher"),
-
-                linkTo(methodOn(TeacherRestController.class)
-                        .getAllTeachers()).withRel("all-teachers"),
-
-                linkTo(methodOn(TeacherRestController.class)
-                        .updateTeacherWorkingPercentage(dto.teacherID(), null)).withSelfRel()
-        );
+        try {
+            return EntityModel.of(dto,
+                    linkTo(methodOn(TeacherCareerProgressionRestController.class)
+                            .getTeacherCareerProgressionByID(dto.teacherCareerProgressionId()))
+                            .withSelfRel(),
+                    linkTo(methodOn(TeacherCareerProgressionRestController.class)
+                            .getAllTeacherCareerProgression())
+                            .withRel("all")
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,9 +1,7 @@
 package PAI.controllerRest;
 
-
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
-import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
 import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +19,14 @@ public class ProgrammeEnrolmentRestController {
         this.totalEnrolledStudentsService = totalEnrolledStudentsService;
     }
 
-    @GetMapping("/totalEnrolledStudents")
-    public ResponseEntity<?> countByDepartmentAndSchoolYear(@RequestBody TotalEnrolledStudentsRequest request) {
-        if (request == null)
-            return ResponseEntity.badRequest().body("Request cannot be null");
+    @GetMapping("/departments/{departmentId}/schoolYears/{schoolYearId}/programme-enrolments/count")
+    public ResponseEntity<?> countByDepartmentAndSchoolYear(@PathVariable String departmentId, @PathVariable String schoolYearId) {
+        if (departmentId == null)
+            return ResponseEntity.badRequest().body("departmentID cannot be null");
+        if (schoolYearId == null)
+            return ResponseEntity.badRequest().body("schoolYearID cannot be null");
         try {
-            TotalEnrolledStudentsCommand command = totalEnrolledStudentsAssembler.fromRequestToCommand(request);
+            TotalEnrolledStudentsCommand command = totalEnrolledStudentsAssembler.fromRequestToCommand(departmentId, schoolYearId);
             int count = totalEnrolledStudentsService.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
             return new ResponseEntity<>(count, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
