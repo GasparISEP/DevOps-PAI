@@ -6,8 +6,8 @@ skinparam defaultTextAlignment center
 
 title "PAI - Logical View Level 3"
 
-  interface "REST API" as RESTAPI
-  interface "File I/O" as FileIO
+  interface "PAI API" as RESTAPI
+  interface "Bootstrap Data API" as FileIO
   interface "BD API" as BDAPI
 
 component "Backend" {
