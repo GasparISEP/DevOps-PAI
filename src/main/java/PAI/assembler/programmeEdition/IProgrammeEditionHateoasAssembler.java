@@ -8,6 +8,6 @@ import java.util.List;
 public interface IProgrammeEditionHateoasAssembler {
 
     EntityModel<ProgrammeEditionResponseDTO> toModel(ProgrammeEditionResponseDTO dto);
-    CollectionModel<EntityModel<ProgrammeEditionResponseDTO>> toCollectionModel(List<ProgrammeEditionResponseDTO> dtos);
+
 
 }

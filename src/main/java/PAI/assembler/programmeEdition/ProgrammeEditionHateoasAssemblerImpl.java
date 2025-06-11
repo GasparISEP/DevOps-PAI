@@ -8,6 +8,7 @@ import PAI.dto.accessMethod.AccessMethodResponseDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -28,26 +29,14 @@ public class ProgrammeEditionHateoasAssemblerImpl implements
 
         return EntityModel.of(dto,
                 linkTo(methodOn(ProgrammeEditionRestController.class)
-                        .getProgrammeEditionsByProgrammeID(dto.programme().acronym()))
-                        .withSelfRel(),
+                        .getProgrammeEditionsByProgrammeID(dto.programme().acronym())).withSelfRel(),
 
                 linkTo(methodOn(ProgrammeEditionRestController.class)
-                        .getAllProgrammeEditions())
-                        .withRel("collection")
+                        .getAllProgrammeEditions()).withRel("collection"),
+
+                linkTo(methodOn(ProgrammeEditionRestController.class)
+                        .getNumberOfStudents(dto.programme().acronym(), dto.schoolYearId()))
+                        .withRel("numberOfStudents")
         );
-
     }
-
-    @Override
-    public CollectionModel<EntityModel<ProgrammeEditionResponseDTO>> toCollectionModel(List<ProgrammeEditionResponseDTO> dtos)  {
-        validateNotNull(dtos, "ProgrammeEditionResponseDTO list");
-
-        List<EntityModel<ProgrammeEditionResponseDTO>> models = dtos.stream()
-                .map(this::toModel)
-                .toList();
-
-        return CollectionModel.of(models,
-                linkTo(methodOn(ProgrammeEditionRestController.class).getAllProgrammeEditions()).withSelfRel());
-    }
-
 }
