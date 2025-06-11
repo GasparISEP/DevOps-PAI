@@ -72,6 +72,7 @@ class CourseEditionHateoasAssemblerTest {
         assertTrue(entityModel.hasLink("self"));
         assertTrue(entityModel.hasLink("enroll-student"));
         assertTrue(entityModel.hasLink("find-all-course-editions"));
+        assertTrue(entityModel.hasLink("approval-rate"));
     }
 
     @Test
@@ -97,6 +98,7 @@ class CourseEditionHateoasAssemblerTest {
         assertTrue(entityModel.getLink("self").orElseThrow().getHref().contains("/courseeditions"));
         assertTrue(entityModel.getLink("enroll-student").orElseThrow().getHref().contains("/courseeditions/students/0/courses-edition-enrolments"));
         assertTrue(entityModel.getLink("find-all-course-editions").orElseThrow().getHref().contains("/courseeditions"));
+        assertTrue(entityModel.getLink("approval-rate").orElseThrow().getHref().contains("/approval-rate"));
     }
 
 }
