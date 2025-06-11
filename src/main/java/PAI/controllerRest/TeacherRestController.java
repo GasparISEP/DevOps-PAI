@@ -17,6 +17,8 @@ import PAI.service.teacher.ITeacherRegistrationService;
 import PAI.service.teacher.ITeacherWithRelevantDataService;
 import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +69,8 @@ public class TeacherRestController {
         try {
             Iterable<Teacher> teachers = teacherRegistrationService.getAllTeachers();
             Iterable<TeacherDTO> teacherDTOs = teacherAssembler.toDTOs(teachers);
-            return ResponseEntity.ok(teacherDTOs);
+            CollectionModel<EntityModel<TeacherDTO>> collectionModel = teacherHateoasAssembler.toCollectionModel(teacherDTOs);
+            return ResponseEntity.ok(collectionModel);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

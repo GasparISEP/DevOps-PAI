@@ -14,6 +14,5 @@ public interface IProgrammeEditionServiceAssembler {
     ProgrammeEdition toProgrammeEditionFromRequestServiceDTO(RequestServiceDto dto) throws Exception;
     ProgrammeID toProgrammeID(ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO);
     ProgrammeEditionResponseServiceDTO toServiceResponseDTOFromIDs(ProgrammeID programmeID, SchoolYearID schoolYearID);
-  //  ProgrammeEditionID toProgrammeEditionID(ProgrammeEditionIdDto programmeEditionIdDto) throws Exception;
-    List<ProgrammeEditionResponseServiceDTO> toServiceResponseDTOList(List<ProgrammeEdition> programmeEditions);
+
 }
