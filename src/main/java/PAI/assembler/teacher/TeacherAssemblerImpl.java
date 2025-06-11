@@ -5,6 +5,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -53,6 +54,14 @@ public class TeacherAssemblerImpl implements ITeacherAssembler{
                 teacher.getAddress().getCountry().getCountryName(),
                 teacher.getDepartmentID().getAcronym().getAcronym()
         );
+    }
+
+    @Override
+    public TeacherIdDTO toIdDTO (Teacher teacher) {
+        if (teacher == null) {
+            throw new IllegalArgumentException("Teacher cannot be null");
+        }
+        return new TeacherIdDTO(teacher.getTeacherID().getTeacherAcronym().getAcronym());
     }
 
     @Override

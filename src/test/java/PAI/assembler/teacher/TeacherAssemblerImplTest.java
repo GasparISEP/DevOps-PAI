@@ -5,6 +5,7 @@ import PAI.domain.teacher.Teacher;
 import PAI.dto.teacher.RegisterTeacherCommandDTO;
 import PAI.dto.teacher.RegisterTeacherRequestDTO;
 import PAI.dto.teacher.TeacherDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -235,6 +236,24 @@ class TeacherAssemblerImplTest {
         // Assert
         assertNotNull(teacherDTOs);
         assertFalse(teacherDTOs.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnTeacherIdDTO(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Teacher teacher = mock(Teacher.class);
+
+        TeacherID teacherID = mock(TeacherID.class);
+        when(teacher.getTeacherID()).thenReturn(teacherID);
+        TeacherAcronym teacherAcronym = mock(TeacherAcronym.class);
+        when(teacherID.getTeacherAcronym()).thenReturn(teacherAcronym);
+        when(teacherAcronym.getAcronym()).thenReturn("JAB");
+        //act
+        TeacherIdDTO teacherIdDTO = teacherAssembler.toIdDTO(teacher);
+        //assert
+        assertNotNull(teacherIdDTO);
+        assertEquals("JAB", teacherIdDTO.id());
     }
 
 }
