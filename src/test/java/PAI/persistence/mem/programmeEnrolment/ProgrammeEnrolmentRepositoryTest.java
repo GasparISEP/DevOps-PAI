@@ -408,11 +408,9 @@ class ProgrammeEnrolmentRepositoryTest {
     void shouldReturnListOfProgrammes() {
         // Arrange
         StudentID studentID = mock(StudentID.class);
-        ProgrammeEnrolmentID programmeEnrolmentIDID = mock(ProgrammeEnrolmentID.class);
-
         ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+
         when(enrolment.hasSameStudent(studentID)).thenReturn(true);
-        when(enrolment.getProgrammeEnrolmentID()).thenReturn(programmeEnrolmentIDID);
 
         ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
         listDouble.add(enrolment);
@@ -423,12 +421,12 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeEnrolmentID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolment> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);
         assertEquals(1, res.size());
-        assertEquals(programmeEnrolmentIDID, res.get(0));
+        assertEquals(enrolment, res.get(0));
     }
 
     @Test
@@ -448,7 +446,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeEnrolmentID> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolment> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);

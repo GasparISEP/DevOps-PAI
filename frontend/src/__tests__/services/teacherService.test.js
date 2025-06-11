@@ -76,7 +76,9 @@ describe('teacherService', () => {
 
             fetch.mockResolvedValueOnce({
                 ok: true,
-                json: jest.fn().mockResolvedValueOnce(mockTeachers)
+                json: jest.fn().mockResolvedValueOnce({
+                    _embedded: { teacherDTOList: mockTeachers }
+                })
             });
 
             const result = await getAllTeachers();
@@ -86,7 +88,8 @@ describe('teacherService', () => {
 
         it('should throw an error if fetch fails', async () => {
             fetch.mockResolvedValueOnce({
-                ok: false
+                ok: false,
+                json: jest.fn().mockResolvedValueOnce({})
             });
 
             await expect(getAllTeachers()).rejects.toThrow('Failed to fetch teachers');

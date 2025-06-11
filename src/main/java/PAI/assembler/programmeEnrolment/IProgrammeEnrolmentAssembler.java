@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface IProgrammeEnrolmentAssembler {
     ProgrammeID toProgrammeID (ProgrammeEnrolmentDTO programmeDTO);
     Date toDateVO (ProgrammeEnrolmentDTO programmeDTO);
     ProgrammeEnrolmentGeneratedID toProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentIdDTO programmeEnrolmentIdDTO);
-    ProgrammeEnrolmentIdDTO toDTO(ProgrammeEnrolmentID programmeEnrolmentID);
-    List<ProgrammeEnrolmentIdDTO> toListOfDTOs(List<ProgrammeEnrolmentID> listIDs);
+    ProgrammeEnrolmentListIDDTO toDTO(ProgrammeEnrolment programmeEnrolment);
+    List<ProgrammeEnrolmentListIDDTO> toListOfDTOs(List<ProgrammeEnrolment> listIDs);
 }

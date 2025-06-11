@@ -91,10 +91,10 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
 
     }
 
-    public LocalDate findDateByProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
-        Optional<ProgrammeEnrolment> programmeEnrolmentOptional = programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID);
-
-        return programmeEnrolmentOptional.get().getDate().getLocalDate();
+    public LocalDate findDateByProgrammeEnrolmentGeneratedID(ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
+        return programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID)
+                .map(enrolment -> enrolment.getDate().getLocalDate())
+                .orElseThrow(() -> new IllegalArgumentException("ProgrammeEnrolment not found with ID: " + programmeEnrolmentGeneratedID));
     }
 
     public ProgrammeID findProgrammeIDByProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {

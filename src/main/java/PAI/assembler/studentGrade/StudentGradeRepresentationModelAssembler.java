@@ -42,7 +42,7 @@ public class StudentGradeRepresentationModelAssembler
                             dto._schoolYearId(),
                             dto._courseId(),
                             dto._studyPlanId()
-                    )).withRel("approvalRate"));
+                    )).withRel("/approval-rate"));
 
             // Link simbólico do POST
             links.add(linkTo(CourseEditionRestController.class)

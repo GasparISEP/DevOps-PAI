@@ -8,7 +8,7 @@ title "PAI - Implementation View Level 3"
 
     interface "REST API" as RESTAPI
     interface "File I/O" as FileIO
-    interface "BD API" as BDAPI
+    interface "Relational BD API" as BDAPI
 
 component "Backend" {
     portin " " as p1

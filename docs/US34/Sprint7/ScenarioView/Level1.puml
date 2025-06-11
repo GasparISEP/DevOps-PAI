@@ -1,0 +1,15 @@
+@startuml
+
+left to right direction
+
+title  As an ASC, I want to enrol a student in a programme in a given school year using a Web UI. It should include the enrolment in a set of courses.
+
+actor ASC as "**A**cademic **S**ervices **C**ollaborator"
+
+rectangle "<<PAI System>>" {
+    usecase "Enrol a student in a Programme Edition and in a set of Course Editions." as usecase
+}
+
+ASC --> usecase
+
+@enduml
