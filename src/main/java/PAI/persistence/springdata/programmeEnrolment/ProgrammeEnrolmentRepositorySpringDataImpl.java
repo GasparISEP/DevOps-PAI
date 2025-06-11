@@ -116,12 +116,12 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
     }
 
     @Override
-    public List<ProgrammeEnrolmentID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
-        List<ProgrammeEnrolmentID> listOfEnrolments = new ArrayList<>();
+    public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        List<ProgrammeEnrolment> listOfEnrolments = new ArrayList<>();
         Iterable<ProgrammeEnrolment> allEnrolments = findAll();
         for (ProgrammeEnrolment existingEnrolment : allEnrolments) {
             if (existingEnrolment.hasSameStudent(studentID)) {
-                listOfEnrolments.add(existingEnrolment.identity());
+                listOfEnrolments.add(existingEnrolment);
             }
         }
         return listOfEnrolments;

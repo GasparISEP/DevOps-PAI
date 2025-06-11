@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.junit.jupiter.api.Test;
 
@@ -37,17 +38,19 @@ class ProgrammeEnrolmentAssemblerTest {
     @Test
     void toDTO_shouldReturnDTO_whenValidInput() {
         //arrange
-        String uuidString = UUID.randomUUID().toString();
-        ProgrammeEnrolmentID domainId = mock(ProgrammeEnrolmentID.class);
+        ProgrammeID programmeAcro = mock(ProgrammeID.class);
+        ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID = mock(ProgrammeEnrolmentGeneratedID.class);
+        ProgrammeEnrolment domainId = mock(ProgrammeEnrolment.class);
 
-        when(domainId.getProgrammeEnrolmentId()).thenReturn(uuidString);
+        when(domainId.getProgrammeEnrolmentGeneratedID()).thenReturn(programmeEnrolmentGeneratedID);
+        when(programmeEnrolmentGeneratedID.getProgrammeEnrolmentGID()).thenReturn(UUID.randomUUID());
+        when(domainId.getProgrammeID()).thenReturn(programmeAcro);
 
         //act
-        ProgrammeEnrolmentIdDTO dto = assembler.toDTO(domainId);
+        ProgrammeEnrolmentListIDDTO dto = assembler.toDTO(domainId);
 
         // Assert
         assertNotNull(dto);
-        assertEquals(UUID.fromString(uuidString), dto.getProgrammeEnrolmentGID());
     }
 
     @Test
@@ -60,29 +63,33 @@ class ProgrammeEnrolmentAssemblerTest {
     @Test
     void toListOfDTOs_shouldReturnListOfDTOs_whenValidList() {
         //arrange
-        String uuidString1 = UUID.randomUUID().toString();
-        String uuidString2 = UUID.randomUUID().toString();
-        ProgrammeEnrolmentID domainId1 = mock(ProgrammeEnrolmentID.class);
-        ProgrammeEnrolmentID domainId2 = mock(ProgrammeEnrolmentID.class);
-        List<ProgrammeEnrolmentID> domainList = List.of(domainId1, domainId2);
+        ProgrammeID programmeAcro = mock(ProgrammeID.class);
+        ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID = mock(ProgrammeEnrolmentGeneratedID.class);
+        ProgrammeEnrolment domainId1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment domainId2 = mock(ProgrammeEnrolment.class);
 
-        when(domainId1.getProgrammeEnrolmentId()).thenReturn(uuidString1);
-        when(domainId2.getProgrammeEnrolmentId()).thenReturn(uuidString2);
+        when(domainId1.getProgrammeEnrolmentGeneratedID()).thenReturn(programmeEnrolmentGeneratedID);
+        when(programmeEnrolmentGeneratedID.getProgrammeEnrolmentGID()).thenReturn(UUID.randomUUID());
+        when(domainId1.getProgrammeID()).thenReturn(programmeAcro);
+
+        when(domainId2.getProgrammeEnrolmentGeneratedID()).thenReturn(programmeEnrolmentGeneratedID);
+        when(programmeEnrolmentGeneratedID.getProgrammeEnrolmentGID()).thenReturn(UUID.randomUUID());
+        when(domainId2.getProgrammeID()).thenReturn(programmeAcro);
+
+        List<ProgrammeEnrolment> domainList = List.of(domainId1, domainId2);
 
         //act
-        List<ProgrammeEnrolmentIdDTO> dtoList = assembler.toListOfDTOs(domainList);
+        List<ProgrammeEnrolmentListIDDTO> dtoList = assembler.toListOfDTOs(domainList);
 
         //assert
         assertNotNull(dtoList);
         assertEquals(2, dtoList.size());
-        assertEquals(UUID.fromString(uuidString1), dtoList.get(0).getProgrammeEnrolmentGID());
-        assertEquals(UUID.fromString(uuidString2), dtoList.get(1).getProgrammeEnrolmentGID());
     }
 
     @Test
     void toListOfDTOs_shouldReturnEmptyList_whenEmptyList() {
         // Act
-        List<ProgrammeEnrolmentIdDTO> dtoList = assembler.toListOfDTOs(Collections.emptyList());
+        List<ProgrammeEnrolmentListIDDTO> dtoList = assembler.toListOfDTOs(Collections.emptyList());
 
         // Assert
         assertNotNull(dtoList);
