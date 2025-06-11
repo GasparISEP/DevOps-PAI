@@ -1,0 +1,27 @@
+@startuml
+
+title Convert Teacher Career Progression Saved to DTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ICreateTeacherCareerProgressionService" as Service
+participant ":ITeacherCareerProgressionInternalAssembler" as tcAssembler
+activate Service #E1F5FE
+Service -> tcAssembler: toDTO (tcpSaved)
+activate tcAssembler #E1F5FE
+
+create "tcpSavedDTO: UpdateTeacherCategoryDTO"
+tcAssembler -> "tcpSavedDTO: UpdateTeacherCategoryDTO": create (tcpID, date, teacherCategoryID, wp, teacherID)
+
+tcAssembler --> Service: tcpSavedDTO
+deactivate tcAssembler
+deactivate Service
+
+@enduml
