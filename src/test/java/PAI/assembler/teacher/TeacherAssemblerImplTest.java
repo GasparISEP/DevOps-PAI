@@ -292,7 +292,17 @@ class TeacherAssemblerImplTest {
         assertNotNull(result);
         assertTrue(result.iterator().hasNext());
         assertEquals("ROR", result.iterator().next().id());
+    }
 
+    @Test
+    void shouldReturnEmptyListWhenAssemblingTeacherIdDTOsFromNullTeachersList(){
+        //arrange
+        TeacherAssemblerImpl teacherAssembler = new TeacherAssemblerImpl();
+        Iterable<Teacher> teachers = null;
+        //act
+        Iterable<TeacherIdDTO> result = teacherAssembler.toIdDTOs(teachers);
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
     }
 
 }
