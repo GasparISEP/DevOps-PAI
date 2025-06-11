@@ -25,15 +25,15 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
             @Param("programmeIDDataModel") ProgrammeIDDataModel programmeIDDataModel);
 
 
-    @Query("""
-SELECT p.programmeEditionIdDataModel
-FROM ProgrammeEditionDataModel p
-JOIN SchoolYearDataModel s ON s.id = p.programmeEditionIdDataModel.schoolYearIDDataModel
-WHERE p.programmeEditionIdDataModel.programmeIDDataModel.programmeAcronym = :programmeID
-AND s.startDate > :startDate
-""")
-    List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(
-            @Param("programmeID") ProgrammeIDDataModel programmeID,
-            @Param("startDate") LocalDate startDate
-    );
+        @Query("""
+    SELECT p.programmeEditionIdDataModel
+    FROM ProgrammeEditionDataModel p
+    JOIN SchoolYearDataModel s ON s.id = p.programmeEditionIdDataModel.schoolYearIDDataModel
+    WHERE p.programmeEditionIdDataModel.programmeIDDataModel = :programmeID
+    AND s.startDate > :startDate
+    """)
+        List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(
+                @Param("programmeID") ProgrammeIDDataModel programmeID,
+                @Param("startDate") LocalDate startDate
+        );
 }
