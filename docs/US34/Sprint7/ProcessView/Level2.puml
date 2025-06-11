@@ -7,48 +7,52 @@ autonumber
 
 skinparam sequence {
    LifelineBorderColor black
-   LifelineBackgroundColor LightBlue
+   LifelineBackgroundColor c2f69d
 }
+
+skinparam DefaultTextAlignment center
 
 title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 2)
 
-actor ASC
-participant ":Frontend" as FE <<component>>
-participant ":Backend" as BE <<component>>
-database ":Database" as DB <<database>>
+actor ASC #c2f69d
+participant ":Frontend" as FE <<component>> #c2f69d
+participant ":Backend" as BE <<component>> #c2f69d
+database ":Database" as DB <<database>> #c2f69d
 
 ' Fase 1 – Consulta
-ASC -> FE ++: Wants to enrol student in a programme edition
-FE -> BE ++: Get programmes where student is enrolled \n(GET /programmes?studentID={id})
-BE -> DB ++: Retrieve programmes where student is enrolled
+ASC -> FE ++: Wants to enrol student in a programme edition \nand a set of course editions
+FE -> BE ++: Get programmes where student is enrolled \n(GET /programmes/{id}/programmes-enrolled-in)
+BE -> DB ++: Fetch programmes where student is enrolled
 DB --> BE --: List of programmes where student is enrolled
-BE --> FE --: Return list of programmes (200 OK)
-FE --> ASC --: Display programmes
+BE --> FE --: Return list of programme where student is enrolled **(200 OK)**
+FE --> ASC --: Display list of programme enrollments
 
-ASC -> FE ++: Select programme and school year
-FE -> BE ++: Get programe edition \n(GET /programme-editions?schoolYearID={id}&programmeID={id})
-BE -> DB ++: Fetch programe edition by programme ID and school  ID
-DB --> BE --: Programme edition fetched
-BE --> FE --: Return programme edition
-FE -> BE ++: Get course editions for programme edition \n(GET /course-editions?programmeEditionID={id})
+ASC -> FE ++: Select a programme enrolment
+FE -> BE ++: Get programme edition for programme \n(GET /programme-enrolments/{programmeEnrolmentGID}/available-programme-editions)
+BE -> DB ++: Fetch programme edition by programme ID
+DB --> BE --: List of Programme editions where student can enrol in
+BE --> FE --: Return programme editions **(200 OK)**
+FE --> ASC--: Display list of programme editions
+
+ASC -> FE++: Select a programme edition
+FE -> BE ++: Get course editions for programme edition \n(POST /programme-editions/available-courses)
 BE -> DB ++: Fetch course editions by programme edition ID
-DB --> BE --: List of course editions
-BE --> FE --: Return course editions
-FE --> ASC --: Display course edition list
+DB --> BE --: List of course editions where student can enrol in
+BE --> FE --: Return course editions **(200 OK)**
+FE --> ASC --: Display list of course editions
 
 'Fase 2 – Inscrição
-ASC -> FE ++: Confirms enrolment (programme + selected courses)
+ASC -> FE ++: Confirms enrolment (programme + courses)
+FE -> BE ++: Submit programme edition enrolment + course edition enrolment \n(POST /students/enrol)
 
-FE -> BE ++: Submit programme edition enrolment \n(POST /programme-editions/enrolments/{editionID})
+group Transactional Operation
 BE -> DB ++: Save programme edition enrolment
 DB --> BE --: Programme edition enrolment saved
-BE --> FE --: Programme enrolment confirmed (201 Created)
-
-FE -> BE ++: Submit course editions enrolment \n(POST /course-editions/enrolments/{editionID})
 BE -> DB ++: Save course editions enrolments
 DB --> BE --: Course editions enrolments saved
+end group
 
-BE --> FE --: Course enrolments confirmed (201 Created)
+BE --> FE --: Programme enrolment confirmed + \nlist of course editions enrolment confirmed **(201 Created)**
 FE --> ASC --: Show enrolment success message
 
 @enduml
