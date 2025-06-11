@@ -13,6 +13,7 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +27,18 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
     private final IProgrammeEditionRepository programmeEditionRepository;
     private final IProgrammeRepository programmeRepository;
-    private final IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final ISchoolYearService schoolYearService;
+    private final IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
 
     public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
                                     IProgrammeEditionRepository programmeEditionRepository,
                                     IProgrammeRepository programmeRepository,
-                                    IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository,
-                                    IProgrammeEditionServiceAssembler programmeEditionAssembler, ISchoolYearService schoolYearService) {
+                                    IProgrammeEditionServiceAssembler programmeEditionAssembler,
+                                    ISchoolYearService schoolYearService,
+                                    IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
+
+
         if(programmeEditionFactory == null){
             throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
         }
@@ -50,10 +54,6 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         }
         this.programmeRepository = programmeRepository;
 
-        if (programmeEditionEnrolmentRepository == null) {
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentRepository cannot be null!");
-        }
-        this.programmeEditionEnrolmentRepository = programmeEditionEnrolmentRepository;
 
         if (programmeEditionAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
@@ -64,6 +64,11 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             throw new IllegalArgumentException("SchoolYearService cannot be null!");
         }
         this.schoolYearService = schoolYearService;
+
+        if (programmeEditionEnrolmentService == null) {
+            throw new IllegalArgumentException("ProgrammeEditionEnrolmentService cannot be null!");
+        }
+        this.programmeEditionEnrolmentService = programmeEditionEnrolmentService;
     }
 
     @Override
@@ -123,8 +128,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     @Override
     public int countTotalNumberOfStudentsInAProgrammeEdition(RequestServiceDto programmeEditionDTO) throws Exception {
         ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
-        List<ProgrammeEditionEnrolment> allProgrammeEditionEnrolment = programmeEditionEnrolmentRepository.getAllProgrammeEditionsEnrollmentByProgrammeEditionID(programmeEdition.identity());
-        return allProgrammeEditionEnrolment.size();
+        return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
     }
 
     @Override
